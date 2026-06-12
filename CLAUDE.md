@@ -32,8 +32,11 @@ banchi sono potenziabili. Vedi `ROADMAP.md` per la direzione (multi-profilo → 
   `scripts/fetch-items.mjs`, che legge gli ID da `data.txt` e interroga l'API MetaForge.
 - **`src/data/workbenches.json`** — banchi, livelli e requisiti (`itemId` + `quantity`), compilato a mano.
   Ogni `itemId` DEVE esistere come chiave in `items.json`.
-- **`data.txt`** — appunti grezzi originali con i requisiti; include l'info "can be crafted in refiner"
-  non ancora usata nella UI.
+- **`data.txt`** — appunti grezzi originali con i requisiti, ormai solo storico.
+
+Il campo `workbench` di `items.json` ("Refiner" / "Refiner II") indica dove un item si può craftare:
+la UI lo incrocia col livello attuale del Refiner dell'utente per mostrare badge "craftabile ora"
+(verde) o "richiede Refiner Lvl 2" (ambra) — vedi `refinerCraftLevel()` in `App.tsx`.
 
 Le API esterne (arcdata.mahcks.com, metaforge.app) si sono rivelate inaffidabili o con ID divergenti:
 NON reintrodurre fetch a runtime; i dati di gioco cambiano solo a patch del gioco e si aggiornano via script.

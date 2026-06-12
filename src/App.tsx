@@ -3,7 +3,7 @@ import { useAppStore } from './store';
 import {
   Backpack, Home, Settings as SettingsIcon,
   Plus, Minus, CheckCircle2, Sun, Moon, RotateCcw, GripVertical,
-  ArrowUp, ArrowDown,
+  ArrowUp, ArrowDown, Hammer,
 } from 'lucide-react';
 import type { ItemInfo, Workbench } from './types';
 import {
@@ -66,6 +66,13 @@ const getRarityStyles = (rarity?: string) => rarityStyles[rarity?.toLowerCase() 
 
 type SortKey = 'priority' | 'name' | 'rarity' | 'type';
 type SortDir = 1 | -1;
+
+/** Refiner level required to craft the item, or null if it can't be crafted (from MetaForge `workbench` field). */
+const refinerCraftLevel = (itemInfo?: ItemInfo): number | null => {
+  const wb = itemInfo?.workbench;
+  if (!wb?.toLowerCase().startsWith('refiner')) return null;
+  return wb.trim().endsWith('II') ? 2 : 1;
+};
 
 // --- SHARED COMPONENTS ---
 
@@ -134,14 +141,16 @@ const TabButton = ({ active, onClick, icon: Icon, label }: {
 
 // --- STASH ---
 
-const InventoryCard = ({ itemId, owned, required, itemInfo, onIncrement, onDecrement, onSet }: {
-  itemId: string; owned: number; required: number; itemInfo: ItemInfo | undefined;
+const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel, onIncrement, onDecrement, onSet }: {
+  itemId: string; owned: number; required: number; itemInfo: ItemInfo | undefined; refinerLevel: number;
   onIncrement: () => void; onDecrement: () => void; onSet: (val: number) => void;
 }) => {
   const isCompleted = owned >= required;
   const longPressInc = useLongPress(onIncrement);
   const longPressDec = useLongPress(onDecrement);
   const { color, glow } = getRarityStyles(itemInfo?.rarity);
+  const craftLevel = refinerCraftLevel(itemInfo);
+  const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
 
   return (
     <div className={`flex flex-col p-2.5 rounded-[28px] border-2 border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-all ${isCompleted ? 'opacity-40 grayscale-[0.8]' : ''}`}>
@@ -152,6 +161,16 @@ const InventoryCard = ({ itemId, owned, required, itemInfo, onIncrement, onDecre
             : <span className="text-[9px] text-gray-400 text-center leading-tight">{itemId.replace(/-/g, ' ')}</span>
           }
         </div>
+        {craftLevel !== null && (
+          <div
+            title={craftableNow
+              ? 'Craftabile ora nel Refiner'
+              : `Richiede Refiner Lvl ${craftLevel} (sei a ${refinerLevel})`}
+            className={`absolute top-1.5 left-1.5 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wide text-white ${craftableNow ? 'bg-emerald-500' : 'bg-amber-500'}`}>
+            <Hammer size={9} />
+            Refiner{craftLevel === 2 ? ' II' : ''}
+          </div>
+        )}
         {isCompleted && (
           <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">
             <CheckCircle2 size={24} className="text-green-500 bg-white dark:bg-black rounded-full shadow-lg" />
@@ -186,8 +205,8 @@ const InventoryCard = ({ itemId, owned, required, itemInfo, onIncrement, onDecre
 
 // --- RIFUGIO ---
 
-const WorkbenchCard = ({ wb, currentLevel, itemsInfo, onUpgrade, canUpgrade }: {
-  wb: Workbench; currentLevel: number; itemsInfo: Record<string, ItemInfo>;
+const WorkbenchCard = ({ wb, currentLevel, itemsInfo, refinerLevel, onUpgrade, canUpgrade }: {
+  wb: Workbench; currentLevel: number; itemsInfo: Record<string, ItemInfo>; refinerLevel: number;
   onUpgrade: () => void; canUpgrade: boolean;
 }) => {
   const isMaxed = currentLevel >= wb.maxLevel;
@@ -215,12 +234,23 @@ const WorkbenchCard = ({ wb, currentLevel, itemsInfo, onUpgrade, canUpgrade }: {
         <div className="mt-2">
           <p className="text-[9px] font-bold uppercase text-gray-400 mb-1.5 tracking-wider">Requisiti Lvl {currentLevel + 1}:</p>
           <div className="grid grid-cols-2 gap-1.5">
-            {nextLevelData.requirementItemIds.map(req => (
-              <div key={req.itemId} className="text-[10px] flex justify-between bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-xl gap-1">
-                <span className="truncate font-semibold capitalize">{itemsInfo[req.itemId]?.name ?? req.itemId.replace(/-/g, ' ')}</span>
-                <span className="font-mono font-bold text-xs shrink-0">{req.quantity}</span>
-              </div>
-            ))}
+            {nextLevelData.requirementItemIds.map(req => {
+              const craftLevel = refinerCraftLevel(itemsInfo[req.itemId]);
+              const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+              return (
+                <div key={req.itemId} className="text-[10px] flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-xl gap-1">
+                  <span className="truncate font-semibold capitalize flex items-center gap-1">
+                    {craftLevel !== null && (
+                      <Hammer size={10}
+                        className={`shrink-0 ${craftableNow ? 'text-emerald-500' : 'text-amber-500'}`}
+                        aria-label={craftableNow ? 'Craftabile nel Refiner' : `Richiede Refiner Lvl ${craftLevel}`} />
+                    )}
+                    {itemsInfo[req.itemId]?.name ?? req.itemId.replace(/-/g, ' ')}
+                  </span>
+                  <span className="font-mono font-bold text-xs shrink-0">{req.quantity}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
@@ -311,6 +341,7 @@ export default function App() {
 
   const missingMaterials = store.getMissingMaterials();
   const availableUpgrades = store.getAvailableUpgrades();
+  const refinerLevel = store.hideoutLevels['refiner'] ?? 0;
 
   // Priority sort: each item gets the index of the highest-priority workbench that needs it
   const itemPriorityIndex = (itemId: string): number => {
@@ -397,6 +428,7 @@ export default function App() {
                 .map(mat => (
                   <InventoryCard key={mat.itemId} {...mat}
                     itemInfo={store.itemsInfo[mat.itemId]}
+                    refinerLevel={refinerLevel}
                     onIncrement={() => store.incrementItem(mat.itemId)}
                     onDecrement={() => store.decrementItem(mat.itemId)}
                     onSet={val => store.setItemCount(mat.itemId, val)}
@@ -421,6 +453,7 @@ export default function App() {
               <WorkbenchCard key={wb.id} wb={wb}
                 currentLevel={store.hideoutLevels[wb.id] ?? 0}
                 itemsInfo={store.itemsInfo}
+                refinerLevel={refinerLevel}
                 canUpgrade={availableUpgrades.includes(wb.id)}
                 onUpgrade={() => store.upgradeModule(wb.id)}
               />
@@ -432,6 +465,7 @@ export default function App() {
                   <WorkbenchCard key={wb.id} wb={wb}
                     currentLevel={store.hideoutLevels[wb.id] ?? 0}
                     itemsInfo={store.itemsInfo}
+                    refinerLevel={refinerLevel}
                     canUpgrade={false}
                     onUpgrade={() => {}}
                   />
