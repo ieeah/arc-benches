@@ -4,17 +4,19 @@ import { getRarityStyles, getRarityText } from '../lib/rarity';
 import { refinerCraftLevel } from '../lib/craft';
 import { iconUrl } from '../lib/icons';
 import { IconButton } from './IconButton';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 export const ItemDetailSheet = ({ item, refinerLevel, onClose }: {
   item: ItemInfo; refinerLevel: number; onClose: () => void;
 }) => {
+  useScrollLock();
   const { color, glow } = getRarityStyles(item.rarity);
   const craftLevel = refinerCraftLevel(item);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-end sm:items-center justify-center" onClick={onClose}>
-      <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] p-5 pb-8 max-h-[85vh] overflow-y-auto"
+      <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] p-5 pb-8 max-h-[85vh] overflow-y-auto overscroll-contain"
         onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-start mb-4">
           <div className="min-w-0">
