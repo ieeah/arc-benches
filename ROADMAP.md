@@ -63,6 +63,18 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       chiave e gestione del cambio tab negli hook (`onHighlightStarted` + attesa render); trigger al
       primo avvio via flag localStorage, replay da un'icona `?`. Evidenziare le card intere, non
       elementi che possono smontarsi (driver.js non è React-aware)
+- [ ] **Internazionalizzazione completa (i18n)** (~1-2 giorni per l'infrastruttura + EN)
+      - Libreria: react-i18next (standard de facto) o una soluzione leggera fatta in casa
+        (le stringhe UI sono poche decine — valutare prima di aggiungere ~15 KB di dipendenza)
+      - Estrarre tutte le stringhe UI hardcoded in italiano (label, tooltip, empty state,
+        conferme) in file di traduzione per lingua
+      - **Dati di gioco**: i nomi degli item da MetaForge sono solo in inglese; i nomi dei banchi
+        in `workbenches.json` sono in italiano hardcoded → spostare i nomi localizzati in un
+        campo per lingua (l'API hideout di mahcks ha già `name` multilingua completo: da, de, en,
+        es, fr, it, ja, ko, pl, pt, ru, zh, … — recuperabile via script come per le icone)
+      - Lingua iniziale da `navigator.language` con fallback EN, override manuale persistito
+        in localStorage; con l'arrivo di Supabase diventa preferenza del profilo
+      - Formattazione numeri/valute con `toLocaleString(lang)` (già usato per il valore item)
 - [ ] Altre idee man mano
 
 ---
