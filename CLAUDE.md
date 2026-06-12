@@ -58,15 +58,32 @@ Invarianti dello stato gestite nello store, non nella UI:
 I selettori (`getTotalRequiredMaterials`, `getMissingMaterials`, `getAvailableUpgrades`) sono funzioni
 nello store che ricalcolano a ogni chiamata, non sono memoizzati.
 
-### UI: tutta in `src/App.tsx`
+### UI: struttura a moduli
 
-Tre tab (Stash / Rifugio / Obiettivi) su stato locale, più la pagina nascosta "Oggetti" (non nella
-bottom nav, raggiungibile dal pulsante Database negli header; in futuro diventerà l'hub "Database"
-con Oggetti/Arcs/Mappe). Componenti riutilizzabili definiti nello stesso file: `SectionHeader`
-(theme toggle sempre più a destra), `ThemeToggle`, `LevelBadge` (Lvl x/y), `LevelPills`,
-`InventoryCard`, `WorkbenchCard`, `SortableWorkbenchRow`, `ItemsPage`, `ItemDetailSheet`.
-Dalle card dello Stash NON si naviga al dettaglio oggetto (scelta deliberata: su mobile
-confliggerebbe coi controlli +/-).
+```
+src/
+  App.tsx          solo shell: stato tab + bottom nav (ThemeProvider wrappa tutto)
+  pages/           StashPage, HideoutPage (Rifugio), GoalsPage (Obiettivi), ItemsPage (Oggetti)
+  components/      presentazionali, riusabili (IconButton, ThemeToggle, SectionHeader, TabButton,
+                   LevelBadge, LevelPills, InventoryCard, WorkbenchCard, SortableWorkbenchRow,
+                   ItemDetailSheet)
+  context/         ThemeContext (hook) + ThemeProvider (componente) — file separati per react-refresh
+  hooks/           useLongPress
+  lib/             safeStorage (safeLS), rarity, craft (refinerCraftLevel)
+```
+
+Regole architetturali:
+- **Le pagine** parlano direttamente con `useAppStore`; **i componenti** ricevono tutto via props
+  (presentazionali) — niente store nei componenti
+- **Elementi universali in posizione fissa**: `SectionHeader` rende theme toggle sempre più a destra,
+  pulsante Database (prop `onOpenDatabase`) sempre accanto; le azioni specifiche del tab (prop
+  `actions`) si aggiungono a sinistra. Non posizionare mai questi elementi a mano nelle pagine
+- Il tema è un Context: i componenti lo consumano da soli, non va passato via props
+- "Oggetti" è una pagina nascosta (non nella bottom nav, in futuro hub "Database" con Oggetti/Arcs/…).
+  Dalle card dello Stash NON si naviga al dettaglio oggetto (scelta deliberata: su mobile
+  confliggerebbe coi controlli +/-)
+- L'ordinamento per priorità dei banchi è logica di dominio → selettore `getOrderedWorkbenches()`
+  nello store, non duplicato nelle pagine
 
 - **Priorità banchi**: drag & drop (@dnd-kit) in Obiettivi, ordine persistito in `workbenchOrder`;
   determina l'ordine dei banchi in Rifugio E l'ordinamento "Priorità" dello Stash (ogni item prende

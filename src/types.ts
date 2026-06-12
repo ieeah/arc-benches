@@ -50,6 +50,7 @@ export interface AppState {
   setWorkbenchOrder: (order: string[]) => void;
   resetProgress: () => void;
 
+  getOrderedWorkbenches: () => Workbench[];
   getTotalRequiredMaterials: () => Record<string, number>;
   getMissingMaterials: () => Array<{
     itemId: string;

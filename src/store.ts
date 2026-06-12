@@ -133,6 +133,15 @@ export const useAppStore = create<AppState>()((set, get) => ({
     save({ ...s, inventory, hideoutLevels, targetLevels });
   },
 
+  getOrderedWorkbenches: () => {
+    const s = get();
+    return [...s.workbenches].sort((a, b) => {
+      const oa = s.workbenchOrder.indexOf(a.id);
+      const ob = s.workbenchOrder.indexOf(b.id);
+      return (oa === -1 ? 999 : oa) - (ob === -1 ? 999 : ob);
+    });
+  },
+
   getTotalRequiredMaterials: () => {
     const s = get();
     const total: Record<string, number> = {};
