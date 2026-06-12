@@ -66,8 +66,9 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
               current={store.hideoutLevels[wb.id] ?? 0}
               target={store.targetLevels[wb.id] ?? wb.maxLevel}
               isActive={store.activeModules[wb.id]}
+              inventory={store.inventory}
               onToggle={() => store.toggleModuleActive(wb.id)}
-              onCurrentLevel={v => store.setModuleCurrentLevel(wb.id, v)}
+              onCurrentLevel={(v, deduct) => store.setModuleCurrentLevel(wb.id, v, deduct)}
               onTargetLevel={v => store.setModuleTargetLevel(wb.id, v)}
             />
           ))}

@@ -62,15 +62,30 @@ export const useAppStore = create<AppState>()((set, get) => ({
     save({ ...s, inventory });
   },
 
-  setModuleCurrentLevel: (moduleId, level) => {
+  setModuleCurrentLevel: (moduleId, level, deductMaterials = false) => {
     const s = get();
+    const wb = s.workbenches.find(w => w.id === moduleId);
+    const prevLevel = s.hideoutLevels[moduleId] ?? 0;
     const hideoutLevels = { ...s.hideoutLevels, [moduleId]: level };
+
+    // Optionally deduct the requirements of the newly completed levels (clamped to 0).
+    // Lowering a level never refunds: it's always a tracking correction.
+    const inventory = { ...s.inventory };
+    if (deductMaterials && wb && level > prevLevel) {
+      wb.levels
+        .filter(l => l.level > prevLevel && l.level <= level)
+        .forEach(l => l.requirementItemIds.forEach(req => {
+          inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);
+        }));
+    }
+
     // If the current level reaches the target, bump the target to the next level (or max)
     const targetLevels = { ...s.targetLevels };
-    const max = s.workbenches.find(w => w.id === moduleId)?.maxLevel ?? level;
+    const max = wb?.maxLevel ?? level;
     if ((targetLevels[moduleId] ?? 0) <= level) targetLevels[moduleId] = Math.min(level + 1, max);
-    set({ hideoutLevels, targetLevels });
-    save({ ...s, hideoutLevels, targetLevels });
+
+    set({ hideoutLevels, targetLevels, inventory });
+    save({ ...s, hideoutLevels, targetLevels, inventory });
   },
 
   setModuleTargetLevel: (moduleId, level) => {

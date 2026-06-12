@@ -42,7 +42,7 @@ export interface AppState {
   incrementItem: (itemId: string) => void;
   decrementItem: (itemId: string) => void;
   setItemCount: (itemId: string, val: number) => void;
-  setModuleCurrentLevel: (moduleId: string, level: number) => void;
+  setModuleCurrentLevel: (moduleId: string, level: number, deductMaterials?: boolean) => void;
   setModuleTargetLevel: (moduleId: string, level: number) => void;
   toggleModuleActive: (moduleId: string) => void;
   setFilterHideCompleted: (val: boolean) => void;

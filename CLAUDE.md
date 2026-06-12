@@ -61,6 +61,10 @@ girare in contesti dove è bloccato (iframe/preview): non deve mai crashare, al 
 Invarianti dello stato gestite nello store, non nella UI:
 - target level sempre > current level: quando current raggiunge target, il target viene
   auto-promosso al livello successivo (clamp a maxLevel) — sia in `setModuleCurrentLevel` che in `upgradeModule`
+- alzare il livello dai pill (Obiettivi) può scalare i materiali dall'inventario
+  (`setModuleCurrentLevel(…, deductMaterials)`): la UI chiede conferma SOLO se l'utente possiede
+  almeno uno dei materiali richiesti (distingue "ho appena potenziato" da "sto correggendo i dati").
+  Abbassare un livello non rimborsa mai. Il bottone verde in Rifugio (`upgradeModule`) scala sempre
 - Scrappy parte dal livello 1 (`defaultHideoutLevels`), perché in gioco inizia sbloccato.
   Nella UI il "livello base" di un banco è derivato dai dati: livello 1 senza requisiti = parte sbloccato
 

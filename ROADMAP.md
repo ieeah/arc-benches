@@ -75,6 +75,15 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       - Lingua iniziale da `navigator.language` con fallback EN, override manuale persistito
         in localStorage; con l'arrivo di Supabase diventa preferenza del profilo
       - Formattazione numeri/valute con `toLocaleString(lang)` (già usato per il valore item)
+- [ ] **Checklist stampabile** (~mezza giornata) — esportare la lista della spesa corrente
+      (materiali mancanti, filtrati per banchi attivi e obiettivi) in formato stampabile:
+      - Via più semplice: vista print-friendly + `window.print()` con CSS `@media print`
+        (nasconde nav/controlli, layout a lista compatta con checkbox vuote ☐, niente colori
+        di sfondo per risparmiare inchiostro)
+      - In alternativa/aggiunta: export PDF client-side (es. jsPDF) se serve condividerla
+        (Discord, gruppo raid) senza passare dalla stampa del browser
+      - Contenuto: nome materiale, mancanti/richiesti, badge Refiner (craftabile invece che
+        da cercare), raggruppamento opzionale per banco di destinazione o per zona di loot
 - [ ] Altre idee man mano
 
 ---
