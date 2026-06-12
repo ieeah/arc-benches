@@ -5,16 +5,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev       # avvia il dev server (Vite HMR, serve sotto /arc-benches/)
-npm run build     # type-check (tsc -b) + build produzione
-npm run lint      # ESLint
-npm run preview   # anteprima della build produzione
+npm run dev        # avvia il dev server (Vite HMR, serve sotto /arc-benches/)
+npm run build      # type-check (tsc -b) + build produzione
+npm run lint       # ESLint
+npm run preview    # anteprima della build produzione
+npm run check:lock # verifica che package-lock.json sia in sync (stesso check di npm ci in CI)
 
-node scripts/fetch-items.mjs   # rigenera src/data/items.json da MetaForge
+# Script dati (pacchetto separato, ha le sue dipendenze — sharp NON va nel progetto principale):
+cd scripts && npm install && node fetch-items.mjs   # rigenera items.json + icone da MetaForge
 ```
 
 Il deploy è automatico su GitHub Pages a ogni push su `master` (`.github/workflows/deploy.yml`).
 `vite.config.ts` ha `base: '/arc-benches/'` per questo motivo.
+
+**ATTENZIONE lockfile (bug npm cross-platform)**: i fallback WASM (`@emnapi/*`) servono alla CI
+Linux ma non a Windows; rigenerare il lock con `node_modules` preesistente li perde e `npm ci` in
+CI fallisce con EUSAGE. Regole: (1) dopo OGNI `npm install` che tocca il lock, esegui
+`npm run check:lock` prima di pushare; (2) se fallisce, elimina SIA `node_modules` SIA
+`package-lock.json` e rilancia `npm install`; (3) niente dipendenze con molti binding nativi
+(sharp, esbuild standalone, ecc.) nel package.json principale — vanno in `scripts/package.json`.
 
 ## Cos'è questo progetto
 

@@ -1,0 +1,9 @@
+{
+  "name": "arc-benches-scripts",
+  "private": true,
+  "description": "Manual data-update scripts (not part of the app build): run npm install here before node fetch-items.mjs",
+  "type": "module",
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
+}

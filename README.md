@@ -43,8 +43,8 @@ l'inventario che possiedi e ti dice cosa manca — aggiornato in tempo reale a o
 I dati sono file JSON statici nel bundle — nessuna chiamata API a runtime:
 
 - `src/data/workbenches.json` — banchi, livelli e requisiti (curato a mano)
-- `src/data/items.json` — nome, icona, rarità e metadati degli oggetti, generato da
-  [MetaForge](https://metaforge.app/) con `node scripts/fetch-items.mjs`
+- `src/data/items.json` + `public/icons/items/` — nome, icona, rarità e metadati degli oggetti,
+  generati da [MetaForge](https://metaforge.app/) con `cd scripts && npm install && node fetch-items.mjs`
 
 I dati cambiano solo a patch del gioco: l'aggiornamento è manuale via script, non automatico.
 

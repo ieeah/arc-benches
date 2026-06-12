@@ -1,7 +1,10 @@
 /**
  * Fetch item data from MetaForge for all items referenced in workbenches.json.
  * Icons are downloaded locally (the MetaForge CDN blocks hotlinking on some devices).
- * Run with: node scripts/fetch-items.mjs
+ *
+ * This folder is its own package (sharp must NOT be a dependency of the main app:
+ * its platform bindings destabilize the root lockfile for CI).
+ * Run with: cd scripts && npm install && node fetch-items.mjs
  * Output: src/data/items.json + public/icons/items/*.webp
  */
 
