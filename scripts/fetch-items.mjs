@@ -1,5 +1,5 @@
 /**
- * Fetch item data from MetaForge for all items referenced in data.txt.
+ * Fetch item data from MetaForge for all items referenced in workbenches.json.
  * Run with: node scripts/fetch-items.mjs
  * Output: src/data/items.json
  */
@@ -11,16 +11,14 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-// Parse item IDs from data.txt (lines like "    3 some-item-id")
-function parseItemIds(text) {
+// Collect every itemId used in workbench level requirements
+function parseItemIds(workbenches) {
   const ids = new Set();
-  for (const line of text.split('\n')) {
-    const match = line.match(/^\s+\d+\s+([\w-]+)/);
-    if (match) {
-      // Strip " (can be crafted in refiner)" — already handled by the regex stopping at word boundary
-      ids.add(match[1]);
-    }
-  }
+  workbenches.items.forEach(wb =>
+    wb.levels.forEach(lvl =>
+      lvl.requirementItemIds.forEach(req => ids.add(req.itemId))
+    )
+  );
   return [...ids];
 }
 
@@ -33,8 +31,8 @@ async function fetchItem(id) {
 }
 
 async function main() {
-  const dataText = readFileSync(join(ROOT, 'data.txt'), 'utf-8');
-  const ids = parseItemIds(dataText);
+  const workbenches = JSON.parse(readFileSync(join(ROOT, 'src', 'data', 'workbenches.json'), 'utf-8'));
+  const ids = parseItemIds(workbenches);
 
   console.log(`Found ${ids.length} items to fetch:\n  ${ids.join(', ')}\n`);
 

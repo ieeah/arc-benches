@@ -29,10 +29,10 @@ banchi sono potenziabili. Vedi `ROADMAP.md` per la direzione (multi-profilo → 
 
 - **`src/data/items.json`** — fonte di verità per gli ID item (formato hyphen: `metal-parts`).
   Info per il rendering: nome, icona (CDN MetaForge), rarità, tipo. Rigenerabile con
-  `scripts/fetch-items.mjs`, che legge gli ID da `data.txt` e interroga l'API MetaForge.
+  `scripts/fetch-items.mjs`, che raccoglie gli ID dai requisiti di `workbenches.json`
+  e interroga l'API MetaForge.
 - **`src/data/workbenches.json`** — banchi, livelli e requisiti (`itemId` + `quantity`), compilato a mano.
   Ogni `itemId` DEVE esistere come chiave in `items.json`.
-- **`data.txt`** — appunti grezzi originali con i requisiti, ormai solo storico.
 
 Il campo `workbench` di `items.json` ("Refiner" / "Refiner II") indica dove un item si può craftare:
 la UI lo incrocia col livello attuale del Refiner dell'utente per mostrare badge "craftabile ora"
@@ -60,9 +60,13 @@ nello store che ricalcolano a ogni chiamata, non sono memoizzati.
 
 ### UI: tutta in `src/App.tsx`
 
-Tre tab (Stash / Rifugio / Obiettivi) su stato locale. Componenti riutilizzabili definiti nello stesso
-file: `SectionHeader` (theme toggle sempre più a destra), `ThemeToggle`, `LevelBadge` (Lvl x/y),
-`LevelPills`, `InventoryCard`, `WorkbenchCard`, `SortableWorkbenchRow`.
+Tre tab (Stash / Rifugio / Obiettivi) su stato locale, più la pagina nascosta "Oggetti" (non nella
+bottom nav, raggiungibile dal pulsante Database negli header; in futuro diventerà l'hub "Database"
+con Oggetti/Arcs/Mappe). Componenti riutilizzabili definiti nello stesso file: `SectionHeader`
+(theme toggle sempre più a destra), `ThemeToggle`, `LevelBadge` (Lvl x/y), `LevelPills`,
+`InventoryCard`, `WorkbenchCard`, `SortableWorkbenchRow`, `ItemsPage`, `ItemDetailSheet`.
+Dalle card dello Stash NON si naviga al dettaglio oggetto (scelta deliberata: su mobile
+confliggerebbe coi controlli +/-).
 
 - **Priorità banchi**: drag & drop (@dnd-kit) in Obiettivi, ordine persistito in `workbenchOrder`;
   determina l'ordine dei banchi in Rifugio E l'ordinamento "Priorità" dello Stash (ogni item prende

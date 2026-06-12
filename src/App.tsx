@@ -3,7 +3,7 @@ import { useAppStore } from './store';
 import {
   Backpack, Home, Settings as SettingsIcon,
   Plus, Minus, CheckCircle2, Sun, Moon, RotateCcw, GripVertical,
-  ArrowUp, ArrowDown, Hammer,
+  ArrowUp, ArrowDown, Hammer, Database, ArrowLeft, ChevronRight, Search, X,
 } from 'lucide-react';
 import type { ItemInfo, Workbench } from './types';
 import {
@@ -63,6 +63,12 @@ const rarityStyles: Record<string, { color: string; glow: string }> = {
   legendary: { color: 'bg-orange-500', glow: 'shadow-[0_8px_20px_-4px_rgba(249,115,22,0.6)]' },
 };
 const getRarityStyles = (rarity?: string) => rarityStyles[rarity?.toLowerCase() ?? ''] ?? rarityStyles.common;
+
+const rarityText: Record<string, string> = {
+  common: 'text-gray-400', uncommon: 'text-green-500', rare: 'text-blue-500',
+  epic: 'text-purple-500', legendary: 'text-orange-500',
+};
+const getRarityText = (rarity?: string) => rarityText[rarity?.toLowerCase() ?? ''] ?? rarityText.common;
 
 type SortKey = 'priority' | 'name' | 'rarity' | 'type';
 type SortDir = 1 | -1;
@@ -166,7 +172,7 @@ const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel, onIncr
             title={craftableNow
               ? 'Craftabile ora nel Refiner'
               : `Richiede Refiner Lvl ${craftLevel} (sei a ${refinerLevel})`}
-            className={`absolute top-1.5 left-1.5 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wide text-white ${craftableNow ? 'bg-emerald-500' : 'bg-amber-500'}`}>
+            className={`absolute top-2.5 left-2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wide text-white ${craftableNow ? 'bg-emerald-500' : 'bg-amber-500'}`}>
             <Hammer size={9} />
             Refiner{craftLevel === 2 ? ' II' : ''}
           </div>
@@ -307,10 +313,140 @@ const SortableWorkbenchRow = ({ wb, current, target, isActive, onToggle, onCurre
   );
 };
 
+// --- OGGETTI (database) ---
+
+const ItemDetailSheet = ({ item, refinerLevel, onClose }: {
+  item: ItemInfo; refinerLevel: number; onClose: () => void;
+}) => {
+  const { color, glow } = getRarityStyles(item.rarity);
+  const craftLevel = refinerCraftLevel(item);
+  const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-end sm:items-center justify-center" onClick={onClose}>
+      <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] p-5 pb-8 max-h-[85vh] overflow-y-auto"
+        onClick={e => e.stopPropagation()}>
+        <div className="flex justify-between items-start mb-4">
+          <div className="min-w-0">
+            <h2 className="text-xl font-bold truncate">{item.name}</h2>
+            <p className={`text-xs font-bold uppercase tracking-wide ${getRarityText(item.rarity)}`}>{item.rarity}</p>
+          </div>
+          <button onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-full shrink-0 ml-3">
+            <X size={16} />
+          </button>
+        </div>
+
+        <div className={`relative mx-auto w-40 h-40 mb-4 rounded-[24px] overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center ${glow}`}>
+          {item.icon
+            ? <img src={item.icon} alt={item.name} className="max-w-[80%] max-h-[80%] object-contain" />
+            : <span className="text-xs text-gray-400">{item.id}</span>}
+          <div className={`absolute bottom-0 left-0 right-0 h-2 ${color}`} />
+        </div>
+
+        {item.description && (
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{item.description}</p>
+        )}
+
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
+            <span className="text-gray-400 font-medium">Tipo</span>
+            <span className="font-semibold">{item.item_type}{item.subcategory && item.subcategory !== item.item_type ? ` · ${item.subcategory}` : ''}</span>
+          </div>
+          <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
+            <span className="text-gray-400 font-medium">Valore</span>
+            <span className="font-semibold font-mono">{item.value.toLocaleString('it-IT')}</span>
+          </div>
+          {craftLevel !== null && (
+            <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
+              <span className="text-gray-400 font-medium">Craft</span>
+              <span className={`flex items-center gap-1.5 font-semibold ${craftableNow ? 'text-emerald-500' : 'text-amber-500'}`}>
+                <Hammer size={14} />
+                {craftableNow ? 'Craftabile ora' : `Richiede Refiner Lvl ${craftLevel}`}
+              </span>
+            </div>
+          )}
+          {item.loot_area && (
+            <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
+              <span className="text-gray-400 font-medium">Zona loot</span>
+              <span className="font-semibold">{item.loot_area}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ItemsPage = ({ itemsInfo, refinerLevel, dark, onToggleTheme, onBack }: {
+  itemsInfo: Record<string, ItemInfo>; refinerLevel: number;
+  dark: boolean; onToggleTheme: () => void; onBack: () => void;
+}) => {
+  const [query, setQuery] = useState('');
+  const [selected, setSelected] = useState<ItemInfo | null>(null);
+
+  const items = Object.values(itemsInfo)
+    .filter(i => i.name.toLowerCase().includes(query.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  return (
+    <div className="pb-24">
+      <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
+        <div className="flex items-center gap-3 mb-3">
+          <button onClick={onBack}
+            className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-full shrink-0">
+            <ArrowLeft size={16} />
+          </button>
+          <h1 className="text-2xl font-bold flex-1">Oggetti</h1>
+          <ThemeToggle dark={dark} onToggle={onToggleTheme} />
+        </div>
+        <div className="relative">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input type="text" value={query} onChange={e => setQuery(e.target.value)}
+            placeholder="Cerca un oggetto…"
+            className="w-full pl-9 pr-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full focus:outline-none focus:ring-1 focus:ring-blue-400" />
+        </div>
+      </div>
+
+      <div className="p-3">
+        {items.map(item => {
+          const { color } = getRarityStyles(item.rarity);
+          return (
+            <button key={item.id} onClick={() => setSelected(item)}
+              className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform">
+              <div className="relative w-12 h-12 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
+                {item.icon
+                  ? <img src={item.icon} alt={item.name} className="max-w-[85%] max-h-[85%] object-contain" />
+                  : <span className="text-[8px] text-gray-400">{item.id}</span>}
+                <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm truncate">{item.name}</p>
+                <p className="text-[10px] text-gray-400">
+                  <span className={`font-bold ${getRarityText(item.rarity)}`}>{item.rarity}</span> · {item.item_type}
+                </p>
+              </div>
+              <ChevronRight size={16} className="text-gray-300 dark:text-gray-600 shrink-0" />
+            </button>
+          );
+        })}
+        {items.length === 0 && (
+          <p className="p-10 text-center text-gray-500 italic text-sm">Nessun oggetto trovato.</p>
+        )}
+      </div>
+
+      {selected && <ItemDetailSheet item={selected} refinerLevel={refinerLevel} onClose={() => setSelected(null)} />}
+    </div>
+  );
+};
+
 // --- MAIN APP ---
 
+type Tab = 'stash' | 'rifugio' | 'settings' | 'items';
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'stash' | 'rifugio' | 'settings'>('stash');
+  const [activeTab, setActiveTab] = useState<Tab>('stash');
+  const [returnTab, setReturnTab] = useState<Tab>('stash');
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>(() =>
     safeLS(() => {
       const raw = localStorage.getItem('stash-sort');
@@ -389,6 +525,15 @@ export default function App() {
   const activeWBs = orderedWorkbenches.filter(wb => (store.hideoutLevels[wb.id] ?? 0) < wb.maxLevel);
   const maxedWBs = orderedWorkbenches.filter(wb => (store.hideoutLevels[wb.id] ?? 0) >= wb.maxLevel);
 
+  // Hidden section (not in bottom nav) — will become the "Database" hub later
+  const openItems = () => { setReturnTab(activeTab); setActiveTab('items'); };
+  const databaseButton = (
+    <button onClick={openItems} title="Database oggetti"
+      className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full transition-colors shrink-0">
+      <Database size={14} className="text-gray-500" />
+    </button>
+  );
+
   const sortLabels: Record<SortKey, string> = { priority: 'Priorità', name: 'A→Z', rarity: 'Rarità', type: 'Tipo' };
 
   const renderTab = () => {
@@ -399,14 +544,15 @@ export default function App() {
             <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
               <div className="mb-3">
                 <SectionHeader title="Stash" dark={dark} onToggleTheme={toggleTheme}
-                  actions={
+                  actions={<>
                     <label className="flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500 cursor-pointer">
                       <input type="checkbox" checked={store.filterHideCompleted}
                         onChange={e => store.setFilterHideCompleted(e.target.checked)}
                         className="rounded border-gray-300 text-blue-500 focus:ring-blue-500" />
                       Nascondi completati
                     </label>
-                  }
+                    {databaseButton}
+                  </>}
                 />
               </div>
               <div className="flex gap-2 overflow-x-auto pb-0.5">
@@ -447,7 +593,7 @@ export default function App() {
         return (
           <div className="p-4 pb-24">
             <div className="mb-4">
-              <SectionHeader title="Rifugio" dark={dark} onToggleTheme={toggleTheme} />
+              <SectionHeader title="Rifugio" dark={dark} onToggleTheme={toggleTheme} actions={databaseButton} />
             </div>
             {activeWBs.map(wb => (
               <WorkbenchCard key={wb.id} wb={wb}
@@ -480,7 +626,7 @@ export default function App() {
           <div className="p-4 pb-24">
             <div className="mb-4">
               <SectionHeader title="Obiettivi" dark={dark} onToggleTheme={toggleTheme}
-                actions={showResetConfirm ? (
+                actions={<>{databaseButton}{showResetConfirm ? (
                   <div className="flex gap-2">
                     <button onClick={() => { store.resetProgress(); setShowResetConfirm(false); }}
                       className="px-3 py-1.5 bg-red-500 text-white text-xs font-bold rounded-full">
@@ -497,7 +643,7 @@ export default function App() {
                     <RotateCcw size={13} />
                     Ripristina
                   </button>
-                )}
+                )}</>}
               />
             </div>
             <p className="text-[11px] text-gray-400 mb-3 flex items-center gap-1">
@@ -520,6 +666,13 @@ export default function App() {
               </SortableContext>
             </DndContext>
           </div>
+        );
+
+      case 'items':
+        return (
+          <ItemsPage itemsInfo={store.itemsInfo} refinerLevel={refinerLevel}
+            dark={dark} onToggleTheme={toggleTheme}
+            onBack={() => setActiveTab(returnTab)} />
         );
     }
   };
