@@ -58,6 +58,11 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 
 - [ ] **Spedizioni** — tracking spedizioni attive/completate per profilo
 - [ ] **Progetti** — tracking progressi progetti per profilo
+- [ ] **Tour onboarding con driver.js** (~mezza giornata, ~5 KB gzip) — ~8 step attraverso i 3 tab
+      (focus sul badge Refiner, la feature meno autoesplicativa). Richiede `data-tour` sugli elementi
+      chiave e gestione del cambio tab negli hook (`onHighlightStarted` + attesa render); trigger al
+      primo avvio via flag localStorage, replay da un'icona `?`. Evidenziare le card intere, non
+      elementi che possono smontarsi (driver.js non è React-aware)
 - [ ] Altre idee man mano
 
 ---
