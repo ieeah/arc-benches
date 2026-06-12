@@ -1,0 +1,93 @@
+Scrappy
+  lvl 1
+  lvl 2
+    1 dog-collar
+  lvl 3
+    3 lemon
+    3 apricot
+  lvl 4
+    6 prickly-pear
+    6 olives
+    1 cat-bed
+  lvl 5
+    12 apricot
+    12 mushroom
+    3 very-comfortable-pillow
+  
+Gunsmith
+  lvl 1
+    20 metal-parts
+    30 rubber-parts-recipe
+  lvl 2
+    3 rusted-tools
+    5 mechanical-components (can be crafted in refiner)
+    8 wasp-driver
+  lvl 3
+    3 rusted-gear
+    5 advanced-mechanical-components (can be crafted in refiner)
+    4 sentinel-part
+
+Gear Bench
+  lvl 1
+    25 plastic-parts
+    30 fabric
+  lvl 2
+    3 power-cable
+    5 electrical-components (can be crafted in refiner)
+    5 hornet-driver
+  lvl 3
+    3 industrial-battery
+    5 advanced-electrical-components (can be crafted in refiner)
+    6 bastion-part
+    
+Medical Lab
+  lvl 1
+    50 fabric
+    6 arc-alloy
+  lvl 2
+    2 cracked-bioscanner
+    5 durable-cloth (can be crafted in refiner)
+    8 tick-pod
+  lvl 3
+    3 rusted-shut-medical-kit
+    8 antiseptic (can be crafted in refiner)
+    5 surveyor-vault
+
+Explosives Station
+  lvl 1
+    50 chemicals
+    6 arc-alloy
+  lvl 2
+    3 synthesized-fuel
+    5 crude-explosives (can be crafted in refiner)
+    5 pop-trigger
+  lvl 3
+    3 laboratory-reagents
+    5 explosive-compound
+    3 rocketeer-part
+
+Utility Station
+  lvl 1
+    50 plastic-parts
+    6 arc-alloy
+  lvl 2
+    2 damaged-heat-sink
+    5 electrical-components (can be crafted in refiner)
+    6 snitch-scanner
+  lvl 3
+    3 fried-motherboard
+    5 advanced-electrical-components (can be crafted in refiner)
+    4 leaper-pulse-unit
+
+Refiner
+  lvl 1
+    60 metal-parts
+    5 arc-powercell
+  lvl 2
+    3 toaster
+    5 arc-motion-core
+    8 fireball-burner
+  lvl 3
+    3 motor
+    10 arc-circuitry (can be crafted in refiner)
+    6 bombardier-cell
