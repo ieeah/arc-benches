@@ -121,6 +121,14 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
         (es. "amichevole finché non trovi un oggetto Epico")
       - UI: bottone "tira il dado" a fine spedizione, profilo corrente persistito e sempre
         visibile durante la run; storico dei ruoli interpretati (con Supabase → per profilo)
+- [ ] **Drawer riepilogo requisiti banco** (~mezza giornata) — in Obiettivi E in Rifugio,
+      icona "info" sulla card del banco che apre un drawer (stesso pattern di `ItemDetailSheet`:
+      bottom sheet con `useScrollLock` + `overscroll-contain`) con vista informativa di TUTTI
+      i materiali richiesti dal banco, divisi per livello (1, 2, 3…):
+      - Per ogni livello: lista item con icona, nome, quantità, badge Refiner craftabile
+      - Evidenziare visivamente i livelli già completati (es. spuntati/attenuati) e il prossimo
+      - Estrarre il drawer-shell in un componente riusabile (`BottomSheet`) condiviso con
+        ItemDetailSheet invece di duplicare overlay/lock/layout
 - [ ] Altre idee man mano
 
 ---
