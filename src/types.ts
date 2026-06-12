@@ -1,61 +1,44 @@
-export interface LocalizedNames {
-  [key: string]: string;
-  en: string;
-  it: string;
-}
-
 export interface ItemRequirement {
   itemId: string;
   quantity: number;
 }
 
-export interface HideoutModuleLevel {
+export interface WorkbenchLevel {
   level: number;
-  description?: string;
   requirementItemIds: ItemRequirement[];
-  otherRequirements?: string[];
 }
 
-export interface HideoutModule {
+export interface Workbench {
   id: string;
-  name: LocalizedNames;
+  name: string;
   maxLevel: number;
-  levels: HideoutModuleLevel[];
+  levels: WorkbenchLevel[];
 }
 
 export interface ItemInfo {
   id: string;
-  name: string; // MetaForge uses a single string for name
-  rarity: string;
+  name: string;
+  description: string;
   icon: string;
+  rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | string;
+  item_type: string;
+  subcategory: string;
+  value: number;
+  workbench: string | null;
+  loot_area: string | null;
 }
 
-export interface HideoutResponse {
-  items: HideoutModule[];
-}
-
-export interface ItemsResponse {
-  data: ItemInfo[];
-}
-
-// App State Types
 export interface AppState {
-  // Data from API
-  modules: HideoutModule[];
+  workbenches: Workbench[];
   itemsInfo: Record<string, ItemInfo>;
-  
-  // User Progress
-  hideoutLevels: Record<string, number>; // moduleId -> currentLevel
-  targetLevels: Record<string, number>; // moduleId -> targetLevel
-  activeModules: Record<string, boolean>; // moduleId -> isActive
-  inventory: Record<string, number>; // itemId -> quantity
-  
-  // Settings
+
+  hideoutLevels: Record<string, number>;
+  targetLevels: Record<string, number>;
+  activeModules: Record<string, boolean>;
+  inventory: Record<string, number>;
   filterHideCompleted: boolean;
-  
-  // Actions
-  setModules: (modules: HideoutModule[]) => void;
-  setItemsInfo: (items: ItemInfo[]) => void;
+  workbenchOrder: string[];
+
   incrementItem: (itemId: string) => void;
   decrementItem: (itemId: string) => void;
   setItemCount: (itemId: string, val: number) => void;
@@ -64,15 +47,16 @@ export interface AppState {
   toggleModuleActive: (moduleId: string) => void;
   setFilterHideCompleted: (val: boolean) => void;
   upgradeModule: (moduleId: string) => void;
-  
-  // Selectors (Calculated fields)
+  setWorkbenchOrder: (order: string[]) => void;
+  resetProgress: () => void;
+
   getTotalRequiredMaterials: () => Record<string, number>;
-  getMissingMaterials: () => Array<{ 
-    itemId: string; 
-    owned: number; 
-    required: number; 
+  getMissingMaterials: () => Array<{
+    itemId: string;
+    owned: number;
+    required: number;
     missing: number;
     isCompleted: boolean;
   }>;
-  getAvailableUpgrades: () => string[]; // List of moduleIds
+  getAvailableUpgrades: () => string[];
 }
