@@ -141,7 +141,15 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       potenziamento sono già tutti raccolti in inventario (ma non servono per il potenziamento
       di altri banchi) questi vengono "disabilitati" nella card del banco nel tab "Rifugio"
 ---
+
 - [ ] Altre idee man mano
+
+---
+
+## Fase 4 — UI/UX
+
+- [ ] **Navbar** aumentare leggermente l'altezza della navbar, in alcuni smartphone l'UI di
+      sistema si sovrappone sull'icona centrale quando sono attive le gestures.
 
 ---
 
