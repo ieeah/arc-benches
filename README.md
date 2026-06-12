@@ -1,73 +1,70 @@
-# React + TypeScript + Vite
+# ARC Benches
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Companion tracker **non ufficiale** in italiano per [ARC Raiders](https://arcraiders.com/): tiene
+traccia dei potenziamenti dei banchi da lavoro del rifugio e calcola automaticamente i materiali
+da raccogliere, senza farti fare conti a mente livello per livello.
 
-Currently, two official plugins are available:
+**Prova l'app:** https://ieeah.github.io/arc-benches/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Il problema che risolve
 
-## React Compiler
+I tracker esistenti mostrano i costi dei potenziamenti livello per livello: se sei al livello 1 del
+Banco delle Armi e vuoi arrivare al 3, tocca a te sommare i materiali dei due step. ARC Benches
+aggrega **tutti i costi dal livello attuale al livello obiettivo** di ogni banco, li confronta con
+l'inventario che possiedi e ti dice cosa manca — aggiornato in tempo reale a ogni oggetto raccolto.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funzionalità
 
-## Expanding the ESLint configuration
+- **Stash** — la lista della spesa globale: solo i materiali che ti servono davvero, con contatore
+  rapido `−/+` (long-press per andare veloce), stato `posseduti/richiesti`, ordinamento per
+  priorità / nome / rarità / tipo
+- **Rifugio** — un card per ogni banco con i requisiti del prossimo livello; quando l'inventario
+  copre tutto il banco si illumina e un tap su "Completa potenziamento" scala i materiali e
+  avanza il livello
+- **Obiettivi** — livello attuale e livello obiettivo per ogni banco, esclusione dei banchi che
+  non ti interessano, priorità di visualizzazione via drag & drop, reset completo
+- **Badge Refiner** — gli oggetti craftabili nel Refiner sono marcati: verde se puoi craftarli
+  subito col tuo livello attuale, ambra se prima devi potenziare il Refiner. Smetti di cercare
+  in raid quello che puoi fabbricare in pochi secondi
+- **Database Oggetti** — scheda di dettaglio per ogni oggetto: rarità, tipo, valore, zona di
+  loot, craftabilità
+- **Dark mode**, mobile-first, tutto salvato in localStorage: niente account, niente tracking
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- [Vite](https://vite.dev/) + [React 19](https://react.dev/) + TypeScript
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- [Zustand](https://zustand.docs.pmnd.rs/) (persistenza localStorage custom)
+- [dnd-kit](https://dndkit.com/) per il drag & drop
+- [Lucide](https://lucide.dev/) per le icone
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Dati di gioco
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+I dati sono file JSON statici nel bundle — nessuna chiamata API a runtime:
+
+- `src/data/workbenches.json` — banchi, livelli e requisiti (curato a mano)
+- `src/data/items.json` — nome, icona, rarità e metadati degli oggetti, generato da
+  [MetaForge](https://metaforge.app/) con `node scripts/fetch-items.mjs`
+
+I dati cambiano solo a patch del gioco: l'aggiornamento è manuale via script, non automatico.
+
+## Sviluppo
+
+```bash
+npm install
+npm run dev       # dev server con HMR
+npm run build     # type-check + build di produzione
+npm run lint      # ESLint
+npm run preview   # anteprima della build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Il deploy su GitHub Pages è automatico a ogni push su `master` (GitHub Actions).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Roadmap
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Multi-profilo locale → sync cloud (Supabase) con auth → nuove sezioni (spedizioni, progetti,
+database completo). Dettagli in [ROADMAP.md](ROADMAP.md).
+
+---
+
+*ARC Raiders è un marchio di Embark Studios. Questo progetto non è affiliato né sponsorizzato.*
