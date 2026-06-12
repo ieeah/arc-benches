@@ -84,6 +84,43 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
         (Discord, gruppo raid) senza passare dalla stampa del browser
       - Contenuto: nome materiale, mancanti/richiesti, badge Refiner (craftabile invece che
         da cercare), raggruppamento opzionale per banco di destinazione o per zona di loot
+- [ ] **Role Maker — randomizer di personalità** (~1 giorno, tutto client-side, nessun DB)
+      Dopo ogni spedizione, "tirare un dado" che genera un profilo comportamentale da
+      interpretare (roleplay) nella prossima run in superficie.
+
+      **Matrice a 3 vettori** (scala 0-2 ciascuno), combinati per derivare il profilo:
+      - *PvP* (aggressività verso altri Raider): 0 Pacifico/legittima difesa · 1 Opportunista
+        (attacca solo deboli/isolati/con loot raro) · 2 Ostile KOS (caccia attiva)
+      - *PvE* (focus macchine/bottino): 0 Evitante "rat" (niente rumore, loot minore, estrazione
+        rapida) · 1 Cacciatore calcolato (contratti, ARC medi, rischi calcolati) · 2 Massimalista
+        "chad" (zone ad alta densità, boss, depositi alto livello)
+      - *Social* (emote/voice/segnali): 0 Fantasma (zero comunicazioni, fugge le interazioni) ·
+        1 Guardingo (emote di tregua ma armi pronte) · 2 Samaritano (coordina via mic, rianima
+        estranei, condivide risorse)
+
+      **Archetipi predefiniti** (estratti dal dado, o varianti coerenti generate dalla matrice):
+      - 🪐 *Il Santo di Speranza* (PvE puro/altruista) — PvP solo autodifesa, rianima gli
+        estranei a terra, interviene ad aiutare, lascia i materiali extra a terra per gli altri
+      - 🐀 *Il Topo di Fogna* (evitante/solitario) — evita ARC grossi e Raider, movimento
+        accovacciato/condotti/fumogeni, fugge se avvicinato, pilucca i resti dei combattimenti altrui
+      - ⚔️ *Il Cacciatore di Taglie* (neutrale-pragmatico) — non attacca a vista ma difende
+        obiettivo ed estrazione in modo aggressivo dopo avvertimento; non si fida della voice chat
+      - 🔥 *Il Mietitore KOS* (PvP puro) — spara a vista, imboscate ai terminali di estrazione,
+        esche col loot a terra; ignora i contratti PvE, vive del loot rubato
+      - 🎭 *Il Traditore Situazionale* (imprevedibile) — finge amicizia via voice/emote, aiuta
+        contro un boss e tradisce subito dopo, mentre l'altro loota
+
+      **Output**: profilo strutturato `personality_profile` con `name`, `tagline`,
+      `matrix_values` (i 3 assi), `behavioral_rules` (3 regole operative), `winning_condition`
+      (cosa rende la run un successo per quel profilo)
+
+      **Varianti ed estensioni**:
+      - Suggerimento loadout coerente con l'archetipo (Mietitore → armi meta PvP tipo
+        Bobcat/Tempest; Topo → fumogeni e mobilità tipo Snap Hook; Santo → defibrillatore e scudi)
+      - Niente assoluti: le regole generate devono avere sfumature condizionali
+        (es. "amichevole finché non trovi un oggetto Epico")
+      - UI: bottone "tira il dado" a fine spedizione, profilo corrente persistito e sempre
+        visibile durante la run; storico dei ruoli interpretati (con Supabase → per profilo)
 - [ ] Altre idee man mano
 
 ---
