@@ -19,7 +19,7 @@ export interface ItemInfo {
   id: string;
   name: string;
   description: string;
-  icon: string;
+  icon: string | null; // local path relative to BASE_URL (e.g. "icons/items/lemon.webp")
   rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | string;
   item_type: string;
   subcategory: string;

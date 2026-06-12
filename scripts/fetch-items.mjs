@@ -1,12 +1,14 @@
 /**
  * Fetch item data from MetaForge for all items referenced in workbenches.json.
+ * Icons are downloaded locally (the MetaForge CDN blocks hotlinking on some devices).
  * Run with: node scripts/fetch-items.mjs
- * Output: src/data/items.json
+ * Output: src/data/items.json + public/icons/items/*.webp
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import sharp from 'sharp';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -30,9 +32,23 @@ async function fetchItem(id) {
   return json.data?.[0] ?? null;
 }
 
+// Largest in-app rendering is 160px (detail sheet): 256px covers 2x retina
+async function downloadIcon(remoteUrl, destPath) {
+  const res = await fetch(remoteUrl);
+  if (!res.ok) throw new Error(`HTTP ${res.status} for icon`);
+  const original = Buffer.from(await res.arrayBuffer());
+  const resized = await sharp(original)
+    .resize(256, 256, { fit: 'inside', withoutEnlargement: true })
+    .webp({ quality: 80 })
+    .toBuffer();
+  writeFileSync(destPath, resized);
+}
+
 async function main() {
   const workbenches = JSON.parse(readFileSync(join(ROOT, 'src', 'data', 'workbenches.json'), 'utf-8'));
   const ids = parseItemIds(workbenches);
+  const iconsDir = join(ROOT, 'public', 'icons', 'items');
+  mkdirSync(iconsDir, { recursive: true });
 
   console.log(`Found ${ids.length} items to fetch:\n  ${ids.join(', ')}\n`);
 
@@ -45,11 +61,20 @@ async function main() {
     try {
       const item = await fetchItem(id);
       if (item) {
+        let icon = null;
+        if (item.icon) {
+          try {
+            await downloadIcon(item.icon, join(iconsDir, `${id}.webp`));
+            icon = `icons/items/${id}.webp`; // local path, resolved against BASE_URL at runtime
+          } catch (e) {
+            console.log(`(icon failed: ${e.message}) `);
+          }
+        }
         results[id] = {
           id: item.id,
           name: item.name,
           description: item.description,
-          icon: item.icon,
+          icon,
           rarity: item.rarity,
           item_type: item.item_type,
           subcategory: item.subcategory,
