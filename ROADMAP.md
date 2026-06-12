@@ -129,6 +129,18 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       - Evidenziare visivamente i livelli già completati (es. spuntati/attenuati) e il prossimo
       - Estrarre il drawer-shell in un componente riusabile (`BottomSheet`) condiviso con
         ItemDetailSheet invece di duplicare overlay/lock/layout
+- [ ] **Automatismo priorità banchi** (da stimare) — in Obiettivi,
+      quando il livello di un banco viene portato al livello massimo, si apre un prompt
+      che chiede all'utente se spostarlo in fondo alla lista delle priorità.
+      I banchi completati, rimangono interattivi ma vengono spostati in una sezione "completati"
+      come avviene nel tab "Rifugio".
+- [ ] **Gestione inventario al cambio livello banchi** (da stimare) - Quando un banco viene
+      aumentato di livello, se non presenti in inventario, vengono aggiunti se non sono "in
+      conflitto" con altri banchi.
+- [ ] **Miglioramento UX in "Rifugio** (da stimare)-  Se gli oggetti necessari per un
+      potenziamento sono già tutti raccolti in inventario (ma non servono per il potenziamento
+      di altri banchi) questi vengono "disabilitati" nella card del banco nel tab "Rifugio"
+---
 - [ ] Altre idee man mano
 
 ---
