@@ -157,11 +157,11 @@ export const useAppStore = create<AppState>()((set, get) => ({
     });
   },
 
-  getTotalRequiredMaterials: () => {
+  getTotalRequiredMaterials: (excludeModuleId) => {
     const s = get();
     const total: Record<string, number> = {};
     s.workbenches.forEach(wb => {
-      if (!s.activeModules[wb.id]) return;
+      if (wb.id === excludeModuleId || !s.activeModules[wb.id]) return;
       const current = s.hideoutLevels[wb.id] ?? 0;
       const target = s.targetLevels[wb.id] ?? 0;
       wb.levels.forEach(lvl => {

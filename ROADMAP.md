@@ -146,9 +146,11 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       si apre un prompt che chiede se spostare il banco in fondo alla lista delle priorità.
       I banchi completati restano interattivi ma vanno in una sezione "Completati" (come in
       Rifugio); il corpo della card è estratto in `WorkbenchRow` (riusato da `SortableWorkbenchRow`)
-- [ ] **Gestione inventario al cambio livello banchi** (da chiarire) - Quando un banco viene
-      aumentato di livello, se non presenti in inventario, vengono aggiunti se non sono "in
-      conflitto" con altri banchi.
+- [x] **Gestione inventario al cambio livello banchi** — alzare il livello implica che il
+      potenziamento è stato pagato in gioco: i materiali tracciati vengono scalati
+      automaticamente (i non tracciati sono stati trovati e spesi → saldo zero); la conferma
+      viene chiesta solo se un materiale posseduto serve anche ad altri banchi attivi
+      ("conflitto": potrebbe essere riservato a quelli)
 - [x] **Miglioramento UX in "Rifugio"** — un materiale richiesto viene attenuato con spunta verde
       quando l'inventario copre sia il suo requisito sia il fabbisogno totale degli altri
       obiettivi attivi (nessun "conflitto")

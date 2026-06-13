@@ -85,6 +85,7 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
               target={store.targetLevels[wb.id] ?? wb.maxLevel}
               isActive={store.activeModules[wb.id]}
               inventory={store.inventory}
+              otherNeeds={store.getTotalRequiredMaterials(wb.id)}
               onToggle={() => store.toggleModuleActive(wb.id)}
               onCurrentLevel={handleCurrentLevel(wb.id, wb.maxLevel)}
               onTargetLevel={v => store.setModuleTargetLevel(wb.id, v)}
@@ -122,6 +123,7 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
               target={store.targetLevels[wb.id] ?? wb.maxLevel}
               isActive={store.activeModules[wb.id]}
               inventory={store.inventory}
+              otherNeeds={store.getTotalRequiredMaterials(wb.id)}
               onToggle={() => store.toggleModuleActive(wb.id)}
               onCurrentLevel={handleCurrentLevel(wb.id, wb.maxLevel)}
               onTargetLevel={v => store.setModuleTargetLevel(wb.id, v)}

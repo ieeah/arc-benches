@@ -52,7 +52,8 @@ export interface AppState {
   resetProgress: () => void;
 
   getOrderedWorkbenches: () => Workbench[];
-  getTotalRequiredMaterials: () => Record<string, number>;
+  /** Total materials required by active goals; pass a moduleId to exclude that bench's needs. */
+  getTotalRequiredMaterials: (excludeModuleId?: string) => Record<string, number>;
   getMissingMaterials: () => Array<{
     itemId: string;
     owned: number;
