@@ -174,6 +174,15 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       bottom nav va al Database: la pagina "Oggetti" (oggi nascosta, raggiungibile solo dal
       pulsante DB nell'header) diventa un tab di primo livello, futuro hub Database
       (Oggetti/Arcs/…). Il pulsante DB universale nel `SectionHeader` a quel punto si rimuove
+- [ ] **Celebrazione "ce l'hai fatta!"** (~mezza giornata) — quando TUTTI i banchi sono al
+      livello massimo:
+      - Animazione confetti al completamento dell'ultimo upgrade (canvas-confetti, ~2 KB gzip,
+        oppure CSS-only); sparata una volta sola — flag in localStorage, non a ogni visita
+        (si resetta col "Ripristina" o se un livello viene corretto al ribasso)
+      - In Stash, l'empty state attuale ("Nessun materiale richiesto…") distingue due casi:
+        obiettivi semplicemente vuoti vs rifugio completato — nel secondo caso illustrazione
+        SVG celebrativa a tema (rifugio/banchi maxati) con messaggio "Ce l'hai fatta!",
+        coerente con dark mode (CSS variables / currentColor, non colori hardcoded)
 
 ---
 
