@@ -154,6 +154,26 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 - [x] **Miglioramento UX in "Rifugio"** — un materiale richiesto viene attenuato con spunta verde
       quando l'inventario copre sia il suo requisito sia il fabbisogno totale degli altri
       obiettivi attivi (nessun "conflitto")
+- [ ] **Accorpamento Rifugio + Obiettivi** (~mezza giornata) — i due tab dividono lo stesso
+      oggetto (il banco) per funzione invece che per compito: stesse liste, doppia sezione
+      "Completati", due strade per alzare il livello, e ogni feature nuova va fatta due volte
+      (es. il drawer requisiti, speccato "in Obiettivi E in Rifugio").
+      Un solo tab "Rifugio" con card a progressive disclosure:
+      - Card chiusa (vista operativa, l'attuale Rifugio compattata): drag handle · nome ·
+        `Lvl x/y` · chevron; requisiti del prossimo livello con badge craft; bottone verde
+        "Completa potenziamento" quando pronto
+      - Card espansa (tap sull'header): si aggiungono i pill Livello Attuale / Obiettivo e il
+        toggle attivo (l'attuale Obiettivi)
+      - Una sola sezione "Completati", prompt conflitto-inventario in un solo posto,
+        "Ripristina" nell'header come azione di tab
+      - Attenzione: il drag resta sull'handle (non sull'intera card), per convivere col
+        tap-per-espandere e col TouchSensor (delay 200ms)
+      - Da fare PRIMA delle feature di Fase 3: ogni aggiunta sui due tab raddoppia il costo
+        dell'accorpamento
+- [ ] **Tab Database nella bottom nav** (~1 ora, dopo l'accorpamento) — lo slot liberato in
+      bottom nav va al Database: la pagina "Oggetti" (oggi nascosta, raggiungibile solo dal
+      pulsante DB nell'header) diventa un tab di primo livello, futuro hub Database
+      (Oggetti/Arcs/…). Il pulsante DB universale nel `SectionHeader` a quel punto si rimuove
 
 ---
 
