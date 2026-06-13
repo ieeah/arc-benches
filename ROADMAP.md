@@ -129,6 +129,19 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       - Evidenziare visivamente i livelli già completati (es. spuntati/attenuati) e il prossimo
       - Estrarre il drawer-shell in un componente riusabile (`BottomSheet`) condiviso con
         ItemDetailSheet invece di duplicare overlay/lock/layout
+- [ ] **Import / Export profilo (JSON)** (~mezza giornata) — esporta lo stato persistito
+      (`PersistedState`: inventario, livelli, obiettivi, ordine banchi) come file `.json`
+      scaricabile o stringa copiabile, e reimportalo. Backup, cambio dispositivo, condivisione
+      setup. Ponte economico verso la Fase 1/2: stesso confine dati del futuro profilo.
+      **Sicurezza/robustezza**: il JSON importato è input non fidato → validare la forma
+      (chiavi note, valori numerici ≥ 0, id banco/item esistenti) e scartare il resto prima di
+      scrivere nello store, mai merge cieco di dati arbitrari in localStorage.
+- [ ] **Vista aggregata per banco (opzionale)** (~mezza giornata) — lo Stash resta volutamente
+      una lista *aggregata e piatta* (è la ragion d'essere dell'app: ovviare alla mancanza di una
+      vista d'insieme in-game). In aggiunta, una modalità/schermata secondaria che raggruppa i
+      materiali mancanti per banco di destinazione (sezioni collassabili "Refiner Lvl 2",
+      "Weapon Bench Lvl 3"…), per chi vuole capire *perché* gli serve un materiale. Non sostituisce
+      la vista piatta: è un toggle / schermata separata.
 ---
 
 - [ ] Altre idee man mano
@@ -183,6 +196,94 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
         obiettivi semplicemente vuoti vs rifugio completato — nel secondo caso illustrazione
         SVG celebrativa a tema (rifugio/banchi maxati) con messaggio "Ce l'hai fatta!",
         coerente con dark mode (CSS variables / currentColor, non colori hardcoded)
+- [ ] **Barra di avanzamento globale** (~1-2 ore) — anello o barra in cima (Rifugio/Obiettivi)
+      con la percentuale `materiali raccolti / totali` per gli obiettivi attivi, derivata da
+      `getMissingMaterials()` (somma `owned` vs `required`, clamp 100%). Dà il senso di progresso
+      che oggi manca del tutto. NB: è progresso sui *materiali*, NON sui raid — quanti raid servano
+      è imprevedibile (RNG + PvPvE), quindi nessuna stima "raid mancanti".
+- [ ] **Undo "Completa potenziamento"** (~2-3 ore) — `upgradeModule` scala l'inventario in modo
+      irreversibile (abbassare il livello non rimborsa, by design). Un toast "Annulla" per qualche
+      secondo dopo l'upgrade ripristina lo stato precedente (livello + inventario + target): è un
+      undo dell'azione, non un rimborso manuale, quindi non viola l'invariante. Richiede uno
+      snapshot dell'ultima azione (o un piccolo stack undo).
+- [ ] **Feedback aptico sui controlli** (~1 ora) — `navigator.vibrate()` su tap +/- in
+      `InventoryCard`, su completamento requisito e su "Completa potenziamento". L'app è web (e in
+      prospettiva PWA): la Vibration API **è disponibile su Android (Chrome/Blink)** anche come web
+      app/PWA, ma **iOS Safari NON la supporta** (Apple non la espone al web, nemmeno in PWA
+      installata) → progressive enhancement: `if ('vibrate' in navigator)`, impulsi brevissimi
+      (5-10ms), silenziosa dove non supportata. Si sposa con la celebrazione di fine gioco.
+- [ ] **(Valutare) Zona di loot nello Stash** — il campo `loot_area` esiste già in `items.json` ed
+      è mostrato solo nel dettaglio. Trasformerebbe lo Stash in "lista della spesa per raid". Rischio:
+      troppi badge sulle card già dense → NON come badge permanente, ma semmai come
+      **ordinamento/filtro "per zona"** (come gli altri pill di sort) o sezione nella vista
+      aggregata. Bassa priorità, da valutare.
+
+---
+
+## Qualità del codice (performance · accessibilità · sicurezza · pulizia)
+
+Rilevazioni da un'analisi del codice (giu 2026), ordinate per impatto dentro ogni area.
+
+### Performance / correttezza
+
+- [ ] **`save()` serializza l'intero DB di gioco a ogni azione** (bug) — in `store.ts` ogni action
+      chiama `save({ ...s, inventory })` con `s = get()` (l'intero `AppState`). `JSON.stringify`
+      scarta le funzioni ma **serializza `workbenches` e `itemsInfo`**: a ogni tap +/- (e a ogni
+      tick del long-press, ~10/s) si riscrive tutto `items.json` + `workbenches.json` in
+      localStorage. La firma `save(s: PersistedState)` non protegge: lo spread non è un object
+      literal → niente excess-property check, il tipo mente. Fix root-cause: helper `persist(get())`
+      che estrae solo le chiavi di `PersistedState`, chiamato dopo `set()`; elimina anche la
+      ripetizione di `save({ ...s, … })` nelle 9 action.
+- [ ] **Nessun selettore zustand → over-rendering + ricalcolo** — le pagine fanno
+      `const store = useAppStore()` senza selettore: iscrizione all'intero store, ogni cambiamento
+      ri-renderizza tutto e ricalcola i selettori non memoizzati (`getMissingMaterials`,
+      `getTotalRequiredMaterials`, `getOrderedWorkbenches`) a ogni render. Innocuo a questa scala,
+      ma anti-pattern da correggere prima di Supabase/multi-profilo: selettori mirati + `useShallow`.
+- [ ] **`itemPriorityIndex` nel comparatore di sort** — in `StashPage` è O(banchi×livelli) e viene
+      chiamato 2× per confronto durante `.sort()`. Precalcolare una `Map<itemId, priorità>` prima
+      del sort. (Stesso pattern: `getOrderedWorkbenches` usa `indexOf` nel comparatore → O(n²).)
+- [ ] **`useLongPress` doppio conteggio** — l'`onClick` del bottone spara comunque al rilascio,
+      sommandosi ai tick dell'interval; nessun incremento immediato alla pressione. Conteggio non
+      perfettamente prevedibile su pressioni lunghe.
+
+### Accessibilità
+
+- [ ] **`ItemDetailSheet` non è un dialog accessibile** — mancano `role="dialog"`/`aria-modal`,
+      focus trap, chiusura con Esc e ritorno del focus all'elemento che l'ha aperto. Da sistemare
+      quando si estrae il `BottomSheet` riusabile (già previsto in Fase 3).
+- [ ] **Drag & drop non operabile da tastiera** — solo `PointerSensor` + `TouchSensor`; manca il
+      `KeyboardSensor` di dnd-kit per riordinare le priorità senza mouse/touch.
+- [ ] **Controlli icona-only senza label** — i pill di livello (`LevelPills`), i bottoni +/-
+      (`InventoryCard`) e il toggle "attivo" (`WorkbenchRow`) non hanno `aria-label`/label
+      associata. Le segnalazioni solo-colore (rarità/craft) hanno per lo più `title`/`aria-label`,
+      ma verificare la copertura.
+- [ ] **Contrasto testo minuto** — molte etichette `text-[10px]`/`text-[11px]` in `text-gray-400`
+      rischiano di non superare WCAG AA su sfondo chiaro. Verificare i contrasti chiave.
+
+### Sicurezza
+
+L'app è client-only (nessun backend a runtime, dati di gioco statici nel bundle, icone locali):
+superficie d'attacco ridotta, niente `dangerouslySetInnerHTML`/`eval`, React escapa nomi/descrizioni.
+
+- [ ] **Validare input deserializzati** — `load()` fa `JSON.parse(localStorage…)` senza validare la
+      forma; con Import/Export il JSON diventa input esterno non fidato. Validare/sanificare (chiavi
+      note, numeri ≥ 0, id esistenti) prima di scrivere nello store.
+- [ ] **CSP (hardening, opzionale)** — nessuna Content-Security-Policy. Su GitHub Pages si può
+      aggiungere un meta CSP restrittivo (`default-src 'self'`, + CDN icone se servisse) per ridurre
+      l'impatto di eventuale codice iniettato.
+- [ ] **(Già in roadmap)** Auth + RLS Supabase, last-write-wins sul sync — vedi Fase 2.
+
+### Pulizia del codice
+
+- [ ] **`src/App.css` è codice morto** — residuo del template Vite, non importato da nessuna parte
+      (`main.tsx` importa solo `index.css`). Da eliminare.
+- [ ] **Voce "fantasma" in `workbenches.json`** — `workbench` con `maxLevel: 0` filtrata all'init
+      (`w.maxLevel > 0`). Documentare perché esiste o rimuoverla dai dati.
+- [ ] **Logica duplicata `activeWBs`/`maxedWBs`** — lo split attivi/completati è ripetuto identico
+      in `HideoutPage` e `GoalsPage`; assorbito naturalmente dall'accorpamento dei due tab (Fase 4).
+- [ ] **Magic string e chiavi sparse** — `'refiner'`, le chiavi localStorage (`theme`, `stash-sort`,
+      `STORAGE_KEY`) e gli id banco sono letterali sparsi; centralizzarli (un modulo `keys.ts`).
+- [ ] **Ricerca Oggetti solo per nome** — `ItemsPage` filtra solo `name`; estendere a tipo/rarità.
 
 ---
 
