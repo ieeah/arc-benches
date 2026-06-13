@@ -9,7 +9,8 @@
     "subcategory": "Basic Material",
     "value": 60,
     "workbench": null,
-    "loot_area": "Technological, Commercial, Residential"
+    "loot_area": "Technological, Commercial, Residential",
+    "stack_size": 50
   },
   "fabric": {
     "id": "fabric",
@@ -21,7 +22,8 @@
     "subcategory": "Basic Material",
     "value": 50,
     "workbench": "",
-    "loot_area": "Commercial, Residential, Medical"
+    "loot_area": "Commercial, Residential, Medical",
+    "stack_size": 50
   },
   "power-cable": {
     "id": "power-cable",
@@ -33,7 +35,8 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "Electrical, Commercial, Residential"
+    "loot_area": "Electrical, Commercial, Residential",
+    "stack_size": 3
   },
   "electrical-components": {
     "id": "electrical-components",
@@ -45,7 +48,8 @@
     "subcategory": "Refined Material",
     "value": 640,
     "workbench": "Refiner",
-    "loot_area": "Electrical"
+    "loot_area": "Electrical",
+    "stack_size": 10
   },
   "hornet-driver": {
     "id": "hornet-driver",
@@ -57,7 +61,8 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "industrial-battery": {
     "id": "industrial-battery",
@@ -69,7 +74,8 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "Industrial"
+    "loot_area": "Industrial",
+    "stack_size": 3
   },
   "advanced-electrical-components": {
     "id": "advanced-electrical-components",
@@ -81,7 +87,8 @@
     "subcategory": "Refined Material",
     "value": 1750,
     "workbench": "Refiner",
-    "loot_area": "Electrical"
+    "loot_area": "Electrical",
+    "stack_size": 5
   },
   "bastion-part": {
     "id": "bastion-part",
@@ -93,7 +100,8 @@
     "subcategory": "Recyclable",
     "value": 3000,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "chemicals": {
     "id": "chemicals",
@@ -105,7 +113,8 @@
     "subcategory": "Basic Material",
     "value": 50,
     "workbench": null,
-    "loot_area": "Mechanical, Residential, Medical"
+    "loot_area": "Mechanical, Residential, Medical",
+    "stack_size": 50
   },
   "arc-alloy": {
     "id": "arc-alloy",
@@ -117,7 +126,8 @@
     "subcategory": "Topside Material",
     "value": 200,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 15
   },
   "synthesized-fuel": {
     "id": "synthesized-fuel",
@@ -129,7 +139,8 @@
     "subcategory": "Topside Material",
     "value": 700,
     "workbench": null,
-    "loot_area": "Exodus"
+    "loot_area": "Exodus",
+    "stack_size": 5
   },
   "crude-explosives": {
     "id": "crude-explosives",
@@ -141,7 +152,8 @@
     "subcategory": "Refined Material",
     "value": 270,
     "workbench": "Refiner",
-    "loot_area": "Security, Industrial"
+    "loot_area": "Security, Industrial",
+    "stack_size": 10
   },
   "pop-trigger": {
     "id": "pop-trigger",
@@ -153,7 +165,8 @@
     "subcategory": "Recyclable",
     "value": 640,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "laboratory-reagents": {
     "id": "laboratory-reagents",
@@ -165,7 +178,8 @@
     "subcategory": "Recyclable",
     "value": 2000,
     "workbench": null,
-    "loot_area": "Medical"
+    "loot_area": "Medical",
+    "stack_size": 3
   },
   "explosive-compound": {
     "id": "explosive-compound",
@@ -177,7 +191,8 @@
     "subcategory": "Refined Material",
     "value": 1000,
     "workbench": "Refiner",
-    "loot_area": "Security, Industrial"
+    "loot_area": "Security, Industrial",
+    "stack_size": 5
   },
   "rocketeer-part": {
     "id": "rocketeer-part",
@@ -189,7 +204,8 @@
     "subcategory": "Recyclable",
     "value": 5000,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "cracked-bioscanner": {
     "id": "cracked-bioscanner",
@@ -201,7 +217,8 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "Medical"
+    "loot_area": "Medical",
+    "stack_size": 3
   },
   "durable-cloth": {
     "id": "durable-cloth",
@@ -213,7 +230,8 @@
     "subcategory": "Refined Material",
     "value": 640,
     "workbench": "Refiner",
-    "loot_area": "Commercial, Medical"
+    "loot_area": "Commercial, Medical",
+    "stack_size": 10
   },
   "tick-pod": {
     "id": "tick-pod",
@@ -225,7 +243,8 @@
     "subcategory": "Recyclable",
     "value": 640,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "rusted-shut-medical-kit": {
     "id": "rusted-shut-medical-kit",
@@ -237,7 +256,8 @@
     "subcategory": "Recyclable",
     "value": 2000,
     "workbench": null,
-    "loot_area": "Medical"
+    "loot_area": "Medical",
+    "stack_size": 3
   },
   "antiseptic": {
     "id": "antiseptic",
@@ -249,7 +269,8 @@
     "subcategory": "Refined Material",
     "value": 1000,
     "workbench": "Refiner",
-    "loot_area": "Medical"
+    "loot_area": "Medical",
+    "stack_size": 5
   },
   "surveyor-vault": {
     "id": "surveyor-vault",
@@ -261,7 +282,8 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "metal-parts": {
     "id": "metal-parts",
@@ -273,7 +295,8 @@
     "subcategory": "Basic Material",
     "value": 75,
     "workbench": null,
-    "loot_area": "Mechanical, Industrial, Electrical, Technological"
+    "loot_area": "Mechanical, Industrial, Electrical, Technological",
+    "stack_size": 50
   },
   "arc-powercell": {
     "id": "arc-powercell",
@@ -285,7 +308,8 @@
     "subcategory": "Topside Material",
     "value": 270,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 5
   },
   "toaster": {
     "id": "toaster",
@@ -297,7 +321,8 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "Residential"
+    "loot_area": "Residential",
+    "stack_size": 3
   },
   "arc-motion-core": {
     "id": "arc-motion-core",
@@ -309,7 +334,8 @@
     "subcategory": "Topside Material",
     "value": 1000,
     "workbench": "Refiner II",
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 5
   },
   "fireball-burner": {
     "id": "fireball-burner",
@@ -321,7 +347,8 @@
     "subcategory": "Recyclable",
     "value": 640,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "motor": {
     "id": "motor",
@@ -333,7 +360,8 @@
     "subcategory": "Recyclable",
     "value": 2000,
     "workbench": null,
-    "loot_area": "Mechanical"
+    "loot_area": "Mechanical",
+    "stack_size": 3
   },
   "arc-circuitry": {
     "id": "arc-circuitry",
@@ -345,7 +373,8 @@
     "subcategory": "Topside Material",
     "value": 1000,
     "workbench": "Refiner II",
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 5
   },
   "bombardier-cell": {
     "id": "bombardier-cell",
@@ -357,7 +386,8 @@
     "subcategory": "Recyclable",
     "value": 5000,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "dog-collar": {
     "id": "dog-collar",
@@ -369,7 +399,8 @@
     "subcategory": "Recyclable",
     "value": 640,
     "workbench": null,
-    "loot_area": "Residential"
+    "loot_area": "Residential",
+    "stack_size": 3
   },
   "lemon": {
     "id": "lemon",
@@ -381,7 +412,8 @@
     "subcategory": "Nature",
     "value": 640,
     "workbench": null,
-    "loot_area": "Nature"
+    "loot_area": "Nature",
+    "stack_size": 10
   },
   "apricot": {
     "id": "apricot",
@@ -393,7 +425,8 @@
     "subcategory": "Nature",
     "value": 640,
     "workbench": null,
-    "loot_area": "Nature"
+    "loot_area": "Nature",
+    "stack_size": 10
   },
   "prickly-pear": {
     "id": "prickly-pear",
@@ -405,7 +438,8 @@
     "subcategory": "Nature",
     "value": 640,
     "workbench": null,
-    "loot_area": "Nature"
+    "loot_area": "Nature",
+    "stack_size": 10
   },
   "olives": {
     "id": "olives",
@@ -417,7 +451,8 @@
     "subcategory": "Nature",
     "value": 640,
     "workbench": null,
-    "loot_area": "Nature"
+    "loot_area": "Nature",
+    "stack_size": 10
   },
   "cat-bed": {
     "id": "cat-bed",
@@ -429,7 +464,8 @@
     "subcategory": "Trinket",
     "value": 1000,
     "workbench": null,
-    "loot_area": "Commercial, Residential"
+    "loot_area": "Commercial, Residential",
+    "stack_size": 3
   },
   "mushroom": {
     "id": "mushroom",
@@ -441,7 +477,8 @@
     "subcategory": "Nature",
     "value": 1000,
     "workbench": null,
-    "loot_area": "Nature"
+    "loot_area": "Nature",
+    "stack_size": 10
   },
   "very-comfortable-pillow": {
     "id": "very-comfortable-pillow",
@@ -453,7 +490,8 @@
     "subcategory": "Trinket",
     "value": 2000,
     "workbench": null,
-    "loot_area": "Residential, Commercial"
+    "loot_area": "Residential, Commercial",
+    "stack_size": 3
   },
   "damaged-heat-sink": {
     "id": "damaged-heat-sink",
@@ -465,7 +503,8 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "Technological"
+    "loot_area": "Technological",
+    "stack_size": 3
   },
   "snitch-scanner": {
     "id": "snitch-scanner",
@@ -477,7 +516,8 @@
     "subcategory": "Recyclable",
     "value": 2000,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "fried-motherboard": {
     "id": "fried-motherboard",
@@ -489,7 +529,8 @@
     "subcategory": "Recyclable",
     "value": 2000,
     "workbench": null,
-    "loot_area": "Technological"
+    "loot_area": "Technological",
+    "stack_size": 3
   },
   "leaper-pulse-unit": {
     "id": "leaper-pulse-unit",
@@ -501,7 +542,8 @@
     "subcategory": "Recyclable",
     "value": 5000,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": null
   },
   "rubber-parts-recipe": {
     "id": "rubber-parts-recipe",
@@ -513,7 +555,8 @@
     "subcategory": "Basic Material",
     "value": 50,
     "workbench": null,
-    "loot_area": "Medical, Industrial, Technological"
+    "loot_area": "Medical, Industrial, Technological",
+    "stack_size": 50
   },
   "rusted-tools": {
     "id": "rusted-tools",
@@ -525,7 +568,8 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "Mechanical, Industrial"
+    "loot_area": "Mechanical, Industrial",
+    "stack_size": 3
   },
   "mechanical-components": {
     "id": "mechanical-components",
@@ -537,7 +581,8 @@
     "subcategory": "Refined Material",
     "value": 640,
     "workbench": "Refiner",
-    "loot_area": "Mechanical"
+    "loot_area": "Mechanical",
+    "stack_size": 10
   },
   "wasp-driver": {
     "id": "wasp-driver",
@@ -549,7 +594,8 @@
     "subcategory": "Recyclable",
     "value": 640,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "rusted-gear": {
     "id": "rusted-gear",
@@ -561,7 +607,8 @@
     "subcategory": "Recyclable",
     "value": 2000,
     "workbench": null,
-    "loot_area": "Industrial"
+    "loot_area": "Industrial",
+    "stack_size": 3
   },
   "advanced-mechanical-components": {
     "id": "advanced-mechanical-components",
@@ -573,7 +620,8 @@
     "subcategory": "Refined Material",
     "value": 1750,
     "workbench": "Refiner",
-    "loot_area": "Mechanical"
+    "loot_area": "Mechanical",
+    "stack_size": 5
   },
   "sentinel-part": {
     "id": "sentinel-part",
@@ -585,6 +633,7 @@
     "subcategory": "Recyclable",
     "value": 2000,
     "workbench": null,
-    "loot_area": "ARC"
+    "loot_area": "ARC",
+    "stack_size": 3
   }
 }

@@ -8,11 +8,13 @@ export const HideoutPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) 
   const availableUpgrades = store.getAvailableUpgrades();
   const refinerLevel = store.hideoutLevels['refiner'] ?? 0;
 
+  const totalRequired = store.getTotalRequiredMaterials();
+
   const activeWBs = orderedWorkbenches.filter(wb => (store.hideoutLevels[wb.id] ?? 0) < wb.maxLevel);
   const maxedWBs = orderedWorkbenches.filter(wb => (store.hideoutLevels[wb.id] ?? 0) >= wb.maxLevel);
 
   return (
-    <div className="p-4 pb-24">
+    <div className="p-4 pb-28">
       <div className="mb-4">
         <SectionHeader title="Rifugio" onOpenDatabase={onOpenDatabase} />
       </div>
@@ -22,6 +24,8 @@ export const HideoutPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) 
           currentLevel={store.hideoutLevels[wb.id] ?? 0}
           itemsInfo={store.itemsInfo}
           refinerLevel={refinerLevel}
+          inventory={store.inventory}
+          totalRequired={totalRequired}
           canUpgrade={availableUpgrades.includes(wb.id)}
           onUpgrade={() => store.upgradeModule(wb.id)}
         />
@@ -35,6 +39,8 @@ export const HideoutPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) 
               currentLevel={store.hideoutLevels[wb.id] ?? 0}
               itemsInfo={store.itemsInfo}
               refinerLevel={refinerLevel}
+              inventory={store.inventory}
+              totalRequired={totalRequired}
               canUpgrade={false}
               onUpgrade={() => {}}
             />

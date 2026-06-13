@@ -48,6 +48,12 @@ export const ItemDetailSheet = ({ item, refinerLevel, onClose }: {
             <span className="text-gray-400 font-medium">Valore</span>
             <span className="font-semibold font-mono">{item.value.toLocaleString('it-IT')}</span>
           </div>
+          {item.stack_size != null && item.stack_size > 1 && (
+            <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
+              <span className="text-gray-400 font-medium">Stack</span>
+              <span className="font-semibold font-mono">×{item.stack_size}</span>
+            </div>
+          )}
           {craftLevel !== null && (
             <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
               <span className="text-gray-400 font-medium">Craft</span>

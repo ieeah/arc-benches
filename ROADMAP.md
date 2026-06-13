@@ -129,17 +129,6 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       - Evidenziare visivamente i livelli già completati (es. spuntati/attenuati) e il prossimo
       - Estrarre il drawer-shell in un componente riusabile (`BottomSheet`) condiviso con
         ItemDetailSheet invece di duplicare overlay/lock/layout
-- [ ] **Automatismo priorità banchi** (da stimare) — in Obiettivi,
-      quando il livello di un banco viene portato al livello massimo, si apre un prompt
-      che chiede all'utente se spostarlo in fondo alla lista delle priorità.
-      I banchi completati, rimangono interattivi ma vengono spostati in una sezione "completati"
-      come avviene nel tab "Rifugio".
-- [ ] **Gestione inventario al cambio livello banchi** (da stimare) - Quando un banco viene
-      aumentato di livello, se non presenti in inventario, vengono aggiunti se non sono "in
-      conflitto" con altri banchi.
-- [ ] **Miglioramento UX in "Rifugio** (da stimare)-  Se gli oggetti necessari per un
-      potenziamento sono già tutti raccolti in inventario (ma non servono per il potenziamento
-      di altri banchi) questi vengono "disabilitati" nella card del banco nel tab "Rifugio"
 ---
 
 - [ ] Altre idee man mano
@@ -148,8 +137,21 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 
 ## Fase 4 — UI/UX
 
-- [ ] **Navbar** aumentare leggermente l'altezza della navbar, in alcuni smartphone l'UI di
-      sistema si sovrappone sull'icona centrale quando sono attive le gestures.
+- [x] **Navbar** — la classe `pb-safe` non esisteva (no-op): ora è una `@utility` reale su
+      `env(safe-area-inset-bottom)` (con `viewport-fit=cover` in index.html), tab più alti (py-3)
+- [x] **Stack badge** — badge `×N` sulle card dello Stash e riga "Stack" nel dettaglio oggetto;
+      campo `stack_size` aggiunto a items.json e a `fetch-items.mjs` (da `stat_block.stackSize`)
+- [x] **Input InventoryCard** — input `h-8` come i pulsanti -/+
+- [x] **Automatismo priorità banchi** — in Obiettivi, al raggiungimento del livello massimo
+      si apre un prompt che chiede se spostare il banco in fondo alla lista delle priorità.
+      I banchi completati restano interattivi ma vanno in una sezione "Completati" (come in
+      Rifugio); il corpo della card è estratto in `WorkbenchRow` (riusato da `SortableWorkbenchRow`)
+- [ ] **Gestione inventario al cambio livello banchi** (da chiarire) - Quando un banco viene
+      aumentato di livello, se non presenti in inventario, vengono aggiunti se non sono "in
+      conflitto" con altri banchi.
+- [x] **Miglioramento UX in "Rifugio"** — un materiale richiesto viene attenuato con spunta verde
+      quando l'inventario copre sia il suo requisito sia il fabbisogno totale degli altri
+      obiettivi attivi (nessun "conflitto")
 
 ---
 

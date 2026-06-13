@@ -26,6 +26,7 @@ export interface ItemInfo {
   value: number;
   workbench: string | null;
   loot_area: string | null;
+  stack_size: number | null;
 }
 
 export interface AppState {

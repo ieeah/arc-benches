@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
 
+/* Bottom padding for the system gesture bar (env() needs viewport-fit=cover in index.html).
+   Fallback minimo 8px: alcuni Android con gesture attive riportano inset 0 ma disegnano comunque la barra. */
+@utility pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), --spacing(2));
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

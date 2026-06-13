@@ -67,7 +67,7 @@ export const StashPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
   });
 
   return (
-    <div className="pb-24">
+    <div className="pb-28">
       <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
         <div className="mb-3">
           <SectionHeader title="Stash" onOpenDatabase={onOpenDatabase}

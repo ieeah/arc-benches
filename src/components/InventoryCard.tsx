@@ -36,6 +36,12 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
             Refiner{craftLevel === 2 ? ' II' : ''}
           </div>
         )}
+        {itemInfo?.stack_size != null && itemInfo.stack_size > 1 && (
+          <div title={`Impilabile fino a ${itemInfo.stack_size}`}
+            className="absolute top-2.5 right-2 px-1.5 py-0.5 rounded-full text-[8px] font-bold font-mono bg-black/55 text-white">
+            ×{itemInfo.stack_size}
+          </div>
+        )}
         {isCompleted && (
           <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">
             <CheckCircle2 size={24} className="text-green-500 bg-white dark:bg-black rounded-full shadow-lg" />
@@ -59,7 +65,7 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
         <input
           type="number" inputMode="numeric" pattern="[0-9]*"
           value={owned} onChange={e => onSet(parseInt(e.target.value) || 0)}
-          className="w-0 flex-1 text-center font-bold bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg py-1 focus:outline-none focus:ring-1 focus:ring-blue-400 text-xs"
+          className="w-0 flex-1 h-8 text-center font-bold bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-400 text-xs"
         />
         <button onContextMenu={e => e.preventDefault()} onClick={onIncrement} {...longPressInc}
           className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-xl active:scale-95 transition-transform shrink-0">

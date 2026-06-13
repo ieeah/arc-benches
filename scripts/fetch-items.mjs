@@ -84,6 +84,8 @@ async function main() {
           value: item.value,
           workbench: item.workbench,
           loot_area: item.loot_area,
+          stack_size: typeof item.stat_block?.stackSize === 'number' && item.stat_block.stackSize > 0
+            ? item.stat_block.stackSize : null,
         };
         console.log(`✓ ${item.name} (${item.rarity})`);
         ok++;
