@@ -83,6 +83,40 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 
       **Incrementale**: v1 derivata solo dai banchi (già fattibile oggi, copre subito una fetta del
       problema); v2 estesa a missioni/progetti quando i relativi dati esistono.
+- [ ] **Liste custom + generalizzazione `List`** (~1.5-2 giorni, >70% UI)
+      Permettere all'utente di definire liste proprie di materiali da raccogliere, con la stessa
+      meccanica dei banchi (oggetti per livello, anche livello unico). Il motore è già generico: una
+      lista custom è strutturalmente un `Workbench` → i selettori esistenti (`getTotalRequiredMaterials`,
+      `getMissingMaterials`, `getOrderedWorkbenches`) la includono "gratis", e lo stato per-id
+      (`activeModules`, `workbenchOrder`, `hideoutLevels`, …, tutti `Record<string,…>`) la accetta
+      senza modifiche → nascondere/riordinare/priorità Stash gratis.
+
+      **Modello dati — generalizzare `Workbench` in `List`** (decisione portante):
+      - `custom: boolean` — `false` = dato di gioco (seed read-only), `true` = creato dall'utente
+        (per-profilo). I due valori mappano anche il confine storage/ownership: game = condiviso
+        read-only, custom = profilo con RLS.
+      - `listType: 'workbench' | 'project' | 'quest' | …` — categoria semantica, **ortogonale** a
+        `custom`: una lista custom potrà un giorno avere un `listType` (es. un progetto personale) →
+        tenere ENTRAMBE le proprietà anche se oggi `custom` da solo basterebbe.
+      - Conseguenza: **Spedizioni, Progetti, Quest e "Tieni o butta" diventano istanze dello stesso
+        motore** (liste con requisiti), non feature da zero — `listType` distingue
+        etichette/icone/raggruppamenti, `levels` copre flat (livello unico) e multi-stage.
+
+      **Costo (non tutto "gratis"):**
+      - *Gratis*: aggregazione spesa, mancanti, priorità Stash, hide per-lista, drag, "Completati".
+      - *Poche ore*: tenere `customLists` SEPARATO da `workbenches` e fare l'union nei selettori
+        (NON mutare l'array game → preserva l'invariante "dati di gioco mai persistiti" e rende
+        lineare la migrazione a DB); id namespaced (`custom:<uuid>`); cleanup voci orfane all'eliminazione.
+      - *Il grosso (UI)*: editor crea/rinomina/elimina, item picker con ricerca sul DB completo
+        (mattoni in `ItemsPage`), quantità, raggruppamento per livello / livello unico; distinzione
+        visiva game/custom; filtro Stash "banchi / liste custom" (o per `listType`).
+      - *Decisione semantica*: alcuni comportamenti (auto-deduzione inventario al level-up,
+        "current = già fatto in gioco") calzano su `workbench` ma meno su `quest`/`project` →
+        eventualmente gated per `listType`. Default: riusare il modello banco (più economico e coerente).
+
+      **Sorgente**: oggi localStorage (slice `customLists` in `PersistedState`); con la Fase 2 lo
+      stesso shape migra in tabella `lists` (game seed `custom=false`, custom per-profilo `custom=true`).
+      Il lavoro fatto ora su localStorage NON è throwaway: il DB swappa solo il backend di persistenza.
 - [ ] **Tour onboarding con driver.js** (~mezza giornata, ~5 KB gzip) — ~8 step attraverso i 3 tab
       (focus sul badge Refiner, la feature meno autoesplicativa). Richiede `data-tour` sugli elementi
       chiave e gestione del cambio tab negli hook (`onHighlightStarted` + attesa render); trigger al
@@ -320,3 +354,7 @@ superficie d'attacco ridotta, niente `dangerouslySetInnerHTML`/`eval`, React esc
   mai duplicati per-utente
 - **Attributi eterogenei per tipo** (stat delle armi vs consumabili) → `stat_block` jsonb,
   non colonne sparse
+- **Liste tracciabili unificate** (banchi, progetti, quest, custom) → un'unica entità `List`
+  con `custom: boolean` (game read-only vs per-profilo) e `listType` (categoria semantica,
+  ortogonale a `custom`); i `levels` coprono flat (livello unico) e multi-stage. Un solo motore di
+  "requisiti di materiali" invece di feature parallele; i selettori esistenti restano invariati.
