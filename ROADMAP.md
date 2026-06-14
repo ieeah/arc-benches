@@ -58,6 +58,31 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 
 - [ ] **Spedizioni** — tracking spedizioni attive/completate per profilo
 - [ ] **Progetti** — tracking progressi progetti per profilo
+- [ ] **Tieni o butta — indicatore "non vendere"** (effort: v1 ~mezza giornata, v2 dipende dai dati)
+      Problema reale: molti oggetti non hanno un uso immediato ma vengono richiesti più avanti da
+      missioni o progetti. Senza saperlo prima, si vendono "a occhio" e poi si fatica a ritrovarli
+      quando servono. L'app deve dire a colpo d'occhio se un oggetto è da **tenere** o **vendibile**.
+
+      **Stato derivato per oggetto** (non un flag manuale):
+      - *Tieni* se richiesto da una qualsiasi fonte nota — banco (anche livelli oltre l'obiettivo
+        attuale), progetto o missione — **anche se futuri / non ancora avviati**
+      - *Vendibile* se nessuna fonte conosciuta lo richiede
+      - Distinguere "serve ORA" (obiettivi attivi → già coperto dallo Stash) da "servirà
+        PRIMA O POI" (qualsiasi requisito noto nel gioco): è quest'ultimo il valore nuovo, ciò
+        che oggi non sai e ti fa vendere per sbaglio
+
+      **Dati**: i requisiti dei banchi sono già in `workbenches.json` → la mappa item→usi-banco è
+      derivabile subito (basta non fermarsi al livello obiettivo). Missioni/progetti richiedono dati
+      nuovi → si appoggia ai **Progetti/Spedizioni** qui sopra e allo schema `items` completo della
+      Fase 2 (i requisiti possono vivere come relazioni in DB o jsonb sull'item).
+
+      **UX**: etichetta nel dettaglio oggetto ("⚠ Non vendere — serve per: Weapon Bench Lvl 3,
+      Progetto X, Missione Y") e nella pagina Oggetti (Database), più un filtro "solo da tenere /
+      solo vendibili". Attenzione al badge-clutter (stessa nota di "Zona di loot" in Fase 4):
+      privilegiare dettaglio + filtro; badge sintetico sulle card solo se resta leggibile.
+
+      **Incrementale**: v1 derivata solo dai banchi (già fattibile oggi, copre subito una fetta del
+      problema); v2 estesa a missioni/progetti quando i relativi dati esistono.
 - [ ] **Tour onboarding con driver.js** (~mezza giornata, ~5 KB gzip) — ~8 step attraverso i 3 tab
       (focus sul badge Refiner, la feature meno autoesplicativa). Richiede `data-tour` sugli elementi
       chiave e gestione del cambio tab negli hook (`onHighlightStarted` + attesa render); trigger al
