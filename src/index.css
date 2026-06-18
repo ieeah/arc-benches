@@ -35,6 +35,18 @@ body {
   min-height: 100vh;
 }
 
+/* ── Drawer animations ── */
+@keyframes drawer-slide-in-top    { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes drawer-slide-out-top   { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+@keyframes drawer-slide-in-bottom { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes drawer-slide-out-bottom{ from { transform: translateY(0); } to { transform: translateY(100%); } }
+@keyframes drawer-slide-in-left   { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes drawer-slide-out-left  { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@keyframes drawer-slide-in-right  { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes drawer-slide-out-right { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes drawer-fade-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes drawer-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
