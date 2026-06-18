@@ -1,24 +1,30 @@
 import { useState, type ReactNode } from 'react';
-import { Pencil } from 'lucide-react';
+import { Pencil, Square, CheckSquare } from 'lucide-react';
 import type { List } from '../types';
 import { LevelBadge } from './LevelBadge';
 import { LevelPills } from './LevelPills';
 
 /** Goal card for a list. Pass `dragHandle` to render a sort handle (see SortableListRow). */
-export const ListRow = ({ list, current, target, isActive, inventory, otherNeeds, dragHandle, onToggle, onCurrentLevel, onTargetLevel, onEdit }: {
+export const ListRow = ({ list, current, target, isActive, inventory, otherNeeds, dragHandle, checkedActions, onToggle, onCurrentLevel, onTargetLevel, onToggleAction, onEdit }: {
   list: List; current: number; target: number; isActive: boolean;
   inventory: Record<string, number>;
   /** Materials still required by the OTHER active goals (see getTotalRequiredMaterials(list.id)) */
   otherNeeds: Record<string, number>;
   dragHandle?: ReactNode;
+  /** Checked state for checkbox actions, keyed by `${listId}|${level}|${actionId}`. */
+  checkedActions?: Record<string, boolean>;
   onToggle: () => void;
   onCurrentLevel: (v: number, deductMaterials: boolean) => void;
   onTargetLevel: (v: number) => void;
+  onToggleAction?: (level: number, actionId: string) => void;
   /** When set (custom lists), renders an edit affordance opening the editor. */
   onEdit?: () => void;
 }) => {
   // A list whose level 1 has no requirements starts already unlocked (e.g. Scrappy) — level 0 doesn't exist
   const baseLevel = list.levels.find(l => l.level === 1)?.requirementItemIds.length === 0 ? 1 : 0;
+
+  // Checkbox actions for the next level being worked on
+  const nextLevelActions = list.levels.find(l => l.level === current + 1)?.actions ?? [];
 
   // Level increase pending deduction confirmation
   const [pendingLevel, setPendingLevel] = useState<number | null>(null);
@@ -100,6 +106,32 @@ export const ListRow = ({ list, current, target, isActive, inventory, otherNeeds
           <LevelPills min={baseLevel} max={list.maxLevel} value={target} minSelectable={current + 1}
             activeClass="bg-green-500 text-white" onChange={onTargetLevel} />
         </div>
+
+        {nextLevelActions.length > 0 && onToggleAction && (
+          <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+            <p className="text-[10px] font-bold uppercase text-gray-400 mb-1.5">
+              Azioni — Lvl {current + 1}
+            </p>
+            <div className="space-y-1.5">
+              {nextLevelActions.map(action => {
+                const key = `${list.id}|${current + 1}|${action.id}`;
+                const checked = checkedActions?.[key] ?? false;
+                return (
+                  <button key={action.id}
+                    onClick={() => onToggleAction(current + 1, action.id)}
+                    className="w-full flex items-center gap-2.5 py-1 text-left">
+                    {checked
+                      ? <CheckSquare size={15} className="text-blue-500 shrink-0" />
+                      : <Square size={15} className="text-gray-300 dark:text-gray-600 shrink-0" />}
+                    <span className={`text-sm ${checked ? 'line-through text-gray-400' : ''}`}>
+                      {action.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
