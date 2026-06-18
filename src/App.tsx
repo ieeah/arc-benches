@@ -6,15 +6,18 @@ import { StashPage } from './pages/StashPage';
 import { HideoutPage } from './pages/HideoutPage';
 import { GoalsPage } from './pages/GoalsPage';
 import { ItemsPage } from './pages/ItemsPage';
+import { ListDetailPage } from './pages/ListDetailPage';
 
-/** 'items' is a hidden section (not in the bottom nav) — will become the "Database" hub later. */
-type Tab = 'stash' | 'rifugio' | 'settings' | 'items';
+/** 'items' and 'list-detail' are hidden sections (not in the bottom nav). */
+type Tab = 'stash' | 'rifugio' | 'settings' | 'items' | 'list-detail';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('stash');
   const [returnTab, setReturnTab] = useState<Tab>('stash');
+  const [detailListId, setDetailListId] = useState<string | null>(null);
 
   const openDatabase = () => { setReturnTab(activeTab); setActiveTab('items'); };
+  const openListDetail = (id: string) => { setReturnTab(activeTab); setDetailListId(id); setActiveTab('list-detail'); };
 
   return (
     <ThemeProvider>
@@ -22,8 +25,11 @@ export default function App() {
         <main className="max-w-md mx-auto min-h-screen">
           {activeTab === 'stash' && <StashPage onOpenDatabase={openDatabase} />}
           {activeTab === 'rifugio' && <HideoutPage onOpenDatabase={openDatabase} />}
-          {activeTab === 'settings' && <GoalsPage onOpenDatabase={openDatabase} />}
+          {activeTab === 'settings' && <GoalsPage onOpenDatabase={openDatabase} onOpenDetail={openListDetail} />}
           {activeTab === 'items' && <ItemsPage onBack={() => setActiveTab(returnTab)} />}
+          {activeTab === 'list-detail' && detailListId && (
+            <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} onOpenDatabase={openDatabase} />
+          )}
         </main>
 
         <nav className="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 pb-safe">

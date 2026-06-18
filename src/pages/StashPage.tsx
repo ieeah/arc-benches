@@ -43,9 +43,9 @@ export const StashPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
       const list = orderedLists[i];
       if (!store.activeModules[list.id]) continue;
       const current = store.hideoutLevels[list.id] ?? 0;
-      const target = store.targetLevels[list.id] ?? list.maxLevel;
+      const selected = store.targetLevels[list.id] ?? [];
       const needed = list.levels.some(lvl =>
-        lvl.level > current && lvl.level <= target &&
+        lvl.level > current && selected.includes(lvl.level) &&
         lvl.requirementItemIds.some(r => r.itemId === itemId)
       );
       if (needed) return i;

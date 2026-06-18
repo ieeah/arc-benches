@@ -175,13 +175,29 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       - Evidenziare visivamente i livelli già completati (es. spuntati/attenuati) e il prossimo
       - Estrarre il drawer-shell in un componente riusabile (`BottomSheet`) condiviso con
         ItemDetailSheet invece di duplicare overlay/lock/layout
-- [ ] **Import / Export profilo (JSON)** (~mezza giornata) — esporta lo stato persistito
-      (`PersistedState`: inventario, livelli, obiettivi, ordine banchi) come file `.json`
-      scaricabile o stringa copiabile, e reimportalo. Backup, cambio dispositivo, condivisione
-      setup. Ponte economico verso la Fase 1/2: stesso confine dati del futuro profilo.
-      **Sicurezza/robustezza**: il JSON importato è input non fidato → validare la forma
-      (chiavi note, valori numerici ≥ 0, id banco/item esistenti) e scartare il resto prima di
-      scrivere nello store, mai merge cieco di dati arbitrari in localStorage.
+- [x] **Import / Export liste (JSON)** — esporta tutte le liste (banchi + custom) con stato
+      (currentLevel, `targetLevels` come insieme di livelli, active) come file `.json` scaricabile.
+      Import mergia per id: i banchi di gioco ripristinano solo lo stato, le liste custom anche la
+      definizione. Validazione struttura + banner errore inline. Formato `version: 2` (insieme
+      livelli); l'import resta retrocompatibile coi file `version: 1` (vecchio `targetLevel` singolo
+      → migrato in `[current+1 … n]`). Azioni Esporta/Importa nel drawer Azioni di Obiettivi.
+- [x] **Livelli obiettivo come insieme + azioni checkbox + pagina dettaglio lista** — FATTO.
+      - **`targetLevels` da soglia singola a insieme di livelli** (`Record<string, number[]>`): le
+        pill "Livello Obiettivo" sono toggle indipendenti (vedi/ignora ogni livello), disaccoppiate
+        dal livello attuale. Determinano cosa appare nello Stash, le azioni sulla card e tutto nel
+        dettaglio. Migrazione automatica del vecchio formato numerico in `load()`. Convenienza:
+        alzando il livello attuale, il livello successivo viene auto-aggiunto agli obiettivi.
+      - **Azioni checkbox per livello** (`CheckboxAction`: id + label): definibili nell'editor liste,
+        completamento in slice persistita `checkedActions` (key `listId|level|actionId`). Alzando il
+        livello attuale le azioni dei livelli completati si auto-spuntano (restano correggibili a mano).
+        Checkbox grande condiviso (`ActionCheckbox`) tra card, editor e dettaglio.
+      - **Pagina dettaglio lista** (`ListDetailPage`, full-screen via tab in `App`, icona `Layers`
+        sulla card): tutti i livelli con oggetti (posseduto/richiesto) e azioni, badge "Fatto" sui
+        livelli ≤ attuale, toggle Obiettivo/Ignorato per livello.
+      - **Editor liste**: inserimento livelli in mezzo/prima (non solo in coda), azioni con label,
+        checkbox azione dinamico (riflette/aggiorna lo stato reale).
+      - **Pulizia**: util locale `cn()` (in `lib/cn.ts`) al posto dei ternari nelle className.
+      - **Rimandato**: interattività oggetti nel dettaglio (clone Stash con +/- vs azioni on/off).
 - [ ] **Vista aggregata per banco (opzionale)** (~mezza giornata) — lo Stash resta volutamente
       una lista *aggregata e piatta* (è la ragion d'essere dell'app: ovviare alla mancanza di una
       vista d'insieme in-game). In aggiunta, una modalità/schermata secondaria che raggruppa i
@@ -196,6 +212,10 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 
 ## Fase 4 — UI/UX
 
+- [x] **Sticky section headers** — tutte le pagine (Stash, Rifugio, Obiettivi, Oggetti) hanno
+      l'header incollato in cima durante lo scroll: `sticky top-0 bg-white/80 dark:bg-black/80
+      backdrop-blur-md z-10 border-b`. Il pattern è nel page wrapper, non in `SectionHeader`,
+      così le pagine future lo ereditano senza modificare il componente.
 - [x] **Navbar** — la classe `pb-safe` non esisteva (no-op): ora è una `@utility` reale su
       `env(safe-area-inset-bottom)` (con `viewport-fit=cover` in index.html), tab più alti (py-3)
 - [x] **Stack badge** — badge `×N` sulle card dello Stash e riga "Stack" nel dettaglio oggetto;
@@ -229,6 +249,25 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
         tap-per-espandere e col TouchSensor (delay 200ms)
       - Da fare PRIMA delle feature di Fase 3: ogni aggiunta sui due tab raddoppia il costo
         dell'accorpamento
+- [x] **Sezioni collassabili in Obiettivi** — FATTO. Le liste sono raggruppate in sezioni
+      collassabili (`CollapsibleSection`, animazione altezza con la grid-trick `0fr↔1fr`, 350ms):
+      *Banchi da lavoro* (`listType: 'workbench'`), *Liste personalizzate* (`custom: true`) e
+      *Completati* (chiusa di default). Stato aperto/chiuso persistito in localStorage
+      (`goals-sections`). Drag & drop resta dentro la propria sezione.
+- [x] **Componente `Drawer` riusabile con direzione configurabile** — FATTO. `Drawer` con prop
+      `from: 'bottom' | 'top' | 'left' | 'right'`, animazioni slide-in/out per direzione + fade del
+      backdrop, `useScrollLock`, chiusura animata (`isClosing`). Usato per il drawer Azioni in Obiettivi.
+      (Ancora da migrare `ItemDetailSheet`/`CustomListEditor` su questo shell — vedi nota BottomSheet.)
+- [x] **Header Obiettivi a due righe + drawer azioni** — FATTO. Header a due righe (riga 1: titolo +
+      DB + tema; riga 2: `+ Lista` a sinistra, `Azioni ▲` a destra). "Azioni" apre un `<Drawer from="top">`
+      con Esporta, Importa e **Ripristina** (in rosso, con conferma inline nel drawer). L'import chiede
+      conferma con un modale che propone un backup (export) prima di procedere.
+- [ ] **Drawer filtri dalle pagine** (~1 ora per pagina, dopo `Drawer`) — lo stesso `<Drawer
+      from="top">` usato in Obiettivi diventa il pattern standard per i filtri avanzati di ogni
+      pagina. Filtri da definire pagina per pagina:
+      - Stash: già ha i pill di sort inline; filtro per banco sorgente o per zona di loot
+      - Rifugio: filtro per `listType` (banchi / liste custom / …)
+      - Oggetti: filtro per rarità, tipo, craftabilità Refiner
 - [ ] **Tab Database nella bottom nav** (~1 ora, dopo l'accorpamento) — lo slot liberato in
       bottom nav va al Database: la pagina "Oggetti" (oggi nascosta, raggiungibile solo dal
       pulsante DB nell'header) diventa un tab di primo livello, futuro hub Database
@@ -272,14 +311,9 @@ Rilevazioni da un'analisi del codice (giu 2026), ordinate per impatto dentro ogn
 
 ### Performance / correttezza
 
-- [ ] **`save()` serializza l'intero DB di gioco a ogni azione** (bug) — in `store.ts` ogni action
-      chiama `save({ ...s, inventory })` con `s = get()` (l'intero `AppState`). `JSON.stringify`
-      scarta le funzioni ma **serializza `workbenches` e `itemsInfo`**: a ogni tap +/- (e a ogni
-      tick del long-press, ~10/s) si riscrive tutto `items.json` + `workbenches.json` in
-      localStorage. La firma `save(s: PersistedState)` non protegge: lo spread non è un object
-      literal → niente excess-property check, il tipo mente. Fix root-cause: helper `persist(get())`
-      che estrae solo le chiavi di `PersistedState`, chiamato dopo `set()`; elimina anche la
-      ripetizione di `save({ ...s, … })` nelle 9 action.
+- [x] **`save()` serializzava l'intero DB di gioco a ogni azione** (bug risolto) — `save()` ora
+      fa un pick esplicito delle 7 chiavi `PersistedState`; `workbenches` e `itemsInfo` (232 KB)
+      non finiscono mai in localStorage.
 - [ ] **Nessun selettore zustand → over-rendering + ricalcolo** — le pagine fanno
       `const store = useAppStore()` senza selettore: iscrizione all'intero store, ogni cambiamento
       ri-renderizza tutto e ricalcola i selettori non memoizzati (`getMissingMaterials`,

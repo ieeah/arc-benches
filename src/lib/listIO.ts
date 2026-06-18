@@ -1,18 +1,18 @@
-import type { List, ListExportFile } from '../types';
+import type { List, ListExportEntry, ListExportFile } from '../types';
 
 export function buildExport(
   lists: List[],
   hideoutLevels: Record<string, number>,
-  targetLevels: Record<string, number>,
+  targetLevels: Record<string, number[]>,
   activeModules: Record<string, boolean>,
 ): ListExportFile {
   return {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     lists: lists.map(list => ({
         list,
         currentLevel: hideoutLevels[list.id] ?? 0,
-        targetLevel: targetLevels[list.id] ?? list.maxLevel,
+        targetLevels: targetLevels[list.id] ?? list.levels.map(l => l.level),
         active: activeModules[list.id] ?? true,
       })),
   };
@@ -30,10 +30,32 @@ export function downloadExport(data: ListExportFile): void {
 
 export function parseImport(json: string): ListExportFile {
   const data = JSON.parse(json) as Record<string, unknown>;
-  if (data.version !== 1 || !Array.isArray(data.lists)) throw new Error('Formato file non valido');
-  for (const entry of data.lists as Record<string, unknown>[]) {
+  if ((data.version !== 1 && data.version !== 2) || !Array.isArray(data.lists))
+    throw new Error('Formato file non valido');
+
+  const lists: ListExportEntry[] = (data.lists as Record<string, unknown>[]).map(entry => {
     const list = entry.list as Record<string, unknown> | undefined;
     if (!list?.id || typeof list.id !== 'string') throw new Error('Il file contiene liste non valide');
-  }
-  return data as unknown as ListExportFile;
+    const currentLevel = typeof entry.currentLevel === 'number' ? entry.currentLevel : 0;
+
+    // v2: explicit level set. v1: single ceiling → every level above current up to it.
+    let targetLevels: number[];
+    if (Array.isArray(entry.targetLevels)) {
+      targetLevels = entry.targetLevels.filter((n): n is number => typeof n === 'number');
+    } else if (typeof entry.targetLevel === 'number') {
+      targetLevels = [];
+      for (let l = currentLevel + 1; l <= entry.targetLevel; l++) targetLevels.push(l);
+    } else {
+      targetLevels = [];
+    }
+
+    return {
+      list: list as unknown as List,
+      currentLevel,
+      targetLevels,
+      active: entry.active !== false,
+    };
+  });
+
+  return { version: 2, exportedAt: String(data.exportedAt ?? new Date().toISOString()), lists };
 }

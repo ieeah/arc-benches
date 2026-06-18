@@ -19,7 +19,10 @@ import type { List, ListExportFile } from '../types';
 
 type SectionsOpen = { workbench: boolean; custom: boolean; completati: boolean };
 
-export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) => {
+export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
+  onOpenDatabase: () => void;
+  onOpenDetail: (listId: string) => void;
+}) => {
   const store = useAppStore();
   const [showActions, setShowActions] = useState(false);
   const [drawerConfirmReset, setDrawerConfirmReset] = useState(false);
@@ -111,15 +114,16 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
         {lists.map(list => (
           <SortableListRow key={list.id} list={list}
             current={store.hideoutLevels[list.id] ?? 0}
-            target={store.targetLevels[list.id] ?? list.maxLevel}
+            selectedTargets={store.targetLevels[list.id] ?? []}
             isActive={store.activeModules[list.id]}
             inventory={store.inventory}
             otherNeeds={store.getTotalRequiredMaterials(list.id)}
             checkedActions={store.checkedActions}
             onToggle={() => store.toggleModuleActive(list.id)}
             onCurrentLevel={handleCurrentLevel(list.id, list.maxLevel)}
-            onTargetLevel={v => store.setModuleTargetLevel(list.id, v)}
+            onToggleTarget={level => store.toggleTargetLevel(list.id, level)}
             onToggleAction={(level, actionId) => store.toggleAction(list.id, level, actionId)}
+            onOpenDetail={() => onOpenDetail(list.id)}
             onEdit={list.custom ? () => setEditing({ id: list.id }) : undefined}
           />
         ))}
@@ -212,15 +216,16 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
             {maxedLists.map(list => (
               <ListRow key={list.id} list={list}
                 current={store.hideoutLevels[list.id] ?? 0}
-                target={store.targetLevels[list.id] ?? list.maxLevel}
+                selectedTargets={store.targetLevels[list.id] ?? []}
                 isActive={store.activeModules[list.id]}
                 inventory={store.inventory}
                 otherNeeds={store.getTotalRequiredMaterials(list.id)}
                 checkedActions={store.checkedActions}
                 onToggle={() => store.toggleModuleActive(list.id)}
                 onCurrentLevel={handleCurrentLevel(list.id, list.maxLevel)}
-                onTargetLevel={v => store.setModuleTargetLevel(list.id, v)}
+                onToggleTarget={level => store.toggleTargetLevel(list.id, level)}
                 onToggleAction={(level, actionId) => store.toggleAction(list.id, level, actionId)}
+                onOpenDetail={() => onOpenDetail(list.id)}
                 onEdit={list.custom ? () => setEditing({ id: list.id }) : undefined}
               />
             ))}

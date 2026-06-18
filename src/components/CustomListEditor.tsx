@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { X, Plus, Minus, Trash2, ListPlus, CheckSquare, Square } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ListPlus, CheckSquare } from 'lucide-react';
 import type { ListLevel, ItemInfo, CheckboxAction } from '../types';
 import { useAppStore } from '../store';
 import { iconUrl } from '../lib/icons';
 import { getRarityStyles } from '../lib/rarity';
 import { IconButton } from './IconButton';
 import { ItemPicker } from './ItemPicker';
+import { ActionCheckbox } from './ActionCheckbox';
 import { useScrollLock } from '../hooks/useScrollLock';
 
 /** Create or edit a custom list (multi-stage, mirrors the workbench engine). */
@@ -168,20 +169,30 @@ export const CustomListEditor = ({ listId, onClose }: {
                   Aggiungi oggetto
                 </button>
 
-                {/* Checkbox actions */}
+                {/* Checkbox actions — reflect (and let you toggle) the real completion state for saved lists */}
                 {(lvl.actions?.length ?? 0) > 0 && (
-                  <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800 space-y-1.5">
+                  <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800 space-y-1">
                     <p className="text-[10px] font-bold uppercase text-gray-400 mb-1">Azioni</p>
-                    {lvl.actions!.map(action => (
-                      <div key={action.id} className="flex items-center gap-2 py-0.5">
-                        <Square size={13} className="text-gray-300 dark:text-gray-600 shrink-0" />
-                        <span className="flex-1 text-sm">{action.label}</span>
-                        <button onClick={() => removeAction(lvl.level, action.id)}
-                          className="text-gray-400 hover:text-red-500 transition-colors">
-                          <X size={13} />
-                        </button>
-                      </div>
-                    ))}
+                    {lvl.actions!.map(action => {
+                      const checked = existing
+                        ? store.checkedActions[`${existing.id}|${lvl.level}|${action.id}`] ?? false
+                        : false;
+                      return (
+                        <div key={action.id} className="flex items-center gap-1">
+                          <div className="flex-1 min-w-0">
+                            <ActionCheckbox
+                              label={action.label}
+                              checked={checked}
+                              onToggle={existing ? () => store.toggleAction(existing.id, lvl.level, action.id) : undefined}
+                            />
+                          </div>
+                          <button onClick={() => removeAction(lvl.level, action.id)}
+                            className="text-gray-400 hover:text-red-500 transition-colors shrink-0 p-1">
+                            <X size={13} />
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
 

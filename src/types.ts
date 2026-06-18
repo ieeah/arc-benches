@@ -49,12 +49,14 @@ export interface ItemInfo {
 export interface ListExportEntry {
   list: List;
   currentLevel: number;
-  targetLevel: number;
+  /** Levels selected as objectives (canonical v2 shape). v1 files migrate `targetLevel` → this. */
+  targetLevels: number[];
   active: boolean;
 }
 
 export interface ListExportFile {
-  version: 1;
+  /** 1 = legacy single-ceiling target; 2 = per-level target set. Both accepted on import. */
+  version: 1 | 2;
   exportedAt: string;
   lists: ListExportEntry[];
 }
@@ -67,7 +69,8 @@ export interface AppState {
   itemsInfo: Record<string, ItemInfo>;
 
   hideoutLevels: Record<string, number>;
-  targetLevels: Record<string, number>;
+  /** Levels selected as objectives, per list. A level is tracked only if selected AND > current. */
+  targetLevels: Record<string, number[]>;
   activeModules: Record<string, boolean>;
   inventory: Record<string, number>;
   filterHideCompleted: boolean;
@@ -77,7 +80,8 @@ export interface AppState {
   decrementItem: (itemId: string) => void;
   setItemCount: (itemId: string, val: number) => void;
   setModuleCurrentLevel: (moduleId: string, level: number, deductMaterials?: boolean) => void;
-  setModuleTargetLevel: (moduleId: string, level: number) => void;
+  /** Add/remove a level from a list's objective set. */
+  toggleTargetLevel: (moduleId: string, level: number) => void;
   toggleModuleActive: (moduleId: string) => void;
   setFilterHideCompleted: (val: boolean) => void;
   upgradeModule: (moduleId: string) => void;

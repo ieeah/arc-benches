@@ -1,30 +1,57 @@
-import { useState, type ReactNode } from 'react';
-import { Pencil, Square, CheckSquare } from 'lucide-react';
-import type { List } from '../types';
-import { LevelBadge } from './LevelBadge';
-import { LevelPills } from './LevelPills';
+import { useState, type ReactNode } from "react";
+import { Pencil, Layers } from "lucide-react";
+import type { List } from "../types";
+import { LevelBadge } from "./LevelBadge";
+import { LevelPills } from "./LevelPills";
+import { ActionCheckbox } from "./ActionCheckbox";
 
 /** Goal card for a list. Pass `dragHandle` to render a sort handle (see SortableListRow). */
-export const ListRow = ({ list, current, target, isActive, inventory, otherNeeds, dragHandle, checkedActions, onToggle, onCurrentLevel, onTargetLevel, onToggleAction, onEdit }: {
-  list: List; current: number; target: number; isActive: boolean;
+export const ListRow = ({
+  list,
+  current,
+  isActive,
+  inventory,
+  otherNeeds,
+  dragHandle,
+  selectedTargets,
+  checkedActions,
+  onToggle,
+  onCurrentLevel,
+  onToggleTarget,
+  onToggleAction,
+  onOpenDetail,
+  onEdit,
+}: {
+  list: List;
+  current: number;
+  isActive: boolean;
   inventory: Record<string, number>;
   /** Materials still required by the OTHER active goals (see getTotalRequiredMaterials(list.id)) */
   otherNeeds: Record<string, number>;
   dragHandle?: ReactNode;
+  /** Levels selected as objectives for this list. */
+  selectedTargets: number[];
   /** Checked state for checkbox actions, keyed by `${listId}|${level}|${actionId}`. */
   checkedActions?: Record<string, boolean>;
   onToggle: () => void;
   onCurrentLevel: (v: number, deductMaterials: boolean) => void;
-  onTargetLevel: (v: number) => void;
+  onToggleTarget: (level: number) => void;
   onToggleAction?: (level: number, actionId: string) => void;
+  /** Opens the full list-detail page. */
+  onOpenDetail?: () => void;
   /** When set (custom lists), renders an edit affordance opening the editor. */
   onEdit?: () => void;
 }) => {
   // A list whose level 1 has no requirements starts already unlocked (e.g. Scrappy) — level 0 doesn't exist
-  const baseLevel = list.levels.find(l => l.level === 1)?.requirementItemIds.length === 0 ? 1 : 0;
+  const baseLevel =
+    list.levels.find((l) => l.level === 1)?.requirementItemIds.length === 0
+      ? 1
+      : 0;
 
-  // Checkbox actions for the next level being worked on
-  const nextLevelActions = list.levels.find(l => l.level === current + 1)?.actions ?? [];
+  // Actions to surface on the card: those of every selected objective level (independent of current).
+  const actionLevels = list.levels.filter(
+    (l) => selectedTargets.includes(l.level) && (l.actions?.length ?? 0) > 0,
+  );
 
   // Level increase pending deduction confirmation
   const [pendingLevel, setPendingLevel] = useState<number | null>(null);
@@ -34,10 +61,15 @@ export const ListRow = ({ list, current, target, isActive, inventory, otherNeeds
   // only on a real conflict: a tracked material that another active goal also needs might be
   // reserved for that goal rather than spent here.
   const hasConflict = (level: number) =>
-    list.levels.some(l =>
-      l.level > current && l.level <= level &&
-      l.requirementItemIds.some(req =>
-        (inventory[req.itemId] ?? 0) > 0 && (otherNeeds[req.itemId] ?? 0) > 0)
+    list.levels.some(
+      (l) =>
+        l.level > current &&
+        l.level <= level &&
+        l.requirementItemIds.some(
+          (req) =>
+            (inventory[req.itemId] ?? 0) > 0 &&
+            (otherNeeds[req.itemId] ?? 0) > 0,
+        ),
     );
 
   const handleCurrentLevel = (level: number) => {
@@ -63,38 +95,75 @@ export const ListRow = ({ list, current, target, isActive, inventory, otherNeeds
         <span className="font-bold flex-1 flex items-center gap-1.5 min-w-0">
           <span className="truncate">{list.name}</span>
           {list.custom && (
-            <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">Custom</span>
+            <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">
+              Custom
+            </span>
           )}
         </span>
-        {onEdit && (
-          <button onClick={onEdit} title="Modifica lista"
-            className="text-gray-300 dark:text-gray-600 hover:text-blue-500 transition-colors shrink-0">
-            <Pencil size={15} />
+        {onOpenDetail && (
+          <button
+            onClick={onOpenDetail}
+            title="Dettaglio lista"
+            className="text-gray-500 dark:text-gray-600 hover:text-blue-500 transition-colors shrink-0"
+          >
+            <Layers size={18} />
           </button>
         )}
-        <LevelBadge current={current} max={list.maxLevel} state={current >= list.maxLevel ? 'maxed' : 'default'} />
-        <input type="checkbox" checked={isActive} onChange={onToggle}
-          className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 cursor-pointer" />
+        {onEdit && (
+          <button
+            onClick={onEdit}
+            title="Modifica lista"
+            className="text-gray-500 dark:text-gray-600 hover:text-blue-500 transition-colors shrink-0"
+          >
+            <Pencil size={18} />
+          </button>
+        )}
+        <LevelBadge
+          current={current}
+          max={list.maxLevel}
+          state={current >= list.maxLevel ? "maxed" : "default"}
+        />
+        <input
+          type="checkbox"
+          checked={isActive}
+          onChange={onToggle}
+          className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 cursor-pointer"
+        />
       </div>
 
       <div className="px-4 pb-3 space-y-3">
         <div>
-          <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Attuale</p>
-          <LevelPills min={baseLevel} max={list.maxLevel} value={pendingLevel ?? current}
-            activeClass={pendingLevel !== null ? 'bg-blue-300 dark:bg-blue-700 text-white' : 'bg-blue-500 text-white'}
-            onChange={handleCurrentLevel} />
+          <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">
+            Livello Attuale
+          </p>
+          <LevelPills
+            min={baseLevel}
+            max={list.maxLevel}
+            value={pendingLevel ?? current}
+            activeClass={
+              pendingLevel !== null
+                ? "bg-blue-300 dark:bg-blue-700 text-white"
+                : "bg-blue-500 text-white"
+            }
+            onChange={handleCurrentLevel}
+          />
           {pendingLevel !== null && (
             <div className="mt-2 p-2.5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
               <p className="text-[11px] text-gray-600 dark:text-gray-300 mb-2">
-                Alcuni materiali in inventario servono anche ad altri banchi. Li hai usati per questo potenziamento?
+                Alcuni materiali in inventario servono anche ad altri banchi. Li
+                hai usati per questo potenziamento?
               </p>
               <div className="flex gap-2">
-                <button onClick={() => resolvePending(true)}
-                  className="px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">
+                <button
+                  onClick={() => resolvePending(true)}
+                  className="px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full"
+                >
                   Sì, scala
                 </button>
-                <button onClick={() => resolvePending(false)}
-                  className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-full">
+                <button
+                  onClick={() => resolvePending(false)}
+                  className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-full"
+                >
                   No, conservali
                 </button>
               </div>
@@ -102,34 +171,42 @@ export const ListRow = ({ list, current, target, isActive, inventory, otherNeeds
           )}
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Obiettivo</p>
-          <LevelPills min={baseLevel} max={list.maxLevel} value={target} minSelectable={current + 1}
-            activeClass="bg-green-500 text-white" onChange={onTargetLevel} />
+          <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">
+            Livello Obiettivo
+          </p>
+          <LevelPills
+            min={baseLevel}
+            max={list.maxLevel}
+            selected={selectedTargets}
+            doneUpTo={current}
+            activeClass="bg-green-500 text-white"
+            onToggle={onToggleTarget}
+          />
         </div>
 
-        {nextLevelActions.length > 0 && onToggleAction && (
-          <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
-            <p className="text-[10px] font-bold uppercase text-gray-400 mb-1.5">
-              Azioni — Lvl {current + 1}
-            </p>
-            <div className="space-y-1.5">
-              {nextLevelActions.map(action => {
-                const key = `${list.id}|${current + 1}|${action.id}`;
-                const checked = checkedActions?.[key] ?? false;
-                return (
-                  <button key={action.id}
-                    onClick={() => onToggleAction(current + 1, action.id)}
-                    className="w-full flex items-center gap-2.5 py-1 text-left">
-                    {checked
-                      ? <CheckSquare size={15} className="text-blue-500 shrink-0" />
-                      : <Square size={15} className="text-gray-300 dark:text-gray-600 shrink-0" />}
-                    <span className={`text-sm ${checked ? 'line-through text-gray-400' : ''}`}>
-                      {action.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+        {actionLevels.length > 0 && onToggleAction && (
+          <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2.5">
+            {actionLevels.map((lvl) => (
+              <div key={lvl.level}>
+                <p className="text-[10px] font-bold uppercase text-gray-400 mb-1.5">
+                  Azioni — Lvl {lvl.level}
+                </p>
+                <div className="space-y-1">
+                  {lvl.actions!.map((action) => (
+                    <ActionCheckbox
+                      key={action.id}
+                      label={action.label}
+                      checked={
+                        checkedActions?.[
+                          `${list.id}|${lvl.level}|${action.id}`
+                        ] ?? false
+                      }
+                      onToggle={() => onToggleAction(lvl.level, action.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

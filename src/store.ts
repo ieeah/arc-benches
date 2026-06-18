@@ -30,16 +30,40 @@ function save(s: PersistedState) {
 const workbenches = (workbenchesData.items as List[]).filter(w => w.maxLevel > 0);
 const itemsInfo = itemsData as Record<string, ItemInfo>;
 
+// Inclusive list of levels strictly above `current` up to `max` — the default objective set
+// ("track everything not yet done").
+const levelsAbove = (current: number, max: number): number[] => {
+  const r: number[] = [];
+  for (let l = current + 1; l <= max; l++) r.push(l);
+  return r;
+};
+
+// Migrate persisted targetLevels: the legacy format stored a single ceiling number per list;
+// the new format stores the set of selected levels. number → [current+1 … number].
+const migrateTargets = (
+  savedTargets: Record<string, number | number[]> | undefined,
+  savedHideout: Record<string, number> | undefined,
+): Record<string, number[]> => {
+  const out: Record<string, number[]> = {};
+  if (!savedTargets) return out;
+  for (const [id, val] of Object.entries(savedTargets)) {
+    if (Array.isArray(val)) out[id] = val;
+    else if (typeof val === 'number') out[id] = levelsAbove(savedHideout?.[id] ?? 0, val);
+  }
+  return out;
+};
+
 const saved = load();
 
-// Default state: all workbenches start at level 0, target = maxLevel, active = true
-// Scrappy starts at level 1 (it begins unlocked in-game)
+// Default state: all workbenches start at level 0, all levels above selected as objectives, active.
+// Scrappy starts at level 1 (it begins unlocked in-game).
 const defaultHideoutLevels: Record<string, number> = {};
-const defaultTargetLevels: Record<string, number> = {};
+const defaultTargetLevels: Record<string, number[]> = {};
 const defaultActiveModules: Record<string, boolean> = {};
 workbenches.forEach(w => {
-  defaultHideoutLevels[w.id] = w.id === 'scrappy' ? 1 : 0;
-  defaultTargetLevels[w.id] = w.maxLevel;
+  const cur = w.id === 'scrappy' ? 1 : 0;
+  defaultHideoutLevels[w.id] = cur;
+  defaultTargetLevels[w.id] = levelsAbove(cur, w.maxLevel);
   defaultActiveModules[w.id] = true;
 });
 
@@ -50,7 +74,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
   customLists: savedCustomLists,
   itemsInfo,
   hideoutLevels: { ...defaultHideoutLevels, ...saved.hideoutLevels },
-  targetLevels: { ...defaultTargetLevels, ...saved.targetLevels },
+  targetLevels: { ...defaultTargetLevels, ...migrateTargets(saved.targetLevels as Record<string, number | number[]> | undefined, saved.hideoutLevels) },
   activeModules: { ...defaultActiveModules, ...saved.activeModules },
   inventory: saved.inventory ?? {},
   filterHideCompleted: saved.filterHideCompleted ?? true,
@@ -84,29 +108,39 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const prevLevel = s.hideoutLevels[moduleId] ?? 0;
     const hideoutLevels = { ...s.hideoutLevels, [moduleId]: level };
 
-    // Optionally deduct the requirements of the newly completed levels (clamped to 0).
+    // Raising the level marks the newly completed levels as done: deduct their materials (optional,
+    // clamped to 0) and auto-check their actions. Both stay user-correctable afterwards.
     // Lowering a level never refunds: it's always a tracking correction.
     const inventory = { ...s.inventory };
-    if (deductMaterials && list && level > prevLevel) {
+    const checkedActions = { ...s.checkedActions };
+    // Target levels are an explicit visibility set independent of the current level, except for
+    // one convenience: raising the current level auto-selects the next level as the new objective.
+    const targetLevels = { ...s.targetLevels };
+    if (list && level > prevLevel) {
       list.levels
         .filter(l => l.level > prevLevel && l.level <= level)
-        .forEach(l => l.requirementItemIds.forEach(req => {
-          inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);
-        }));
+        .forEach(l => {
+          if (deductMaterials) l.requirementItemIds.forEach(req => {
+            inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);
+          });
+          (l.actions ?? []).forEach(a => { checkedActions[`${moduleId}|${l.level}|${a.id}`] = true; });
+        });
+      const next = level + 1;
+      const cur = targetLevels[moduleId] ?? [];
+      if (next <= list.maxLevel && !cur.includes(next)) targetLevels[moduleId] = [...cur, next].sort((a, b) => a - b);
     }
 
-    // If the current level reaches the target, bump the target to the next level (or max)
-    const targetLevels = { ...s.targetLevels };
-    const max = list?.maxLevel ?? level;
-    if ((targetLevels[moduleId] ?? 0) <= level) targetLevels[moduleId] = Math.min(level + 1, max);
-
-    set({ hideoutLevels, targetLevels, inventory });
-    save({ ...s, hideoutLevels, targetLevels, inventory });
+    set({ hideoutLevels, inventory, checkedActions, targetLevels });
+    save({ ...s, hideoutLevels, inventory, checkedActions, targetLevels });
   },
 
-  setModuleTargetLevel: (moduleId, level) => {
+  toggleTargetLevel: (moduleId, level) => {
     const s = get();
-    const targetLevels = { ...s.targetLevels, [moduleId]: level };
+    const cur = s.targetLevels[moduleId] ?? [];
+    const next = cur.includes(level)
+      ? cur.filter(l => l !== level)
+      : [...cur, level].sort((a, b) => a - b);
+    const targetLevels = { ...s.targetLevels, [moduleId]: next };
     set({ targetLevels });
     save({ ...s, targetLevels });
   },
@@ -137,7 +171,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const list: List = { id, name, maxLevel, levels, custom: true, listType: listType ?? 'custom' };
     const customLists = [...s.customLists, list];
     const hideoutLevels = { ...s.hideoutLevels, [id]: 0 };
-    const targetLevels = { ...s.targetLevels, [id]: maxLevel };
+    const targetLevels = { ...s.targetLevels, [id]: levelsAbove(0, maxLevel) };
     const activeModules = { ...s.activeModules, [id]: true };
     const listOrder = [...s.listOrder, id];
     set({ customLists, hideoutLevels, targetLevels, activeModules, listOrder });
@@ -160,9 +194,10 @@ export const useAppStore = create<AppState>()((set, get) => ({
       levels,
       maxLevel,
     };
-    // Clamp current/target to the (possibly shrunk) maxLevel
+    // Clamp current to the (possibly shrunk) maxLevel; drop objective levels that no longer exist.
     const hideoutLevels = { ...s.hideoutLevels, [id]: Math.min(s.hideoutLevels[id] ?? 0, maxLevel) };
-    const targetLevels = { ...s.targetLevels, [id]: Math.min(s.targetLevels[id] ?? maxLevel, maxLevel) };
+    const prevTargets = s.targetLevels[id] ?? levelsAbove(0, maxLevel);
+    const targetLevels = { ...s.targetLevels, [id]: prevTargets.filter(l => l <= maxLevel) };
     set({ customLists, hideoutLevels, targetLevels });
     save({ ...s, customLists, hideoutLevels, targetLevels });
   },
@@ -183,7 +218,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const activeModules = { ...s.activeModules };
     const listOrder = [...s.listOrder];
     for (const entry of data.lists) {
-      const { list, currentLevel, targetLevel, active } = entry;
+      const { list, currentLevel, targetLevels: entryTargets, active } = entry;
       // Game workbenches: apply state only (definition is the app seed, not overridable)
       const isGameList = s.workbenches.some(w => w.id === list.id);
       if (!isGameList) {
@@ -196,7 +231,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
         }
       }
       hideoutLevels[list.id] = currentLevel;
-      targetLevels[list.id] = targetLevel;
+      targetLevels[list.id] = entryTargets;
       activeModules[list.id] = active;
     }
     set({ customLists, hideoutLevels, targetLevels, activeModules, listOrder });
@@ -222,7 +257,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const activeModules = { ...defaultActiveModules };
     s.customLists.forEach(l => {
       hideoutLevels[l.id] = 0;
-      targetLevels[l.id] = l.maxLevel;
+      targetLevels[l.id] = levelsAbove(0, l.maxLevel);
       activeModules[l.id] = true;
     });
     const fresh: PersistedState = {
@@ -253,10 +288,15 @@ export const useAppStore = create<AppState>()((set, get) => ({
     });
     const newLevel = currentLevel + 1;
     const hideoutLevels = { ...s.hideoutLevels, [moduleId]: newLevel };
+    const checkedActions = { ...s.checkedActions };
+    (nextLevel.actions ?? []).forEach(a => { checkedActions[`${moduleId}|${newLevel}|${a.id}`] = true; });
+    // Auto-select the next level as the new objective (mirrors setModuleCurrentLevel).
     const targetLevels = { ...s.targetLevels };
-    if ((targetLevels[moduleId] ?? 0) <= newLevel) targetLevels[moduleId] = Math.min(newLevel + 1, list.maxLevel);
-    set({ inventory, hideoutLevels, targetLevels });
-    save({ ...s, inventory, hideoutLevels, targetLevels });
+    const next = newLevel + 1;
+    const cur = targetLevels[moduleId] ?? [];
+    if (next <= list.maxLevel && !cur.includes(next)) targetLevels[moduleId] = [...cur, next].sort((a, b) => a - b);
+    set({ inventory, hideoutLevels, checkedActions, targetLevels });
+    save({ ...s, inventory, hideoutLevels, checkedActions, targetLevels });
   },
 
   getAllLists: () => {
@@ -279,9 +319,9 @@ export const useAppStore = create<AppState>()((set, get) => ({
     s.getAllLists().forEach(list => {
       if (list.id === excludeModuleId || !s.activeModules[list.id]) return;
       const current = s.hideoutLevels[list.id] ?? 0;
-      const target = s.targetLevels[list.id] ?? 0;
+      const selected = s.targetLevels[list.id] ?? [];
       list.levels.forEach(lvl => {
-        if (lvl.level > current && lvl.level <= target) {
+        if (lvl.level > current && selected.includes(lvl.level)) {
           lvl.requirementItemIds.forEach(req => {
             total[req.itemId] = (total[req.itemId] ?? 0) + req.quantity;
           });
