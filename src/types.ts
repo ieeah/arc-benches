@@ -3,9 +3,15 @@ export interface ItemRequirement {
   quantity: number;
 }
 
+export interface CheckboxAction {
+  id: string;   // crypto.randomUUID() — stable key, never changes after creation
+  label: string;
+}
+
 export interface ListLevel {
   level: number;
   requirementItemIds: ItemRequirement[];
+  actions?: CheckboxAction[];
 }
 
 /** Semantic category of a list, orthogonal to `custom` (a custom list may also be a project, etc.). */
@@ -84,6 +90,10 @@ export interface AppState {
   deleteCustomList: (id: string) => void;
   /** Import lists from an export file. Custom lists: merge definition + state. Game lists: state only. */
   importLists: (data: ListExportFile) => void;
+
+  /** Checkbox actions completion — key: `${listId}|${level}|${actionId}` */
+  checkedActions: Record<string, boolean>;
+  toggleAction: (listId: string, level: number, actionId: string) => void;
 
   /** Game seed + custom lists, the set every selector operates on. */
   getAllLists: () => List[];

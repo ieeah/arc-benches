@@ -5,7 +5,7 @@ import itemsData from './data/items.json';
 
 const STORAGE_KEY = 'arc-raiders-tracker-storage';
 
-type PersistedState = Pick<AppState, 'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' | 'filterHideCompleted' | 'listOrder' | 'customLists'>;
+type PersistedState = Pick<AppState, 'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' | 'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions'>;
 
 function load(): Partial<PersistedState> {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); } catch { return {}; }
@@ -22,6 +22,7 @@ function save(s: PersistedState) {
     filterHideCompleted: s.filterHideCompleted,
     listOrder: s.listOrder,
     customLists: s.customLists,
+    checkedActions: s.checkedActions,
   };
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(slice)); } catch { /* unavailable */ }
 }
@@ -54,6 +55,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
   inventory: saved.inventory ?? {},
   filterHideCompleted: saved.filterHideCompleted ?? true,
   listOrder: saved.listOrder ?? workbenches.map(w => w.id),
+  checkedActions: saved.checkedActions ?? {},
 
   incrementItem: (itemId) => {
     const s = get();
@@ -165,6 +167,14 @@ export const useAppStore = create<AppState>()((set, get) => ({
     save({ ...s, customLists, hideoutLevels, targetLevels });
   },
 
+  toggleAction: (listId, level, actionId) => {
+    const s = get();
+    const key = `${listId}|${level}|${actionId}`;
+    const checkedActions = { ...s.checkedActions, [key]: !s.checkedActions[key] };
+    set({ checkedActions });
+    save({ ...s, checkedActions });
+  },
+
   importLists: (data: ListExportFile) => {
     const s = get();
     const customLists = [...s.customLists];
@@ -223,6 +233,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
       filterHideCompleted: true,
       listOrder: s.listOrder,
       customLists: s.customLists,
+      checkedActions: {},
     };
     set(fresh);
     save(fresh);

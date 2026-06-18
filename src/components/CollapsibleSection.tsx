@@ -28,13 +28,13 @@ export const CollapsibleSection = ({
       </div>
       <ChevronDown
         size={14}
-        className={`text-gray-400 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? 'rotate-0' : '-rotate-90'}`}
+        className={`text-gray-400 transition-transform duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? 'rotate-0' : '-rotate-90'}`}
       />
     </button>
 
     {/* Grid trick: animates height from 0 → auto without knowing the target height */}
     <div
-      className={`grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+      className={`grid transition-[grid-template-rows] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
     >
       <div className="overflow-hidden">
         {children}
