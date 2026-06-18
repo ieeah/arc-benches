@@ -79,8 +79,8 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
   };
 
   return (
-    <div className="p-4 pb-28">
-      <div className="mb-4">
+    <div className="pb-28">
+      <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
         <SectionHeader title="Obiettivi" onOpenDatabase={onOpenDatabase}
           actions={showResetConfirm ? (
             <div className="flex gap-2">
@@ -118,6 +118,7 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
         />
       </div>
 
+      <div className="p-4">
       <input
         ref={fileInputRef}
         type="file"
@@ -195,6 +196,8 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
           ))}
         </>
       )}
+
+      </div>
 
       {editing && (
         <CustomListEditor listId={editing.id} onClose={() => setEditing(null)} />

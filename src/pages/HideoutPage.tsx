@@ -14,39 +14,41 @@ export const HideoutPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) 
   const maxedLists = orderedLists.filter(list => (store.hideoutLevels[list.id] ?? 0) >= list.maxLevel);
 
   return (
-    <div className="p-4 pb-28">
-      <div className="mb-4">
+    <div className="pb-28">
+      <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
         <SectionHeader title="Rifugio" onOpenDatabase={onOpenDatabase} />
       </div>
 
-      {activeLists.map(list => (
-        <ListCard key={list.id} list={list}
-          currentLevel={store.hideoutLevels[list.id] ?? 0}
-          itemsInfo={store.itemsInfo}
-          refinerLevel={refinerLevel}
-          inventory={store.inventory}
-          totalRequired={totalRequired}
-          canUpgrade={availableUpgrades.includes(list.id)}
-          onUpgrade={() => store.upgradeModule(list.id)}
-        />
-      ))}
+      <div className="p-4">
+        {activeLists.map(list => (
+          <ListCard key={list.id} list={list}
+            currentLevel={store.hideoutLevels[list.id] ?? 0}
+            itemsInfo={store.itemsInfo}
+            refinerLevel={refinerLevel}
+            inventory={store.inventory}
+            totalRequired={totalRequired}
+            canUpgrade={availableUpgrades.includes(list.id)}
+            onUpgrade={() => store.upgradeModule(list.id)}
+          />
+        ))}
 
-      {maxedLists.length > 0 && (
-        <>
-          <p className="text-xs font-bold uppercase text-gray-400 tracking-wider mt-4 mb-2 px-1">Completati</p>
-          {maxedLists.map(list => (
-            <ListCard key={list.id} list={list}
-              currentLevel={store.hideoutLevels[list.id] ?? 0}
-              itemsInfo={store.itemsInfo}
-              refinerLevel={refinerLevel}
-              inventory={store.inventory}
-              totalRequired={totalRequired}
-              canUpgrade={false}
-              onUpgrade={() => {}}
-            />
-          ))}
-        </>
-      )}
+        {maxedLists.length > 0 && (
+          <>
+            <p className="text-xs font-bold uppercase text-gray-400 tracking-wider mt-4 mb-2 px-1">Completati</p>
+            {maxedLists.map(list => (
+              <ListCard key={list.id} list={list}
+                currentLevel={store.hideoutLevels[list.id] ?? 0}
+                itemsInfo={store.itemsInfo}
+                refinerLevel={refinerLevel}
+                inventory={store.inventory}
+                totalRequired={totalRequired}
+                canUpgrade={false}
+                onUpgrade={() => {}}
+              />
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 };

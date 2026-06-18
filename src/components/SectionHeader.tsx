@@ -1,6 +1,6 @@
-import { Database } from 'lucide-react';
-import { IconButton } from './IconButton';
-import { ThemeToggle } from './ThemeToggle';
+import { Database } from "lucide-react";
+import { IconButton } from "./IconButton";
+import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * Page title bar. Universal elements keep a fixed position on every page:
@@ -8,7 +8,12 @@ import { ThemeToggle } from './ThemeToggle';
  * sits right next to it. Tab-specific `actions` are added to their left.
  * `leading` renders before the title (e.g. a back button).
  */
-export const SectionHeader = ({ title, leading, actions, onOpenDatabase }: {
+export const SectionHeader = ({
+  title,
+  leading,
+  actions,
+  onOpenDatabase,
+}: {
   title: string;
   leading?: React.ReactNode;
   actions?: React.ReactNode;
