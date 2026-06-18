@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Raw MetaForge catalog cache (full untrimmed source — not committed, regenerable via scripts/fetch-items.mjs)
+scripts/metaforge-raw.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
