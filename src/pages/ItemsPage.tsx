@@ -46,7 +46,7 @@ export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
               className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform">
               <div className="relative w-12 h-12 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
                 {item.icon
-                  ? <img src={iconUrl(item.icon)} alt={item.name} className="max-w-[85%] max-h-[85%] object-contain" />
+                  ? <img src={iconUrl(item.icon)} alt={item.name} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
                   : <span className="text-[8px] text-gray-400">{item.id}</span>}
                 <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
               </div>
