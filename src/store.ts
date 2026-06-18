@@ -1,21 +1,32 @@
 import { create } from 'zustand';
-import type { AppState, ItemInfo, Workbench } from './types';
+import type { AppState, ItemInfo, List } from './types';
 import workbenchesData from './data/workbenches.json';
 import itemsData from './data/items.json';
 
 const STORAGE_KEY = 'arc-raiders-tracker-storage';
 
-type PersistedState = Pick<AppState, 'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' | 'filterHideCompleted' | 'workbenchOrder'>;
+type PersistedState = Pick<AppState, 'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' | 'filterHideCompleted' | 'listOrder' | 'customLists'>;
 
 function load(): Partial<PersistedState> {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); } catch { return {}; }
 }
 
+// Persist ONLY the persisted slice — never the game seed (workbenches/itemsInfo) which is large
+// and read-only. Call sites pass the full state plus overrides; we pick the keys explicitly.
 function save(s: PersistedState) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch { /* unavailable */ }
+  const slice: PersistedState = {
+    hideoutLevels: s.hideoutLevels,
+    targetLevels: s.targetLevels,
+    activeModules: s.activeModules,
+    inventory: s.inventory,
+    filterHideCompleted: s.filterHideCompleted,
+    listOrder: s.listOrder,
+    customLists: s.customLists,
+  };
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(slice)); } catch { /* unavailable */ }
 }
 
-const workbenches = (workbenchesData.items as Workbench[]).filter(w => w.maxLevel > 0);
+const workbenches = (workbenchesData.items as List[]).filter(w => w.maxLevel > 0);
 const itemsInfo = itemsData as Record<string, ItemInfo>;
 
 const saved = load();
@@ -31,15 +42,18 @@ workbenches.forEach(w => {
   defaultActiveModules[w.id] = true;
 });
 
+const savedCustomLists = saved.customLists ?? [];
+
 export const useAppStore = create<AppState>()((set, get) => ({
   workbenches,
+  customLists: savedCustomLists,
   itemsInfo,
   hideoutLevels: { ...defaultHideoutLevels, ...saved.hideoutLevels },
   targetLevels: { ...defaultTargetLevels, ...saved.targetLevels },
   activeModules: { ...defaultActiveModules, ...saved.activeModules },
   inventory: saved.inventory ?? {},
   filterHideCompleted: saved.filterHideCompleted ?? true,
-  workbenchOrder: saved.workbenchOrder ?? workbenches.map(w => w.id),
+  listOrder: saved.listOrder ?? workbenches.map(w => w.id),
 
   incrementItem: (itemId) => {
     const s = get();
@@ -64,15 +78,15 @@ export const useAppStore = create<AppState>()((set, get) => ({
 
   setModuleCurrentLevel: (moduleId, level, deductMaterials = false) => {
     const s = get();
-    const wb = s.workbenches.find(w => w.id === moduleId);
+    const list = s.getAllLists().find(w => w.id === moduleId);
     const prevLevel = s.hideoutLevels[moduleId] ?? 0;
     const hideoutLevels = { ...s.hideoutLevels, [moduleId]: level };
 
     // Optionally deduct the requirements of the newly completed levels (clamped to 0).
     // Lowering a level never refunds: it's always a tracking correction.
     const inventory = { ...s.inventory };
-    if (deductMaterials && wb && level > prevLevel) {
-      wb.levels
+    if (deductMaterials && list && level > prevLevel) {
+      list.levels
         .filter(l => l.level > prevLevel && l.level <= level)
         .forEach(l => l.requirementItemIds.forEach(req => {
           inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);
@@ -81,7 +95,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
 
     // If the current level reaches the target, bump the target to the next level (or max)
     const targetLevels = { ...s.targetLevels };
-    const max = wb?.maxLevel ?? level;
+    const max = list?.maxLevel ?? level;
     if ((targetLevels[moduleId] ?? 0) <= level) targetLevels[moduleId] = Math.min(level + 1, max);
 
     set({ hideoutLevels, targetLevels, inventory });
@@ -108,21 +122,79 @@ export const useAppStore = create<AppState>()((set, get) => ({
     save({ ...s, filterHideCompleted: val });
   },
 
-  setWorkbenchOrder: (order) => {
+  setListOrder: (order) => {
     const s = get();
-    set({ workbenchOrder: order });
-    save({ ...s, workbenchOrder: order });
+    set({ listOrder: order });
+    save({ ...s, listOrder: order });
+  },
+
+  createCustomList: ({ name, levels, listType }) => {
+    const s = get();
+    const id = `custom:${crypto.randomUUID()}`;
+    const maxLevel = levels.length ? Math.max(...levels.map(l => l.level)) : 1;
+    const list: List = { id, name, maxLevel, levels, custom: true, listType: listType ?? 'custom' };
+    const customLists = [...s.customLists, list];
+    const hideoutLevels = { ...s.hideoutLevels, [id]: 0 };
+    const targetLevels = { ...s.targetLevels, [id]: maxLevel };
+    const activeModules = { ...s.activeModules, [id]: true };
+    const listOrder = [...s.listOrder, id];
+    set({ customLists, hideoutLevels, targetLevels, activeModules, listOrder });
+    save({ ...s, customLists, hideoutLevels, targetLevels, activeModules, listOrder });
+    return id;
+  },
+
+  updateCustomList: (id, patch) => {
+    const s = get();
+    const idx = s.customLists.findIndex(l => l.id === id);
+    if (idx === -1) return;
+    const prev = s.customLists[idx];
+    const levels = patch.levels ?? prev.levels;
+    const maxLevel = levels.length ? Math.max(...levels.map(l => l.level)) : 1;
+    const customLists = [...s.customLists];
+    customLists[idx] = {
+      ...prev,
+      name: patch.name ?? prev.name,
+      listType: patch.listType ?? prev.listType,
+      levels,
+      maxLevel,
+    };
+    // Clamp current/target to the (possibly shrunk) maxLevel
+    const hideoutLevels = { ...s.hideoutLevels, [id]: Math.min(s.hideoutLevels[id] ?? 0, maxLevel) };
+    const targetLevels = { ...s.targetLevels, [id]: Math.min(s.targetLevels[id] ?? maxLevel, maxLevel) };
+    set({ customLists, hideoutLevels, targetLevels });
+    save({ ...s, customLists, hideoutLevels, targetLevels });
+  },
+
+  deleteCustomList: (id) => {
+    const s = get();
+    const customLists = s.customLists.filter(l => l.id !== id);
+    const hideoutLevels = { ...s.hideoutLevels }; delete hideoutLevels[id];
+    const targetLevels = { ...s.targetLevels }; delete targetLevels[id];
+    const activeModules = { ...s.activeModules }; delete activeModules[id];
+    const listOrder = s.listOrder.filter(x => x !== id);
+    set({ customLists, hideoutLevels, targetLevels, activeModules, listOrder });
+    save({ ...s, customLists, hideoutLevels, targetLevels, activeModules, listOrder });
   },
 
   resetProgress: () => {
     const s = get();
+    // Reset progress only — keep user-created lists, but reset their levels to defaults too.
+    const hideoutLevels = { ...defaultHideoutLevels };
+    const targetLevels = { ...defaultTargetLevels };
+    const activeModules = { ...defaultActiveModules };
+    s.customLists.forEach(l => {
+      hideoutLevels[l.id] = 0;
+      targetLevels[l.id] = l.maxLevel;
+      activeModules[l.id] = true;
+    });
     const fresh: PersistedState = {
-      hideoutLevels: { ...defaultHideoutLevels },
-      targetLevels: { ...defaultTargetLevels },
-      activeModules: { ...defaultActiveModules },
+      hideoutLevels,
+      targetLevels,
+      activeModules,
       inventory: {},
       filterHideCompleted: true,
-      workbenchOrder: s.workbenchOrder,
+      listOrder: s.listOrder,
+      customLists: s.customLists,
     };
     set(fresh);
     save(fresh);
@@ -130,11 +202,11 @@ export const useAppStore = create<AppState>()((set, get) => ({
 
   upgradeModule: (moduleId) => {
     const s = get();
-    const wb = s.workbenches.find(w => w.id === moduleId);
-    if (!wb) return;
+    const list = s.getAllLists().find(w => w.id === moduleId);
+    if (!list) return;
     const currentLevel = s.hideoutLevels[moduleId] ?? 0;
-    if (currentLevel >= wb.maxLevel) return;
-    const nextLevel = wb.levels.find(l => l.level === currentLevel + 1);
+    if (currentLevel >= list.maxLevel) return;
+    const nextLevel = list.levels.find(l => l.level === currentLevel + 1);
     if (!nextLevel) return;
     const inventory = { ...s.inventory };
     nextLevel.requirementItemIds.forEach(req => {
@@ -143,16 +215,21 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const newLevel = currentLevel + 1;
     const hideoutLevels = { ...s.hideoutLevels, [moduleId]: newLevel };
     const targetLevels = { ...s.targetLevels };
-    if ((targetLevels[moduleId] ?? 0) <= newLevel) targetLevels[moduleId] = Math.min(newLevel + 1, wb.maxLevel);
+    if ((targetLevels[moduleId] ?? 0) <= newLevel) targetLevels[moduleId] = Math.min(newLevel + 1, list.maxLevel);
     set({ inventory, hideoutLevels, targetLevels });
     save({ ...s, inventory, hideoutLevels, targetLevels });
   },
 
-  getOrderedWorkbenches: () => {
+  getAllLists: () => {
     const s = get();
-    return [...s.workbenches].sort((a, b) => {
-      const oa = s.workbenchOrder.indexOf(a.id);
-      const ob = s.workbenchOrder.indexOf(b.id);
+    return [...s.workbenches, ...s.customLists];
+  },
+
+  getOrderedLists: () => {
+    const s = get();
+    return s.getAllLists().sort((a, b) => {
+      const oa = s.listOrder.indexOf(a.id);
+      const ob = s.listOrder.indexOf(b.id);
       return (oa === -1 ? 999 : oa) - (ob === -1 ? 999 : ob);
     });
   },
@@ -160,11 +237,11 @@ export const useAppStore = create<AppState>()((set, get) => ({
   getTotalRequiredMaterials: (excludeModuleId) => {
     const s = get();
     const total: Record<string, number> = {};
-    s.workbenches.forEach(wb => {
-      if (wb.id === excludeModuleId || !s.activeModules[wb.id]) return;
-      const current = s.hideoutLevels[wb.id] ?? 0;
-      const target = s.targetLevels[wb.id] ?? 0;
-      wb.levels.forEach(lvl => {
+    s.getAllLists().forEach(list => {
+      if (list.id === excludeModuleId || !s.activeModules[list.id]) return;
+      const current = s.hideoutLevels[list.id] ?? 0;
+      const target = s.targetLevels[list.id] ?? 0;
+      list.levels.forEach(lvl => {
         if (lvl.level > current && lvl.level <= target) {
           lvl.requirementItemIds.forEach(req => {
             total[req.itemId] = (total[req.itemId] ?? 0) + req.quantity;
@@ -186,15 +263,15 @@ export const useAppStore = create<AppState>()((set, get) => ({
 
   getAvailableUpgrades: () => {
     const s = get();
-    return s.workbenches
-      .filter(wb => {
-        if (!s.activeModules[wb.id]) return false;
-        const current = s.hideoutLevels[wb.id] ?? 0;
-        if (current >= wb.maxLevel) return false;
-        const nextLevel = wb.levels.find(l => l.level === current + 1);
+    return s.getAllLists()
+      .filter(list => {
+        if (!s.activeModules[list.id]) return false;
+        const current = s.hideoutLevels[list.id] ?? 0;
+        if (current >= list.maxLevel) return false;
+        const nextLevel = list.levels.find(l => l.level === current + 1);
         if (!nextLevel) return false;
         return nextLevel.requirementItemIds.every(req => (s.inventory[req.itemId] ?? 0) >= req.quantity);
       })
-      .map(wb => wb.id);
+      .map(list => list.id);
   },
 }));

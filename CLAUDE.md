@@ -37,9 +37,13 @@ banchi sono potenziabili. Vedi `ROADMAP.md` per la direzione (multi-profilo → 
 ### Dati di gioco: file JSON statici, nessuna API a runtime
 
 - **`src/data/items.json`** — fonte di verità per gli ID item (formato hyphen: `metal-parts`).
-  Info per il rendering: nome, icona (CDN MetaForge), rarità, tipo. Rigenerabile con
-  `scripts/fetch-items.mjs`, che raccoglie gli ID dai requisiti di `workbenches.json`
-  e interroga l'API MetaForge.
+  Contiene l'**intero catalogo MetaForge** (~590 item), non solo quelli usati dai banchi: serve
+  all'item picker delle liste custom. Info per il rendering: nome, icona (locale), rarità, tipo.
+  Rigenerabile con `scripts/fetch-items.mjs`, che pagina tutto il catalogo dall'API MetaForge,
+  scarica+ottimizza le icone in `public/icons/items` e verifica che ogni `itemId` dei banchi esista.
+  Il catalogo grezzo completo (tutti i campi, non trimmato) è cachato in `scripts/metaforge-raw.json`
+  (gitignorato): re-run lo riusano; `--refresh` forza il re-fetch. Tienilo se un giorno serve
+  esporre più campi (stat_block, sources, …) senza riscaricare.
 - **`src/data/workbenches.json`** — banchi, livelli e requisiti (`itemId` + `quantity`), compilato a mano.
   Ogni `itemId` DEVE esistere come chiave in `items.json`.
 
@@ -55,7 +59,9 @@ NON reintrodurre fetch a runtime; i dati di gioco cambiano solo a patch del gioc
 Il middleware `persist` di zustand è stato rimosso deliberatamente (errori silenziosi di storage):
 la persistenza è esplicita — `load()` all'init, `save()` chiamato in ogni action che modifica stato
 persistito (`PersistedState`: hideoutLevels, targetLevels, activeModules, inventory,
-filterHideCompleted, workbenchOrder). Ogni accesso a localStorage è in try/catch perché l'app può
+filterHideCompleted, listOrder, customLists). `save()` fa il **pick esplicito** delle sole chiavi
+persistite: i call site passano `{...s, override}` ma il game seed (`workbenches`, `itemsInfo`) NON
+finisce mai in localStorage. Ogni accesso a localStorage è in try/catch perché l'app può
 girare in contesti dove è bloccato (iframe/preview): non deve mai crashare, al massimo non persiste.
 
 Invarianti dello stato gestite nello store, non nella UI:
@@ -74,6 +80,19 @@ Invarianti dello stato gestite nello store, non nella UI:
 I selettori (`getTotalRequiredMaterials`, `getMissingMaterials`, `getAvailableUpgrades`) sono funzioni
 nello store che ricalcolano a ogni chiamata, non sono memoizzati.
 
+**Modello `List`**: il tipo generico è `List` (in `types.ts`); i banchi del gioco ne sono il seed
+read-only (`listType: 'workbench'`), le liste custom sono istanze utente. Una lista custom ha `id`
+namespaced (`custom:<uuid>`), `custom: true` e `listType`. È tenuta in una slice persistita
+`customLists` SEPARATA dall'array game `workbenches` (preserva "dati di gioco mai persistiti" e rende
+lineare la futura migrazione a DB). Il selettore `getAllLists()` fa l'union `[...workbenches,
+...customLists]` ed è la base su cui operano TUTTI gli altri selettori e azioni (`upgradeModule`,
+`setModuleCurrentLevel`, `getOrderedLists`, …) → le liste custom ereditano gratis aggregazione
+spesa, mancanti, priorità Stash, drag, "Completati", bottone verde Rifugio. CRUD: `createCustomList`
+/ `updateCustomList` / `deleteCustomList` (init/cleanup delle voci per-id in hideoutLevels/targetLevels/
+activeModules/listOrder). Editor: `CustomListEditor` + `ItemPicker` (ricerca sul catalogo
+completo); entry point "+ Lista" in Obiettivi, badge "Custom" e matita di modifica su `ListRow`.
+Le card generiche (`ListRow`, `ListCard`, `SortableListRow`) prendono la lista via prop `list`.
+
 ### UI: struttura a moduli
 
 ```
@@ -81,8 +100,8 @@ src/
   App.tsx          solo shell: stato tab + bottom nav (ThemeProvider wrappa tutto)
   pages/           StashPage, HideoutPage (Rifugio), GoalsPage (Obiettivi), ItemsPage (Oggetti)
   components/      presentazionali, riusabili (IconButton, ThemeToggle, SectionHeader, TabButton,
-                   LevelBadge, LevelPills, InventoryCard, WorkbenchCard, SortableWorkbenchRow,
-                   ItemDetailSheet)
+                   LevelBadge, LevelPills, InventoryCard, ListRow, ListCard, SortableListRow,
+                   ItemDetailSheet, ItemPicker, CustomListEditor)
   context/         ThemeContext (hook) + ThemeProvider (componente) — file separati per react-refresh
   hooks/           useLongPress
   lib/             safeStorage (safeLS), rarity, craft (refinerCraftLevel)
@@ -98,10 +117,10 @@ Regole architetturali:
 - "Oggetti" è una pagina nascosta (non nella bottom nav, in futuro hub "Database" con Oggetti/Arcs/…).
   Dalle card dello Stash NON si naviga al dettaglio oggetto (scelta deliberata: su mobile
   confliggerebbe coi controlli +/-)
-- L'ordinamento per priorità dei banchi è logica di dominio → selettore `getOrderedWorkbenches()`
+- L'ordinamento per priorità delle liste è logica di dominio → selettore `getOrderedLists()`
   nello store, non duplicato nelle pagine
 
-- **Priorità banchi**: drag & drop (@dnd-kit) in Obiettivi, ordine persistito in `workbenchOrder`;
+- **Priorità liste**: drag & drop (@dnd-kit) in Obiettivi, ordine persistito in `listOrder`;
   determina l'ordine dei banchi in Rifugio E l'ordinamento "Priorità" dello Stash (ogni item prende
   la priorità del banco più prioritario che lo richiede)
 - **Ordinamento Stash**: pill Priorità/A→Z/Rarità/Tipo; il click sul pill attivo inverte la direzione;

@@ -1,21 +1,24 @@
 import { useState, type ReactNode } from 'react';
-import type { Workbench } from '../types';
+import { Pencil } from 'lucide-react';
+import type { List } from '../types';
 import { LevelBadge } from './LevelBadge';
 import { LevelPills } from './LevelPills';
 
-/** Goal card for a workbench. Pass `dragHandle` to render a sort handle (see SortableWorkbenchRow). */
-export const WorkbenchRow = ({ wb, current, target, isActive, inventory, otherNeeds, dragHandle, onToggle, onCurrentLevel, onTargetLevel }: {
-  wb: Workbench; current: number; target: number; isActive: boolean;
+/** Goal card for a list. Pass `dragHandle` to render a sort handle (see SortableListRow). */
+export const ListRow = ({ list, current, target, isActive, inventory, otherNeeds, dragHandle, onToggle, onCurrentLevel, onTargetLevel, onEdit }: {
+  list: List; current: number; target: number; isActive: boolean;
   inventory: Record<string, number>;
-  /** Materials still required by the OTHER active goals (see getTotalRequiredMaterials(wb.id)) */
+  /** Materials still required by the OTHER active goals (see getTotalRequiredMaterials(list.id)) */
   otherNeeds: Record<string, number>;
   dragHandle?: ReactNode;
   onToggle: () => void;
   onCurrentLevel: (v: number, deductMaterials: boolean) => void;
   onTargetLevel: (v: number) => void;
+  /** When set (custom lists), renders an edit affordance opening the editor. */
+  onEdit?: () => void;
 }) => {
-  // A workbench whose level 1 has no requirements starts already unlocked (e.g. Scrappy) — level 0 doesn't exist
-  const baseLevel = wb.levels.find(l => l.level === 1)?.requirementItemIds.length === 0 ? 1 : 0;
+  // A list whose level 1 has no requirements starts already unlocked (e.g. Scrappy) — level 0 doesn't exist
+  const baseLevel = list.levels.find(l => l.level === 1)?.requirementItemIds.length === 0 ? 1 : 0;
 
   // Level increase pending deduction confirmation
   const [pendingLevel, setPendingLevel] = useState<number | null>(null);
@@ -25,7 +28,7 @@ export const WorkbenchRow = ({ wb, current, target, isActive, inventory, otherNe
   // only on a real conflict: a tracked material that another active goal also needs might be
   // reserved for that goal rather than spent here.
   const hasConflict = (level: number) =>
-    wb.levels.some(l =>
+    list.levels.some(l =>
       l.level > current && l.level <= level &&
       l.requirementItemIds.some(req =>
         (inventory[req.itemId] ?? 0) > 0 && (otherNeeds[req.itemId] ?? 0) > 0)
@@ -51,8 +54,19 @@ export const WorkbenchRow = ({ wb, current, target, isActive, inventory, otherNe
     <div className="mb-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[24px] overflow-hidden">
       <div className="flex items-center gap-2 px-3 pt-3 pb-2">
         {dragHandle}
-        <span className="font-bold flex-1">{wb.name}</span>
-        <LevelBadge current={current} max={wb.maxLevel} state={current >= wb.maxLevel ? 'maxed' : 'default'} />
+        <span className="font-bold flex-1 flex items-center gap-1.5 min-w-0">
+          <span className="truncate">{list.name}</span>
+          {list.custom && (
+            <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">Custom</span>
+          )}
+        </span>
+        {onEdit && (
+          <button onClick={onEdit} title="Modifica lista"
+            className="text-gray-300 dark:text-gray-600 hover:text-blue-500 transition-colors shrink-0">
+            <Pencil size={15} />
+          </button>
+        )}
+        <LevelBadge current={current} max={list.maxLevel} state={current >= list.maxLevel ? 'maxed' : 'default'} />
         <input type="checkbox" checked={isActive} onChange={onToggle}
           className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 cursor-pointer" />
       </div>
@@ -60,7 +74,7 @@ export const WorkbenchRow = ({ wb, current, target, isActive, inventory, otherNe
       <div className="px-4 pb-3 space-y-3">
         <div>
           <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Attuale</p>
-          <LevelPills min={baseLevel} max={wb.maxLevel} value={pendingLevel ?? current}
+          <LevelPills min={baseLevel} max={list.maxLevel} value={pendingLevel ?? current}
             activeClass={pendingLevel !== null ? 'bg-blue-300 dark:bg-blue-700 text-white' : 'bg-blue-500 text-white'}
             onChange={handleCurrentLevel} />
           {pendingLevel !== null && (
@@ -83,7 +97,7 @@ export const WorkbenchRow = ({ wb, current, target, isActive, inventory, otherNe
         </div>
         <div>
           <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Obiettivo</p>
-          <LevelPills min={baseLevel} max={wb.maxLevel} value={target} minSelectable={current + 1}
+          <LevelPills min={baseLevel} max={list.maxLevel} value={target} minSelectable={current + 1}
             activeClass="bg-green-500 text-white" onChange={onTargetLevel} />
         </div>
       </div>

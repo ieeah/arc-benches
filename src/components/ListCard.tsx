@@ -1,24 +1,24 @@
 import { CheckCircle2, Hammer } from 'lucide-react';
-import type { ItemInfo, Workbench } from '../types';
+import type { ItemInfo, List } from '../types';
 import { refinerCraftLevel } from '../lib/craft';
 import { LevelBadge } from './LevelBadge';
 
-export const WorkbenchCard = ({ wb, currentLevel, itemsInfo, refinerLevel, inventory, totalRequired, onUpgrade, canUpgrade }: {
-  wb: Workbench; currentLevel: number;
+export const ListCard = ({ list, currentLevel, itemsInfo, refinerLevel, inventory, totalRequired, onUpgrade, canUpgrade }: {
+  list: List; currentLevel: number;
   itemsInfo: Record<string, ItemInfo>; refinerLevel: number;
   inventory: Record<string, number>;
   totalRequired: Record<string, number>;
   onUpgrade: () => void; canUpgrade: boolean;
 }) => {
-  const isMaxed = currentLevel >= wb.maxLevel;
-  const nextLevelData = wb.levels.find(l => l.level === currentLevel + 1);
+  const isMaxed = currentLevel >= list.maxLevel;
+  const nextLevelData = list.levels.find(l => l.level === currentLevel + 1);
 
   if (isMaxed) {
     return (
       <div className="p-3 mb-3 rounded-[24px] border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 opacity-50">
         <div className="flex justify-between items-center">
-          <h3 className="font-bold text-base text-gray-400 dark:text-gray-600">{wb.name}</h3>
-          <LevelBadge current={currentLevel} max={wb.maxLevel} state="maxed" />
+          <h3 className="font-bold text-base text-gray-400 dark:text-gray-600">{list.name}</h3>
+          <LevelBadge current={currentLevel} max={list.maxLevel} state="maxed" />
         </div>
       </div>
     );
@@ -27,8 +27,8 @@ export const WorkbenchCard = ({ wb, currentLevel, itemsInfo, refinerLevel, inven
   return (
     <div className={`p-3 mb-3 rounded-[24px] border-2 transition-all ${canUpgrade ? 'border-green-500 bg-green-50 dark:bg-green-900/10' : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900'}`}>
       <div className="flex justify-between items-center">
-        <h3 className="font-bold text-base">{wb.name}</h3>
-        <LevelBadge current={currentLevel} max={wb.maxLevel} state={canUpgrade ? 'ready' : 'default'} />
+        <h3 className="font-bold text-base">{list.name}</h3>
+        <LevelBadge current={currentLevel} max={list.maxLevel} state={canUpgrade ? 'ready' : 'default'} />
       </div>
 
       {nextLevelData && nextLevelData.requirementItemIds.length > 0 && (

@@ -34,17 +34,17 @@ export const StashPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
     setSort(s => s.key === key ? { key, dir: (s.dir * -1) as SortDir } : { key, dir: 1 });
 
   const missingMaterials = store.getMissingMaterials();
-  const orderedWorkbenches = store.getOrderedWorkbenches();
+  const orderedLists = store.getOrderedLists();
   const refinerLevel = store.hideoutLevels['refiner'] ?? 0;
 
-  // Priority sort: each item gets the index of the highest-priority workbench that needs it
+  // Priority sort: each item gets the index of the highest-priority list that needs it
   const itemPriorityIndex = (itemId: string): number => {
-    for (let i = 0; i < orderedWorkbenches.length; i++) {
-      const wb = orderedWorkbenches[i];
-      if (!store.activeModules[wb.id]) continue;
-      const current = store.hideoutLevels[wb.id] ?? 0;
-      const target = store.targetLevels[wb.id] ?? wb.maxLevel;
-      const needed = wb.levels.some(lvl =>
+    for (let i = 0; i < orderedLists.length; i++) {
+      const list = orderedLists[i];
+      if (!store.activeModules[list.id]) continue;
+      const current = store.hideoutLevels[list.id] ?? 0;
+      const target = store.targetLevels[list.id] ?? list.maxLevel;
+      const needed = list.levels.some(lvl =>
         lvl.level > current && lvl.level <= target &&
         lvl.requirementItemIds.some(r => r.itemId === itemId)
       );

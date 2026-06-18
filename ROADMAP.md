@@ -83,40 +83,27 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 
       **Incrementale**: v1 derivata solo dai banchi (già fattibile oggi, copre subito una fetta del
       problema); v2 estesa a missioni/progetti quando i relativi dati esistono.
-- [ ] **Liste custom + generalizzazione `List`** (~1.5-2 giorni, >70% UI)
-      Permettere all'utente di definire liste proprie di materiali da raccogliere, con la stessa
-      meccanica dei banchi (oggetti per livello, anche livello unico). Il motore è già generico: una
-      lista custom è strutturalmente un `Workbench` → i selettori esistenti (`getTotalRequiredMaterials`,
-      `getMissingMaterials`, `getOrderedWorkbenches`) la includono "gratis", e lo stato per-id
-      (`activeModules`, `workbenchOrder`, `hideoutLevels`, …, tutti `Record<string,…>`) la accetta
-      senza modifiche → nascondere/riordinare/priorità Stash gratis.
-
-      **Modello dati — generalizzare `Workbench` in `List`** (decisione portante):
-      - `custom: boolean` — `false` = dato di gioco (seed read-only), `true` = creato dall'utente
-        (per-profilo). I due valori mappano anche il confine storage/ownership: game = condiviso
-        read-only, custom = profilo con RLS.
-      - `listType: 'workbench' | 'project' | 'quest' | …` — categoria semantica, **ortogonale** a
-        `custom`: una lista custom potrà un giorno avere un `listType` (es. un progetto personale) →
-        tenere ENTRAMBE le proprietà anche se oggi `custom` da solo basterebbe.
-      - Conseguenza: **Spedizioni, Progetti, Quest e "Tieni o butta" diventano istanze dello stesso
-        motore** (liste con requisiti), non feature da zero — `listType` distingue
-        etichette/icone/raggruppamenti, `levels` copre flat (livello unico) e multi-stage.
-
-      **Costo (non tutto "gratis"):**
-      - *Gratis*: aggregazione spesa, mancanti, priorità Stash, hide per-lista, drag, "Completati".
-      - *Poche ore*: tenere `customLists` SEPARATO da `workbenches` e fare l'union nei selettori
-        (NON mutare l'array game → preserva l'invariante "dati di gioco mai persistiti" e rende
-        lineare la migrazione a DB); id namespaced (`custom:<uuid>`); cleanup voci orfane all'eliminazione.
-      - *Il grosso (UI)*: editor crea/rinomina/elimina, item picker con ricerca sul DB completo
-        (mattoni in `ItemsPage`), quantità, raggruppamento per livello / livello unico; distinzione
-        visiva game/custom; filtro Stash "banchi / liste custom" (o per `listType`).
-      - *Decisione semantica*: alcuni comportamenti (auto-deduzione inventario al level-up,
-        "current = già fatto in gioco") calzano su `workbench` ma meno su `quest`/`project` →
-        eventualmente gated per `listType`. Default: riusare il modello banco (più economico e coerente).
-
-      **Sorgente**: oggi localStorage (slice `customLists` in `PersistedState`); con la Fase 2 lo
-      stesso shape migra in tabella `lists` (game seed `custom=false`, custom per-profilo `custom=true`).
-      Il lavoro fatto ora su localStorage NON è throwaway: il DB swappa solo il backend di persistenza.
+- [x] **Liste custom + generalizzazione `List`** — FATTO.
+      - **Tipo generico `List`** (`types.ts`): i banchi del gioco ne sono il seed read-only
+        (`listType: 'workbench'`), le liste custom sono istanze utente (`custom: true`, id namespaced
+        `custom:<uuid>`). `listType` resta ortogonale a `custom` (una custom potrà essere `project`/`quest`).
+      - **Catalogo MetaForge completo** (~590 item) ingerito in `items.json` per l'item picker.
+      - **Store**: slice `customLists` persistita, SEPARATA dall'array game `workbenches`; union via
+        `getAllLists()` su cui operano tutti i selettori/azioni → aggregazione spesa, mancanti, priorità
+        Stash, drag, hide, "Completati", bottone verde Rifugio gratis. CRUD `createCustomList`/
+        `updateCustomList`/`deleteCustomList` con cleanup voci per-id.
+      - **UI**: `CustomListEditor` (multi-stage) + `ItemPicker` (ricerca sul DB completo), "+ Lista" in
+        Obiettivi, badge "Custom" + matita di modifica su `ListRow`.
+      - **Rinominato** l'astrazione `Workbench`→`List`, `WorkbenchRow/Card/SortableWorkbenchRow`→
+        `ListRow/ListCard/SortableListRow`, `getOrderedWorkbenches`→`getOrderedLists`, chiave
+        `workbenchOrder`→`listOrder`. Tenuto "workbench" per il seed (`workbenches.json`, array
+        `workbenches`, `listType:'workbench'`).
+      - **Conseguenza**: Spedizioni, Progetti, Quest e "Tieni o butta" diventano istanze dello stesso
+        motore (`listType` distingue etichette/icone/raggruppamenti), non feature da zero.
+      - **Ancora da fare (Fase 2)**: migrazione persistenza da localStorage a tabella `lists` (game seed
+        `custom=false`, custom per-profilo `custom=true` con RLS); il lavoro su localStorage NON è
+        throwaway, il DB swappa solo il backend. Eventuale gating per `listType` di comportamenti che
+        calzano sui banchi ma meno su quest/progetti (auto-deduzione inventario al level-up).
 - [ ] **Tour onboarding con driver.js** (~mezza giornata, ~5 KB gzip) — ~8 step attraverso i 3 tab
       (focus sul badge Refiner, la feature meno autoesplicativa). Richiede `data-tour` sugli elementi
       chiave e gestione del cambio tab negli hook (`onHighlightStarted` + attesa render); trigger al
@@ -217,7 +204,7 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 - [x] **Automatismo priorità banchi** — in Obiettivi, al raggiungimento del livello massimo
       si apre un prompt che chiede se spostare il banco in fondo alla lista delle priorità.
       I banchi completati restano interattivi ma vanno in una sezione "Completati" (come in
-      Rifugio); il corpo della card è estratto in `WorkbenchRow` (riusato da `SortableWorkbenchRow`)
+      Rifugio); il corpo della card è estratto in `ListRow` (riusato da `SortableListRow`)
 - [x] **Gestione inventario al cambio livello banchi** — alzare il livello implica che il
       potenziamento è stato pagato in gioco: i materiali tracciati vengono scalati
       automaticamente (i non tracciati sono stati trovati e spesi → saldo zero); la conferma
@@ -296,11 +283,11 @@ Rilevazioni da un'analisi del codice (giu 2026), ordinate per impatto dentro ogn
 - [ ] **Nessun selettore zustand → over-rendering + ricalcolo** — le pagine fanno
       `const store = useAppStore()` senza selettore: iscrizione all'intero store, ogni cambiamento
       ri-renderizza tutto e ricalcola i selettori non memoizzati (`getMissingMaterials`,
-      `getTotalRequiredMaterials`, `getOrderedWorkbenches`) a ogni render. Innocuo a questa scala,
+      `getTotalRequiredMaterials`, `getOrderedLists`) a ogni render. Innocuo a questa scala,
       ma anti-pattern da correggere prima di Supabase/multi-profilo: selettori mirati + `useShallow`.
 - [ ] **`itemPriorityIndex` nel comparatore di sort** — in `StashPage` è O(banchi×livelli) e viene
       chiamato 2× per confronto durante `.sort()`. Precalcolare una `Map<itemId, priorità>` prima
-      del sort. (Stesso pattern: `getOrderedWorkbenches` usa `indexOf` nel comparatore → O(n²).)
+      del sort. (Stesso pattern: `getOrderedLists` usa `indexOf` nel comparatore → O(n²).)
 - [ ] **`useLongPress` doppio conteggio** — l'`onClick` del bottone spara comunque al rilascio,
       sommandosi ai tick dell'interval; nessun incremento immediato alla pressione. Conteggio non
       perfettamente prevedibile su pressioni lunghe.
@@ -313,7 +300,7 @@ Rilevazioni da un'analisi del codice (giu 2026), ordinate per impatto dentro ogn
 - [ ] **Drag & drop non operabile da tastiera** — solo `PointerSensor` + `TouchSensor`; manca il
       `KeyboardSensor` di dnd-kit per riordinare le priorità senza mouse/touch.
 - [ ] **Controlli icona-only senza label** — i pill di livello (`LevelPills`), i bottoni +/-
-      (`InventoryCard`) e il toggle "attivo" (`WorkbenchRow`) non hanno `aria-label`/label
+      (`InventoryCard`) e il toggle "attivo" (`ListRow`) non hanno `aria-label`/label
       associata. Le segnalazioni solo-colore (rarità/craft) hanno per lo più `title`/`aria-label`,
       ma verificare la copertura.
 - [ ] **Contrasto testo minuto** — molte etichette `text-[10px]`/`text-[11px]` in `text-gray-400`
