@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { RotateCcw, GripVertical, PartyPopper, Plus, Download, Upload } from 'lucide-react';
+import { RotateCcw, GripVertical, PartyPopper, Plus, Download, Upload, ChevronUp } from 'lucide-react';
 import {
   DndContext, closestCenter, PointerSensor, TouchSensor,
   useSensor, useSensors,
@@ -12,6 +12,7 @@ import { SortableListRow } from '../components/SortableListRow';
 import { ListRow } from '../components/ListRow';
 import { CustomListEditor } from '../components/CustomListEditor';
 import { CollapsibleSection } from '../components/CollapsibleSection';
+import { Drawer } from '../components/Drawer';
 import { buildExport, downloadExport, parseImport } from '../lib/listIO';
 import { safeLS } from '../lib/safeStorage';
 import type { List } from '../types';
@@ -21,6 +22,7 @@ type SectionsOpen = { workbench: boolean; custom: boolean };
 export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) => {
   const store = useAppStore();
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showActions, setShowActions] = useState(false);
   const [movePromptId, setMovePromptId] = useState<string | null>(null);
   const [editing, setEditing] = useState<{ id?: string } | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
@@ -115,9 +117,20 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
 
   return (
     <div className="pb-28">
-      <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
-        <SectionHeader title="Obiettivi" onOpenDatabase={onOpenDatabase}
-          actions={showResetConfirm ? (
+      {/* Sticky header — two rows */}
+      <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
+        {/* Row 1: title + DB + theme toggle */}
+        <SectionHeader title="Obiettivi" onOpenDatabase={onOpenDatabase} />
+
+        {/* Row 2: page actions */}
+        <div className="flex justify-between items-center mt-2">
+          <button onClick={() => setEditing({})}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">
+            <Plus size={13} />
+            Lista
+          </button>
+
+          {showResetConfirm ? (
             <div className="flex gap-2">
               <button onClick={() => { store.resetProgress(); setShowResetConfirm(false); }}
                 className="px-3 py-1.5 bg-red-500 text-white text-xs font-bold rounded-full">
@@ -129,28 +142,20 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
               </button>
             </div>
           ) : (
-            <div className="flex gap-2 items-center">
-              <button onClick={() => setEditing({})}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">
-                <Plus size={13} />
-                Lista
-              </button>
-              <button onClick={handleExport} title="Esporta liste"
-                className="flex items-center p-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 rounded-full">
-                <Upload size={14} />
-              </button>
-              <button onClick={() => fileInputRef.current?.click()} title="Importa liste"
-                className="flex items-center p-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 rounded-full">
-                <Download size={14} />
-              </button>
+            <div className="flex gap-2">
               <button onClick={() => setShowResetConfirm(true)}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 text-xs font-bold rounded-full">
                 <RotateCcw size={13} />
                 Ripristina
               </button>
+              <button onClick={() => setShowActions(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 text-xs font-bold rounded-full">
+                <ChevronUp size={13} />
+                Azioni
+              </button>
             </div>
           )}
-        />
+        </div>
       </div>
 
       <input ref={fileInputRef} type="file" accept=".json,application/json" className="hidden" onChange={handleImportFile} />
@@ -233,6 +238,37 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
 
       {editing && (
         <CustomListEditor listId={editing.id} onClose={() => setEditing(null)} />
+      )}
+
+      {showActions && (
+        <Drawer from="top" onClose={() => setShowActions(false)} title="Azioni">
+          <div className="space-y-2 pt-1">
+            <button
+              onClick={() => { handleExport(); setShowActions(false); }}
+              className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left active:scale-[0.98] transition-transform"
+            >
+              <div className="p-2 bg-white dark:bg-gray-700 rounded-xl shrink-0">
+                <Upload size={16} className="text-gray-500" />
+              </div>
+              <div>
+                <p className="font-bold text-sm">Esporta liste</p>
+                <p className="text-[11px] text-gray-400">Scarica un backup JSON</p>
+              </div>
+            </button>
+            <button
+              onClick={() => { fileInputRef.current?.click(); setShowActions(false); }}
+              className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left active:scale-[0.98] transition-transform"
+            >
+              <div className="p-2 bg-white dark:bg-gray-700 rounded-xl shrink-0">
+                <Download size={16} className="text-gray-500" />
+              </div>
+              <div>
+                <p className="font-bold text-sm">Importa liste</p>
+                <p className="text-[11px] text-gray-400">Carica da file JSON</p>
+              </div>
+            </button>
+          </div>
+        </Drawer>
       )}
     </div>
   );
