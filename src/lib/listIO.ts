@@ -9,9 +9,7 @@ export function buildExport(
   return {
     version: 1,
     exportedAt: new Date().toISOString(),
-    lists: lists
-      .filter(l => l.custom)
-      .map(list => ({
+    lists: lists.map(list => ({
         list,
         currentLevel: hideoutLevels[list.id] ?? 0,
         targetLevel: targetLevels[list.id] ?? list.maxLevel,
@@ -35,9 +33,7 @@ export function parseImport(json: string): ListExportFile {
   if (data.version !== 1 || !Array.isArray(data.lists)) throw new Error('Formato file non valido');
   for (const entry of data.lists as Record<string, unknown>[]) {
     const list = entry.list as Record<string, unknown> | undefined;
-    if (!list?.custom || typeof list.id !== 'string' || !list.id.startsWith('custom:')) {
-      throw new Error('Il file contiene liste non valide');
-    }
+    if (!list?.id || typeof list.id !== 'string') throw new Error('Il file contiene liste non valide');
   }
   return data as unknown as ListExportFile;
 }

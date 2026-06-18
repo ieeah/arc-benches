@@ -52,7 +52,7 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
 
   const handleExport = () => {
     const data = buildExport(
-      store.customLists,
+      store.getAllLists(),
       store.hideoutLevels,
       store.targetLevels,
       store.activeModules,
@@ -67,7 +67,7 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
     reader.onload = (ev) => {
       try {
         const data = parseImport(ev.target?.result as string);
-        store.importCustomLists(data);
+        store.importLists(data);
         setImportError(null);
       } catch (err) {
         setImportError(err instanceof Error ? err.message : 'Errore durante l\'importazione');
@@ -100,13 +100,13 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
                 <Plus size={13} />
                 Lista
               </button>
-              <button onClick={handleExport} title="Esporta liste custom"
-                className="flex items-center p-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 rounded-full">
-                <Download size={14} />
-              </button>
-              <button onClick={() => fileInputRef.current?.click()} title="Importa liste custom"
+              <button onClick={handleExport} title="Esporta liste"
                 className="flex items-center p-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 rounded-full">
                 <Upload size={14} />
+              </button>
+              <button onClick={() => fileInputRef.current?.click()} title="Importa liste"
+                className="flex items-center p-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 rounded-full">
+                <Download size={14} />
               </button>
               <button onClick={() => setShowResetConfirm(true)}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 text-xs font-bold rounded-full">

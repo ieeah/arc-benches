@@ -82,8 +82,8 @@ export interface AppState {
   createCustomList: (data: { name: string; levels: ListLevel[]; listType?: ListType }) => string;
   updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; listType: ListType }>) => void;
   deleteCustomList: (id: string) => void;
-  /** Import lists from an export file, overwriting any existing list with the same id. */
-  importCustomLists: (data: ListExportFile) => void;
+  /** Import lists from an export file. Custom lists: merge definition + state. Game lists: state only. */
+  importLists: (data: ListExportFile) => void;
 
   /** Game seed + custom lists, the set every selector operates on. */
   getAllLists: () => List[];

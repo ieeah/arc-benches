@@ -165,7 +165,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
     save({ ...s, customLists, hideoutLevels, targetLevels });
   },
 
-  importCustomLists: (data: ListExportFile) => {
+  importLists: (data: ListExportFile) => {
     const s = get();
     const customLists = [...s.customLists];
     const hideoutLevels = { ...s.hideoutLevels };
@@ -174,12 +174,16 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const listOrder = [...s.listOrder];
     for (const entry of data.lists) {
       const { list, currentLevel, targetLevel, active } = entry;
-      const idx = customLists.findIndex(l => l.id === list.id);
-      if (idx >= 0) {
-        customLists[idx] = list;
-      } else {
-        customLists.push(list);
-        listOrder.push(list.id);
+      // Game workbenches: apply state only (definition is the app seed, not overridable)
+      const isGameList = s.workbenches.some(w => w.id === list.id);
+      if (!isGameList) {
+        const idx = customLists.findIndex(l => l.id === list.id);
+        if (idx >= 0) {
+          customLists[idx] = list;
+        } else {
+          customLists.push(list);
+          listOrder.push(list.id);
+        }
       }
       hideoutLevels[list.id] = currentLevel;
       targetLevels[list.id] = targetLevel;
