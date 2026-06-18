@@ -40,6 +40,19 @@ export interface ItemInfo {
   stack_size: number | null;
 }
 
+export interface ListExportEntry {
+  list: List;
+  currentLevel: number;
+  targetLevel: number;
+  active: boolean;
+}
+
+export interface ListExportFile {
+  version: 1;
+  exportedAt: string;
+  lists: ListExportEntry[];
+}
+
 export interface AppState {
   /** Game-seed lists (the hideout workbenches), read-only — never persisted. */
   workbenches: List[];
@@ -69,6 +82,8 @@ export interface AppState {
   createCustomList: (data: { name: string; levels: ListLevel[]; listType?: ListType }) => string;
   updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; listType: ListType }>) => void;
   deleteCustomList: (id: string) => void;
+  /** Import lists from an export file, overwriting any existing list with the same id. */
+  importCustomLists: (data: ListExportFile) => void;
 
   /** Game seed + custom lists, the set every selector operates on. */
   getAllLists: () => List[];

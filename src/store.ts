@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { AppState, ItemInfo, List } from './types';
+import type { AppState, ItemInfo, List, ListExportFile } from './types';
 import workbenchesData from './data/workbenches.json';
 import itemsData from './data/items.json';
 
@@ -163,6 +163,30 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const targetLevels = { ...s.targetLevels, [id]: Math.min(s.targetLevels[id] ?? maxLevel, maxLevel) };
     set({ customLists, hideoutLevels, targetLevels });
     save({ ...s, customLists, hideoutLevels, targetLevels });
+  },
+
+  importCustomLists: (data: ListExportFile) => {
+    const s = get();
+    const customLists = [...s.customLists];
+    const hideoutLevels = { ...s.hideoutLevels };
+    const targetLevels = { ...s.targetLevels };
+    const activeModules = { ...s.activeModules };
+    const listOrder = [...s.listOrder];
+    for (const entry of data.lists) {
+      const { list, currentLevel, targetLevel, active } = entry;
+      const idx = customLists.findIndex(l => l.id === list.id);
+      if (idx >= 0) {
+        customLists[idx] = list;
+      } else {
+        customLists.push(list);
+        listOrder.push(list.id);
+      }
+      hideoutLevels[list.id] = currentLevel;
+      targetLevels[list.id] = targetLevel;
+      activeModules[list.id] = active;
+    }
+    set({ customLists, hideoutLevels, targetLevels, activeModules, listOrder });
+    save({ ...s, customLists, hideoutLevels, targetLevels, activeModules, listOrder });
   },
 
   deleteCustomList: (id) => {

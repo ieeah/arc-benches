@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { RotateCcw, GripVertical, PartyPopper, Plus } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { RotateCcw, GripVertical, PartyPopper, Plus, Download, Upload } from 'lucide-react';
 import {
   DndContext, closestCenter, PointerSensor, TouchSensor,
   useSensor, useSensors,
@@ -11,19 +11,19 @@ import { SectionHeader } from '../components/SectionHeader';
 import { SortableListRow } from '../components/SortableListRow';
 import { ListRow } from '../components/ListRow';
 import { CustomListEditor } from '../components/CustomListEditor';
+import { buildExport, downloadExport, parseImport } from '../lib/listIO';
 
 export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) => {
   const store = useAppStore();
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  // List that just reached max level, awaiting the "move to bottom of priorities?" answer
   const [movePromptId, setMovePromptId] = useState<string | null>(null);
-  // Custom-list editor: null = closed, { id?: string } = open (id present when editing)
   const [editing, setEditing] = useState<{ id?: string } | null>(null);
-  const orderedLists = store.getOrderedLists();
+  const [importError, setImportError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const orderedLists = store.getOrderedLists();
   const activeLists = orderedLists.filter(list => (store.hideoutLevels[list.id] ?? 0) < list.maxLevel);
   const maxedLists = orderedLists.filter(list => (store.hideoutLevels[list.id] ?? 0) >= list.maxLevel);
-  // Hide the prompt if the list was corrected back below max in the meantime
   const movePromptList = maxedLists.find(list => list.id === movePromptId);
 
   const sensors = useSensors(
@@ -50,6 +50,34 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
     setMovePromptId(null);
   };
 
+  const handleExport = () => {
+    const data = buildExport(
+      store.customLists,
+      store.hideoutLevels,
+      store.targetLevels,
+      store.activeModules,
+    );
+    downloadExport(data);
+  };
+
+  const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = parseImport(ev.target?.result as string);
+        store.importCustomLists(data);
+        setImportError(null);
+      } catch (err) {
+        setImportError(err instanceof Error ? err.message : 'Errore durante l\'importazione');
+      }
+    };
+    reader.readAsText(file);
+    // Reset so the same file can be re-imported
+    e.target.value = '';
+  };
+
   return (
     <div className="p-4 pb-28">
       <div className="mb-4">
@@ -72,6 +100,14 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
                 <Plus size={13} />
                 Lista
               </button>
+              <button onClick={handleExport} title="Esporta liste custom"
+                className="flex items-center p-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 rounded-full">
+                <Download size={14} />
+              </button>
+              <button onClick={() => fileInputRef.current?.click()} title="Importa liste custom"
+                className="flex items-center p-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 rounded-full">
+                <Upload size={14} />
+              </button>
               <button onClick={() => setShowResetConfirm(true)}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 text-xs font-bold rounded-full">
                 <RotateCcw size={13} />
@@ -81,6 +117,22 @@ export const GoalsPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
           )}
         />
       </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json,application/json"
+        className="hidden"
+        onChange={handleImportFile}
+      />
+
+      {importError && (
+        <div className="mb-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl flex items-center justify-between gap-2">
+          <p className="text-[11px] text-red-600 dark:text-red-400">{importError}</p>
+          <button onClick={() => setImportError(null)}
+            className="text-[11px] text-red-500 font-bold shrink-0">✕</button>
+        </div>
+      )}
 
       <p className="text-[11px] text-gray-400 mb-3 flex items-center gap-1">
         <GripVertical size={13} />
