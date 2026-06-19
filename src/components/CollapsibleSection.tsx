@@ -34,7 +34,7 @@ export const CollapsibleSection = ({
 
     {/* Grid trick: animates height from 0 → auto without knowing the target height */}
     <div
-      className={`grid transition-[grid-template-rows] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+      className={`grid overflow-hidden transition-[grid-template-rows] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
     >
       <div className="overflow-hidden">
         {children}
