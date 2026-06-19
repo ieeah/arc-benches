@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import { IconButton } from './IconButton';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useDialog } from '../hooks/useDialog';
 
 export type DrawerFrom = 'bottom' | 'top' | 'left' | 'right';
 
@@ -48,6 +49,8 @@ export const Drawer = ({
     setTimeout(onClose, DURATION_OUT - 10);
   };
 
+  const panelRef = useDialog(handleClose);
+
   return (
     <div
       className="fixed inset-0 z-50 bg-black/60"
@@ -55,7 +58,12 @@ export const Drawer = ({
       onClick={handleClose}
     >
       <div
-        className={`fixed bg-white dark:bg-gray-900 overflow-y-auto overscroll-contain ${panelClass[from]}`}
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        tabIndex={-1}
+        className={`fixed bg-white dark:bg-gray-900 overflow-y-auto overscroll-contain focus:outline-none ${panelClass[from]}`}
         style={{ animation: isClosing ? exitAnim[from] : enterAnim[from] }}
         onClick={e => e.stopPropagation()}
       >
