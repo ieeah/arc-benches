@@ -13,14 +13,16 @@ Companion tracker per ARC Raiders. Stato attuale: app local-only (localStorage),
 - [x] UI mobile-first: tab Stash / Rifugio / Obiettivi, dark mode, ordinamenti
 - [x] Deploy automatico su GitHub Pages
 
-## Fase 1 — Multi-profilo locale (~mezza giornata)
+## Fase 1 — Multi-profilo locale ✅ (completata)
 
 Prerequisito per il cloud: definisce il confine dei dati per-profilo che poi diventerà la riga sul DB.
 
-- [ ] Chiave localStorage namespaced per profilo: `arc-tracker:{profileId}`
-- [ ] Chiave `profiles` con lista profili + profilo attivo
-- [ ] UI switcher profilo (header) + crea / rinomina / elimina
-- [ ] Migrazione automatica dei dati esistenti nel primo profilo
+- [x] Chiave localStorage namespaced per profilo: `arc-raiders-tracker-{profileId}`
+- [x] Chiave `arc-raiders-tracker-profiles` con lista profili + profilo attivo
+- [x] UI switcher profilo (chip nell'header Obiettivi → drawer bottom): switch, rename inline, delete con conferma, crea nuovo (auto-switch)
+- [x] Migrazione automatica dei dati esistenti nel profilo "Principale"
+- [x] Liste custom **condivisibili tra profili** (`shared: true`, immutabile dopo creazione): definizione globale (`arc-raiders-tracker-shared-lists`), progresso per-profilo; toggle in `CustomListEditor` alla creazione
+- [x] `getAllLists()` fa union `workbenches ∪ sharedCustomLists ∪ customLists`; tutte le action esistenti funzionano su liste condivise senza modifiche
 
 ## Fase 2 — Supabase: dati di gioco + account + sync (~2-3 giorni)
 
@@ -176,11 +178,15 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       - Estrarre il drawer-shell in un componente riusabile (`BottomSheet`) condiviso con
         ItemDetailSheet invece di duplicare overlay/lock/layout
 - [x] **Import / Export liste (JSON)** — esporta tutte le liste (banchi + custom) con stato
-      (currentLevel, `targetLevels` come insieme di livelli, active) come file `.json` scaricabile.
-      Import mergia per id: i banchi di gioco ripristinano solo lo stato, le liste custom anche la
-      definizione. Validazione struttura + banner errore inline. Formato `version: 2` (insieme
-      livelli); l'import resta retrocompatibile coi file `version: 1` (vecchio `targetLevel` singolo
-      → migrato in `[current+1 … n]`). Azioni Esporta/Importa nel drawer Azioni di Obiettivi.
+      (currentLevel, `targetLevels` come insieme di livelli, active) + **inventario** come file `.json`
+      scaricabile. Import mergia per id: i banchi di gioco ripristinano solo lo stato, le liste custom
+      anche la definizione; l'inventario viene ripristinato se presente nel file. Liste con `shared: true`
+      vanno in `sharedCustomLists` all'import. Validazione struttura + banner errore inline. Formato
+      `version: 2`; retrocompatibile con `version: 1`. Azioni Esporta/Importa nel drawer Azioni.
+- [ ] **Import/Export per profilo** — al momento l'export include tutte le liste e l'inventario del
+      profilo attivo. Aggiungere la possibilità di selezionare: esporta/importa tutti i profili in un
+      unico file, oppure selezionarne uno o più puntualmente. Utile per il trasferimento device-to-device
+      senza perdere gli altri profili.
 - [x] **Livelli obiettivo come insieme + azioni checkbox + pagina dettaglio lista** — FATTO.
       - **`targetLevels` da soglia singola a insieme di livelli** (`Record<string, number[]>`): le
         pill "Livello Obiettivo" sono toggle indipendenti (vedi/ignora ogni livello), disaccoppiate
@@ -262,6 +268,21 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       DB + tema; riga 2: `+ Lista` a sinistra, `Azioni ▲` a destra). "Azioni" apre un `<Drawer from="top">`
       con Esporta, Importa e **Ripristina** (in rosso, con conferma inline nel drawer). L'import chiede
       conferma con un modale che propone un backup (export) prima di procedere.
+- [ ] **ItemPicker mobile — selezione impossibile con pochi risultati** — quando i risultati di ricerca
+      sono 1-2, le card scendono in basso e vanno dietro la tastiera di sistema; il tap fuori dal picker
+      chiude il drawer e azzera la ricerca invece di far collassare la tastiera. Fix: ancorare la lista
+      risultati in alto (crescita verso il basso dal campo di ricerca), o rilevare l'altezza residua
+      disponibile con `VisualViewport API` e scrollare/ridimensionare il container di conseguenza.
+- [ ] **Target tap troppo piccoli su mobile** — i pulsanti "Modifica lista" (matita) e "Dettaglio
+      lista" (layers) sulle card sono difficili da vedere e da premere. Portare l'area toccabile a
+      minimo 44×44 px (HIG/Material) e aumentare il contrasto delle icone.
+- [ ] **Testo e icone sezioni collassabili troppo piccoli su mobile** — il titolo (`CollapsibleSection`)
+      e le icone chevron/count sono troppo sottili a dimensioni mobile. Aumentare dimensione testo e
+      icone per migliorare leggibilità e area toccabile.
+- [ ] **Bordo superiore card visibile quando sezione è chiusa** — sporadicamente il bordo superiore
+      della prima card di una sezione collassabile rimane visibile anche a sezione chiusa. Da indagare
+      nel componente `CollapsibleSection` (probabile artefatto del CSS grid-trick `0fr↔1fr` con
+      `overflow: hidden` applicato in ritardo o mancante).
 - [ ] **Drawer filtri dalle pagine** (~1 ora per pagina, dopo `Drawer`) — lo stesso `<Drawer
       from="top">` usato in Obiettivi diventa il pattern standard per i filtri avanzati di ogni
       pagina. Filtri da definire pagina per pagina:
