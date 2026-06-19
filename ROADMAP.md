@@ -377,8 +377,8 @@ superficie d'attacco ridotta, niente `dangerouslySetInnerHTML`/`eval`, React esc
 
 ### Pulizia del codice
 
-- [ ] **`src/App.css` è codice morto** — residuo del template Vite, non importato da nessuna parte
-      (`main.tsx` importa solo `index.css`). Da eliminare.
+- [x] **`src/App.css` è codice morto** — FATTO. Residuo del template Vite, non importato da nessuna
+      parte (`main.tsx` importa solo `index.css`). Eliminato.
 - [ ] **Voce "fantasma" in `workbenches.json`** — `workbench` con `maxLevel: 0` filtrata all'init
       (`w.maxLevel > 0`). Documentare perché esiste o rimuoverla dai dati.
 - [ ] **Logica duplicata `activeWBs`/`maxedWBs`** — lo split attivi/completati è ripetuto identico
