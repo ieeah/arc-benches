@@ -129,6 +129,10 @@ Regole architetturali:
   preferenza in localStorage (`theme`)
 - **Mobile**: input numerici con `inputMode="numeric"` (tastiera numerica), long-press sui +/- per
   incremento rapido, TouchSensor dnd con delay 200ms per non confliggere con lo scroll
+- **Direzione dei Drawer**: un `Drawer` si apre SEMPRE dal lato del pulsante che lo attiva — pulsante
+  in alto → `from="top"`, in basso → `from="bottom"`. Le direzioni laterali (`left`/`right`) sono già
+  supportate da `Drawer` e vanno usate quando il trigger è laterale (es. menu a comparsa). Il legame
+  trigger↔direzione dà continuità spaziale al gesto: l'elemento entra da dove l'utente ha toccato.
 
 ### Convenzioni
 
