@@ -266,7 +266,7 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 - [x] **Componente `Drawer` riusabile con direzione configurabile** — FATTO. `Drawer` con prop
       `from: 'bottom' | 'top' | 'left' | 'right'`, animazioni slide-in/out per direzione + fade del
       backdrop, `useScrollLock`, chiusura animata (`isClosing`). Usato per il drawer Azioni in Obiettivi.
-      (Ancora da migrare `ItemDetailSheet`/`CustomListEditor` su questo shell — vedi nota BottomSheet.)
+      Ora anche accessibile via `useDialog` (role=dialog, focus trap, Esc, ritorno focus).
 - [x] **Header Obiettivi a due righe + drawer azioni** — FATTO. Header a due righe (riga 1: titolo +
       DB + tema; riga 2: `+ Lista` a sinistra, `Azioni ▲` a destra). "Azioni" apre un `<Drawer from="top">`
       con Esporta, Importa e **Ripristina** (in rosso, con conferma inline nel drawer). L'import chiede
@@ -350,9 +350,13 @@ Rilevazioni da un'analisi del codice (giu 2026), ordinate per impatto dentro ogn
 
 ### Accessibilità
 
-- [ ] **`ItemDetailSheet` non è un dialog accessibile** — mancano `role="dialog"`/`aria-modal`,
-      focus trap, chiusura con Esc e ritorno del focus all'elemento che l'ha aperto. Da sistemare
-      quando si estrae il `BottomSheet` riusabile (già previsto in Fase 3).
+- [x] **Dialog accessibili + shell `BottomSheet` condiviso** — FATTO. Hook `useDialog`
+      (`src/hooks/useDialog.ts`): `role="dialog"`/`aria-modal`, focus trap, chiusura con Esc, ritorno
+      del focus al trigger, stack per dialog annidati (solo il topmost reagisce). Nuovo componente
+      `BottomSheet` (mobile-bottom / desktop-center) che assorbe gli overlay fatti a mano: migrati
+      `ItemDetailSheet`, `ItemPicker` (con backdrop "intelligente" preservato) e `CustomListEditor`;
+      anche `Drawer` usa `useDialog`. Restano i modali centrati import/export (da migrare con lo
+      scorporo di `GoalsPage`).
 - [ ] **Drag & drop non operabile da tastiera** — solo `PointerSensor` + `TouchSensor`; manca il
       `KeyboardSensor` di dnd-kit per riordinare le priorità senza mouse/touch.
 - [ ] **Controlli icona-only senza label** — i pill di livello (`LevelPills`), i bottoni +/-

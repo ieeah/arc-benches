@@ -1,11 +1,10 @@
 import { useState, useRef } from 'react';
-import { X, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import type { ItemInfo } from '../types';
 import { useAppStore } from '../store';
 import { getRarityStyles, getRarityText } from '../lib/rarity';
 import { iconUrl } from '../lib/icons';
-import { IconButton } from './IconButton';
-import { useScrollLock } from '../hooks/useScrollLock';
+import { BottomSheet } from './BottomSheet';
 
 /** Full-screen catalog picker over the whole item DB. Tap an item to pick it.
  *  Search bar is anchored to the bottom so the keyboard pushes it up,
@@ -15,7 +14,6 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
   onPick: (item: ItemInfo) => void;
   onClose: () => void;
 }) => {
-  useScrollLock();
   const itemsInfo = useAppStore(s => s.itemsInfo);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,58 +27,19 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
 
   // First tap on backdrop: dismiss keyboard (blur). Second tap: close picker.
   const handleBackdropClick = () => {
-    if (document.activeElement === inputRef.current) {
-      inputRef.current?.blur();
-    } else {
-      onClose();
-    }
+    if (document.activeElement === inputRef.current) inputRef.current?.blur();
+    else onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-[60] bg-black/60 flex items-end sm:items-center justify-center"
-      onClick={handleBackdropClick}>
-      <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] flex flex-col max-h-[85vh]"
-        onClick={e => e.stopPropagation()}>
-
-        {/* Title row */}
-        <div className="px-4 pt-4 pb-2 flex justify-between items-center shrink-0">
-          <h2 className="text-lg font-bold">Aggiungi oggetto</h2>
-          <IconButton onClick={onClose} title="Chiudi">
-            <X size={16} />
-          </IconButton>
-        </div>
-
-        {/* Results — flex-1 so they fill the space above the search bar.
-            With 1-2 results they stay at the top, never behind the keyboard. */}
-        <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto overscroll-contain">
-          {items.map(item => {
-            const { color } = getRarityStyles(item.rarity);
-            return (
-              <button key={item.id} onClick={() => onPick(item)}
-                className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform">
-                <div className="relative w-11 h-11 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                  {item.icon
-                    ? <img src={iconUrl(item.icon)} alt={item.name} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
-                    : <span className="text-[8px] text-gray-400">{item.id}</span>}
-                  <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-bold text-sm truncate">{item.name}</p>
-                  <p className="text-[10px] text-gray-400">
-                    <span className={`font-bold ${getRarityText(item.rarity)}`}>{item.rarity}</span> · {item.item_type}
-                  </p>
-                </div>
-              </button>
-            );
-          })}
-          {items.length === 0 && (
-            <p className="p-10 text-center text-gray-500 italic text-sm">Nessun oggetto trovato.</p>
-          )}
-        </div>
-
-        {/* Search bar — anchored to bottom. The system keyboard pushes it up,
-            so results in the space above always remain tappable. */}
-        <div className="px-3 pb-3 pt-2 border-t border-gray-200 dark:border-gray-800 shrink-0">
+    <BottomSheet
+      title="Aggiungi oggetto"
+      onClose={onClose}
+      onBackdropClick={handleBackdropClick}
+      overlayZ="z-[60]"
+      bodyClassName="flex-1 min-h-0 px-3 pb-2 overflow-y-auto overscroll-contain"
+      footer={
+        <div className="px-3 pb-3 pt-2 border-t border-gray-200 dark:border-gray-800">
           <div className="relative">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
@@ -94,7 +53,31 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
             />
           </div>
         </div>
-      </div>
-    </div>
+      }
+    >
+      {items.map(item => {
+        const { color } = getRarityStyles(item.rarity);
+        return (
+          <button key={item.id} onClick={() => onPick(item)}
+            className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform">
+            <div className="relative w-11 h-11 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
+              {item.icon
+                ? <img src={iconUrl(item.icon)} alt={item.name} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
+                : <span className="text-[8px] text-gray-400">{item.id}</span>}
+              <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-sm truncate">{item.name}</p>
+              <p className="text-[10px] text-gray-400">
+                <span className={`font-bold ${getRarityText(item.rarity)}`}>{item.rarity}</span> · {item.item_type}
+              </p>
+            </div>
+          </button>
+        );
+      })}
+      {items.length === 0 && (
+        <p className="p-10 text-center text-gray-500 italic text-sm">Nessun oggetto trovato.</p>
+      )}
+    </BottomSheet>
   );
 };
