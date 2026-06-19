@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { Pencil, Layers } from "lucide-react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
+import { Pencil, Layers, MoreHorizontal } from "lucide-react";
 import type { List } from "../types";
 import { LevelBadge } from "./LevelBadge";
 import { LevelPills } from "./LevelPills";
@@ -53,6 +53,20 @@ export const ListRow = ({
     (l) => selectedTargets.includes(l.level) && (l.actions?.length ?? 0) > 0,
   );
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [menuOpen]);
+
   // Level increase pending deduction confirmation
   const [pendingLevel, setPendingLevel] = useState<number | null>(null);
 
@@ -100,23 +114,41 @@ export const ListRow = ({
             </span>
           )}
         </span>
-        {onOpenDetail && (
-          <button
-            onClick={onOpenDetail}
-            title="Dettaglio lista"
-            className="text-gray-500 dark:text-gray-600 hover:text-blue-500 transition-colors shrink-0"
-          >
-            <Layers size={18} />
-          </button>
-        )}
-        {onEdit && (
-          <button
-            onClick={onEdit}
-            title="Modifica lista"
-            className="text-gray-500 dark:text-gray-600 hover:text-blue-500 transition-colors shrink-0"
-          >
-            <Pencil size={18} />
-          </button>
+        {(onOpenDetail || onEdit) && (
+          <div ref={menuRef} className="relative shrink-0">
+            <button
+              onClick={() => setMenuOpen(v => !v)}
+              title="Azioni lista"
+              className="w-9 h-9 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors rounded-full"
+            >
+              <MoreHorizontal size={20} />
+            </button>
+            {menuOpen && (
+              <div className="absolute right-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden min-w-[9rem]">
+                {onOpenDetail && (
+                  <button
+                    onClick={() => { setMenuOpen(false); onOpenDetail(); }}
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                  >
+                    <Layers size={15} className="text-gray-400 shrink-0" />
+                    Dettaglio
+                  </button>
+                )}
+                {onOpenDetail && onEdit && (
+                  <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />
+                )}
+                {onEdit && (
+                  <button
+                    onClick={() => { setMenuOpen(false); onEdit(); }}
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                  >
+                    <Pencil size={15} className="text-gray-400 shrink-0" />
+                    Modifica
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         )}
         <LevelBadge
           current={current}
