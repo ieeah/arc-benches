@@ -21,7 +21,7 @@ Prerequisito per il cloud: definisce il confine dei dati per-profilo che poi div
 - [x] Chiave `arc-raiders-tracker-profiles` con lista profili + profilo attivo
 - [x] UI switcher profilo (chip nell'header Obiettivi → drawer bottom): switch, rename inline, delete con conferma, crea nuovo (auto-switch)
 - [x] Migrazione automatica dei dati esistenti nel profilo "Principale"
-- [x] Liste custom **condivisibili tra profili** (`shared: true`, immutabile dopo creazione): definizione globale (`arc-raiders-tracker-shared-lists`), progresso per-profilo; toggle in `CustomListEditor` alla creazione
+- [x] Liste custom **condivisibili tra profili** (`shared: true`, immutabile dopo creazione): definizione globale (`arc-raiders-tracker-shared-lists`), progresso per-profilo; toggle in `CustomListEditor` alla creazione, con avviso che la condivisione non è reversibile (per rimuoverla da un profilo va eliminata da lì)
 - [x] `getAllLists()` fa union `workbenches ∪ sharedCustomLists ∪ customLists`; tutte le action esistenti funzionano su liste condivise senza modifiche
 
 ## Fase 2 — Supabase: dati di gioco + account + sync (~2-3 giorni)
@@ -183,10 +183,13 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       anche la definizione; l'inventario viene ripristinato se presente nel file. Liste con `shared: true`
       vanno in `sharedCustomLists` all'import. Validazione struttura + banner errore inline. Formato
       `version: 2`; retrocompatibile con `version: 1`. Azioni Esporta/Importa nel drawer Azioni.
-- [ ] **Import/Export per profilo** — al momento l'export include tutte le liste e l'inventario del
-      profilo attivo. Aggiungere la possibilità di selezionare: esporta/importa tutti i profili in un
-      unico file, oppure selezionarne uno o più puntualmente. Utile per il trasferimento device-to-device
-      senza perdere gli altri profili.
+- [x] **Import/Export per profilo (formato v3)** — FATTO. Tutti gli export usano ora il formato unico
+      `{ version: 3, sharedLists, profiles[] }` (sempre predisposto al multiprofilo, anche con un solo
+      profilo selezionato). Modal di export con checkbox per profilo + master "Tutti i profili";
+      `buildExportData()` legge il profilo attivo dallo store e gli altri da localStorage senza switch.
+      Modal di import con checkbox profili (badge "Nuovo profilo" / "Sovrascrive esistente");
+      `importMultiProfile()` mergia le `sharedLists` globali, salva ogni profilo selezionato e aggiorna
+      lo stato live solo se coinvolge il profilo attivo. I file v1/v2 restano importabili (retrocompat).
 - [x] **Livelli obiettivo come insieme + azioni checkbox + pagina dettaglio lista** — FATTO.
       - **`targetLevels` da soglia singola a insieme di livelli** (`Record<string, number[]>`): le
         pill "Livello Obiettivo" sono toggle indipendenti (vedi/ignora ogni livello), disaccoppiate
@@ -268,21 +271,19 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       DB + tema; riga 2: `+ Lista` a sinistra, `Azioni ▲` a destra). "Azioni" apre un `<Drawer from="top">`
       con Esporta, Importa e **Ripristina** (in rosso, con conferma inline nel drawer). L'import chiede
       conferma con un modale che propone un backup (export) prima di procedere.
-- [ ] **ItemPicker mobile — selezione impossibile con pochi risultati** — quando i risultati di ricerca
-      sono 1-2, le card scendono in basso e vanno dietro la tastiera di sistema; il tap fuori dal picker
-      chiude il drawer e azzera la ricerca invece di far collassare la tastiera. Fix: ancorare la lista
-      risultati in alto (crescita verso il basso dal campo di ricerca), o rilevare l'altezza residua
-      disponibile con `VisualViewport API` e scrollare/ridimensionare il container di conseguenza.
-- [ ] **Target tap troppo piccoli su mobile** — i pulsanti "Modifica lista" (matita) e "Dettaglio
-      lista" (layers) sulle card sono difficili da vedere e da premere. Portare l'area toccabile a
-      minimo 44×44 px (HIG/Material) e aumentare il contrasto delle icone.
-- [ ] **Testo e icone sezioni collassabili troppo piccoli su mobile** — il titolo (`CollapsibleSection`)
-      e le icone chevron/count sono troppo sottili a dimensioni mobile. Aumentare dimensione testo e
-      icone per migliorare leggibilità e area toccabile.
-- [ ] **Bordo superiore card visibile quando sezione è chiusa** — sporadicamente il bordo superiore
-      della prima card di una sezione collassabile rimane visibile anche a sezione chiusa. Da indagare
-      nel componente `CollapsibleSection` (probabile artefatto del CSS grid-trick `0fr↔1fr` con
-      `overflow: hidden` applicato in ritardo o mancante).
+- [x] **ItemPicker mobile — selezione impossibile con pochi risultati** — FATTO. La search bar è stata
+      spostata in fondo al picker (la tastiera la spinge su, i risultati restano nello spazio sopra) e i
+      risultati ora crescono dall'alto: con 1-2 risultati le card sono in cima, sempre raggiungibili.
+      Tap sul backdrop intelligente: primo tap fa `blur` (chiude la tastiera), secondo tap chiude il picker.
+- [x] **Target tap troppo piccoli su mobile** — FATTO. I due bottoni icona (matita "Modifica" + layers
+      "Dettaglio") su `ListRow` sono stati accorpati in un unico bottone `⋯` (w-9 h-9, ~44px) che apre un
+      dropdown con le voci Dettaglio / Modifica (divider quando entrambe presenti, chiusura al click fuori).
+- [x] **Testo e icone sezioni collassabili troppo piccoli su mobile** — FATTO. Titolo `CollapsibleSection`
+      `text-xs` → `text-[13px] sm:text-sm`, badge count `text-[10px]` → `text-[11px] sm:text-xs`, chevron
+      14 → 15px. Aggiunto `aria-expanded` per accessibilità.
+- [x] **Bordo superiore card visibile quando sezione è chiusa** — FATTO. Mancava `overflow-hidden` sul div
+      `grid` esterno di `CollapsibleSection`: il bordo della prima card sforava di 1px attraverso la clip
+      della grid row a `0fr`.
 - [ ] **Drawer filtri dalle pagine** (~1 ora per pagina, dopo `Drawer`) — lo stesso `<Drawer
       from="top">` usato in Obiettivi diventa il pattern standard per i filtri avanzati di ogni
       pagina. Filtri da definire pagina per pagina:
