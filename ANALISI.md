@@ -263,7 +263,76 @@ Le rifiniture (#9, #10, #11, #12, #17) si possono intercalare come riempitivo a 
 
 ---
 
-## 6. Note per il mantenimento di questo documento
+## 6. Prioritizzazione pesata (semplicità × valore × architettura)
+
+La §5 ordina per intuizione (🔴🟠🟡🔵). Qui la stessa lista è **pesata** con un modello esplicito,
+così la classifica è verificabile e ri-discutibile cambiando i pesi.
+
+### 6.1 Modello
+Tre assi, ognuno 1-5 (5 = meglio):
+- **S — Semplicità implementativa**: 5 = minuti, basso rischio; 1 = refactor ampio e rischioso.
+- **V — Valore per l'utente**: 5 = percepito subito da tutti; 1 = invisibile all'utente.
+- **A — Priorità architetturale**: 5 = sblocca/mette in sicurezza il resto (sync, DB); 1 = ininfluente.
+
+**Pesi scelti**: `W = 0.40·A + 0.35·V + 0.25·S`. Razionale: siamo in **fase di consolidamento
+pre-DB**, quindi l'architettura pesa di più (è il macigno in arrivo); il valore utente tiene l'app
+degna d'uso; la semplicità è un fattore di *momentum*/tiebreak, non l'obiettivo. Chi non condivide
+i pesi può ricalcolare `W` dalla tabella.
+
+### 6.2 Classifica
+Ordinata per `W` decrescente. I numeri `#` sono quelli della tabella §5.
+
+| # | Intervento | S | V | A | **W** |
+|---|---|:-:|:-:|:-:|:-:|
+| 6 | Accorpamento Rifugio + Obiettivi | 2 | 4 | 4 | **3.50** |
+| 3 | Estrarre `BottomSheet`/`Drawer` condiviso (+a11y) | 3 | 3 | 4 | **3.40** |
+| 2 | Validazione input deserializzati | 4 | 2 | 4 | **3.30** |
+| 1 | Boundary di persistenza unico | 3 | 1 | 5 | **3.10** |
+| 8 | Slice pattern per `store.ts` | 3 | 1 | 4 | **2.70** |
+| 16 | Infrastruttura test | 3 | 1 | 4 | **2.70** |
+| 14 | Selettori memoizzati + `useShallow` | 3 | 2 | 3 | **2.65** |
+| 11 | A11y controlli (label, Esc, KeyboardSensor) | 3 | 3 | 2 | **2.60** |
+| 9 | Selettori condivisi (refiner/split/baseLevel/…) | 4 | 1 | 3 | **2.55** |
+| 13 | `keys.ts`/`constants.ts` | 4 | 1 | 3 | **2.55** |
+| 12 | Contrasto colore | 4 | 3 | 1 | **2.45** |
+| 10 | Adozione `cn()` ovunque | 5 | 1 | 2 | **2.40** |
+| 18 | Decisione routing + tema/lingua per-profilo | 2 | 2 | 3 | **2.40** |
+| 4 | Fix direzione drawer Profili | 5 | 2 | 1 | **2.35** |
+| 7 | Scorporare `GoalsPage` | 3 | 1 | 3 | **2.30** |
+| 15 | `schemaVersion` + pipeline migrazioni | 3 | 1 | 3 | **2.30** |
+| 17 | Fix `useLongPress` | 4 | 2 | 1 | **2.10** |
+| 5 | Rimuovere `src/App.css` | 5 | 1 | 1 | **2.00** |
+
+### 6.3 Letture trasversali
+- **I 4 in testa (6, 3, 2, 1) sono il vero cuore**: staccano dal resto perché combinano alto
+  impatto architetturale e/o valore. Sono gli interventi su cui concentrare l'energia.
+- **Impatto ≠ ordine di esecuzione.** #6 (accorpamento) è il più impattante (W 3.50) ma **non va
+  per primo**: farlo *sopra* overlay duplicati (#3) e logica di split duplicata (#9) costa e rischia
+  di più. L'ordine reale segue **dipendenze e rischio**, non solo `W`.
+- **Quick win a costo ~nullo** (`S=5`): #5 e #4 hanno `W` basso (poco impatto) ma si fanno in
+  minuti → si tolgono dal tavolo subito, non perché "valgano" molto ma perché costano zero.
+- **Trappola della semplicità**: #10/#12/#17 sono facili e invoglianti, ma a basso impatto: vanno
+  usati come **riempitivo** tra i blocchi pesanti, non come scusa per rimandare lo strutturale.
+
+### 6.4 Ordine di esecuzione consigliato (riconcilia W + dipendenze + rischio + momentum)
+- **Sprint 0 — sgombra il tavolo (minuti):** #5 (App.css), #4 (drawer Profili). Zero rischio.
+- **Sprint 1 — sicurezza + abilitatore:** #2 (validazione) e #3 (`BottomSheet`). In più, **test
+  minimi** su `parseImport`/validazione (anticipo di #16 su target stabili e a basso costo).
+- **Sprint 2 — cuore strutturale:** #1 (boundary persistenza) + #8 (slice store) **insieme**
+  (toccano le stesse action); poi #9 (selettori condivisi) per togliere duplicazione **prima**
+  dell'accorpamento.
+- **Sprint 3 — keystone UX:** #6 (accorpamento Rifugio+Obiettivi), poi #7 (scorporo `GoalsPage`,
+  più facile dopo #3).
+- **Sprint 4 — debito pre-Supabase:** #16 (estensione test sul nuovo store), #13, #14, #15, #18.
+- **Riempitivo intercalabile (basso rischio):** #10 (`cn()`), #11 (a11y controlli), #12 (contrasto),
+  #17 (`useLongPress`).
+
+> Differenza con la §5: là la sequenza era a blocchi tematici; qui è la **stessa direzione** ma
+> giustificata dai punteggi e con i quick win esplicitamente anticipati allo Sprint 0.
+
+---
+
+## 7. Note per il mantenimento di questo documento
 - I task qui sopra vanno riflessi in `ROADMAP.md` man mano che si pianificano/chiudono; questo
   file è la **fotografia di analisi** (il *perché*), ROADMAP è la **lista operativa** (il *cosa*).
 - Rivedere l'analisi dopo l'accorpamento Rifugio+Obiettivi e dopo l'introduzione del boundary di
