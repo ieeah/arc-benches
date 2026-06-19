@@ -115,16 +115,23 @@ export const CustomListEditor = ({ listId, onClose }: {
 
           {/* Shared toggle — immutable after creation */}
           {!existing ? (
-            <button type="button" onClick={() => setShared(v => !v)}
-              className="mb-4 w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left">
-              <div className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${shared ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}>
-                <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${shared ? 'translate-x-[1.125rem]' : 'translate-x-0.5'}`} />
-              </div>
-              <div>
-                <p className="text-sm font-semibold">Condividi con tutti i profili</p>
-                <p className="text-[10px] text-gray-400">Visibile in tutti i profili, progresso separato</p>
-              </div>
-            </button>
+            <div className="mb-4">
+              <button type="button" onClick={() => setShared(v => !v)}
+                className="w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left">
+                <div className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${shared ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}>
+                  <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${shared ? 'translate-x-[1.125rem]' : 'translate-x-0.5'}`} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold">Condividi con tutti i profili</p>
+                  <p className="text-[10px] text-gray-400">Visibile in tutti i profili, progresso separato</p>
+                </div>
+              </button>
+              {shared && (
+                <p className="mt-1.5 px-1 text-[11px] text-amber-500 dark:text-amber-400">
+                  Una lista condivisa non può essere resa privata in seguito. Per rimuoverla da un profilo specifico dovrai eliminarla da quel profilo.
+                </p>
+              )}
+            </div>
           ) : existing.shared ? (
             <div className="mb-4 flex items-center gap-2 text-[11px] text-blue-500 font-semibold px-1">
               <Users size={13} />
