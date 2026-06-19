@@ -5,6 +5,7 @@ export function buildExport(
   hideoutLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   activeModules: Record<string, boolean>,
+  inventory: Record<string, number>,
 ): ListExportFile {
   return {
     version: 2,
@@ -15,6 +16,7 @@ export function buildExport(
         targetLevels: targetLevels[list.id] ?? list.levels.map(l => l.level),
         active: activeModules[list.id] ?? true,
       })),
+    inventory,
   };
 }
 
@@ -57,5 +59,9 @@ export function parseImport(json: string): ListExportFile {
     };
   });
 
-  return { version: 2, exportedAt: String(data.exportedAt ?? new Date().toISOString()), lists };
+  const inventory = (data.inventory && typeof data.inventory === 'object' && !Array.isArray(data.inventory))
+    ? data.inventory as Record<string, number>
+    : undefined;
+
+  return { version: 2, exportedAt: String(data.exportedAt ?? new Date().toISOString()), lists, inventory };
 }

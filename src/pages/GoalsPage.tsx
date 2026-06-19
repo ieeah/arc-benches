@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { RotateCcw, GripVertical, PartyPopper, Plus, Download, Upload, ChevronUp } from 'lucide-react';
+import { RotateCcw, GripVertical, PartyPopper, Plus, Download, Upload, ChevronUp, Users, Check, Pencil, Trash2 } from 'lucide-react';
 import {
   DndContext, closestCenter, PointerSensor, TouchSensor,
   useSensor, useSensors,
@@ -25,6 +25,7 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
 }) => {
   const store = useAppStore();
   const [showActions, setShowActions] = useState(false);
+  const [showProfiles, setShowProfiles] = useState(false);
   const [drawerConfirmReset, setDrawerConfirmReset] = useState(false);
   const [movePromptId, setMovePromptId] = useState<string | null>(null);
   const [editing, setEditing] = useState<{ id?: string } | null>(null);
@@ -40,6 +41,13 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
       return { workbench: true, custom: true, completati: false };
     }, { workbench: true, custom: true, completati: false })
   );
+
+  // Profile drawer state
+  const [editingProfile, setEditingProfile] = useState<{ id: string; name: string } | null>(null);
+  const [deletingProfileId, setDeletingProfileId] = useState<string | null>(null);
+  const [showNewProfile, setShowNewProfile] = useState(false);
+  const [newProfileName, setNewProfileName] = useState('');
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const orderedLists = store.getOrderedLists();
@@ -81,7 +89,13 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
   };
 
   const handleExport = () => {
-    const data = buildExport(store.getAllLists(), store.hideoutLevels, store.targetLevels, store.activeModules);
+    const data = buildExport(
+      store.getAllLists(),
+      store.hideoutLevels,
+      store.targetLevels,
+      store.activeModules,
+      store.inventory,
+    );
     downloadExport(data);
   };
 
@@ -108,6 +122,32 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
     setImportError(null);
   };
 
+  const closeProfilesDrawer = () => {
+    setShowProfiles(false);
+    setEditingProfile(null);
+    setDeletingProfileId(null);
+    setShowNewProfile(false);
+    setNewProfileName('');
+  };
+
+  const commitNewProfile = () => {
+    const name = newProfileName.trim();
+    if (!name) return;
+    store.createProfile(name);
+    setShowNewProfile(false);
+    setNewProfileName('');
+    closeProfilesDrawer();
+  };
+
+  const commitRenameProfile = () => {
+    if (!editingProfile) return;
+    const name = editingProfile.name.trim();
+    if (name) store.renameProfile(editingProfile.id, name);
+    setEditingProfile(null);
+  };
+
+  const activeProfile = store.profiles.find(p => p.id === store.activeProfileId);
+
   const renderDndSection = (lists: List[]) => (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={lists.map(l => l.id)} strategy={verticalListSortingStrategy}>
@@ -133,7 +173,7 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
 
   return (
     <div className="pb-28">
-      {/* Sticky header — two rows */}
+      {/* Sticky header */}
       <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
         <SectionHeader title="Obiettivi" onOpenDatabase={onOpenDatabase} />
         <div className="flex justify-between items-center mt-2">
@@ -141,6 +181,11 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
             className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">
             <Plus size={13} />
             Lista
+          </button>
+          <button onClick={() => setShowProfiles(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs font-semibold rounded-full max-w-[140px]">
+            <Users size={12} className="shrink-0" />
+            <span className="truncate">{activeProfile?.name ?? '—'}</span>
           </button>
           <button onClick={() => setShowActions(true)}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 text-xs font-bold rounded-full">
@@ -271,7 +316,7 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
                 </div>
                 <div>
                   <p className="font-bold text-sm">Esporta liste</p>
-                  <p className="text-[11px] text-gray-400">Scarica un backup JSON</p>
+                  <p className="text-[11px] text-gray-400">Scarica un backup JSON (include inventario)</p>
                 </div>
               </button>
               <button
@@ -304,6 +349,103 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
         </Drawer>
       )}
 
+      {/* Profili drawer */}
+      {showProfiles && (
+        <Drawer from="bottom" title="Profili" onClose={closeProfilesDrawer}>
+          <div className="space-y-1.5 pt-1">
+            {store.profiles.map(profile => {
+              const isActive = profile.id === store.activeProfileId;
+              const isDeleting = deletingProfileId === profile.id;
+              const isEditing = editingProfile?.id === profile.id;
+
+              return (
+                <div key={profile.id}
+                  className={`flex items-center gap-3 p-3 rounded-2xl transition-colors ${isActive ? 'bg-blue-50 dark:bg-blue-900/20' : 'bg-gray-50 dark:bg-gray-800'}`}>
+                  {/* Active indicator */}
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${isActive ? 'border-blue-500 bg-blue-500' : 'border-gray-300 dark:border-gray-600'}`}
+                    onClick={() => { if (!isEditing && !isDeleting && !isActive) { store.switchProfile(profile.id); closeProfilesDrawer(); } }}>
+                    {isActive && <Check size={11} className="text-white" strokeWidth={3} />}
+                  </div>
+
+                  {/* Name / edit input */}
+                  {isEditing ? (
+                    <input
+                      autoFocus
+                      className="flex-1 text-sm font-semibold bg-white dark:bg-gray-700 border border-blue-400 rounded-xl px-2 py-1 focus:outline-none"
+                      value={editingProfile.name}
+                      onChange={e => setEditingProfile({ ...editingProfile, name: e.target.value })}
+                      onKeyDown={e => { if (e.key === 'Enter') commitRenameProfile(); if (e.key === 'Escape') setEditingProfile(null); }}
+                    />
+                  ) : (
+                    <span
+                      className={`flex-1 text-sm font-semibold truncate cursor-pointer ${isActive ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                      onClick={() => { if (!isDeleting && !isActive) { store.switchProfile(profile.id); closeProfilesDrawer(); } }}
+                    >
+                      {profile.name}
+                    </span>
+                  )}
+
+                  {/* Actions */}
+                  {isEditing ? (
+                    <div className="flex gap-1 shrink-0">
+                      <button onClick={commitRenameProfile}
+                        className="px-2.5 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">OK</button>
+                      <button onClick={() => setEditingProfile(null)}
+                        className="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded-full">✕</button>
+                    </div>
+                  ) : isDeleting ? (
+                    <div className="flex gap-1 shrink-0">
+                      <button onClick={() => { store.deleteProfile(profile.id); setDeletingProfileId(null); }}
+                        className="px-2.5 py-1 bg-red-500 text-white text-xs font-bold rounded-full">Elimina</button>
+                      <button onClick={() => setDeletingProfileId(null)}
+                        className="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded-full">✕</button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-1 shrink-0">
+                      <button onClick={() => { setEditingProfile({ id: profile.id, name: profile.name }); setDeletingProfileId(null); }}
+                        className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-colors">
+                        <Pencil size={13} />
+                      </button>
+                      <button
+                        onClick={() => { setDeletingProfileId(profile.id); setEditingProfile(null); }}
+                        disabled={store.profiles.length <= 1}
+                        className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors disabled:opacity-30">
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+              {showNewProfile ? (
+                <div className="flex gap-1.5">
+                  <input
+                    autoFocus
+                    className="flex-1 text-sm bg-gray-100 dark:bg-gray-800 border border-blue-400 rounded-xl px-3 py-2 focus:outline-none"
+                    placeholder="Nome profilo…"
+                    value={newProfileName}
+                    onChange={e => setNewProfileName(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') commitNewProfile(); if (e.key === 'Escape') { setShowNewProfile(false); setNewProfileName(''); } }}
+                  />
+                  <button onClick={commitNewProfile}
+                    className="px-3 py-2 bg-blue-500 text-white text-xs font-bold rounded-xl">OK</button>
+                  <button onClick={() => { setShowNewProfile(false); setNewProfileName(''); }}
+                    className="px-3 py-2 bg-gray-100 dark:bg-gray-800 text-xs rounded-xl">✕</button>
+                </div>
+              ) : (
+                <button onClick={() => { setShowNewProfile(true); setEditingProfile(null); setDeletingProfileId(null); }}
+                  className="w-full flex items-center gap-2 p-3 text-blue-500 font-bold text-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                  <Plus size={15} />
+                  Nuovo profilo
+                </button>
+              )}
+            </div>
+          </div>
+        </Drawer>
+      )}
+
       {/* Import confirmation modal */}
       {importPending && (
         <div className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-6"
@@ -311,9 +453,14 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
           <div className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm"
             onClick={e => e.stopPropagation()}>
             <h3 className="text-base font-bold mb-1">Importa liste</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
               Stai per importare <strong>{importPending.lists.length}</strong> liste. Le liste con lo stesso ID verranno sovrascritte.
             </p>
+            {importPending.inventory && (
+              <p className="text-[11px] text-blue-500 mb-3">
+                Il file include anche l'inventario, che verrà ripristinato.
+              </p>
+            )}
             <div className="space-y-2">
               <button onClick={handleExport}
                 className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Plus, Minus, Trash2, ListPlus, CheckSquare } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ListPlus, CheckSquare, Users } from 'lucide-react';
 import type { ListLevel, ItemInfo, CheckboxAction } from '../types';
 import { useAppStore } from '../store';
 import { iconUrl } from '../lib/icons';
@@ -19,6 +19,7 @@ export const CustomListEditor = ({ listId, onClose }: {
   const existing = listId ? store.customLists.find(l => l.id === listId) : undefined;
 
   const [name, setName] = useState(existing?.name ?? '');
+  const [shared, setShared] = useState(existing?.shared ?? false);
   const [levels, setLevels] = useState<ListLevel[]>(
     existing?.levels ?? [{ level: 1, requirementItemIds: [] }]
   );
@@ -87,7 +88,7 @@ export const CustomListEditor = ({ listId, onClose }: {
       .filter(l => l.requirementItemIds.length > 0 || (l.actions?.length ?? 0) > 0)
       .map((l, i) => ({ ...l, level: i + 1 }));
     if (existing) store.updateCustomList(existing.id, { name: cleanName, levels: kept });
-    else store.createCustomList({ name: cleanName, levels: kept });
+    else store.createCustomList({ name: cleanName, levels: kept, shared });
     onClose();
   };
 
@@ -111,6 +112,25 @@ export const CustomListEditor = ({ listId, onClose }: {
               placeholder="Es. Progetto armatura, Quest Celeste…"
               className="w-full px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-1 focus:ring-blue-400" />
           </div>
+
+          {/* Shared toggle — immutable after creation */}
+          {!existing ? (
+            <button type="button" onClick={() => setShared(v => !v)}
+              className="mb-4 w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left">
+              <div className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${shared ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}>
+                <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${shared ? 'translate-x-[1.125rem]' : 'translate-x-0.5'}`} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">Condividi con tutti i profili</p>
+                <p className="text-[10px] text-gray-400">Visibile in tutti i profili, progresso separato</p>
+              </div>
+            </button>
+          ) : existing.shared ? (
+            <div className="mb-4 flex items-center gap-2 text-[11px] text-blue-500 font-semibold px-1">
+              <Users size={13} />
+              Lista condivisa con tutti i profili
+            </div>
+          ) : null}
 
           {/* Insert before the first level */}
           <InsertDivider onInsert={() => insertLevelAt(0)} />

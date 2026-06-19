@@ -26,10 +26,17 @@ export interface List {
   name: string;
   maxLevel: number;
   levels: ListLevel[];
-  /** true = user-created (per-profile, persisted); absent/false = game seed (read-only). */
+  /** true = user-created (persisted); absent/false = game seed (read-only). */
   custom?: boolean;
   /** Category for labels/icons/grouping; defaults to 'workbench' for game seed. */
   listType?: ListType;
+  /** true = shared across all profiles; false/absent = profile-specific. Immutable after creation. */
+  shared?: boolean;
+}
+
+export interface Profile {
+  id: string;
+  name: string;
 }
 
 export interface ItemInfo {
@@ -59,14 +66,21 @@ export interface ListExportFile {
   version: 1 | 2;
   exportedAt: string;
   lists: ListExportEntry[];
+  /** Snapshot of the user's inventory quantities at export time. */
+  inventory?: Record<string, number>;
 }
 
 export interface AppState {
   /** Game-seed lists (the hideout workbenches), read-only — never persisted. */
   workbenches: List[];
-  /** User-created lists (per-profile), persisted. Kept separate from the game seed. */
+  /** User-created lists for the active profile only (persisted per-profile). */
   customLists: List[];
+  /** User-created lists shared across all profiles (persisted globally). */
+  sharedCustomLists: List[];
   itemsInfo: Record<string, ItemInfo>;
+
+  profiles: Profile[];
+  activeProfileId: string;
 
   hideoutLevels: Record<string, number>;
   /** Levels selected as objectives, per list. A level is tracked only if selected AND > current. */
@@ -89,7 +103,7 @@ export interface AppState {
   resetProgress: () => void;
 
   /** Create a user list; returns its namespaced id (`custom:<uuid>`). */
-  createCustomList: (data: { name: string; levels: ListLevel[]; listType?: ListType }) => string;
+  createCustomList: (data: { name: string; levels: ListLevel[]; listType?: ListType; shared?: boolean }) => string;
   updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; listType: ListType }>) => void;
   deleteCustomList: (id: string) => void;
   /** Import lists from an export file. Custom lists: merge definition + state. Game lists: state only. */
@@ -99,7 +113,12 @@ export interface AppState {
   checkedActions: Record<string, boolean>;
   toggleAction: (listId: string, level: number, actionId: string) => void;
 
-  /** Game seed + custom lists, the set every selector operates on. */
+  createProfile: (name: string) => void;
+  switchProfile: (id: string) => void;
+  renameProfile: (id: string, name: string) => void;
+  deleteProfile: (id: string) => void;
+
+  /** Game seed + shared custom lists + active-profile custom lists; the set every selector operates on. */
   getAllLists: () => List[];
   getOrderedLists: () => List[];
   /** Total materials required by active goals; pass a moduleId to exclude that bench's needs. */
