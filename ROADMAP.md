@@ -367,9 +367,13 @@ Rilevazioni da un'analisi del codice (giu 2026), ordinate per impatto dentro ogn
 L'app è client-only (nessun backend a runtime, dati di gioco statici nel bundle, icone locali):
 superficie d'attacco ridotta, niente `dangerouslySetInnerHTML`/`eval`, React escapa nomi/descrizioni.
 
-- [ ] **Validare input deserializzati** — `load()` fa `JSON.parse(localStorage…)` senza validare la
-      forma; con Import/Export il JSON diventa input esterno non fidato. Validare/sanificare (chiavi
-      note, numeri ≥ 0, id esistenti) prima di scrivere nello store.
+- [x] **Validare input deserializzati** — FATTO. Modulo `src/lib/validate.ts` (type-guard hand-rolled,
+      zero-dep): sanitizza ogni confine di deserializzazione — `loadProfileState`/`loadProfilesMeta`/
+      `loadSharedLists` (localStorage manomettibile) e `parseImport` v1/v2/v3 (file esterni). Policy:
+      leniente in load (scarta voci corrotte, tiene le valide), strutturalmente stretta in import
+      (rifiuta file malformati, sanifica i contenuti). Numeri ≥ 0, id non vuoti, liste/livelli/azioni
+      validati; `activeProfileId` stale → fallback al primo profilo. Stessi guard riusabili per i
+      payload di sync (Fase 2).
 - [ ] **CSP (hardening, opzionale)** — nessuna Content-Security-Policy. Su GitHub Pages si può
       aggiungere un meta CSP restrittivo (`default-src 'self'`, + CDN icone se servisse) per ridurre
       l'impatto di eventuale codice iniettato.

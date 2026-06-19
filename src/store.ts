@@ -1,5 +1,8 @@
 import { create } from 'zustand';
 import type { AppState, ItemInfo, List, ListExportFile, MultiProfileExportFile, Profile, ProfileExportEntry } from './types';
+import {
+  isObject, sanitizeBoolRecord, sanitizeNumberRecord, sanitizeStringArray, validateList, validateProfile,
+} from './lib/validate';
 import workbenchesData from './data/workbenches.json';
 import itemsData from './data/items.json';
 
@@ -28,7 +31,17 @@ function ls<T>(fn: () => T, fallback: T): T {
 function loadProfilesMeta(): ProfilesMeta | null {
   return ls(() => {
     const raw = localStorage.getItem(PROFILES_KEY);
-    return raw ? JSON.parse(raw) as ProfilesMeta : null;
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    if (!isObject(parsed) || !Array.isArray(parsed.profiles)) return null;
+    const profiles = parsed.profiles.map(validateProfile).filter((p): p is Profile => p !== null);
+    if (profiles.length === 0) return null;
+    // Fall back to the first profile if the saved active id is stale/missing.
+    const activeProfileId =
+      typeof parsed.activeProfileId === 'string' && profiles.some(p => p.id === parsed.activeProfileId)
+        ? parsed.activeProfileId
+        : profiles[0].id;
+    return { profiles, activeProfileId };
   }, null);
 }
 
@@ -36,14 +49,32 @@ function saveProfilesMeta(meta: ProfilesMeta) {
   ls(() => localStorage.setItem(PROFILES_KEY, JSON.stringify(meta)), undefined);
 }
 
+/** Sanitize an untrusted parsed object into a clean partial persisted state.
+ *  `targetLevels` keeps its raw (number | number[]) shape for migrateTargets to normalize. */
+function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
+  if (!isObject(raw)) return {};
+  const out: Partial<PersistedState> = {};
+  if (isObject(raw.hideoutLevels)) out.hideoutLevels = sanitizeNumberRecord(raw.hideoutLevels);
+  // migrateTargets() validates/normalizes element shapes; keep the raw object here.
+  if (isObject(raw.targetLevels)) out.targetLevels = raw.targetLevels as Record<string, number[]>;
+  if (isObject(raw.activeModules)) out.activeModules = sanitizeBoolRecord(raw.activeModules);
+  if (isObject(raw.inventory)) out.inventory = sanitizeNumberRecord(raw.inventory);
+  if (typeof raw.filterHideCompleted === 'boolean') out.filterHideCompleted = raw.filterHideCompleted;
+  if (Array.isArray(raw.listOrder)) out.listOrder = sanitizeStringArray(raw.listOrder);
+  if (Array.isArray(raw.customLists))
+    out.customLists = raw.customLists.map(validateList).filter((l): l is List => l !== null);
+  if (isObject(raw.checkedActions)) out.checkedActions = sanitizeBoolRecord(raw.checkedActions);
+  return out;
+}
+
 function loadProfileState(profileId: string): Partial<PersistedState> {
   return ls(() => {
     const raw = localStorage.getItem(profileKey(profileId));
-    if (raw) return JSON.parse(raw) as Partial<PersistedState>;
+    if (raw) return sanitizeProfileState(JSON.parse(raw));
     // First migration: default profile inherits the legacy single-profile key
     if (profileId === 'default') {
       const legacy = localStorage.getItem(LEGACY_KEY);
-      if (legacy) return JSON.parse(legacy) as Partial<PersistedState>;
+      if (legacy) return sanitizeProfileState(JSON.parse(legacy));
     }
     return {};
   }, {});
@@ -64,7 +95,10 @@ function saveProfileState(profileId: string, s: PersistedState) {
 }
 
 function loadSharedLists(): List[] {
-  return ls(() => JSON.parse(localStorage.getItem(SHARED_LISTS_KEY) ?? '[]') as List[], []);
+  return ls(() => {
+    const parsed: unknown = JSON.parse(localStorage.getItem(SHARED_LISTS_KEY) ?? '[]');
+    return Array.isArray(parsed) ? parsed.map(validateList).filter((l): l is List => l !== null) : [];
+  }, []);
 }
 
 function saveSharedLists(lists: List[]) {
@@ -106,7 +140,7 @@ const migrateTargets = (
   const out: Record<string, number[]> = {};
   if (!savedTargets) return out;
   for (const [id, val] of Object.entries(savedTargets)) {
-    if (Array.isArray(val)) out[id] = val;
+    if (Array.isArray(val)) out[id] = val.filter((n): n is number => typeof n === 'number' && Number.isFinite(n) && n >= 0);
     else if (typeof val === 'number') out[id] = levelsAbove(savedHideout?.[id] ?? 0, val);
   }
   return out;
