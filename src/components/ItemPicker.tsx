@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { X, Search } from 'lucide-react';
 import type { ItemInfo } from '../types';
 import { useAppStore } from '../store';
@@ -7,7 +7,9 @@ import { iconUrl } from '../lib/icons';
 import { IconButton } from './IconButton';
 import { useScrollLock } from '../hooks/useScrollLock';
 
-/** Full-screen catalog picker over the whole item DB. Tap an item to pick it. */
+/** Full-screen catalog picker over the whole item DB. Tap an item to pick it.
+ *  Search bar is anchored to the bottom so the keyboard pushes it up,
+ *  keeping results visible in the space above the keyboard. */
 export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
   excludeIds?: string[];
   onPick: (item: ItemInfo) => void;
@@ -16,6 +18,7 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
   useScrollLock();
   const itemsInfo = useAppStore(s => s.itemsInfo);
   const [query, setQuery] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const q = query.toLowerCase().trim();
   const exclude = new Set(excludeIds);
@@ -24,27 +27,32 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
     .sort((a, b) => a.name.localeCompare(b.name))
     .slice(0, 80); // cap rendered rows; search narrows further
 
+  // First tap on backdrop: dismiss keyboard (blur). Second tap: close picker.
+  const handleBackdropClick = () => {
+    if (document.activeElement === inputRef.current) {
+      inputRef.current?.blur();
+    } else {
+      onClose();
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-[60] bg-black/60 flex items-end sm:items-center justify-center"
-      onClick={e => { e.stopPropagation(); onClose(); }}>
+      onClick={handleBackdropClick}>
       <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] flex flex-col max-h-[85vh]"
         onClick={e => e.stopPropagation()}>
-        <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="text-lg font-bold">Aggiungi oggetto</h2>
-            <IconButton onClick={onClose} title="Chiudi">
-              <X size={16} />
-            </IconButton>
-          </div>
-          <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input type="text" value={query} onChange={e => setQuery(e.target.value)} autoFocus
-              placeholder="Cerca tra tutti gli oggetti…"
-              className="w-full pl-9 pr-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full focus:outline-none focus:ring-1 focus:ring-blue-400" />
-          </div>
+
+        {/* Title row */}
+        <div className="px-4 pt-4 pb-2 flex justify-between items-center shrink-0">
+          <h2 className="text-lg font-bold">Aggiungi oggetto</h2>
+          <IconButton onClick={onClose} title="Chiudi">
+            <X size={16} />
+          </IconButton>
         </div>
 
-        <div className="p-3 overflow-y-auto overscroll-contain">
+        {/* Results — flex-1 so they fill the space above the search bar.
+            With 1-2 results they stay at the top, never behind the keyboard. */}
+        <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto overscroll-contain">
           {items.map(item => {
             const { color } = getRarityStyles(item.rarity);
             return (
@@ -68,6 +76,23 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
           {items.length === 0 && (
             <p className="p-10 text-center text-gray-500 italic text-sm">Nessun oggetto trovato.</p>
           )}
+        </div>
+
+        {/* Search bar — anchored to bottom. The system keyboard pushes it up,
+            so results in the space above always remain tappable. */}
+        <div className="px-3 pb-3 pt-2 border-t border-gray-200 dark:border-gray-800 shrink-0">
+          <div className="relative">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              autoFocus
+              placeholder="Cerca tra tutti gli oggetti…"
+              className="w-full pl-9 pr-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full focus:outline-none focus:ring-1 focus:ring-blue-400"
+            />
+          </div>
         </div>
       </div>
     </div>
