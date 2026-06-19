@@ -1,26 +1,6 @@
-import type { List, ListExportEntry, ListExportFile } from '../types';
+import type { List, ListExportEntry, ListExportFile, MultiProfileExportFile } from '../types';
 
-export function buildExport(
-  lists: List[],
-  hideoutLevels: Record<string, number>,
-  targetLevels: Record<string, number[]>,
-  activeModules: Record<string, boolean>,
-  inventory: Record<string, number>,
-): ListExportFile {
-  return {
-    version: 2,
-    exportedAt: new Date().toISOString(),
-    lists: lists.map(list => ({
-        list,
-        currentLevel: hideoutLevels[list.id] ?? 0,
-        targetLevels: targetLevels[list.id] ?? list.levels.map(l => l.level),
-        active: activeModules[list.id] ?? true,
-      })),
-    inventory,
-  };
-}
-
-export function downloadExport(data: ListExportFile): void {
+export function downloadExport(data: ListExportFile | MultiProfileExportFile): void {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -30,8 +10,16 @@ export function downloadExport(data: ListExportFile): void {
   URL.revokeObjectURL(url);
 }
 
-export function parseImport(json: string): ListExportFile {
+export function parseImport(json: string): ListExportFile | MultiProfileExportFile {
   const data = JSON.parse(json) as Record<string, unknown>;
+
+  if (data.version === 3) {
+    if (!Array.isArray(data.profiles) || !Array.isArray(data.sharedLists))
+      throw new Error('Formato file non valido');
+    return data as unknown as MultiProfileExportFile;
+  }
+
+  // v1 / v2: single-profile format — still accepted on import
   if ((data.version !== 1 && data.version !== 2) || !Array.isArray(data.lists))
     throw new Error('Formato file non valido');
 

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { AppState, ItemInfo, List, ListExportFile, Profile } from './types';
+import type { AppState, ItemInfo, List, ListExportFile, MultiProfileExportFile, Profile, ProfileExportEntry } from './types';
 import workbenchesData from './data/workbenches.json';
 import itemsData from './data/items.json';
 
@@ -405,6 +405,120 @@ export const useAppStore = create<AppState>()((set, get) => ({
     if (next <= list.maxLevel && !cur.includes(next)) targetLevels[moduleId] = [...cur, next].sort((a, b) => a - b);
     set({ inventory, hideoutLevels, checkedActions, targetLevels });
     saveProfileState(s.activeProfileId, { ...s, inventory, hideoutLevels, checkedActions, targetLevels });
+  },
+
+  buildExportData: (profileIds) => {
+    const s = get();
+    const profiles: ProfileExportEntry[] = [];
+
+    for (const profileId of profileIds) {
+      const profile = s.profiles.find(p => p.id === profileId);
+      if (!profile) continue;
+
+      let customLists: List[];
+      let hideoutLevels: Record<string, number>;
+      let targetLevels: Record<string, number[]>;
+      let activeModules: Record<string, boolean>;
+      let inventory: Record<string, number>;
+
+      if (profileId === s.activeProfileId) {
+        customLists = s.customLists;
+        hideoutLevels = s.hideoutLevels;
+        targetLevels = s.targetLevels;
+        activeModules = s.activeModules;
+        inventory = s.inventory;
+      } else {
+        const state = loadProfileState(profileId);
+        customLists = state.customLists ?? [];
+        hideoutLevels = state.hideoutLevels ?? {};
+        targetLevels = migrateTargets(
+          state.targetLevels as Record<string, number | number[]> | undefined,
+          state.hideoutLevels,
+        );
+        activeModules = state.activeModules ?? {};
+        inventory = state.inventory ?? {};
+      }
+
+      const allLists: List[] = [...s.workbenches, ...s.sharedCustomLists, ...customLists];
+      profiles.push({
+        profile,
+        inventory,
+        lists: allLists.map(list => ({
+          list,
+          currentLevel: hideoutLevels[list.id] ?? 0,
+          targetLevels: targetLevels[list.id] ?? list.levels.map(l => l.level),
+          active: activeModules[list.id] ?? true,
+        })),
+      });
+    }
+
+    return { sharedLists: s.sharedCustomLists, profiles };
+  },
+
+  importMultiProfile: (data: MultiProfileExportFile, selectedProfileIds: string[]) => {
+    const s = get();
+
+    // Merge shared lists globally
+    const sharedCustomLists = [...s.sharedCustomLists];
+    for (const list of data.sharedLists) {
+      const idx = sharedCustomLists.findIndex(l => l.id === list.id);
+      if (idx >= 0) sharedCustomLists[idx] = list;
+      else sharedCustomLists.push(list);
+    }
+    saveSharedLists(sharedCustomLists);
+
+    let profiles = [...s.profiles];
+    let activeProfileState: PersistedState | null = null;
+
+    for (const entry of data.profiles) {
+      if (!selectedProfileIds.includes(entry.profile.id)) continue;
+
+      const customLists: List[] = [];
+      const hideoutLevels: Record<string, number> = {};
+      const targetLevels: Record<string, number[]> = {};
+      const activeModules: Record<string, boolean> = {};
+      const listOrder: string[] = [];
+
+      for (const listEntry of entry.lists) {
+        const { list, currentLevel, targetLevels: entryTargets, active } = listEntry;
+        const isGameList = s.workbenches.some(w => w.id === list.id);
+        const isSharedList = data.sharedLists.some(l => l.id === list.id);
+        if (!isGameList && !isSharedList && list.custom) customLists.push(list);
+        hideoutLevels[list.id] = currentLevel;
+        targetLevels[list.id] = entryTargets;
+        activeModules[list.id] = active;
+        listOrder.push(list.id);
+      }
+
+      const profileState: PersistedState = {
+        hideoutLevels,
+        targetLevels,
+        activeModules,
+        inventory: entry.inventory,
+        filterHideCompleted: true,
+        listOrder,
+        customLists,
+        checkedActions: {},
+      };
+
+      if (!profiles.some(p => p.id === entry.profile.id)) {
+        profiles = [...profiles, entry.profile];
+      }
+
+      saveProfileState(entry.profile.id, profileState);
+
+      if (entry.profile.id === s.activeProfileId) {
+        activeProfileState = profileState;
+      }
+    }
+
+    saveProfilesMeta({ profiles, activeProfileId: s.activeProfileId });
+
+    if (activeProfileState) {
+      set({ profiles, sharedCustomLists, ...activeProfileState });
+    } else {
+      set({ profiles, sharedCustomLists });
+    }
   },
 
   // ---- Profiles -----------------------------------------------------------

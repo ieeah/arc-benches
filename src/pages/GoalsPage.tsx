@@ -13,9 +13,9 @@ import { ListRow } from '../components/ListRow';
 import { CustomListEditor } from '../components/CustomListEditor';
 import { CollapsibleSection } from '../components/CollapsibleSection';
 import { Drawer } from '../components/Drawer';
-import { buildExport, downloadExport, parseImport } from '../lib/listIO';
+import { downloadExport, parseImport } from '../lib/listIO';
 import { safeLS } from '../lib/safeStorage';
-import type { List, ListExportFile } from '../types';
+import type { List, ListExportFile, MultiProfileExportFile } from '../types';
 
 type SectionsOpen = { workbench: boolean; custom: boolean; completati: boolean };
 
@@ -30,7 +30,10 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
   const [movePromptId, setMovePromptId] = useState<string | null>(null);
   const [editing, setEditing] = useState<{ id?: string } | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
-  const [importPending, setImportPending] = useState<ListExportFile | null>(null);
+  const [importPending, setImportPending] = useState<ListExportFile | MultiProfileExportFile | null>(null);
+  const [importSelectedIds, setImportSelectedIds] = useState<Set<string>>(new Set());
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [exportSelectedIds, setExportSelectedIds] = useState<Set<string>>(new Set());
   const [sectionsOpen, setSectionsOpen] = useState<SectionsOpen>(() =>
     safeLS(() => {
       const raw = localStorage.getItem('goals-sections');
@@ -88,15 +91,23 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
     setMovePromptId(null);
   };
 
-  const handleExport = () => {
-    const data = buildExport(
-      store.getAllLists(),
-      store.hideoutLevels,
-      store.targetLevels,
-      store.activeModules,
-      store.inventory,
-    );
-    downloadExport(data);
+  const openExportModal = () => {
+    setExportSelectedIds(new Set(store.profiles.map(p => p.id)));
+    setShowExportModal(true);
+    setShowActions(false);
+  };
+
+  const handleExportAll = () => {
+    const { sharedLists, profiles } = store.buildExportData(store.profiles.map(p => p.id));
+    downloadExport({ version: 3, exportedAt: new Date().toISOString(), sharedLists, profiles });
+  };
+
+  const handleExportSelected = () => {
+    const ids = [...exportSelectedIds];
+    if (ids.length === 0) return;
+    const { sharedLists, profiles } = store.buildExportData(ids);
+    downloadExport({ version: 3, exportedAt: new Date().toISOString(), sharedLists, profiles });
+    setShowExportModal(false);
   };
 
   const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +118,9 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
       try {
         const data = parseImport(ev.target?.result as string);
         setImportPending(data);
+        if (data.version === 3) {
+          setImportSelectedIds(new Set(data.profiles.map(p => p.profile.id)));
+        }
       } catch (err) {
         setImportError(err instanceof Error ? err.message : 'Errore durante l\'importazione');
       }
@@ -117,8 +131,13 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
 
   const confirmImport = () => {
     if (!importPending) return;
-    store.importLists(importPending);
+    if (importPending.version === 3) {
+      store.importMultiProfile(importPending, [...importSelectedIds]);
+    } else {
+      store.importLists(importPending);
+    }
     setImportPending(null);
+    setImportSelectedIds(new Set());
     setImportError(null);
   };
 
@@ -308,7 +327,7 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
           ) : (
             <div className="space-y-2 pt-1">
               <button
-                onClick={() => { handleExport(); setShowActions(false); }}
+                onClick={openExportModal}
                 className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left active:scale-[0.98] transition-transform"
               >
                 <div className="p-2 bg-white dark:bg-gray-700 rounded-xl shrink-0">
@@ -316,7 +335,7 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
                 </div>
                 <div>
                   <p className="font-bold text-sm">Esporta liste</p>
-                  <p className="text-[11px] text-gray-400">Scarica un backup JSON (include inventario)</p>
+                  <p className="text-[11px] text-gray-400">Scegli i profili da includere nel backup JSON</p>
                 </div>
               </button>
               <button
@@ -449,32 +468,155 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
       {/* Import confirmation modal */}
       {importPending && (
         <div className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-6"
-          onClick={() => setImportPending(null)}>
-          <div className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm"
+          onClick={() => { setImportPending(null); setImportSelectedIds(new Set()); }}>
+          <div className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm max-h-[85vh] flex flex-col"
             onClick={e => e.stopPropagation()}>
-            <h3 className="text-base font-bold mb-1">Importa liste</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
-              Stai per importare <strong>{importPending.lists.length}</strong> liste. Le liste con lo stesso ID verranno sovrascritte.
-            </p>
-            {importPending.inventory && (
-              <p className="text-[11px] text-blue-500 mb-3">
-                Il file include anche l'inventario, che verrà ripristinato.
-              </p>
+            <h3 className="text-base font-bold mb-2 shrink-0">Importa liste</h3>
+
+            {importPending.version === 3 ? (
+              <div className="flex-1 min-h-0 overflow-y-auto space-y-1.5 mb-3">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  Seleziona i profili da importare:
+                </p>
+                {/* Master checkbox */}
+                <button
+                  onClick={() => {
+                    const allIds = importPending.profiles.map(e => e.profile.id);
+                    setImportSelectedIds(importSelectedIds.size === allIds.length ? new Set() : new Set(allIds));
+                  }}
+                  className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left"
+                >
+                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${importSelectedIds.size === importPending.profiles.length ? 'bg-blue-500 border-blue-500' : importSelectedIds.size > 0 ? 'border-blue-400' : 'border-gray-300 dark:border-gray-600'}`}>
+                    {importSelectedIds.size === importPending.profiles.length
+                      ? <Check size={12} className="text-white" strokeWidth={3} />
+                      : importSelectedIds.size > 0
+                        ? <div className="w-2.5 h-0.5 bg-blue-500 rounded-full" />
+                        : null}
+                  </div>
+                  <span className="text-sm font-semibold">Tutti i profili</span>
+                </button>
+
+                {importPending.profiles.map(entry => {
+                  const selected = importSelectedIds.has(entry.profile.id);
+                  const existsLocally = store.profiles.some(p => p.id === entry.profile.id);
+                  return (
+                    <button key={entry.profile.id}
+                      onClick={() => {
+                        const next = new Set(importSelectedIds);
+                        if (selected) next.delete(entry.profile.id); else next.add(entry.profile.id);
+                        setImportSelectedIds(next);
+                      }}
+                      className="w-full flex items-center gap-3 p-2.5 ml-4 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    >
+                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${selected ? 'bg-blue-500 border-blue-500' : 'border-gray-300 dark:border-gray-600'}`}>
+                        {selected && <Check size={12} className="text-white" strokeWidth={3} />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm truncate">{entry.profile.name}</p>
+                        <p className={`text-[10px] font-semibold ${existsLocally ? 'text-amber-500' : 'text-blue-500'}`}>
+                          {existsLocally ? 'Sovrascrive profilo esistente' : 'Nuovo profilo'}
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })}
+
+                {importPending.sharedLists.length > 0 && (
+                  <p className="text-[11px] text-gray-400 px-1 pt-1">
+                    {importPending.sharedLists.length} {importPending.sharedLists.length === 1 ? 'lista condivisa verrà aggiornata' : 'liste condivise verranno aggiornate'}.
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="mb-3 shrink-0">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                  Stai per importare <strong>{importPending.lists.length}</strong> liste. Le liste con lo stesso ID verranno sovrascritte.
+                </p>
+                {importPending.inventory && (
+                  <p className="text-[11px] text-blue-500">Il file include anche l'inventario, che verrà ripristinato.</p>
+                )}
+              </div>
             )}
-            <div className="space-y-2">
-              <button onClick={handleExport}
+
+            <div className="space-y-2 shrink-0">
+              <button onClick={handleExportAll}
                 className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left">
                 <Upload size={15} className="text-gray-400 shrink-0" />
                 <div>
                   <p className="font-bold text-sm">Esporta backup prima</p>
-                  <p className="text-[11px] text-gray-400">Salva le tue liste attuali</p>
+                  <p className="text-[11px] text-gray-400">Salva tutti i tuoi profili attuali</p>
                 </div>
               </button>
               <button onClick={confirmImport}
-                className="w-full py-3 bg-blue-500 text-white font-bold text-sm rounded-2xl">
-                Importa comunque
+                disabled={importPending.version === 3 && importSelectedIds.size === 0}
+                className="w-full py-3 bg-blue-500 text-white font-bold text-sm rounded-2xl disabled:opacity-40">
+                Importa{importPending.version === 3 && importSelectedIds.size > 0 ? ` (${importSelectedIds.size})` : ''}
               </button>
-              <button onClick={() => setImportPending(null)}
+              <button onClick={() => { setImportPending(null); setImportSelectedIds(new Set()); }}
+                className="w-full py-3 bg-gray-100 dark:bg-gray-800 font-bold text-sm rounded-2xl">
+                Annulla
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Export profile selection modal */}
+      {showExportModal && (
+        <div className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-6"
+          onClick={() => setShowExportModal(false)}>
+          <div className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm"
+            onClick={e => e.stopPropagation()}>
+            <h3 className="text-base font-bold mb-3">Esporta liste</h3>
+
+            {/* Master checkbox */}
+            <button
+              onClick={() => {
+                const allIds = store.profiles.map(p => p.id);
+                setExportSelectedIds(exportSelectedIds.size === allIds.length ? new Set() : new Set(allIds));
+              }}
+              className="w-full flex items-center gap-3 p-3 mb-1 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left"
+            >
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${exportSelectedIds.size === store.profiles.length ? 'bg-blue-500 border-blue-500' : exportSelectedIds.size > 0 ? 'border-blue-400' : 'border-gray-300 dark:border-gray-600'}`}>
+                {exportSelectedIds.size === store.profiles.length
+                  ? <Check size={12} className="text-white" strokeWidth={3} />
+                  : exportSelectedIds.size > 0
+                    ? <div className="w-2.5 h-0.5 bg-blue-500 rounded-full" />
+                    : null}
+              </div>
+              <span className="text-sm font-semibold">Tutti i profili</span>
+            </button>
+
+            <div className="space-y-0.5 ml-4 mb-4">
+              {store.profiles.map(profile => {
+                const selected = exportSelectedIds.has(profile.id);
+                return (
+                  <button key={profile.id}
+                    onClick={() => {
+                      const next = new Set(exportSelectedIds);
+                      if (selected) next.delete(profile.id); else next.add(profile.id);
+                      setExportSelectedIds(next);
+                    }}
+                    className="w-full flex items-center gap-3 p-2.5 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${selected ? 'bg-blue-500 border-blue-500' : 'border-gray-300 dark:border-gray-600'}`}>
+                      {selected && <Check size={12} className="text-white" strokeWidth={3} />}
+                    </div>
+                    <span className="text-sm flex-1 truncate">{profile.name}</span>
+                    {profile.id === store.activeProfileId && (
+                      <span className="text-[10px] text-blue-500 font-bold shrink-0">Attivo</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="space-y-2">
+              <button onClick={handleExportSelected} disabled={exportSelectedIds.size === 0}
+                className="w-full py-3 bg-blue-500 text-white font-bold text-sm rounded-2xl disabled:opacity-40">
+                Esporta{exportSelectedIds.size > 0 ? ` (${exportSelectedIds.size} profil${exportSelectedIds.size === 1 ? 'o' : 'i'})` : ''}
+              </button>
+              <button onClick={() => setShowExportModal(false)}
                 className="w-full py-3 bg-gray-100 dark:bg-gray-800 font-bold text-sm rounded-2xl">
                 Annulla
               </button>

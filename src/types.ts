@@ -70,6 +70,22 @@ export interface ListExportFile {
   inventory?: Record<string, number>;
 }
 
+/** State snapshot for one profile inside a v3 multi-profile export. */
+export interface ProfileExportEntry {
+  profile: Profile;
+  lists: ListExportEntry[];
+  inventory: Record<string, number>;
+}
+
+/** Version 3 export: always multi-profile, even when exporting a single profile. */
+export interface MultiProfileExportFile {
+  version: 3;
+  exportedAt: string;
+  /** Shared custom list definitions (cross-profile; state lives inside each ProfileExportEntry). */
+  sharedLists: List[];
+  profiles: ProfileExportEntry[];
+}
+
 export interface AppState {
   /** Game-seed lists (the hideout workbenches), read-only — never persisted. */
   workbenches: List[];
@@ -106,8 +122,12 @@ export interface AppState {
   createCustomList: (data: { name: string; levels: ListLevel[]; listType?: ListType; shared?: boolean }) => string;
   updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; listType: ListType }>) => void;
   deleteCustomList: (id: string) => void;
-  /** Import lists from an export file. Custom lists: merge definition + state. Game lists: state only. */
+  /** Import lists from a v2 export file. Custom lists: merge definition + state. Game lists: state only. */
   importLists: (data: ListExportFile) => void;
+  /** Import selected profiles from a v3 multi-profile export file. */
+  importMultiProfile: (data: MultiProfileExportFile, selectedProfileIds: string[]) => void;
+  /** Build export payloads for the given profile IDs (reads localStorage for non-active profiles). */
+  buildExportData: (profileIds: string[]) => { sharedLists: List[]; profiles: ProfileExportEntry[] };
 
   /** Checkbox actions completion — key: `${listId}|${level}|${actionId}` */
   checkedActions: Record<string, boolean>;
