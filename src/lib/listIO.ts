@@ -23,7 +23,9 @@ function parseListEntry(raw: unknown): ListExportEntry | null {
   // v2: explicit level set. v1: single ceiling → every level above current up to it.
   let targetLevels: number[];
   if (Array.isArray(raw.targetLevels)) {
-    targetLevels = raw.targetLevels.filter((n): n is number => typeof n === 'number' && Number.isFinite(n) && n >= 0);
+    targetLevels = raw.targetLevels
+      .filter((n): n is number => typeof n === 'number' && Number.isFinite(n) && n >= 0)
+      .map(n => Math.floor(n));
   } else if (typeof raw.targetLevel === 'number') {
     targetLevels = [];
     for (let l = currentLevel + 1; l <= raw.targetLevel; l++) targetLevels.push(l);
