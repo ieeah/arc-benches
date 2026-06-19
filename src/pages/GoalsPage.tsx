@@ -370,7 +370,7 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
 
       {/* Profili drawer */}
       {showProfiles && (
-        <Drawer from="bottom" title="Profili" onClose={closeProfilesDrawer}>
+        <Drawer from="top" title="Profili" onClose={closeProfilesDrawer}>
           <div className="space-y-1.5 pt-1">
             {store.profiles.map(profile => {
               const isActive = profile.id === store.activeProfileId;
