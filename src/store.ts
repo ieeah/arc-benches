@@ -157,61 +157,75 @@ workbenches.forEach(w => {
   defaultActiveModules[w.id] = true;
 });
 
+// Build the full in-memory state for a profile from its (partial) persisted slice.
+const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState => ({
+  hideoutLevels: { ...defaultHideoutLevels, ...loaded.hideoutLevels },
+  targetLevels: {
+    ...defaultTargetLevels,
+    ...migrateTargets(loaded.targetLevels as Record<string, number | number[]> | undefined, loaded.hideoutLevels),
+  },
+  activeModules: { ...defaultActiveModules, ...loaded.activeModules },
+  inventory: loaded.inventory ?? {},
+  filterHideCompleted: loaded.filterHideCompleted ?? true,
+  listOrder: loaded.listOrder ?? workbenches.map(w => w.id),
+  customLists: loaded.customLists ?? [],
+  checkedActions: loaded.checkedActions ?? {},
+});
+
+// Fresh (empty) progress for a brand-new profile.
+const freshProfile = (): PersistedState => ({
+  hideoutLevels: { ...defaultHideoutLevels },
+  targetLevels: { ...defaultTargetLevels },
+  activeModules: { ...defaultActiveModules },
+  inventory: {},
+  filterHideCompleted: true,
+  listOrder: workbenches.map(w => w.id),
+  customLists: [],
+  checkedActions: {},
+});
+
 // ---------------------------------------------------------------------------
 // Init
 // ---------------------------------------------------------------------------
 
 const { profiles, activeProfileId } = initProfilesMeta();
-const saved = loadProfileState(activeProfileId);
 const sharedCustomLists = loadSharedLists();
 
 // ---------------------------------------------------------------------------
 // Store
+//
+// Persistence is NOT inlined in the actions: a single subscription below is the
+// only writer for the active profile's state, the shared lists and the profiles
+// meta (see the subscribe() call). Actions just call set(). Writes are synchronous
+// (no debounce): a delayed write would corrupt data across a profile switch, and
+// the remote-sync debounce (Fase 2) plugs into this same single boundary instead.
+// Cross-profile writes that the subscriber cannot infer (writing a NON-active
+// profile, removing a deleted profile's key) stay explicit in the profile actions.
 // ---------------------------------------------------------------------------
 
 export const useAppStore = create<AppState>()((set, get) => ({
   workbenches,
-  customLists: saved.customLists ?? [],
   sharedCustomLists,
   itemsInfo,
   profiles,
   activeProfileId,
-
-  hideoutLevels: { ...defaultHideoutLevels, ...saved.hideoutLevels },
-  targetLevels: {
-    ...defaultTargetLevels,
-    ...migrateTargets(
-      saved.targetLevels as Record<string, number | number[]> | undefined,
-      saved.hideoutLevels,
-    ),
-  },
-  activeModules: { ...defaultActiveModules, ...saved.activeModules },
-  inventory: saved.inventory ?? {},
-  filterHideCompleted: saved.filterHideCompleted ?? true,
-  listOrder: saved.listOrder ?? workbenches.map(w => w.id),
-  checkedActions: saved.checkedActions ?? {},
+  ...hydrateProfile(loadProfileState(activeProfileId)),
 
   // ---- Inventory ----------------------------------------------------------
 
   incrementItem: (itemId) => {
     const s = get();
-    const inventory = { ...s.inventory, [itemId]: (s.inventory[itemId] ?? 0) + 1 };
-    set({ inventory });
-    saveProfileState(s.activeProfileId, { ...s, inventory });
+    set({ inventory: { ...s.inventory, [itemId]: (s.inventory[itemId] ?? 0) + 1 } });
   },
 
   decrementItem: (itemId) => {
     const s = get();
-    const inventory = { ...s.inventory, [itemId]: Math.max(0, (s.inventory[itemId] ?? 0) - 1) };
-    set({ inventory });
-    saveProfileState(s.activeProfileId, { ...s, inventory });
+    set({ inventory: { ...s.inventory, [itemId]: Math.max(0, (s.inventory[itemId] ?? 0) - 1) } });
   },
 
   setItemCount: (itemId, val) => {
     const s = get();
-    const inventory = { ...s.inventory, [itemId]: Math.max(0, val) };
-    set({ inventory });
-    saveProfileState(s.activeProfileId, { ...s, inventory });
+    set({ inventory: { ...s.inventory, [itemId]: Math.max(0, val) } });
   },
 
   // ---- Progress -----------------------------------------------------------
@@ -240,7 +254,6 @@ export const useAppStore = create<AppState>()((set, get) => ({
     }
 
     set({ hideoutLevels, inventory, checkedActions, targetLevels });
-    saveProfileState(s.activeProfileId, { ...s, hideoutLevels, inventory, checkedActions, targetLevels });
   },
 
   toggleTargetLevel: (moduleId, level) => {
@@ -249,28 +262,20 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const next = cur.includes(level)
       ? cur.filter(l => l !== level)
       : [...cur, level].sort((a, b) => a - b);
-    const targetLevels = { ...s.targetLevels, [moduleId]: next };
-    set({ targetLevels });
-    saveProfileState(s.activeProfileId, { ...s, targetLevels });
+    set({ targetLevels: { ...s.targetLevels, [moduleId]: next } });
   },
 
   toggleModuleActive: (moduleId) => {
     const s = get();
-    const activeModules = { ...s.activeModules, [moduleId]: !s.activeModules[moduleId] };
-    set({ activeModules });
-    saveProfileState(s.activeProfileId, { ...s, activeModules });
+    set({ activeModules: { ...s.activeModules, [moduleId]: !s.activeModules[moduleId] } });
   },
 
   setFilterHideCompleted: (val) => {
-    const s = get();
     set({ filterHideCompleted: val });
-    saveProfileState(s.activeProfileId, { ...s, filterHideCompleted: val });
   },
 
   setListOrder: (order) => {
-    const s = get();
     set({ listOrder: order });
-    saveProfileState(s.activeProfileId, { ...s, listOrder: order });
   },
 
   // ---- Custom lists -------------------------------------------------------
@@ -287,14 +292,9 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const listOrder = [...s.listOrder, id];
 
     if (shared) {
-      const sharedCustomLists = [...s.sharedCustomLists, list];
-      set({ sharedCustomLists, hideoutLevels, targetLevels, activeModules, listOrder });
-      saveSharedLists(sharedCustomLists);
-      saveProfileState(s.activeProfileId, { ...s, hideoutLevels, targetLevels, activeModules, listOrder });
+      set({ sharedCustomLists: [...s.sharedCustomLists, list], hideoutLevels, targetLevels, activeModules, listOrder });
     } else {
-      const customLists = [...s.customLists, list];
-      set({ customLists, hideoutLevels, targetLevels, activeModules, listOrder });
-      saveProfileState(s.activeProfileId, { ...s, customLists, hideoutLevels, targetLevels, activeModules, listOrder });
+      set({ customLists: [...s.customLists, list], hideoutLevels, targetLevels, activeModules, listOrder });
     }
     return id;
   },
@@ -320,22 +320,17 @@ export const useAppStore = create<AppState>()((set, get) => ({
       const sharedCustomLists = [...s.sharedCustomLists];
       sharedCustomLists[idx] = updated;
       set({ sharedCustomLists, hideoutLevels, targetLevels });
-      saveSharedLists(sharedCustomLists);
-      saveProfileState(s.activeProfileId, { ...s, hideoutLevels, targetLevels });
     } else {
       const customLists = [...s.customLists];
       customLists[idx] = updated;
       set({ customLists, hideoutLevels, targetLevels });
-      saveProfileState(s.activeProfileId, { ...s, customLists, hideoutLevels, targetLevels });
     }
   },
 
   toggleAction: (listId, level, actionId) => {
     const s = get();
     const key = `${listId}|${level}|${actionId}`;
-    const checkedActions = { ...s.checkedActions, [key]: !s.checkedActions[key] };
-    set({ checkedActions });
-    saveProfileState(s.activeProfileId, { ...s, checkedActions });
+    set({ checkedActions: { ...s.checkedActions, [key]: !s.checkedActions[key] } });
   },
 
   importLists: (data: ListExportFile) => {
@@ -367,10 +362,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
     }
 
     const inventory = data.inventory ?? s.inventory;
-
     set({ customLists, sharedCustomLists, hideoutLevels, targetLevels, activeModules, listOrder, inventory });
-    saveSharedLists(sharedCustomLists);
-    saveProfileState(s.activeProfileId, { ...s, customLists, hideoutLevels, targetLevels, activeModules, listOrder, inventory });
   },
 
   deleteCustomList: (id) => {
@@ -382,14 +374,9 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const listOrder = s.listOrder.filter(x => x !== id);
 
     if (isShared) {
-      const sharedCustomLists = s.sharedCustomLists.filter(l => l.id !== id);
-      set({ sharedCustomLists, hideoutLevels, targetLevels, activeModules, listOrder });
-      saveSharedLists(sharedCustomLists);
-      saveProfileState(s.activeProfileId, { ...s, hideoutLevels, targetLevels, activeModules, listOrder });
+      set({ sharedCustomLists: s.sharedCustomLists.filter(l => l.id !== id), hideoutLevels, targetLevels, activeModules, listOrder });
     } else {
-      const customLists = s.customLists.filter(l => l.id !== id);
-      set({ customLists, hideoutLevels, targetLevels, activeModules, listOrder });
-      saveProfileState(s.activeProfileId, { ...s, customLists, hideoutLevels, targetLevels, activeModules, listOrder });
+      set({ customLists: s.customLists.filter(l => l.id !== id), hideoutLevels, targetLevels, activeModules, listOrder });
     }
   },
 
@@ -403,7 +390,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
       targetLevels[l.id] = levelsAbove(0, l.maxLevel);
       activeModules[l.id] = true;
     });
-    const fresh: PersistedState = {
+    set({
       hideoutLevels,
       targetLevels,
       activeModules,
@@ -412,9 +399,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
       listOrder: s.listOrder,
       customLists: s.customLists,
       checkedActions: {},
-    };
-    set(fresh);
-    saveProfileState(s.activeProfileId, fresh);
+    });
   },
 
   upgradeModule: (moduleId) => {
@@ -438,12 +423,11 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const cur = targetLevels[moduleId] ?? [];
     if (next <= list.maxLevel && !cur.includes(next)) targetLevels[moduleId] = [...cur, next].sort((a, b) => a - b);
     set({ inventory, hideoutLevels, checkedActions, targetLevels });
-    saveProfileState(s.activeProfileId, { ...s, inventory, hideoutLevels, checkedActions, targetLevels });
   },
 
   buildExportData: (profileIds) => {
     const s = get();
-    const profiles: ProfileExportEntry[] = [];
+    const exported: ProfileExportEntry[] = [];
 
     for (const profileId of profileIds) {
       const profile = s.profiles.find(p => p.id === profileId);
@@ -474,7 +458,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
       }
 
       const allLists: List[] = [...s.workbenches, ...s.sharedCustomLists, ...customLists];
-      profiles.push({
+      exported.push({
         profile,
         inventory,
         lists: allLists.map(list => ({
@@ -486,20 +470,19 @@ export const useAppStore = create<AppState>()((set, get) => ({
       });
     }
 
-    return { sharedLists: s.sharedCustomLists, profiles };
+    return { sharedLists: s.sharedCustomLists, profiles: exported };
   },
 
   importMultiProfile: (data: MultiProfileExportFile, selectedProfileIds: string[]) => {
     const s = get();
 
-    // Merge shared lists globally
+    // Merge shared lists globally (persisted by the subscriber via set below).
     const sharedCustomLists = [...s.sharedCustomLists];
     for (const list of data.sharedLists) {
       const idx = sharedCustomLists.findIndex(l => l.id === list.id);
       if (idx >= 0) sharedCustomLists[idx] = list;
       else sharedCustomLists.push(list);
     }
-    saveSharedLists(sharedCustomLists);
 
     let profiles = [...s.profiles];
     let activeProfileState: PersistedState | null = null;
@@ -525,29 +508,21 @@ export const useAppStore = create<AppState>()((set, get) => ({
       }
 
       const profileState: PersistedState = {
-        hideoutLevels,
-        targetLevels,
-        activeModules,
+        hideoutLevels, targetLevels, activeModules,
         inventory: entry.inventory,
-        filterHideCompleted: true,
-        listOrder,
-        customLists,
-        checkedActions: {},
+        filterHideCompleted: true, listOrder, customLists, checkedActions: {},
       };
 
-      if (!profiles.some(p => p.id === entry.profile.id)) {
-        profiles = [...profiles, entry.profile];
-      }
-
-      saveProfileState(entry.profile.id, profileState);
+      if (!profiles.some(p => p.id === entry.profile.id)) profiles = [...profiles, entry.profile];
 
       if (entry.profile.id === s.activeProfileId) {
-        activeProfileState = profileState;
+        activeProfileState = profileState; // active profile persisted via the subscriber (set below)
+      } else {
+        saveProfileState(entry.profile.id, profileState); // non-active: write directly
       }
     }
 
-    saveProfilesMeta({ profiles, activeProfileId: s.activeProfileId });
-
+    // The subscriber persists sharedCustomLists, the profiles meta and (if changed) the active state.
     if (activeProfileState) {
       set({ profiles, sharedCustomLists, ...activeProfileState });
     } else {
@@ -556,72 +531,24 @@ export const useAppStore = create<AppState>()((set, get) => ({
   },
 
   // ---- Profiles -----------------------------------------------------------
+  // The subscriber persists the new active profile's state and the profiles meta;
+  // these actions only handle what it can't infer (key removal on delete).
 
   createProfile: (name: string) => {
     const s = get();
-    saveProfileState(s.activeProfileId, s); // persist current before switching
-
     const id = crypto.randomUUID();
-    const profiles = [...s.profiles, { id, name }];
-    const fresh: PersistedState = {
-      hideoutLevels: {},
-      targetLevels: {},
-      activeModules: {},
-      inventory: {},
-      filterHideCompleted: true,
-      listOrder: workbenches.map(w => w.id),
-      customLists: [],
-      checkedActions: {},
-    };
-    saveProfileState(id, fresh);
-    saveProfilesMeta({ profiles, activeProfileId: id });
-
-    set({
-      profiles,
-      activeProfileId: id,
-      hideoutLevels: { ...defaultHideoutLevels },
-      targetLevels: { ...defaultTargetLevels },
-      activeModules: { ...defaultActiveModules },
-      inventory: {},
-      filterHideCompleted: true,
-      listOrder: workbenches.map(w => w.id),
-      customLists: [],
-      checkedActions: {},
-    });
+    set({ profiles: [...s.profiles, { id, name }], activeProfileId: id, ...freshProfile() });
   },
 
   switchProfile: (newProfileId: string) => {
     const s = get();
     if (s.activeProfileId === newProfileId) return;
-    saveProfileState(s.activeProfileId, s);
-
-    const loaded = loadProfileState(newProfileId);
-    saveProfilesMeta({ profiles: s.profiles, activeProfileId: newProfileId });
-
-    set({
-      activeProfileId: newProfileId,
-      hideoutLevels: { ...defaultHideoutLevels, ...loaded.hideoutLevels },
-      targetLevels: {
-        ...defaultTargetLevels,
-        ...migrateTargets(
-          loaded.targetLevels as Record<string, number | number[]> | undefined,
-          loaded.hideoutLevels,
-        ),
-      },
-      activeModules: { ...defaultActiveModules, ...loaded.activeModules },
-      inventory: loaded.inventory ?? {},
-      filterHideCompleted: loaded.filterHideCompleted ?? true,
-      listOrder: loaded.listOrder ?? workbenches.map(w => w.id),
-      customLists: loaded.customLists ?? [],
-      checkedActions: loaded.checkedActions ?? {},
-    });
+    set({ activeProfileId: newProfileId, ...hydrateProfile(loadProfileState(newProfileId)) });
   },
 
   renameProfile: (id: string, name: string) => {
     const s = get();
-    const profiles = s.profiles.map(p => p.id === id ? { ...p, name } : p);
-    set({ profiles });
-    saveProfilesMeta({ profiles, activeProfileId: s.activeProfileId });
+    set({ profiles: s.profiles.map(p => p.id === id ? { ...p, name } : p) });
   },
 
   deleteProfile: (id: string) => {
@@ -632,28 +559,8 @@ export const useAppStore = create<AppState>()((set, get) => ({
 
     if (s.activeProfileId === id) {
       const newActiveId = profiles[0].id;
-      const loaded = loadProfileState(newActiveId);
-      saveProfilesMeta({ profiles, activeProfileId: newActiveId });
-      set({
-        profiles,
-        activeProfileId: newActiveId,
-        hideoutLevels: { ...defaultHideoutLevels, ...loaded.hideoutLevels },
-        targetLevels: {
-          ...defaultTargetLevels,
-          ...migrateTargets(
-            loaded.targetLevels as Record<string, number | number[]> | undefined,
-            loaded.hideoutLevels,
-          ),
-        },
-        activeModules: { ...defaultActiveModules, ...loaded.activeModules },
-        inventory: loaded.inventory ?? {},
-        filterHideCompleted: loaded.filterHideCompleted ?? true,
-        listOrder: loaded.listOrder ?? workbenches.map(w => w.id),
-        customLists: loaded.customLists ?? [],
-        checkedActions: loaded.checkedActions ?? {},
-      });
+      set({ profiles, activeProfileId: newActiveId, ...hydrateProfile(loadProfileState(newActiveId)) });
     } else {
-      saveProfilesMeta({ profiles, activeProfileId: s.activeProfileId });
       set({ profiles });
     }
   },
@@ -715,3 +622,32 @@ export const useAppStore = create<AppState>()((set, get) => ({
       .map(list => list.id);
   },
 }));
+
+// ---------------------------------------------------------------------------
+// Persistence boundary — the single writer (see note above the store).
+// Synchronous: writes whichever bucket changed by reference. The remote-sync
+// layer (Fase 2) will debounce on top of this same subscription.
+// ---------------------------------------------------------------------------
+
+useAppStore.subscribe((state, prev) => {
+  if (state.profiles !== prev.profiles || state.activeProfileId !== prev.activeProfileId) {
+    saveProfilesMeta({ profiles: state.profiles, activeProfileId: state.activeProfileId });
+  }
+  if (state.sharedCustomLists !== prev.sharedCustomLists) {
+    saveSharedLists(state.sharedCustomLists);
+  }
+  const profileStateChanged =
+    state.hideoutLevels !== prev.hideoutLevels ||
+    state.targetLevels !== prev.targetLevels ||
+    state.activeModules !== prev.activeModules ||
+    state.inventory !== prev.inventory ||
+    state.filterHideCompleted !== prev.filterHideCompleted ||
+    state.listOrder !== prev.listOrder ||
+    state.customLists !== prev.customLists ||
+    state.checkedActions !== prev.checkedActions;
+  // On a profile switch the active id changes together with all the slice refs:
+  // we write the (new) active profile's state to its own key, never the old one.
+  if (profileStateChanged || state.activeProfileId !== prev.activeProfileId) {
+    saveProfileState(state.activeProfileId, state);
+  }
+});
