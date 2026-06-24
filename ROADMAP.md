@@ -120,6 +120,11 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
         in `workbenches.json` sono in italiano hardcoded → spostare i nomi localizzati in un
         campo per lingua (l'API hideout di mahcks ha già `name` multilingua completo: da, de, en,
         es, fr, it, ja, ko, pl, pt, ru, zh, … — recuperabile via script come per le icone)
+      - **L'inglese non va MAI escluso dalla ricerca**: anche con UI/nomi localizzati, la ricerca
+        oggetti deve continuare a matchare il nome **inglese** oltre a quello localizzato (l'inglese
+        è il nome "canonico" del gioco, quello che molti giocatori conoscono e usano nelle guide).
+        In pratica il filtro confronta su `name[lang]` **e** `name['en']` (alias di ricerca sempre
+        attivo); idealmente normalizzando accenti/maiuscole. Vale per `ItemsPage` e `ItemPicker`.
       - Lingua iniziale da `navigator.language` con fallback EN, override manuale persistito
         in localStorage; con l'arrivo di Supabase diventa preferenza del profilo
       - Formattazione numeri/valute con `toLocaleString(lang)` (già usato per il valore item)
