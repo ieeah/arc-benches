@@ -53,9 +53,8 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const orderedLists = store.getOrderedLists();
-  const activeLists = orderedLists.filter(list => (store.hideoutLevels[list.id] ?? 0) < list.maxLevel);
-  const maxedLists = orderedLists.filter(list => (store.hideoutLevels[list.id] ?? 0) >= list.maxLevel);
+  const activeLists = store.getActiveLists();
+  const maxedLists = store.getMaxedLists();
   const movePromptList = maxedLists.find(list => list.id === movePromptId);
 
   const activeWorkbenches = activeLists.filter(l => !l.custom);

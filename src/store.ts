@@ -13,6 +13,9 @@ const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
+// The Refiner bench gates item crafting (see refinerCraftLevel + the craftable-now badges).
+const REFINER_ID = 'refiner';
+
 type PersistedState = Pick<AppState,
   'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions'
@@ -579,6 +582,18 @@ export const useAppStore = create<AppState>()((set, get) => ({
       const ob = s.listOrder.indexOf(b.id);
       return (oa === -1 ? 999 : oa) - (ob === -1 ? 999 : ob);
     });
+  },
+
+  getRefinerLevel: () => get().hideoutLevels[REFINER_ID] ?? 0,
+
+  getActiveLists: () => {
+    const s = get();
+    return s.getOrderedLists().filter(l => (s.hideoutLevels[l.id] ?? 0) < l.maxLevel);
+  },
+
+  getMaxedLists: () => {
+    const s = get();
+    return s.getOrderedLists().filter(l => (s.hideoutLevels[l.id] ?? 0) >= l.maxLevel);
   },
 
   getTotalRequiredMaterials: (excludeModuleId) => {

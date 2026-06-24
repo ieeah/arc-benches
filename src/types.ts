@@ -141,6 +141,11 @@ export interface AppState {
   /** Game seed + shared custom lists + active-profile custom lists; the set every selector operates on. */
   getAllLists: () => List[];
   getOrderedLists: () => List[];
+  /** Current level of the Refiner workbench (drives the craftable-now badges). */
+  getRefinerLevel: () => number;
+  /** Ordered lists split by completion (current level vs maxLevel). */
+  getActiveLists: () => List[];
+  getMaxedLists: () => List[];
   /** Total materials required by active goals; pass a moduleId to exclude that bench's needs. */
   getTotalRequiredMaterials: (excludeModuleId?: string) => Record<string, number>;
   getMissingMaterials: () => Array<{

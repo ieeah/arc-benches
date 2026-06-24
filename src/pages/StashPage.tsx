@@ -35,7 +35,7 @@ export const StashPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
 
   const missingMaterials = store.getMissingMaterials();
   const orderedLists = store.getOrderedLists();
-  const refinerLevel = store.hideoutLevels['refiner'] ?? 0;
+  const refinerLevel = store.getRefinerLevel();
 
   // Priority sort: each item gets the index of the highest-priority list that needs it
   const itemPriorityIndex = (itemId: string): number => {

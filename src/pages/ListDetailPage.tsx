@@ -6,6 +6,7 @@ import { LevelPills } from '../components/LevelPills';
 import { ActionCheckbox } from '../components/ActionCheckbox';
 import { iconUrl } from '../lib/icons';
 import { getRarityStyles } from '../lib/rarity';
+import { getBaseLevel } from '../lib/lists';
 import { cn } from '../lib/cn';
 
 /** Full-screen overview of one list: every level, its items and actions. */
@@ -29,7 +30,7 @@ export const ListDetailPage = ({ listId, onBack, onOpenDatabase }: {
 
   const current = store.hideoutLevels[list.id] ?? 0;
   const selected = store.targetLevels[list.id] ?? [];
-  const baseLevel = list.levels.find(l => l.level === 1)?.requirementItemIds.length === 0 ? 1 : 0;
+  const baseLevel = getBaseLevel(list);
   const levels = [...list.levels].sort((a, b) => a.level - b.level);
 
   const setCurrent = (v: number) => store.setModuleCurrentLevel(list.id, v, v > current);

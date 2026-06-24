@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { Pencil, Layers, MoreHorizontal, Trash2 } from "lucide-react";
 import type { List } from "../types";
+import { getBaseLevel } from "../lib/lists";
 import { LevelBadge } from "./LevelBadge";
 import { LevelPills } from "./LevelPills";
 import { ActionCheckbox } from "./ActionCheckbox";
@@ -45,11 +46,7 @@ export const ListRow = ({
   /** When set (custom lists), renders a delete affordance (inline confirm in the menu). */
   onDelete?: () => void;
 }) => {
-  // A list whose level 1 has no requirements starts already unlocked (e.g. Scrappy) — level 0 doesn't exist
-  const baseLevel =
-    list.levels.find((l) => l.level === 1)?.requirementItemIds.length === 0
-      ? 1
-      : 0;
+  const baseLevel = getBaseLevel(list);
 
   // Actions to surface on the card: those of every selected objective level (independent of current).
   const actionLevels = list.levels.filter(

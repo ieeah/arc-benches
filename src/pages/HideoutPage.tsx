@@ -4,14 +4,13 @@ import { ListCard } from '../components/ListCard';
 
 export const HideoutPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) => {
   const store = useAppStore();
-  const orderedLists = store.getOrderedLists();
   const availableUpgrades = store.getAvailableUpgrades();
-  const refinerLevel = store.hideoutLevels['refiner'] ?? 0;
+  const refinerLevel = store.getRefinerLevel();
 
   const totalRequired = store.getTotalRequiredMaterials();
 
-  const activeLists = orderedLists.filter(list => (store.hideoutLevels[list.id] ?? 0) < list.maxLevel);
-  const maxedLists = orderedLists.filter(list => (store.hideoutLevels[list.id] ?? 0) >= list.maxLevel);
+  const activeLists = store.getActiveLists();
+  const maxedLists = store.getMaxedLists();
 
   return (
     <div className="pb-28">

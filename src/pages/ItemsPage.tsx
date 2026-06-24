@@ -12,7 +12,7 @@ export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
   const store = useAppStore();
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<ItemInfo | null>(null);
-  const refinerLevel = store.hideoutLevels['refiner'] ?? 0;
+  const refinerLevel = store.getRefinerLevel();
 
   const items = Object.values(store.itemsInfo)
     .filter(i => i.name.toLowerCase().includes(query.toLowerCase()))
