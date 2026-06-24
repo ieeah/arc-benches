@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
-import { Pencil, Layers, MoreHorizontal } from "lucide-react";
+import { Pencil, Layers, MoreHorizontal, Trash2 } from "lucide-react";
 import type { List } from "../types";
 import { LevelBadge } from "./LevelBadge";
 import { LevelPills } from "./LevelPills";
@@ -21,6 +21,7 @@ export const ListRow = ({
   onToggleAction,
   onOpenDetail,
   onEdit,
+  onDelete,
 }: {
   list: List;
   current: number;
@@ -41,6 +42,8 @@ export const ListRow = ({
   onOpenDetail?: () => void;
   /** When set (custom lists), renders an edit affordance opening the editor. */
   onEdit?: () => void;
+  /** When set (custom lists), renders a delete affordance (inline confirm in the menu). */
+  onDelete?: () => void;
 }) => {
   // A list whose level 1 has no requirements starts already unlocked (e.g. Scrappy) — level 0 doesn't exist
   const baseLevel =
@@ -54,13 +57,17 @@ export const ListRow = ({
   );
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Closing the menu always clears any pending delete confirmation.
+  const closeMenu = () => { setMenuOpen(false); setConfirmingDelete(false); };
 
   useEffect(() => {
     if (!menuOpen) return;
     const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
+        closeMenu();
       }
     };
     document.addEventListener('mousedown', handler);
@@ -114,37 +121,69 @@ export const ListRow = ({
             </span>
           )}
         </span>
-        {(onOpenDetail || onEdit) && (
+        {(onOpenDetail || onEdit || onDelete) && (
           <div ref={menuRef} className="relative shrink-0">
             <button
-              onClick={() => setMenuOpen(v => !v)}
+              onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
               title="Azioni lista"
               className="w-9 h-9 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors rounded-full"
             >
               <MoreHorizontal size={20} />
             </button>
             {menuOpen && (
-              <div className="absolute right-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden min-w-[9rem]">
+              <div className="absolute right-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden min-w-[10rem]">
                 {onOpenDetail && (
                   <button
-                    onClick={() => { setMenuOpen(false); onOpenDetail(); }}
+                    onClick={() => { closeMenu(); onOpenDetail(); }}
                     className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                   >
                     <Layers size={15} className="text-gray-400 shrink-0" />
                     Dettaglio
                   </button>
                 )}
-                {onOpenDetail && onEdit && (
-                  <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />
-                )}
                 {onEdit && (
-                  <button
-                    onClick={() => { setMenuOpen(false); onEdit(); }}
-                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-                  >
-                    <Pencil size={15} className="text-gray-400 shrink-0" />
-                    Modifica
-                  </button>
+                  <>
+                    {onOpenDetail && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
+                    <button
+                      onClick={() => { closeMenu(); onEdit(); }}
+                      className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                    >
+                      <Pencil size={15} className="text-gray-400 shrink-0" />
+                      Modifica
+                    </button>
+                  </>
+                )}
+                {onDelete && (
+                  <>
+                    {(onOpenDetail || onEdit) && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
+                    {confirmingDelete ? (
+                      <div className="px-3 py-2.5 space-y-1.5">
+                        <p className="text-[11px] text-gray-500 dark:text-gray-400">Eliminare la lista?</p>
+                        <div className="flex gap-1.5">
+                          <button
+                            onClick={() => { closeMenu(); onDelete(); }}
+                            className="flex-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full"
+                          >
+                            Elimina
+                          </button>
+                          <button
+                            onClick={() => setConfirmingDelete(false)}
+                            className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-xs font-bold rounded-full"
+                          >
+                            Annulla
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setConfirmingDelete(true)}
+                        className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                      >
+                        <Trash2 size={15} className="shrink-0" />
+                        Elimina
+                      </button>
+                    )}
+                  </>
                 )}
               </div>
             )}

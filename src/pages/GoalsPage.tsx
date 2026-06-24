@@ -184,6 +184,7 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
             onToggleAction={(level, actionId) => store.toggleAction(list.id, level, actionId)}
             onOpenDetail={() => onOpenDetail(list.id)}
             onEdit={list.custom ? () => setEditing({ id: list.id }) : undefined}
+            onDelete={list.custom ? () => store.deleteCustomList(list.id) : undefined}
           />
         ))}
       </SortableContext>
@@ -291,6 +292,7 @@ export const GoalsPage = ({ onOpenDatabase, onOpenDetail }: {
                 onToggleAction={(level, actionId) => store.toggleAction(list.id, level, actionId)}
                 onOpenDetail={() => onOpenDetail(list.id)}
                 onEdit={list.custom ? () => setEditing({ id: list.id }) : undefined}
+                onDelete={list.custom ? () => store.deleteCustomList(list.id) : undefined}
               />
             ))}
           </CollapsibleSection>

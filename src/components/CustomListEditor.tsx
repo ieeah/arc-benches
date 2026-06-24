@@ -14,7 +14,9 @@ export const CustomListEditor = ({ listId, onClose }: {
   onClose: () => void;
 }) => {
   const store = useAppStore();
-  const existing = listId ? store.customLists.find(l => l.id === listId) : undefined;
+  const existing = listId
+    ? store.customLists.find(l => l.id === listId) ?? store.sharedCustomLists.find(l => l.id === listId)
+    : undefined;
 
   const [name, setName] = useState(existing?.name ?? '');
   const [shared, setShared] = useState(existing?.shared ?? false);
