@@ -80,7 +80,8 @@ export const FloatingNav = ({
   );
 
   return (
-    <div className={`fixed bottom-0 left-0 right-0 flex z-50 pointer-events-none pb-safe ${navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
+    <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center">
+      <div className={`w-full max-w-md flex ${navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
       <div
         ref={pillRef}
         className="relative mb-6 flex items-center gap-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-full shadow-2xl border border-gray-200/70 dark:border-gray-800 p-2 pointer-events-auto"
@@ -155,6 +156,7 @@ export const FloatingNav = ({
             )}
           </div>
         )}
+      </div>
       </div>
     </div>
   );
