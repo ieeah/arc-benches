@@ -231,9 +231,32 @@ export const UnifiedListCard = ({
         )}
       </div>
 
-      {/* Collapsed body: requirements + upgrade button */}
+      {/* Collapsed body: current level pills + requirements + upgrade button */}
       {!expanded && hasCollapsedBody && (
-        <div className="px-3 pb-3 space-y-2">
+        <div className="px-4 pb-3 space-y-3 border-t border-gray-100 dark:border-gray-800 pt-3">
+          <div>
+            <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Attuale</p>
+            <LevelPills
+              min={baseLevel}
+              max={list.maxLevel}
+              value={pendingLevel ?? current}
+              activeClass={pendingLevel !== null ? 'bg-blue-300 dark:bg-blue-700 text-white' : 'bg-blue-500 text-white'}
+              onChange={handleCurrentLevel}
+            />
+            {pendingLevel !== null && (
+              <div className="mt-2 p-2.5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
+                <p className="text-[11px] text-gray-600 dark:text-gray-300 mb-2">
+                  Alcuni materiali in inventario servono anche ad altri banchi. Li hai usati per questo potenziamento?
+                </p>
+                <div className="flex gap-2">
+                  <button onClick={() => resolvePending(true)}
+                    className="px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">Sì, scala</button>
+                  <button onClick={() => resolvePending(false)}
+                    className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-full">No, conservali</button>
+                </div>
+              </div>
+            )}
+          </div>
           {nextLevelData && nextLevelData.requirementItemIds.length > 0 && (
             <RequirementsGrid
               levelData={nextLevelData}
