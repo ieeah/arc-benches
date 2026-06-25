@@ -291,6 +291,9 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
         `openExport`, `triggerImport`; `App.tsx` li richiama dai `pageMenuItems` via `listsPageRef`.
       - **Ripristina** gestito interamente in `FloatingNav` (stato `pendingDanger`, conferma inline)
         chiamando `store.resetProgress()` passato come `onClick` nell'item danger.
+- [ ] **Revisione ordine voci menu ⋯ (FloatingNav)** — l'ordine attuale delle voci contestuali
+      e universali nel menu della pillola va discusso e ridefinito (ergonomia + frequenza d'uso).
+      Da fare in un momento dedicato.
 - [x] **Sezioni collassabili in Obiettivi** — FATTO. Le liste sono raggruppate in sezioni
       collassabili (`CollapsibleSection`, animazione altezza con la grid-trick `0fr↔1fr`, 350ms):
       *Banchi da lavoro* (`listType: 'workbench'`), *Liste personalizzate* (`custom: true`) e
@@ -375,9 +378,11 @@ Rilevazioni da un'analisi del codice (giu 2026), ordinate per impatto dentro ogn
       ri-renderizza tutto e ricalcola i selettori non memoizzati (`getMissingMaterials`,
       `getTotalRequiredMaterials`, `getOrderedLists`) a ogni render. Innocuo a questa scala,
       ma anti-pattern da correggere prima di Supabase/multi-profilo: selettori mirati + `useShallow`.
+      → Piano dettagliato: [`docs/zustand-optimization-plan.md`](docs/zustand-optimization-plan.md)
 - [ ] **`itemPriorityIndex` nel comparatore di sort** — in `StashPage` è O(banchi×livelli) e viene
       chiamato 2× per confronto durante `.sort()`. Precalcolare una `Map<itemId, priorità>` prima
       del sort. (Stesso pattern: `getOrderedLists` usa `indexOf` nel comparatore → O(n²).)
+      → Coperto dal piano sopra (`priorityMap` con `useMemo` + `getOrderedListsPure` con `Map`).
 - [ ] **`useLongPress` doppio conteggio** — l'`onClick` del bottone spara comunque al rilascio,
       sommandosi ai tick dell'interval; nessun incremento immediato alla pressione. Conteggio non
       perfettamente prevedibile su pressioni lunghe.
