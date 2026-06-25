@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { RotateCcw, GripVertical, PartyPopper, Plus, Download, Upload, ChevronUp, Users, Check, Pencil, Trash2 } from 'lucide-react';
+import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import { GripVertical, PartyPopper, Plus, Upload, Check, Pencil, Trash2 } from 'lucide-react';
 import {
   DndContext, closestCenter, PointerSensor, TouchSensor,
   useSensor, useSensors,
@@ -19,14 +19,17 @@ import type { List, ListExportFile, MultiProfileExportFile } from '../types';
 
 type SectionsOpen = { workbench: boolean; custom: boolean; completati: boolean };
 
-export const ListsPage = ({ onOpenDatabase, onOpenDetail }: {
-  onOpenDatabase: () => void;
-  onOpenDetail: (listId: string) => void;
-}) => {
+export type ListsPageHandle = {
+  openProfiles: () => void;
+  createList: () => void;
+  openExport: () => void;
+  triggerImport: () => void;
+};
+
+export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: string) => void }>(
+  ({ onOpenDetail }, ref) => {
   const store = useAppStore();
-  const [showActions, setShowActions] = useState(false);
   const [showProfiles, setShowProfiles] = useState(false);
-  const [drawerConfirmReset, setDrawerConfirmReset] = useState(false);
   const [movePromptId, setMovePromptId] = useState<string | null>(null);
   const [editing, setEditing] = useState<{ id?: string } | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
@@ -96,7 +99,6 @@ export const ListsPage = ({ onOpenDatabase, onOpenDetail }: {
   const openExportModal = () => {
     setExportSelectedIds(new Set(store.profiles.map(p => p.id)));
     setShowExportModal(true);
-    setShowActions(false);
   };
 
   const handleExportAll = () => {
@@ -167,7 +169,12 @@ export const ListsPage = ({ onOpenDatabase, onOpenDetail }: {
     setEditingProfile(null);
   };
 
-  const activeProfile = store.profiles.find(p => p.id === store.activeProfileId);
+  useImperativeHandle(ref, () => ({
+    openProfiles: () => setShowProfiles(true),
+    createList: () => setEditing({}),
+    openExport: openExportModal,
+    triggerImport: () => fileInputRef.current?.click(),
+  }));
 
   const sharedCardProps = (list: List) => ({
     list,
@@ -205,24 +212,7 @@ export const ListsPage = ({ onOpenDatabase, onOpenDetail }: {
     <div className="pb-28">
       {/* Sticky header */}
       <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
-        <SectionHeader title="Liste" onOpenDatabase={onOpenDatabase} />
-        <div className="flex justify-between items-center mt-2">
-          <button onClick={() => setEditing({})}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">
-            <Plus size={13} />
-            Lista
-          </button>
-          <button onClick={() => setShowProfiles(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs font-semibold rounded-full max-w-[140px]">
-            <Users size={12} className="shrink-0" />
-            <span className="truncate">{activeProfile?.name ?? '—'}</span>
-          </button>
-          <button onClick={() => setShowActions(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-500 text-xs font-bold rounded-full">
-            <ChevronUp size={13} />
-            Azioni
-          </button>
-        </div>
+        <SectionHeader title="Liste" />
       </div>
 
       <input ref={fileInputRef} type="file" accept=".json,application/json" className="hidden" onChange={handleImportFile} />
@@ -258,7 +248,7 @@ export const ListsPage = ({ onOpenDatabase, onOpenDetail }: {
         >
           {activeCustom.length === 0 ? (
             <p className="text-[11px] text-gray-400 italic px-1 pb-2">
-              Nessuna lista personalizzata. Creane una con "+ Lista".
+              Nessuna lista personalizzata. Creane una con "+ Lista" nel menu.
             </p>
           ) : renderDndSection(activeCustom)}
         </CollapsibleSection>
@@ -297,73 +287,6 @@ export const ListsPage = ({ onOpenDatabase, onOpenDetail }: {
 
       {editing && (
         <CustomListEditor listId={editing.id} onClose={() => setEditing(null)} />
-      )}
-
-      {/* Azioni drawer */}
-      {showActions && (
-        <Drawer from="top" title="Azioni"
-          onClose={() => { setShowActions(false); setDrawerConfirmReset(false); }}
-        >
-          {drawerConfirmReset ? (
-            <div className="space-y-3 pt-1">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Verranno azzerati tutti i progressi (livelli, inventario, azioni). Le liste personalizzate rimangono. Questa azione è irreversibile.
-              </p>
-              <button
-                onClick={() => { store.resetProgress(); setShowActions(false); setDrawerConfirmReset(false); }}
-                className="w-full py-3 bg-red-500 text-white font-bold text-sm rounded-2xl"
-              >
-                Conferma ripristino
-              </button>
-              <button
-                onClick={() => setDrawerConfirmReset(false)}
-                className="w-full py-3 bg-gray-100 dark:bg-gray-800 font-bold text-sm rounded-2xl"
-              >
-                Annulla
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-2 pt-1">
-              <button
-                onClick={openExportModal}
-                className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left active:scale-[0.98] transition-transform"
-              >
-                <div className="p-2 bg-white dark:bg-gray-700 rounded-xl shrink-0">
-                  <Upload size={16} className="text-gray-500" />
-                </div>
-                <div>
-                  <p className="font-bold text-sm">Esporta liste</p>
-                  <p className="text-[11px] text-gray-400">Scegli i profili da includere nel backup JSON</p>
-                </div>
-              </button>
-              <button
-                onClick={() => { fileInputRef.current?.click(); setShowActions(false); }}
-                className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left active:scale-[0.98] transition-transform"
-              >
-                <div className="p-2 bg-white dark:bg-gray-700 rounded-xl shrink-0">
-                  <Download size={16} className="text-gray-500" />
-                </div>
-                <div>
-                  <p className="font-bold text-sm">Importa liste</p>
-                  <p className="text-[11px] text-gray-400">Carica da file JSON</p>
-                </div>
-              </button>
-              <div className="border-t border-gray-100 dark:border-gray-800 my-1" />
-              <button
-                onClick={() => setDrawerConfirmReset(true)}
-                className="w-full flex items-center gap-3 p-3 bg-red-50 dark:bg-red-900/20 rounded-2xl text-left active:scale-[0.98] transition-transform"
-              >
-                <div className="p-2 bg-white dark:bg-gray-700 rounded-xl shrink-0">
-                  <RotateCcw size={16} className="text-red-500" />
-                </div>
-                <div>
-                  <p className="font-bold text-sm text-red-500">Ripristina progressi</p>
-                  <p className="text-[11px] text-gray-400">Azzera livelli e inventario</p>
-                </div>
-              </button>
-            </div>
-          )}
-        </Drawer>
       )}
 
       {/* Profili drawer */}
@@ -617,4 +540,4 @@ export const ListsPage = ({ onOpenDatabase, onOpenDetail }: {
       )}
     </div>
   );
-};
+});

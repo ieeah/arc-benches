@@ -259,29 +259,18 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
         identico tra chiuso e aperto.
       - Una sola sezione "Completati" (collassabile), prompt conflitto-inventario in un solo posto,
         sezioni *Banchi da lavoro* / *Liste personalizzate* / *Completati* preservate.
-      - `HideoutPage`, `GoalsPage`, `ListCard`, `SortableListRow` non usati (cleanup in Fase 2).
-      - `ListRow` resta (usato da `ListDetailPage`).
-- [ ] **Pillola di navigazione flottante (sostituisce la bottom nav)** (~mezza giornata) —
-      si elimina la barra a tab in basso e l'header in alto si alleggerisce (perde i pulsanti
-      Database e Tema). Al loro posto una **pillola flottante**, `fixed` in basso e chiaramente
-      staccata dai bordi (safe-area), con **pulsanti circolari icona-only**. Decisioni
-      **confermate**:
-      - **2 pagine**: "Stash" e "Liste" (la pagina unificata Rifugio+Obiettivi qui sopra).
-      - **Pulsante primario** = naviga **all'altra pagina** (su Stash → "Liste"; su Liste →
-        "Stash"). È il più a destra (lato pollice), pieno/accent e un filo più grande; mostra
-        l'icona della pagina di destinazione. Con sole 2 pagine il toggle è immediato da imparare.
-      - **Pulsante secondario** = ⋯ "Altro" (circolare, ghost) che apre un **menu verso l'alto**,
-        contestuale alla pagina:
-        - *universali* (su entrambe): **Database** · **Tema** (spostati qui dall'header);
-        - *Liste*: switch **Profilo** · **+ Lista** · **Esporta/Importa** · **Ripristina** (rosso,
-          conferma inline);
-        - *Stash*: **Nascondi completati** (+ futuri filtri).
-      - **`navSide` configurabile** (per i mancini): lato del primario, persistito in localStorage
-        (`nav-side`, default `'right'`), layout speculare. Si traccia **da subito**; la UI di
-        switch arriva con una futura sezione Impostazioni.
-      - Fasatura per ridurre rischio: **Fase 1** l'accorpamento (`ListsPage`, bottom nav passa da
-        3 a 2 tab mantenendo la barra attuale, verificabile in isolamento); **Fase 2** la pillola
-        sostituisce la barra e assorbe Database/Tema/azioni nel menu ⋯.
+      - `HideoutPage`, `GoalsPage`, `ListCard`, `SortableListRow`, `ListRow` eliminati.
+- [x] **Pillola di navigazione flottante (sostituisce la bottom nav)** — FATTO. `FloatingNav`
+      sostituisce la `<nav>` a tab in basso. `SectionHeader` perde ThemeToggle e pulsante DB.
+      - **2 pulsanti circolari**: primario (w-14, blu, icona pagina destinazione) + secondario (w-12,
+        ghost, ⋯) con ordine speculare via `navSide` (default `'right'`, da localStorage `nav-side`).
+      - **Menu ⋯** contestuale: su Liste → Profilo · + Lista · Esporta · Importa · Ripristina (rosso
+        con conferma inline); su Stash → Nascondi completati (con checkmark); universali su entrambe:
+        Database · Tema. Il tema non chiude il menu (toggle live visibile).
+      - **`forwardRef` + `useImperativeHandle`** in `ListsPage` espone `openProfiles`, `createList`,
+        `openExport`, `triggerImport`; `App.tsx` li richiama dai `pageMenuItems` via `listsPageRef`.
+      - **Ripristina** gestito interamente in `FloatingNav` (stato `pendingDanger`, conferma inline)
+        chiamando `store.resetProgress()` passato come `onClick` nell'item danger.
 - [x] **Sezioni collassabili in Obiettivi** — FATTO. Le liste sono raggruppate in sezioni
       collassabili (`CollapsibleSection`, animazione altezza con la grid-trick `0fr↔1fr`, 350ms):
       *Banchi da lavoro* (`listType: 'workbench'`), *Liste personalizzate* (`custom: true`) e

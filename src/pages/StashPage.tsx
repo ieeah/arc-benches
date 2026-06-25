@@ -13,7 +13,7 @@ const sortLabels: Record<SortKey, string> = {
   priority: 'Priorità', name: 'A→Z', rarity: 'Rarità', type: 'Tipo',
 };
 
-export const StashPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) => {
+export const StashPage = () => {
   const store = useAppStore();
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>(() =>
     safeLS(() => {
@@ -70,16 +70,7 @@ export const StashPage = ({ onOpenDatabase }: { onOpenDatabase: () => void }) =>
     <div className="pb-28">
       <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
         <div className="mb-3">
-          <SectionHeader title="Stash" onOpenDatabase={onOpenDatabase}
-            actions={
-              <label className="flex items-center gap-1.5 text-xs font-bold uppercase text-gray-500 cursor-pointer">
-                <input type="checkbox" checked={store.filterHideCompleted}
-                  onChange={e => store.setFilterHideCompleted(e.target.checked)}
-                  className="rounded border-gray-300 text-blue-500 focus:ring-blue-500" />
-                Nascondi completati
-              </label>
-            }
-          />
+          <SectionHeader title="Stash" />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-0.5">
           {(Object.keys(sortLabels) as SortKey[]).map(key => {

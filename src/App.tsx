@@ -1,41 +1,94 @@
-import { useState } from 'react';
-import { Backpack, LayoutList } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Download, EyeOff, Plus, RotateCcw, Upload, Users } from 'lucide-react';
 import { ThemeProvider } from './context/ThemeProvider';
-import { TabButton } from './components/TabButton';
+import { FloatingNav } from './components/FloatingNav';
+import type { NavMenuItem } from './components/FloatingNav';
 import { StashPage } from './pages/StashPage';
 import { ListsPage } from './pages/ListsPage';
+import type { ListsPageHandle } from './pages/ListsPage';
 import { ItemsPage } from './pages/ItemsPage';
 import { ListDetailPage } from './pages/ListDetailPage';
+import { useAppStore } from './store';
+import { safeLS } from './lib/safeStorage';
 
-/** 'items' and 'list-detail' are hidden sections (not in the bottom nav). */
 type Tab = 'stash' | 'liste' | 'items' | 'list-detail';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('stash');
   const [returnTab, setReturnTab] = useState<Tab>('stash');
   const [detailListId, setDetailListId] = useState<string | null>(null);
+  const [navSide] = useState<'left' | 'right'>(() =>
+    safeLS(() => (localStorage.getItem('nav-side') as 'left' | 'right' | null) ?? 'right', 'right')
+  );
+
+  const listsPageRef = useRef<ListsPageHandle>(null);
+  const store = useAppStore();
 
   const openDatabase = () => { setReturnTab(activeTab); setActiveTab('items'); };
   const openListDetail = (id: string) => { setReturnTab(activeTab); setDetailListId(id); setActiveTab('list-detail'); };
+
+  const activeProfileName = store.profiles.find(p => p.id === store.activeProfileId)?.name ?? '—';
+
+  const stashMenuItems: NavMenuItem[] = [
+    {
+      icon: <EyeOff size={16} />,
+      label: 'Nascondi completati',
+      onClick: () => store.setFilterHideCompleted(!store.filterHideCompleted),
+      checked: store.filterHideCompleted,
+    },
+  ];
+
+  const listsMenuItems: NavMenuItem[] = [
+    {
+      icon: <Users size={16} />,
+      label: activeProfileName,
+      onClick: () => listsPageRef.current?.openProfiles(),
+    },
+    {
+      icon: <Plus size={16} />,
+      label: '+ Lista',
+      onClick: () => listsPageRef.current?.createList(),
+    },
+    {
+      icon: <Upload size={16} />,
+      label: 'Esporta',
+      onClick: () => listsPageRef.current?.openExport(),
+    },
+    {
+      icon: <Download size={16} />,
+      label: 'Importa',
+      onClick: () => listsPageRef.current?.triggerImport(),
+    },
+    {
+      icon: <RotateCcw size={16} />,
+      label: 'Ripristina',
+      onClick: () => store.resetProgress(),
+      variant: 'danger',
+      dividerBefore: true,
+    },
+  ];
 
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans">
         <main className="max-w-md mx-auto min-h-screen">
-          {activeTab === 'stash' && <StashPage onOpenDatabase={openDatabase} />}
-          {activeTab === 'liste' && <ListsPage onOpenDatabase={openDatabase} onOpenDetail={openListDetail} />}
+          {activeTab === 'stash' && <StashPage />}
+          {activeTab === 'liste' && <ListsPage ref={listsPageRef} onOpenDetail={openListDetail} />}
           {activeTab === 'items' && <ItemsPage onBack={() => setActiveTab(returnTab)} />}
           {activeTab === 'list-detail' && detailListId && (
             <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} onOpenDatabase={openDatabase} />
           )}
         </main>
 
-        <nav className="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 pb-safe">
-          <div className="max-w-md mx-auto flex">
-            <TabButton active={activeTab === 'stash'} onClick={() => setActiveTab('stash')} icon={Backpack} label="Stash" />
-            <TabButton active={activeTab === 'liste'} onClick={() => setActiveTab('liste')} icon={LayoutList} label="Liste" />
-          </div>
-        </nav>
+        {(activeTab === 'stash' || activeTab === 'liste') && (
+          <FloatingNav
+            activePage={activeTab as 'stash' | 'liste'}
+            navSide={navSide}
+            onNavigate={page => setActiveTab(page)}
+            onOpenDatabase={openDatabase}
+            pageMenuItems={activeTab === 'stash' ? stashMenuItems : listsMenuItems}
+          />
+        )}
       </div>
     </ThemeProvider>
   );
