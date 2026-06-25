@@ -247,22 +247,50 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 - [x] **Miglioramento UX in "Rifugio"** — un materiale richiesto viene attenuato con spunta verde
       quando l'inventario copre sia il suo requisito sia il fabbisogno totale degli altri
       obiettivi attivi (nessun "conflitto")
-- [ ] **Accorpamento Rifugio + Obiettivi** (~mezza giornata) — i due tab dividono lo stesso
-      oggetto (il banco) per funzione invece che per compito: stesse liste, doppia sezione
-      "Completati", due strade per alzare il livello, e ogni feature nuova va fatta due volte
-      (es. il drawer requisiti, speccato "in Obiettivi E in Rifugio").
-      Un solo tab "Rifugio" con card a progressive disclosure:
-      - Card chiusa (vista operativa, l'attuale Rifugio compattata): drag handle · nome ·
+- [ ] **Accorpamento Rifugio + Obiettivi → pagina "Liste"** (~mezza giornata) — i due tab
+      dividono lo stesso oggetto (il banco) per funzione invece che per compito: stesse liste,
+      doppia sezione "Completati", due strade per alzare il livello, e ogni feature nuova va fatta
+      due volte (es. il drawer requisiti, speccato "in Obiettivi E in Rifugio"). Diventa **una sola
+      pagina "Liste"** (`ListsPage`, che fonde `HideoutPage` + `GoalsPage`) con card a
+      **progressive disclosure** — comportamento **confermato**:
+      - **Card chiusa** (vista operativa, l'attuale Rifugio compattata): drag handle · nome ·
         `Lvl x/y` · chevron; requisiti del prossimo livello con badge craft; bottone verde
-        "Completa potenziamento" quando pronto
-      - Card espansa (tap sull'header): si aggiungono i pill Livello Attuale / Obiettivo e il
-        toggle attivo (l'attuale Obiettivi)
-      - Una sola sezione "Completati", prompt conflitto-inventario in un solo posto,
-        "Ripristina" nell'header come azione di tab
+        "Completa potenziamento" già visibile qui quando pronto. Lo stato chiuso resta la vista
+        operativa veloce → i pill Attuale/Obiettivo NON compaiono qui.
+      - **Card espansa** (tap sull'header): si aggiungono i pill Livello Attuale / Obiettivo, il
+        toggle "attivo" e le azioni checkbox (l'attuale Obiettivi).
+      - Una sola sezione "Completati" (collassabile), prompt conflitto-inventario in un solo posto.
+        Le sezioni collassabili esistenti restano: *Banchi da lavoro* / *Liste personalizzate* /
+        *Completati*.
+      - Le azioni di tab (Profilo, + Lista, Esporta/Importa, Ripristina) **non stanno più
+        nell'header** ma nel menu ⋯ della pillola flottante (vedi voce sotto).
       - Attenzione: il drag resta sull'handle (non sull'intera card), per convivere col
-        tap-per-espandere e col TouchSensor (delay 200ms)
+        tap-per-espandere e col TouchSensor (delay 200ms).
+      - `ListCard`/`ListRow` convergono in un'unica card; `HideoutPage`/`GoalsPage` spariscono
+        (assorbite), così come lo split duplicato `activeWBs`/`maxedWBs`.
       - Da fare PRIMA delle feature di Fase 3: ogni aggiunta sui due tab raddoppia il costo
-        dell'accorpamento
+        dell'accorpamento.
+- [ ] **Pillola di navigazione flottante (sostituisce la bottom nav)** (~mezza giornata) —
+      si elimina la barra a tab in basso e l'header in alto si alleggerisce (perde i pulsanti
+      Database e Tema). Al loro posto una **pillola flottante**, `fixed` in basso e chiaramente
+      staccata dai bordi (safe-area), con **pulsanti circolari icona-only**. Decisioni
+      **confermate**:
+      - **2 pagine**: "Stash" e "Liste" (la pagina unificata Rifugio+Obiettivi qui sopra).
+      - **Pulsante primario** = naviga **all'altra pagina** (su Stash → "Liste"; su Liste →
+        "Stash"). È il più a destra (lato pollice), pieno/accent e un filo più grande; mostra
+        l'icona della pagina di destinazione. Con sole 2 pagine il toggle è immediato da imparare.
+      - **Pulsante secondario** = ⋯ "Altro" (circolare, ghost) che apre un **menu verso l'alto**,
+        contestuale alla pagina:
+        - *universali* (su entrambe): **Database** · **Tema** (spostati qui dall'header);
+        - *Liste*: switch **Profilo** · **+ Lista** · **Esporta/Importa** · **Ripristina** (rosso,
+          conferma inline);
+        - *Stash*: **Nascondi completati** (+ futuri filtri).
+      - **`navSide` configurabile** (per i mancini): lato del primario, persistito in localStorage
+        (`nav-side`, default `'right'`), layout speculare. Si traccia **da subito**; la UI di
+        switch arriva con una futura sezione Impostazioni.
+      - Fasatura per ridurre rischio: **Fase 1** l'accorpamento (`ListsPage`, bottom nav passa da
+        3 a 2 tab mantenendo la barra attuale, verificabile in isolamento); **Fase 2** la pillola
+        sostituisce la barra e assorbe Database/Tema/azioni nel menu ⋯.
 - [x] **Sezioni collassabili in Obiettivi** — FATTO. Le liste sono raggruppate in sezioni
       collassabili (`CollapsibleSection`, animazione altezza con la grid-trick `0fr↔1fr`, 350ms):
       *Banchi da lavoro* (`listType: 'workbench'`), *Liste personalizzate* (`custom: true`) e
@@ -295,10 +323,11 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       - Stash: già ha i pill di sort inline; filtro per banco sorgente o per zona di loot
       - Rifugio: filtro per `listType` (banchi / liste custom / …)
       - Oggetti: filtro per rarità, tipo, craftabilità Refiner
-- [ ] **Tab Database nella bottom nav** (~1 ora, dopo l'accorpamento) — lo slot liberato in
-      bottom nav va al Database: la pagina "Oggetti" (oggi nascosta, raggiungibile solo dal
-      pulsante DB nell'header) diventa un tab di primo livello, futuro hub Database
-      (Oggetti/Arcs/…). Il pulsante DB universale nel `SectionHeader` a quel punto si rimuove
+- [ ] **Accesso al Database dal menu ⋯** (~superato dalla pillola) — scelta rivista: con la
+      pillola flottante a 2 sole pagine NON si aggiunge un tab "Database". L'accesso alla pagina
+      "Oggetti" (futuro hub Database: Oggetti/Arcs/…) passa dalla voce **Database** nel menu ⋯
+      della pillola (universale, su entrambe le pagine); il pulsante DB nel `SectionHeader` si
+      rimuove. Se in futuro il Database crescesse, valutare una terza destinazione nella pillola.
 - [ ] **Celebrazione "ce l'hai fatta!"** (~mezza giornata) — quando TUTTI i banchi sono al
       livello massimo:
       - Animazione confetti al completamento dell'ultimo upgrade (canvas-confetti, ~2 KB gzip,
