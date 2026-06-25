@@ -247,29 +247,20 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
 - [x] **Miglioramento UX in "Rifugio"** — un materiale richiesto viene attenuato con spunta verde
       quando l'inventario copre sia il suo requisito sia il fabbisogno totale degli altri
       obiettivi attivi (nessun "conflitto")
-- [ ] **Accorpamento Rifugio + Obiettivi → pagina "Liste"** (~mezza giornata) — i due tab
-      dividono lo stesso oggetto (il banco) per funzione invece che per compito: stesse liste,
-      doppia sezione "Completati", due strade per alzare il livello, e ogni feature nuova va fatta
-      due volte (es. il drawer requisiti, speccato "in Obiettivi E in Rifugio"). Diventa **una sola
-      pagina "Liste"** (`ListsPage`, che fonde `HideoutPage` + `GoalsPage`) con card a
-      **progressive disclosure** — comportamento **confermato**:
-      - **Card chiusa** (vista operativa, l'attuale Rifugio compattata): drag handle · nome ·
-        `Lvl x/y` · chevron; requisiti del prossimo livello con badge craft; bottone verde
-        "Completa potenziamento" già visibile qui quando pronto. Lo stato chiuso resta la vista
-        operativa veloce → i pill Attuale/Obiettivo NON compaiono qui.
-      - **Card espansa** (tap sull'header): si aggiungono i pill Livello Attuale / Obiettivo, il
-        toggle "attivo" e le azioni checkbox (l'attuale Obiettivi).
-      - Una sola sezione "Completati" (collassabile), prompt conflitto-inventario in un solo posto.
-        Le sezioni collassabili esistenti restano: *Banchi da lavoro* / *Liste personalizzate* /
-        *Completati*.
-      - Le azioni di tab (Profilo, + Lista, Esporta/Importa, Ripristina) **non stanno più
-        nell'header** ma nel menu ⋯ della pillola flottante (vedi voce sotto).
-      - Attenzione: il drag resta sull'handle (non sull'intera card), per convivere col
-        tap-per-espandere e col TouchSensor (delay 200ms).
-      - `ListCard`/`ListRow` convergono in un'unica card; `HideoutPage`/`GoalsPage` spariscono
-        (assorbite), così come lo split duplicato `activeWBs`/`maxedWBs`.
-      - Da fare PRIMA delle feature di Fase 3: ogni aggiunta sui due tab raddoppia il costo
-        dell'accorpamento.
+- [x] **Accorpamento Rifugio + Obiettivi → pagina "Liste"** — FATTO. `ListsPage` (`UnifiedListCard` +
+      `SortableUnifiedListCard`) sostituisce `HideoutPage` + `GoalsPage`. Bottom nav 3 tab → 2 tab
+      (Stash / Liste, icona `LayoutList`). Card a **progressive disclosure** (`UnifiedListCard`):
+      - **Card chiusa**: drag handle · nome · `Lvl x/y` · chevron; pill **Livello Attuale** (con
+        prompt conflitto se necessario); requisiti prossimo livello con badge craft; bottone verde
+        "Completa potenziamento" quando pronto.
+      - **Card espansa** (tap sull'header): aggiunge pill **Livello Obiettivo**, toggle Attivo,
+        azioni checkbox e (di nuovo) requisiti + bottone upgrade in fondo.
+      - Stesso `space-y-3` / `border-t` / `px-4` in entrambi gli stati → gap tra le righe di pill
+        identico tra chiuso e aperto.
+      - Una sola sezione "Completati" (collassabile), prompt conflitto-inventario in un solo posto,
+        sezioni *Banchi da lavoro* / *Liste personalizzate* / *Completati* preservate.
+      - `HideoutPage`, `GoalsPage`, `ListCard`, `SortableListRow` non usati (cleanup in Fase 2).
+      - `ListRow` resta (usato da `ListDetailPage`).
 - [ ] **Pillola di navigazione flottante (sostituisce la bottom nav)** (~mezza giornata) —
       si elimina la barra a tab in basso e l'header in alto si alleggerisce (perde i pulsanti
       Database e Tema). Al loro posto una **pillola flottante**, `fixed` in basso e chiaramente
