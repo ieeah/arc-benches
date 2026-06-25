@@ -212,6 +212,26 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
         checkbox azione dinamico (riflette/aggiorna lo stato reale).
       - **Pulizia**: util locale `cn()` (in `lib/cn.ts`) al posto dei ternari nelle className.
       - **Rimandato**: interattività oggetti nel dettaglio (clone Stash con +/- vs azioni on/off).
+- [ ] **Condivisione lista tramite link** (richiede Supabase) — un utente genera un link pubblico
+      per una sua lista custom; chi lo apre la importa come copia nel proprio account, senza che i
+      due utenti siano "amici" o abbiano bisogno di esportare/importare file JSON.
+
+      **Modello**:
+      - Ogni lista condivisibile ottiene un `share_token` (UUID v4 separato dall'id interno),
+        generato on-demand al primo "Condividi" e persistito nella tabella `lists`.
+      - L'URL è `https://<app>/share/<token>`: route pubblica che legge la definizione della lista
+        (nome, items, livelli, azioni) senza autenticazione, e propone "Aggiungi alla mia app".
+      - Chi importa riceve una **copia** indipendente (non un live-link): può modificarla liberamente,
+        l'autore non vede le sue modifiche e viceversa. V2: "Segui aggiornamenti" (rif. al token,
+        l'importer accetta o rifiuta eventuali aggiornamenti pubblicati dall'autore).
+      - **RLS**: la riga lista è readable a tutti solo se `share_token IS NOT NULL`; la modifica
+        rimane solo all'owner. Il token può essere revocato (reset a NULL) per disattivare il link.
+      - **Schema**: colonna `share_token UUID UNIQUE NULL` sulla tabella `lists` (Fase 2);
+        nessuna tabella aggiuntiva per v1. L'endpoint di import può essere una Supabase Edge Function
+        o una query pubblica con RLS permissiva sulla colonna `share_token`.
+      - **UI**: bottone "Condividi" nel menu ⋯ della card (solo su liste custom);
+        copia il link negli appunti + mostra QR opzionale. Badge "Condivisa" sulla card.
+
 - [ ] **Vista aggregata per banco (opzionale)** (~mezza giornata) — lo Stash resta volutamente
       una lista *aggregata e piatta* (è la ragion d'essere dell'app: ovviare alla mancanza di una
       vista d'insieme in-game). In aggiunta, una modalità/schermata secondaria che raggruppa i
