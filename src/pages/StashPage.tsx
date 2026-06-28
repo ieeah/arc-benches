@@ -1,6 +1,15 @@
-import { useEffect, useState } from 'react';
-import { ArrowUp, ArrowDown } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { ArrowDown, ArrowUp } from 'lucide-react';
+import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '../store';
+import {
+  getAllListsPure,
+  getOrderedListsPure,
+  getRefinerLevelPure,
+  getTotalRequiredMaterialsPure,
+  getMissingMaterialsPure,
+} from '../store/selectors';
+import { REFINER_ID } from '../store/gameData';
 import { safeLS } from '../lib/safeStorage';
 import { rarityOrder } from '../lib/rarity';
 import { SectionHeader } from '../components/SectionHeader';
@@ -14,7 +23,29 @@ const sortLabels: Record<SortKey, string> = {
 };
 
 export const StashPage = () => {
-  const store = useAppStore();
+  // Selettori mirati — re-render solo quando la slice pertinente cambia
+  const inventory = useAppStore(s => s.inventory);
+  const hideoutLevels = useAppStore(s => s.hideoutLevels);
+  const targetLevels = useAppStore(s => s.targetLevels);
+  const activeModules = useAppStore(s => s.activeModules);
+  const filterHideCompleted = useAppStore(s => s.filterHideCompleted);
+  const itemsInfo = useAppStore(s => s.itemsInfo);
+
+  // Liste — cambiano raramente, mai su tap +/-
+  const { workbenches, customLists, sharedCustomLists, listOrder } = useAppStore(
+    useShallow(s => ({
+      workbenches: s.workbenches,
+      customLists: s.customLists,
+      sharedCustomLists: s.sharedCustomLists,
+      listOrder: s.listOrder,
+    })),
+  );
+
+  // Action refs — reference-stabili in Zustand, non causano re-render
+  const incrementItem = useAppStore(s => s.incrementItem);
+  const decrementItem = useAppStore(s => s.decrementItem);
+  const setItemCount = useAppStore(s => s.setItemCount);
+
   const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>(() =>
     safeLS(() => {
       const raw = localStorage.getItem('stash-sort');
@@ -33,38 +64,70 @@ export const StashPage = () => {
   const handleSortClick = (key: SortKey) =>
     setSort(s => s.key === key ? { key, dir: (s.dir * -1) as SortDir } : { key, dir: 1 });
 
-  const missingMaterials = store.getMissingMaterials();
-  const orderedLists = store.getOrderedLists();
-  const refinerLevel = store.getRefinerLevel();
+  const allLists = useMemo(
+    () => getAllListsPure(workbenches, sharedCustomLists, customLists),
+    [workbenches, sharedCustomLists, customLists],
+  );
 
-  // Priority sort: each item gets the index of the highest-priority list that needs it
-  const itemPriorityIndex = (itemId: string): number => {
-    for (let i = 0; i < orderedLists.length; i++) {
-      const list = orderedLists[i];
-      if (!store.activeModules[list.id]) continue;
-      const current = store.hideoutLevels[list.id] ?? 0;
-      const selected = store.targetLevels[list.id] ?? [];
-      const needed = list.levels.some(lvl =>
-        lvl.level > current && selected.includes(lvl.level) &&
-        lvl.requirementItemIds.some(r => r.itemId === itemId)
-      );
-      if (needed) return i;
-    }
-    return 999;
-  };
+  const orderedLists = useMemo(
+    () => getOrderedListsPure(allLists, listOrder),
+    [allLists, listOrder],
+  );
 
-  const sortedMaterials = [...missingMaterials].sort((a, b) => {
-    let cmp = 0;
-    if (sort.key === 'priority') cmp = itemPriorityIndex(a.itemId) - itemPriorityIndex(b.itemId);
-    else if (sort.key === 'name') cmp = (store.itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(store.itemsInfo[b.itemId]?.name ?? b.itemId);
-    else if (sort.key === 'rarity') {
-      const ra = rarityOrder[store.itemsInfo[a.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1;
-      const rb = rarityOrder[store.itemsInfo[b.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1;
-      cmp = rb - ra;
-    }
-    else if (sort.key === 'type') cmp = (store.itemsInfo[a.itemId]?.item_type ?? '').localeCompare(store.itemsInfo[b.itemId]?.item_type ?? '');
-    return cmp * sort.dir;
-  });
+  const totalRequired = useMemo(
+    () => getTotalRequiredMaterialsPure(allLists, activeModules, hideoutLevels, targetLevels),
+    [allLists, activeModules, hideoutLevels, targetLevels],
+  );
+
+  const missingMaterials = useMemo(
+    () => getMissingMaterialsPure(totalRequired, inventory),
+    [totalRequired, inventory],
+  );
+
+  const refinerLevel = useMemo(
+    () => getRefinerLevelPure(hideoutLevels, REFINER_ID),
+    [hideoutLevels],
+  );
+
+  // Map pre-calcolata per priority sort: O(n) invece di O(n²) nel comparatore
+  const priorityMap = useMemo(() => {
+    const map = new Map<string, number>();
+    orderedLists.forEach((list, i) => {
+      if (!activeModules[list.id]) return;
+      const current = hideoutLevels[list.id] ?? 0;
+      const selected = targetLevels[list.id] ?? [];
+      list.levels.forEach(lvl => {
+        if (lvl.level > current && selected.includes(lvl.level)) {
+          lvl.requirementItemIds.forEach(req => {
+            if (!map.has(req.itemId)) map.set(req.itemId, i);
+          });
+        }
+      });
+    });
+    return map;
+  }, [orderedLists, activeModules, hideoutLevels, targetLevels]);
+
+  const sortedMaterials = useMemo(() => {
+    return [...missingMaterials].sort((a, b) => {
+      let cmp = 0;
+      if (sort.key === 'priority') {
+        cmp = (priorityMap.get(a.itemId) ?? 999) - (priorityMap.get(b.itemId) ?? 999);
+      } else if (sort.key === 'name') {
+        cmp = (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId);
+      } else if (sort.key === 'rarity') {
+        const ra = rarityOrder[itemsInfo[a.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1;
+        const rb = rarityOrder[itemsInfo[b.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1;
+        cmp = rb - ra;
+      } else if (sort.key === 'type') {
+        cmp = (itemsInfo[a.itemId]?.item_type ?? '').localeCompare(itemsInfo[b.itemId]?.item_type ?? '');
+      }
+      return cmp * sort.dir;
+    });
+  }, [missingMaterials, sort, priorityMap, itemsInfo]);
+
+  const visibleMaterials = filterHideCompleted
+    ? sortedMaterials.filter(m => !m.isCompleted)
+    : sortedMaterials;
 
   return (
     <div className="pb-28">
@@ -87,17 +150,15 @@ export const StashPage = () => {
       </div>
 
       <div className="p-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
-        {sortedMaterials
-          .filter(m => !store.filterHideCompleted || !m.isCompleted)
-          .map(mat => (
-            <InventoryCard key={mat.itemId} {...mat}
-              itemInfo={store.itemsInfo[mat.itemId]}
-              refinerLevel={refinerLevel}
-              onIncrement={() => store.incrementItem(mat.itemId)}
-              onDecrement={() => store.decrementItem(mat.itemId)}
-              onSet={val => store.setItemCount(mat.itemId, val)}
-            />
-          ))}
+        {visibleMaterials.map(mat => (
+          <InventoryCard key={mat.itemId} {...mat}
+            itemInfo={itemsInfo[mat.itemId]}
+            refinerLevel={refinerLevel}
+            onIncrement={() => incrementItem(mat.itemId)}
+            onDecrement={() => decrementItem(mat.itemId)}
+            onSet={val => setItemCount(mat.itemId, val)}
+          />
+        ))}
       </div>
       {missingMaterials.length === 0 && (
         <div className="p-20 text-center text-gray-500 italic text-sm">

@@ -1,4 +1,4 @@
-import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useState, useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
 import { GripVertical, PartyPopper, Plus, Upload, Check, Pencil, Trash2 } from 'lucide-react';
 import {
   DndContext, closestCenter, PointerSensor, TouchSensor,
@@ -6,7 +6,19 @@ import {
 } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
+import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '../store';
+import {
+  getAllListsPure,
+  getOrderedListsPure,
+  getActiveListsPure,
+  getMaxedListsPure,
+  getAvailableUpgradesPure,
+  getRefinerLevelPure,
+  getTotalRequiredMaterialsPure,
+  getOtherNeedsPure,
+} from '../store/selectors';
+import { REFINER_ID } from '../store/gameData';
 import { SectionHeader } from '../components/SectionHeader';
 import { SortableUnifiedListCard } from '../components/SortableUnifiedListCard';
 import { UnifiedListCard } from '../components/UnifiedListCard';
@@ -28,7 +40,41 @@ export type ListsPageHandle = {
 
 export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: string) => void }>(
   ({ onOpenDetail }, ref) => {
-  const store = useAppStore();
+  // Selettori mirati — re-render solo sulla slice pertinente
+  const inventory = useAppStore(s => s.inventory);
+  const hideoutLevels = useAppStore(s => s.hideoutLevels);
+  const targetLevels = useAppStore(s => s.targetLevels);
+  const activeModules = useAppStore(s => s.activeModules);
+  const checkedActions = useAppStore(s => s.checkedActions);
+
+  const { workbenches, customLists, sharedCustomLists, listOrder, itemsInfo, profiles, activeProfileId } = useAppStore(
+    useShallow(s => ({
+      workbenches: s.workbenches,
+      customLists: s.customLists,
+      sharedCustomLists: s.sharedCustomLists,
+      listOrder: s.listOrder,
+      itemsInfo: s.itemsInfo,
+      profiles: s.profiles,
+      activeProfileId: s.activeProfileId,
+    })),
+  );
+
+  // Action refs — reference-stabili, non causano re-render
+  const setListOrder = useAppStore(s => s.setListOrder);
+  const setModuleCurrentLevel = useAppStore(s => s.setModuleCurrentLevel);
+  const toggleModuleActive = useAppStore(s => s.toggleModuleActive);
+  const upgradeModule = useAppStore(s => s.upgradeModule);
+  const toggleTargetLevel = useAppStore(s => s.toggleTargetLevel);
+  const toggleAction = useAppStore(s => s.toggleAction);
+  const deleteCustomList = useAppStore(s => s.deleteCustomList);
+  const createProfile = useAppStore(s => s.createProfile);
+  const switchProfile = useAppStore(s => s.switchProfile);
+  const renameProfile = useAppStore(s => s.renameProfile);
+  const deleteProfile = useAppStore(s => s.deleteProfile);
+  const buildExportData = useAppStore(s => s.buildExportData);
+  const importMultiProfile = useAppStore(s => s.importMultiProfile);
+  const importLists = useAppStore(s => s.importLists);
+
   const [showProfiles, setShowProfiles] = useState(false);
   const [movePromptId, setMovePromptId] = useState<string | null>(null);
   const [editing, setEditing] = useState<{ id?: string } | null>(null);
@@ -55,16 +101,38 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const activeLists = store.getActiveLists();
-  const maxedLists = store.getMaxedLists();
-  const movePromptList = maxedLists.find(list => list.id === movePromptId);
+  const allLists = useMemo(
+    () => getAllListsPure(workbenches, sharedCustomLists, customLists),
+    [workbenches, sharedCustomLists, customLists],
+  );
+  const orderedLists = useMemo(
+    () => getOrderedListsPure(allLists, listOrder),
+    [allLists, listOrder],
+  );
+  const activeLists = useMemo(
+    () => getActiveListsPure(orderedLists, hideoutLevels),
+    [orderedLists, hideoutLevels],
+  );
+  const maxedLists = useMemo(
+    () => getMaxedListsPure(orderedLists, hideoutLevels),
+    [orderedLists, hideoutLevels],
+  );
+  const availableUpgrades = useMemo(
+    () => getAvailableUpgradesPure(allLists, activeModules, hideoutLevels, inventory),
+    [allLists, activeModules, hideoutLevels, inventory],
+  );
+  const refinerLevel = useMemo(
+    () => getRefinerLevelPure(hideoutLevels, REFINER_ID),
+    [hideoutLevels],
+  );
+  const totalRequired = useMemo(
+    () => getTotalRequiredMaterialsPure(allLists, activeModules, hideoutLevels, targetLevels),
+    [allLists, activeModules, hideoutLevels, targetLevels],
+  );
 
+  const movePromptList = maxedLists.find(list => list.id === movePromptId);
   const activeWorkbenches = activeLists.filter(l => !l.custom);
   const activeCustom = activeLists.filter(l => l.custom);
-
-  const availableUpgrades = store.getAvailableUpgrades();
-  const refinerLevel = store.getRefinerLevel();
-  const totalRequired = store.getTotalRequiredMaterials();
 
   const toggleSection = (key: keyof SectionsOpen) => {
     const next = { ...sectionsOpen, [key]: !sectionsOpen[key] };
@@ -80,37 +148,37 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    const oldIndex = store.listOrder.indexOf(active.id as string);
-    const newIndex = store.listOrder.indexOf(over.id as string);
+    const oldIndex = listOrder.indexOf(active.id as string);
+    const newIndex = listOrder.indexOf(over.id as string);
     if (oldIndex !== -1 && newIndex !== -1)
-      store.setListOrder(arrayMove(store.listOrder, oldIndex, newIndex));
+      setListOrder(arrayMove(listOrder, oldIndex, newIndex));
   };
 
   const handleCurrentLevel = (listId: string, maxLevel: number) => (v: number, deduct: boolean) => {
-    store.setModuleCurrentLevel(listId, v, deduct);
+    setModuleCurrentLevel(listId, v, deduct);
     if (v >= maxLevel) setMovePromptId(listId);
   };
 
   const moveToBottom = (listId: string) => {
-    store.setListOrder([...store.listOrder.filter(id => id !== listId), listId]);
+    setListOrder([...listOrder.filter(id => id !== listId), listId]);
     setMovePromptId(null);
   };
 
   const openExportModal = () => {
-    setExportSelectedIds(new Set(store.profiles.map(p => p.id)));
+    setExportSelectedIds(new Set(profiles.map(p => p.id)));
     setShowExportModal(true);
   };
 
   const handleExportAll = () => {
-    const { sharedLists, profiles } = store.buildExportData(store.profiles.map(p => p.id));
-    downloadExport({ version: 3, exportedAt: new Date().toISOString(), sharedLists, profiles });
+    const { sharedLists, profiles: exported } = buildExportData(profiles.map(p => p.id));
+    downloadExport({ version: 3, exportedAt: new Date().toISOString(), sharedLists, profiles: exported });
   };
 
   const handleExportSelected = () => {
     const ids = [...exportSelectedIds];
     if (ids.length === 0) return;
-    const { sharedLists, profiles } = store.buildExportData(ids);
-    downloadExport({ version: 3, exportedAt: new Date().toISOString(), sharedLists, profiles });
+    const { sharedLists, profiles: exported } = buildExportData(ids);
+    downloadExport({ version: 3, exportedAt: new Date().toISOString(), sharedLists, profiles: exported });
     setShowExportModal(false);
   };
 
@@ -136,9 +204,9 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   const confirmImport = () => {
     if (!importPending) return;
     if (importPending.version === 3) {
-      store.importMultiProfile(importPending, [...importSelectedIds]);
+      importMultiProfile(importPending, [...importSelectedIds]);
     } else {
-      store.importLists(importPending);
+      importLists(importPending);
     }
     setImportPending(null);
     setImportSelectedIds(new Set());
@@ -156,7 +224,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   const commitNewProfile = () => {
     const name = newProfileName.trim();
     if (!name) return;
-    store.createProfile(name);
+    createProfile(name);
     setShowNewProfile(false);
     setNewProfileName('');
     closeProfilesDrawer();
@@ -165,7 +233,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   const commitRenameProfile = () => {
     if (!editingProfile) return;
     const name = editingProfile.name.trim();
-    if (name) store.renameProfile(editingProfile.id, name);
+    if (name) renameProfile(editingProfile.id, name);
     setEditingProfile(null);
   };
 
@@ -178,24 +246,24 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
 
   const sharedCardProps = (list: List) => ({
     list,
-    current: store.hideoutLevels[list.id] ?? 0,
-    isActive: store.activeModules[list.id],
-    inventory: store.inventory,
-    otherNeeds: store.getTotalRequiredMaterials(list.id),
-    selectedTargets: store.targetLevels[list.id] ?? [],
-    checkedActions: store.checkedActions,
-    itemsInfo: store.itemsInfo,
+    current: hideoutLevels[list.id] ?? 0,
+    isActive: activeModules[list.id],
+    inventory,
+    otherNeeds: getOtherNeedsPure(totalRequired, list, hideoutLevels, targetLevels),
+    selectedTargets: targetLevels[list.id] ?? [],
+    checkedActions,
+    itemsInfo,
     refinerLevel,
     totalRequired,
     canUpgrade: availableUpgrades.includes(list.id),
-    onUpgrade: () => store.upgradeModule(list.id),
-    onToggle: () => store.toggleModuleActive(list.id),
+    onUpgrade: () => upgradeModule(list.id),
+    onToggle: () => toggleModuleActive(list.id),
     onCurrentLevel: handleCurrentLevel(list.id, list.maxLevel),
-    onToggleTarget: (level: number) => store.toggleTargetLevel(list.id, level),
-    onToggleAction: (level: number, actionId: string) => store.toggleAction(list.id, level, actionId),
+    onToggleTarget: (level: number) => toggleTargetLevel(list.id, level),
+    onToggleAction: (level: number, actionId: string) => toggleAction(list.id, level, actionId),
     onOpenDetail: () => onOpenDetail(list.id),
     onEdit: list.custom ? () => setEditing({ id: list.id }) : undefined,
-    onDelete: list.custom ? () => store.deleteCustomList(list.id) : undefined,
+    onDelete: list.custom ? () => deleteCustomList(list.id) : undefined,
   });
 
   const renderDndSection = (lists: List[]) => (
@@ -293,8 +361,8 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
       {showProfiles && (
         <Drawer from="top" title="Profili" onClose={closeProfilesDrawer}>
           <div className="space-y-1.5 pt-1">
-            {store.profiles.map(profile => {
-              const isActive = profile.id === store.activeProfileId;
+            {profiles.map(profile => {
+              const isActive = profile.id === activeProfileId;
               const isDeleting = deletingProfileId === profile.id;
               const isEditing = editingProfile?.id === profile.id;
 
@@ -302,7 +370,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
                 <div key={profile.id}
                   className={`flex items-center gap-3 p-3 rounded-2xl transition-colors ${isActive ? 'bg-blue-50 dark:bg-blue-900/20' : 'bg-gray-50 dark:bg-gray-800'}`}>
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${isActive ? 'border-blue-500 bg-blue-500' : 'border-gray-300 dark:border-gray-600'}`}
-                    onClick={() => { if (!isEditing && !isDeleting && !isActive) { store.switchProfile(profile.id); closeProfilesDrawer(); } }}>
+                    onClick={() => { if (!isEditing && !isDeleting && !isActive) { switchProfile(profile.id); closeProfilesDrawer(); } }}>
                     {isActive && <Check size={11} className="text-white" strokeWidth={3} />}
                   </div>
 
@@ -317,7 +385,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
                   ) : (
                     <span
                       className={`flex-1 text-sm font-semibold truncate cursor-pointer ${isActive ? 'text-blue-600 dark:text-blue-400' : ''}`}
-                      onClick={() => { if (!isDeleting && !isActive) { store.switchProfile(profile.id); closeProfilesDrawer(); } }}
+                      onClick={() => { if (!isDeleting && !isActive) { switchProfile(profile.id); closeProfilesDrawer(); } }}
                     >
                       {profile.name}
                     </span>
@@ -332,7 +400,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
                     </div>
                   ) : isDeleting ? (
                     <div className="flex gap-1 shrink-0">
-                      <button onClick={() => { store.deleteProfile(profile.id); setDeletingProfileId(null); }}
+                      <button onClick={() => { deleteProfile(profile.id); setDeletingProfileId(null); }}
                         className="px-2.5 py-1 bg-red-500 text-white text-xs font-bold rounded-full">Elimina</button>
                       <button onClick={() => setDeletingProfileId(null)}
                         className="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded-full">✕</button>
@@ -345,7 +413,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
                       </button>
                       <button
                         onClick={() => { setDeletingProfileId(profile.id); setEditingProfile(null); }}
-                        disabled={store.profiles.length <= 1}
+                        disabled={profiles.length <= 1}
                         className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors disabled:opacity-30">
                         <Trash2 size={13} />
                       </button>
@@ -413,7 +481,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
 
                 {importPending.profiles.map(entry => {
                   const selected = importSelectedIds.has(entry.profile.id);
-                  const existsLocally = store.profiles.some(p => p.id === entry.profile.id);
+                  const existsLocally = profiles.some(p => p.id === entry.profile.id);
                   return (
                     <button key={entry.profile.id}
                       onClick={() => {
@@ -486,13 +554,13 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
 
             <button
               onClick={() => {
-                const allIds = store.profiles.map(p => p.id);
+                const allIds = profiles.map(p => p.id);
                 setExportSelectedIds(exportSelectedIds.size === allIds.length ? new Set() : new Set(allIds));
               }}
               className="w-full flex items-center gap-3 p-3 mb-1 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left"
             >
-              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${exportSelectedIds.size === store.profiles.length ? 'bg-blue-500 border-blue-500' : exportSelectedIds.size > 0 ? 'border-blue-400' : 'border-gray-300 dark:border-gray-600'}`}>
-                {exportSelectedIds.size === store.profiles.length
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 ${exportSelectedIds.size === profiles.length ? 'bg-blue-500 border-blue-500' : exportSelectedIds.size > 0 ? 'border-blue-400' : 'border-gray-300 dark:border-gray-600'}`}>
+                {exportSelectedIds.size === profiles.length
                   ? <Check size={12} className="text-white" strokeWidth={3} />
                   : exportSelectedIds.size > 0
                     ? <div className="w-2.5 h-0.5 bg-blue-500 rounded-full" />
@@ -502,7 +570,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
             </button>
 
             <div className="space-y-0.5 ml-4 mb-4">
-              {store.profiles.map(profile => {
+              {profiles.map(profile => {
                 const selected = exportSelectedIds.has(profile.id);
                 return (
                   <button key={profile.id}
@@ -517,7 +585,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
                       {selected && <Check size={12} className="text-white" strokeWidth={3} />}
                     </div>
                     <span className="text-sm flex-1 truncate">{profile.name}</span>
-                    {profile.id === store.activeProfileId && (
+                    {profile.id === activeProfileId && (
                       <span className="text-[10px] text-blue-500 font-bold shrink-0">Attivo</span>
                     )}
                   </button>

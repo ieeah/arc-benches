@@ -22,19 +22,24 @@ export default function App() {
   );
 
   const listsPageRef = useRef<ListsPageHandle>(null);
-  const store = useAppStore();
+
+  // Selettori mirati: App non ri-renderizza su tap +/- o drag
+  const filterHideCompleted = useAppStore(s => s.filterHideCompleted);
+  const setFilterHideCompleted = useAppStore(s => s.setFilterHideCompleted);
+  const resetProgress = useAppStore(s => s.resetProgress);
+  const activeProfileName = useAppStore(
+    s => s.profiles.find(p => p.id === s.activeProfileId)?.name ?? '—'
+  );
 
   const openDatabase = () => { setReturnTab(activeTab); setActiveTab('items'); };
   const openListDetail = (id: string) => { setReturnTab(activeTab); setDetailListId(id); setActiveTab('list-detail'); };
-
-  const activeProfileName = store.profiles.find(p => p.id === store.activeProfileId)?.name ?? '—';
 
   const stashMenuItems: NavMenuItem[] = [
     {
       icon: <EyeOff size={16} />,
       label: 'Nascondi completati',
-      onClick: () => store.setFilterHideCompleted(!store.filterHideCompleted),
-      checked: store.filterHideCompleted,
+      onClick: () => setFilterHideCompleted(!filterHideCompleted),
+      checked: filterHideCompleted,
     },
   ];
 
@@ -62,7 +67,7 @@ export default function App() {
     {
       icon: <RotateCcw size={16} />,
       label: 'Ripristina',
-      onClick: () => store.resetProgress(),
+      onClick: () => resetProgress(),
       variant: 'danger',
       dividerBefore: true,
     },

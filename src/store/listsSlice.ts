@@ -2,6 +2,16 @@ import type { StateCreator } from 'zustand';
 import type { AppState, List, ListExportFile } from '../types';
 import { bootProfileState, bootSharedLists } from './boot';
 import { itemsInfo, levelsAbove, REFINER_ID, workbenches } from './gameData';
+import {
+  getAllListsPure,
+  getOrderedListsPure,
+  getRefinerLevelPure,
+  getActiveListsPure,
+  getMaxedListsPure,
+  getTotalRequiredMaterialsPure,
+  getMissingMaterialsPure,
+  getAvailableUpgradesPure,
+} from './selectors';
 
 export type ListsSlice = Pick<AppState,
   'workbenches' | 'itemsInfo' | 'customLists' | 'sharedCustomLists' |
@@ -112,72 +122,68 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
     set({ customLists, sharedCustomLists, hideoutLevels, targetLevels, activeModules, listOrder, inventory });
   },
 
-  // ---- Selectors ----------------------------------------------------------
+  // ---- Selectors (thin wrappers over pure functions in selectors.ts) ------
 
   getAllLists: () => {
     const s = get();
-    return [...s.workbenches, ...s.sharedCustomLists, ...s.customLists];
+    return getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists);
   },
 
   getOrderedLists: () => {
     const s = get();
-    return s.getAllLists().sort((a, b) => {
-      const oa = s.listOrder.indexOf(a.id);
-      const ob = s.listOrder.indexOf(b.id);
-      return (oa === -1 ? 999 : oa) - (ob === -1 ? 999 : ob);
-    });
+    return getOrderedListsPure(
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      s.listOrder,
+    );
   },
 
-  getRefinerLevel: () => get().hideoutLevels[REFINER_ID] ?? 0,
+  getRefinerLevel: () => getRefinerLevelPure(get().hideoutLevels, REFINER_ID),
 
   getActiveLists: () => {
     const s = get();
-    return s.getOrderedLists().filter(l => (s.hideoutLevels[l.id] ?? 0) < l.maxLevel);
+    return getActiveListsPure(
+      getOrderedListsPure(getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists), s.listOrder),
+      s.hideoutLevels,
+    );
   },
 
   getMaxedLists: () => {
     const s = get();
-    return s.getOrderedLists().filter(l => (s.hideoutLevels[l.id] ?? 0) >= l.maxLevel);
+    return getMaxedListsPure(
+      getOrderedListsPure(getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists), s.listOrder),
+      s.hideoutLevels,
+    );
   },
 
   getTotalRequiredMaterials: (excludeModuleId) => {
     const s = get();
-    const total: Record<string, number> = {};
-    s.getAllLists().forEach(list => {
-      if (list.id === excludeModuleId || !s.activeModules[list.id]) return;
-      const current = s.hideoutLevels[list.id] ?? 0;
-      const selected = s.targetLevels[list.id] ?? [];
-      list.levels.forEach(lvl => {
-        if (lvl.level > current && selected.includes(lvl.level)) {
-          lvl.requirementItemIds.forEach(req => {
-            total[req.itemId] = (total[req.itemId] ?? 0) + req.quantity;
-          });
-        }
-      });
-    });
-    return total;
+    return getTotalRequiredMaterialsPure(
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      s.activeModules,
+      s.hideoutLevels,
+      s.targetLevels,
+      excludeModuleId,
+    );
   },
 
   getMissingMaterials: () => {
     const s = get();
-    const required = s.getTotalRequiredMaterials();
-    return Object.entries(required).map(([itemId, reqQty]) => {
-      const owned = s.inventory[itemId] ?? 0;
-      return { itemId, owned, required: reqQty, missing: Math.max(0, reqQty - owned), isCompleted: owned >= reqQty };
-    });
+    const total = getTotalRequiredMaterialsPure(
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      s.activeModules,
+      s.hideoutLevels,
+      s.targetLevels,
+    );
+    return getMissingMaterialsPure(total, s.inventory);
   },
 
   getAvailableUpgrades: () => {
     const s = get();
-    return s.getAllLists()
-      .filter(list => {
-        if (!s.activeModules[list.id]) return false;
-        const current = s.hideoutLevels[list.id] ?? 0;
-        if (current >= list.maxLevel) return false;
-        const nextLevel = list.levels.find(l => l.level === current + 1);
-        if (!nextLevel) return false;
-        return nextLevel.requirementItemIds.every(req => (s.inventory[req.itemId] ?? 0) >= req.quantity);
-      })
-      .map(list => list.id);
+    return getAvailableUpgradesPure(
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      s.activeModules,
+      s.hideoutLevels,
+      s.inventory,
+    );
   },
 });
