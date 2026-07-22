@@ -2,6 +2,13 @@
 
 Companion tracker per ARC Raiders. Stato attuale: app local-only (localStorage), deploy su GitHub Pages.
 
+
+---
+
+## Non sapevo dove metterla
+
+- Inserire una sezione in cui si danno suggerimenti sul come velocizzare la fase di costruzione dei banchi da lavoro: PRIMA DELLA SPEDIZIONE (mettere nella coda di alimentazione frutta a scartino, quella non viene azzerata e le ricompense aiutano a velocizzare la raccolta di materiali base, progettare bene l'expedition vault [dobbiamo fare delle ricerche per vedere quali sono le strategie più utilizzate/consigliate]) KICKSTART POST SPEDIZIONE (fare il tutorial, prendere tutto e togliere dallo zaino tutto prima di cercare di aprire la porta del ristorante in quanto sarà poi possibile recuperarli e venderli, lasciarli nello zaino invece ne causa la perdita, andare sulla "torre" sempre nel tutorial, c'è uno zaino raider che mi ero perso altre volte)
+
 ---
 
 ## Fase 0 — Tracker local-only ✅ (completata)
