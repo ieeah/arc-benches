@@ -5,11 +5,6 @@ Companion tracker per ARC Raiders. Stato attuale: app local-only (localStorage),
 
 ---
 
-## Non sapevo dove metterla
-
-- Inserire una sezione in cui si danno suggerimenti sul come velocizzare la fase di costruzione dei banchi da lavoro: PRIMA DELLA SPEDIZIONE (mettere nella coda di alimentazione frutta a scartino, quella non viene azzerata e le ricompense aiutano a velocizzare la raccolta di materiali base, progettare bene l'expedition vault [dobbiamo fare delle ricerche per vedere quali sono le strategie più utilizzate/consigliate]) KICKSTART POST SPEDIZIONE (fare il tutorial, prendere tutto e togliere dallo zaino tutto prima di cercare di aprire la porta del ristorante in quanto sarà poi possibile recuperarli e venderli, lasciarli nello zaino invece ne causa la perdita, andare sulla "torre" sempre nel tutorial, c'è uno zaino raider che mi ero perso altre volte)
-
----
 
 ## Fase 0 — Tracker local-only ✅ (completata)
 
@@ -299,7 +294,7 @@ Ogni feature con ciclo di vita proprio = tabella dedicata (query mirate, niente 
       - **Ripristina** gestito interamente in `FloatingNav` (stato `pendingDanger`, conferma inline)
         chiamando `store.resetProgress()` passato come `onClick` nell'item danger.
 - [ ] **Revisione ordine voci menu ⋯ (FloatingNav)** — l'ordine attuale delle voci contestuali
-      e universali nel menu della pillola va discusso e ridefinito (ergonomia + frequenza d'uso).
+      e universali nel menu della pillola va discussed e ridefinito (ergonomia + frequenza d'uso).
       Da fare in un momento dedicato.
 - [x] **Sezioni collassabili in Obiettivi** — FATTO. Le liste sono raggruppate in sezioni
       collassabili (`CollapsibleSection`, animazione altezza con la grid-trick `0fr↔1fr`, 350ms):

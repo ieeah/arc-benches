@@ -31,7 +31,7 @@ cd scripts && npm install && node fetch-items.mjs   # Rigenera items.json + icon
 **ARC Benches** è un Companion Tracker mobile-first (React 19 + TypeScript + Vite + Tailwind CSS v4) in italiano per il videogioco *ARC Raiders*.
 Aggrega i costi di potenziamento dei banchi del rifugio dal livello attuale al livello obiettivo, traccia l'inventario, e calcola in tempo reale i materiali mancanti e i potenziamenti disponibili.
 
-Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROFILE.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/PROJECT-PROFILE.md).
+Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROFILE.md](PROJECT-PROFILE.md).
 
 ---
 
@@ -52,13 +52,25 @@ Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROF
 Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per la contestualizzazione rapida + cartella `docs/` per la documentazione tecnica di dettaglio.
 
 ### File in Radice
-- [PROJECT-PROFILE.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/PROJECT-PROFILE.md) — Profilo sintetico condiviso del progetto.
-- [README.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/README.md) — Presentazione pubblica, funzionalità e setup rapido.
-- [ROADMAP.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/ROADMAP.md) — Roadmap di prodotto, stato delle fasi (Fase 0/1 completate, Fase 2 Supabase, Fase 3 nuove feature).
+- [PROJECT-PROFILE.md](PROJECT-PROFILE.md) — Profilo sintetico condiviso del progetto.
+- [README.md](README.md) — Presentazione pubblica, funzionalità e setup rapido.
 
-### Documenti Tecnici di Dettaglio (`docs/`)
-- [docs/architecture/state-management.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/architecture/state-management.md) — Architettura Zustand, persistenza custom `safeLS`, modello `List` ed invarianti di stato.
-- [docs/architecture/data-pipeline.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/architecture/data-pipeline.md) — Catalogo statico `items.json`, `workbenches.json`, script `fetch-items.mjs` e integrazione MetaForge API.
-- [docs/architecture/ui-patterns.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/architecture/ui-patterns.md) — Architettura UI mobile-first, componenti presentazionali, gestione del tema ed elementi fissi.
-- [docs/plans/zustand-optimization-plan.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/plans/zustand-optimization-plan.md) — Piano ed esecuzione dell'ottimizzazione Zustand (selettori e memoizzazione).
-- [docs/plans/analisi-iniziale.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/plans/analisi-iniziale.md) — Analisi funzionale e requisiti storici iniziali del progetto.
+### Documenti di Struttura (`docs/`)
+- [docs/1_CURRENT.md](docs/1_CURRENT.md) — Stato attuale, funzionalità già costruite e verificate.
+- [docs/2_ROADMAP.md](docs/2_ROADMAP.md) — Sviluppi futuri e nuove funzionalità non ancora presenti.
+- [docs/3_BACKLOG.md](docs/3_BACKLOG.md) — Bug, debito tecnico e refactoring su cose esistenti.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Mappa statica di architettura e flusso dati.
+
+### Specifiche di Dettaglio (`docs/specs/`)
+- [docs/specs/tieni-o-butta.md](docs/specs/tieni-o-butta.md) — Specifica indicatore "non vendere".
+- [docs/specs/role-maker.md](docs/specs/role-maker.md) — Specifica randomizer di personalità.
+- [docs/specs/condivisione-liste-link.md](docs/specs/condivisione-liste-link.md) — Specifica condivisione liste via link.
+- [docs/specs/ottimizzazione-zustand.md](docs/specs/ottimizzazione-zustand.md) — Specifica selettori pure Zustand.
+- [docs/specs/bugs/accessibilita-overlay-e-controlli.md](docs/specs/bugs/accessibilita-overlay-e-controlli.md) — Specifica bug A11y.
+- [docs/specs/gameplay-tips-and-strategies.md](docs/specs/gameplay-tips-and-strategies.md) — Suggerimenti e strategie per la gestione delle risorse di gioco.
+
+### Decisioni Architetturali (`docs/adrs/`)
+- [docs/adrs/001-zustand-senza-middleware-persist.md](docs/adrs/001-zustand-senza-middleware-persist.md) — Rimoziome middleware persist nativo.
+- [docs/adrs/002-astrazione-lista-generica.md](docs/adrs/002-astrazione-lista-generica.md) — Generalizzazione modello `List`.
+- [docs/adrs/003-regola-direzione-drawer.md](docs/adrs/003-regola-direzione-drawer.md) — Regola direzione apertura `Drawer`.
+
