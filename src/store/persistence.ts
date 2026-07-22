@@ -10,10 +10,11 @@ export const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
-/** The 8 keys persisted per profile. */
+/** The 9 keys persisted per profile. */
 export type PersistedState = Pick<AppState,
   'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
-  'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions'
+  'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
+  'activePersonalityId'
 >;
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
@@ -60,6 +61,9 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
   if (Array.isArray(raw.customLists))
     out.customLists = raw.customLists.map(validateList).filter((l): l is List => l !== null);
   if (isObject(raw.checkedActions)) out.checkedActions = sanitizeBoolRecord(raw.checkedActions);
+  if (typeof raw.activePersonalityId === 'string' || raw.activePersonalityId === null) {
+    out.activePersonalityId = raw.activePersonalityId;
+  }
   return out;
 }
 
@@ -86,6 +90,7 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     listOrder: s.listOrder,
     customLists: s.customLists,
     checkedActions: s.checkedActions,
+    activePersonalityId: s.activePersonalityId ?? null,
   };
   ls(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }

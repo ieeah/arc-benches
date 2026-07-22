@@ -1,0 +1,362 @@
+[
+  {
+    "id": "il-fantasma-di-buried-city",
+    "name": "👻 Il Fantasma di Buried City",
+    "tagline": "Il miglior scontro è quello che non avviene mai.",
+    "matrix": { "pvp": 0, "pve": 0, "social": 0 },
+    "biography": "Un ex archivista che ha compreso troppo bene la letalità delle pattuglie Wasp e la brutalità degli spazi ristretti. Opera esclusivamente nelle ombre dei vicoli di Buried City, terrorizzato dal contatto umano quanto dai droni. È considerato una leggenda metropolitana a Speranza: nessuno ha mai udito la sua voce o visto il suo volto.",
+    "behavioral_rules": [
+      "Evitare il contatto visivo con altri Raider; se avvistato, fuggire usando il Photoelectric Cloak.",
+      "Non ingaggiare macchine ARC; raccogliere loot solo da casse residenziali a Piazza Roma.",
+      "Estrarre esclusivamente tramite Raider Hatch silenziosi."
+    ],
+    "winning_condition": "Estrarre con l'inventario pieno senza sparare un singolo colpo né subire danni al Player HP.",
+    "recommended_loadout": {
+      "weapons": "Arma primaria leggera silenziata",
+      "gadgets": "Photoelectric Cloak, Smoke Grenade, Door Blocker",
+      "playstyle_note": "Stile elusivo assoluto."
+    }
+  },
+  {
+    "id": "lo-spazzino-opportunista",
+    "name": "🐀 Lo Spazzino Opportunista",
+    "tagline": "Perché combattere il mostro quando puoi derubare chi lo ha appena ucciso?",
+    "matrix": { "pvp": 1, "pve": 0, "social": 1 },
+    "biography": "Contrabbandiere devoto alle ciniche dottrine di Tian Wen. Calcola i rischi con precisione matematica. Insegue il suono degli scontri a fuoco da lontano, attendendo con pazienza che le pattuglie ARC e le altre squadre si decimino a vicenda, per poi emergere e saccheggiare i resti delle macchine e dei cadaveri.",
+    "behavioral_rules": [
+      "Mantenere una distanza minima di 100 metri da scontri attivi contro Boss (es. Matriarca o Bastion).",
+      "Usare le comunicazioni o le emote solo per implorare pietà se ingaggiato, per poi colpire alle spalle.",
+      "Depredare gli husk degli ARC unicamente quando la zona torna silenziosa."
+    ],
+    "winning_condition": "Estrarre con un nucleo ARC o un'arma di valore prelevata da un nemico abbattuto da terzi.",
+    "recommended_loadout": {
+      "weapons": "Vulcano o pistola Anvil",
+      "gadgets": "Snap Hook (per verticalità rapida), Lure Grenade, Zipline",
+      "playstyle_note": "Opportunista cinico e silenzioso."
+    }
+  },
+  {
+    "id": "il-mietitore-di-stella-montis",
+    "name": "☠️ Il Mietitore di Stella Montis",
+    "tagline": "Non siete Raider. Siete casse di rifornimenti che camminano.",
+    "matrix": { "pvp": 2, "pve": 2, "social": 0 },
+    "biography": "Un mercenario sociopatico indurito dalle brutali incursioni nei laboratori di Stella Montis. Ignora deliberatamente gli appelli alla ricostruzione di Celeste. Considera ogni entità sulla superficie, organica o meccanica, come un ostacolo logistico o un distributore di materiali epici. Non negozia mai.",
+    "behavioral_rules": [
+      "Aprire il fuoco immediatamente su qualsiasi Raider (Kill On Sight), senza eccezioni.",
+      "Cacciare attivamente macchine pesanti come Rocketeer o Queen nei pressi dell'Assembly Workshops.",
+      "Mantenere il silenzio radio assoluto, ignorando emote o richieste di cooperazione."
+    ],
+    "winning_condition": "Sterminare almeno un'intera squadra Raider nemica e abbattere un boss ARC nella medesima spedizione.",
+    "recommended_loadout": {
+      "weapons": "Fucile d'assalto Bettina o Renegade, Anvil",
+      "gadgets": "Deadline Mine, Surge Shield Recharger",
+      "playstyle_note": "Massima aggressività PvPvE."
+    }
+  },
+  {
+    "id": "il-pastore-di-speranza",
+    "name": "🕊️ Il Pastore di Speranza",
+    "tagline": "Torniamo tutti a casa, oppure non torna nessuno.",
+    "matrix": { "pvp": 0, "pve": 2, "social": 2 },
+    "biography": "Discepolo devoto di Lance e Celeste. Crede fermamente che l'umanità non possa sperare di sopravvivere ai droni dell'Esodo senza una solidarietà incondizionata. Frequenta le zone più ostili fungendo da scudo umano e medico da campo, guidando formazioni eterogenee di sconosciuti.",
+    "behavioral_rules": [
+      "Non fare mai fuoco per primo su un essere umano. Rispondere solo per difendere un alleato ferito.",
+      "Usare attivamente la chat vocale per coordinare la squadra (es. indicare i punti deboli gialli sul Bastion).",
+      "Rispondere a ogni Remote Raider Flare e resuscitare sempre i caduti con il Defibrillatore."
+    ],
+    "winning_condition": "Completare l'estrazione insieme a un Raider sconosciuto, avendogli donato munizioni o cure durante il raid.",
+    "recommended_loadout": {
+      "weapons": "Fucili stabili a medio raggio",
+      "gadgets": "Barricade Kit, Defibrillator, Sterilized Bandages",
+      "playstyle_note": "Supporto altruista incondizionato."
+    }
+  },
+  {
+    "id": "il-predone-carismatico",
+    "name": "🎭 Il Predone Carismatico",
+    "tagline": "Fidati di me, sono un amico. Ho anche portato la chitarra.",
+    "matrix": { "pvp": 2, "pve": 0, "social": 2 },
+    "biography": "Un predatore sociale che sfrutta la solitudine e il disperato bisogno di alleanze degli altri giocatori. Usa l'umorismo e la chat vocale per creare falsi sensi di sicurezza, suonando melodie per attrarre vittime prima di accompagnarle gentilmente verso i campi minati dei Tick o in imboscate preparate.",
+    "behavioral_rules": [
+      "Utilizzare strumenti musicali (Acoustic Guitar, Recorder) per segnalare intenzioni pacifiche a lunga distanza.",
+      "Manipolare vocalmente le vittime convincendole a condividere l'accesso a porte blindate o casse forti.",
+      "Giustiziare l'alleato temporaneo unicamente quando è distratto dal loot o mentre si cura."
+    ],
+    "winning_condition": "Eliminare e saccheggiare un Raider che aveva precedentemente accettato un'alleanza vocale formale.",
+    "recommended_loadout": {
+      "weapons": "Fucile a pompa Echo 12",
+      "gadgets": "Acoustic Guitar, Jolt Mine, Remote Raider Flare",
+      "playstyle_note": "Inganno e seduzione sociale letale."
+    }
+  },
+  {
+    "id": "il-cacciatore-di-nuclei",
+    "name": "⚙️ Il Cacciatore di Nuclei",
+    "tagline": "L'energia è la vera moneta. Gli uomini sono solo rumore di fondo.",
+    "matrix": { "pvp": 1, "pve": 2, "social": 0 },
+    "biography": "Ex ingegnere ossessionato dall'efficienza delle macchine orbitali. Ignora i conflitti tribali di Speranza, dedicando la propria vita allo studio e allo smantellamento dei complessi apparati energetici degli Harvester e delle Macchine Queen. Si frappone in modo letale solo contro chi ostruisce il suo campo visivo.",
+    "behavioral_rules": [
+      "Evitare il PvP a meno che l'avversario non stia lootando o contestando un Boss ARC vitale per l'energia.",
+      "Concentrare ogni operazione sull'intercettazione dei macchinari colossali per raccogliere Complex Gun Parts e Nuclei.",
+      "Muoversi in assoluto silenzio, disprezzando i rumori innecessari che attraggono varianti minori come Pops e Fireballs."
+    ],
+    "winning_condition": "Portare a termine l'estrazione con un inventario composto per almeno il 70% da componenti meccanici rari o munizioni a energia.",
+    "recommended_loadout": {
+      "weapons": "Fucile di precisione pesante Jupiter",
+      "gadgets": "Deadline Mine, Snap Hook",
+      "playstyle_note": "Caccia ad alto rendimento energetico."
+    }
+  },
+  {
+    "id": "il-tecnico-di-apollo",
+    "name": "🎼 Il Tecnico di Apollo",
+    "tagline": "Senza la nostra cultura, siamo solo macchine fatte di carne.",
+    "matrix": { "pvp": 0, "pve": 0, "social": 2 },
+    "biography": "Devoto alle teorie di conservazione culturale di Apollo. Questo esploratore rifiuta la brutalità insensata, concentrandosi sulla risoluzione dei complessi puzzle ambientali della mappa Blue Gate e sul recupero di testi e nastri musicali del Vecchio Mondo sepolti nei Cultural Archives di Stella Montis.",
+    "behavioral_rules": [
+      "Evitare il combattimento; fuggire utilizzando il Photoelectric Cloak per rendersi invisibili all'hardware ARC.",
+      "Risolvere puzzle meccanici per sbloccare casse sigillate, lasciando parte del bottino sul pavimento per chi seguirà.",
+      "Diffondere avvisi di pericolo (es. presenza di Shredder) usando attivamente la chat vocale senza aspettarsi favori."
+    ],
+    "winning_condition": "Estrarre con successo opere d'arte, registrazioni (Mixtape) o Old World items dalle zone pericolose.",
+    "recommended_loadout": {
+      "weapons": "Armi ultraleggere per sprint passivo",
+      "gadgets": "Zipline, Photoelectric Cloak, Recorder, Blue Light Sticks",
+      "playstyle_note": "Esplorazione culturale non violenta."
+    }
+  },
+  {
+    "id": "il-sicario-di-shani",
+    "name": "🎯 Il Sicario di Shani",
+    "tagline": "Se respira e non ha il badge di Speranza, è un'infiltrazione autorizzata all'abbattimento.",
+    "matrix": { "pvp": 2, "pve": 1, "social": 0 },
+    "biography": "Estremista del dipartimento di sicurezza di Shani. Affetto da grave paranoia, vede spie e minacce in ogni Raider non affiliato. Pattuglia ferocemente i punti critici di estrazione, convinto di proteggere la colonia rubando le risorse a chi le spencherebbe incautamente.",
+    "behavioral_rules": [
+      "Appostarsi tatticamente nei colli di bottiglia (Cargo Elevators, Metro Stations) e piazzare trappole prima di iniziare il massacro.",
+      "Combattere le unità ARC solo se minacciano direttamente la posizione di tiro o per farmare chiavi di fuga (Hatch Keys).",
+      "Non comunicare. Deridere vocalmente le vittime a terra solo un momento prima dell'esecuzione."
+    ],
+    "winning_condition": "Eliminare almeno due Raider presso un punto di estrazione pubblico ed esfiltrare in solitaria usando una Raider Hatch segreta.",
+    "recommended_loadout": {
+      "weapons": "Fucile da cecchino, Anvil",
+      "gadgets": "Explosive Mine, Door Blocker",
+      "playstyle_note": "Ambush cecchino e controllo estrazioni."
+    }
+  },
+  {
+    "id": "il-negoziatore-del-dam",
+    "name": "⚖️ Il Negoziatore del Dam",
+    "tagline": "Tutto ha un prezzo, amico mio. Dipende da quanto vuoi questa benda per curarti.",
+    "matrix": { "pvp": 1, "pve": 1, "social": 2 },
+    "biography": "Un maestro del commercio grigio e dei compromessi tattici che opera nelle zone industriali di Dam Battlegrounds. Valuta la vita umana e le minacce cibernetiche con lo stesso freddo calcolo costi/benefici. Collabora brillantemente finché le percentuali di rischio sono a suo favore; altrimenti recide ogni legame logistico.",
+    "behavioral_rules": [
+      "Ingaggiare immediatamente trattative vocali ('Ti cedo questo fucile se mi aiuti ad abbattere l'Hornet').",
+      "Combattere attivamente varianti ARC di medio livello in team per ottimizzare l'uso delle munizioni.",
+      "Se le difese della squadra temporanea crollano, fuggire abbandonando i feriti, possibilmente sottraendo loro il loot prezioso."
+    ],
+    "winning_condition": "Sfruttare un'alleanza temporanea per razziare una zona chiave e successivamente esfiltrare in sicurezza trattenendo il 90% dei profitti.",
+    "recommended_loadout": {
+      "weapons": "Fucile d'assalto Bettina",
+      "gadgets": "Barricade Kit, Noisemaker, Cure mediche estese",
+      "playstyle_note": "Pragmatismo commerciale e tattico."
+    }
+  },
+  {
+    "id": "il-sabotatore-silenzioso",
+    "name": "🧨 Il Sabotatore Silenzioso",
+    "tagline": "La pazienza è l'arma più distruttiva. I proiettili sono roba da trogloditi.",
+    "matrix": { "pvp": 0, "pve": 2, "social": 0 },
+    "biography": "Ingegnere misantropo specializzato nella demolizione asimmetrica delle megastrutture ARC. Disprezza profondamente i 'Chad' (i giocatori iper-aggressivi), preferendo analizzare geometricamente i pattern di movimento delle pattuglie per disporre letali campi di contenimento basati su trappole laser ed esplosivi.",
+    "behavioral_rules": [
+      "Affrontare i titanici ARC (Bastion, Queen) sfruttando quasi esclusivamente i danni esplosivi indiretti (Deadline, Blaze Grenade).",
+      "Rifiutare ogni confronto PvP frontale. Se inseguito da un umano, instradarlo con l'inganno verso un nido di Leaper o in un campo minato.",
+      "Progredire costantemente accovacciato per ridurre a zero la traccia sonora."
+    ],
+    "winning_condition": "Smantellare un ARC di dimensioni massicce utilizzando principalmente trappole, granate o danni ambientali calcolati.",
+    "recommended_loadout": {
+      "weapons": "Lanciagranate / Arma pesante",
+      "gadgets": "Deadline Mine, Jolt Mine, Blaze Grenade Trap, Smoke Grenade Trap",
+      "playstyle_note": "Trappole ed esplosioni calcolate."
+    }
+  },
+  {
+    "id": "il-fanatico-dell-esodo",
+    "name": "⚔️ Il Fanatico dell'Esodo",
+    "tagline": "La crosta terrestre è nostra! Morte ai droni dei codardi fuggiaschi!",
+    "matrix": { "pvp": 2, "pve": 2, "social": 2 },
+    "biography": "Agitatore politico radicalizzato dalla scoperta che le macchine ARC non sono entità aliene, ma droni inviati da esseri umani rifugiatisi nello spazio. Considera le estrazioni di risorse un furto globale. Guida assalti furiosi e scoordinati contro gli Harvester, punendo chiunque mostri timidezza tattica.",
+    "behavioral_rules": [
+      "Utilizzare costantemente la chat per gridare comizi politici motivazionali e dichiarazioni di guerra contro 'gli orbitali'.",
+      "Assaltare in campo aperto le strutture ARC più difese e massicce, focalizzandosi sul nucleo incandescente e sui propulsori.",
+      "Uccidere (KOS) qualsiasi Raider esiti ad unirsi alla crociata o dimostri atteggiamenti elusivi."
+    ],
+    "winning_condition": "Distruggere almeno due enormi vascelli ARC in una singola spedizione, esfiltrando in stato di sovraeccitazione.",
+    "recommended_loadout": {
+      "weapons": "Mitragliatrice Leggera / Pesante",
+      "gadgets": "Surge Shield Recharger, Shrapnel Grenades, Barricade Kit",
+      "playstyle_note": "Fervore politico e combattimento totale."
+    }
+  },
+  {
+    "id": "l-ombra-dello-spaceport",
+    "name": "🕸️ L'Ombra dello Spaceport",
+    "tagline": "Se posso inquadrarvi nel mirino, siete già un mio problema logistico.",
+    "matrix": { "pvp": 1, "pve": 1, "social": 0 },
+    "biography": "Un tiratore scelto veterano che domina l'ecosistema verticale di Spaceport. Ha trasformato la geometria aperta e le Launch Towers nel proprio dominio esclusivo. Estremamente letale ma selettivo, elimina i bersagli unicamente quando la traiettoria garantisce l'assenza di rappresaglie immediate.",
+    "behavioral_rules": [
+      "Operare esclusivamente da posizioni elevate (Tetti, torri) mantenendo sempre la supremazia altimetrica.",
+      "Aprire il fuoco solo su nemici già vulnerabili, impegnati in scontri a fuoco con scudi azzerati o in fase di fuga critica.",
+      "Sottrarsi a qualsiasi ingaggio ravvicinato ritirandosi immediatamente tramite cavi a fune."
+    ],
+    "winning_condition": "Registrare almeno tre eliminazioni chirurgiche a oltre 150 metri ed evadere inosservato tramite un condotto d'aerazione.",
+    "recommended_loadout": {
+      "weapons": "Fucile Sniper Renegade",
+      "gadgets": "Binoculars, Snap Hook, Mine di prossimità",
+      "playstyle_note": "Tiro di precisione verticale."
+    }
+  },
+  {
+    "id": "il-pioniere-di-celeste",
+    "name": "🚜 Il Pioniere di Celeste",
+    "tagline": "Ogni cavo strappato a queste macchine è una speranza in più per i nostri figli.",
+    "matrix": { "pvp": 0, "pve": 2, "social": 2 },
+    "biography": "Un instancabile costruttore, la personificazione del sogno umanitario di Celeste. Si immerge consapevolmente nelle aree industriali più sature al solo scopo di procurare quantità ingenti di plastiche, cavi e metalli.",
+    "behavioral_rules": [
+      "Priorità assoluta allo smontaggio di casse industriali e droni minori (Scrappers) per accumulare Assorted Seeds e materiali grezzi.",
+      "Agire sempre in legittima difesa contro altri Raider, inviando preventivamente segnali di tregua e avvertimenti amichevoli.",
+      "Essere pronti a sacrificare preziosi Medkit per salvare Raider non ostili feriti accidentalmente dalle macchine."
+    ],
+    "winning_condition": "Completare in una singola discesa almeno tre commissioni logistiche o idriche richieste da Celeste e donare risorse base a un debuttante.",
+    "recommended_loadout": {
+      "weapons": "Armi ad alta capienza",
+      "gadgets": "Sterilized Bandages, Door Blocker, Zipline",
+      "playstyle_note": "Raccolta e supporto comunitario."
+    }
+  },
+  {
+    "id": "il-parassita-delle-macchine",
+    "name": "🪱 Il Parassita delle Macchine",
+    "tagline": "L'hardware pesante costa. Il lavoro degli altri Raider, invece, è gratuito.",
+    "matrix": { "pvp": 1, "pve": 2, "social": 1 },
+    "biography": "Predatore indiretto specializzato nello sfruttamento ecologico dell'IA ostile. Questo Raider non affronta mai i nemici apertamente; preferisce pedinare i piccoli Snitch, inducendoli a chiamare squadriglie armate di Wasp che egli instrada verso le pattuglie umane avversarie.",
+    "behavioral_rules": [
+      "Risparmiare deliberatamente le unità Snitch, utilizzando il loro faro e i tre cicli di allarme per attirare sciami sulle posizioni di altre squadre.",
+      "Pedinare silenziosamente le macchine estrattive o corrieri senza distruggerle prematuramente, raccogliendo i detriti.",
+      "Fornire volontariamente via chat coordinate false alle altre squadre umane per condurle in campi di sterminio dominati dalle Matriarche."
+    ],
+    "winning_condition": "Causare la morte indiretta di un altro Raider facendolo sopraffare da pattuglie ARC appositamente richiamate e manipolate.",
+    "recommended_loadout": {
+      "weapons": "Armi ultraleggere",
+      "gadgets": "Lure Grenade, Remote Raider Flare, Noisemaker",
+      "playstyle_note": "Manipolazione indiretta dell'IA nemica."
+    }
+  },
+  {
+    "id": "il-mercenario-di-tian-wen",
+    "name": "💰 Il Mercenario di Tian Wen",
+    "tagline": "I proiettili costano, e la tua vita non giustifica questa spesa. Paga la tassa.",
+    "matrix": { "pvp": 2, "pve": 1, "social": 1 },
+    "biography": "Un cliente d'élite della misantropa armaiola Tian Wen. Misura le azioni militari con una spietata logica contabile. Evita scontri prolungati con boss coriacei che brucerebbero preziose munizioni energetiche; preferisce riscuotere tributi intimidendo altri Raider.",
+    "behavioral_rules": [
+      "Aprire il fuoco solo su bersagli in cui l'analisi del rischio e dell'esborso in munizioni garantisce un profitto esponenziale certo.",
+      "Intimidire gli avversari via chat imponendo pedaggi ('Lasciate i vostri zaini ed estraete vivi'). Uccidere al minimo cenno di esitazione.",
+      "Destrutturare le minacce intermedie come i Leaper, evitando accuratamente i buchi neri economici rappresentati dalle battaglie contro le Queen."
+    ],
+    "winning_condition": "Ottenere in loot puro un valore monetario capace di coprire integralmente la spesa d'ingresso (munizioni e scudi).",
+    "recommended_loadout": {
+      "weapons": "Bettina e Vulcano (o Anvil)",
+      "gadgets": "Barricade Kit, Tagging Grenade, Surge Shield Recharger",
+      "playstyle_note": "Calcolo economico e racket tattico."
+    }
+  },
+  {
+    "id": "l-archeologo-di-riven-tides",
+    "name": "🏺 L'Archeologo di Riven Tides",
+    "tagline": "Le maree cancellano tutto. Dobbiamo estrarre il passato prima che affondi per sempre.",
+    "matrix": { "pvp": 0, "pve": 1, "social": 1 },
+    "biography": "Un malinconico esploratore costiero che sfida la fitta rete di pattuglie ARC della zona di Riven Tides. Mentre gli altri si scannano per munizioni e nuclei energetici nei porti commerciali, l'Archeologo fruga l'Hotel Panorama Azzurro alla ricerca di indizi e manufatti pre-Esodo.",
+    "behavioral_rules": [
+      "Evitare a ogni costo l'innesco di allarmi, poiché la densità territoriale dei Sentinel a Riven Tides scatena rappresaglie letali.",
+      "Scansionare aree civili (Wreckage, Tennis Court) raccogliendo reliquie puramente narrative o estetiche.",
+      "Mantenere le distanze (Guardingo): non ingaggiare PvP, ma usare segnali visivi per allontanare gli intrusi dalle zone di scavo."
+    ],
+    "winning_condition": "Setacciare le infrastrutture civili di Riven Tides ed evacuare con progetti originali o diari segreti.",
+    "recommended_loadout": {
+      "weapons": "Mitragliatrice silenziata",
+      "gadgets": "Photoelectric Cloak, Binoculars",
+      "playstyle_note": "Esplorazione riservata della lore."
+    }
+  },
+  {
+    "id": "il-berserker-di-speranza",
+    "name": "🩸 Il Berserker di Speranza",
+    "tagline": "Troppi calcoli. Se sanguina o fa scintille, posso romperlo a metà.",
+    "matrix": { "pvp": 2, "pve": 2, "social": 0 },
+    "biography": "L'epitome dell'aggressività sregolata. Ignora i concetti base della Gear Fear giocando con una perenne scarica adrenalinica. Rifiuta fucili di precisione o approcci stealth, precipitandosi all'interno del fuoco di soppressione dei Bastion o nelle trincee dei Raider umani.",
+    "behavioral_rules": [
+      "Ingaggiare istantaneamente ogni minaccia riducendo le distanze con furiosi scatti fisici (CQB).",
+      "Assalire boss corazzati e gruppi di giocatori colpendo punti nevralgici con violenza esplosiva, disprezzando i copari.",
+      "Proibizione assoluta dell'uso di silenziatori, strumenti di dissimulazione e chat di de-escalation."
+    ],
+    "winning_condition": "Registrare il maggior numero di abbattimenti combinati tra umani ed élite ARC in scontri ravvicinati senza arretrare.",
+    "recommended_loadout": {
+      "weapons": "Vulcano o Anvil (Armi CQB)",
+      "gadgets": "Shrapnel Grenade, Surge Shield Recharger",
+      "playstyle_note": "Combat ravvicinato e sregolato."
+    }
+  },
+  {
+    "id": "l-ingegnere-di-rete",
+    "name": "📡 L'Ingegnere di Rete",
+    "tagline": "Le telecomunicazioni ci rendono umani. Difendete le torri, Raider!",
+    "matrix": { "pvp": 0, "pve": 1, "social": 2 },
+    "biography": "Un Raider specializzato incaricato di manutenere l'infrastruttura di comunicazione. Viaggia ossessivamente tra le mappe base alla ricerca dei Field Depots per riparare le loro antenne esposte. La sua missione lo rende vulnerabile sui tetti.",
+    "behavioral_rules": [
+      "Il raid deve avere come unico obiettivo l'identificazione e la riparazione fisica delle antenne radar dei Field Depots.",
+      "Assumere un comportamento totalmente difensivo e non letale verso gli umani; chiedere aiuto per proteggere la riparazione.",
+      "Evitare zone infestate da Bombardieri e concentrarsi su droni statici di pattuglia."
+    ],
+    "winning_condition": "Eseguire con successo la calibrazione e riparazione esposta del terminale radio di un Field Depot e tornare a Speranza.",
+    "recommended_loadout": {
+      "weapons": "Fucili da medio/lungo raggio",
+      "gadgets": "Smoke Grenade, Barricade Kit, Blue Light Stick",
+      "playstyle_note": "Supporto ingegneristico sul campo."
+    }
+  },
+  {
+    "id": "il-cacciatore-di-scrappers",
+    "name": "♻️ Il Cacciatore di Scrappers",
+    "tagline": "I veri tesori si muovono su cingoli sporchi di fango.",
+    "matrix": { "pvp": 1, "pve": 1, "social": 0 },
+    "biography": "Analista eclettico delle gerarchie cibernetiche ARC. Consapevole che gli Scrappers immagazzinano loot rubato ai cadaveri e ai rottami senza la capacità di difendersi efficacemente. Questo Raider si dedica all'intercettazione dei lavoratori robotici di basso rango.",
+    "behavioral_rules": [
+      "Evitare ostinatamente i colossi da guerra. La caccia è focalizzata unicamente sulle lente macchine dedite al recupero scarti.",
+      "Mantenere l'allerta: abbattere i bersagli cibernetici prima che comunichino anomalie al network.",
+      "Aggredire tatticamente (PvP opportunista) solo se si intercetta un umano debole o intento a sua volta a sventrare uno Scrapper."
+    ],
+    "winning_condition": "Portare a termine l'esfiltrazione dopo aver distrutto e saccheggiato con precisione chirurgica almeno cinque automi da smaltimento.",
+    "recommended_loadout": {
+      "weapons": "Armi silenziate (Bettina)",
+      "gadgets": "EMP, Pulse Mine, Binoculars",
+      "playstyle_note": "Caccia furtiva agli Scrapper."
+    }
+  },
+  {
+    "id": "il-guardiano-degli-ascensori",
+    "name": "🛗 Il Guardiano degli Ascensori",
+    "tagline": "Volete l'ascensore? Il prezzo è due medkit e il mio fuoco di copertura.",
+    "matrix": { "pvp": 1, "pve": 2, "social": 2 },
+    "biography": "Un veterano che ha compreso l'atrocità psicologica dei minuti finali di un'estrazione. Conosce perfettamente le falle mortali dei Cargo Elevators e delle sirene che attirano morte. Si fortifica nell'area di esfiltrazione, offrendo scorta armata alle squadre decimate.",
+    "behavioral_rules": [
+      "Stabilire una base fortificata (tramite Barricade e trappole) esclusivamente intorno a una zona ad alta estrazione pubblica.",
+      "Difendere accanitamente le squadre di profughi (altri giocatori) dalle macchine corazzate richiamate dall'allarme dell'ascensore.",
+      "Applicare la forza letale (PvP) contro cecchini ostili o traditori che tentano di assaltare l'area protetta."
+    ],
+    "winning_condition": "Assicurare la sopravvivenza propria e di almeno una squadra di Raider sconosciuti durante l'assedio sonoro dell'ascensore merci.",
+    "recommended_loadout": {
+      "weapons": "Armi di soppressione ad alta capacità",
+      "gadgets": "Barricade Kit multipli, Lure Grenades, Defibrillator",
+      "playstyle_note": "Fortificazione e scorta all'estrazione."
+    }
+  }
+]

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type ReactNode } from 'react';
-import { Backpack, Check, Database, LayoutList, Moon, MoreHorizontal, Sun } from 'lucide-react';
+import { Backpack, Check, Database, Dice5, LayoutList, Moon, MoreHorizontal, Sun } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export type NavMenuItem = {
@@ -16,12 +16,14 @@ export const FloatingNav = ({
   navSide,
   onNavigate,
   onOpenDatabase,
+  onOpenRoleMaker,
   pageMenuItems,
 }: {
   activePage: 'stash' | 'liste';
   navSide: 'left' | 'right';
   onNavigate: (page: 'stash' | 'liste') => void;
   onOpenDatabase: () => void;
+  onOpenRoleMaker: () => void;
   pageMenuItems: NavMenuItem[];
 }) => {
   const { dark: isDark, toggle: toggleTheme } = useTheme();
@@ -47,6 +49,11 @@ export const FloatingNav = ({
   const closeMenu = () => { setMenuOpen(false); setPendingDanger(null); };
 
   const universalItems: NavMenuItem[] = [
+    {
+      icon: <Dice5 size={16} />,
+      label: 'Role Maker 🎲',
+      onClick: () => { closeMenu(); onOpenRoleMaker(); },
+    },
     {
       icon: <Database size={16} />,
       label: 'Database',

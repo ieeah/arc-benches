@@ -4,9 +4,10 @@ import { createInventorySlice } from './inventorySlice';
 import { createProgressSlice } from './progressSlice';
 import { createListsSlice } from './listsSlice';
 import { createProfileSlice } from './profileSlice';
+import { createPersonalitySlice } from './personalitySlice';
 import { saveProfileState, saveProfilesMeta, saveSharedLists } from './persistence';
 
-// Domain slices (inventory / progress / lists / profile) combined into one store.
+// Domain slices (inventory / progress / lists / profile / personality) combined into one store.
 // Static game data (workbenches, itemsInfo) lives in the lists slice; boot state is
 // seeded per-slice from store/boot.ts.
 export const useAppStore = create<AppState>()((...a) => ({
@@ -14,6 +15,7 @@ export const useAppStore = create<AppState>()((...a) => ({
   ...createProgressSlice(...a),
   ...createListsSlice(...a),
   ...createProfileSlice(...a),
+  ...createPersonalitySlice(...a),
 }));
 
 // ---------------------------------------------------------------------------
@@ -42,7 +44,8 @@ useAppStore.subscribe((state, prev) => {
     state.filterHideCompleted !== prev.filterHideCompleted ||
     state.listOrder !== prev.listOrder ||
     state.customLists !== prev.customLists ||
-    state.checkedActions !== prev.checkedActions;
+    state.checkedActions !== prev.checkedActions ||
+    state.activePersonalityId !== prev.activePersonalityId;
   // On a profile switch the active id changes together with all the slice refs:
   // we write the (new) active profile's state to its own key, never the old one.
   if (profileStateChanged || state.activeProfileId !== prev.activeProfileId) {

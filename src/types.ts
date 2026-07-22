@@ -86,6 +86,25 @@ export interface MultiProfileExportFile {
   profiles: ProfileExportEntry[];
 }
 
+export interface PersonalityProfile {
+  id: string;
+  name: string;
+  tagline: string;
+  matrix: {
+    pvp: number;
+    pve: number;
+    social: number;
+  };
+  biography: string;
+  behavioral_rules: string[];
+  winning_condition: string;
+  recommended_loadout: {
+    weapons: string;
+    gadgets: string;
+    playstyle_note: string;
+  };
+}
+
 export interface AppState {
   /** Game-seed lists (the hideout workbenches), read-only — never persisted. */
   workbenches: List[];
@@ -105,6 +124,11 @@ export interface AppState {
   inventory: Record<string, number>;
   filterHideCompleted: boolean;
   listOrder: string[];
+
+  /** Active Role Maker personality for the active profile */
+  activePersonalityId: string | null;
+  rollPersonality: () => PersonalityProfile;
+  clearPersonality: () => void;
 
   incrementItem: (itemId: string) => void;
   decrementItem: (itemId: string) => void;

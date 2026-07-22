@@ -52,6 +52,7 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   listOrder: loaded.listOrder ?? workbenches.map(w => w.id),
   customLists: loaded.customLists ?? [],
   checkedActions: loaded.checkedActions ?? {},
+  activePersonalityId: loaded.activePersonalityId ?? null,
 });
 
 /** Fresh (empty) progress for a brand-new profile. */
@@ -64,4 +65,5 @@ export const freshProfile = (): PersistedState => ({
   listOrder: workbenches.map(w => w.id),
   customLists: [],
   checkedActions: {},
+  activePersonalityId: null,
 });

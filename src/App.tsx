@@ -3,6 +3,7 @@ import { Download, EyeOff, Plus, RotateCcw, Upload, Users } from 'lucide-react';
 import { ThemeProvider } from './context/ThemeProvider';
 import { FloatingNav } from './components/FloatingNav';
 import type { NavMenuItem } from './components/FloatingNav';
+import { RoleMakerModal } from './components/RoleMakerModal';
 import { StashPage } from './pages/StashPage';
 import { ListsPage } from './pages/ListsPage';
 import type { ListsPageHandle } from './pages/ListsPage';
@@ -17,6 +18,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('stash');
   const [returnTab, setReturnTab] = useState<Tab>('stash');
   const [detailListId, setDetailListId] = useState<string | null>(null);
+  const [showRoleMaker, setShowRoleMaker] = useState(false);
   const [navSide] = useState<'left' | 'right'>(() =>
     safeLS(() => (localStorage.getItem('nav-side') as 'left' | 'right' | null) ?? 'right', 'right')
   );
@@ -91,9 +93,15 @@ export default function App() {
             navSide={navSide}
             onNavigate={page => setActiveTab(page)}
             onOpenDatabase={openDatabase}
+            onOpenRoleMaker={() => setShowRoleMaker(true)}
             pageMenuItems={activeTab === 'stash' ? stashMenuItems : listsMenuItems}
           />
         )}
+
+        <RoleMakerModal
+          isOpen={showRoleMaker}
+          onClose={() => setShowRoleMaker(false)}
+        />
       </div>
     </ThemeProvider>
   );
