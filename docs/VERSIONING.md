@@ -5,18 +5,18 @@ Piano previsionale delle versioni verso l'MVP (1.0.0) e oltre, basato sui task p
 ---
 
 ## Versione Corrente
-**v0.1.0** (Tag Git `v0.1.0` formalizzato).
+**v0.2.0** (in formalizzazione per tag `v0.2.0`).
 
 ---
 
-## 0.1.0 — Tracker Base & Stash Aggregato — Raggiunta
+## [0.1.0](../changelog/0.1.0.md) — Tracker Base & Stash Aggregato — Raggiunta
 - **Tracker Local-only (Fase 0)** (→ [1_CURRENT.md](1_CURRENT.md))
 - **Livelli Obiettivo come Insieme & Azioni Checkbox** (→ [1_CURRENT.md](1_CURRENT.md))
 - **Automatismo Inventario & Refiner Badge** (→ [1_CURRENT.md](1_CURRENT.md))
 
 ---
 
-## 0.2.0 — Multi-Profilo, UX Mobile-First & Accessibilità — Parziale
+## 0.2.0 — Multi-Profilo, UX Mobile-First & Accessibilità — Raggiunta
 - **Multi-profilo Locale & Liste Custom (Fase 1)** (→ [1_CURRENT.md](1_CURRENT.md))
 - **Import / Export v3 Multi-profilo** (→ [1_CURRENT.md](1_CURRENT.md))
 - **UI / UX Mobile-First** (→ [1_CURRENT.md](1_CURRENT.md))
