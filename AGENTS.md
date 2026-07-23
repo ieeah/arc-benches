@@ -60,6 +60,8 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/2_ROADMAP.md](docs/2_ROADMAP.md) — Sviluppi futuri e nuove funzionalità non ancora presenti.
 - [docs/3_BACKLOG.md](docs/3_BACKLOG.md) — Bug, debito tecnico e refactoring su cose esistenti.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Mappa statica di architettura e flusso dati.
+- [docs/INCEPTION_BRIEF.md](docs/INCEPTION_BRIEF.md) — Documento d'insieme di fondazione (problema, persone, MVP, pre-mortem e decisioni tecniche).
+- [docs/VERSIONING.md](docs/VERSIONING.md) — Piano previsionale delle versioni e della roadmap SemVer fino all'MVP (1.0.0).
 
 ### Specifiche di Dettaglio (`docs/specs/`)
 - [docs/specs/tieni-o-butta.md](docs/specs/tieni-o-butta.md) — Specifica indicatore "non vendere".
