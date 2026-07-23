@@ -3,8 +3,12 @@
     "id": "il-fantasma-di-buried-city",
     "name": "👻 Il Fantasma di Buried City",
     "tagline": "Il miglior scontro è quello che non avviene mai.",
-    "matrix": { "pvp": 0, "pve": 0, "social": 0 },
-    "biography": "Un ex archivista che ha compreso troppo bene la letalità delle pattuglie Wasp e la brutalità degli spazi ristretti. Opera esclusivamente nelle ombre dei vicoli di Buried City, terrorizzato dal contatto umano quanto dai droni. È considerato una leggenda metropolitana a Speranza: nessuno ha mai udito la sua voce o visto il suo volto.",
+    "matrix": {
+      "pvp": 0,
+      "pve": 0,
+      "social": 0
+    },
+    "biography": "Prima dell'Esodo era un tranquillo impiegato d'archivio. La caduta della civiltà lo ha spinto in uno stato di terrore perenne. Sopravvissuto per miracolo a un massacro a Piazza Roma causato non dalle macchine, ma da un'imboscata umana per una cassa di razioni, ha sviluppato una fobia sociale paralizzante. Vive rintanato nei vicoli oscuri di Buried City, convinto che ogni respiro e ogni passo possano tradirlo.",
     "behavioral_rules": [
       "Evitare il contatto visivo con altri Raider; se avvistato, fuggire usando il Photoelectric Cloak.",
       "Non ingaggiare macchine ARC; raccogliere loot solo da casse residenziali a Piazza Roma.",
@@ -21,8 +25,12 @@
     "id": "lo-spazzino-opportunista",
     "name": "🐀 Lo Spazzino Opportunista",
     "tagline": "Perché combattere il mostro quando puoi derubare chi lo ha appena ucciso?",
-    "matrix": { "pvp": 1, "pve": 0, "social": 1 },
-    "biography": "Contrabbandiere devoto alle ciniche dottrine di Tian Wen. Calcola i rischi con precisione matematica. Insegue il suono degli scontri a fuoco da lontano, attendendo con pazienza che le pattuglie ARC e le altre squadre si decimino a vicenda, per poi emergere e saccheggiare i resti delle macchine e dei cadaveri.",
+    "matrix": {
+      "pvp": 1,
+      "pve": 0,
+      "social": 1
+    },
+    "biography": "Cresciuto letteralmente nei tubi di scarico dei primi insediamenti sotterranei rubando scarti, ha imparato presto che il lavoro onesto o eroico porta solo alla tomba. Un incontro ravvicinato con un Bastion gli ha portato via il fratello, ucciso non dalla macchina, ma da un Raider veterano che li aveva usati entrambi come esca. Da quel giorno ha giurato fedeltà alla filosofia dell'opportunismo spietato: lascia che siano gli altri a sanguinare, tu raccogli i frutti.",
     "behavioral_rules": [
       "Mantenere una distanza minima di 100 metri da scontri attivi contro Boss (es. Matriarca o Bastion).",
       "Usare le comunicazioni o le emote solo per implorare pietà se ingaggiato, per poi colpire alle spalle.",
@@ -39,8 +47,12 @@
     "id": "il-mietitore-di-stella-montis",
     "name": "☠️ Il Mietitore di Stella Montis",
     "tagline": "Non siete Raider. Siete casse di rifornimenti che camminano.",
-    "matrix": { "pvp": 2, "pve": 2, "social": 0 },
-    "biography": "Un mercenario sociopatico indurito dalle brutali incursioni nei laboratori di Stella Montis. Ignora deliberatamente gli appelli alla ricostruzione di Celeste. Considera ogni entità sulla superficie, organica o meccanica, come un ostacolo logistico o un distributore di materiali epici. Non negozia mai.",
+    "matrix": {
+      "pvp": 2,
+      "pve": 2,
+      "social": 0
+    },
+    "biography": "Ex soldato delle forze dell'ordine pre-caduta, ha visto la sua intera unità decimata nei laboratori di Stella Montis a causa di un disertore che aveva scambiato le loro posizioni per un salvacondotto. Questo trauma lo ha privato di ogni empatia, trasformandolo in un nichilista isolazionista. Considera gli esseri umani semplici contenitori di risorse semoventi. A Speranza è un paria, ma la sua brutale efficienza garantisce risorse preziose a Tian Wen.",
     "behavioral_rules": [
       "Aprire il fuoco immediatamente su qualsiasi Raider (Kill On Sight), senza eccezioni.",
       "Cacciare attivamente macchine pesanti come Rocketeer o Queen nei pressi dell'Assembly Workshops.",
@@ -57,8 +69,12 @@
     "id": "il-pastore-di-speranza",
     "name": "🕊️ Il Pastore di Speranza",
     "tagline": "Torniamo tutti a casa, oppure non torna nessuno.",
-    "matrix": { "pvp": 0, "pve": 2, "social": 2 },
-    "biography": "Discepolo devoto di Lance e Celeste. Crede fermamente che l'umanità non possa sperare di sopravvivere ai droni dell'Esodo senza una solidarietà incondizionata. Frequenta le zone più ostili fungendo da scudo umano e medico da campo, guidando formazioni eterogenee di sconosciuti.",
+    "matrix": {
+      "pvp": 0,
+      "pve": 2,
+      "social": 2
+    },
+    "biography": "Medico volontario che ha visto la propria famiglia perire tra le macerie durante la prima ondata di macchine, a causa dell'egoismo di chi scappava calcando i più deboli. Ha trovato nel leader Celeste e nell'androide Lance una nuova ragione per non arrendersi alla disperazione. Ogni volta che scende in superficie, lo fa per redimersi dal senso di colpa di non aver potuto salvare i suoi figli, mettendo a rischio se stesso pur di proteggere dei perfetti sconosciuti.",
     "behavioral_rules": [
       "Non fare mai fuoco per primo su un essere umano. Rispondere solo per difendere un alleato ferito.",
       "Usare attivamente la chat vocale per coordinare la squadra (es. indicare i punti deboli gialli sul Bastion).",
@@ -75,8 +91,12 @@
     "id": "il-predone-carismatico",
     "name": "🎭 Il Predone Carismatico",
     "tagline": "Fidati di me, sono un amico. Ho anche portato la chitarra.",
-    "matrix": { "pvp": 2, "pve": 0, "social": 2 },
-    "biography": "Un predatore sociale che sfrutta la solitudine e il disperato bisogno di alleanze degli altri giocatori. Usa l'umorismo e la chat vocale per creare falsi sensi di sicurezza, suonando melodie per attrarre vittime prima di accompagnarle gentilmente verso i campi minati dei Tick o in imboscate preparate.",
+    "matrix": {
+      "pvp": 2,
+      "pve": 0,
+      "social": 2
+    },
+    "biography": "Un tempo aspirante attore teatrale, si è reso presto conto che il suo talento per l'inganno era l'arma migliore in un mondo senza regole. Dopo essere stato spogliato di tutti i suoi averi da un gruppo che si era finto amichevole nei pressi del Dam, ha capovolto la strategia e abbracciato l'oscurità. Ora usa il suo indiscutibile carisma, l'umorismo via chat e le dolci melodie di una chitarra acustica per attirare prede disperate, replicando metodicamente il trauma che lui stesso aveva subito.",
     "behavioral_rules": [
       "Utilizzare strumenti musicali (Acoustic Guitar, Recorder) per segnalare intenzioni pacifiche a lunga distanza.",
       "Manipolare vocalmente le vittime convincendole a condividere l'accesso a porte blindate o casse forti.",
@@ -93,8 +113,12 @@
     "id": "il-cacciatore-di-nuclei",
     "name": "⚙️ Il Cacciatore di Nuclei",
     "tagline": "L'energia è la vera moneta. Gli uomini sono solo rumore di fondo.",
-    "matrix": { "pvp": 1, "pve": 2, "social": 0 },
-    "biography": "Ex ingegnere ossessionato dall'efficienza delle macchine orbitali. Ignora i conflitti tribali di Speranza, dedicando la propria vita allo studio e allo smantellamento dei complessi apparati energetici degli Harvester e delle Macchine Queen. Si frappone in modo letale solo contro chi ostruisce il suo campo visivo.",
+    "matrix": {
+      "pvp": 1,
+      "pve": 2,
+      "social": 0
+    },
+    "biography": "Ex ingegnere meccatronico il cui accesso ai moduli spaziali dell'Esodo è stato revocato all'ultimo secondo, lasciandolo a morire sulla Terra. Divorato da un profondo risentimento verso l'umanità 'orbitale', sfoga la sua genialità smantellando spietatamente i giganteschi Harvester e le Queen. La sua ossessione per l'efficienza della tecnologia ARC lo ha reso quasi autistico nelle interazioni: per lui le beghe tra i Raider di Speranza sono solo un inutile spreco di tempo e calorie.",
     "behavioral_rules": [
       "Evitare il PvP a meno che l'avversario non stia lootando o contestando un Boss ARC vitale per l'energia.",
       "Concentrare ogni operazione sull'intercettazione dei macchinari colossali per raccogliere Complex Gun Parts e Nuclei.",
@@ -111,8 +135,12 @@
     "id": "il-tecnico-di-apollo",
     "name": "🎼 Il Tecnico di Apollo",
     "tagline": "Senza la nostra cultura, siamo solo macchine fatte di carne.",
-    "matrix": { "pvp": 0, "pve": 0, "social": 2 },
-    "biography": "Devoto alle teorie di conservazione culturale di Apollo. Questo esploratore rifiuta la brutalità insensata, concentrandosi sulla risoluzione dei complessi puzzle ambientali della mappa Blue Gate e sul recupero di testi e nastri musicali del Vecchio Mondo sepolti nei Cultural Archives di Stella Montis.",
+    "matrix": {
+      "pvp": 0,
+      "pve": 0,
+      "social": 2
+    },
+    "biography": "Un ex critico musicale che, durante una delle sue prime disastrose scorribande, è stato salvato da Apollo in persona. Ha compreso in quell'istante che sopravvivere unicamente per respirare un altro giorno avrebbe reso gli umani indistinguibili dai droni ARC. Viaggia verso le rovine della civiltà per ritrovare i nastri perduti e l'arte del Vecchio Mondo, convinto che solo la bellezza possa ricostruire il tessuto morale e umano della disillusa comunità di Speranza.",
     "behavioral_rules": [
       "Evitare il combattimento; fuggire utilizzando il Photoelectric Cloak per rendersi invisibili all'hardware ARC.",
       "Risolvere puzzle meccanici per sbloccare casse sigillate, lasciando parte del bottino sul pavimento per chi seguirà.",
@@ -129,8 +157,12 @@
     "id": "il-sicario-di-shani",
     "name": "🎯 Il Sicario di Shani",
     "tagline": "Se respira e non ha il badge di Speranza, è un'infiltrazione autorizzata all'abbattimento.",
-    "matrix": { "pvp": 2, "pve": 1, "social": 0 },
-    "biography": "Estremista del dipartimento di sicurezza di Shani. Affetto da grave paranoia, vede spie e minacce in ogni Raider non affiliato. Pattuglia ferocemente i punti critici di estrazione, convinto di proteggere la colonia rubando le risorse a chi le spencherebbe incautamente.",
+    "matrix": {
+      "pvp": 2,
+      "pve": 1,
+      "social": 0
+    },
+    "biography": "Ha perso un occhio e la sua intera squadra quando un finto disertore piagnucolante li ha attirati in una trappola mortale ai Cargo Elevator dello Spaceport. Reclutato direttamente dalla granitica Shani per la sicurezza interna, ha interiorizzato al mille per mille la paranoia del suo capo. Vede spie in ogni ombra e crede fermamente che l'unico modo per proteggere Speranza sia un controllo fascista del territorio, eseguendo epurazioni preventive di chiunque non gli piaccia.",
     "behavioral_rules": [
       "Appostarsi tatticamente nei colli di bottiglia (Cargo Elevators, Metro Stations) e piazzare trappole prima di iniziare il massacro.",
       "Combattere le unità ARC solo se minacciano direttamente la posizione di tiro o per farmare chiavi di fuga (Hatch Keys).",
@@ -147,8 +179,12 @@
     "id": "il-negoziatore-del-dam",
     "name": "⚖️ Il Negoziatore del Dam",
     "tagline": "Tutto ha un prezzo, amico mio. Dipende da quanto vuoi questa benda per curarti.",
-    "matrix": { "pvp": 1, "pve": 1, "social": 2 },
-    "biography": "Un maestro del commercio grigio e dei compromessi tattici che opera nelle zone industriali di Dam Battlegrounds. Valuta la vita umana e le minacce cibernetiche con lo stesso freddo calcolo costi/benefici. Collabora brillantemente finché le percentuali di rischio sono a suo favore; altrimenti recide ogni legame logistico.",
+    "matrix": {
+      "pvp": 1,
+      "pve": 1,
+      "social": 2
+    },
+    "biography": "Prima della caduta era un rapace broker finanziario che gestiva fondi di rischio; non ha fatto altro che adattare le regole di Wall Street alla post-apocalisse. Ha compreso che, nelle labirintiche zone industriali di Dam Battlegrounds, la cooperazione tattica temporanea è un asset formidabile, ma l'attaccamento emotivo è un deficit letale. Sigla alleanze di convenienza via chat, per poi liquidare i suoi 'partner' nel momento esatto in cui i rischi superano i rendimenti.",
     "behavioral_rules": [
       "Ingaggiare immediatamente trattative vocali ('Ti cedo questo fucile se mi aiuti ad abbattere l'Hornet').",
       "Combattere attivamente varianti ARC di medio livello in team per ottimizzare l'uso delle munizioni.",
@@ -165,8 +201,12 @@
     "id": "il-sabotatore-silenzioso",
     "name": "🧨 Il Sabotatore Silenzioso",
     "tagline": "La pazienza è l'arma più distruttiva. I proiettili sono roba da trogloditi.",
-    "matrix": { "pvp": 0, "pve": 2, "social": 0 },
-    "biography": "Ingegnere misantropo specializzato nella demolizione asimmetrica delle megastrutture ARC. Disprezza profondamente i 'Chad' (i giocatori iper-aggressivi), preferendo analizzare geometricamente i pattern di movimento delle pattuglie per disporre letali campi di contenimento basati su trappole laser ed esplosivi.",
+    "matrix": {
+      "pvp": 0,
+      "pve": 2,
+      "social": 0
+    },
+    "biography": "Fisico teorico che ha visto i suoi colleghi meno fortunati venire macellati dai cosiddetti 'Chad' dal grilletto facile, i quali sparavano prima di pensare. Disgustato dalla rozza brutalità dell'essere umano e dal fascino infantile per le armi da fuoco, ha abbracciato una guerra asimmetrica pura. Progetta campi minati perfetti e strozzature geometriche per dimostrare, con un sadismo gelido, la superiorità dell'intelletto e della pazienza sulle reazioni muscolari.",
     "behavioral_rules": [
       "Affrontare i titanici ARC (Bastion, Queen) sfruttando quasi esclusivamente i danni esplosivi indiretti (Deadline, Blaze Grenade).",
       "Rifiutare ogni confronto PvP frontale. Se inseguito da un umano, instradarlo con l'inganno verso un nido di Leaper o in un campo minato.",
@@ -183,8 +223,12 @@
     "id": "il-fanatico-dell-esodo",
     "name": "⚔️ Il Fanatico dell'Esodo",
     "tagline": "La crosta terrestre è nostra! Morte ai droni dei codardi fuggiaschi!",
-    "matrix": { "pvp": 2, "pve": 2, "social": 2 },
-    "biography": "Agitatore politico radicalizzato dalla scoperta che le macchine ARC non sono entità aliene, ma droni inviati da esseri umani rifugiatisi nello spazio. Considera le estrazioni di risorse un furto globale. Guida assalti furiosi e scoordinati contro gli Harvester, punendo chiunque mostri timidezza tattica.",
+    "matrix": {
+      "pvp": 2,
+      "pve": 2,
+      "social": 2
+    },
+    "biography": "Un ex agricoltore mite la cui mente si è spezzata quando ha scoperto l'orribile verità: le macchine ARC non sono un'invasione aliena, ma droni mandati dai discendenti ricchi che hanno abbandonato la Terra per rubare le ultime risorse. Da allora si è trasformato in un predicatore guerrafondaio e invasato. Fomenta la rivolta contro gli 'orbitali' in chat vocale e punisce a vista ogni Raider che esita ad abbracciare la sua martirizzante crociata di fuoco e fiamme.",
     "behavioral_rules": [
       "Utilizzare costantemente la chat per gridare comizi politici motivazionali e dichiarazioni di guerra contro 'gli orbitali'.",
       "Assaltare in campo aperto le strutture ARC più difese e massicce, focalizzandosi sul nucleo incandescente e sui propulsori.",
@@ -201,8 +245,12 @@
     "id": "l-ombra-dello-spaceport",
     "name": "🕸️ L'Ombra dello Spaceport",
     "tagline": "Se posso inquadrarvi nel mirino, siete già un mio problema logistico.",
-    "matrix": { "pvp": 1, "pve": 1, "social": 0 },
-    "biography": "Un tiratore scelto veterano che domina l'ecosistema verticale di Spaceport. Ha trasformato la geometria aperta e le Launch Towers nel proprio dominio esclusivo. Estremamente letale ma selettivo, elimina i bersagli unicamente quando la traiettoria garantisce l'assenza di rappresaglie immediate.",
+    "matrix": {
+      "pvp": 1,
+      "pve": 1,
+      "social": 0
+    },
+    "biography": "Era un controllore del traffico aereo proprio all'Acerra Spaceport; ha visto dal vivo gli ultimi razzi sollevarsi, lasciando lui e la sua famiglia condannati sulla rampa di lancio. Ha trasformato le familiari torri del cosmodromo nel proprio trespolo da cecchino guidato da un cinico senso di nostalgia. Ogni colpo da 150 metri che squarcia il silenzio non è solo difesa del territorio, ma una vendetta meccanica, spietata e calcolata contro il cielo che lo ha tradito.",
     "behavioral_rules": [
       "Operare esclusivamente da posizioni elevate (Tetti, torri) mantenendo sempre la supremazia altimetrica.",
       "Aprire il fuoco solo su nemici già vulnerabili, impegnati in scontri a fuoco con scudi azzerati o in fase di fuga critica.",
@@ -219,8 +267,12 @@
     "id": "il-pioniere-di-celeste",
     "name": "🚜 Il Pioniere di Celeste",
     "tagline": "Ogni cavo strappato a queste macchine è una speranza in più per i nostri figli.",
-    "matrix": { "pvp": 0, "pve": 2, "social": 2 },
-    "biography": "Un instancabile costruttore, la personificazione del sogno umanitario di Celeste. Si immerge consapevolmente nelle aree industriali più sature al solo scopo di procurare quantità ingenti di plastiche, cavi e metalli.",
+    "matrix": {
+      "pvp": 0,
+      "pve": 2,
+      "social": 2
+    },
+    "biography": "È madre di due bambini nati nell'oscurità di Speranza e non ha mai conosciuto la luce naturale pre-Esodo. Il suo terrore più grande non è morire, ma che i suoi figli non abbiano un futuro. Per questo crede con un'ingenuità quasi folle al progetto di ricostruzione di Celeste, gettandosi quotidianamente nei peggiori incubi industriali (come Stella Montis) per recuperare cavi di rame, semi e plastiche, rifiutandosi categoricamente di cedere all'indifferenza e al cinismo.",
     "behavioral_rules": [
       "Priorità assoluta allo smontaggio di casse industriali e droni minori (Scrappers) per accumulare Assorted Seeds e materiali grezzi.",
       "Agire sempre in legittima difesa contro altri Raider, inviando preventivamente segnali di tregua e avvertimenti amichevoli.",
@@ -237,8 +289,12 @@
     "id": "il-parassita-delle-macchine",
     "name": "🪱 Il Parassita delle Macchine",
     "tagline": "L'hardware pesante costa. Il lavoro degli altri Raider, invece, è gratuito.",
-    "matrix": { "pvp": 1, "pve": 2, "social": 1 },
-    "biography": "Predatore indiretto specializzato nello sfruttamento ecologico dell'IA ostile. Questo Raider non affronta mai i nemici apertamente; preferisce pedinare i piccoli Snitch, inducendoli a chiamare squadriglie armate di Wasp che egli instrada verso le pattuglie umane avversarie.",
+    "matrix": {
+      "pvp": 1,
+      "pve": 2,
+      "social": 1
+    },
+    "biography": "Un orfano cresciuto sopravvivendo alle ronde delle macchine studiandone i protocolli di allarme fin dalla più tenera età. Ha sviluppato un'affinità quasi macabra per l'intelligenza artificiale alienante dei droni Snitch e Wasp. Disprezza la disorganizzazione e l'istintività umana; reputa i robot incredibilmente più prevedibili e sfruttabili, usandoli con gelida genialità come scudo e arma contro chiunque osi violare i suoi terreni di caccia.",
     "behavioral_rules": [
       "Risparmiare deliberatamente le unità Snitch, utilizzando il loro faro e i tre cicli di allarme per attirare sciami sulle posizioni di altre squadre.",
       "Pedinare silenziosamente le macchine estrattive o corrieri senza distruggerle prematuramente, raccogliendo i detriti.",
@@ -255,8 +311,12 @@
     "id": "il-mercenario-di-tian-wen",
     "name": "💰 Il Mercenario di Tian Wen",
     "tagline": "I proiettili costano, e la tua vita non giustifica questa spesa. Paga la tassa.",
-    "matrix": { "pvp": 2, "pve": 1, "social": 1 },
-    "biography": "Un cliente d'élite della misantropa armaiola Tian Wen. Misura le azioni militari con una spietata logica contabile. Evita scontri prolungati con boss coriacei che brucerebbero preziose munizioni energetiche; preferisce riscuotere tributi intimidendo altri Raider.",
+    "matrix": {
+      "pvp": 2,
+      "pve": 1,
+      "social": 1
+    },
+    "biography": "Prima che il cielo cadesse, era un poliziotto profondamente corrotto che campava di estorsioni; l'apocalisse non ha fatto altro che legittimare la sua natura vessatoria. Ridotto in fin di vita durante un agguato ARC, è stato letteralmente ricucito da Tian Wen. Ora funge da suo ufficioso esattore delle tasse: calcola il valore di una vita umana e il costo di un proiettile energetico, intimidendo e spremendo i deboli per massimizzare il profitto senza consumare la canna del suo fucile.",
     "behavioral_rules": [
       "Aprire il fuoco solo su bersagli in cui l'analisi del rischio e dell'esborso in munizioni garantisce un profitto esponenziale certo.",
       "Intimidire gli avversari via chat imponendo pedaggi ('Lasciate i vostri zaini ed estraete vivi'). Uccidere al minimo cenno di esitazione.",
@@ -273,8 +333,12 @@
     "id": "l-archeologo-di-riven-tides",
     "name": "🏺 L'Archeologo di Riven Tides",
     "tagline": "Le maree cancellano tutto. Dobbiamo estrarre il passato prima che affondi per sempre.",
-    "matrix": { "pvp": 0, "pve": 1, "social": 1 },
-    "biography": "Un malinconico esploratore costiero che sfida la fitta rete di pattuglie ARC della zona di Riven Tides. Mentre gli altri si scannano per munizioni e nuclei energetici nei porti commerciali, l'Archeologo fruga l'Hotel Panorama Azzurro alla ricerca di indizi e manufatti pre-Esodo.",
+    "matrix": {
+      "pvp": 0,
+      "pve": 1,
+      "social": 1
+    },
+    "biography": "Ex storico navale e accademico ostinato, si è rifiutato di abbandonare le sue ricerche quando il mondo è crollato. Soffre di una rassegnata malinconia: mentre i giovani lottano per fucili e munizioni, lui perlustra instancabilmente la fitta nebbia e l'hotel sommerso di Riven Tides per ritrovare frammenti di civiltà. Quelle reliquie marittime e civili non sono solo oggetti di vendita per Apollo, ma l'ultimo legame tangibile con la moglie scomparsa nelle inondazioni.",
     "behavioral_rules": [
       "Evitare a ogni costo l'innesco di allarmi, poiché la densità territoriale dei Sentinel a Riven Tides scatena rappresaglie letali.",
       "Scansionare aree civili (Wreckage, Tennis Court) raccogliendo reliquie puramente narrative o estetiche.",
@@ -291,8 +355,12 @@
     "id": "il-berserker-di-speranza",
     "name": "🩸 Il Berserker di Speranza",
     "tagline": "Troppi calcoli. Se sanguina o fa scintille, posso romperlo a metà.",
-    "matrix": { "pvp": 2, "pve": 2, "social": 0 },
-    "biography": "L'epitome dell'aggressività sregolata. Ignora i concetti base della Gear Fear giocando con una perenne scarica adrenalinica. Rifiuta fucili di precisione o approcci stealth, precipitandosi all'interno del fuoco di soppressione dei Bastion o nelle trincee dei Raider umani.",
+    "matrix": {
+      "pvp": 2,
+      "pve": 2,
+      "social": 0
+    },
+    "biography": "Emerso dai più oscuri circuiti di combattimenti clandestini nati nei livelli profondi di Speranza, il Berserker usa il dolore fisico per zittire i demoni della sua mente. La 'Gear Fear' non ha presa su di lui semplicemente perché, fuori dall'adrenalina della battaglia ravvicinata, la sua vita non ha alcun significato. Cerca di proposito le mischie più cruente sfidando Bastion e interi plotoni nemici, non per il bottino, ma per sentirsi ancora vivo nel mezzo del massacro.",
     "behavioral_rules": [
       "Ingaggiare istantaneamente ogni minaccia riducendo le distanze con furiosi scatti fisici (CQB).",
       "Assalire boss corazzati e gruppi di giocatori colpendo punti nevralgici con violenza esplosiva, disprezzando i copari.",
@@ -309,8 +377,12 @@
     "id": "l-ingegnere-di-rete",
     "name": "📡 L'Ingegnere di Rete",
     "tagline": "Le telecomunicazioni ci rendono umani. Difendete le torri, Raider!",
-    "matrix": { "pvp": 0, "pve": 1, "social": 2 },
-    "biography": "Un Raider specializzato incaricato di manutenere l'infrastruttura di comunicazione. Viaggia ossessivamente tra le mappe base alla ricerca dei Field Depots per riparare le loro antenne esposte. La sua missione lo rende vulnerabile sui tetti.",
+    "matrix": {
+      "pvp": 0,
+      "pve": 1,
+      "social": 2
+    },
+    "biography": "Un adolescente che ha passato tutta la sua vita confinato in un bunker radio insieme al padre, ascoltando l'ultimo angosciante traffico radio del pianeta morente prima del silenzio totale. Nonostante soffra di agorafobia e attacchi di panico alla vista del cielo aperto, ritiene che manutenere le torri e i Field Depots (missione 'Off The Radar') sia una missione sacra, per permettere a eventuali superstiti lontani di ritrovarsi. Rischierebbe il collo per una singola frequenza pulita.",
     "behavioral_rules": [
       "Il raid deve avere come unico obiettivo l'identificazione e la riparazione fisica delle antenne radar dei Field Depots.",
       "Assumere un comportamento totalmente difensivo e non letale verso gli umani; chiedere aiuto per proteggere la riparazione.",
@@ -327,8 +399,12 @@
     "id": "il-cacciatore-di-scrappers",
     "name": "♻️ Il Cacciatore di Scrappers",
     "tagline": "I veri tesori si muovono su cingoli sporchi di fango.",
-    "matrix": { "pvp": 1, "pve": 1, "social": 0 },
-    "biography": "Analista eclettico delle gerarchie cibernetiche ARC. Consapevole che gli Scrappers immagazzinano loot rubato ai cadaveri e ai rottami senza la capacità di difendersi efficacemente. Questo Raider si dedica all'intercettazione dei lavoratori robotici di basso rango.",
+    "matrix": {
+      "pvp": 1,
+      "pve": 1,
+      "social": 0
+    },
+    "biography": "Un ex senzatetto che sopravviveva rovistando nell'immondizia ben prima che le macchine cancellassero le città. Crede che inseguire i boss ARC o scontrarsi in PVP frontale per una cassa sia pura megalomania autodistruttiva. Ha traslato le sue abilità da strada allo studio degli Scrappers (automi spazzini), trasformandosi in un fantasma metodico che ruba invisibilmente agli umili robot dediti al riciclo, vivendo sereno nell'ombra di chi si sente l'eroe della storia.",
     "behavioral_rules": [
       "Evitare ostinatamente i colossi da guerra. La caccia è focalizzata unicamente sulle lente macchine dedite al recupero scarti.",
       "Mantenere l'allerta: abbattere i bersagli cibernetici prima che comunichino anomalie al network.",
@@ -345,8 +421,12 @@
     "id": "il-guardiano-degli-ascensori",
     "name": "🛗 Il Guardiano degli Ascensori",
     "tagline": "Volete l'ascensore? Il prezzo è due medkit e il mio fuoco di copertura.",
-    "matrix": { "pvp": 1, "pve": 2, "social": 2 },
-    "biography": "Un veterano che ha compreso l'atrocità psicologica dei minuti finali di un'estrazione. Conosce perfettamente le falle mortali dei Cargo Elevators e delle sirene che attirano morte. Si fortifica nell'area di esfiltrazione, offrendo scorta armata alle squadre decimate.",
+    "matrix": {
+      "pvp": 1,
+      "pve": 2,
+      "social": 2
+    },
+    "biography": "Paramédico militare tormentato dal peggior ricordo della sua vita: una disperata esfiltrazione in cui, schiacciato dai nemici, fu costretto ad abbandonare compagni gravemente feriti fuori da un Cargo Elevator. Per espiare, ha fatto delle piazze di estrazione la sua trincea sacra. Arriva in anticipo, piazza difese inossidabili e funge da guardiano per le squadre di profughi devastate, proteggendo la loro fuga a patto che in cambio gli vengano forniti generi di prima necessità.",
     "behavioral_rules": [
       "Stabilire una base fortificata (tramite Barricade e trappole) esclusivamente intorno a una zona ad alta estrazione pubblica.",
       "Difendere accanitamente le squadre di profughi (altri giocatori) dalle macchine corazzate richiamate dall'allarme dell'ascensore.",
