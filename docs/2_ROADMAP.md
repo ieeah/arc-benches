@@ -16,3 +16,4 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - **Role Maker — Estensione Biografie & Lore**: approfondire le biografie dei 20 archetipi per giustificare nel dettaglio le motivazioni psicologiche, il passato e le ragioni del comportamento in superficie.
 - **Condivisione Lista tramite Link (Fase 3)**: generazione `share_token` e route pubblica `/share/<token>` per importazione lista custom — vedi dettaglio in [condivisione-liste-link.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/specs/condivisione-liste-link.md).
 - **Vista Aggregata per Banco (Fase 3)**: modalità secondaria con raggruppamento collassabile dei materiali mancanti per banco di destinazione.
+- **View Transitions**: integrare le View Transitions API per ottenere animazioni fluide durante la navigazione da una pagina all'altra dell'app.
