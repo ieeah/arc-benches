@@ -13,7 +13,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - **Internazionalizzazione i18n (Fase 3)**: estrazione stringhe UI e supporto multilingua dei nomi oggetti/banchi preservando la ricerca in lingua inglese.
 - **Checklist Stampabile (Fase 3)**: esportazione lista della spesa in vista print-friendly `@media print` o PDF client-side per Discord/gruppo raid.
 - **Role Maker — Randomizer di Personalità (Fase 3)**: generator di archetipi comportamentali post-spedizione basato su matrice PvP/PvE/Social — vedi dettaglio in [role-maker.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/specs/role-maker.md).
-- **Role Maker — Estensione Biografie & Lore**: approfondire le biografie dei 20 archetipi per giustificare nel dettaglio le motivazioni psicologiche, il passato e le ragioni del comportamento in superficie.
+- **Role Maker — Estensione Biografie & Lore**: arricchire le biografie dei 20 archetipi in `personalities.json` e `role-maker.md` trasformandole da semplici descrizioni caratteriali a vere narrazioni personali (storia passata, eventi scatenanti prima/durante l'Esodo, traumi e ragioni psicologiche della condotta in superficie).
 - **Condivisione Lista tramite Link (Fase 3)**: generazione `share_token` e route pubblica `/share/<token>` per importazione lista custom — vedi dettaglio in [condivisione-liste-link.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/specs/condivisione-liste-link.md).
 - **Vista Aggregata per Banco (Fase 3)**: modalità secondaria con raggruppamento collassabile dei materiali mancanti per banco di destinazione.
 - **View Transitions**: integrare le View Transitions API per ottenere animazioni fluide durante la navigazione da una pagina all'altra dell'app.
