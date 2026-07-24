@@ -4107,6 +4107,19 @@
     "loot_area": "Exodus",
     "stack_size": 3
   },
+  "marano-market-buisness-card": {
+    "id": "marano-market-buisness-card",
+    "name": "Marano Market Business Card",
+    "description": "The scribbled writing on this business card almost obscures the logo of Marano's market.",
+    "icon": "icons/items/marano-market-buisness-card.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": "",
+    "value": 100,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
+  },
   "mastery-medal-backpack-charm": {
     "id": "mastery-medal-backpack-charm",
     "name": "Mastery Medal (Backpack Charm)",
@@ -4128,7 +4141,7 @@
     "rarity": "Legendary",
     "item_type": "Recyclable",
     "subcategory": "Recyclable",
-    "value": 13000,
+    "value": 11000,
     "workbench": null,
     "loot_area": "ARC",
     "stack_size": null
@@ -4778,7 +4791,7 @@
     "rarity": "Epic",
     "item_type": "Advanced Material",
     "subcategory": "Refined Material",
-    "value": 5500,
+    "value": 4997,
     "workbench": "Refiner",
     "loot_area": "Exodus",
     "stack_size": 3
@@ -5269,7 +5282,7 @@
     "name": "Riven Tides Crane House Keycard",
     "description": "Unlocks a door in one of the Crane Houses at Riven Tides.",
     "icon": "icons/items/riven-tides-crane-house-keycard.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Key",
     "subcategory": "Key",
     "value": 100,
