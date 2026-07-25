@@ -20,6 +20,6 @@ L'introduzione della meccanica di donazione a valore impone delle modifiche alle
 - Selezione della Categoria (tipo oggetto) e inserimento del Valore Target numerico.
 
 ### 2. Fase di Completamento / Utilizzo (Vista Lista)
-- La UI della lista dovrà mostrare una barra di progresso per la donazione.
-- Serve un flusso per "versare" oggetti generici dall'inventario/stash verso quella barra di progresso, decurtandoli e calcolandone il controvalore.
-- Questo richiederà probabilmente che il database oggetti includa e gestisca in modo affidabile il "prezzo" o "valore" di ciascun item.
+- A causa dell'impossibilità di mantenere il magazzino virtuale perfettamente sincronizzato con quello reale del gioco dopo ogni singolo raid, il tracciamento del valore puntuale e la decurtazione degli oggetti dallo stash sono irrealistici.
+- Pertanto, per le spedizioni, la **Donazione a Valore** verrà gestita nella UI come una **azione (checkbox)**, ad esempio: `[ ] Donazione Provviste Completata (0/200.000)`.
+- L'utente spunterà la casella una volta che avrà completato la donazione direttamente in gioco, semplificando drasticamente l'interazione e la gestione dei dati.
