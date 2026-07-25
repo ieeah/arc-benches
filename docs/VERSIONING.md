@@ -26,6 +26,8 @@ Il contenuto testuale del cosa-è-cambiato per versione non vive qui — per que
 - Revisione Ordine Menu FloatingNav (→ [3_BACKLOG.md](3_BACKLOG.md))
 - Logica Icona Refiner in Stash (→ [3_BACKLOG.md](3_BACKLOG.md))
 - Icone Categoria Elementi (→ [3_BACKLOG.md](3_BACKLOG.md))
+- Virtualizzazione Liste (→ [3_BACKLOG.md](3_BACKLOG.md))
+- UX Catalogo e ItemPicker (→ [3_BACKLOG.md](3_BACKLOG.md))
 
 ## 0.3.0 "Banco da Lavoro" — Solidità Architetturale & Identity — Non ancora raggiunta
 - Persistence Boundary Unico (→ [3_BACKLOG.md](3_BACKLOG.md))
