@@ -63,7 +63,7 @@ Il deploy su GitHub Pages è automatico a ogni push su `master` (GitHub Actions)
 ## Roadmap
 
 Multi-profilo locale → sync cloud (Supabase) con auth → nuove sezioni (spedizioni, progetti,
-database completo). Dettagli in [ROADMAP.md](ROADMAP.md).
+database completo). Dettagli in [docs/2_ROADMAP.md](docs/2_ROADMAP.md).
 
 ---
 

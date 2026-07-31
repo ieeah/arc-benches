@@ -23,3 +23,4 @@
 
 ## Documentazione
 - **Layered Docs**: adottata convenzione con file in radice per il contesto rapido (`AGENTS.md`, `PROJECT-PROFILE.md`) e cartella `docs/` divisa in documenti di struttura (`1_CURRENT.md`, `2_ROADMAP.md`, ecc.), specifiche (`docs/specs/`) e decisioni architetturali (`docs/adrs/`).
+

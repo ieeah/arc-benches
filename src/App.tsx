@@ -83,7 +83,7 @@ export default function App() {
           {activeTab === 'liste' && <ListsPage ref={listsPageRef} onOpenDetail={openListDetail} />}
           {activeTab === 'items' && <ItemsPage onBack={() => setActiveTab(returnTab)} />}
           {activeTab === 'list-detail' && detailListId && (
-            <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} onOpenDatabase={openDatabase} />
+            <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} />
           )}
         </main>
 

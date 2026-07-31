@@ -1,11 +1,11 @@
 # Specifica Bug/A11y — Accessibilità Overlay e Controlli
 
-Riferimento Backlog: [3_BACKLOG.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/3_BACKLOG.md)
+Riferimento Backlog: [3_BACKLOG.md](../../3_BACKLOG.md)
 
 ---
 
 ## 🎯 Stato Implementativo
-- `Drawer`: **Risolto** tramite [useDialog.ts](file:///c:/Users/flabianca/Projects/Personali/arc-benches/src/hooks/useDialog.ts) (focus trap, `role="dialog"`, gestione `Escape`, stack modali e ripristino focus).
+- `Drawer`: **Risolto** tramite [useDialog.ts](../../../src/hooks/useDialog.ts) (focus trap, `role="dialog"`, gestione `Escape`, stack modali e ripristino focus).
 - Controlli Icon-only: **In corso / Backlog**.
 
 ---

@@ -1,6 +1,6 @@
 # **Report di Ricerca: Psicopatologia, Design Architetturale e Archetipi Comportamentali in ARC Raiders**
 
-Riferimento Roadmap: [2_ROADMAP.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/2_ROADMAP.md)
+Riferimento Roadmap: [2_ROADMAP.md](../2_ROADMAP.md)
 
 ---
 

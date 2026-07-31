@@ -31,6 +31,9 @@ export const FloatingNav = ({
   const [pendingDanger, setPendingDanger] = useState<NavMenuItem | null>(null);
   const pillRef = useRef<HTMLDivElement>(null);
 
+  const destPage = activePage === 'stash' ? 'liste' : 'stash';
+  const closeMenu = () => { setMenuOpen(false); setPendingDanger(null); };
+
   useEffect(() => {
     if (!menuOpen) return;
     const onMouse = (e: MouseEvent) => {
@@ -44,9 +47,6 @@ export const FloatingNav = ({
       document.removeEventListener('keydown', onKey);
     };
   }, [menuOpen]);
-
-  const destPage = activePage === 'stash' ? 'liste' : 'stash';
-  const closeMenu = () => { setMenuOpen(false); setPendingDanger(null); };
 
   const universalItems: NavMenuItem[] = [
     {

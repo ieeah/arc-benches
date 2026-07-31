@@ -29,7 +29,7 @@ I tracker di gioco esistenti mostrano requisiti e costi per singolo livello. Se 
 
 ### Nice to Have (Perimetro Futuro — Roadmap)
 - **Supabase Cloud Sync & Auth (Fase 2)**: Autenticazione (Magic Link/OAuth) e sync background offline-first **strettamente opt-in**.
-- **Spedizioni, Progetti e "Tieni o Butta" (Fase 3)**: Tracciamento spedizioni/progetti ed etichettatura "non vendere" per oggetti utili in futuro.
+- **Spedizioni e Progetti (Fase 3)**: Tracciamento spedizioni/progetti come istanze del motore `List`.
 - **Condivisione Liste via Link**: Generazione `share_token` e route pubblica `/share/<token>` per la condivisione senza export JSON.
 - **i18n & Checklist Stampabile**: Internazionalizzazione delle stringhe e vista print-friendly/PDF per raid di gruppo.
 
@@ -61,7 +61,8 @@ I tracker di gioco esistenti mostrano requisiti e costi per singolo livello. Se 
 1. **ADR 001**: Rimoziome middleware `persist` nativo di Zustand in favore del sottoscrittore unico e adapter `safeLS`.
 2. **ADR 002**: Generalizzazione del modello `Workbench` nell'astrazione generica `List` (`listType: workbench | project | quest | custom`).
 3. **ADR 003**: Regola direzionale per i componenti `Drawer` (apertura coerente con il punto di tocco del trigger).
-4. **ADR 004 (Futuro)**: Autenticazione e Cloud Sync Supabase come estensione **esclusivamente opt-in** del layer locale.
+4. **ADR 004**: Rimozione della feature "Tieni o Butta" (indicatore "non vendere").
+5. **ADR 005 (Futuro)**: Autenticazione e Cloud Sync Supabase come estensione **esclusivamente opt-in** del layer locale.
 
 ---
 

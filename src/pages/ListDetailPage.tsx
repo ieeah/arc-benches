@@ -10,10 +10,9 @@ import { getBaseLevel } from '../lib/lists';
 import { cn } from '../lib/cn';
 
 /** Full-screen overview of one list: every level, its items and actions. */
-export const ListDetailPage = ({ listId, onBack, onOpenDatabase }: {
+export const ListDetailPage = ({ listId, onBack }: {
   listId: string;
   onBack: () => void;
-  onOpenDatabase: () => void;
 }) => {
   const store = useAppStore();
   const list = store.getAllLists().find(l => l.id === listId);
@@ -22,8 +21,7 @@ export const ListDetailPage = ({ listId, onBack, onOpenDatabase }: {
     return (
       <div className="p-4">
         <SectionHeader title="Lista non trovata"
-          leading={<IconButton onClick={onBack} title="Indietro"><ArrowLeft size={14} className="text-gray-500" /></IconButton>}
-          onOpenDatabase={onOpenDatabase} />
+          leading={<IconButton onClick={onBack} title="Indietro"><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
       </div>
     );
   }
@@ -39,8 +37,7 @@ export const ListDetailPage = ({ listId, onBack, onOpenDatabase }: {
     <div className="pb-28">
       <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
         <SectionHeader title={list.name}
-          leading={<IconButton onClick={onBack} title="Indietro"><ArrowLeft size={14} className="text-gray-500" /></IconButton>}
-          onOpenDatabase={onOpenDatabase} />
+          leading={<IconButton onClick={onBack} title="Indietro"><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
         <div className="mt-3">
           <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Attuale</p>
           <LevelPills min={baseLevel} max={list.maxLevel} value={current}

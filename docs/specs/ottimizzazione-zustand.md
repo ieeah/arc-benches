@@ -1,11 +1,11 @@
 # Specifica — Ottimizzazione Zustand (Selettori Pure & Memoizzazione)
 
-Riferimento Stato Attuale: [1_CURRENT.md](file:///c:/Users/flabianca/Projects/Personali/arc-benches/docs/1_CURRENT.md)
+Riferimento Stato Attuale: [1_CURRENT.md](../1_CURRENT.md)
 
 ---
 
 ## 🎯 Stato Implementativo
-Implementato in [src/store/selectors.ts](file:///c:/Users/flabianca/Projects/Personali/arc-benches/src/store/selectors.ts).
+Implementato in [src/store/selectors.ts](../../src/store/selectors.ts).
 
 ---
 
