@@ -42,5 +42,9 @@ Abbiamo deciso di avviare l'evoluzione dell'infrastruttura dell'applicazione ado
   * Anteprime SEO dinamiche ricche.
   * Struttura dati flessibile (JSONB) che riduce la necessità di migrazioni SQL ad ogni update dei dati di gioco.
 * **Svantaggi**:
-  * Abbandono di GitHub Pages per Vercel.
-  * Spostamento del traguardo 1.0.0 per accogliere i lavori di migrazione strutturale.
+  * Abbandono di GitHub Pages per Vercel a partire dalla versione 2.x.
+  * Aumento della complessità della pipeline di sviluppo quando si avvierà il passaggio.
+* **Nota sulla Roadmap**:
+  * Per preservare la stabilità a breve termine, la priorità assoluta è il completamento dell'MVP client-first locale (1.0.0).
+  * L'integrazione di Supabase (con l'app che rimane una SPA classica su Vite) è pianificata per la versione 1.x.
+  * La migrazione a Next.js (ADR 005) è posticipata come traguardo a lungo termine per la versione 2.x.

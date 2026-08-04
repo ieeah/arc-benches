@@ -62,24 +62,33 @@ Changelog: [changelog/0.1.0.md](../changelog/0.1.0.md)
 
 ---
 
-## 0.5.0 "Segnale Radio" — Community, Sharing & Onboarding — Non ancora raggiunta
-- **Condivisione Lista tramite Link (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md) / [condivisione-liste-link.md](specs/condivisione-liste-link.md))
-- **Vista Aggregata per Banco (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md))
-- **Role Maker — Estensione Biografie & Lore** (→ [2_ROADMAP.md](2_ROADMAP.md))
+## 0.5.0 "Segnale Radio" — Community & Onboarding — Non ancora raggiunta
 - **Tour Onboarding con driver.js (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md))
 - **Checklist Stampabile (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md))
 - **Internazionalizzazione i18n (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Vista Aggregata per Banco (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Role Maker — Estensione Biografie & Lore** (→ [2_ROADMAP.md](2_ROADMAP.md))
 - **View Transitions** (→ [2_ROADMAP.md](2_ROADMAP.md))
 
 ---
 
-## 1.0.0 "Rete Speranza" — MVP Completo & Cloud Sync Supabase — Non ancora raggiunta
-- **Supabase — Schema Dati di Gioco (Fase 2a)** (→ [2_ROADMAP.md](2_ROADMAP.md))
-- **Supabase — Account & Auth (Fase 2b)** (→ [2_ROADMAP.md](2_ROADMAP.md))
-- **Supabase — Sync Background (Fase 2c)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+## 1.0.0 "Rete Speranza" — MVP Completo SPA-Client-First — Non ancora raggiunta
+- Consolidamento generale di tutte le funzionalità client-first, rifinitura UI e stabilità dello Stash offline su GitHub Pages.
 
 ---
 
-## Oltre 1.0.0
+## 1.x "Satellite di Speranza" — Sincronizzazione Cloud (SPA con DB & Sync) — Non ancora raggiunta
+- **Supabase — Schema Dati di Gioco (Fase 2a)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Supabase — Account & Auth (Fase 2b)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Supabase — Sync Background (Fase 2c)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Condivisione Lista tramite Link (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md) / [condivisione-liste-link.md](specs/condivisione-liste-link.md))
+
+---
+
+## 2.x "Antenna di Speranza" — Migrazione Next.js & Serverless — Non ancora raggiunta
+- Migrazione dell'infrastruttura dell'app da Vite SPA a Next.js (App Router) su Vercel (→ ADR 005).
+- Servizio SSR per la rotta pubblica di condivisione `/share/<token>` con metadati SEO nativi.
+
+## Oltre 2.x
 - Nuovi banchi e materiali dalle patch future di ARC Raiders.
 - Dashboard avanzata di gruppo / raid squad.
