@@ -78,10 +78,10 @@ Changelog: [changelog/0.1.0.md](../changelog/0.1.0.md)
 ---
 
 ## 1.x "Satellite di Speranza" — Sincronizzazione Cloud (SPA con DB & Sync) — Non ancora raggiunta
-- **Supabase — Schema Dati di Gioco (Fase 2a)** (→ [2_ROADMAP.md](2_ROADMAP.md))
-- **Supabase — Account & Auth (Fase 2b)** (→ [2_ROADMAP.md](2_ROADMAP.md))
-- **Supabase — Sync Background (Fase 2c)** (→ [2_ROADMAP.md](2_ROADMAP.md))
-- **Condivisione Lista tramite Link (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md) / [condivisione-liste-link.md](specs/condivisione-liste-link.md))
+- **Supabase — Schema Dati di Gioco (Fase 4a)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Supabase — Account & Auth (Fase 4b)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Supabase — Sync Background (Fase 4c)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Condivisione Lista tramite Link (Fase 4d)** (→ [2_ROADMAP.md](2_ROADMAP.md) / [condivisione-liste-link.md](specs/condivisione-liste-link.md))
 
 ---
 
@@ -92,3 +92,4 @@ Changelog: [changelog/0.1.0.md](../changelog/0.1.0.md)
 ## Oltre 2.x
 - Nuovi banchi e materiali dalle patch future di ARC Raiders.
 - Dashboard avanzata di gruppo / raid squad.
+- **PWA & Wrapper React Native (Spin-off)** (→ [2_ROADMAP.md](2_ROADMAP.md))

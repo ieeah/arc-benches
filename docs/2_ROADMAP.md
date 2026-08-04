@@ -19,3 +19,4 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - **Vista Aggregata per Banco (Fase 3)**: modalità secondaria con raggruppamento collassabile dei materiali mancanti per banco di destinazione.
 - **View Transitions**: integrare le View Transitions API per ottenere animazioni fluide durante la navigazione da una pagina all'altra dell'app.
 - **Next.js & Vercel (Fase 5)**: migrazione strutturale dell'infrastruttura dell'app da Vite SPA a Next.js (App Router) su Vercel per supportare SSR e Server Actions (ADR 005).
+- **PWA & Wrapper React Native (Spin-off)**: studio e sviluppo di un wrapper nativo (React Native o PWA avanzata) per ottimizzare l'uso da smartphone, migliorando la persistenza dell'autenticazione, la sincronizzazione offline e l'integrazione con le notifiche push.
