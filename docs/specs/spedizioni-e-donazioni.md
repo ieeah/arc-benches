@@ -23,3 +23,11 @@ L'introduzione della meccanica di donazione a valore impone delle modifiche alle
 - A causa dell'impossibilità di mantenere il magazzino virtuale perfettamente sincronizzato con quello reale del gioco dopo ogni singolo raid, il tracciamento del valore puntuale e la decurtazione degli oggetti dallo stash sono irrealistici.
 - Pertanto, per le spedizioni, la **Donazione a Valore** verrà gestita nella UI come una **azione (checkbox)**, ad esempio: `[ ] Donazione Provviste Completata (0/200.000)`.
 - L'utente spunterà la casella una volta che avrà completato la donazione direttamente in gioco, semplificando drasticamente l'interazione e la gestione dei dati.
+
+## Tracker Spedizioni e Skill Points
+
+Per gestire la progressione delle spedizioni:
+- **Conteggio Spedizioni**: Un contatore interno traccia quante e quali spedizioni sono state completate con successo dal profilo.
+- **Skill Points Extra**: Calcolo automatico dei punti abilità (skill points) extra accumulati completando le spedizioni.
+- **Filtro di Disponibilità**: La UI mostra esclusivamente la spedizione attualmente attiva/in corso tra tutte quelle del banco spedizioni, nascondendo quelle già fatte e sbloccando le successive in ordine sequenziale.
+

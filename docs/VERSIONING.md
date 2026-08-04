@@ -43,6 +43,7 @@ Changelog: [changelog/0.1.0.md](../changelog/0.1.0.md)
 
 ## 0.3.0 "Banco da Lavoro" — Identity & Solidità Architetturale — Non ancora raggiunta
 - **Role Maker — Randomizer di Personalità (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md) / [role-maker.md](specs/role-maker.md))
+- **Selettore Vista Stash (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md))
 - **Persistence Boundary Unico** (→ [3_BACKLOG.md](3_BACKLOG.md))
 - **Lockfile NPM WASM Check** (→ [3_BACKLOG.md](3_BACKLOG.md))
 - **Validazione Runtime Schemi (Zod)** (→ [3_BACKLOG.md](3_BACKLOG.md))
@@ -54,6 +55,7 @@ Changelog: [changelog/0.1.0.md](../changelog/0.1.0.md)
 
 ## 0.4.0 "Mappa di Spedizione" — Spedizioni, Progetti & Decisioni Materiali — Non ancora raggiunta
 - **Spedizioni & Progetti (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md))
+- **Date di Scadenza per Liste e Progetti (Fase 3)** (→ [2_ROADMAP.md](2_ROADMAP.md))
 - **Supporto Tastiera per Drag & Drop** (→ [3_BACKLOG.md](3_BACKLOG.md))
 - **Revisione Ordine Menu FloatingNav** (→ [3_BACKLOG.md](3_BACKLOG.md))
 - **Icone Categoria Elementi** (→ [3_BACKLOG.md](3_BACKLOG.md))
