@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Plus, Minus, CheckCircle2, Hammer } from 'lucide-react';
 import type { ItemInfo } from '../types';
 import { useLongPress } from '../hooks/useLongPress';
@@ -16,6 +17,25 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
   const { color, border, glow } = getRarityStyles(itemInfo?.rarity);
   const craftLevel = refinerCraftLevel(itemInfo);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+  const [prevOwned, setPrevOwned] = useState(owned);
+  const [tempValue, setTempValue] = useState(owned.toString());
+
+  if (owned !== prevOwned) {
+    setPrevOwned(owned);
+    setTempValue(owned.toString());
+  }
+
+  const handleBlur = () => {
+    let val = parseInt(tempValue);
+    if (isNaN(val) || val < 0) {
+      val = 0;
+    }
+    if (val > required) {
+      val = required;
+    }
+    onSet(val);
+    setTempValue(val.toString());
+  };
 
   return (
     <div className={`flex flex-col p-2.5 rounded-[28px] border-2 ${border} bg-white dark:bg-gray-900 transition-all ${isCompleted ? 'opacity-40 grayscale-[0.8]' : ''}`}>
@@ -63,8 +83,20 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
           <Minus size={14} />
         </button>
         <input
-          type="number" inputMode="numeric" pattern="[0-9]*"
-          value={owned} onChange={e => onSet(parseInt(e.target.value) || 0)}
+          type="text" inputMode="numeric" pattern="[0-9]*"
+          value={tempValue}
+          onChange={e => {
+            const val = e.target.value;
+            if (val === '' || /^\d+$/.test(val)) {
+              setTempValue(val);
+            }
+          }}
+          onBlur={handleBlur}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              e.currentTarget.blur();
+            }
+          }}
           className="w-0 flex-1 h-8 text-center font-bold bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-400 text-xs"
         />
         <button onContextMenu={e => e.preventDefault()} onClick={onIncrement} {...longPressInc}

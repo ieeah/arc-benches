@@ -8,6 +8,53 @@ import { ItemPicker } from './ItemPicker';
 import { ActionCheckbox } from './ActionCheckbox';
 import { BottomSheet } from './BottomSheet';
 
+const QuantityInput = ({
+  quantity,
+  onChange,
+}: {
+  quantity: number;
+  onChange: (val: number) => void;
+}) => {
+  const [prevQuantity, setPrevQuantity] = useState(quantity);
+  const [tempValue, setTempValue] = useState(quantity.toString());
+
+  if (quantity !== prevQuantity) {
+    setPrevQuantity(quantity);
+    setTempValue(quantity.toString());
+  }
+
+  const handleBlur = () => {
+    let val = parseInt(tempValue);
+    if (isNaN(val) || val < 1) {
+      val = 1;
+    }
+    onChange(val);
+    setTempValue(val.toString());
+  };
+
+  return (
+    <input
+      type="text"
+      inputMode="numeric"
+      pattern="[0-9]*"
+      value={tempValue}
+      onChange={e => {
+        const val = e.target.value;
+        if (val === '' || /^\d+$/.test(val)) {
+          setTempValue(val);
+        }
+      }}
+      onBlur={handleBlur}
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          e.currentTarget.blur();
+        }
+      }}
+      className="w-10 text-center text-sm font-bold font-mono bg-transparent focus:outline-none"
+    />
+  );
+};
+
 /** Create or edit a custom list (multi-stage, mirrors the workbench engine). */
 export const CustomListEditor = ({ listId, onClose }: {
   listId?: string;
@@ -190,9 +237,10 @@ export const CustomListEditor = ({ listId, onClose }: {
                           className="w-7 h-7 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-full">
                           <Minus size={13} />
                         </button>
-                        <input type="text" inputMode="numeric" value={req.quantity}
-                          onChange={e => setQty(lvl.level, req.itemId, parseInt(e.target.value) || 0)}
-                          className="w-10 text-center text-sm font-bold font-mono bg-transparent focus:outline-none" />
+                        <QuantityInput
+                          quantity={req.quantity}
+                          onChange={val => setQty(lvl.level, req.itemId, val)}
+                        />
                         <button onClick={() => setQty(lvl.level, req.itemId, req.quantity + 1)}
                           className="w-7 h-7 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-full">
                           <Plus size={13} />
