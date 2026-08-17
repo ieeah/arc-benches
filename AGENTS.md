@@ -37,6 +37,8 @@ Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROF
 
 ## 📐 Convenzioni e Regole di Progetto
 
+- **Autonomia dei Commit**: Non effettuare MAI commit in autonomia senza esplicita autorizzazione o richiesta diretta dell'utente. Quando si lavora a un task o una issue, le modifiche devono rimanere nel working tree come modifiche non committate per permettere la revisione manuale dell'utente.
+- **Esecuzione di Lint e Build**: Non lanciare i comandi di linting (`npm run lint`) e build (`npm run build`) ad ogni singola modifica intermedia o di piccolo conto. Ha senso eseguirli solo in presenza di errori espliciti da indagare, oppure come validazione finale al completamento del task prima che l'utente effettui il commit.
 - **Commit**: Segui lo standard Conventional Commits (`type: descrizione` o `type(scope): descrizione`), con eventuale riferimento all'issue o fase (es. `feat: aggiunge pill livello attuale (#7 Fase 2)`). Nessun riferimento a strumenti AI nei commit.
 - **ID Oggetti**: Gli ID degli oggetti usano sempre la notazione hyphen-case (`metal-parts`), mai underscore.
 - **Interfaccia Utente (UI)**:
