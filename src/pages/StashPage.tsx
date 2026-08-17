@@ -19,7 +19,7 @@ type SortKey = 'priority' | 'name' | 'rarity' | 'type';
 type SortDir = 1 | -1;
 
 const sortLabels: Record<SortKey, string> = {
-  priority: 'Priorità', name: 'A→Z', rarity: 'Rarità', type: 'Tipo',
+  priority: 'Priorità', name: 'A-Z', rarity: 'Rarità', type: 'Tipo',
 };
 
 export const StashPage = () => {
@@ -138,11 +138,15 @@ export const StashPage = () => {
         <div className="flex gap-2 overflow-x-auto pb-0.5">
           {(Object.keys(sortLabels) as SortKey[]).map(key => {
             const isSelected = sort.key === key;
+            const label = key === 'name'
+              ? (isSelected && sort.dir === -1 ? 'Z-A' : 'A-Z')
+              : sortLabels[key];
+            const showArrow = isSelected && key !== 'name';
             return (
               <button key={key} onClick={() => handleSortClick(key)}
                 className={`shrink-0 px-3 py-1 rounded-full text-xs font-bold transition-colors flex items-center gap-1 ${isSelected ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-500'}`}>
-                {sortLabels[key]}
-                {isSelected && (sort.dir === 1 ? <ArrowDown size={12} /> : <ArrowUp size={12} />)}
+                {label}
+                {showArrow && (sort.dir === 1 ? <ArrowDown size={12} /> : <ArrowUp size={12} />)}
               </button>
             );
           })}
