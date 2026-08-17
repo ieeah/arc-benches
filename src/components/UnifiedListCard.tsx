@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type ReactNode } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect, type ReactNode } from 'react';
 import { CheckCircle2, ChevronDown, Hammer, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import type { ItemInfo, List } from '../types';
 import { getBaseLevel } from '../lib/lists';
@@ -100,6 +100,7 @@ export const UnifiedListCard = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [pendingLevel, setPendingLevel] = useState<number | null>(null);
+  const [openUpward, setOpenUpward] = useState(false);
 
   const menuRef = useRef<HTMLDivElement>(null);
   const isMaxed = current >= list.maxLevel;
@@ -121,6 +122,22 @@ export const UnifiedListCard = ({
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
+  }, [menuOpen]);
+
+  useLayoutEffect(() => {
+    if (menuOpen && menuRef.current) {
+      const rect = menuRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const spaceBelow = viewportHeight - rect.bottom;
+      
+      // La tendina è alta circa 160px. Usiamo una soglia di sicurezza di 180px.
+      // Se lo spazio sotto è insufficiente e c'è spazio sopra, apriamo verso l'alto.
+      if (spaceBelow < 180 && rect.top > 180) {
+        setOpenUpward(true);
+      } else {
+        setOpenUpward(false);
+      }
+    }
   }, [menuOpen]);
 
   const hasConflict = (level: number) =>
@@ -152,7 +169,7 @@ export const UnifiedListCard = ({
     : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900';
 
   return (
-    <div className={`mb-3 rounded-[24px] border-2 overflow-hidden transition-colors ${cardBorder}`}>
+    <div className={`mb-3 rounded-[24px] border-2 transition-colors ${cardBorder}`}>
       {/* Header — expand trigger (name + badge + chevron) flanked by drag handle and menu */}
       <div className="flex items-center gap-1.5 px-3 pt-3 pb-2">
         {dragHandle}
@@ -185,7 +202,9 @@ export const UnifiedListCard = ({
               <MoreHorizontal size={20} />
             </button>
             {menuOpen && (
-              <div className="absolute right-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden min-w-[10rem]">
+              <div className={`absolute right-0 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden min-w-[10rem] ${
+                openUpward ? 'bottom-full mb-1' : 'top-full mt-1'
+              }`}>
                 {onOpenDetail && (
                   <button onClick={() => { closeMenu(); onOpenDetail(); }}
                     className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">

@@ -96,7 +96,9 @@ export const FloatingNav = ({
         {navSide === 'right' ? <>{secondaryBtn}{primaryBtn}</> : <>{primaryBtn}{secondaryBtn}</>}
 
         {menuOpen && (
-          <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+          <div className={`absolute bottom-full mb-3 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden ${
+            navSide === 'right' ? 'right-0' : 'left-0'
+          }`}>
             {pendingDanger ? (
               <div className="p-4 space-y-3">
                 <p className="text-sm text-gray-600 dark:text-gray-300">
