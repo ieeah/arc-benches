@@ -1,5 +1,5 @@
 import { useState, useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
-import { GripVertical, PartyPopper, Plus, Upload, Check, Pencil, Trash2 } from 'lucide-react';
+import { GripVertical, Plus, Upload, Check, Pencil, Trash2 } from 'lucide-react';
 import {
   DndContext, closestCenter, PointerSensor, TouchSensor,
   useSensor, useSensors,
@@ -76,7 +76,6 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   const importLists = useAppStore(s => s.importLists);
 
   const [showProfiles, setShowProfiles] = useState(false);
-  const [movePromptId, setMovePromptId] = useState<string | null>(null);
   const [editing, setEditing] = useState<{ id?: string } | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
   const [importPending, setImportPending] = useState<ListExportFile | MultiProfileExportFile | null>(null);
@@ -130,7 +129,6 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
     [allLists, activeModules, hideoutLevels, targetLevels],
   );
 
-  const movePromptList = maxedLists.find(list => list.id === movePromptId);
   const activeWorkbenches = activeLists.filter(l => !l.custom);
   const activeCustom = activeLists.filter(l => l.custom);
 
@@ -156,12 +154,9 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
 
   const handleCurrentLevel = (listId: string, maxLevel: number) => (v: number, deduct: boolean) => {
     setModuleCurrentLevel(listId, v, deduct);
-    if (v >= maxLevel) setMovePromptId(listId);
-  };
-
-  const moveToBottom = (listId: string) => {
-    setListOrder([...listOrder.filter(id => id !== listId), listId]);
-    setMovePromptId(null);
+    if (v >= maxLevel) {
+      setListOrder([...listOrder.filter(id => id !== listId), listId]);
+    }
   };
 
   const openExportModal = () => {
@@ -256,7 +251,13 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
     refinerLevel,
     totalRequired,
     canUpgrade: availableUpgrades.includes(list.id),
-    onUpgrade: () => upgradeModule(list.id),
+    onUpgrade: () => {
+      upgradeModule(list.id);
+      const nextLevel = (hideoutLevels[list.id] ?? 0) + 1;
+      if (nextLevel >= list.maxLevel) {
+        setListOrder([...listOrder.filter(id => id !== list.id), list.id]);
+      }
+    },
     onToggle: () => toggleModuleActive(list.id),
     onCurrentLevel: handleCurrentLevel(list.id, list.maxLevel),
     onToggleTarget: (level: number) => toggleTargetLevel(list.id, level),
@@ -328,24 +329,6 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
             open={sectionsOpen.completati}
             onToggle={() => toggleSection('completati')}
           >
-            {movePromptList && (
-              <div className="mb-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-2xl">
-                <p className="text-[11px] text-gray-600 dark:text-gray-300 mb-2 flex items-center gap-1.5">
-                  <PartyPopper size={14} className="text-green-500 shrink-0" />
-                  <span><strong>{movePromptList.name}</strong> completato! Spostarlo in fondo alle priorità?</span>
-                </p>
-                <div className="flex gap-2">
-                  <button onClick={() => moveToBottom(movePromptList.id)}
-                    className="px-3 py-1.5 bg-green-600 text-white text-xs font-bold rounded-full">
-                    Sì, sposta
-                  </button>
-                  <button onClick={() => setMovePromptId(null)}
-                    className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-bold rounded-full">
-                    No, lascia
-                  </button>
-                </div>
-              </div>
-            )}
             {maxedLists.map(list => (
               <UnifiedListCard key={list.id} {...sharedCardProps(list)} />
             ))}
