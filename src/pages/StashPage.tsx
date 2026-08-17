@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
-import { ArrowDown, ArrowUp } from 'lucide-react';
+import { useEffect, useMemo } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '../store';
 import {
@@ -14,13 +13,17 @@ import { safeLS } from '../lib/safeStorage';
 import { rarityOrder } from '../lib/rarity';
 import { SectionHeader } from '../components/SectionHeader';
 import { InventoryCard } from '../components/InventoryCard';
+import { useListManager } from '../hooks/useListManager';
+import type { FilterCategory, SortOption } from '../hooks/useListManager';
+import { ListControls } from '../components/ListControls';
 
-type SortKey = 'priority' | 'name' | 'rarity' | 'type';
-type SortDir = 1 | -1;
-
-const sortLabels: Record<SortKey, string> = {
-  priority: 'Priorità', name: 'A-Z', rarity: 'Rarità', type: 'Tipo',
-};
+interface StashMaterial {
+  itemId: string;
+  owned: number;
+  required: number;
+  missing: number;
+  isCompleted: boolean;
+}
 
 export const StashPage = () => {
   // Selettori mirati — re-render solo quando la slice pertinente cambia
@@ -45,24 +48,6 @@ export const StashPage = () => {
   const incrementItem = useAppStore(s => s.incrementItem);
   const decrementItem = useAppStore(s => s.decrementItem);
   const setItemCount = useAppStore(s => s.setItemCount);
-
-  const [sort, setSort] = useState<{ key: SortKey; dir: SortDir }>(() =>
-    safeLS(() => {
-      const raw = localStorage.getItem('stash-sort');
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed?.key) return { key: parsed.key as SortKey, dir: (parsed.dir === -1 ? -1 : 1) as SortDir };
-      }
-      return { key: 'priority' as SortKey, dir: 1 as SortDir };
-    }, { key: 'priority' as SortKey, dir: 1 as SortDir })
-  );
-
-  useEffect(() => {
-    safeLS(() => localStorage.setItem('stash-sort', JSON.stringify(sort)), undefined);
-  }, [sort]);
-
-  const handleSortClick = (key: SortKey) =>
-    setSort(s => s.key === key ? { key, dir: (s.dir * -1) as SortDir } : { key, dir: 1 });
 
   const allLists = useMemo(
     () => getAllListsPure(workbenches, sharedCustomLists, customLists),
@@ -107,27 +92,115 @@ export const StashPage = () => {
     return map;
   }, [orderedLists, activeModules, hideoutLevels, targetLevels]);
 
-  const sortedMaterials = useMemo(() => {
-    return [...missingMaterials].sort((a, b) => {
-      let cmp = 0;
-      if (sort.key === 'priority') {
-        cmp = (priorityMap.get(a.itemId) ?? 999) - (priorityMap.get(b.itemId) ?? 999);
-      } else if (sort.key === 'name') {
-        cmp = (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId);
-      } else if (sort.key === 'rarity') {
-        const ra = rarityOrder[itemsInfo[a.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1;
-        const rb = rarityOrder[itemsInfo[b.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1;
-        cmp = rb - ra;
-      } else if (sort.key === 'type') {
-        cmp = (itemsInfo[a.itemId]?.item_type ?? '').localeCompare(itemsInfo[b.itemId]?.item_type ?? '');
-      }
-      return cmp * sort.dir;
-    });
-  }, [missingMaterials, sort, priorityMap, itemsInfo]);
+  // Filtriamo i materiali visibili in base alla spunta globale "nascondi completati"
+  const stashItems = useMemo(() => {
+    return filterHideCompleted
+      ? missingMaterials.filter(m => !m.isCompleted)
+      : missingMaterials;
+  }, [missingMaterials, filterHideCompleted]);
 
-  const visibleMaterials = filterHideCompleted
-    ? sortedMaterials.filter(m => !m.isCompleted)
-    : sortedMaterials;
+  // Configurazione dei Filtri e degli Ordinamenti per il Stash
+  const filterCategories = useMemo<FilterCategory<StashMaterial>[]>(() => [
+    { id: 'all', label: 'Tutti', predicate: () => true },
+    { id: 'materials', label: 'Materiali', predicate: m => ['basic material', 'topside material', 'refined material', 'advanced material', 'material', 'recyclable'].includes((itemsInfo[m.itemId]?.item_type || '').toLowerCase()) },
+    { id: 'equipment', label: 'Armi & Equip', predicate: m => ['weapon', 'throwable', 'gadget', 'modification', 'augment', 'shield', 'deployable'].includes((itemsInfo[m.itemId]?.item_type || '').toLowerCase()) },
+    { id: 'consumables', label: 'Consumabili', predicate: m => ['consumable', 'quick use', 'ammunition'].includes((itemsInfo[m.itemId]?.item_type || '').toLowerCase()) },
+    { id: 'blueprints', label: 'Blueprint', predicate: m => (itemsInfo[m.itemId]?.item_type || '').toLowerCase() === 'blueprint' },
+    { id: 'other', label: 'Altro', predicate: m => !['basic material', 'topside material', 'refined material', 'advanced material', 'material', 'recyclable', 'weapon', 'throwable', 'gadget', 'modification', 'augment', 'shield', 'deployable', 'consumable', 'quick use', 'ammunition', 'blueprint'].includes((itemsInfo[m.itemId]?.item_type || '').toLowerCase()) },
+  ], [itemsInfo]);
+
+  const sortOptions = useMemo<SortOption<StashMaterial>[]>(() => [
+    {
+      id: 'priority_asc',
+      label: 'Priorità',
+      compare: (a, b) => (priorityMap.get(a.itemId) ?? 999) - (priorityMap.get(b.itemId) ?? 999) || (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId),
+      toggleId: 'priority_desc',
+    },
+    {
+      id: 'priority_desc',
+      label: 'Priorità',
+      compare: (a, b) => (priorityMap.get(b.itemId) ?? 999) - (priorityMap.get(a.itemId) ?? 999) || (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId),
+      toggleId: 'priority_asc',
+      hideFromUi: true,
+    },
+    {
+      id: 'name_asc',
+      label: 'A-Z',
+      compare: (a, b) => (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId),
+      toggleId: 'name_desc',
+    },
+    {
+      id: 'name_desc',
+      label: 'Z-A',
+      compare: (a, b) => (itemsInfo[b.itemId]?.name ?? b.itemId).localeCompare(itemsInfo[a.itemId]?.name ?? a.itemId),
+      toggleId: 'name_asc',
+      hideFromUi: true,
+    },
+    {
+      id: 'rarity_desc',
+      label: 'Rarità',
+      compare: (a, b) => (rarityOrder[itemsInfo[b.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1) - (rarityOrder[itemsInfo[a.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1) || (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId),
+      toggleId: 'rarity_asc',
+    },
+    {
+      id: 'rarity_asc',
+      label: 'Rarità',
+      compare: (a, b) => (rarityOrder[itemsInfo[a.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1) - (rarityOrder[itemsInfo[b.itemId]?.rarity?.toLowerCase() ?? ''] ?? -1) || (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId),
+      toggleId: 'rarity_desc',
+      hideFromUi: true,
+    },
+    {
+      id: 'type_asc',
+      label: 'Tipo',
+      compare: (a, b) => (itemsInfo[a.itemId]?.item_type ?? '').localeCompare(itemsInfo[b.itemId]?.item_type ?? '') || (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId),
+      toggleId: 'type_desc',
+    },
+    {
+      id: 'type_desc',
+      label: 'Tipo',
+      compare: (a, b) => (itemsInfo[b.itemId]?.item_type ?? '').localeCompare(itemsInfo[a.itemId]?.item_type ?? '') || (itemsInfo[a.itemId]?.name ?? a.itemId).localeCompare(itemsInfo[b.itemId]?.name ?? b.itemId),
+      toggleId: 'type_asc',
+      hideFromUi: true,
+    },
+  ], [itemsInfo, priorityMap]);
+
+  const initialSortId = useMemo(() => {
+    return safeLS(() => {
+      const raw = localStorage.getItem('stash-sort-v2');
+      if (raw) {
+        return JSON.parse(raw);
+      }
+      return 'priority_asc';
+    }, 'priority_asc');
+  }, []);
+
+  const {
+    query,
+    setQuery,
+    activeCategoryId,
+    setActiveCategoryId,
+    activeSortId,
+    setActiveSortId,
+    processedItems,
+  } = useListManager<StashMaterial>({
+    items: stashItems,
+    search: {
+      fields: m => [itemsInfo[m.itemId]?.name || m.itemId, m.itemId],
+    },
+    filters: {
+      categories: filterCategories,
+      defaultCategoryId: 'all',
+    },
+    sorting: {
+      options: sortOptions,
+      defaultSortId: initialSortId,
+    },
+  });
+
+  // Persistenza ordinamento scelto dallo stash
+  useEffect(() => {
+    safeLS(() => localStorage.setItem('stash-sort-v2', JSON.stringify(activeSortId)), undefined);
+  }, [activeSortId]);
 
   return (
     <div className="pb-28">
@@ -135,26 +208,25 @@ export const StashPage = () => {
         <div className="mb-3">
           <SectionHeader title="Stash" />
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-0.5">
-          {(Object.keys(sortLabels) as SortKey[]).map(key => {
-            const isSelected = sort.key === key;
-            const label = key === 'name'
-              ? (isSelected && sort.dir === -1 ? 'Z-A' : 'A-Z')
-              : sortLabels[key];
-            const showArrow = isSelected && key !== 'name';
-            return (
-              <button key={key} onClick={() => handleSortClick(key)}
-                className={`shrink-0 px-3 py-1 rounded-full text-xs font-bold transition-colors flex items-center gap-1 ${isSelected ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-500'}`}>
-                {label}
-                {showArrow && (sort.dir === 1 ? <ArrowDown size={12} /> : <ArrowUp size={12} />)}
-              </button>
-            );
-          })}
-        </div>
+        <ListControls
+          query={query}
+          setQuery={setQuery}
+          activeCategoryId={activeCategoryId}
+          setActiveCategoryId={setActiveCategoryId}
+          activeSortId={activeSortId}
+          setActiveSortId={setActiveSortId}
+          groupByEnabled={false} // Raggruppamento disabilitato per lo stash
+          setGroupByEnabled={() => {}}
+          searchPlaceholder="Cerca nello stash…"
+          categories={filterCategories}
+          sortOptions={sortOptions}
+          sortType="pills" // Utilizza le pillole per l'ordinamento
+          items={stashItems} // Passiamo stashItems per calcolare il conteggio ed disabilitare i filtri vuoti
+        />
       </div>
 
       <div className="p-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
-        {visibleMaterials.map(mat => (
+        {processedItems.map(mat => (
           <InventoryCard key={mat.itemId} {...mat}
             itemInfo={itemsInfo[mat.itemId]}
             refinerLevel={refinerLevel}
@@ -164,9 +236,10 @@ export const StashPage = () => {
           />
         ))}
       </div>
-      {missingMaterials.length === 0 && (
+
+      {processedItems.length === 0 && (
         <div className="p-20 text-center text-gray-500 italic text-sm">
-          Nessun materiale richiesto per gli obiettivi attuali.
+          Nessun materiale trovato.
         </div>
       )}
     </div>
