@@ -7,9 +7,9 @@ Il contenuto testuale del cosa-è-cambiato per versione non vive qui — per que
 
 ## Versione corrente
 
-**0.1.0** ("Primo Rifugio"), determinata dal tag Git `v0.1.0`.
+**0.2.0** ("Sacca dei Materiali"), determinata dal tag Git `v0.2.0`.
 
-> **Nota su v0.2.0**: Il codice in `1_CURRENT.md` contiene già le funzionalità di Multi-profilo Locale e Liste Custom, ma il tag Git non è ancora stato formalizzato. Pertanto, la 0.2.0 è marcata come **Raggiunta (da taggare)**.
+> **Nota su v0.2.0**: Il codice in `1_CURRENT.md` contiene le funzionalità di Multi-profilo Locale e Liste Custom, ed è stato formalizzato con il tag Git `v0.2.0`.
 
 ---
 
@@ -33,19 +33,20 @@ Changelog: [changelog/0.1.0.md](../changelog/0.1.0.md)
 
 ---
 
-## 0.2.0 "Sacca dei Materiali" — Multi-Profilo, UX Mobile-First — Raggiunta (in attesa di tag)
+## 0.2.0 "Sacca dei Materiali" — Multi-Profilo, UX Mobile-First — Raggiunta
 - **Multi-profilo Locale & Liste Custom (Fase 1)** (→ [1_CURRENT.md](1_CURRENT.md))
 - **Import / Export v3 Multi-profilo** (→ [1_CURRENT.md](1_CURRENT.md))
 - **UI / UX Mobile-First** (→ [1_CURRENT.md](1_CURRENT.md))
+Changelog: [changelog/0.2.0.md](../changelog/0.2.0.md)
 
 ---
 
 ## 0.3.0 "Banco da Lavoro" — Identity, UX & Solidità Architetturale — Non ancora raggiunta
 - [ ] #1 [Accessibilità Overlay Legacy & Controlli](https://github.com/ieeah/arc-benches/issues/1)
-- [ ] #23 [Role Maker — Randomizer di Personalità (Fase 3)](https://github.com/ieeah/arc-benches/issues/23)
+- [x] #23 [Role Maker — Randomizer di Personalità (Fase 3)](https://github.com/ieeah/arc-benches/issues/23)
 - [ ] #19 [Selettore Vista Stash (Fase 3)](https://github.com/ieeah/arc-benches/issues/19)
 - [ ] #2 [Persistence Boundary Unico](https://github.com/ieeah/arc-benches/issues/2)
-- [ ] #6 [Lockfile NPM WASM Check](https://github.com/ieeah/arc-benches/issues/6)
+- [x] #6 [Lockfile NPM WASM Check](https://github.com/ieeah/arc-benches/issues/6)
 - [ ] #3 [Validazione Runtime Schemi (Zod)](https://github.com/ieeah/arc-benches/issues/3)
 - [ ] #8 [UX Input Numerici (Stash & Liste Custom)](https://github.com/ieeah/arc-benches/issues/8)
 - [ ] #10 [Logica Icona Refiner in Stash](https://github.com/ieeah/arc-benches/issues/10)

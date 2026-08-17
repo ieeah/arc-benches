@@ -10,3 +10,5 @@ Stato attuale di **ARC Benches**: funzionalità già costruite, testate e funzio
 - **Import / Export v3 Multi-profilo**: export e import di tutti i profili e liste condivise in formato JSON v3 con retrocompatibilità v1 e v2 e validazione type-guard in [validate.ts](../src/lib/validate.ts).
 - **UI / UX Mobile-First**: sticky section headers, navigazione flessibile via [FloatingNav](../src/components/FloatingNav.tsx) a 2 pulsanti, pagina unificata [ListsPage](../src/pages/ListsPage.tsx) (`UnifiedListCard` a progressive disclosure), sezioni collassabili (`CollapsibleSection`) e badge stack `×N`.
 - **Automatismo Inventario & Refiner Badge**: deduzione automatica materiali al level-up con prompt di conferma in caso di conflitto inventario con altri banchi; calcolo del badge "craftabile ora" / "richiede Refiner Lvl 2" in [craft.ts](../src/lib/craft.ts).
+- **Role Maker — Randomizer di Personalità (Fase 3)**: generatore di personalità/ruoli per arricchire l'identity e il roleplay durante le spedizioni, con visualizzazione biografia, regole operative in raid, condizioni di vittoria e loadout consigliati in [RoleMakerModal](../src/components/RoleMakerModal.tsx).
+
