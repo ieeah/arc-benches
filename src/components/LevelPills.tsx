@@ -4,6 +4,8 @@ type CommonProps = {
   min?: number;
   max: number;
   activeClass: string;
+  /** Restituisce l'aria-label per la pill del livello `level`. Se omessa: "Livello {level}". */
+  ariaLabel?: (level: number) => string;
 };
 
 /** Single-select mode (e.g. current level): one pill highlighted, lower pills optionally locked. */
@@ -28,7 +30,7 @@ type MultiProps = CommonProps & {
 
 /** Row of level pills (min..max), single-select or multi-toggle depending on props. */
 export const LevelPills = (props: SingleProps | MultiProps) => {
-  const { min = 0, max, activeClass } = props;
+  const { min = 0, max, activeClass, ariaLabel } = props;
   const levels = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
   return (
@@ -43,6 +45,8 @@ export const LevelPills = (props: SingleProps | MultiProps) => {
             <button
               key={lvl}
               onClick={() => props.onToggle(lvl)}
+              aria-label={ariaLabel ? ariaLabel(lvl) : `Livello ${lvl}`}
+              aria-pressed={active}
               className={cn(
                 "w-8 h-8 rounded-full text-xs font-bold transition-colors",
                 active && activeClass,
@@ -68,6 +72,8 @@ export const LevelPills = (props: SingleProps | MultiProps) => {
             key={lvl}
             disabled={disabled}
             onClick={() => props.onChange(lvl)}
+            aria-label={ariaLabel ? ariaLabel(lvl) : `Livello ${lvl}`}
+            aria-pressed={isActive}
             className={cn(
               "w-8 h-8 rounded-full text-xs font-bold transition-colors",
               isActive && activeClass,

@@ -79,6 +79,7 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
 
       <div className="flex items-center gap-1">
         <button onContextMenu={e => e.preventDefault()} onClick={onDecrement} {...longPressDec}
+          aria-label={`Riduci quantità ${itemInfo?.name ?? itemId}`}
           className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-xl active:scale-95 transition-transform shrink-0">
           <Minus size={14} />
         </button>
@@ -100,6 +101,7 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
           className="w-0 flex-1 h-8 text-center font-bold bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-400 text-xs"
         />
         <button onContextMenu={e => e.preventDefault()} onClick={onIncrement} {...longPressInc}
+          aria-label={`Aumenta quantità ${itemInfo?.name ?? itemId}`}
           className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-xl active:scale-95 transition-transform shrink-0">
           <Plus size={14} />
         </button>

@@ -41,7 +41,9 @@ export const ListDetailPage = ({ listId, onBack }: {
         <div className="mt-3">
           <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Attuale</p>
           <LevelPills min={baseLevel} max={list.maxLevel} value={current}
-            activeClass="bg-blue-500 text-white" onChange={setCurrent} />
+            activeClass="bg-blue-500 text-white"
+            ariaLabel={lvl => `Livello attuale ${lvl}`}
+            onChange={setCurrent} />
         </div>
       </div>
 

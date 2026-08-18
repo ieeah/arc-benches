@@ -260,6 +260,7 @@ export const UnifiedListCard = ({
               max={list.maxLevel}
               value={pendingLevel ?? current}
               activeClass={pendingLevel !== null ? 'bg-blue-300 dark:bg-blue-700 text-white' : 'bg-blue-500 text-white'}
+              ariaLabel={lvl => `Livello attuale ${lvl}`}
               onChange={handleCurrentLevel}
             />
             {pendingLevel !== null && (
@@ -306,6 +307,7 @@ export const UnifiedListCard = ({
               max={list.maxLevel}
               value={pendingLevel ?? current}
               activeClass={pendingLevel !== null ? 'bg-blue-300 dark:bg-blue-700 text-white' : 'bg-blue-500 text-white'}
+              ariaLabel={lvl => `Livello attuale ${lvl}`}
               onChange={handleCurrentLevel}
             />
             {pendingLevel !== null && (
@@ -330,6 +332,7 @@ export const UnifiedListCard = ({
               selected={selectedTargets}
               doneUpTo={current}
               activeClass="bg-green-500 text-white"
+              ariaLabel={lvl => `Obiettivo livello ${lvl}`}
               onToggle={onToggleTarget}
             />
           </div>
@@ -339,6 +342,7 @@ export const UnifiedListCard = ({
               type="checkbox"
               checked={isActive}
               onChange={onToggle}
+              aria-label={`Attivo: ${list.name}`}
               className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 cursor-pointer"
             />
           </div>
