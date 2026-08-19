@@ -1,4 +1,5 @@
 import type { AppState, List, Profile } from '../types';
+import { safeLS } from '../lib/safeStorage';
 import {
   isObject, sanitizeBoolRecord, sanitizeNumberRecord, sanitizeStringArray, validateList, validateProfile,
 } from '../lib/validate';
@@ -19,14 +20,8 @@ export type PersistedState = Pick<AppState,
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
 
-// All localStorage access is wrapped in try/catch: the app may run where storage is blocked
-// (iframe/preview) — it must never crash, at worst it doesn't persist.
-function ls<T>(fn: () => T, fallback: T): T {
-  try { return fn(); } catch { return fallback; }
-}
-
 export function loadProfilesMeta(): ProfilesMeta | null {
-  return ls(() => {
+  return safeLS(() => {
     const raw = localStorage.getItem(PROFILES_KEY);
     if (!raw) return null;
     const parsed: unknown = JSON.parse(raw);
@@ -43,7 +38,7 @@ export function loadProfilesMeta(): ProfilesMeta | null {
 }
 
 export function saveProfilesMeta(meta: ProfilesMeta) {
-  ls(() => localStorage.setItem(PROFILES_KEY, JSON.stringify(meta)), undefined);
+  safeLS(() => localStorage.setItem(PROFILES_KEY, JSON.stringify(meta)), undefined);
 }
 
 /** Sanitize an untrusted parsed object into a clean partial persisted state.
@@ -68,7 +63,7 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
 }
 
 export function loadProfileState(profileId: string): Partial<PersistedState> {
-  return ls(() => {
+  return safeLS(() => {
     const raw = localStorage.getItem(profileKey(profileId));
     if (raw) return sanitizeProfileState(JSON.parse(raw));
     // First migration: default profile inherits the legacy single-profile key
@@ -92,22 +87,22 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     checkedActions: s.checkedActions,
     activePersonalityId: s.activePersonalityId ?? null,
   };
-  ls(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
+  safeLS(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }
 
 export function loadSharedLists(): List[] {
-  return ls(() => {
+  return safeLS(() => {
     const parsed: unknown = JSON.parse(localStorage.getItem(SHARED_LISTS_KEY) ?? '[]');
     return Array.isArray(parsed) ? parsed.map(validateList).filter((l): l is List => l !== null) : [];
   }, []);
 }
 
 export function saveSharedLists(lists: List[]) {
-  ls(() => localStorage.setItem(SHARED_LISTS_KEY, JSON.stringify(lists)), undefined);
+  safeLS(() => localStorage.setItem(SHARED_LISTS_KEY, JSON.stringify(lists)), undefined);
 }
 
 export function removeProfileKey(id: string) {
-  ls(() => localStorage.removeItem(profileKey(id)), undefined);
+  safeLS(() => localStorage.removeItem(profileKey(id)), undefined);
 }
 
 /** Resolve the saved profiles, or seed the default single profile on first run. */
