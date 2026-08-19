@@ -26,6 +26,7 @@ import { CustomListEditor } from '../components/CustomListEditor';
 import { CollapsibleSection } from '../components/CollapsibleSection';
 import { Drawer } from '../components/Drawer';
 import { downloadExport, parseImport } from '../lib/listIO';
+import { v } from '../lib/validate';
 import { safeLS } from '../lib/safeStorage';
 import type { List, ListExportFile, MultiProfileExportFile } from '../types';
 
@@ -82,16 +83,18 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   const [importSelectedIds, setImportSelectedIds] = useState<Set<string>>(new Set());
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportSelectedIds, setExportSelectedIds] = useState<Set<string>>(new Set());
-  const [sectionsOpen, setSectionsOpen] = useState<SectionsOpen>(() =>
-    safeLS(() => {
+  const [sectionsOpen, setSectionsOpen] = useState<SectionsOpen>(() => {
+    const SectionsSchema = v.object({
+      workbench:  v.boolean(),
+      custom:     v.boolean(),
+      completati: v.boolean(),
+    });
+    return safeLS(() => {
       const raw = localStorage.getItem('goals-sections');
-      if (raw) {
-        const parsed = JSON.parse(raw) as Partial<SectionsOpen>;
-        return { workbench: true, custom: true, completati: false, ...parsed };
-      }
+      if (raw) return SectionsSchema.parse(JSON.parse(raw), { workbench: true, custom: true, completati: false });
       return { workbench: true, custom: true, completati: false };
-    }, { workbench: true, custom: true, completati: false })
-  );
+    }, { workbench: true, custom: true, completati: false });
+  });
 
   const [editingProfile, setEditingProfile] = useState<{ id: string; name: string } | null>(null);
   const [deletingProfileId, setDeletingProfileId] = useState<string | null>(null);

@@ -7,6 +7,7 @@ import {
   sanitizeStringArray,
   validateList,
   validateProfile,
+  v,
 } from './validate';
 
 describe('isObject', () => {
@@ -123,5 +124,169 @@ describe('validateProfile', () => {
     expect(validateProfile({ id: 'p1' })).toBeNull();
     expect(validateProfile({ name: 'Main' })).toBeNull();
     expect(validateProfile(null)).toBeNull();
+  });
+});
+
+// ── v schema builder (TDD — red first) ──────────────────────────────────────
+
+describe('v.string()', () => {
+  it('accepts a non-empty string', () => {
+    expect(v.string().parse('hello', '')).toBe('hello');
+  });
+  it('rejects empty string → fallback', () => {
+    expect(v.string().parse('', 'fb')).toBe('fb');
+  });
+  it('rejects non-strings → fallback', () => {
+    expect(v.string().parse(42, 'fb')).toBe('fb');
+    expect(v.string().parse(null, 'fb')).toBe('fb');
+    expect(v.string().parse(undefined, 'fb')).toBe('fb');
+  });
+  it('.nullable() accepts null', () => {
+    expect(v.string().nullable().parse(null, 'fb')).toBeNull();
+    expect(v.string().nullable().parse('hi', null)).toBe('hi');
+    expect(v.string().nullable().parse('', null)).toBeNull();
+  });
+  it('.optional() accepts undefined', () => {
+    expect(v.string().optional().parse(undefined, 'fb')).toBeUndefined();
+    expect(v.string().optional().parse('hi', undefined)).toBe('hi');
+  });
+});
+
+describe('v.number()', () => {
+  it('accepts a finite number and floors it', () => {
+    expect(v.number().parse(3, 0)).toBe(3);
+    expect(v.number().parse(2.9, 0)).toBe(2);
+  });
+  it('rejects NaN, Infinity, -Infinity → fallback', () => {
+    expect(v.number().parse(NaN, -1)).toBe(-1);
+    expect(v.number().parse(Infinity, -1)).toBe(-1);
+    expect(v.number().parse(-Infinity, -1)).toBe(-1);
+  });
+  it('rejects non-numbers → fallback', () => {
+    expect(v.number().parse('5', -1)).toBe(-1);
+    expect(v.number().parse(null, -1)).toBe(-1);
+  });
+  it('min option rejects values below threshold', () => {
+    expect(v.number({ min: 0 }).parse(-1, 0)).toBe(0);
+    expect(v.number({ min: 1 }).parse(0, 1)).toBe(1);
+    expect(v.number({ min: 1 }).parse(1, 0)).toBe(1);
+  });
+  it('.nullable() accepts null', () => {
+    expect(v.number().nullable().parse(null, 0)).toBeNull();
+  });
+});
+
+describe('v.boolean()', () => {
+  it('accepts true and false', () => {
+    expect(v.boolean().parse(true, false)).toBe(true);
+    expect(v.boolean().parse(false, true)).toBe(false);
+  });
+  it('rejects truthy/falsy non-booleans → fallback', () => {
+    expect(v.boolean().parse(1, false)).toBe(false);
+    expect(v.boolean().parse(0, true)).toBe(true);
+    expect(v.boolean().parse('true', false)).toBe(false);
+    expect(v.boolean().parse(null, true)).toBe(true);
+  });
+  it('.nullable() accepts null', () => {
+    expect(v.boolean().nullable().parse(null, false)).toBeNull();
+  });
+});
+
+describe('v.literal()', () => {
+  it('accepts the exact value', () => {
+    expect(v.literal('dark').parse('dark', 'light')).toBe('dark');
+    expect(v.literal(42).parse(42, 0)).toBe(42);
+  });
+  it('rejects any other value → fallback', () => {
+    expect(v.literal('dark').parse('light', 'dark')).toBe('dark');
+    expect(v.literal('dark').parse(null, 'dark')).toBe('dark');
+  });
+});
+
+describe('v.oneOf()', () => {
+  const schema = v.oneOf(['asc', 'desc', 'name'] as const);
+
+  it('accepts values in the set', () => {
+    expect(schema.parse('asc', 'desc')).toBe('asc');
+    expect(schema.parse('name', 'desc')).toBe('name');
+  });
+  it('rejects values not in the set → fallback', () => {
+    expect(schema.parse('invalid', 'asc')).toBe('asc');
+    expect(schema.parse(null, 'asc')).toBe('asc');
+    expect(schema.parse(42, 'asc')).toBe('asc');
+  });
+});
+
+describe('v.object()', () => {
+  const schema = v.object({
+    open: v.boolean(),
+    count: v.number({ min: 0 }),
+    label: v.string(),
+  });
+
+  it('accepts a fully valid object', () => {
+    expect(schema.parse({ open: true, count: 3, label: 'hi' }, { open: false, count: 0, label: '' }))
+      .toEqual({ open: true, count: 3, label: 'hi' });
+  });
+  it('falls back field-by-field (lenient: keeps valid fields)', () => {
+    const fallback = { open: false, count: 0, label: 'fb' };
+    const result = schema.parse({ open: true, count: 'bad', label: 'hi' }, fallback);
+    expect(result.open).toBe(true);
+    expect(result.count).toBe(0);   // field fallback
+    expect(result.label).toBe('hi');
+  });
+  it('returns full fallback for non-objects', () => {
+    const fallback = { open: false, count: 0, label: 'fb' };
+    expect(schema.parse(null, fallback)).toEqual(fallback);
+    expect(schema.parse('string', fallback)).toEqual(fallback);
+    expect(schema.parse([], fallback)).toEqual(fallback);
+  });
+  it('ignores extra keys not in schema', () => {
+    const result = schema.parse({ open: true, count: 1, label: 'x', extra: 999 }, { open: false, count: 0, label: '' });
+    expect((result as Record<string, unknown>).extra).toBeUndefined();
+  });
+});
+
+describe('v.array()', () => {
+  const schema = v.array(v.number({ min: 0 }));
+
+  it('filters out invalid elements, keeps valid ones', () => {
+    expect(schema.parse([1, 'bad', -1, 2, NaN, 3], [])).toEqual([1, 2, 3]);
+  });
+  it('returns empty array for non-arrays → fallback', () => {
+    expect(schema.parse(null, [])).toEqual([]);
+    expect(schema.parse('x', [])).toEqual([]);
+  });
+  it('returns empty array for an all-invalid input', () => {
+    expect(schema.parse(['a', 'b'], [])).toEqual([]);
+  });
+  it('works with string items', () => {
+    const ss = v.array(v.string());
+    expect(ss.parse(['a', '', 1, 'b'], [])).toEqual(['a', 'b']);
+  });
+});
+
+describe('v.object() with nullable fields', () => {
+  const schema = v.object({
+    tag: v.string().nullable(),
+    val: v.number().nullable(),
+  });
+
+  it('keeps null for nullable fields', () => {
+    expect(schema.parse({ tag: null, val: null }, { tag: 'fb', val: 0 }))
+      .toEqual({ tag: null, val: null });
+  });
+  it('falls back only invalid non-null values', () => {
+    expect(schema.parse({ tag: 42, val: 'x' }, { tag: 'fb', val: 0 }))
+      .toEqual({ tag: 'fb', val: 0 });
+  });
+});
+
+describe('v — never throws', () => {
+  it('parse never throws regardless of input', () => {
+    const schema = v.object({ x: v.string() });
+    expect(() => schema.parse(undefined, { x: '' })).not.toThrow();
+    expect(() => schema.parse(Symbol('x'), { x: '' })).not.toThrow();
+    expect(() => v.array(v.boolean()).parse({ 0: true }, [])).not.toThrow();
   });
 });

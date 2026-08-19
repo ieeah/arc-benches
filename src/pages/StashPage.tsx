@@ -10,12 +10,22 @@ import {
 } from '../store/selectors';
 import { REFINER_ID } from '../store/gameData';
 import { safeLS } from '../lib/safeStorage';
+import { v } from '../lib/validate';
 import { rarityOrder } from '../lib/rarity';
 import { SectionHeader } from '../components/SectionHeader';
 import { InventoryCard } from '../components/InventoryCard';
 import { useListManager } from '../hooks/useListManager';
 import type { FilterCategory, SortOption } from '../hooks/useListManager';
 import { ListControls } from '../components/ListControls';
+
+const STASH_SORT_IDS = [
+  'priority_asc', 'priority_desc',
+  'name_asc', 'name_desc',
+  'rarity_desc', 'rarity_asc',
+  'type_asc', 'type_desc',
+] as const;
+const StashSortIdSchema = v.oneOf(STASH_SORT_IDS);
+type StashSortId = typeof STASH_SORT_IDS[number];
 
 interface StashMaterial {
   itemId: string;
@@ -164,12 +174,10 @@ export const StashPage = () => {
     },
   ], [itemsInfo, priorityMap]);
 
-  const initialSortId = useMemo(() => {
+  const initialSortId = useMemo<StashSortId>(() => {
     return safeLS(() => {
       const raw = localStorage.getItem('stash-sort-v2');
-      if (raw) {
-        return JSON.parse(raw);
-      }
+      if (raw) return StashSortIdSchema.parse(JSON.parse(raw), 'priority_asc');
       return 'priority_asc';
     }, 'priority_asc');
   }, []);

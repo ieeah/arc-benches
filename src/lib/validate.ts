@@ -128,3 +128,185 @@ export const validateProfile = (v: unknown): Profile | null => {
   if (id === null || name === null) return null;
   return { id, name };
 };
+
+// ── v — schema builder ────────────────────────────────────────────────────────
+//
+// Mini-libreria di validazione componibile senza dipendenze esterne.
+// Ogni schema espone `.parse(value, fallback)` che restituisce il valore
+// validato oppure il fallback — non lancia mai. `.nullable()` e `.optional()`
+// wrappano qualsiasi schema per accettare null/undefined.
+//
+// Policy: lenient on load — v.object valida campo per campo e fa fallback solo
+// sui campi non validi, coerente con sanitizeProfileState (keep the good ones).
+
+/** Tipo inferito da uno schema: `v.infer<typeof mySchema>`. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type infer<S> = S extends Schema<any> ? ReturnType<S['_type']> : never;
+
+abstract class Schema<T> {
+  /** Usato solo per l'inferenza TypeScript — non chiamarlo a runtime. */
+  abstract _type(): T;
+
+  /** Valida `value`. Restituisce il valore validato, o `INVALID` se non valido. Mai lancia. */
+  abstract _validate(value: unknown): T | typeof INVALID;
+
+  parse(value: unknown, fallback: T): T {
+    try {
+      const result = this._validate(value);
+      return result !== INVALID ? (result as T) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  /** Restituisce uno schema che accetta anche `null`. */
+  nullable(): NullableSchema<T> {
+    return new NullableSchema(this);
+  }
+
+  /** Restituisce uno schema che accetta anche `undefined`. */
+  optional(): OptionalSchema<T> {
+    return new OptionalSchema(this);
+  }
+}
+
+/** Sentinella interna: distingue "campo non valido" da "campo validato come undefined/null". */
+const INVALID = Symbol('INVALID');
+
+class NullableSchema<T> extends Schema<T | null> {
+  constructor(private readonly inner: Schema<T>) { super(); }
+  _type(): T | null { return null as T | null; }
+  _validate(value: unknown): T | null | typeof INVALID {
+    if (value === null) return null;
+    return this.inner._validate(value) as T | null | typeof INVALID;
+  }
+}
+
+class OptionalSchema<T> extends Schema<T | undefined> {
+  constructor(private readonly inner: Schema<T>) { super(); }
+  _type(): T | undefined { return undefined; }
+  _validate(value: unknown): T | undefined | typeof INVALID {
+    if (value === undefined) return undefined;
+    return this.inner._validate(value) as T | undefined | typeof INVALID;
+  }
+  /** Override: il fallback può essere `undefined` e il risultato valido anche. */
+  parse(value: unknown, fallback: T | undefined): T | undefined {
+    try {
+      const result = this._validate(value);
+      return result !== INVALID ? (result as T | undefined) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+}
+
+class StringSchema extends Schema<string> {
+  _type(): string { return ''; }
+  _validate(value: unknown): string | typeof INVALID {
+    return typeof value === 'string' && value.length > 0 ? value : INVALID;
+  }
+}
+
+class NumberSchema extends Schema<number> {
+  constructor(private readonly min: number = -Infinity) { super(); }
+  _type(): number { return 0; }
+  _validate(value: unknown): number | typeof INVALID {
+    if (typeof value !== 'number' || !Number.isFinite(value)) return INVALID;
+    const n = Math.floor(value);
+    return n >= this.min ? n : INVALID;
+  }
+}
+
+class BooleanSchema extends Schema<boolean> {
+  _type(): boolean { return false; }
+  _validate(value: unknown): boolean | typeof INVALID {
+    return typeof value === 'boolean' ? value : INVALID;
+  }
+}
+
+class LiteralSchema<T extends string | number | boolean> extends Schema<T> {
+  constructor(private readonly expected: T) { super(); }
+  _type(): T { return this.expected; }
+  _validate(value: unknown): T | typeof INVALID {
+    return value === this.expected ? this.expected : INVALID;
+  }
+}
+
+class OneOfSchema<T extends string | number | boolean> extends Schema<T> {
+  constructor(private readonly values: readonly T[]) { super(); }
+  _type(): T { return this.values[0]; }
+  _validate(value: unknown): T | typeof INVALID {
+    return this.values.includes(value as T) ? (value as T) : INVALID;
+  }
+}
+
+type SchemaShape = Record<string, Schema<unknown>>;
+type ShapeOutput<S extends SchemaShape> = { [K in keyof S]: ReturnType<S[K]['_type']> };
+
+class ObjectSchema<S extends SchemaShape> extends Schema<ShapeOutput<S>> {
+  constructor(private readonly shape: S) { super(); }
+  _type(): ShapeOutput<S> { return {} as ShapeOutput<S>; }
+
+  _validate(value: unknown): ShapeOutput<S> | typeof INVALID {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) return INVALID;
+    const obj = value as Record<string, unknown>;
+    const out = {} as ShapeOutput<S>;
+    for (const key of Object.keys(this.shape) as Array<keyof S>) {
+      const parsed = this.shape[key]._validate(obj[key as string]);
+      // Mappa INVALID → undefined come sentinella interna per il campo (gestita in parse)
+      (out as Record<string, unknown>)[key as string] = parsed === INVALID ? undefined : parsed;
+    }
+    return out;
+  }
+
+  /** Override: fallback campo per campo (lenient). */
+  parse(value: unknown, fallback: ShapeOutput<S>): ShapeOutput<S> {
+    try {
+      const result = this._validate(value);
+      if (result === INVALID) return fallback;
+      const out = {} as ShapeOutput<S>;
+      for (const key of Object.keys(this.shape) as Array<keyof S>) {
+        const fieldVal = (result as Record<string, unknown>)[key as string];
+        (out as Record<string, unknown>)[key as string] =
+          fieldVal !== undefined ? fieldVal : (fallback as Record<string, unknown>)[key as string];
+      }
+      return out;
+    } catch {
+      return fallback;
+    }
+  }
+}
+
+class ArraySchema<T> extends Schema<T[]> {
+  constructor(private readonly item: Schema<T>) { super(); }
+  _type(): T[] { return []; }
+  _validate(value: unknown): T[] | typeof INVALID {
+    if (!Array.isArray(value)) return INVALID;
+    const out: T[] = [];
+    for (const el of value) {
+      const parsed = this.item._validate(el);
+      if (parsed !== INVALID) out.push(parsed as T);
+    }
+    return out;
+  }
+}
+
+/** Namespace del schema builder. */
+export const v = {
+  /** Stringa non vuota. */
+  string: (): StringSchema => new StringSchema(),
+  /** Numero finito, opzionalmente con soglia `min` (default: nessun limite inferiore). Floorizzato. */
+  number: (opts?: { min?: number }): NumberSchema => new NumberSchema(opts?.min),
+  /** Booleano esatto (`true`/`false`). */
+  boolean: (): BooleanSchema => new BooleanSchema(),
+  /** Letterale esatto. */
+  literal: <T extends string | number | boolean>(val: T): LiteralSchema<T> => new LiteralSchema(val),
+  /** Uno tra un insieme fisso di valori (union di letterali). */
+  oneOf: <T extends string | number | boolean>(values: readonly T[]): OneOfSchema<T> => new OneOfSchema(values),
+  /** Oggetto con schema per ciascuna chiave. Fallback campo per campo (lenient). */
+  object: <S extends SchemaShape>(shape: S): ObjectSchema<S> => new ObjectSchema(shape),
+  /** Array con filtraggio degli elementi non validi. */
+  array: <T>(item: Schema<T>): ArraySchema<T> => new ArraySchema(item),
+  /** Helper di tipo: `v.infer<typeof mySchema>` → tipo TypeScript corrispondente. */
+  infer: undefined as unknown as <S>(schema: S) => S extends Schema<infer T> ? T : never,
+} as const;
