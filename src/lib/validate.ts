@@ -174,7 +174,11 @@ abstract class Schema<T> {
 const INVALID = Symbol('INVALID');
 
 class NullableSchema<T> extends Schema<T | null> {
-  constructor(private readonly inner: Schema<T>) { super(); }
+  private readonly inner: Schema<T>;
+  constructor(inner: Schema<T>) {
+    super();
+    this.inner = inner;
+  }
   _type(): T | null { return null as T | null; }
   _validate(value: unknown): T | null | typeof INVALID {
     if (value === null) return null;
@@ -183,7 +187,11 @@ class NullableSchema<T> extends Schema<T | null> {
 }
 
 class OptionalSchema<T> extends Schema<T | undefined> {
-  constructor(private readonly inner: Schema<T>) { super(); }
+  private readonly inner: Schema<T>;
+  constructor(inner: Schema<T>) {
+    super();
+    this.inner = inner;
+  }
   _type(): T | undefined { return undefined; }
   _validate(value: unknown): T | undefined | typeof INVALID {
     if (value === undefined) return undefined;
@@ -208,7 +216,11 @@ class StringSchema extends Schema<string> {
 }
 
 class NumberSchema extends Schema<number> {
-  constructor(private readonly min: number = -Infinity) { super(); }
+  private readonly min: number;
+  constructor(min: number = -Infinity) {
+    super();
+    this.min = min;
+  }
   _type(): number { return 0; }
   _validate(value: unknown): number | typeof INVALID {
     if (typeof value !== 'number' || !Number.isFinite(value)) return INVALID;
@@ -225,7 +237,11 @@ class BooleanSchema extends Schema<boolean> {
 }
 
 class LiteralSchema<T extends string | number | boolean> extends Schema<T> {
-  constructor(private readonly expected: T) { super(); }
+  private readonly expected: T;
+  constructor(expected: T) {
+    super();
+    this.expected = expected;
+  }
   _type(): T { return this.expected; }
   _validate(value: unknown): T | typeof INVALID {
     return value === this.expected ? this.expected : INVALID;
@@ -233,7 +249,11 @@ class LiteralSchema<T extends string | number | boolean> extends Schema<T> {
 }
 
 class OneOfSchema<T extends string | number | boolean> extends Schema<T> {
-  constructor(private readonly values: readonly T[]) { super(); }
+  private readonly values: readonly T[];
+  constructor(values: readonly T[]) {
+    super();
+    this.values = values;
+  }
   _type(): T { return this.values[0]; }
   _validate(value: unknown): T | typeof INVALID {
     return this.values.includes(value as T) ? (value as T) : INVALID;
@@ -244,7 +264,11 @@ type SchemaShape = Record<string, Schema<unknown>>;
 type ShapeOutput<S extends SchemaShape> = { [K in keyof S]: ReturnType<S[K]['_type']> };
 
 class ObjectSchema<S extends SchemaShape> extends Schema<ShapeOutput<S>> {
-  constructor(private readonly shape: S) { super(); }
+  private readonly shape: S;
+  constructor(shape: S) {
+    super();
+    this.shape = shape;
+  }
   _type(): ShapeOutput<S> { return {} as ShapeOutput<S>; }
 
   _validate(value: unknown): ShapeOutput<S> | typeof INVALID {
@@ -278,7 +302,11 @@ class ObjectSchema<S extends SchemaShape> extends Schema<ShapeOutput<S>> {
 }
 
 class ArraySchema<T> extends Schema<T[]> {
-  constructor(private readonly item: Schema<T>) { super(); }
+  private readonly item: Schema<T>;
+  constructor(item: Schema<T>) {
+    super();
+    this.item = item;
+  }
   _type(): T[] { return []; }
   _validate(value: unknown): T[] | typeof INVALID {
     if (!Array.isArray(value)) return INVALID;

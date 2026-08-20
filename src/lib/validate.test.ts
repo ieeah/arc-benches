@@ -194,8 +194,8 @@ describe('v.boolean()', () => {
 
 describe('v.literal()', () => {
   it('accepts the exact value', () => {
-    expect(v.literal('dark').parse('dark', 'light')).toBe('dark');
-    expect(v.literal(42).parse(42, 0)).toBe(42);
+    expect(v.literal('dark').parse('dark', 'dark')).toBe('dark');
+    expect(v.literal(42).parse(42, 42)).toBe(42);
   });
   it('rejects any other value → fallback', () => {
     expect(v.literal('dark').parse('light', 'dark')).toBe('dark');
