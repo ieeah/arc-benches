@@ -8,6 +8,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - [ ] #15 [Supabase — Account & Auth (Fase 4b)](https://github.com/ieeah/arc-benches/issues/15)
 - [ ] #16 [Supabase — Sync Background (Fase 4c)](https://github.com/ieeah/arc-benches/issues/16)
 - [ ] #17 [Spedizioni & Progetti (Fase 3)](https://github.com/ieeah/arc-benches/issues/17)
+  - [ ] #42 [Visualizzazione e tracciamento delle azioni (requirementActions) nello Stash](https://github.com/ieeah/arc-benches/issues/42)
 - [ ] #18 [Date di Scadenza per Liste e Progetti (Fase 3)](https://github.com/ieeah/arc-benches/issues/18)
 - [x] #19 [Selettore Vista Stash (Fase 3)](https://github.com/ieeah/arc-benches/issues/19)
 - [ ] #20 [Tour Onboarding con driver.js (Fase 3)](https://github.com/ieeah/arc-benches/issues/20)
