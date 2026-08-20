@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
-import type { AppState, List, ListExportFile } from '../types';
-import { bootProfileState, bootSharedLists } from './boot';
-import { itemsInfo, levelsAbove, REFINER_ID, workbenches } from './gameData';
+import type { AppState, List, ListExportFile } from '@/types';
+import { bootProfileState, bootSharedLists } from '@/store/boot';
+import { itemsInfo, levelsAbove, REFINER_ID, workbenches } from '@/store/gameData';
 import {
   getAllListsPure,
   getOrderedListsPure,
@@ -11,7 +11,7 @@ import {
   getTotalRequiredMaterialsPure,
   getMissingMaterialsPure,
   getAvailableUpgradesPure,
-} from './selectors';
+} from '@/store/selectors';
 
 export type ListsSlice = Pick<AppState,
   'workbenches' | 'itemsInfo' | 'customLists' | 'sharedCustomLists' |

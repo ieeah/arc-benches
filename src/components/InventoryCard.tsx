@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Plus, Minus, CheckCircle2, Hammer } from 'lucide-react';
-import type { ItemInfo } from '../types';
-import { useLongPress } from '../hooks/useLongPress';
-import { getRarityStyles } from '../lib/rarity';
-import { refinerCraftLevel } from '../lib/craft';
-import { iconUrl } from '../lib/icons';
+import type { ItemInfo } from '@/types';
+import { useLongPress } from '@/hooks/useLongPress';
+import { getRarityStyles } from '@/lib/rarity';
+import { refinerCraftLevel } from '@/lib/craft';
+import { iconUrl } from '@/lib/icons';
 
 export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel, onIncrement, onDecrement, onSet }: {
   itemId: string; owned: number; required: number;

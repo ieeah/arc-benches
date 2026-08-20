@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { profileKey, PROFILES_KEY, SHARED_LISTS_KEY } from './persistence';
+import { profileKey, PROFILES_KEY, SHARED_LISTS_KEY } from '@/store/persistence';
 
 class MockStorage implements Storage {
   private store: Record<string, string> = {};

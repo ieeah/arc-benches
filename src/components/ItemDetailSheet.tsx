@@ -1,9 +1,9 @@
 import { Hammer } from 'lucide-react';
-import type { ItemInfo } from '../types';
-import { getRarityStyles, getRarityText } from '../lib/rarity';
-import { refinerCraftLevel } from '../lib/craft';
-import { iconUrl } from '../lib/icons';
-import { BottomSheet } from './BottomSheet';
+import type { ItemInfo } from '@/types';
+import { getRarityStyles, getRarityText } from '@/lib/rarity';
+import { refinerCraftLevel } from '@/lib/craft';
+import { iconUrl } from '@/lib/icons';
+import { BottomSheet } from '@/components/BottomSheet';
 
 export const ItemDetailSheet = ({ item, refinerLevel, onClose }: {
   item: ItemInfo; refinerLevel: number; onClose: () => void;

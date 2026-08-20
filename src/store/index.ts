@@ -1,12 +1,12 @@
 import { create } from 'zustand';
-import type { AppState } from '../types';
-import { createInventorySlice } from './inventorySlice';
-import { createProgressSlice } from './progressSlice';
-import { createListsSlice } from './listsSlice';
-import { createProfileSlice } from './profileSlice';
-import { createPersonalitySlice } from './personalitySlice';
-import { createSettingsSlice } from './settingsSlice';
-import { saveProfileState, saveProfilesMeta, saveSharedLists, saveSettings } from './persistence';
+import type { AppState } from '@/types';
+import { createInventorySlice } from '@/store/inventorySlice';
+import { createProgressSlice } from '@/store/progressSlice';
+import { createListsSlice } from '@/store/listsSlice';
+import { createProfileSlice } from '@/store/profileSlice';
+import { createPersonalitySlice } from '@/store/personalitySlice';
+import { createSettingsSlice } from '@/store/settingsSlice';
+import { saveProfileState, saveProfilesMeta, saveSharedLists, saveSettings } from '@/store/persistence';
 
 // Domain slices (inventory / progress / lists / profile / personality / settings) combined into one store.
 // Static game data (workbenches, itemsInfo) lives in the lists slice; boot state is

@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { Search, ArrowUpDown, ArrowUp, ArrowDown, LayoutGrid } from 'lucide-react';
-import type { FilterCategory, SortOption } from '../hooks/useListManager';
-import { ScrollablePillList } from './ScrollablePillList';
-import type { PillItem } from './ScrollablePillList';
+import type { FilterCategory, SortOption } from '@/hooks/useListManager';
+import { ScrollablePillList } from '@/components/ScrollablePillList';
+import type { PillItem } from '@/components/ScrollablePillList';
 
 interface ListControlsProps<T> {
   query: string;

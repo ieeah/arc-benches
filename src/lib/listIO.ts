@@ -1,5 +1,5 @@
-import type { List, ListExportEntry, ListExportFile, MultiProfileExportFile, ProfileExportEntry } from '../types';
-import { isObject, sanitizeNumberRecord, validateList, validateProfile } from './validate';
+import type { List, ListExportEntry, ListExportFile, MultiProfileExportFile, ProfileExportEntry } from '@/types';
+import { isObject, sanitizeNumberRecord, validateList, validateProfile } from '@/lib/validate';
 
 export function downloadExport(data: ListExportFile | MultiProfileExportFile): void {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });

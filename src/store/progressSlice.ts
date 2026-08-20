@@ -1,9 +1,9 @@
 import type { StateCreator } from 'zustand';
-import type { AppState } from '../types';
-import { bootProfileState } from './boot';
+import type { AppState } from '@/types';
+import { bootProfileState } from '@/store/boot';
 import {
   defaultActiveModules, defaultHideoutLevels, defaultTargetLevels, levelsAbove,
-} from './gameData';
+} from '@/store/gameData';
 
 export type ProgressSlice = Pick<AppState,
   'hideoutLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |

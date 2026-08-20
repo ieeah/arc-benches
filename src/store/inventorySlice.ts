@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
-import type { AppState } from '../types';
-import { bootProfileState } from './boot';
+import type { AppState } from '@/types';
+import { bootProfileState } from '@/store/boot';
 
 export type InventorySlice = Pick<AppState,
   'inventory' | 'incrementItem' | 'decrementItem' | 'setItemCount'

@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { Dice5, Trophy, Crosshair, Shield, Users, RefreshCw, Trash2 } from 'lucide-react';
-import { Drawer } from './Drawer';
-import { useAppStore } from '../store';
-import { personalities } from '../store/personalitySlice';
-import type { PersonalityProfile } from '../types';
+import { Drawer } from '@/components/Drawer';
+import { useAppStore } from '@/store';
+import { personalities } from '@/store/personalitySlice';
+import type { PersonalityProfile } from '@/types';
 
 const pvpLabels = [
   '0 — Pacifico / Legittima difesa',

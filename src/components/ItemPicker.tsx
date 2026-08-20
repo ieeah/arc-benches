@@ -1,11 +1,11 @@
 import { useRef, useMemo } from 'react';
 import { Search } from 'lucide-react';
-import type { ItemInfo } from '../types';
-import { useAppStore } from '../store';
-import { getRarityStyles, getRarityText } from '../lib/rarity';
-import { iconUrl } from '../lib/icons';
-import { BottomSheet } from './BottomSheet';
-import { useListManager } from '../hooks/useListManager';
+import type { ItemInfo } from '@/types';
+import { useAppStore } from '@/store';
+import { getRarityStyles, getRarityText } from '@/lib/rarity';
+import { iconUrl } from '@/lib/icons';
+import { BottomSheet } from '@/components/BottomSheet';
+import { useListManager } from '@/hooks/useListManager';
 
 /** Full-screen catalog picker over the whole item DB. Tap an item to pick it.
  *  Search bar is anchored to the bottom so the keyboard pushes it up,

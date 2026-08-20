@@ -1,13 +1,13 @@
 import { ArrowLeft, Check } from 'lucide-react';
-import { useAppStore } from '../store';
-import { SectionHeader } from '../components/SectionHeader';
-import { IconButton } from '../components/IconButton';
-import { LevelPills } from '../components/LevelPills';
-import { ActionCheckbox } from '../components/ActionCheckbox';
-import { iconUrl } from '../lib/icons';
-import { getRarityStyles } from '../lib/rarity';
-import { getBaseLevel } from '../lib/lists';
-import { cn } from '../lib/cn';
+import { useAppStore } from '@/store';
+import { SectionHeader } from '@/components/SectionHeader';
+import { IconButton } from '@/components/IconButton';
+import { LevelPills } from '@/components/LevelPills';
+import { ActionCheckbox } from '@/components/ActionCheckbox';
+import { iconUrl } from '@/lib/icons';
+import { getRarityStyles } from '@/lib/rarity';
+import { getBaseLevel } from '@/lib/lists';
+import { cn } from '@/lib/cn';
 
 /** Full-screen overview of one list: every level, its items and actions. */
 export const ListDetailPage = ({ listId, onBack }: {

@@ -11,9 +11,9 @@ import {
   saveSharedLists,
   loadSharedLists,
   removeProfileKey,
-} from './persistence';
-import type { PersistedState } from './persistence';
-import type { List } from '../types';
+} from '@/store/persistence';
+import type { PersistedState } from '@/store/persistence';
+import type { List } from '@/types';
 
 class MockStorage implements Storage {
   private store: Record<string, string> = {};

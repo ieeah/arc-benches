@@ -1,8 +1,8 @@
 import { X } from 'lucide-react';
-import { IconButton } from './IconButton';
-import { useScrollLock } from '../hooks/useScrollLock';
-import { useDialog } from '../hooks/useDialog';
-import { cn } from '../lib/cn';
+import { IconButton } from '@/components/IconButton';
+import { useScrollLock } from '@/hooks/useScrollLock';
+import { useDialog } from '@/hooks/useDialog';
+import { cn } from '@/lib/cn';
 
 /**
  * Shared overlay shell: bottom sheet on mobile, centered card on desktop.

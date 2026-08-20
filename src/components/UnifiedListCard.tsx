@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect, useLayoutEffect, type ReactNode } from 'react';
 import { CheckCircle2, ChevronDown, Hammer, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
-import type { ItemInfo, List } from '../types';
-import { getBaseLevel } from '../lib/lists';
-import { refinerCraftLevel } from '../lib/craft';
-import { LevelBadge } from './LevelBadge';
-import { LevelPills } from './LevelPills';
-import { ActionCheckbox } from './ActionCheckbox';
+import type { ItemInfo, List } from '@/types';
+import { getBaseLevel } from '@/lib/lists';
+import { refinerCraftLevel } from '@/lib/craft';
+import { LevelBadge } from '@/components/LevelBadge';
+import { LevelPills } from '@/components/LevelPills';
+import { ActionCheckbox } from '@/components/ActionCheckbox';
 
 const RequirementsGrid = ({
   levelData,

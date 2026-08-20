@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { parseImport } from './listIO';
-import type { MultiProfileExportFile } from '../types';
+import { parseImport } from '@/lib/listIO';
+import type { MultiProfileExportFile } from '@/types';
 
 const list = {
   id: 'custom:1',

@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
-import type { AppState } from '../types';
-import { bootSettings } from './boot';
+import type { AppState } from '@/types';
+import { bootSettings } from '@/store/boot';
 
 export type SettingsSlice = Pick<AppState,
   'navSide' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' |

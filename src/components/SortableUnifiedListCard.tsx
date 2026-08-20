@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 import { GripVertical } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { UnifiedListCard } from './UnifiedListCard';
+import { UnifiedListCard } from '@/components/UnifiedListCard';
 
 export const SortableUnifiedListCard = (props: Omit<ComponentProps<typeof UnifiedListCard>, 'dragHandle'>) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: props.list.id });

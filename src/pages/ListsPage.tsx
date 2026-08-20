@@ -7,7 +7,7 @@ import {
 import type { DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 import { useShallow } from 'zustand/shallow';
-import { useAppStore } from '../store';
+import { useAppStore } from '@/store';
 import {
   getAllListsPure,
   getOrderedListsPure,
@@ -17,19 +17,19 @@ import {
   getRefinerLevelPure,
   getTotalRequiredMaterialsPure,
   getOtherNeedsPure,
-} from '../store/selectors';
-import { REFINER_ID } from '../store/gameData';
-import { SectionHeader } from '../components/SectionHeader';
-import { SortableUnifiedListCard } from '../components/SortableUnifiedListCard';
-import { UnifiedListCard } from '../components/UnifiedListCard';
-import { CustomListEditor } from '../components/CustomListEditor';
-import { CollapsibleSection } from '../components/CollapsibleSection';
-import { Drawer } from '../components/Drawer';
-import { ProfilesDrawer } from '../components/ProfilesDrawer';
-import { downloadExport, parseImport } from '../lib/listIO';
-import { v } from '../lib/validate';
-import { safeLS } from '../lib/safeStorage';
-import type { List, ListExportFile, MultiProfileExportFile } from '../types';
+} from '@/store/selectors';
+import { REFINER_ID } from '@/store/gameData';
+import { SectionHeader } from '@/components/SectionHeader';
+import { SortableUnifiedListCard } from '@/components/SortableUnifiedListCard';
+import { UnifiedListCard } from '@/components/UnifiedListCard';
+import { CustomListEditor } from '@/components/CustomListEditor';
+import { CollapsibleSection } from '@/components/CollapsibleSection';
+import { Drawer } from '@/components/Drawer';
+import { ProfilesDrawer } from '@/components/ProfilesDrawer';
+import { downloadExport, parseImport } from '@/lib/listIO';
+import { v } from '@/lib/validate';
+import { safeLS } from '@/lib/safeStorage';
+import type { List, ListExportFile, MultiProfileExportFile } from '@/types';
 
 type SectionsOpen = { workbench: boolean; custom: boolean; completati: boolean };
 

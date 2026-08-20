@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { registerOverlay } from './useOverlayCount';
+import { registerOverlay } from '@/hooks/useOverlayCount';
 
 /** Locks body scrolling while the calling component is mounted (use in modals/drawers). */
 export function useScrollLock() {

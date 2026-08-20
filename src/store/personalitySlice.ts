@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
-import type { AppState, PersonalityProfile } from '../types';
-import personalitiesData from '../data/personalities.json';
+import type { AppState, PersonalityProfile } from '@/types';
+import personalitiesData from '@/data/personalities.json';
 
 export const personalities: PersonalityProfile[] = personalitiesData as PersonalityProfile[];
 

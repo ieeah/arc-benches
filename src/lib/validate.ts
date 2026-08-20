@@ -1,4 +1,4 @@
-import type { CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile } from '../types';
+import type { CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.

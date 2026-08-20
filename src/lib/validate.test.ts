@@ -8,7 +8,7 @@ import {
   validateList,
   validateProfile,
   v,
-} from './validate';
+} from '@/lib/validate';
 
 describe('isObject', () => {
   it('accepts plain objects only', () => {

@@ -1,9 +1,9 @@
 import type { StateCreator } from 'zustand';
-import type { AppState, List, MultiProfileExportFile, ProfileExportEntry } from '../types';
-import { bootActiveProfileId, bootProfiles } from './boot';
-import { freshProfile, hydrateProfile, migrateTargets } from './gameData';
-import type { PersistedState } from './persistence';
-import { loadProfileState, removeProfileKey, saveProfileState } from './persistence';
+import type { AppState, List, MultiProfileExportFile, ProfileExportEntry } from '@/types';
+import { bootActiveProfileId, bootProfiles } from '@/store/boot';
+import { freshProfile, hydrateProfile, migrateTargets } from '@/store/gameData';
+import type { PersistedState } from '@/store/persistence';
+import { loadProfileState, removeProfileKey, saveProfileState } from '@/store/persistence';
 
 export type ProfileSlice = Pick<AppState,
   'profiles' | 'activeProfileId' |

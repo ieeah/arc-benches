@@ -1,4 +1,4 @@
-import type { List } from '../types';
+import type { List } from '@/types';
 
 /**
  * The "base" level a list starts from. A list whose level 1 has no requirements is already

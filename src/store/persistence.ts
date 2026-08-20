@@ -1,8 +1,8 @@
-import type { AppState, List, Profile } from '../types';
-import { safeLS } from '../lib/safeStorage';
+import type { AppState, List, Profile } from '@/types';
+import { safeLS } from '@/lib/safeStorage';
 import {
   isObject, sanitizeBoolRecord, sanitizeNumberRecord, sanitizeStringArray, validateList, validateProfile,
-} from '../lib/validate';
+} from '@/lib/validate';
 
 // Per-profile state: each profile has its own key in localStorage.
 // Global (cross-profile) data uses separate keys.

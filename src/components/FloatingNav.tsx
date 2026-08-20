@@ -4,9 +4,9 @@ import {
   ShieldAlert, Dice5, MoreHorizontal, Check, Users, X, Settings,
   ChevronRight, ChevronLeft
 } from 'lucide-react';
-import { useAppStore } from '../store';
-import { ProfilesDrawer } from './ProfilesDrawer';
-import { useIsOverlayOpen } from '../hooks/useOverlayCount';
+import { useAppStore } from '@/store';
+import { ProfilesDrawer } from '@/components/ProfilesDrawer';
+import { useIsOverlayOpen } from '@/hooks/useOverlayCount';
 
 export type NavItem = {
   id: string;

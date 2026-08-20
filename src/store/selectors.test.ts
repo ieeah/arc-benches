@@ -9,8 +9,8 @@ import {
   getMissingMaterialsPure,
   getAvailableUpgradesPure,
   getOtherNeedsPure,
-} from './selectors';
-import type { List } from '../types';
+} from '@/store/selectors';
+import type { List } from '@/types';
 
 // ---------------------------------------------------------------------------
 // Fixtures

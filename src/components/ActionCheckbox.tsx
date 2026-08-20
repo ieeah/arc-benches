@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import { cn } from '../lib/cn';
+import { cn } from '@/lib/cn';
 
 /** Large, obvious checkbox + label row. Shared by the goal card, editor and detail page. */
 export const ActionCheckbox = ({ label, checked, onToggle, disabled }: {

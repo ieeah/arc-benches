@@ -1,4 +1,4 @@
-import type { List } from '../types';
+import type { List } from '@/types';
 
 export interface MissingMaterial {
   itemId: string;

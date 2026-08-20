@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Check, Pencil, Plus, Trash2 } from 'lucide-react';
-import { Drawer, type DrawerFrom } from './Drawer';
-import { useAppStore } from '../store';
+import { Drawer, type DrawerFrom } from '@/components/Drawer';
+import { useAppStore } from '@/store';
 
 export function ProfilesDrawer({
   isOpen,

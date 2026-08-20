@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { ArrowLeft, ChevronRight } from "lucide-react";
-import type { ItemInfo } from "../types";
-import { useAppStore } from "../store";
-import { getRarityStyles, getRarityText } from "../lib/rarity";
-import { iconUrl } from "../lib/icons";
-import { SectionHeader } from "../components/SectionHeader";
-import { IconButton } from "../components/IconButton";
-import { ItemDetailSheet } from "../components/ItemDetailSheet";
-import { useListManager } from "../hooks/useListManager";
-import type { FilterCategory, SortOption } from "../hooks/useListManager";
-import { ListControls } from "../components/ListControls";
+import type { ItemInfo } from "@/types";
+import { useAppStore } from "@/store";
+import { getRarityStyles, getRarityText } from "@/lib/rarity";
+import { iconUrl } from "@/lib/icons";
+import { SectionHeader } from "@/components/SectionHeader";
+import { IconButton } from "@/components/IconButton";
+import { ItemDetailSheet } from "@/components/ItemDetailSheet";
+import { useListManager } from "@/hooks/useListManager";
+import type { FilterCategory, SortOption } from "@/hooks/useListManager";
+import { ListControls } from "@/components/ListControls";
 
 const RARITY_WEIGHTS: Record<string, number> = {
   legendary: 5,

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
-import { IconButton } from './IconButton';
-import { useScrollLock } from '../hooks/useScrollLock';
-import { useDialog } from '../hooks/useDialog';
+import { IconButton } from '@/components/IconButton';
+import { useScrollLock } from '@/hooks/useScrollLock';
+import { useDialog } from '@/hooks/useDialog';
 
 export type DrawerFrom = 'bottom' | 'top' | 'left' | 'right';
 

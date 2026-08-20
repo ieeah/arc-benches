@@ -1,7 +1,7 @@
-import type { ItemInfo, List } from '../types';
-import workbenchesData from '../data/workbenches.json';
-import itemsData from '../data/items.json';
-import type { PersistedState } from './persistence';
+import type { ItemInfo, List } from '@/types';
+import workbenchesData from '@/data/workbenches.json';
+import itemsData from '@/data/items.json';
+import type { PersistedState } from '@/store/persistence';
 
 // The Refiner bench gates item crafting (see refinerCraftLevel + the craftable-now badges).
 export const REFINER_ID = 'refiner';

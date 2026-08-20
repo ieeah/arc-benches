@@ -1,17 +1,17 @@
 import { useState, useRef } from 'react';
 import { Backpack, Database, Dice5, Download, EyeOff, FlaskConical, LayoutList, Plus, RotateCcw, Settings, Upload, Wrench } from 'lucide-react';
-import { ThemeProvider } from './context/ThemeProvider';
-import { FloatingNav } from './components/FloatingNav';
-import type { ContextAction, NavItem } from './components/FloatingNav';
-import { RoleMakerModal } from './components/RoleMakerModal';
-import { StashPage } from './pages/StashPage';
-import { ListsPage } from './pages/ListsPage';
-import type { ListsPageHandle } from './pages/ListsPage';
-import { ItemsPage } from './pages/ItemsPage';
-import { DevCatalogLabPage } from './pages/DevCatalogLabPage';
-import { SettingsPage } from './pages/SettingsPage';
-import { ListDetailPage } from './pages/ListDetailPage';
-import { useAppStore } from './store';
+import { ThemeProvider } from '@/context/ThemeProvider';
+import { FloatingNav } from '@/components/FloatingNav';
+import type { ContextAction, NavItem } from '@/components/FloatingNav';
+import { RoleMakerModal } from '@/components/RoleMakerModal';
+import { StashPage } from '@/pages/StashPage';
+import { ListsPage } from '@/pages/ListsPage';
+import type { ListsPageHandle } from '@/pages/ListsPage';
+import { ItemsPage } from '@/pages/ItemsPage';
+import { DevCatalogLabPage } from '@/pages/DevCatalogLabPage';
+import { SettingsPage } from '@/pages/SettingsPage';
+import { ListDetailPage } from '@/pages/ListDetailPage';
+import { useAppStore } from '@/store';
 
 const isDev = import.meta.env.DEV;
 

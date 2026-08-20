@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ThemeContext } from './ThemeContext';
-import { safeLS } from '../lib/safeStorage';
+import { ThemeContext } from '@/context/ThemeContext';
+import { safeLS } from '@/lib/safeStorage';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [dark, setDark] = useState(() =>

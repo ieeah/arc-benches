@@ -1,5 +1,5 @@
-import { initProfilesMeta, loadProfileState, loadSharedLists, loadSettings } from './persistence';
-import { hydrateProfile } from './gameData';
+import { initProfilesMeta, loadProfileState, loadSharedLists, loadSettings } from '@/store/persistence';
+import { hydrateProfile } from '@/store/gameData';
 
 // Resolved once at module load: the persisted profiles, the active profile's hydrated
 // state, global shared lists and global app settings.
