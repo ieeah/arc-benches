@@ -50,9 +50,9 @@ export const FloatingNav = ({
 
   const universalItems: NavMenuItem[] = [
     {
-      icon: <Dice5 size={16} />,
-      label: 'Role Maker 🎲',
-      onClick: () => { closeMenu(); onOpenRoleMaker(); },
+      icon: isDark ? <Sun size={16} /> : <Moon size={16} />,
+      label: isDark ? 'Tema Chiaro' : 'Tema Scuro',
+      onClick: toggleTheme,
     },
     {
       icon: <Database size={16} />,
@@ -60,9 +60,9 @@ export const FloatingNav = ({
       onClick: () => { closeMenu(); onOpenDatabase(); },
     },
     {
-      icon: isDark ? <Sun size={16} /> : <Moon size={16} />,
-      label: isDark ? 'Tema Chiaro' : 'Tema Scuro',
-      onClick: toggleTheme,
+      icon: <Dice5 size={16} />,
+      label: 'Role Maker 🎲',
+      onClick: () => { closeMenu(); onOpenRoleMaker(); },
     },
   ];
 
@@ -87,8 +87,15 @@ export const FloatingNav = ({
   );
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center">
-      <div className={`w-full max-w-md flex ${navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
+    <>
+      {menuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/40 dark:bg-black/60 z-40 pointer-events-auto" 
+          onClick={closeMenu} 
+        />
+      )}
+      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center">
+        <div className={`w-full max-w-md flex ${navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
       <div
         ref={pillRef}
         className="relative mb-6 flex items-center gap-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-full shadow-2xl border border-gray-200/70 dark:border-gray-800 p-2 pointer-events-auto"
@@ -96,11 +103,11 @@ export const FloatingNav = ({
         {navSide === 'right' ? <>{secondaryBtn}{primaryBtn}</> : <>{primaryBtn}{secondaryBtn}</>}
 
         {menuOpen && (
-          <div className={`absolute bottom-full mb-3 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden ${
+          <div className={`absolute bottom-full mb-3 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 flex flex-col max-h-[70dvh] overflow-hidden ${
             navSide === 'right' ? 'right-0' : 'left-0'
           }`}>
             {pendingDanger ? (
-              <div className="p-4 space-y-3">
+              <div className="p-4 space-y-3 overflow-y-auto overscroll-contain">
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   Verranno azzerati tutti i progressi (livelli, inventario, azioni). Le liste personalizzate rimangono.
                 </p>
@@ -118,7 +125,7 @@ export const FloatingNav = ({
                 </button>
               </div>
             ) : (
-              <>
+              <div className="overflow-y-auto overscroll-contain flex-1">
                 {pageMenuItems.map((item, i) => (
                   <div key={i}>
                     {item.dividerBefore && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-800" />}
@@ -161,12 +168,13 @@ export const FloatingNav = ({
                     <span className="flex-1 font-medium">{item.label}</span>
                   </button>
                 ))}
-              </>
+              </div>
             )}
           </div>
         )}
       </div>
       </div>
     </div>
+    </>
   );
 };

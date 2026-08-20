@@ -42,7 +42,7 @@ export const BottomSheet = ({
         aria-modal="true"
         aria-label={title}
         tabIndex={-1}
-        className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] flex flex-col max-h-[85vh] focus:outline-none"
+        className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] flex flex-col max-h-[85dvh] focus:outline-none"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex justify-between items-start gap-2 p-4 pb-2 shrink-0">

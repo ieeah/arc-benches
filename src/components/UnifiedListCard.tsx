@@ -202,9 +202,17 @@ export const UnifiedListCard = ({
               <MoreHorizontal size={20} />
             </button>
             {menuOpen && (
-              <div className={`absolute right-0 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden min-w-[10rem] ${
-                openUpward ? 'bottom-full mb-1' : 'top-full mt-1'
-              }`}>
+              <>
+                <div 
+                  className="fixed inset-0 z-40 bg-black/40 dark:bg-black/60 cursor-default" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    closeMenu();
+                  }}
+                />
+                <div className={`absolute right-0 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden min-w-[10rem] ${
+                  openUpward ? 'bottom-full mb-1' : 'top-full mt-1'
+                }`}>
                 {onOpenDetail && (
                   <button onClick={() => { closeMenu(); onOpenDetail(); }}
                     className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
@@ -245,6 +253,7 @@ export const UnifiedListCard = ({
                   </>
                 )}
               </div>
+              </>
             )}
           </div>
         )}

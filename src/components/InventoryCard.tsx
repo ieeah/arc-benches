@@ -71,7 +71,7 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
       </div>
 
       <div className="flex-1 min-w-0 mb-2 text-center">
-        <h4 className="text-[10px] font-bold truncate capitalize leading-tight mb-1">
+        <h4 className="text-[13px] sm:text-sm font-bold truncate capitalize leading-tight mb-1">
           {itemInfo?.name ?? itemId.replace(/-/g, ' ')}
         </h4>
         <p className="text-[10px] text-gray-400 font-bold font-mono">{owned}/{required}</p>
