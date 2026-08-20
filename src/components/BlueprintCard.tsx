@@ -44,16 +44,16 @@ export const BlueprintCard = ({
           aria-hidden="true"
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 w-full h-full object-cover scale-[1.04] select-none pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
         />
 
-        {/* Icona dell'oggetto posizionata sopra la griglia blu */}
-        <div className="relative z-1 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center -translate-y-2.5 drop-shadow-md">
+        {/* Icona dell'oggetto centrata sulla griglia */}
+        <div className="relative z-1 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center drop-shadow-md">
           <ItemIcon
             icon={blueprint.icon}
             alt={blueprint.name}
             fallbackText={blueprint.id.replace(/-/g, ' ')}
-            imgClassName="max-w-full max-h-full object-contain scale-[1.15]"
+            imgClassName="max-w-full max-h-full object-contain scale-[1.25]"
           />
         </div>
 
