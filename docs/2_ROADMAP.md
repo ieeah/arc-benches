@@ -22,7 +22,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - [ ] #34 [Vault Spedizione (Cassaforte Wipe)](https://github.com/ieeah/arc-benches/issues/34)
 - [ ] #35 [Tracker Blueprints (Pagina Progetti)](https://github.com/ieeah/arc-benches/issues/35)
 - [ ] #39 [Ottimizzazione rendering liste con CSS content-visibility e accorgimenti a zero-dipendenze](https://github.com/ieeah/arc-benches/issues/39)
-- [ ] #41 [Pagina Impostazioni & Gestione Globale (Tema, Profili, Backup, Ergonomia)](https://github.com/ieeah/arc-benches/issues/41)
+- [x] #41 [Pagina Impostazioni & Gestione Globale (Tema, Profili, Backup, Ergonomia)](https://github.com/ieeah/arc-benches/issues/41)
 - [ ] #11 [Performance: Strategie di Ottimizzazione Rendering per Liste Lunghe](https://github.com/ieeah/arc-benches/issues/11)
 - [ ] #28 [Next.js & Vercel (Fase 5)](https://github.com/ieeah/arc-benches/issues/28)
 - [ ] #40 [Wrapper Mobile Nativo (React Native / Capacitor / Expo)](https://github.com/ieeah/arc-benches/issues/40)
