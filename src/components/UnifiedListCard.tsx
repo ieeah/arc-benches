@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, useLayoutEffect, type ReactNode } from 'react';
+import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { CheckCircle2, ChevronDown, Hammer, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import type { ItemInfo, List } from '@/types';
 import { getBaseLevel } from '@/lib/lists';
@@ -65,8 +66,8 @@ export const UnifiedListCard = ({
   selectedTargets,
   checkedActions,
   itemsInfo,
-  refinerLevel,
-  totalRequired,
+  refinerLevel = 0,
+  totalRequired = {},
   canUpgrade,
   onUpgrade,
   onToggle,
@@ -102,9 +103,9 @@ export const UnifiedListCard = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [pendingLevel, setPendingLevel] = useState<number | null>(null);
-  const [openUpward, setOpenUpward] = useState(false);
+  const [menuCoords, setMenuCoords] = useState<{ top: number; right: number; openUpward: boolean } | null>(null);
 
-  const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const isMaxed = current >= list.maxLevel;
   const baseLevel = getBaseLevel(list);
   const nextLevelData = list.levels.find(l => l.level === current + 1);
@@ -117,30 +118,31 @@ export const UnifiedListCard = ({
 
   const closeMenu = () => { setMenuOpen(false); setConfirmingDelete(false); };
 
+  const updateMenuPosition = useCallback(() => {
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const spaceBelow = viewportHeight - rect.bottom;
+    const openUpward = spaceBelow < 180 && rect.top > 180;
+    
+    setMenuCoords({
+      top: openUpward ? rect.top - 4 : rect.bottom + 4,
+      right: Math.max(8, window.innerWidth - rect.right),
+      openUpward,
+    });
+  }, []);
+
   useEffect(() => {
     if (!menuOpen) return;
-    const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) closeMenu();
+    updateMenuPosition();
+    const handleScrollOrResize = () => closeMenu();
+    window.addEventListener('scroll', handleScrollOrResize, { passive: true });
+    window.addEventListener('resize', handleScrollOrResize);
+    return () => {
+      window.removeEventListener('scroll', handleScrollOrResize);
+      window.removeEventListener('resize', handleScrollOrResize);
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [menuOpen]);
-
-  useLayoutEffect(() => {
-    if (menuOpen && menuRef.current) {
-      const rect = menuRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const spaceBelow = viewportHeight - rect.bottom;
-      
-      // La tendina è alta circa 160px. Usiamo una soglia di sicurezza di 180px.
-      // Se lo spazio sotto è insufficiente e c'è spazio sopra, apriamo verso l'alto.
-      if (spaceBelow < 180 && rect.top > 180) {
-        setOpenUpward(true);
-      } else {
-        setOpenUpward(false);
-      }
-    }
-  }, [menuOpen]);
+  }, [menuOpen, updateMenuPosition]);
 
   const hasConflict = (level: number) =>
     list.levels.some(
@@ -195,67 +197,82 @@ export const UnifiedListCard = ({
         </button>
 
         {hasMenu && (
-          <div ref={menuRef} className="relative shrink-0">
+          <div className="relative shrink-0">
             <button
-              onClick={() => menuOpen ? closeMenu() : setMenuOpen(true)}
+              ref={buttonRef}
+              onClick={() => {
+                if (menuOpen) {
+                  closeMenu();
+                } else {
+                  updateMenuPosition();
+                  setMenuOpen(true);
+                }
+              }}
               title="Azioni lista"
               className="w-9 h-9 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors rounded-full"
             >
               <MoreHorizontal size={20} />
             </button>
-            {menuOpen && (
+            {menuOpen && menuCoords && typeof document !== 'undefined' && createPortal(
               <>
                 <div 
-                  className="fixed inset-0 z-40 bg-black/40 dark:bg-black/60 cursor-default" 
+                  className="fixed inset-0 z-50 bg-black/40 dark:bg-black/60 cursor-default" 
                   onClick={(e) => {
                     e.stopPropagation();
                     closeMenu();
                   }}
                 />
-                <div className={`absolute right-0 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg overflow-hidden min-w-[10rem] ${
-                  openUpward ? 'bottom-full mb-1' : 'top-full mt-1'
-                }`}>
-                {onOpenDetail && (
-                  <button onClick={() => { closeMenu(); onOpenDetail(); }}
-                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                    <Layers size={15} className="text-gray-400 shrink-0" />
-                    Dettaglio
-                  </button>
-                )}
-                {onEdit && (
-                  <>
-                    {onOpenDetail && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
-                    <button onClick={() => { closeMenu(); onEdit(); }}
+                <div
+                  style={{
+                    top: menuCoords.openUpward ? undefined : `${menuCoords.top}px`,
+                    bottom: menuCoords.openUpward ? `${window.innerHeight - menuCoords.top}px` : undefined,
+                    right: `${menuCoords.right}px`,
+                  }}
+                  className="fixed z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl overflow-hidden min-w-[10rem] animate-in fade-in zoom-in-95 duration-100"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {onOpenDetail && (
+                    <button onClick={() => { closeMenu(); onOpenDetail(); }}
                       className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                      <Pencil size={15} className="text-gray-400 shrink-0" />
-                      Modifica
+                      <Layers size={15} className="text-gray-400 shrink-0" />
+                      Dettaglio
                     </button>
-                  </>
-                )}
-                {onDelete && (
-                  <>
-                    {(onOpenDetail || onEdit) && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
-                    {confirmingDelete ? (
-                      <div className="px-3 py-2.5 space-y-1.5">
-                        <p className="text-[11px] text-gray-500 dark:text-gray-400">Eliminare la lista?</p>
-                        <div className="flex gap-1.5">
-                          <button onClick={() => { closeMenu(); onDelete(); }}
-                            className="flex-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full">Elimina</button>
-                          <button onClick={() => setConfirmingDelete(false)}
-                            className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-xs font-bold rounded-full">Annulla</button>
-                        </div>
-                      </div>
-                    ) : (
-                      <button onClick={() => setConfirmingDelete(true)}
-                        className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                        <Trash2 size={15} className="shrink-0" />
-                        Elimina
+                  )}
+                  {onEdit && (
+                    <>
+                      {onOpenDetail && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
+                      <button onClick={() => { closeMenu(); onEdit(); }}
+                        className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                        <Pencil size={15} className="text-gray-400 shrink-0" />
+                        Modifica
                       </button>
-                    )}
-                  </>
-                )}
-              </div>
-              </>
+                    </>
+                  )}
+                  {onDelete && (
+                    <>
+                      {(onOpenDetail || onEdit) && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
+                      {confirmingDelete ? (
+                        <div className="px-3 py-2.5 space-y-1.5">
+                          <p className="text-[11px] text-gray-500 dark:text-gray-400">Eliminare la lista?</p>
+                          <div className="flex gap-1.5">
+                            <button onClick={() => { closeMenu(); onDelete(); }}
+                              className="flex-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full">Elimina</button>
+                            <button onClick={() => setConfirmingDelete(false)}
+                              className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-xs font-bold rounded-full">Annulla</button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button onClick={() => setConfirmingDelete(true)}
+                          className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                          <Trash2 size={15} className="shrink-0" />
+                          Elimina
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+              </>,
+              document.body
             )}
           </div>
         )}
