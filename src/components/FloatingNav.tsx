@@ -1,180 +1,371 @@
-import { useState, useRef, useEffect, type ReactNode } from 'react';
-import { Backpack, Check, Database, Dice5, LayoutList, Moon, MoreHorizontal, Sun } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
+import {
+  Backpack, LayoutList, ScrollText, Wrench, Database,
+  ShieldAlert, Dice5, MoreHorizontal, Check, Users, X, Settings,
+  ChevronRight, ChevronLeft
+} from 'lucide-react';
+import { useAppStore } from '../store';
+import { ProfilesDrawer } from './ProfilesDrawer';
+import { useIsOverlayOpen } from '../hooks/useOverlayCount';
 
-export type NavMenuItem = {
+export type NavItem = {
+  id: string;
+  label: string;
+  icon: ReactNode;
+  isCategory?: boolean;
+  children?: NavItem[];
+};
+
+export type ContextAction = {
   icon: ReactNode;
   label: string;
   onClick: () => void;
-  variant?: 'danger';
   checked?: boolean;
+  variant?: 'danger' | 'default';
   dividerBefore?: boolean;
 };
 
+// Albero di navigazione predefinito
+export const DEFAULT_NAV_TREE: NavItem[] = [
+  { id: 'stash', label: 'Stash', icon: <Backpack size={18} /> },
+  { id: 'liste', label: 'Banchi & Liste', icon: <LayoutList size={18} /> },
+  { id: 'blueprints', label: 'Progetti Blueprints', icon: <ScrollText size={18} /> },
+  {
+    id: 'tools',
+    label: 'Strumenti',
+    icon: <Wrench size={18} />,
+    isCategory: true,
+    children: [
+      { id: 'vault', label: 'Vault Spedizione', icon: <ShieldAlert size={16} /> },
+      { id: 'items', label: 'Database Oggetti', icon: <Database size={16} /> },
+      { id: 'role-maker', label: 'Role Maker 🎲', icon: <Dice5 size={16} /> },
+    ],
+  },
+  { id: 'settings', label: 'Impostazioni', icon: <Settings size={18} /> },
+];
+
+export interface FloatingNavProps {
+  activePage: string;
+  onNavigate: (pageId: string) => void;
+  contextActions: ContextAction[];
+  items?: NavItem[];
+  navSide?: 'left' | 'right';
+}
+
 export const FloatingNav = ({
   activePage,
-  navSide,
   onNavigate,
-  onOpenDatabase,
-  onOpenRoleMaker,
-  pageMenuItems,
-}: {
-  activePage: 'stash' | 'liste';
-  navSide: 'left' | 'right';
-  onNavigate: (page: 'stash' | 'liste') => void;
-  onOpenDatabase: () => void;
-  onOpenRoleMaker: () => void;
-  pageMenuItems: NavMenuItem[];
-}) => {
-  const { dark: isDark, toggle: toggleTheme } = useTheme();
+  contextActions,
+  items = DEFAULT_NAV_TREE,
+  navSide: navSideProp,
+}: FloatingNavProps) => {
+  const storeNavSide = useAppStore(s => s.navSide);
+  const navSide = navSideProp ?? storeNavSide;
+  const isOverlayOpen = useIsOverlayOpen();
+
+  // Pagine preferite per navigazione rapida (default: stash / liste)
+  const quickFavorites = useAppStore(s => s.quickFavorites) ?? ['stash', 'liste'];
+
+  // Switcher Profilo
+  const activeProfileId = useAppStore(s => s.activeProfileId);
+  const activeProfileName = useAppStore(
+    s => s.profiles.find(p => p.id === s.activeProfileId)?.name ?? 'Principale'
+  );
+
+  const [contextMenuOpen, setContextMenuOpen] = useState(false);
+  const [profilesDrawerOpen, setProfilesDrawerOpen] = useState(false);
+
+  // Menù di navigazione completo (aperto con long-press)
   const [menuOpen, setMenuOpen] = useState(false);
-  const [pendingDanger, setPendingDanger] = useState<NavMenuItem | null>(null);
+  const [drillCategory, setDrillCategory] = useState<NavItem | null>(null);
+
+  const mainBtnRef = useRef<HTMLButtonElement>(null);
+  const pressTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isLongPressRef = useRef(false);
+  const startPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const pillRef = useRef<HTMLDivElement>(null);
 
-  const destPage = activePage === 'stash' ? 'liste' : 'stash';
-  const closeMenu = () => { setMenuOpen(false); setPendingDanger(null); };
+  // Calcola la destinazione del tap rapido (alternanza tra le due preferite)
+  const fav1 = quickFavorites[0] ?? 'stash';
+  const fav2 = quickFavorites[1] ?? 'liste';
+  const nextTargetPage = activePage === fav1 ? fav2 : fav1;
+
+  // Trova l'item corrispondente alla destinazione rapida o attiva per l'icona
+  const findItemById = (id: string, list: NavItem[]): NavItem | null => {
+    for (const item of list) {
+      if (item.id === id) return item;
+      if (item.children) {
+        const found = findItemById(id, item.children);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+
+  const nextTargetItem = findItemById(nextTargetPage, items) ?? items[0];
+
+  const triggerHaptic = (ms = 15) => {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      try { navigator.vibrate(ms); } catch {}
+    }
+  };
+
+  const closeAll = useCallback(() => {
+    setMenuOpen(false);
+    setContextMenuOpen(false);
+    setDrillCategory(null);
+    isLongPressRef.current = false;
+    if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
+  }, []);
 
   useEffect(() => {
-    if (!menuOpen) return;
-    const onMouse = (e: MouseEvent) => {
-      if (pillRef.current && !pillRef.current.contains(e.target as Node)) closeMenu();
+    if (!menuOpen && !contextMenuOpen) return;
+    const handleOutside = (e: MouseEvent | TouchEvent) => {
+      if (pillRef.current && !pillRef.current.contains(e.target as Node)) {
+        closeAll();
+      }
     };
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenu(); };
-    document.addEventListener('mousedown', onMouse);
-    document.addEventListener('keydown', onKey);
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeAll();
+    };
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('touchstart', handleOutside);
+    document.addEventListener('keydown', handleEsc);
     return () => {
-      document.removeEventListener('mousedown', onMouse);
-      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('touchstart', handleOutside);
+      document.removeEventListener('keydown', handleEsc);
     };
-  }, [menuOpen]);
+  }, [menuOpen, contextMenuOpen, closeAll]);
 
-  const universalItems: NavMenuItem[] = [
-    {
-      icon: isDark ? <Sun size={16} /> : <Moon size={16} />,
-      label: isDark ? 'Tema Chiaro' : 'Tema Scuro',
-      onClick: toggleTheme,
-    },
-    {
-      icon: <Database size={16} />,
-      label: 'Database',
-      onClick: () => { closeMenu(); onOpenDatabase(); },
-    },
-    {
-      icon: <Dice5 size={16} />,
-      label: 'Role Maker 🎲',
-      onClick: () => { closeMenu(); onOpenRoleMaker(); },
-    },
-  ];
+  // --- GESTIONE POINTER: TAP SINGOLO = TOGGLE RAPIDO, LONG PRESS = MENU COMPLETO ---
+  const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
 
-  const primaryBtn = (
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    startPosRef.current = { x: e.clientX, y: e.clientY };
+    isLongPressRef.current = false;
+
+    // Timer per long-press: apre il menu completo
+    pressTimerRef.current = setTimeout(() => {
+      isLongPressRef.current = true;
+      setMenuOpen(true);
+      setContextMenuOpen(false);
+      triggerHaptic(25);
+    }, 220);
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
+
+    // Se non è stato un long-press, è un TAP SINGOLO: toggle tra le due pagine preferite!
+    if (!isLongPressRef.current) {
+      // Se il menu completo era già aperto, il click lo chiude
+      if (menuOpen) {
+        closeAll();
+        return;
+      }
+      onNavigate(nextTargetPage);
+      triggerHaptic(15);
+    }
+  };
+
+  // Pulsante Secondario: ... (Menu Contestuale)
+  const secondaryBtn = (
     <button
-      onClick={() => { closeMenu(); onNavigate(destPage); }}
-      className="w-14 h-14 rounded-full bg-blue-500 hover:bg-blue-600 active:scale-95 text-white flex items-center justify-center shadow-lg transition-all"
-      aria-label={destPage === 'liste' ? 'Vai a Liste' : 'Vai a Stash'}
+      key="secondary-btn"
+      onClick={() => { setContextMenuOpen(!contextMenuOpen); setMenuOpen(false); }}
+      className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center transition-all duration-150 active:scale-95 cursor-pointer"
+      aria-label="Opzioni e Profilo"
     >
-      {destPage === 'liste' ? <LayoutList size={24} /> : <Backpack size={24} />}
+      {contextMenuOpen ? <X size={20} /> : <MoreHorizontal size={22} />}
     </button>
   );
 
-  const secondaryBtn = (
+  // Pulsante Primario: Toggle Rapido al Tap / Menu Completo al Long-Press
+  const primaryBtn = (
     <button
-      onClick={() => { setMenuOpen(m => !m); setPendingDanger(null); }}
-      className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center active:scale-95 transition-all"
-      aria-label="Menu"
+      key="primary-btn"
+      ref={mainBtnRef}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={closeAll}
+      className={`w-14 h-14 rounded-full text-white flex items-center justify-center shadow-lg transition-all select-none touch-none cursor-pointer ${
+        menuOpen
+          ? 'bg-blue-600 scale-105 ring-4 ring-blue-400/40 shadow-blue-500/40'
+          : 'bg-blue-500 hover:bg-blue-600 active:scale-95'
+      }`}
+      aria-label={`Navigazione rapida a ${nextTargetItem.label} (Tieni premuto per il menu completo)`}
+      title={`Vai a ${nextTargetItem.label} (Pressione prolungata per menu completo)`}
     >
-      <MoreHorizontal size={22} />
+      {nextTargetItem.icon}
     </button>
   );
 
   return (
     <>
-      {menuOpen && (
-        <div 
-          className="fixed inset-0 bg-black/40 dark:bg-black/60 z-40 pointer-events-auto" 
-          onClick={closeMenu} 
+      {(menuOpen || contextMenuOpen) && (
+        <div
+          className="fixed inset-0 bg-black/50 dark:bg-black/70 z-40 backdrop-blur-xs transition-opacity duration-200 pointer-events-auto"
+          onClick={closeAll}
         />
       )}
-      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center">
+
+      <ProfilesDrawer
+        isOpen={profilesDrawerOpen}
+        onClose={() => setProfilesDrawerOpen(false)}
+        from="bottom"
+      />
+
+      <div className={`fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center transition-all duration-300 ${
+        isOverlayOpen ? 'translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+      }`}>
         <div className={`w-full max-w-md flex ${navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
-      <div
-        ref={pillRef}
-        className="relative mb-6 flex items-center gap-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-full shadow-2xl border border-gray-200/70 dark:border-gray-800 p-2 pointer-events-auto"
-      >
-        {navSide === 'right' ? <>{secondaryBtn}{primaryBtn}</> : <>{primaryBtn}{secondaryBtn}</>}
+          <div
+            ref={pillRef}
+            className="relative mb-6 flex items-center gap-3 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-2xl border border-gray-200/70 dark:border-gray-800 p-2 transition-all duration-200 pointer-events-auto"
+          >
 
-        {menuOpen && (
-          <div className={`absolute bottom-full mb-3 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 flex flex-col max-h-[70dvh] overflow-hidden ${
-            navSide === 'right' ? 'right-0' : 'left-0'
-          }`}>
-            {pendingDanger ? (
-              <div className="p-4 space-y-3 overflow-y-auto overscroll-contain">
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Verranno azzerati tutti i progressi (livelli, inventario, azioni). Le liste personalizzate rimangono.
-                </p>
-                <button
-                  onClick={() => { pendingDanger.onClick(); closeMenu(); }}
-                  className="w-full py-2.5 bg-red-500 text-white font-bold text-sm rounded-2xl active:scale-[0.98]"
-                >
-                  Conferma ripristino
-                </button>
-                <button
-                  onClick={() => setPendingDanger(null)}
-                  className="w-full py-2.5 bg-gray-100 dark:bg-gray-800 font-bold text-sm rounded-2xl active:scale-[0.98]"
-                >
-                  Annulla
-                </button>
-              </div>
-            ) : (
-              <div className="overflow-y-auto overscroll-contain flex-1">
-                {pageMenuItems.map((item, i) => (
-                  <div key={i}>
-                    {item.dividerBefore && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-800" />}
+            {/* =================================================================== */}
+            {/* 1. MENU DI NAVIGAZIONE COMPLETO (Aperto con Pressione Prolungata)    */}
+            {/* =================================================================== */}
+            {menuOpen && (
+              <div
+                className={`absolute bottom-full mb-3 w-64 bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-800 overflow-hidden select-none animate-in fade-in slide-in-from-bottom-2 duration-150 ${
+                  navSide === 'right' ? 'right-0' : 'left-0'
+                }`}
+              >
+                {/* Header Scheda Navigazione */}
+                <div className="p-3 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between h-11">
+                  {drillCategory !== null ? (
                     <button
-                      onClick={() => {
-                        if (item.variant === 'danger') { setPendingDanger(item); return; }
-                        item.onClick();
-                        closeMenu();
-                      }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm text-left transition-colors ${
-                        item.variant === 'danger'
-                          ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20'
-                          : 'hover:bg-gray-50 dark:hover:bg-gray-800'
-                      }`}
+                      onClick={() => setDrillCategory(null)}
+                      className="flex items-center gap-1.5 text-xs font-bold text-blue-500 hover:text-blue-600 active:scale-95 transition-all cursor-pointer"
                     >
-                      <span className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                        item.variant === 'danger'
-                          ? 'bg-red-50 dark:bg-red-900/30 text-red-500'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
-                      }`}>
-                        {item.icon}
-                      </span>
-                      <span className="flex-1 font-medium">{item.label}</span>
-                      {item.checked && <Check size={14} className="text-blue-500 shrink-0" />}
+                      <ChevronLeft size={16} /> {drillCategory.label}
                     </button>
-                  </div>
-                ))}
+                  ) : (
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Tutte le Pagine</span>
+                  )}
+                  {drillCategory === null && (
+                    <span className="text-[10px] text-gray-400">Menu Completo</span>
+                  )}
+                </div>
 
-                {pageMenuItems.length > 0 && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-800" />}
+                {/* Voci di Navigazione */}
+                <div className="p-2 space-y-0.5 max-h-[60vh] overflow-y-auto">
+                  {(drillCategory ? drillCategory.children ?? [] : items).map(item => {
+                    const hasChildren = Boolean(item.children && item.children.length > 0);
+                    const isSelected = item.id === activePage;
 
-                {universalItems.map((item, i) => (
-                  <button
-                    key={i}
-                    onClick={item.onClick}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <span className="w-8 h-8 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 flex items-center justify-center shrink-0">
-                      {item.icon}
-                    </span>
-                    <span className="flex-1 font-medium">{item.label}</span>
-                  </button>
-                ))}
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => {
+                          if (hasChildren) {
+                            setDrillCategory(item);
+                            triggerHaptic(15);
+                          } else {
+                            onNavigate(item.id);
+                            closeAll();
+                            triggerHaptic(20);
+                          }
+                        }}
+                        className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                            : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 truncate">
+                          {item.icon}
+                          <span className="truncate">{item.label}</span>
+                        </div>
+                        {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
+                        {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             )}
+
+            {/* =================================================================== */}
+            {/* 2. MENU CONTESTUALE (...)                                           */}
+            {/* =================================================================== */}
+            {contextMenuOpen && (
+              <div
+                className={`absolute bottom-full mb-3 w-64 bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col max-h-[75dvh] animate-in fade-in slide-in-from-bottom-2 duration-150 ${
+                  navSide === 'right' ? 'right-0' : 'left-0'
+                }`}
+              >
+                {/* 1. SWITCHER PROFILO IN CIMA (Apre il Drawer Profili al tocco sulla card) */}
+                <div className="p-3 bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-gray-800">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1">
+                      <Users size={12} className="text-purple-500" /> Profilo Attivo
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => { setProfilesDrawerOpen(true); setContextMenuOpen(false); }}
+                    className="w-full flex items-center justify-between bg-white dark:bg-gray-800 px-3 py-2 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:border-blue-300 dark:hover:border-blue-600 transition-colors text-left cursor-pointer"
+                  >
+                    <span className="font-bold text-xs text-gray-800 dark:text-gray-100 truncate">{activeProfileName}</span>
+                    <span className="text-[10px] bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-mono px-1.5 py-0.5 rounded-full">ID: {activeProfileId.slice(0, 4)}</span>
+                  </button>
+                </div>
+
+                {/* 2. AZIONI CONTESTUALI DELLA PAGINA ATTIVA */}
+                <div className="p-2 flex-1 overflow-y-auto space-y-0.5">
+                  <p className="px-3 pt-1 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Azioni Pagina</p>
+                  {contextActions.length === 0 ? (
+                    <p className="px-3 py-2 text-xs text-gray-400 italic">Nessuna azione per questa schermata</p>
+                  ) : (
+                    contextActions.map((action, i) => (
+                      <div key={i}>
+                        {action.dividerBefore && <div className="mx-3 my-1 h-px bg-gray-100 dark:bg-gray-800" />}
+                        <button
+                          onClick={() => { action.onClick(); closeAll(); }}
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-2xl text-xs font-semibold text-left transition-colors cursor-pointer ${
+                            action.variant === 'danger'
+                              ? 'text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40'
+                              : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                          }`}
+                        >
+                          {action.icon}
+                          <span className="flex-1">{action.label}</span>
+                          {action.checked !== undefined && (
+                            <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                              action.checked ? 'bg-blue-500 border-blue-500 text-white' : 'border-gray-300 dark:border-gray-600'
+                            }`}>
+                              {action.checked && <Check size={10} />}
+                            </div>
+                          )}
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* BOTTONI PILL (Invertiti per mano sinistra) */}
+            {navSide === 'right' ? (
+              <>
+                {secondaryBtn}
+                {primaryBtn}
+              </>
+            ) : (
+              <>
+                {primaryBtn}
+                {secondaryBtn}
+              </>
+            )}
+
           </div>
-        )}
+        </div>
       </div>
-      </div>
-    </div>
     </>
   );
 };

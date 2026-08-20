@@ -25,6 +25,7 @@ import { UnifiedListCard } from '../components/UnifiedListCard';
 import { CustomListEditor } from '../components/CustomListEditor';
 import { CollapsibleSection } from '../components/CollapsibleSection';
 import { Drawer } from '../components/Drawer';
+import { ProfilesDrawer } from '../components/ProfilesDrawer';
 import { downloadExport, parseImport } from '../lib/listIO';
 import { v } from '../lib/validate';
 import { safeLS } from '../lib/safeStorage';
@@ -281,7 +282,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   );
 
   return (
-    <div className="pb-28">
+    <div className="pb-28 w-full min-w-0">
       {/* Sticky header */}
       <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
         <SectionHeader title="Liste" />
@@ -289,7 +290,7 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
 
       <input ref={fileInputRef} type="file" accept=".json,application/json" className="hidden" onChange={handleImportFile} />
 
-      <div className="p-4">
+      <div className="p-4 w-full min-w-0">
         {importError && (
           <div className="mb-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl flex items-center justify-between gap-2">
             <p className="text-[11px] text-red-600 dark:text-red-400">{importError}</p>
@@ -344,98 +345,11 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
       )}
 
       {/* Profili drawer */}
-      {showProfiles && (
-        <Drawer from="top" title="Profili" onClose={closeProfilesDrawer}>
-          <div className="space-y-1.5 pt-1">
-            {profiles.map(profile => {
-              const isActive = profile.id === activeProfileId;
-              const isDeleting = deletingProfileId === profile.id;
-              const isEditing = editingProfile?.id === profile.id;
-
-              return (
-                <div key={profile.id}
-                  className={`flex items-center gap-3 p-3 rounded-2xl transition-colors ${isActive ? 'bg-blue-50 dark:bg-blue-900/20' : 'bg-gray-50 dark:bg-gray-800'}`}>
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${isActive ? 'border-blue-500 bg-blue-500' : 'border-gray-300 dark:border-gray-600'}`}
-                    onClick={() => { if (!isEditing && !isDeleting && !isActive) { switchProfile(profile.id); closeProfilesDrawer(); } }}>
-                    {isActive && <Check size={11} className="text-white" strokeWidth={3} />}
-                  </div>
-
-                  {isEditing ? (
-                    <input
-                      autoFocus
-                      className="flex-1 text-sm font-semibold bg-white dark:bg-gray-700 border border-blue-400 rounded-xl px-2 py-1 focus:outline-none"
-                      value={editingProfile.name}
-                      onChange={e => setEditingProfile({ ...editingProfile, name: e.target.value })}
-                      onKeyDown={e => { if (e.key === 'Enter') commitRenameProfile(); if (e.key === 'Escape') setEditingProfile(null); }}
-                    />
-                  ) : (
-                    <span
-                      className={`flex-1 text-sm font-semibold truncate cursor-pointer ${isActive ? 'text-blue-600 dark:text-blue-400' : ''}`}
-                      onClick={() => { if (!isDeleting && !isActive) { switchProfile(profile.id); closeProfilesDrawer(); } }}
-                    >
-                      {profile.name}
-                    </span>
-                  )}
-
-                  {isEditing ? (
-                    <div className="flex gap-1 shrink-0">
-                      <button onClick={commitRenameProfile}
-                        className="px-2.5 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">OK</button>
-                      <button onClick={() => setEditingProfile(null)}
-                        className="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded-full">✕</button>
-                    </div>
-                  ) : isDeleting ? (
-                    <div className="flex gap-1 shrink-0">
-                      <button onClick={() => { deleteProfile(profile.id); setDeletingProfileId(null); }}
-                        className="px-2.5 py-1 bg-red-500 text-white text-xs font-bold rounded-full">Elimina</button>
-                      <button onClick={() => setDeletingProfileId(null)}
-                        className="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded-full">✕</button>
-                    </div>
-                  ) : (
-                    <div className="flex gap-1 shrink-0">
-                      <button onClick={() => { setEditingProfile({ id: profile.id, name: profile.name }); setDeletingProfileId(null); }}
-                        className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-colors">
-                        <Pencil size={13} />
-                      </button>
-                      <button
-                        onClick={() => { setDeletingProfileId(profile.id); setEditingProfile(null); }}
-                        disabled={profiles.length <= 1}
-                        className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors disabled:opacity-30">
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
-              {showNewProfile ? (
-                <div className="flex gap-1.5">
-                  <input
-                    autoFocus
-                    className="flex-1 text-sm bg-gray-100 dark:bg-gray-800 border border-blue-400 rounded-xl px-3 py-2 focus:outline-none"
-                    placeholder="Nome profilo…"
-                    value={newProfileName}
-                    onChange={e => setNewProfileName(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter') commitNewProfile(); if (e.key === 'Escape') { setShowNewProfile(false); setNewProfileName(''); } }}
-                  />
-                  <button onClick={commitNewProfile}
-                    className="px-3 py-2 bg-blue-500 text-white text-xs font-bold rounded-xl">OK</button>
-                  <button onClick={() => { setShowNewProfile(false); setNewProfileName(''); }}
-                    className="px-3 py-2 bg-gray-100 dark:bg-gray-800 text-xs rounded-xl">✕</button>
-                </div>
-              ) : (
-                <button onClick={() => { setShowNewProfile(true); setEditingProfile(null); setDeletingProfileId(null); }}
-                  className="w-full flex items-center gap-2 p-3 text-blue-500 font-bold text-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                  <Plus size={15} />
-                  Nuovo profilo
-                </button>
-              )}
-            </div>
-          </div>
-        </Drawer>
-      )}
+      <ProfilesDrawer
+        isOpen={showProfiles}
+        onClose={() => setShowProfiles(false)}
+        from="top"
+      />
 
       {/* Import confirmation modal */}
       {importPending && (
