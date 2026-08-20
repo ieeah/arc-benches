@@ -4,7 +4,7 @@ import type { ItemInfo } from '@/types';
 import { useLongPress } from '@/hooks/useLongPress';
 import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
-import { iconUrl } from '@/lib/icons';
+import { ItemIcon } from '@/components/ItemIcon';
 
 export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel, onIncrement, onDecrement, onSet }: {
   itemId: string; owned: number; required: number;
@@ -41,10 +41,12 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
     <div className={`flex flex-col p-2.5 rounded-[28px] border-2 ${border} bg-white dark:bg-gray-900 transition-all ${isCompleted ? 'opacity-40 grayscale-[0.8]' : ''}`}>
       <div className={`relative mb-2 aspect-square rounded-[20px] overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center ${!isCompleted ? glow : ''}`}>
         <div className="w-16 h-16 flex items-center justify-center">
-          {itemInfo?.icon
-            ? <img src={iconUrl(itemInfo.icon)} alt={itemInfo.name} loading="lazy" decoding="async" className="max-w-full max-h-full object-contain scale-110" />
-            : <span className="text-[9px] text-gray-400 text-center leading-tight">{itemId.replace(/-/g, ' ')}</span>
-          }
+          <ItemIcon
+            icon={itemInfo?.icon}
+            alt={itemInfo?.name}
+            fallbackText={itemId.replace(/-/g, ' ')}
+            imgClassName="max-w-full max-h-full object-contain scale-110"
+          />
         </div>
         {craftLevel !== null && (
           <div

@@ -58,3 +58,18 @@ input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+/* ── Ottimizzazione automatica liste lunghe (#39) ── */
+[data-list-container] > *,
+.card-grid-container > * {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 150px;
+}
+
+[data-list-container="compact"] > * {
+  contain-intrinsic-size: auto 72px;
+}
+
+[data-list-container="benches"] > * {
+  contain-intrinsic-size: auto 190px;
+}

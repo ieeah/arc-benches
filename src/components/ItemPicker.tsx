@@ -3,7 +3,7 @@ import { Search } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { useAppStore } from '@/store';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
-import { iconUrl } from '@/lib/icons';
+import { ItemIcon } from '@/components/ItemIcon';
 import { BottomSheet } from '@/components/BottomSheet';
 import { useListManager } from '@/hooks/useListManager';
 
@@ -83,26 +83,33 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
       )}
 
       {/* Results */}
-      {hasQuery && processedItems.map(item => {
-        const { color } = getRarityStyles(item.rarity);
-        return (
-          <button key={item.id} onClick={() => onPick(item)}
-            className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform">
-            <div className="relative w-11 h-11 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
-              {item.icon
-                ? <img src={iconUrl(item.icon)} alt={item.name} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
-                : <span className="text-[8px] text-gray-400">{item.id}</span>}
-              <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-sm truncate">{item.name}</p>
-              <p className="text-[10px] text-gray-400">
-                <span className={`font-bold ${getRarityText(item.rarity)}`}>{item.rarity}</span> · {item.item_type}
-              </p>
-            </div>
-          </button>
-        );
-      })}
+      {hasQuery && (
+        <div data-list-container="compact">
+          {processedItems.map(item => {
+            const { color } = getRarityStyles(item.rarity);
+            return (
+              <button key={item.id} onClick={() => onPick(item)}
+                className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform">
+                <div className="relative w-11 h-11 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
+                  <ItemIcon
+                    icon={item.icon}
+                    alt={item.name}
+                    fallbackText={item.id}
+                    imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                  />
+                  <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-sm truncate">{item.name}</p>
+                  <p className="text-[10px] text-gray-400">
+                    <span className={`font-bold ${getRarityText(item.rarity)}`}>{item.rarity}</span> · {item.item_type}
+                  </p>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {hasQuery && processedItems.length === 0 && (
         <p className="p-10 text-center text-gray-500 italic text-sm">Nessun oggetto trovato.</p>

@@ -2,7 +2,7 @@ import { Hammer } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
-import { iconUrl } from '@/lib/icons';
+import { ItemIcon } from '@/components/ItemIcon';
 import { BottomSheet } from '@/components/BottomSheet';
 
 export const ItemDetailSheet = ({ item, refinerLevel, onClose }: {
@@ -25,9 +25,12 @@ export const ItemDetailSheet = ({ item, refinerLevel, onClose }: {
       }
     >
       <div className={`relative mx-auto w-40 h-40 mb-4 rounded-[24px] overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center ${glow}`}>
-        {item.icon
-          ? <img src={iconUrl(item.icon)} alt={item.name} decoding="async" className="max-w-[80%] max-h-[80%] object-contain" />
-          : <span className="text-xs text-gray-400">{item.id}</span>}
+        <ItemIcon
+          icon={item.icon}
+          alt={item.name}
+          fallbackText={item.id}
+          imgClassName="max-w-[80%] max-h-[80%] object-contain"
+        />
         <div className={`absolute bottom-0 left-0 right-0 h-2 ${color}`} />
       </div>
 

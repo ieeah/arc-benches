@@ -1,12 +1,12 @@
-﻿import { useState, useMemo } from 'react';
-import { ArrowLeft, ChevronRight, RotateCcw, SlidersHorizontal, Eye, EyeOff, Sparkles, MapPin, Hammer, Search, DollarSign } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { ArrowLeft, ChevronRight, RotateCcw, SlidersHorizontal, EyeOff, Sparkles, MapPin, Hammer, Search } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { useAppStore } from '@/store';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
-import { iconUrl } from '@/lib/icons';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { ItemDetailSheet } from '@/components/ItemDetailSheet';
+import { ItemIcon } from '@/components/ItemIcon';
 
 const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] as const;
 const RARITY_WEIGHTS: Record<string, number> = {
@@ -467,7 +467,7 @@ export const DevCatalogLabPage = ({ onBack }: { onBack: () => void }) => {
       )}
 
       {/* Lista Risultati */}
-      <div className="p-3">
+      <div data-list-container="compact" className="p-3">
         {groupedData ? (
           groupedData.map(([groupName, items]) => (
             <div key={groupName} className="mb-6">
@@ -525,17 +525,12 @@ const ItemCard = ({ item, onSelect }: { item: ItemInfo; onSelect: (i: ItemInfo) 
       className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform"
     >
       <div className="relative w-12 h-12 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
-        {item.icon ? (
-          <img
-            src={iconUrl(item.icon)}
-            alt={item.name}
-            loading="lazy"
-            decoding="async"
-            className="max-w-[85%] max-h-[85%] object-contain"
-          />
-        ) : (
-          <span className="text-[8px] text-gray-400">{item.id}</span>
-        )}
+        <ItemIcon
+          icon={item.icon}
+          alt={item.name}
+          fallbackText={item.id}
+          imgClassName="max-w-[85%] max-h-[85%] object-contain"
+        />
         <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
       </div>
 

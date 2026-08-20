@@ -233,7 +233,7 @@ export const StashPage = () => {
         />
       </div>
 
-      <div className="p-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+      <div data-list-container className="p-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
         {processedItems.map(mat => (
           <InventoryCard key={mat.itemId} {...mat}
             itemInfo={itemsInfo[mat.itemId]}
