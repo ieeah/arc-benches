@@ -5,9 +5,10 @@ import { createProgressSlice } from './progressSlice';
 import { createListsSlice } from './listsSlice';
 import { createProfileSlice } from './profileSlice';
 import { createPersonalitySlice } from './personalitySlice';
-import { saveProfileState, saveProfilesMeta, saveSharedLists } from './persistence';
+import { createSettingsSlice } from './settingsSlice';
+import { saveProfileState, saveProfilesMeta, saveSharedLists, saveSettings } from './persistence';
 
-// Domain slices (inventory / progress / lists / profile / personality) combined into one store.
+// Domain slices (inventory / progress / lists / profile / personality / settings) combined into one store.
 // Static game data (workbenches, itemsInfo) lives in the lists slice; boot state is
 // seeded per-slice from store/boot.ts.
 export const useAppStore = create<AppState>()((...a) => ({
@@ -16,13 +17,14 @@ export const useAppStore = create<AppState>()((...a) => ({
   ...createListsSlice(...a),
   ...createProfileSlice(...a),
   ...createPersonalitySlice(...a),
+  ...createSettingsSlice(...a),
 }));
 
 // ---------------------------------------------------------------------------
 // Persistence boundary — the single writer.
 //
 // Persistence is NOT inlined in the actions: this subscription is the only writer for the
-// active profile's state, the shared lists and the profiles meta. Actions just call set().
+// active profile's state, the shared lists, the profiles meta and app settings. Actions just call set().
 // Writes are synchronous (no debounce): a delayed write would corrupt data across a profile
 // switch, and the remote-sync debounce (Fase 2) plugs into this same single boundary instead.
 // Cross-profile writes the subscriber cannot infer (writing a NON-active profile, removing a
@@ -35,6 +37,21 @@ useAppStore.subscribe((state, prev) => {
   }
   if (state.sharedCustomLists !== prev.sharedCustomLists) {
     saveSharedLists(state.sharedCustomLists);
+  }
+  if (
+    state.navSide !== prev.navSide ||
+    state.radialMenuEnabled !== prev.radialMenuEnabled ||
+    state.quickFavorites !== prev.quickFavorites ||
+    state.mainProfileId !== prev.mainProfileId ||
+    state.startupProfileOption !== prev.startupProfileOption
+  ) {
+    saveSettings({
+      navSide: state.navSide,
+      radialMenuEnabled: state.radialMenuEnabled,
+      quickFavorites: state.quickFavorites,
+      mainProfileId: state.mainProfileId,
+      startupProfileOption: state.startupProfileOption,
+    });
   }
   const profileStateChanged =
     state.hideoutLevels !== prev.hideoutLevels ||

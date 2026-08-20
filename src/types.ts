@@ -125,6 +125,18 @@ export interface AppState {
   filterHideCompleted: boolean;
   listOrder: string[];
 
+  /** Global Settings */
+  navSide: 'left' | 'right';
+  radialMenuEnabled: boolean;
+  quickFavorites: [string, string];
+  mainProfileId: string;
+  startupProfileOption: string;
+  setNavSide: (side: 'left' | 'right') => void;
+  setRadialMenuEnabled: (enabled: boolean) => void;
+  setQuickFavorites: (favorites: [string, string]) => void;
+  setMainProfileId: (id: string) => void;
+  setStartupProfileOption: (option: string) => void;
+
   /** Active Role Maker personality for the active profile */
   activePersonalityId: string | null;
   rollPersonality: () => PersonalityProfile;

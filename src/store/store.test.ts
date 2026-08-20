@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { profileKey, PROFILES_KEY, SHARED_LISTS_KEY } from './persistence';
 
 class MockStorage implements Storage {
@@ -85,5 +85,20 @@ describe('useAppStore persistence boundary', () => {
     useAppStore.getState().clearPersonality();
     const rawCleared = mockLocalStorage.getItem(profileKey(activeId));
     expect(JSON.parse(rawCleared!).activePersonalityId).toBeNull();
+  });
+
+  it('automatically persists app settings modifications', () => {
+    useAppStore.getState().setNavSide('left');
+    useAppStore.getState().setRadialMenuEnabled(false);
+    useAppStore.getState().setStartupProfileOption('main');
+
+    expect(mockLocalStorage.getItem('nav-side')).toBe('left');
+    expect(mockLocalStorage.getItem('radial-menu-enabled')).toBe('false');
+    expect(mockLocalStorage.getItem('startup-profile-option')).toBe('main');
+
+    const state = useAppStore.getState();
+    expect(state.navSide).toBe('left');
+    expect(state.radialMenuEnabled).toBe(false);
+    expect(state.startupProfileOption).toBe('main');
   });
 });
