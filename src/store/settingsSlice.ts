@@ -1,10 +1,11 @@
 import type { StateCreator } from 'zustand';
 import type { AppState } from '@/types';
 import { bootSettings } from '@/store/boot';
+import { safeLS } from '@/lib/safeStorage';
 
 export type SettingsSlice = Pick<AppState,
-  'navSide' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' |
-  'setNavSide' | 'setRadialMenuEnabled' | 'setQuickFavorites' | 'setMainProfileId' | 'setStartupProfileOption'
+  'navSide' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' | 'theme' | 'stashViewMode' |
+  'setNavSide' | 'setRadialMenuEnabled' | 'setQuickFavorites' | 'setMainProfileId' | 'setStartupProfileOption' | 'setTheme' | 'setStashViewMode'
 >;
 
 export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> = (set) => ({
@@ -13,10 +14,20 @@ export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> 
   quickFavorites: bootSettings.quickFavorites,
   mainProfileId: bootSettings.mainProfileId,
   startupProfileOption: bootSettings.startupProfileOption,
+  theme: bootSettings.theme,
+  stashViewMode: bootSettings.stashViewMode,
 
   setNavSide: (navSide) => set({ navSide }),
   setRadialMenuEnabled: (radialMenuEnabled) => set({ radialMenuEnabled }),
   setQuickFavorites: (quickFavorites) => set({ quickFavorites }),
   setMainProfileId: (mainProfileId) => set({ mainProfileId }),
   setStartupProfileOption: (startupProfileOption) => set({ startupProfileOption }),
+  setTheme: (theme) => {
+    safeLS(() => localStorage.setItem('theme', theme), undefined);
+    set({ theme });
+  },
+  setStashViewMode: (stashViewMode) => {
+    safeLS(() => localStorage.setItem('stash-view-mode', stashViewMode), undefined);
+    set({ stashViewMode });
+  },
 });

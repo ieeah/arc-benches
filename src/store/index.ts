@@ -43,7 +43,9 @@ useAppStore.subscribe((state, prev) => {
     state.radialMenuEnabled !== prev.radialMenuEnabled ||
     state.quickFavorites !== prev.quickFavorites ||
     state.mainProfileId !== prev.mainProfileId ||
-    state.startupProfileOption !== prev.startupProfileOption
+    state.startupProfileOption !== prev.startupProfileOption ||
+    state.theme !== prev.theme ||
+    state.stashViewMode !== prev.stashViewMode
   ) {
     saveSettings({
       navSide: state.navSide,
@@ -51,6 +53,8 @@ useAppStore.subscribe((state, prev) => {
       quickFavorites: state.quickFavorites,
       mainProfileId: state.mainProfileId,
       startupProfileOption: state.startupProfileOption,
+      theme: state.theme,
+      stashViewMode: state.stashViewMode,
     });
   }
   const profileStateChanged =

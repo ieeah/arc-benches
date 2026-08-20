@@ -138,6 +138,8 @@ export interface AppSettingsData {
   quickFavorites: [string, string];
   mainProfileId: string;
   startupProfileOption: string;
+  theme: 'light' | 'dark';
+  stashViewMode: 'grid' | 'list';
 }
 
 export function loadSettings(): AppSettingsData {
@@ -147,6 +149,8 @@ export function loadSettings(): AppSettingsData {
     const legacyRadial = localStorage.getItem('radial-menu-enabled');
     const legacyMain = localStorage.getItem('main-profile-id');
     const legacyStartup = localStorage.getItem('startup-profile-option');
+    const legacyTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    const legacyStashView = localStorage.getItem('stash-view-mode') as 'grid' | 'list' | null;
 
     let parsed: Partial<AppSettingsData> = {};
     if (raw) {
@@ -158,12 +162,26 @@ export function loadSettings(): AppSettingsData {
       ? [parsed.quickFavorites[0], parsed.quickFavorites[1]]
       : defaultFavorites;
 
+    const rawTheme = legacyTheme || parsed.theme;
+    const initialTheme: 'light' | 'dark' = (rawTheme === 'light' || rawTheme === 'dark')
+      ? rawTheme
+      : (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ? 'dark'
+        : 'light';
+
+    const rawStashView = legacyStashView || parsed.stashViewMode;
+    const initialStashView: 'grid' | 'list' = (rawStashView === 'grid' || rawStashView === 'list')
+      ? rawStashView
+      : 'grid';
+
     return {
       navSide: (parsed.navSide === 'left' || parsed.navSide === 'right') ? parsed.navSide : (legacyNav === 'left' || legacyNav === 'right' ? legacyNav : 'right'),
       radialMenuEnabled: typeof parsed.radialMenuEnabled === 'boolean' ? parsed.radialMenuEnabled : (legacyRadial !== null ? legacyRadial !== 'false' : true),
       quickFavorites: favorites,
       mainProfileId: typeof parsed.mainProfileId === 'string' ? parsed.mainProfileId : (legacyMain || 'default'),
       startupProfileOption: typeof parsed.startupProfileOption === 'string' ? parsed.startupProfileOption : (legacyStartup || 'last-used'),
+      theme: initialTheme,
+      stashViewMode: initialStashView,
     };
   }, {
     navSide: 'right',
@@ -171,6 +189,8 @@ export function loadSettings(): AppSettingsData {
     quickFavorites: ['stash', 'liste'],
     mainProfileId: 'default',
     startupProfileOption: 'last-used',
+    theme: 'dark',
+    stashViewMode: 'grid',
   });
 }
 
@@ -181,5 +201,7 @@ export function saveSettings(settings: AppSettingsData) {
     localStorage.setItem('radial-menu-enabled', String(settings.radialMenuEnabled));
     localStorage.setItem('main-profile-id', settings.mainProfileId);
     localStorage.setItem('startup-profile-option', settings.startupProfileOption);
+    localStorage.setItem('theme', settings.theme);
+    localStorage.setItem('stash-view-mode', settings.stashViewMode);
   }, undefined);
 }

@@ -6,10 +6,26 @@ import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
 import { ItemIcon } from '@/components/ItemIcon';
 
-export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel, onIncrement, onDecrement, onSet }: {
-  itemId: string; owned: number; required: number;
-  itemInfo: ItemInfo | undefined; refinerLevel: number;
-  onIncrement: () => void; onDecrement: () => void; onSet: (val: number) => void;
+export const InventoryCard = ({
+  itemId,
+  owned,
+  required,
+  itemInfo,
+  refinerLevel,
+  onIncrement,
+  onDecrement,
+  onSet,
+  onOpenDetail,
+}: {
+  itemId: string;
+  owned: number;
+  required: number;
+  itemInfo: ItemInfo | undefined;
+  refinerLevel: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
+  onSet: (val: number) => void;
+  onOpenDetail?: () => void;
 }) => {
   const isCompleted = owned >= required;
   const longPressInc = useLongPress(onIncrement);
@@ -39,7 +55,10 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
 
   return (
     <div className={`flex flex-col p-2.5 rounded-[28px] border-2 ${border} bg-white dark:bg-gray-900 transition-all ${isCompleted ? 'opacity-40 grayscale-[0.8]' : ''}`}>
-      <div className={`relative mb-2 aspect-square rounded-[20px] overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center ${!isCompleted ? glow : ''}`}>
+      <div
+        onClick={onOpenDetail}
+        className={`relative mb-2 aspect-square rounded-[20px] overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center cursor-pointer select-none active:scale-95 transition-transform ${!isCompleted ? glow : ''}`}
+      >
         <div className="w-16 h-16 flex items-center justify-center">
           <ItemIcon
             icon={itemInfo?.icon}
@@ -56,12 +75,6 @@ export const InventoryCard = ({ itemId, owned, required, itemInfo, refinerLevel,
             className={`absolute top-2.5 left-2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wide text-white ${craftableNow ? 'bg-emerald-500' : 'bg-amber-500'}`}>
             <Hammer size={9} />
             Refiner{craftLevel === 2 ? ' II' : ''}
-          </div>
-        )}
-        {itemInfo?.stack_size != null && itemInfo.stack_size > 1 && (
-          <div title={`Impilabile fino a ${itemInfo.stack_size}`}
-            className="absolute top-2.5 right-2 px-1.5 py-0.5 rounded-full text-[8px] font-bold font-mono bg-black/55 text-white">
-            ×{itemInfo.stack_size}
           </div>
         )}
         {isCompleted && (

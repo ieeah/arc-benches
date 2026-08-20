@@ -160,4 +160,34 @@ describe('persistence.ts', () => {
       expect(loadSharedLists()).toEqual([]);
     });
   });
+
+  describe('Settings', () => {
+    it('saves and loads theme and stash view mode settings', async () => {
+      const { loadSettings, saveSettings } = await import('@/store/persistence');
+      saveSettings({
+        navSide: 'left',
+        radialMenuEnabled: false,
+        quickFavorites: ['blueprints', 'items'],
+        mainProfileId: 'profile-x',
+        startupProfileOption: 'main',
+        theme: 'light',
+        stashViewMode: 'list',
+      });
+
+      const loaded = loadSettings();
+      expect(loaded.theme).toBe('light');
+      expect(loaded.stashViewMode).toBe('list');
+      expect(loaded.navSide).toBe('left');
+    });
+
+    it('prioritizes direct localStorage keys for theme and view mode', async () => {
+      const { loadSettings } = await import('@/store/persistence');
+      localStorage.setItem('theme', 'light');
+      localStorage.setItem('stash-view-mode', 'list');
+
+      const loaded = loadSettings();
+      expect(loaded.theme).toBe('light');
+      expect(loaded.stashViewMode).toBe('list');
+    });
+  });
 });

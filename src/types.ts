@@ -131,11 +131,15 @@ export interface AppState {
   quickFavorites: [string, string];
   mainProfileId: string;
   startupProfileOption: string;
+  theme: 'light' | 'dark';
+  stashViewMode: 'grid' | 'list';
   setNavSide: (side: 'left' | 'right') => void;
   setRadialMenuEnabled: (enabled: boolean) => void;
   setQuickFavorites: (favorites: [string, string]) => void;
   setMainProfileId: (id: string) => void;
   setStartupProfileOption: (option: string) => void;
+  setTheme: (theme: 'light' | 'dark') => void;
+  setStashViewMode: (mode: 'grid' | 'list') => void;
 
   /** Active Role Maker personality for the active profile */
   activePersonalityId: string | null;

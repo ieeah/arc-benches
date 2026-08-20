@@ -150,3 +150,41 @@ export function getBlueprintProgressPure(
   const percentage = totalCount > 0 ? Math.round((ownedCount / totalCount) * 100) : 0;
   return { ownedCount, totalCount, percentage };
 }
+
+export interface ItemListDependency {
+  listId: string;
+  listName: string;
+  level: number;
+  quantity: number;
+  isCustom?: boolean;
+}
+
+export function getItemDependenciesPure(
+  itemId: string,
+  allLists: List[],
+  activeModules: Record<string, boolean>,
+  hideoutLevels: Record<string, number>,
+  targetLevels: Record<string, number[]>,
+): ItemListDependency[] {
+  const deps: ItemListDependency[] = [];
+  for (const list of allLists) {
+    if (!activeModules[list.id]) continue;
+    const current = hideoutLevels[list.id] ?? 0;
+    const selected = targetLevels[list.id] ?? [];
+    for (const lvl of list.levels) {
+      if (lvl.level > current && selected.includes(lvl.level)) {
+        const req = lvl.requirementItemIds.find(r => r.itemId === itemId);
+        if (req) {
+          deps.push({
+            listId: list.id,
+            listName: list.name,
+            level: lvl.level,
+            quantity: req.quantity,
+            isCustom: Boolean(list.custom),
+          });
+        }
+      }
+    }
+  }
+  return deps;
+}

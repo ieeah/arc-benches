@@ -11,6 +11,7 @@ import {
   getOtherNeedsPure,
   getAllBlueprintsPure,
   getBlueprintProgressPure,
+  getItemDependenciesPure,
 } from '@/store/selectors';
 import type { List } from '@/types';
 
@@ -417,3 +418,51 @@ describe('getBlueprintProgressPure', () => {
     });
   });
 });
+
+describe('getItemDependenciesPure', () => {
+  const mockLists = [
+    {
+      id: 'bench-1',
+      name: 'Banco Equipaggiamento',
+      maxLevel: 3,
+      levels: [
+        { level: 1, requirementItemIds: [{ itemId: 'metal-parts', quantity: 10 }] },
+        { level: 2, requirementItemIds: [{ itemId: 'metal-parts', quantity: 20 }, { itemId: 'plastic', quantity: 5 }] },
+      ],
+    },
+    {
+      id: 'custom-1',
+      name: 'Kit Spedizione',
+      custom: true,
+      maxLevel: 1,
+      levels: [
+        { level: 1, requirementItemIds: [{ itemId: 'metal-parts', quantity: 15 }] },
+      ],
+    },
+  ] as unknown as import('@/types').List[];
+
+  it('returns dependencies for selected target levels on active modules', () => {
+    const active = { 'bench-1': true, 'custom-1': true };
+    const hideout = { 'bench-1': 0, 'custom-1': 0 };
+    const targets = { 'bench-1': [1, 2], 'custom-1': [1] };
+
+    const deps = getItemDependenciesPure('metal-parts', mockLists, active, hideout, targets);
+    expect(deps).toEqual([
+      { listId: 'bench-1', listName: 'Banco Equipaggiamento', level: 1, quantity: 10, isCustom: false },
+      { listId: 'bench-1', listName: 'Banco Equipaggiamento', level: 2, quantity: 20, isCustom: false },
+      { listId: 'custom-1', listName: 'Kit Spedizione', level: 1, quantity: 15, isCustom: true },
+    ]);
+  });
+
+  it('ignores levels that are already achieved or not selected in targets', () => {
+    const active = { 'bench-1': true, 'custom-1': true };
+    const hideout = { 'bench-1': 1, 'custom-1': 0 }; // level 1 already done on bench-1
+    const targets = { 'bench-1': [2], 'custom-1': [] }; // custom-1 not targeted
+
+    const deps = getItemDependenciesPure('metal-parts', mockLists, active, hideout, targets);
+    expect(deps).toEqual([
+      { listId: 'bench-1', listName: 'Banco Equipaggiamento', level: 2, quantity: 20, isCustom: false },
+    ]);
+  });
+});
+
