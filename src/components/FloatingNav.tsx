@@ -78,12 +78,26 @@ export const FloatingNav = ({
   // Menù di navigazione completo (aperto con long-press)
   const [menuOpen, setMenuOpen] = useState(false);
   const [drillCategory, setDrillCategory] = useState<NavItem | null>(null);
+  const [menuHeight, setMenuHeight] = useState<number | undefined>(undefined);
 
+  const rootPaneRef = useRef<HTMLDivElement>(null);
+  const subPaneRef = useRef<HTMLDivElement>(null);
   const mainBtnRef = useRef<HTMLButtonElement>(null);
   const pressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isLongPressRef = useRef(false);
   const startPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const pillRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) {
+      setMenuHeight(undefined);
+      return;
+    }
+    const targetEl = drillCategory !== null ? subPaneRef.current : rootPaneRef.current;
+    if (targetEl) {
+      setMenuHeight(targetEl.scrollHeight);
+    }
+  }, [menuOpen, drillCategory, items]);
 
   // Calcola la destinazione del tap rapido (alternanza tra le due preferite)
   const fav1 = quickFavorites[0] ?? 'stash';
@@ -247,45 +261,86 @@ export const FloatingNav = ({
                   ) : (
                     <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Tutte le Pagine</span>
                   )}
-                  {drillCategory === null && (
-                    <span className="text-[10px] text-gray-400">Menu Completo</span>
-                  )}
                 </div>
 
-                {/* Voci di Navigazione */}
-                <div className="p-2 space-y-0.5 max-h-[60vh] overflow-y-auto">
-                  {(drillCategory ? drillCategory.children ?? [] : items).map(item => {
-                    const hasChildren = Boolean(item.children && item.children.length > 0);
-                    const isSelected = item.id === activePage;
+                {/* Sliding Panes Container */}
+                <div
+                  className="relative overflow-hidden w-full transition-[height] duration-250 ease-out"
+                  style={{
+                    height: menuHeight !== undefined ? `${menuHeight}px` : 'auto',
+                    maxHeight: '60vh',
+                  }}
+                >
+                  <div
+                    className={`flex items-start w-[200%] transition-transform duration-250 ease-out ${
+                      drillCategory !== null ? '-translate-x-1/2' : 'translate-x-0'
+                    }`}
+                  >
+                    {/* Pane 1: Root Menu */}
+                    <div ref={rootPaneRef} className="w-1/2 shrink-0 p-2 space-y-0.5 overflow-y-auto max-h-[60vh]">
+                      {items.map(item => {
+                        const hasChildren = Boolean(item.children && item.children.length > 0);
+                        const isSelected = item.id === activePage;
 
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => {
-                          if (hasChildren) {
-                            setDrillCategory(item);
-                            triggerHaptic(15);
-                          } else {
-                            onNavigate(item.id);
-                            closeAll();
-                            triggerHaptic(20);
-                          }
-                        }}
-                        className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
-                          isSelected
-                            ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
-                            : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                        }`}
-                      >
-                        <div className="flex items-center gap-3 truncate">
-                          {item.icon}
-                          <span className="truncate">{item.label}</span>
-                        </div>
-                        {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
-                        {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
-                      </button>
-                    );
-                  })}
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              if (hasChildren) {
+                                setDrillCategory(item);
+                                triggerHaptic(15);
+                              } else {
+                                onNavigate(item.id);
+                                closeAll();
+                                triggerHaptic(20);
+                              }
+                            }}
+                            className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                                : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3 truncate">
+                              {item.icon}
+                              <span className="truncate">{item.label}</span>
+                            </div>
+                            {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
+                            {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Pane 2: Sub-category Menu */}
+                    <div ref={subPaneRef} className="w-1/2 shrink-0 p-2 space-y-0.5 overflow-y-auto max-h-[60vh]">
+                      {(drillCategory?.children ?? []).map(item => {
+                        const isSelected = item.id === activePage;
+
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              onNavigate(item.id);
+                              closeAll();
+                              triggerHaptic(20);
+                            }}
+                            className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                                : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3 truncate">
+                              {item.icon}
+                              <span className="truncate">{item.label}</span>
+                            </div>
+                            {isSelected && <Check size={14} className="shrink-0" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
