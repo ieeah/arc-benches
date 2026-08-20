@@ -22,11 +22,11 @@ const RequirementsGrid = ({
   inventory: Record<string, number>;
   totalRequired: Record<string, number>;
 }) => (
-  <div>
+  <div className="w-full min-w-0">
     <p className="text-[9px] font-bold uppercase text-gray-400 mb-1.5 tracking-wider">
       Requisiti Lvl {currentLevelNum + 1}:
     </p>
-    <div className="grid grid-cols-2 gap-1.5">
+    <div className="grid grid-cols-2 gap-1.5 min-w-0 w-full">
       {levelData.requirementItemIds.map(req => {
         const craftLevel = refinerCraftLevel(itemsInfo[req.itemId]);
         const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
@@ -34,8 +34,8 @@ const RequirementsGrid = ({
         const collected = owned >= req.quantity && owned >= (totalRequired[req.itemId] ?? 0);
         return (
           <div key={req.itemId}
-            className={`text-[10px] flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-xl gap-1 ${collected ? 'opacity-45' : ''}`}>
-            <span className="truncate font-semibold capitalize flex items-center gap-1">
+            className={`text-[10px] flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-xl gap-1 min-w-0 overflow-hidden ${collected ? 'opacity-45' : ''}`}>
+            <div className="flex items-center gap-1 min-w-0 overflow-hidden flex-1">
               {collected ? (
                 <CheckCircle2 size={10} className="shrink-0 text-green-500" aria-label="Già raccolto" />
               ) : craftLevel !== null && (
@@ -43,9 +43,11 @@ const RequirementsGrid = ({
                   className={`shrink-0 ${craftableNow ? 'text-emerald-500' : 'text-amber-500'}`}
                   aria-label={craftableNow ? 'Craftabile nel Refiner' : `Richiede Refiner Lvl ${craftLevel}`} />
               )}
-              {itemsInfo[req.itemId]?.name ?? req.itemId.replace(/-/g, ' ')}
-            </span>
-            <span className="font-mono font-bold text-xs shrink-0">{req.quantity}</span>
+              <span className="truncate block min-w-0 font-semibold capitalize">
+                {itemsInfo[req.itemId]?.name ?? req.itemId.replace(/-/g, ' ')}
+              </span>
+            </div>
+            <span className="font-mono font-bold text-xs shrink-0 pl-1">{req.quantity}</span>
           </div>
         );
       })}
@@ -169,15 +171,15 @@ export const UnifiedListCard = ({
     : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900';
 
   return (
-    <div className={`mb-3 rounded-[24px] border-2 transition-colors ${cardBorder}`}>
+    <div className={`mb-3 rounded-[24px] border-2 transition-colors w-full min-w-0 overflow-hidden box-border ${cardBorder}`}>
       {/* Header — expand trigger (name + badge + chevron) flanked by drag handle and menu */}
-      <div className="flex items-center gap-1.5 px-3 pt-3 pb-2">
+      <div className="flex items-center gap-1.5 px-3 pt-3 pb-2 w-full min-w-0 overflow-hidden">
         {dragHandle}
         <button
           onClick={() => setExpanded(e => !e)}
-          className="flex-1 flex items-center gap-2 min-w-0 text-left"
+          className="flex-1 flex items-center gap-1.5 min-w-0 text-left overflow-hidden"
         >
-          <span className="font-bold text-base flex-1 flex items-center gap-1.5 min-w-0">
+          <span className="font-bold text-base flex-1 flex items-center gap-1.5 min-w-0 overflow-hidden">
             <span className="truncate">{list.name}</span>
             {list.custom && (
               <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">

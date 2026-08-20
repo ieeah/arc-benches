@@ -9,7 +9,7 @@ export const SortableUnifiedListCard = (props: Omit<ComponentProps<typeof Unifie
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 };
 
   return (
-    <div ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={style} className="w-full min-w-0">
       <UnifiedListCard {...props}
         dragHandle={
           <button {...attributes} {...listeners}
