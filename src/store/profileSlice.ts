@@ -136,6 +136,8 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         inventory: entry.inventory,
         filterHideCompleted: true, listOrder, customLists, checkedActions: {},
         activePersonalityId: null,
+        ownedBlueprints: {},
+        filterHideOwnedBlueprints: false,
       };
 
       if (!profiles.some(p => p.id === entry.profile.id)) profiles = [...profiles, entry.profile];

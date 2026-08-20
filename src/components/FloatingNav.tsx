@@ -26,7 +26,7 @@ export type ContextAction = {
 };
 
 // Albero di navigazione predefinito
-export const DEFAULT_NAV_TREE: NavItem[] = [
+const DEFAULT_NAV_TREE: NavItem[] = [
   { id: 'stash', label: 'Stash', icon: <Backpack size={18} /> },
   { id: 'liste', label: 'Banchi & Liste', icon: <LayoutList size={18} /> },
   { id: 'blueprints', label: 'Progetti Blueprints', icon: <ScrollText size={18} /> },
@@ -80,7 +80,7 @@ export const FloatingNav = ({
   const [drillCategory, setDrillCategory] = useState<NavItem | null>(null);
 
   const mainBtnRef = useRef<HTMLButtonElement>(null);
-  const pressTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const pressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isLongPressRef = useRef(false);
   const startPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const pillRef = useRef<HTMLDivElement>(null);
@@ -106,7 +106,7 @@ export const FloatingNav = ({
 
   const triggerHaptic = (ms = 15) => {
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
-      try { navigator.vibrate(ms); } catch {}
+      try { navigator.vibrate(ms); } catch { /* ignore */ }
     }
   };
 
@@ -116,7 +116,7 @@ export const FloatingNav = ({
     setDrillCategory(null);
     isLongPressRef.current = false;
     if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
-  }, []);
+  }, [setMenuOpen, setContextMenuOpen, setDrillCategory]);
 
   useEffect(() => {
     if (!menuOpen && !contextMenuOpen) return;
@@ -155,7 +155,7 @@ export const FloatingNav = ({
     }, 220);
   };
 
-  const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const handlePointerUp = () => {
     if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
 
     // Se non è stato un long-press, è un TAP SINGOLO: toggle tra le due pagine preferite!

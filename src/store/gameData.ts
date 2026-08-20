@@ -53,6 +53,8 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   customLists: loaded.customLists ?? [],
   checkedActions: loaded.checkedActions ?? {},
   activePersonalityId: loaded.activePersonalityId ?? null,
+  ownedBlueprints: loaded.ownedBlueprints ?? {},
+  filterHideOwnedBlueprints: loaded.filterHideOwnedBlueprints ?? false,
 });
 
 /** Fresh (empty) progress for a brand-new profile. */
@@ -66,4 +68,6 @@ export const freshProfile = (): PersistedState => ({
   customLists: [],
   checkedActions: {},
   activePersonalityId: null,
+  ownedBlueprints: {},
+  filterHideOwnedBlueprints: false,
 });

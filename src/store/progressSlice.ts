@@ -7,8 +7,10 @@ import {
 
 export type ProgressSlice = Pick<AppState,
   'hideoutLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
+  'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'setModuleCurrentLevel' | 'toggleTargetLevel' | 'toggleModuleActive' | 'setFilterHideCompleted' |
-  'setListOrder' | 'toggleAction' | 'upgradeModule' | 'resetProgress'
+  'setListOrder' | 'toggleAction' | 'upgradeModule' | 'resetProgress' |
+  'toggleBlueprintOwned' | 'setBlueprintOwned' | 'setFilterHideOwnedBlueprints'
 >;
 
 export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> = (set, get) => ({
@@ -18,6 +20,8 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
   checkedActions: bootProfileState.checkedActions,
   filterHideCompleted: bootProfileState.filterHideCompleted,
   listOrder: bootProfileState.listOrder,
+  ownedBlueprints: bootProfileState.ownedBlueprints,
+  filterHideOwnedBlueprints: bootProfileState.filterHideOwnedBlueprints,
 
   setModuleCurrentLevel: (moduleId, level, deductMaterials = false) => {
     const s = get();
@@ -115,6 +119,22 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
       listOrder: s.listOrder,
       customLists: s.customLists,
       checkedActions: {},
+      ownedBlueprints: {},
+      filterHideOwnedBlueprints: false,
     });
+  },
+
+  toggleBlueprintOwned: (id) => {
+    const s = get();
+    set({ ownedBlueprints: { ...s.ownedBlueprints, [id]: !s.ownedBlueprints[id] } });
+  },
+
+  setBlueprintOwned: (id, owned) => {
+    const s = get();
+    set({ ownedBlueprints: { ...s.ownedBlueprints, [id]: owned } });
+  },
+
+  setFilterHideOwnedBlueprints: (hide) => {
+    set({ filterHideOwnedBlueprints: hide });
   },
 });

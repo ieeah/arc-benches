@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import {
-  ArrowLeft, Check, Download, Hand, Moon, Plus, RotateCcw,
-  Settings, Smartphone, Sun, Trash2, Upload, Users, Info, Sparkles
+  ArrowLeft, Check, Download, Hand, Moon, Plus,
+  Sun, Trash2, Upload, Users, Info, Sparkles
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { useTheme } from '@/context/ThemeContext';
 import { useAppStore } from '@/store';
-import { safeLS } from '@/lib/safeStorage';
+import { downloadExport } from '@/lib/listIO';
 
 interface SettingsPageProps {
   onBack: () => void;
@@ -25,6 +25,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const AVAILABLE_PAGES = [
     { id: 'stash', label: 'Stash' },
     { id: 'liste', label: 'Banchi & Liste' },
+    { id: 'blueprints', label: 'Progetti Blueprints' },
     { id: 'items', label: 'Database Oggetti' },
     { id: 'settings', label: 'Impostazioni' },
   ];
@@ -73,14 +74,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   };
 
   const handleExport = () => {
-    const data = store.exportState();
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `arc-raiders-backup-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const { sharedLists, profiles: exported } = store.buildExportData(store.profiles.map(p => p.id));
+    downloadExport({ version: 3, exportedAt: new Date().toISOString(), sharedLists, profiles: exported });
   };
 
   return (

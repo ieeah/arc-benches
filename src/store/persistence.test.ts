@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {
   PROFILES_KEY,
   SHARED_LISTS_KEY,
@@ -91,6 +91,8 @@ describe('persistence.ts', () => {
       customLists: [],
       checkedActions: { 'workbench1|1|act1': true },
       activePersonalityId: 'persona-1',
+      ownedBlueprints: { 'bp-1': true },
+      filterHideOwnedBlueprints: false,
     };
 
     it('saves and loads active profile state', () => {

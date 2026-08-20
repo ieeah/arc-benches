@@ -1,5 +1,5 @@
-import { useState, useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
-import { GripVertical, Plus, Upload, Check, Pencil, Trash2 } from 'lucide-react';
+import { useState, useRef, useEffect, useMemo } from 'react';
+import { GripVertical, Upload, Check } from 'lucide-react';
 import {
   DndContext, closestCenter, PointerSensor, TouchSensor,
   useSensor, useSensors,
@@ -24,7 +24,6 @@ import { SortableUnifiedListCard } from '@/components/SortableUnifiedListCard';
 import { UnifiedListCard } from '@/components/UnifiedListCard';
 import { CustomListEditor } from '@/components/CustomListEditor';
 import { CollapsibleSection } from '@/components/CollapsibleSection';
-import { Drawer } from '@/components/Drawer';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { downloadExport, parseImport } from '@/lib/listIO';
 import { v } from '@/lib/validate';
@@ -33,15 +32,15 @@ import type { List, ListExportFile, MultiProfileExportFile } from '@/types';
 
 type SectionsOpen = { workbench: boolean; custom: boolean; completati: boolean };
 
-export type ListsPageHandle = {
-  openProfiles: () => void;
-  createList: () => void;
-  openExport: () => void;
-  triggerImport: () => void;
-};
+export type ListsPageAction = 'create' | 'export' | 'import' | null;
 
-export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: string) => void }>(
-  ({ onOpenDetail }, ref) => {
+interface ListsPageProps {
+  onOpenDetail: (listId: string) => void;
+  action?: ListsPageAction;
+  onActionHandled?: () => void;
+}
+
+export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPageProps) => {
   // Selettori mirati — re-render solo sulla slice pertinente
   const inventory = useAppStore(s => s.inventory);
   const hideoutLevels = useAppStore(s => s.hideoutLevels);
@@ -69,10 +68,6 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   const toggleTargetLevel = useAppStore(s => s.toggleTargetLevel);
   const toggleAction = useAppStore(s => s.toggleAction);
   const deleteCustomList = useAppStore(s => s.deleteCustomList);
-  const createProfile = useAppStore(s => s.createProfile);
-  const switchProfile = useAppStore(s => s.switchProfile);
-  const renameProfile = useAppStore(s => s.renameProfile);
-  const deleteProfile = useAppStore(s => s.deleteProfile);
   const buildExportData = useAppStore(s => s.buildExportData);
   const importMultiProfile = useAppStore(s => s.importMultiProfile);
   const importLists = useAppStore(s => s.importLists);
@@ -96,11 +91,6 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
       return { workbench: true, custom: true, completati: false };
     }, { workbench: true, custom: true, completati: false });
   });
-
-  const [editingProfile, setEditingProfile] = useState<{ id: string; name: string } | null>(null);
-  const [deletingProfileId, setDeletingProfileId] = useState<string | null>(null);
-  const [showNewProfile, setShowNewProfile] = useState(false);
-  const [newProfileName, setNewProfileName] = useState('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -163,11 +153,6 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
     }
   };
 
-  const openExportModal = () => {
-    setExportSelectedIds(new Set(profiles.map(p => p.id)));
-    setShowExportModal(true);
-  };
-
   const handleExportAll = () => {
     const { sharedLists, profiles: exported } = buildExportData(profiles.map(p => p.id));
     downloadExport({ version: 3, exportedAt: new Date().toISOString(), sharedLists, profiles: exported });
@@ -212,36 +197,21 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
     setImportError(null);
   };
 
-  const closeProfilesDrawer = () => {
-    setShowProfiles(false);
-    setEditingProfile(null);
-    setDeletingProfileId(null);
-    setShowNewProfile(false);
-    setNewProfileName('');
-  };
-
-  const commitNewProfile = () => {
-    const name = newProfileName.trim();
-    if (!name) return;
-    createProfile(name);
-    setShowNewProfile(false);
-    setNewProfileName('');
-    closeProfilesDrawer();
-  };
-
-  const commitRenameProfile = () => {
-    if (!editingProfile) return;
-    const name = editingProfile.name.trim();
-    if (name) renameProfile(editingProfile.id, name);
-    setEditingProfile(null);
-  };
-
-  useImperativeHandle(ref, () => ({
-    openProfiles: () => setShowProfiles(true),
-    createList: () => setEditing({}),
-    openExport: openExportModal,
-    triggerImport: () => fileInputRef.current?.click(),
-  }));
+  useEffect(() => {
+    if (!action) return;
+    const timer = setTimeout(() => {
+      if (action === 'create') {
+        setEditing({});
+      } else if (action === 'export') {
+        setExportSelectedIds(new Set(profiles.map(p => p.id)));
+        setShowExportModal(true);
+      } else if (action === 'import') {
+        fileInputRef.current?.click();
+      }
+      onActionHandled?.();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [action, onActionHandled, profiles]);
 
   const sharedCardProps = (list: List) => ({
     list,
@@ -274,9 +244,11 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
   const renderDndSection = (lists: List[]) => (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={lists.map(l => l.id)} strategy={verticalListSortingStrategy}>
-        {lists.map(list => (
-          <SortableUnifiedListCard key={list.id} {...sharedCardProps(list)} />
-        ))}
+        <div data-list-container="benches" className="w-full flex flex-col gap-3">
+          {lists.map(list => (
+            <SortableUnifiedListCard key={list.id} {...sharedCardProps(list)} />
+          ))}
+        </div>
       </SortableContext>
     </DndContext>
   );
@@ -333,9 +305,11 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
             open={sectionsOpen.completati}
             onToggle={() => toggleSection('completati')}
           >
-            {maxedLists.map(list => (
-              <UnifiedListCard key={list.id} {...sharedCardProps(list)} />
-            ))}
+            <div data-list-container="benches" className="w-full flex flex-col gap-3">
+              {maxedLists.map(list => (
+                <UnifiedListCard key={list.id} {...sharedCardProps(list)} />
+              ))}
+            </div>
           </CollapsibleSection>
         )}
       </div>
@@ -508,4 +482,4 @@ export const ListsPage = forwardRef<ListsPageHandle, { onOpenDetail: (listId: st
       )}
     </div>
   );
-});
+};

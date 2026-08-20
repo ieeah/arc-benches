@@ -9,6 +9,8 @@ import {
   getMissingMaterialsPure,
   getAvailableUpgradesPure,
   getOtherNeedsPure,
+  getAllBlueprintsPure,
+  getBlueprintProgressPure,
 } from '@/store/selectors';
 import type { List } from '@/types';
 
@@ -374,5 +376,44 @@ describe('getOtherNeedsPure', () => {
     const copy = { ...total };
     getOtherNeedsPure(total, bench1, { 'wb:1': 0 }, { 'wb:1': [1, 2, 3] });
     expect(total).toEqual(copy);
+  });
+});
+
+describe('getAllBlueprintsPure', () => {
+  it('filters items where item_type or subcategory is Blueprint', () => {
+    const mockItems = {
+      'bp-1': { id: 'bp-1', name: 'BP 1', item_type: 'Blueprint', subcategory: 'Weapon' },
+      'bp-2': { id: 'bp-2', name: 'BP 2', item_type: 'Item', subcategory: 'Blueprint' },
+      'mat-1': { id: 'mat-1', name: 'Material', item_type: 'Material', subcategory: 'Refined' },
+    };
+    const blueprints = getAllBlueprintsPure(mockItems as unknown as Record<string, import('@/types').ItemInfo>);
+    expect(blueprints.map(b => b.id)).toEqual(['bp-1', 'bp-2']);
+  });
+});
+
+describe('getBlueprintProgressPure', () => {
+  it('calculates ownedCount, totalCount and percentage accurately', () => {
+    const mockBlueprints = [
+      { id: 'bp-1', name: 'BP 1' },
+      { id: 'bp-2', name: 'BP 2' },
+      { id: 'bp-3', name: 'BP 3' },
+      { id: 'bp-4', name: 'BP 4' },
+    ] as unknown as import('@/types').ItemInfo[];
+    const owned = { 'bp-1': true, 'bp-3': true };
+    const stats = getBlueprintProgressPure(mockBlueprints, owned);
+    expect(stats).toEqual({
+      ownedCount: 2,
+      totalCount: 4,
+      percentage: 50,
+    });
+  });
+
+  it('handles empty blueprints array without dividing by zero', () => {
+    const stats = getBlueprintProgressPure([], {});
+    expect(stats).toEqual({
+      ownedCount: 0,
+      totalCount: 0,
+      percentage: 0,
+    });
   });
 });

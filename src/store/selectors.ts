@@ -131,3 +131,22 @@ export function getOtherNeedsPure(
   }
   return result;
 }
+
+export function getAllBlueprintsPure(itemsInfo: Record<string, import('@/types').ItemInfo>): import('@/types').ItemInfo[] {
+  return Object.values(itemsInfo).filter(
+    item => item.item_type === 'Blueprint' || item.subcategory === 'Blueprint'
+  );
+}
+
+export function getBlueprintProgressPure(
+  blueprints: import('@/types').ItemInfo[],
+  ownedBlueprints: Record<string, boolean>,
+): { ownedCount: number; totalCount: number; percentage: number } {
+  const totalCount = blueprints.length;
+  let ownedCount = 0;
+  for (const bp of blueprints) {
+    if (ownedBlueprints[bp.id]) ownedCount++;
+  }
+  const percentage = totalCount > 0 ? Math.round((ownedCount / totalCount) * 100) : 0;
+  return { ownedCount, totalCount, percentage };
+}

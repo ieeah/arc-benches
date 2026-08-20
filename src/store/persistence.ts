@@ -11,11 +11,11 @@ export const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
-/** The 9 keys persisted per profile. */
+/** The 11 keys persisted per profile. */
 export type PersistedState = Pick<AppState,
   'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
-  'activePersonalityId'
+  'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints'
 >;
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
@@ -68,6 +68,8 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
   if (typeof raw.activePersonalityId === 'string' || raw.activePersonalityId === null) {
     out.activePersonalityId = raw.activePersonalityId;
   }
+  if (isObject(raw.ownedBlueprints)) out.ownedBlueprints = sanitizeBoolRecord(raw.ownedBlueprints);
+  if (typeof raw.filterHideOwnedBlueprints === 'boolean') out.filterHideOwnedBlueprints = raw.filterHideOwnedBlueprints;
   return out;
 }
 
@@ -95,6 +97,8 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     customLists: s.customLists,
     checkedActions: s.checkedActions,
     activePersonalityId: s.activePersonalityId ?? null,
+    ownedBlueprints: s.ownedBlueprints ?? {},
+    filterHideOwnedBlueprints: s.filterHideOwnedBlueprints ?? false,
   };
   safeLS(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }
@@ -146,7 +150,7 @@ export function loadSettings(): AppSettingsData {
 
     let parsed: Partial<AppSettingsData> = {};
     if (raw) {
-      try { parsed = JSON.parse(raw); } catch {}
+      try { parsed = JSON.parse(raw); } catch { /* ignore */ }
     }
 
     const defaultFavorites: [string, string] = ['stash', 'liste'];

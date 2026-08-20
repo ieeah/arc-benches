@@ -169,6 +169,13 @@ export interface AppState {
   checkedActions: Record<string, boolean>;
   toggleAction: (listId: string, level: number, actionId: string) => void;
 
+  /** Blueprint Tracker state for the active profile */
+  ownedBlueprints: Record<string, boolean>;
+  filterHideOwnedBlueprints: boolean;
+  toggleBlueprintOwned: (id: string) => void;
+  setBlueprintOwned: (id: string, owned: boolean) => void;
+  setFilterHideOwnedBlueprints: (hide: boolean) => void;
+
   createProfile: (name: string) => void;
   switchProfile: (id: string) => void;
   renameProfile: (id: string, name: string) => void;
