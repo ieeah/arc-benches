@@ -1,57 +1,277 @@
 import { useState } from 'react';
-import { X, Plus, Minus, Trash2, ListPlus, CheckSquare, Users } from 'lucide-react';
+import { X, Plus, Trash2, Pencil, ListPlus, CheckSquare, Users } from 'lucide-react';
 import type { ListLevel, ItemInfo, CheckboxAction } from '@/types';
 import { useAppStore } from '@/store';
-import { iconUrl } from '@/lib/icons';
-import { getRarityStyles } from '@/lib/rarity';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { BottomSheet } from '@/components/BottomSheet';
+import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { QuantityStepper } from '@/components/QuantityStepper';
+import { getRarityText } from '@/lib/rarity';
 
-const QuantityInput = ({
+const CustomListRequirementItem = ({
+  itemId,
   quantity,
-  onChange,
+  info,
+  onEdit,
+  onRemove,
 }: {
+  itemId: string;
   quantity: number;
-  onChange: (val: number) => void;
+  info?: ItemInfo;
+  onEdit: () => void;
+  onRemove: () => void;
 }) => {
-  const [prevQuantity, setPrevQuantity] = useState(quantity);
-  const [tempValue, setTempValue] = useState(quantity.toString());
+  return (
+    <div className="flex items-center gap-3 p-2 rounded-2xl bg-gray-50/70 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800/80 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
+      <ItemCardFrame
+        icon={info?.icon ?? null}
+        alt={info?.name ?? itemId}
+        rarity={info?.rarity ?? 'Common'}
+        fallbackText={itemId}
+        className="w-11 h-11 shrink-0 rounded-xl"
+        imgClassName="max-w-[85%] max-h-[85%] object-contain"
+      />
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-1.5">
+          <p className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
+            {info?.name ?? itemId}
+          </p>
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[11px] font-black bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shrink-0">
+            ×{quantity}
+          </span>
+        </div>
+        <p className="text-[10px] text-gray-400 font-mono truncate mt-0.5">{itemId}</p>
+      </div>
+      <div className="flex items-center gap-1.5 shrink-0">
+        <button
+          type="button"
+          onClick={onEdit}
+          className="w-8 h-8 rounded-full bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
+          title="Modifica quantità"
+        >
+          <Pencil size={13} />
+        </button>
+        <button
+          type="button"
+          onClick={onRemove}
+          className="w-8 h-8 rounded-full bg-red-50/80 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
+          title="Rimuovi oggetto"
+        >
+          <Trash2 size={13} />
+        </button>
+      </div>
+    </div>
+  );
+};
 
-  if (quantity !== prevQuantity) {
-    setPrevQuantity(quantity);
-    setTempValue(quantity.toString());
-  }
+const ItemQuantityModal = ({
+  item,
+  initialQuantity = 1,
+  onConfirm,
+  onClose,
+}: {
+  item: ItemInfo;
+  initialQuantity?: number;
+  onConfirm: (quantity: number) => void;
+  onClose: () => void;
+}) => {
+  const [quantity, setQuantity] = useState(initialQuantity > 0 ? initialQuantity : 1);
+  const [tempValue, setTempValue] = useState(String(quantity));
+
+  const handleTempValueChange = (val: string) => {
+    setTempValue(val);
+    const parsed = parseInt(val, 10);
+    if (!isNaN(parsed) && parsed > 0) {
+      setQuantity(parsed);
+    }
+  };
 
   const handleBlur = () => {
-    let val = parseInt(tempValue);
-    if (isNaN(val) || val < 1) {
-      val = 1;
+    let parsed = parseInt(tempValue, 10);
+    if (isNaN(parsed) || parsed < 1) {
+      parsed = 1;
     }
-    onChange(val);
-    setTempValue(val.toString());
+    setQuantity(parsed);
+    setTempValue(String(parsed));
+  };
+
+  const adjustQty = (delta: number) => {
+    const next = Math.max(1, quantity + delta);
+    setQuantity(next);
+    setTempValue(String(next));
+  };
+
+  const setExact = (val: number) => {
+    const next = Math.max(1, val);
+    setQuantity(next);
+    setTempValue(String(next));
   };
 
   return (
-    <input
-      type="text"
-      inputMode="numeric"
-      pattern="[0-9]*"
-      value={tempValue}
-      onChange={e => {
-        const val = e.target.value;
-        if (val === '' || /^\d+$/.test(val)) {
-          setTempValue(val);
-        }
-      }}
-      onBlur={handleBlur}
-      onKeyDown={e => {
-        if (e.key === 'Enter') {
-          e.currentTarget.blur();
-        }
-      }}
-      className="w-10 text-center text-sm font-bold font-mono bg-transparent focus:outline-none"
-    />
+    <BottomSheet
+      title="Imposta Quantità"
+      onClose={onClose}
+      overlayZ="z-60"
+      footer={
+        <div className="p-4 pt-2 border-t border-gray-100 dark:border-gray-800 flex gap-2.5">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            Annulla
+          </button>
+          <button
+            type="button"
+            onClick={() => onConfirm(quantity)}
+            className="flex-2 py-3 text-xs font-bold text-white bg-blue-500 hover:bg-blue-600 rounded-full shadow-xs transition-colors flex items-center justify-center gap-1.5"
+          >
+            <span>Aggiungi alla lista ({quantity})</span>
+          </button>
+        </div>
+      }
+    >
+      <div className="flex flex-col items-center py-2 space-y-4">
+        {/* Item preview card */}
+        <div className="w-full flex items-center gap-3.5 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-[22px] border border-gray-100 dark:border-gray-700/60">
+          <ItemCardFrame
+            icon={item.icon}
+            alt={item.name}
+            rarity={item.rarity}
+            fallbackText={item.id}
+            className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
+            imgClassName="max-w-[85%] max-h-[85%] object-contain"
+          />
+          <div className="flex-1 min-w-0">
+            <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 truncate">
+              {item.name}
+            </h3>
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+              <span className={`font-bold ${getRarityText(item.rarity)}`}>{item.rarity}</span>
+              {item.item_type ? ` · ${item.item_type}` : ''}
+              {item.stack_size ? ` · Stack: ${item.stack_size}` : ''}
+            </p>
+            {item.description && (
+              <p className="text-[10px] text-gray-400 dark:text-gray-500 line-clamp-2 mt-1">
+                {item.description}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Quantity selector */}
+        <div className="w-full flex flex-col items-center gap-3 pt-2">
+          <label className="text-xs font-bold uppercase tracking-wider text-gray-400">
+            Quantità Richiesta
+          </label>
+          <div className="w-48">
+            <QuantityStepper
+              orientation="horizontal"
+              tempValue={tempValue}
+              onTempValueChange={handleTempValueChange}
+              onBlur={handleBlur}
+              onIncrement={() => adjustQty(1)}
+              onDecrement={() => adjustQty(-1)}
+              rarity={item.rarity}
+              itemName={item.name}
+            />
+          </div>
+
+          {/* Quick preset buttons */}
+          <div className="flex flex-wrap justify-center gap-1.5 pt-1">
+            {[1, 2, 5, 10, 25, 50, 100].map(val => (
+              <button
+                key={val}
+                type="button"
+                onClick={() => setExact(val)}
+                className={`px-2.5 py-1 text-xs font-bold rounded-xl transition-all ${
+                  quantity === val
+                    ? 'bg-blue-500 text-white shadow-2xs'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+              >
+                {val}
+              </button>
+            ))}
+            {item.stack_size && ![1, 2, 5, 10, 25, 50, 100].includes(item.stack_size) && (
+              <button
+                type="button"
+                onClick={() => setExact(item.stack_size!)}
+                className={`px-2.5 py-1 text-xs font-bold rounded-xl transition-all ${
+                  quantity === item.stack_size
+                    ? 'bg-blue-500 text-white shadow-2xs'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+              >
+                Stack ({item.stack_size})
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </BottomSheet>
+  );
+};
+
+const ConfirmDeleteItemModal = ({
+  itemName,
+  itemId,
+  itemInfo,
+  levelNum,
+  onConfirm,
+  onClose,
+}: {
+  itemName: string;
+  itemId: string;
+  itemInfo?: ItemInfo;
+  levelNum: number;
+  onConfirm: () => void;
+  onClose: () => void;
+}) => {
+  return (
+    <BottomSheet
+      title="Rimuovi oggetto"
+      onClose={onClose}
+      overlayZ="z-60"
+      footer={
+        <div className="p-4 pt-2 border-t border-gray-100 dark:border-gray-800 flex gap-2.5">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            Annulla
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            className="flex-1 py-3 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-full shadow-xs transition-colors"
+          >
+            Rimuovi
+          </button>
+        </div>
+      }
+    >
+      <div className="flex flex-col items-center text-center py-4 px-2 space-y-3">
+        <ItemCardFrame
+          icon={itemInfo?.icon ?? null}
+          alt={itemName}
+          rarity={itemInfo?.rarity ?? 'Common'}
+          fallbackText={itemId}
+          className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
+          imgClassName="max-w-[85%] max-h-[85%] object-contain"
+        />
+        <div>
+          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+            Vuoi rimuovere <span className="font-bold text-gray-900 dark:text-white">"{itemName}"</span> dalla lista?
+          </p>
+          <p className="text-xs text-gray-400 mt-1">
+            L'oggetto verrà rimosso dal Livello {levelNum}.
+          </p>
+        </div>
+      </div>
+    </BottomSheet>
   );
 };
 
@@ -71,19 +291,22 @@ export const CustomListEditor = ({ listId, onClose }: {
     existing?.levels ?? [{ level: 1, requirementItemIds: [] }]
   );
   const [pickerLevel, setPickerLevel] = useState<number | null>(null);
+  const [itemToConfigure, setItemToConfigure] = useState<{ level: number; item: ItemInfo; initialQty: number } | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<{ level: number; itemId: string; name: string; info?: ItemInfo } | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [addingAction, setAddingAction] = useState<{ level: number; text: string } | null>(null);
 
   const updateLevel = (levelNum: number, items: ListLevel['requirementItemIds']) =>
     setLevels(ls => ls.map(l => (l.level === levelNum ? { ...l, requirementItemIds: items } : l)));
 
-  const addItem = (levelNum: number, item: ItemInfo) => {
+  const addItemWithQuantity = (levelNum: number, item: ItemInfo, quantity: number) => {
     const lvl = levels.find(l => l.level === levelNum);
     if (!lvl) return;
     const existingReq = lvl.requirementItemIds.find(r => r.itemId === item.id);
     updateLevel(levelNum, existingReq
-      ? lvl.requirementItemIds.map(r => (r.itemId === item.id ? { ...r, quantity: r.quantity + 1 } : r))
-      : [...lvl.requirementItemIds, { itemId: item.id, quantity: 1 }]);
+      ? lvl.requirementItemIds.map(r => (r.itemId === item.id ? { ...r, quantity } : r))
+      : [...lvl.requirementItemIds, { itemId: item.id, quantity }]);
+    setItemToConfigure(null);
     setPickerLevel(null);
   };
 
@@ -219,34 +442,32 @@ export const CustomListEditor = ({ listId, onClose }: {
               )}
 
               {/* Material requirements */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {lvl.requirementItemIds.map(req => {
                   const info = store.itemsInfo[req.itemId];
-                  const { color } = getRarityStyles(info?.rarity ?? '');
                   return (
-                    <div key={req.itemId} className="flex items-center gap-2.5">
-                      <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                        {info?.icon
-                          ? <img src={iconUrl(info.icon)} alt={info.name} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
-                          : <span className="text-[7px] text-gray-400">{req.itemId}</span>}
-                        <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
-                      </div>
-                      <span className="flex-1 min-w-0 text-sm font-semibold truncate">{info?.name ?? req.itemId}</span>
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <button onClick={() => setQty(lvl.level, req.itemId, req.quantity - 1)}
-                          className="w-7 h-7 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-full">
-                          <Minus size={13} />
-                        </button>
-                        <QuantityInput
-                          quantity={req.quantity}
-                          onChange={val => setQty(lvl.level, req.itemId, val)}
-                        />
-                        <button onClick={() => setQty(lvl.level, req.itemId, req.quantity + 1)}
-                          className="w-7 h-7 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-full">
-                          <Plus size={13} />
-                        </button>
-                      </div>
-                    </div>
+                    <CustomListRequirementItem
+                      key={req.itemId}
+                      itemId={req.itemId}
+                      quantity={req.quantity}
+                      info={info}
+                      onEdit={() => {
+                        const item = info || { id: req.itemId, name: req.itemId, rarity: 'Common' };
+                        setItemToConfigure({
+                          level: lvl.level,
+                          item,
+                          initialQty: req.quantity,
+                        });
+                      }}
+                      onRemove={() => {
+                        setItemToDelete({
+                          level: lvl.level,
+                          itemId: req.itemId,
+                          name: info?.name ?? req.itemId,
+                          info,
+                        });
+                      }}
+                    />
                   );
                 })}
                 {lvl.requirementItemIds.length === 0 && (lvl.actions?.length ?? 0) === 0 && (
@@ -333,8 +554,39 @@ export const CustomListEditor = ({ listId, onClose }: {
       {pickerLevel !== null && (
         <ItemPicker
           excludeIds={levels.find(l => l.level === pickerLevel)?.requirementItemIds.map(r => r.itemId)}
-          onPick={item => addItem(pickerLevel, item)}
+          onPick={item => {
+            const lvl = levels.find(l => l.level === pickerLevel);
+            const existingReq = lvl?.requirementItemIds.find(r => r.itemId === item.id);
+            setItemToConfigure({
+              level: pickerLevel,
+              item,
+              initialQty: existingReq?.quantity ?? 1,
+            });
+          }}
           onClose={() => setPickerLevel(null)}
+        />
+      )}
+
+      {itemToConfigure !== null && (
+        <ItemQuantityModal
+          item={itemToConfigure.item}
+          initialQuantity={itemToConfigure.initialQty}
+          onConfirm={qty => addItemWithQuantity(itemToConfigure.level, itemToConfigure.item, qty)}
+          onClose={() => setItemToConfigure(null)}
+        />
+      )}
+
+      {itemToDelete !== null && (
+        <ConfirmDeleteItemModal
+          itemName={itemToDelete.name}
+          itemId={itemToDelete.itemId}
+          itemInfo={itemToDelete.info}
+          levelNum={itemToDelete.level}
+          onConfirm={() => {
+            setQty(itemToDelete.level, itemToDelete.itemId, 0);
+            setItemToDelete(null);
+          }}
+          onClose={() => setItemToDelete(null)}
         />
       )}
     </>
