@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 import { useScrollLock } from '@/hooks/useScrollLock';
 import { useDialog } from '@/hooks/useDialog';
+import { useTranslation } from '@/i18n';
 
 export type DrawerFrom = 'bottom' | 'top' | 'left' | 'right';
 
@@ -41,6 +42,7 @@ export const Drawer = ({
   title?: string;
   children: React.ReactNode;
 }) => {
+  const { t } = useTranslation();
   useScrollLock();
   const [isClosing, setIsClosing] = useState(false);
 
@@ -69,7 +71,7 @@ export const Drawer = ({
       >
         <div className="flex justify-between items-center p-4 pb-2">
           {title ? <h2 className="text-base font-bold">{title}</h2> : <div />}
-          <IconButton onClick={handleClose} title="Chiudi">
+          <IconButton onClick={handleClose} title={t('common.close')}>
             <X size={16} />
           </IconButton>
         </div>

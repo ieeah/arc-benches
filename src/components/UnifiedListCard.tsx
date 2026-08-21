@@ -4,6 +4,7 @@ import { CheckCircle2, ChevronDown, Hammer, Layers, MoreHorizontal, Pencil, Tras
 import type { ItemInfo, List } from '@/types';
 import { getBaseLevel } from '@/lib/lists';
 import { refinerCraftLevel } from '@/lib/craft';
+import { useTranslation, getItemName, getListName } from '@/i18n';
 import { LevelBadge } from '@/components/LevelBadge';
 import { LevelPills } from '@/components/LevelPills';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
@@ -22,14 +23,18 @@ const RequirementsGrid = ({
   refinerLevel: number;
   inventory: Record<string, number>;
   totalRequired: Record<string, number>;
-}) => (
+}) => {
+  const { t, language } = useTranslation();
+  return (
   <div className="w-full min-w-0">
     <p className="text-[9px] font-bold uppercase text-gray-400 mb-1.5 tracking-wider">
-      Requisiti Lvl {currentLevelNum + 1}:
+      {t('benches.lvl')} {currentLevelNum + 1}:
     </p>
     <div className="grid grid-cols-2 gap-1.5 min-w-0 w-full">
       {levelData.requirementItemIds.map(req => {
-        const craftLevel = refinerCraftLevel(itemsInfo[req.itemId]);
+        const item = itemsInfo[req.itemId];
+        const itemName = getItemName(item, language) || req.itemId;
+        const craftLevel = refinerCraftLevel(item);
         const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
         const owned = inventory[req.itemId] ?? 0;
         const collected = owned >= req.quantity && owned >= (totalRequired[req.itemId] ?? 0);
@@ -38,23 +43,22 @@ const RequirementsGrid = ({
             className={`text-[10px] flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-xl gap-1 min-w-0 overflow-hidden ${collected ? 'opacity-45' : ''}`}>
             <div className="flex items-center gap-1 min-w-0 overflow-hidden flex-1">
               {collected ? (
-                <CheckCircle2 size={10} className="shrink-0 text-green-500" aria-label="Già raccolto" />
+                <CheckCircle2 size={10} className="shrink-0 text-green-500" aria-label={t('benches.alreadyCollected')} />
               ) : craftLevel !== null && (
                 <Hammer size={10}
                   className={`shrink-0 ${craftableNow ? 'text-emerald-500' : 'text-amber-500'}`}
-                  aria-label={craftableNow ? 'Craftabile nel Refiner' : `Richiede Refiner Lvl ${craftLevel}`} />
+                  aria-label={craftableNow ? t('benches.craftableInRefiner') : t('benches.refinerRequired', { level: craftLevel })} />
               )}
-              <span className="truncate block min-w-0 font-semibold capitalize">
-                {itemsInfo[req.itemId]?.name ?? req.itemId.replace(/-/g, ' ')}
-              </span>
+              <span className="truncate font-semibold">{itemName}</span>
             </div>
-            <span className="font-mono font-bold text-xs shrink-0 pl-1">{req.quantity}</span>
+            <span className="shrink-0 font-mono text-[9px] text-gray-400">{req.quantity}</span>
           </div>
         );
       })}
     </div>
   </div>
-);
+  );
+};
 
 export const UnifiedListCard = ({
   list,
@@ -63,7 +67,7 @@ export const UnifiedListCard = ({
   inventory,
   otherNeeds,
   dragHandle,
-  selectedTargets,
+  selectedTargets = [],
   checkedActions,
   itemsInfo,
   refinerLevel = 0,
@@ -99,6 +103,7 @@ export const UnifiedListCard = ({
   onEdit?: () => void;
   onDelete?: () => void;
 }) => {
+  const { t, language } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -109,14 +114,14 @@ export const UnifiedListCard = ({
   const isMaxed = current >= list.maxLevel;
   const baseLevel = getBaseLevel(list);
   const nextLevelData = list.levels.find(l => l.level === current + 1);
-  const hasCollapsedBody = !isMaxed;
-  const hasMenu = onOpenDetail || onEdit || onDelete;
+  const hasCollapsedBody = !isMaxed || list.custom;
+  const hasMenu = Boolean(onOpenDetail || onEdit || onDelete);
 
   const actionLevels = list.levels.filter(
     l => selectedTargets.includes(l.level) && (l.actions?.length ?? 0) > 0
   );
 
-  const closeMenu = () => { setMenuOpen(false); setConfirmingDelete(false); };
+  const closeMenu = useCallback(() => { setMenuOpen(false); setConfirmingDelete(false); }, []);
 
   const updateMenuPosition = useCallback(() => {
     if (!buttonRef.current) return;
@@ -174,7 +179,6 @@ export const UnifiedListCard = ({
 
   return (
     <div className={`mb-3 rounded-[24px] border-2 transition-colors w-full min-w-0 overflow-hidden box-border ${cardBorder}`}>
-      {/* Header — expand trigger (name + badge + chevron) flanked by drag handle and menu */}
       <div className="flex items-center gap-1.5 px-3 pt-3 pb-2 w-full min-w-0 overflow-hidden">
         {dragHandle}
         <button
@@ -182,7 +186,7 @@ export const UnifiedListCard = ({
           className="flex-1 flex items-center gap-1.5 min-w-0 text-left overflow-hidden"
         >
           <span className="font-bold text-base flex-1 flex items-center gap-1.5 min-w-0 overflow-hidden">
-            <span className="truncate">{list.name}</span>
+            <span className="truncate">{getListName(list, language)}</span>
             {list.custom && (
               <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">
                 Custom
@@ -208,7 +212,7 @@ export const UnifiedListCard = ({
                   setMenuOpen(true);
                 }
               }}
-              title="Azioni lista"
+              title={t('lists.actions')}
               className="w-9 h-9 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors rounded-full"
             >
               <MoreHorizontal size={20} />
@@ -235,7 +239,7 @@ export const UnifiedListCard = ({
                     <button onClick={() => { closeMenu(); onOpenDetail(); }}
                       className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                       <Layers size={15} className="text-gray-400 shrink-0" />
-                      Dettaglio
+                      {t('lists.viewDetail')}
                     </button>
                   )}
                   {onEdit && (
@@ -244,7 +248,7 @@ export const UnifiedListCard = ({
                       <button onClick={() => { closeMenu(); onEdit(); }}
                         className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                         <Pencil size={15} className="text-gray-400 shrink-0" />
-                        Modifica
+                        {t('lists.edit')}
                       </button>
                     </>
                   )}
@@ -253,19 +257,19 @@ export const UnifiedListCard = ({
                       {(onOpenDetail || onEdit) && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
                       {confirmingDelete ? (
                         <div className="px-3 py-2.5 space-y-1.5">
-                          <p className="text-[11px] text-gray-500 dark:text-gray-400">Eliminare la lista?</p>
+                          <p className="text-[11px] text-gray-500 dark:text-gray-400">{t('customLists.deleteConfirm')}</p>
                           <div className="flex gap-1.5">
                             <button onClick={() => { closeMenu(); onDelete(); }}
-                              className="flex-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full">Elimina</button>
+                              className="flex-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full">{t('common.delete')}</button>
                             <button onClick={() => setConfirmingDelete(false)}
-                              className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-xs font-bold rounded-full">Annulla</button>
+                              className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-xs font-bold rounded-full">{t('common.cancel')}</button>
                           </div>
                         </div>
                       ) : (
                         <button onClick={() => setConfirmingDelete(true)}
                           className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                           <Trash2 size={15} className="shrink-0" />
-                          Elimina
+                          {t('lists.delete')}
                         </button>
                       )}
                     </>
@@ -278,29 +282,28 @@ export const UnifiedListCard = ({
         )}
       </div>
 
-      {/* Collapsed body: current level pills + requirements + upgrade button */}
       {!expanded && hasCollapsedBody && (
         <div className="px-4 pb-3 space-y-3 border-t border-gray-100 dark:border-gray-800 pt-3">
           <div>
-            <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Attuale</p>
+            <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">{t('benches.current')}</p>
             <LevelPills
               min={baseLevel}
               max={list.maxLevel}
               value={pendingLevel ?? current}
               activeClass={pendingLevel !== null ? 'bg-blue-300 dark:bg-blue-700 text-white' : 'bg-blue-500 text-white'}
-              ariaLabel={lvl => `Livello attuale ${lvl}`}
+              ariaLabel={lvl => `${t('benches.current')} ${lvl}`}
               onChange={handleCurrentLevel}
             />
             {pendingLevel !== null && (
               <div className="mt-2 p-2.5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
                 <p className="text-[11px] text-gray-600 dark:text-gray-300 mb-2">
-                  Alcuni materiali in inventario servono anche ad altri banchi. Li hai usati per questo potenziamento?
+                  {t('benches.conflictMessage')}
                 </p>
                 <div className="flex gap-2">
                   <button onClick={() => resolvePending(true)}
-                    className="px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">Sì, scala</button>
+                    className="px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">{t('common.yes')}</button>
                   <button onClick={() => resolvePending(false)}
-                    className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-full">No, conservali</button>
+                    className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-full">{t('common.no')}</button>
                 </div>
               </div>
             )}
@@ -319,58 +322,56 @@ export const UnifiedListCard = ({
             <button onClick={onUpgrade}
               className="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98] text-sm">
               <CheckCircle2 size={16} />
-              COMPLETA POTENZIAMENTO
+              {t('benches.upgrade')}
             </button>
           )}
         </div>
       )}
 
-      {/* Expanded body: pills + toggle + actions + requirements + upgrade button */}
       {expanded && (
         <div className="px-4 pb-3 space-y-3 border-t border-gray-100 dark:border-gray-800 pt-3">
           <div>
-            <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Attuale</p>
             <LevelPills
               min={baseLevel}
               max={list.maxLevel}
               value={pendingLevel ?? current}
               activeClass={pendingLevel !== null ? 'bg-blue-300 dark:bg-blue-700 text-white' : 'bg-blue-500 text-white'}
-              ariaLabel={lvl => `Livello attuale ${lvl}`}
+              ariaLabel={lvl => `${t('benches.current')} ${lvl}`}
               onChange={handleCurrentLevel}
             />
             {pendingLevel !== null && (
               <div className="mt-2 p-2.5 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
                 <p className="text-[11px] text-gray-600 dark:text-gray-300 mb-2">
-                  Alcuni materiali in inventario servono anche ad altri banchi. Li hai usati per questo potenziamento?
+                  {t('benches.conflictMessage')}
                 </p>
                 <div className="flex gap-2">
                   <button onClick={() => resolvePending(true)}
-                    className="px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">Sì, scala</button>
+                    className="px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full">{t('benches.conflictYes')}</button>
                   <button onClick={() => resolvePending(false)}
-                    className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-full">No, conservali</button>
+                    className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-full">{t('benches.conflictNo')}</button>
                 </div>
               </div>
             )}
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Obiettivo</p>
+            <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">{t('benches.target')}</p>
             <LevelPills
               min={baseLevel}
               max={list.maxLevel}
               selected={selectedTargets}
               doneUpTo={current}
               activeClass="bg-green-500 text-white"
-              ariaLabel={lvl => `Obiettivo livello ${lvl}`}
+              ariaLabel={lvl => `${t('benches.target')} ${lvl}`}
               onToggle={onToggleTarget}
             />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase text-gray-400 flex-1">Attivo</span>
+            <span className="text-[10px] font-bold uppercase text-gray-400 flex-1">{t('profiles.active')}</span>
             <input
               type="checkbox"
               checked={isActive}
               onChange={onToggle}
-              aria-label={`Attivo: ${list.name}`}
+              aria-label={`${t('profiles.active')}: ${getListName(list, language)}`}
               className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 cursor-pointer"
             />
           </div>
@@ -379,7 +380,7 @@ export const UnifiedListCard = ({
               {actionLevels.map(lvl => (
                 <div key={lvl.level}>
                   <p className="text-[10px] font-bold uppercase text-gray-400 mb-1.5">
-                    Azioni — Lvl {lvl.level}
+                    {t('benches.actions')} — {t('benches.lvl')} {lvl.level}
                   </p>
                   <div className="space-y-1">
                     {lvl.actions!.map(action => (
@@ -411,7 +412,7 @@ export const UnifiedListCard = ({
             <button onClick={onUpgrade}
               className="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98] text-sm">
               <CheckCircle2 size={16} />
-              COMPLETA POTENZIAMENTO
+              {t('benches.upgrade')}
             </button>
           )}
         </div>

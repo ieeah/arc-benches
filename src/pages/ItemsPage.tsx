@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import type { ItemInfo } from "@/types";
 import { useAppStore } from "@/store";
@@ -23,145 +23,159 @@ const RARITY_WEIGHTS: Record<string, number> = {
 const getRarityWeight = (rarity: string) =>
   RARITY_WEIGHTS[rarity.toLowerCase()] || 0;
 
-const FILTER_CATEGORIES: FilterCategory<ItemInfo>[] = [
-  { id: "all", label: "Tutti", predicate: () => true },
-  {
-    id: "materials",
-    label: "Materiali",
-    predicate: (i) =>
-      [
-        "basic material",
-        "topside material",
-        "refined material",
-        "advanced material",
-        "material",
-        "recyclable",
-      ].includes(i.item_type.toLowerCase()),
-  },
-  {
-    id: "equipment",
-    label: "Armi & Equip",
-    predicate: (i) =>
-      [
-        "weapon",
-        "throwable",
-        "gadget",
-        "modification",
-        "augment",
-        "shield",
-        "ammunition",
-        "armor",
-      ].includes(i.item_type.toLowerCase()),
-  },
-  {
-    id: "blueprints",
-    label: "Blueprint",
-    predicate: (i) => i.item_type.toLowerCase() === "blueprint",
-  },
-  {
-    id: "cosmetics",
-    label: "Cosmetici",
-    predicate: (i) => i.item_type.toLowerCase() === "cosmetic",
-  },
-  {
-    id: "keys",
-    label: "Chiavi",
-    predicate: (i) => i.item_type.toLowerCase() === "key",
-  },
-  {
-    id: "quick-use",
-    label: "Uso Rapido",
-    predicate: (i) =>
-      ["medical", "consumable", "booster"].includes(
-        i.item_type.toLowerCase()
-      ),
-  },
-  {
-    id: "trinkets",
-    label: "Trinket",
-    predicate: (i) =>
-      ["trinket", "valuable"].includes(i.item_type.toLowerCase()),
-  },
-  {
-    id: "other",
-    label: "Altro",
-    predicate: (i) =>
-      [
-        "basic material",
-        "topside material",
-        "refined material",
-        "advanced material",
-        "material",
-        "recyclable",
-        "weapon",
-        "throwable",
-        "gadget",
-        "modification",
-        "augment",
-        "shield",
-        "ammunition",
-        "armor",
-        "blueprint",
-        "cosmetic",
-        "key",
-        "medical",
-        "consumable",
-        "booster",
-        "trinket",
-        "valuable",
-      ].indexOf(i.item_type.toLowerCase()) === -1,
-  },
-];
-
-const SORT_OPTIONS: SortOption<ItemInfo>[] = [
-  {
-    id: "name_asc",
-    label: "A-Z",
-    compare: (a, b) => a.name.localeCompare(b.name, "it"),
-    toggleId: "name_desc",
-  },
-  {
-    id: "name_desc",
-    label: "Z-A",
-    compare: (a, b) => b.name.localeCompare(a.name, "it"),
-    toggleId: "name_asc",
-    hideFromUi: true,
-  },
-  {
-    id: "rarity_desc",
-    label: "Rarità (Decrescente)",
-    compare: (a, b) => getRarityWeight(b.rarity) - getRarityWeight(a.rarity),
-    toggleId: "rarity_asc",
-  },
-  {
-    id: "rarity_asc",
-    label: "Rarità (Crescente)",
-    compare: (a, b) => getRarityWeight(a.rarity) - getRarityWeight(b.rarity),
-    toggleId: "rarity_desc",
-    hideFromUi: true,
-  },
-  {
-    id: "value_desc",
-    label: "Valore (Decrescente)",
-    compare: (a, b) => b.value - a.value,
-    toggleId: "value_asc",
-  },
-  {
-    id: "value_asc",
-    label: "Valore (Crescente)",
-    compare: (a, b) => a.value - b.value,
-    toggleId: "value_desc",
-    hideFromUi: true,
-  },
-];
-
-export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
+export const ItemsPage = ({
+  onBack,
+  onOpenOverrides,
+}: {
+  onBack: () => void;
+  onOpenOverrides?: (itemId: string) => void;
+}) => {
   const itemsInfo = useAppStore((s) => s.itemsInfo);
   const refinerLevel = useAppStore(
     (s) => s.hideoutLevels["refiner"] || 0
   );
   const [selected, setSelected] = useState<ItemInfo | null>(null);
   const { t, language } = useTranslation();
+
+  const filterCategories: FilterCategory<ItemInfo>[] = useMemo(() => [
+    { id: "all", label: t('catalog.filterAll'), predicate: () => true },
+    {
+      id: "materials",
+      label: t('catalog.filterMaterials'),
+      predicate: (i: ItemInfo) =>
+        [
+          "basic material",
+          "topside material",
+          "refined material",
+          "advanced material",
+          "material",
+          "recyclable",
+        ].includes(i.item_type.toLowerCase()),
+    },
+    {
+      id: "equipment",
+      label: t('catalog.filterEquipment'),
+      predicate: (i: ItemInfo) =>
+        [
+          "weapon",
+          "throwable",
+          "gadget",
+          "modification",
+          "augment",
+          "shield",
+          "ammunition",
+          "armor",
+        ].includes(i.item_type.toLowerCase()),
+    },
+    {
+      id: "blueprints",
+      label: t('catalog.filterBlueprints'),
+      predicate: (i: ItemInfo) => i.item_type.toLowerCase() === "blueprint",
+    },
+    {
+      id: "cosmetics",
+      label: t('catalog.filterCosmetics'),
+      predicate: (i: ItemInfo) => i.item_type.toLowerCase() === "cosmetic",
+    },
+    {
+      id: "keys",
+      label: t('catalog.filterKeys'),
+      predicate: (i: ItemInfo) => i.item_type.toLowerCase() === "key",
+    },
+    {
+      id: "quick-use",
+      label: t('catalog.filterQuickUse'),
+      predicate: (i: ItemInfo) =>
+        ["medical", "consumable", "booster"].includes(
+          i.item_type.toLowerCase()
+        ),
+    },
+    {
+      id: "trinkets",
+      label: t('catalog.filterTrinkets'),
+      predicate: (i: ItemInfo) =>
+        ["trinket", "valuable"].includes(i.item_type.toLowerCase()),
+    },
+    {
+      id: "other",
+      label: t('catalog.filterOther'),
+      predicate: (i: ItemInfo) =>
+        [
+          "basic material",
+          "topside material",
+          "refined material",
+          "advanced material",
+          "material",
+          "recyclable",
+          "weapon",
+          "throwable",
+          "gadget",
+          "modification",
+          "augment",
+          "shield",
+          "ammunition",
+          "armor",
+          "blueprint",
+          "cosmetic",
+          "key",
+          "medical",
+          "consumable",
+          "booster",
+          "trinket",
+          "valuable",
+        ].indexOf(i.item_type.toLowerCase()) === -1,
+    },
+  ], [t]);
+
+  const sortOptions: SortOption<ItemInfo>[] = useMemo(() => [
+    {
+      id: "name_asc",
+      label: t('catalog.sortAZ'),
+      compare: (a: ItemInfo, b: ItemInfo) => {
+        const nameA = getItemName(a, language);
+        const nameB = getItemName(b, language);
+        return nameA.localeCompare(nameB, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+      },
+      toggleId: "name_desc",
+    },
+    {
+      id: "name_desc",
+      label: t('catalog.sortZA'),
+      compare: (a: ItemInfo, b: ItemInfo) => {
+        const nameA = getItemName(a, language);
+        const nameB = getItemName(b, language);
+        return nameB.localeCompare(nameA, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+      },
+      toggleId: "name_asc",
+      hideFromUi: true,
+    },
+    {
+      id: "rarity_desc",
+      label: t('catalog.sortRarityDesc'),
+      compare: (a: ItemInfo, b: ItemInfo) => getRarityWeight(b.rarity) - getRarityWeight(a.rarity),
+      toggleId: "rarity_asc",
+    },
+    {
+      id: "rarity_asc",
+      label: t('catalog.sortRarityAsc'),
+      compare: (a: ItemInfo, b: ItemInfo) => getRarityWeight(a.rarity) - getRarityWeight(b.rarity),
+      toggleId: "rarity_desc",
+      hideFromUi: true,
+    },
+    {
+      id: "value_desc",
+      label: t('catalog.sortValueDesc'),
+      compare: (a: ItemInfo, b: ItemInfo) => b.value - a.value,
+      toggleId: "value_asc",
+    },
+    {
+      id: "value_asc",
+      label: t('catalog.sortValueAsc'),
+      compare: (a: ItemInfo, b: ItemInfo) => a.value - b.value,
+      toggleId: "value_desc",
+      hideFromUi: true,
+    },
+  ], [language, t]);
 
   // Nascondi sempre gli oggetti contrassegnati come 'hidden' nel catalogo principale
   const allItems = Object.values(itemsInfo).filter((item) => !item.hidden);
@@ -184,15 +198,15 @@ export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
       fields: getItemSearchFields,
     },
     filters: {
-      categories: FILTER_CATEGORIES,
+      categories: filterCategories,
       defaultCategoryId: "all",
     },
     sorting: {
-      options: SORT_OPTIONS,
+      options: sortOptions,
       defaultSortId: "name_asc",
     },
     grouping: {
-      groupKey: (item) => item.item_type || "Altro",
+      groupKey: (item) => item.item_type || t('catalog.filterOther'),
     },
   });
 
@@ -203,7 +217,7 @@ export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
           <SectionHeader
             title={t('nav.catalog')}
             leading={
-              <IconButton onClick={onBack} title="Indietro">
+              <IconButton onClick={onBack} title={t('common.back')}>
                 <ArrowLeft size={16} />
               </IconButton>
             }
@@ -218,9 +232,9 @@ export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
           setActiveSortId={setActiveSortId}
           groupByEnabled={groupByEnabled}
           setGroupByEnabled={setGroupByEnabled}
-          searchPlaceholder={t('common.search')}
-          categories={FILTER_CATEGORIES}
-          sortOptions={SORT_OPTIONS}
+          searchPlaceholder={t('catalog.searchPlaceholder')}
+          categories={filterCategories}
+          sortOptions={sortOptions}
           showGroupingToggle={true}
           sortType="pills"
           items={allItems}
@@ -321,6 +335,7 @@ export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
           item={selected}
           refinerLevel={refinerLevel}
           onClose={() => setSelected(null)}
+          onOpenOverrides={onOpenOverrides}
         />
       )}
     </div>

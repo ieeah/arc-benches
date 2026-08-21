@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback, useMemo, type ReactNode } fro
 import {
   Backpack, LayoutList, ScrollText, Wrench, Database,
   ShieldAlert, Dice5, MoreHorizontal, Check, Users, X, Settings,
-  ChevronRight, ChevronLeft
+  ChevronRight, ChevronLeft, FlaskConical, FileJson, Languages
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
@@ -10,6 +10,8 @@ import { useIsOverlayOpen } from '@/hooks/useOverlayCount';
 import { useScrollLock } from '@/hooks/useScrollLock';
 
 import { useTranslation } from '@/i18n';
+
+const isDev = import.meta.env.DEV;
 
 export type NavItem = {
   id: string;
@@ -61,6 +63,11 @@ export const FloatingNav = ({
         { id: 'vault', label: 'Vault Spedizione', icon: <ShieldAlert size={16} /> },
         { id: 'items', label: t('nav.catalog'), icon: <Database size={16} /> },
         { id: 'role-maker', label: 'Role Maker 🎲', icon: <Dice5 size={16} /> },
+        ...(isDev ? [
+          { id: 'dev-lab', label: 'Dev Catalog Lab 🧪', icon: <FlaskConical size={16} /> },
+          { id: 'dev-overrides', label: 'Dev Overrides 🛠️', icon: <FileJson size={16} /> },
+          { id: 'dev-translations', label: 'Dev i18n Studio 🌐', icon: <Languages size={16} /> },
+        ] : []),
       ],
     },
     { id: 'settings', label: t('nav.settings'), icon: <Settings size={18} /> },
@@ -362,7 +369,7 @@ export const FloatingNav = ({
                 <div className="p-3 bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-gray-800">
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1">
-                      <Users size={12} className="text-purple-500" /> Profilo Attivo
+                      <Users size={12} className="text-purple-500" /> {t('nav.profile')}
                     </span>
                   </div>
 
@@ -377,9 +384,9 @@ export const FloatingNav = ({
 
                 {/* 2. AZIONI CONTESTUALI DELLA PAGINA ATTIVA */}
                 <div className="p-2 flex-1 overflow-y-auto space-y-0.5">
-                  <p className="px-3 pt-1 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Azioni Pagina</p>
+                  <p className="px-3 pt-1 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t('benches.actions')}</p>
                   {contextActions.length === 0 ? (
-                    <p className="px-3 py-2 text-xs text-gray-400 italic">Nessuna azione per questa schermata</p>
+                    <p className="px-3 py-2 text-xs text-gray-400 italic">{t('common.none')}</p>
                   ) : (
                     contextActions.map((action, i) => (
                       <div key={i}>

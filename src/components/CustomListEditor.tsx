@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { X, Plus, Trash2, Pencil, ListPlus, CheckSquare, Users } from 'lucide-react';
 import type { ListLevel, ItemInfo, CheckboxAction } from '@/types';
 import { useAppStore } from '@/store';
+import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
+import { generateUUID } from '@/lib/uuid';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { BottomSheet } from '@/components/BottomSheet';
@@ -22,11 +24,14 @@ const CustomListRequirementItem = ({
   onEdit: () => void;
   onRemove: () => void;
 }) => {
+  const { t, language } = useTranslation();
+  const itemName = getItemName(info, language) || itemId;
+
   return (
     <div className="flex items-center gap-3 p-2 rounded-2xl bg-gray-50/70 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800/80 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
       <ItemCardFrame
         icon={info?.icon ?? null}
-        alt={info?.name ?? itemId}
+        alt={itemName}
         rarity={info?.rarity ?? 'Common'}
         fallbackText={itemId}
         className="w-11 h-11 shrink-0 rounded-xl"
@@ -35,7 +40,7 @@ const CustomListRequirementItem = ({
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
           <p className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
-            {info?.name ?? itemId}
+            {itemName}
           </p>
           <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[11px] font-black bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shrink-0">
             ×{quantity}
@@ -48,7 +53,7 @@ const CustomListRequirementItem = ({
           type="button"
           onClick={onEdit}
           className="w-8 h-8 rounded-full bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
-          title="Modifica quantità"
+          title={t('common.edit')}
         >
           <Pencil size={13} />
         </button>
@@ -56,7 +61,7 @@ const CustomListRequirementItem = ({
           type="button"
           onClick={onRemove}
           className="w-8 h-8 rounded-full bg-red-50/80 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
-          title="Rimuovi oggetto"
+          title={t('common.delete')}
         >
           <Trash2 size={13} />
         </button>
@@ -76,8 +81,13 @@ const ItemQuantityModal = ({
   onConfirm: (quantity: number) => void;
   onClose: () => void;
 }) => {
+  const { t, language } = useTranslation();
   const [quantity, setQuantity] = useState(initialQuantity > 0 ? initialQuantity : 1);
   const [tempValue, setTempValue] = useState(String(quantity));
+
+  const itemName = getItemName(item, language) || item.name;
+  const itemDesc = getItemDescription(item, language);
+  const rarityLabel = getRarityLabel(item.rarity, language);
 
   const handleTempValueChange = (val: string) => {
     setTempValue(val);
@@ -110,7 +120,7 @@ const ItemQuantityModal = ({
 
   return (
     <BottomSheet
-      title="Imposta Quantità"
+      title={t('quantityModal.title')}
       onClose={onClose}
       overlayZ="z-60"
       footer={
@@ -120,14 +130,14 @@ const ItemQuantityModal = ({
             onClick={onClose}
             className="flex-1 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
           >
-            Annulla
+            {t('common.cancel')}
           </button>
           <button
             type="button"
             onClick={() => onConfirm(quantity)}
             className="flex-2 py-3 text-xs font-bold text-white bg-blue-500 hover:bg-blue-600 rounded-full shadow-xs transition-colors flex items-center justify-center gap-1.5"
           >
-            <span>Aggiungi alla lista ({quantity})</span>
+            <span>{t('quantityModal.addToList', { quantity })}</span>
           </button>
         </div>
       }
@@ -137,7 +147,7 @@ const ItemQuantityModal = ({
         <div className="w-full flex items-center gap-3.5 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-[22px] border border-gray-100 dark:border-gray-700/60">
           <ItemCardFrame
             icon={item.icon}
-            alt={item.name}
+            alt={itemName}
             rarity={item.rarity}
             fallbackText={item.id}
             className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
@@ -145,16 +155,16 @@ const ItemQuantityModal = ({
           />
           <div className="flex-1 min-w-0">
             <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 truncate">
-              {item.name}
+              {itemName}
             </h3>
             <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
-              <span className={`font-bold ${getRarityText(item.rarity)}`}>{item.rarity}</span>
+              <span className={`font-bold ${getRarityText(item.rarity)}`}>{rarityLabel}</span>
               {item.item_type ? ` · ${item.item_type}` : ''}
               {item.stack_size ? ` · Stack: ${item.stack_size}` : ''}
             </p>
-            {item.description && (
+            {itemDesc && (
               <p className="text-[10px] text-gray-400 dark:text-gray-500 line-clamp-2 mt-1">
-                {item.description}
+                {itemDesc}
               </p>
             )}
           </div>
@@ -163,7 +173,7 @@ const ItemQuantityModal = ({
         {/* Quantity selector */}
         <div className="w-full flex flex-col items-center gap-3 pt-2">
           <label className="text-xs font-bold uppercase tracking-wider text-gray-400">
-            Quantità Richiesta
+            {t('quantityModal.requiredQty')}
           </label>
           <div className="w-48">
             <QuantityStepper
@@ -174,7 +184,7 @@ const ItemQuantityModal = ({
               onIncrement={() => adjustQty(1)}
               onDecrement={() => adjustQty(-1)}
               rarity={item.rarity}
-              itemName={item.name}
+              itemName={itemName}
             />
           </div>
 
@@ -229,9 +239,12 @@ const ConfirmDeleteItemModal = ({
   onConfirm: () => void;
   onClose: () => void;
 }) => {
+  const { t, language } = useTranslation();
+  const localizedName = getItemName(itemInfo, language) || itemName;
+
   return (
     <BottomSheet
-      title="Rimuovi oggetto"
+      title={t('customLists.deleteItemTitle')}
       onClose={onClose}
       overlayZ="z-60"
       footer={
@@ -241,14 +254,14 @@ const ConfirmDeleteItemModal = ({
             onClick={onClose}
             className="flex-1 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
           >
-            Annulla
+            {t('common.cancel')}
           </button>
           <button
             type="button"
             onClick={onConfirm}
             className="flex-1 py-3 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-full shadow-xs transition-colors"
           >
-            Rimuovi
+            {t('common.remove')}
           </button>
         </div>
       }
@@ -256,7 +269,7 @@ const ConfirmDeleteItemModal = ({
       <div className="flex flex-col items-center text-center py-4 px-2 space-y-3">
         <ItemCardFrame
           icon={itemInfo?.icon ?? null}
-          alt={itemName}
+          alt={localizedName}
           rarity={itemInfo?.rarity ?? 'Common'}
           fallbackText={itemId}
           className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
@@ -264,10 +277,10 @@ const ConfirmDeleteItemModal = ({
         />
         <div>
           <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-            Vuoi rimuovere <span className="font-bold text-gray-900 dark:text-white">"{itemName}"</span> dalla lista?
+            {t('customLists.deleteItemConfirm', { name: localizedName })}
           </p>
           <p className="text-xs text-gray-400 mt-1">
-            L'oggetto verrà rimosso dal Livello {levelNum}.
+            {t('customLists.deleteItemStage', { level: levelNum })}
           </p>
         </div>
       </div>
@@ -280,6 +293,7 @@ export const CustomListEditor = ({ listId, onClose }: {
   listId?: string;
   onClose: () => void;
 }) => {
+  const { t } = useTranslation();
   const store = useAppStore();
   const existing = listId
     ? store.customLists.find(l => l.id === listId) ?? store.sharedCustomLists.find(l => l.id === listId)
@@ -335,7 +349,7 @@ export const CustomListEditor = ({ listId, onClose }: {
   const commitAction = (levelNum: number) => {
     const text = addingAction?.text.trim() ?? '';
     if (!text) { setAddingAction(null); return; }
-    const newAction: CheckboxAction = { id: crypto.randomUUID(), label: text };
+    const newAction: CheckboxAction = { id: generateUUID(), label: text };
     setLevels(ls => ls.map(l => l.level === levelNum
       ? { ...l, actions: [...(l.actions ?? []), newAction] }
       : l));
@@ -367,7 +381,7 @@ export const CustomListEditor = ({ listId, onClose }: {
   return (
     <>
       <BottomSheet
-        title={existing ? 'Modifica lista' : 'Nuova lista'}
+        title={existing ? t('customLists.editTitle') : t('customLists.title')}
         onClose={onClose}
         bodyClassName="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4"
         footer={
@@ -376,26 +390,26 @@ export const CustomListEditor = ({ listId, onClose }: {
               confirmDelete ? (
                 <button onClick={() => { store.deleteCustomList(existing.id); onClose(); }}
                   className="px-3 py-2.5 bg-red-500 text-white text-sm font-bold rounded-full shrink-0">
-                  Conferma
+                  {t('common.confirm')}
                 </button>
               ) : (
                 <button onClick={() => setConfirmDelete(true)}
-                  className="w-11 h-11 flex items-center justify-center bg-gray-100 dark:bg-gray-800 text-red-500 rounded-full shrink-0" title="Elimina lista">
+                  className="w-11 h-11 flex items-center justify-center bg-gray-100 dark:bg-gray-800 text-red-500 rounded-full shrink-0" title={t('common.delete')}>
                   <Trash2 size={17} />
                 </button>
               )
             )}
             <button onClick={save} disabled={!canSave}
               className="flex-1 py-2.5 bg-blue-500 text-white text-sm font-bold rounded-full disabled:opacity-40">
-              {existing ? 'Salva modifiche' : 'Crea lista'}
+              {existing ? t('customLists.save') : t('customLists.create')}
             </button>
           </div>
         }
       >
         <div className="mb-4">
-          <label className="text-[10px] font-bold uppercase text-gray-400 mb-1.5 block">Nome lista</label>
+          <label className="text-[10px] font-bold uppercase text-gray-400 mb-1.5 block">{t('customLists.nameLabel')}</label>
           <input type="text" value={name} onChange={e => setName(e.target.value)} autoFocus
-            placeholder="Es. Progetto armatura, Quest Celeste…"
+            placeholder={t('customLists.namePlaceholder')}
             className="w-full px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-1 focus:ring-blue-400" />
         </div>
 
@@ -408,20 +422,20 @@ export const CustomListEditor = ({ listId, onClose }: {
                 <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${shared ? 'translate-x-[1.125rem]' : 'translate-x-0.5'}`} />
               </div>
               <div>
-                <p className="text-sm font-semibold">Condividi con tutti i profili</p>
-                <p className="text-[10px] text-gray-400">Visibile in tutti i profili, progresso separato</p>
+                <p className="text-sm font-semibold">{t('customLists.sharedWithProfiles')}</p>
+                <p className="text-[10px] text-gray-400">{t('customLists.sharedDesc')}</p>
               </div>
             </button>
             {shared && (
               <p className="mt-1.5 px-1 text-[11px] text-amber-500 dark:text-amber-400">
-                Una lista condivisa non può essere resa privata in seguito. Per rimuoverla da un profilo specifico dovrai eliminarla da quel profilo.
+                {t('customLists.sharedWarning')}
               </p>
             )}
           </div>
         ) : existing.shared ? (
           <div className="mb-4 flex items-center gap-2 text-[11px] text-blue-500 font-semibold px-1">
             <Users size={13} />
-            Lista condivisa con tutti i profili
+            {t('customLists.sharedWithProfiles')}
           </div>
         ) : null}
 
@@ -433,9 +447,9 @@ export const CustomListEditor = ({ listId, onClose }: {
             <div className="border border-gray-200 dark:border-gray-800 rounded-[20px] p-3 mb-0">
               {multiStage && (
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-bold uppercase text-gray-400">Livello {lvl.level}</span>
+                  <span className="text-[10px] font-bold uppercase text-gray-400">{t('benches.level')} {lvl.level}</span>
                   <button onClick={() => removeLevel(lvl.level)}
-                    className="text-gray-400 hover:text-red-500 transition-colors" title="Rimuovi livello">
+                    className="text-gray-400 hover:text-red-500 transition-colors" title={t('common.delete')}>
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -471,20 +485,20 @@ export const CustomListEditor = ({ listId, onClose }: {
                   );
                 })}
                 {lvl.requirementItemIds.length === 0 && (lvl.actions?.length ?? 0) === 0 && (
-                  <p className="text-xs text-gray-400 italic py-1">Nessun oggetto o azione in questo livello.</p>
+                  <p className="text-xs text-gray-400 italic py-1">{t('customLists.emptyStage')}</p>
                 )}
               </div>
 
               <button onClick={() => setPickerLevel(lvl.level)}
                 className="mt-2.5 w-full flex items-center justify-center gap-1.5 py-2 text-xs font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/20 rounded-full">
                 <Plus size={14} />
-                Aggiungi oggetto
+                {t('customLists.addItem')}
               </button>
 
               {/* Checkbox actions — reflect (and let you toggle) the real completion state for saved lists */}
               {(lvl.actions?.length ?? 0) > 0 && (
                 <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800 space-y-1">
-                  <p className="text-[10px] font-bold uppercase text-gray-400 mb-1">Azioni</p>
+                  <p className="text-[10px] font-bold uppercase text-gray-400 mb-1">{t('benches.actions')}</p>
                   {lvl.actions!.map(action => {
                     const checked = existing
                       ? store.checkedActions[`${existing.id}|${lvl.level}|${action.id}`] ?? false
@@ -519,7 +533,7 @@ export const CustomListEditor = ({ listId, onClose }: {
                       if (e.key === 'Enter') commitAction(lvl.level);
                       if (e.key === 'Escape') setAddingAction(null);
                     }}
-                    placeholder="Descrizione azione…"
+                    placeholder={t('customLists.actionPlaceholder')}
                     className="flex-1 px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 rounded-2xl focus:outline-none focus:ring-1 focus:ring-blue-400"
                   />
                   <button onClick={() => commitAction(lvl.level)}
@@ -532,7 +546,7 @@ export const CustomListEditor = ({ listId, onClose }: {
                   onClick={() => setAddingAction({ level: lvl.level, text: '' })}
                   className="mt-2 w-full flex items-center justify-center gap-1.5 py-2 text-xs font-bold text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-full">
                   <CheckSquare size={13} />
-                  Aggiungi azione
+                  {t('customLists.addAction')}
                 </button>
               )}
             </div>
@@ -547,7 +561,7 @@ export const CustomListEditor = ({ listId, onClose }: {
         <button onClick={addLevel}
           className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold text-gray-500 border border-dashed border-gray-300 dark:border-gray-700 rounded-2xl mt-2">
           <ListPlus size={15} />
-          Aggiungi livello
+          {t('customLists.addLevel')}
         </button>
       </BottomSheet>
 
@@ -593,17 +607,20 @@ export const CustomListEditor = ({ listId, onClose }: {
   );
 };
 
-const InsertDivider = ({ onInsert }: { onInsert: () => void }) => (
-  <div className="flex items-center gap-2 my-1.5 px-1">
-    <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
-    <button onClick={onInsert}
-      className="flex items-center gap-1 text-[10px] font-bold text-gray-400 hover:text-blue-500 px-2 py-0.5 rounded-full border border-dashed border-gray-200 dark:border-gray-700 hover:border-blue-400 transition-colors">
-      <Plus size={9} />
-      Inserisci livello
-    </button>
-    <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
-  </div>
-);
+const InsertDivider = ({ onInsert }: { onInsert: () => void }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex items-center gap-2 my-1.5 px-1">
+      <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+      <button onClick={onInsert}
+        className="flex items-center gap-1 text-[10px] font-bold text-gray-400 hover:text-blue-500 px-2 py-0.5 rounded-full border border-dashed border-gray-200 dark:border-gray-700 hover:border-blue-400 transition-colors">
+        <Plus size={9} />
+        {t('customLists.insertLevel')}
+      </button>
+      <div className="flex-1 h-px bg-gray-100 dark:bg-gray-800" />
+    </div>
+  );
+};
 
 
 

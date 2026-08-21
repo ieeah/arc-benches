@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { AppState } from '@/types';
-import { bootSettings } from '@/store/boot';
+import { bootSettings, bootProfileState } from '@/store/boot';
 import { safeLS } from '@/lib/safeStorage';
 
 export type SettingsSlice = Pick<AppState,
@@ -9,7 +9,7 @@ export type SettingsSlice = Pick<AppState,
 >;
 
 export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> = (set) => ({
-  language: bootSettings.language,
+  language: bootProfileState.language ?? bootSettings.language ?? 'en',
   navSide: bootSettings.navSide,
   radialMenuEnabled: bootSettings.radialMenuEnabled,
   quickFavorites: bootSettings.quickFavorites,

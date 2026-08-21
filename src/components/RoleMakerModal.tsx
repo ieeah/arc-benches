@@ -2,26 +2,9 @@ import { useMemo } from 'react';
 import { Dice5, Trophy, Crosshair, Shield, Users, RefreshCw, Trash2 } from 'lucide-react';
 import { Drawer } from '@/components/Drawer';
 import { useAppStore } from '@/store';
+import { useTranslation } from '@/i18n';
 import { personalities } from '@/store/personalitySlice';
 import type { PersonalityProfile } from '@/types';
-
-const pvpLabels = [
-  '0 — Pacifico / Legittima difesa',
-  '1 — Opportunista / Rat',
-  '2 — Ostile KOS (Kill On Sight)',
-];
-
-const pveLabels = [
-  '0 — Furtivo / Evitante',
-  '1 — Cacciatore calcolato',
-  '2 — Massimalista Chad',
-];
-
-const socialLabels = [
-  '0 — Fantasma',
-  '1 — Guardingo',
-  '2 — Samaritano',
-];
 
 export function RoleMakerModal({
   isOpen,
@@ -30,9 +13,28 @@ export function RoleMakerModal({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
   const activePersonalityId = useAppStore(s => s.activePersonalityId);
   const rollPersonality = useAppStore(s => s.rollPersonality);
   const clearPersonality = useAppStore(s => s.clearPersonality);
+
+  const pvpLabels = [
+    t('roleMaker.pvp0'),
+    t('roleMaker.pvp1'),
+    t('roleMaker.pvp2'),
+  ];
+
+  const pveLabels = [
+    t('roleMaker.pve0'),
+    t('roleMaker.pve1'),
+    t('roleMaker.pve2'),
+  ];
+
+  const socialLabels = [
+    t('roleMaker.social0'),
+    t('roleMaker.social1'),
+    t('roleMaker.social2'),
+  ];
 
   const active: PersonalityProfile | null = useMemo(() => {
     if (!activePersonalityId) return null;
@@ -42,7 +44,7 @@ export function RoleMakerModal({
   if (!isOpen) return null;
 
   return (
-    <Drawer from="bottom" onClose={onClose} title="🎲 Role Maker — Ruolo Comportamentale">
+    <Drawer from="bottom" onClose={onClose} title={`🎲 ${t('roleMaker.title')}`}>
       <div className="space-y-4 p-1 pb-6 text-slate-800 dark:text-slate-100 max-h-[75vh] overflow-y-auto pr-1">
         {!active ? (
           <div className="text-center py-8 px-4 space-y-4">
@@ -50,9 +52,9 @@ export function RoleMakerModal({
               <Dice5 className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="text-lg font-bold">Nessun ruolo attivo</h3>
+              <h3 className="text-lg font-bold">{t('roleMaker.noActiveRole')}</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-xs mx-auto">
-                Tira il dado prima della tua spedizione in superficie per scoprire l'archetipo e la filosofia di gioco da interpretare!
+                {t('roleMaker.noActiveRoleDesc')}
               </p>
             </div>
             <button
@@ -60,7 +62,7 @@ export function RoleMakerModal({
               className="w-full py-3.5 px-4 rounded-2xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 transition-all"
             >
               <Dice5 className="w-5 h-5" />
-              Tira il Dado della Sorte
+              {t('roleMaker.rollButton')}
             </button>
           </div>
         ) : (
@@ -103,7 +105,7 @@ export function RoleMakerModal({
 
             {/* Biografia & Lore */}
             <div className="space-y-1.5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Biografia & Lore</h4>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">{t('roleMaker.biography')}</h4>
               <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800">
                 {active.biography}
               </p>
@@ -111,7 +113,7 @@ export function RoleMakerModal({
 
             {/* Regole Comportamentali */}
             <div className="space-y-1.5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Regole Operative in Raid</h4>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">{t('roleMaker.operationalRule')}</h4>
               <ul className="space-y-1.5">
                 {active.behavioral_rules.map((rule, idx) => (
                   <li key={idx} className="text-xs flex items-start gap-2 text-slate-700 dark:text-slate-200">
@@ -127,7 +129,7 @@ export function RoleMakerModal({
             {/* Condizione di Vittoria */}
             <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 space-y-1">
               <div className="text-xs font-bold flex items-center gap-1 text-amber-600 dark:text-amber-400">
-                <Trophy className="w-4 h-4" /> Condizione di Vittoria
+                <Trophy className="w-4 h-4" /> {t('roleMaker.winCondition')}
               </div>
               <p className="text-xs leading-normal font-medium">
                 {active.winning_condition}
@@ -137,11 +139,11 @@ export function RoleMakerModal({
             {/* Loadout Consigliato */}
             <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 space-y-2 text-xs">
               <div className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px]">
-                Loadout & Tattica Consigliata
+                {t('roleMaker.recommendedLoadout')}
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700 dark:text-slate-300">
-                <div><span className="font-semibold text-slate-900 dark:text-white">Armi:</span> {active.recommended_loadout.weapons}</div>
-                <div><span className="font-semibold text-slate-900 dark:text-white">Gadget:</span> {active.recommended_loadout.gadgets}</div>
+                <div><span className="font-semibold text-slate-900 dark:text-white">{t('roleMaker.weapons')}:</span> {active.recommended_loadout.weapons}</div>
+                <div><span className="font-semibold text-slate-900 dark:text-white">{t('roleMaker.gadgets')}:</span> {active.recommended_loadout.gadgets}</div>
               </div>
               <div className="text-slate-500 dark:text-slate-400 italic">
                 {active.recommended_loadout.playstyle_note}
@@ -155,14 +157,14 @@ export function RoleMakerModal({
                 className="flex-1 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition-all"
               >
                 <RefreshCw className="w-4 h-4" />
-                Tira di Nuovo
+                {t('roleMaker.rerollButton')}
               </button>
               <button
                 onClick={() => clearPersonality()}
                 className="py-3 px-4 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-red-500/10 hover:text-red-500 active:scale-95 text-slate-600 dark:text-slate-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all"
               >
                 <Trash2 className="w-4 h-4" />
-                Rimuovi
+                {t('roleMaker.clearButton')}
               </button>
             </div>
           </div>

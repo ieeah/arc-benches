@@ -26,6 +26,7 @@ import { CustomListEditor } from '@/components/CustomListEditor';
 import { CollapsibleSection } from '@/components/CollapsibleSection';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { useScrollLock } from '@/hooks/useScrollLock';
+import { useTranslation } from '@/i18n';
 import { downloadExport, parseImport } from '@/lib/listIO';
 import { v } from '@/lib/validate';
 import { safeLS } from '@/lib/safeStorage';
@@ -42,6 +43,7 @@ interface ListsPageProps {
 }
 
 export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPageProps) => {
+  const { t } = useTranslation();
   // Selettori mirati — re-render solo sulla slice pertinente
   const inventory = useAppStore(s => s.inventory);
   const hideoutLevels = useAppStore(s => s.hideoutLevels);
@@ -260,7 +262,7 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
     <div className="pb-28 w-full min-w-0">
       {/* Sticky header */}
       <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
-        <SectionHeader title="Liste" />
+        <SectionHeader title={t('lists.title')} />
       </div>
 
       <input ref={fileInputRef} type="file" accept=".json,application/json" className="hidden" onChange={handleImportFile} />
@@ -276,11 +278,11 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
 
         <p className="text-[11px] text-gray-400 mb-2 flex items-center gap-1">
           <GripVertical size={13} />
-          Trascina per cambiare la priorità di visualizzazione
+          {t('benches.prioritize')}
         </p>
 
         <CollapsibleSection
-          title="Banchi da lavoro"
+          title={t('lists.sectionWorkbench')}
           count={activeWorkbenches.length}
           open={sectionsOpen.workbench}
           onToggle={() => toggleSection('workbench')}
@@ -289,21 +291,21 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
         </CollapsibleSection>
 
         <CollapsibleSection
-          title="Liste personalizzate"
+          title={t('lists.sectionCustom')}
           count={activeCustom.length}
           open={sectionsOpen.custom}
           onToggle={() => toggleSection('custom')}
         >
           {activeCustom.length === 0 ? (
             <p className="text-[11px] text-gray-400 italic px-1 pb-2">
-              Nessuna lista personalizzata. Creane una con "+ Lista" nel menu.
+              {t('lists.emptyCustom')}
             </p>
           ) : renderDndSection(activeCustom)}
         </CollapsibleSection>
 
         {maxedLists.length > 0 && (
           <CollapsibleSection
-            title="Completati"
+            title={t('lists.sectionCompleted')}
             count={maxedLists.length}
             open={sectionsOpen.completati}
             onToggle={() => toggleSection('completati')}
@@ -335,14 +337,14 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
           <div
             role="dialog"
             aria-modal="true"
-            aria-label="Importa liste"
+            aria-label={t('importExport.importTitle')}
             className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm max-h-[85vh] flex flex-col touch-auto"
             onClick={e => e.stopPropagation()}>
-            <h3 className="text-base font-bold mb-2 shrink-0">Importa liste</h3>
+            <h3 className="text-base font-bold mb-2 shrink-0">{t('importExport.importTitle')}</h3>
 
             {importPending.version === 3 ? (
               <div className="flex-1 min-h-0 overflow-y-auto space-y-1.5 mb-3">
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Seleziona i profili da importare:</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{t('importExport.selectProfilesToImport')}</p>
                 <button
                   onClick={() => {
                     const allIds = importPending.profiles.map(e => e.profile.id);
@@ -357,7 +359,7 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
                         ? <div className="w-2.5 h-0.5 bg-blue-500 rounded-full" />
                         : null}
                   </div>
-                  <span className="text-sm font-semibold">Tutti i profili</span>
+                  <span className="text-sm font-semibold">{t('importExport.allProfiles')}</span>
                 </button>
 
                 {importPending.profiles.map(entry => {
@@ -378,7 +380,7 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
                       <div className="flex-1 min-w-0">
                         <p className="text-sm truncate">{entry.profile.name}</p>
                         <p className={`text-[10px] font-semibold ${existsLocally ? 'text-amber-500' : 'text-blue-500'}`}>
-                          {existsLocally ? 'Sovrascrive profilo esistente' : 'Nuovo profilo'}
+                          {existsLocally ? t('importExport.overwritesExisting') : t('importExport.newProfile')}
                         </p>
                       </div>
                     </button>
@@ -387,17 +389,19 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
 
                 {importPending.sharedLists.length > 0 && (
                   <p className="text-[11px] text-gray-400 px-1 pt-1">
-                    {importPending.sharedLists.length} {importPending.sharedLists.length === 1 ? 'lista condivisa verrà aggiornata' : 'liste condivise verranno aggiornate'}.
+                    {importPending.sharedLists.length === 1
+                      ? t('importExport.singleSharedList')
+                      : t('importExport.sharedListsCount', { count: importPending.sharedLists.length })}.
                   </p>
                 )}
               </div>
             ) : (
               <div className="mb-3 shrink-0">
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
-                  Stai per importare <strong>{importPending.lists.length}</strong> liste. Le liste con lo stesso ID verranno sovrascritte.
+                  {t('importExport.legacyImportPrompt', { count: importPending.lists.length })}
                 </p>
                 {importPending.inventory && (
-                  <p className="text-[11px] text-blue-500">Il file include anche l'inventario, che verrà ripristinato.</p>
+                  <p className="text-[11px] text-blue-500">{t('importExport.legacyInventoryIncluded')}</p>
                 )}
               </div>
             )}
@@ -407,18 +411,20 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
                 className="w-full flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl text-left">
                 <Upload size={15} className="text-gray-400 shrink-0" />
                 <div>
-                  <p className="font-bold text-sm">Esporta backup prima</p>
-                  <p className="text-[11px] text-gray-400">Salva tutti i tuoi profili attuali</p>
+                  <p className="font-bold text-sm">{t('importExport.exportBefore')}</p>
+                  <p className="text-[11px] text-gray-400">{t('importExport.exportBeforeDesc')}</p>
                 </div>
               </button>
               <button onClick={confirmImport}
                 disabled={importPending.version === 3 && importSelectedIds.size === 0}
                 className="w-full py-3 bg-blue-500 text-white font-bold text-sm rounded-2xl disabled:opacity-40">
-                Importa{importPending.version === 3 && importSelectedIds.size > 0 ? ` (${importSelectedIds.size})` : ''}
+                {importPending.version === 3 && importSelectedIds.size > 0
+                  ? t('importExport.importBtnWithCount', { count: importSelectedIds.size })
+                  : t('importExport.importBtn')}
               </button>
               <button onClick={() => { setImportPending(null); setImportSelectedIds(new Set()); }}
                 className="w-full py-3 bg-gray-100 dark:bg-gray-800 font-bold text-sm rounded-2xl">
-                Annulla
+                {t('common.cancel')}
               </button>
             </div>
           </div>
@@ -432,10 +438,10 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
           <div
             role="dialog"
             aria-modal="true"
-            aria-label="Esporta liste"
+            aria-label={t('importExport.exportTitle')}
             className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm touch-auto"
             onClick={e => e.stopPropagation()}>
-            <h3 className="text-base font-bold mb-3">Esporta liste</h3>
+            <h3 className="text-base font-bold mb-3">{t('importExport.exportTitle')}</h3>
 
             <button
               onClick={() => {
@@ -451,7 +457,7 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
                     ? <div className="w-2.5 h-0.5 bg-blue-500 rounded-full" />
                     : null}
               </div>
-              <span className="text-sm font-semibold">Tutti i profili</span>
+              <span className="text-sm font-semibold">{t('importExport.allProfiles')}</span>
             </button>
 
             <div className="space-y-0.5 ml-4 mb-4">
@@ -471,7 +477,7 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
                     </div>
                     <span className="text-sm flex-1 truncate">{profile.name}</span>
                     {profile.id === activeProfileId && (
-                      <span className="text-[10px] text-blue-500 font-bold shrink-0">Attivo</span>
+                      <span className="text-[10px] text-blue-500 font-bold shrink-0">{t('profiles.active')}</span>
                     )}
                   </button>
                 );
@@ -481,11 +487,11 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
             <div className="space-y-2">
               <button onClick={handleExportSelected} disabled={exportSelectedIds.size === 0}
                 className="w-full py-3 bg-blue-500 text-white font-bold text-sm rounded-2xl disabled:opacity-40">
-                Esporta{exportSelectedIds.size > 0 ? ` (${exportSelectedIds.size} profil${exportSelectedIds.size === 1 ? 'o' : 'i'})` : ''}
+                {t('importExport.exportBtn')}
               </button>
               <button onClick={() => setShowExportModal(false)}
                 className="w-full py-3 bg-gray-100 dark:bg-gray-800 font-bold text-sm rounded-2xl">
-                Annulla
+                {t('common.cancel')}
               </button>
             </div>
           </div>

@@ -4,6 +4,7 @@ import { bootActiveProfileId, bootProfiles } from '@/store/boot';
 import { freshProfile, hydrateProfile, migrateTargets } from '@/store/gameData';
 import type { PersistedState } from '@/store/persistence';
 import { loadProfileState, removeProfileKey, saveProfileState } from '@/store/persistence';
+import { generateUUID } from '@/lib/uuid';
 
 export type ProfileSlice = Pick<AppState,
   'profiles' | 'activeProfileId' |
@@ -20,7 +21,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
 
   createProfile: (name: string) => {
     const s = get();
-    const id = crypto.randomUUID();
+    const id = generateUUID();
     set({ profiles: [...s.profiles, { id, name }], activeProfileId: id, ...freshProfile() });
   },
 
@@ -85,6 +86,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
       exported.push({
         profile,
         inventory,
+        language: profileId === s.activeProfileId ? s.language : (loadProfileState(profileId).language ?? 'en'),
         lists: allLists.map(list => ({
           list,
           currentLevel: hideoutLevels[list.id] ?? 0,
@@ -138,6 +140,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         activePersonalityId: null,
         ownedBlueprints: {},
         filterHideOwnedBlueprints: false,
+        language: entry.language ?? 'en',
       };
 
       if (!profiles.some(p => p.id === entry.profile.id)) profiles = [...profiles, entry.profile];

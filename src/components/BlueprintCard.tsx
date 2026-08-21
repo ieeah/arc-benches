@@ -20,7 +20,7 @@ export const BlueprintCard = ({
   onAddToVault,
   showVaultAction = false,
 }: BlueprintCardProps) => {
-  const { language } = useTranslation();
+  const { t, language } = useTranslation();
   const displayName = getItemName(blueprint, language);
 
   return (
@@ -76,8 +76,8 @@ export const BlueprintCard = ({
               onAddToVault();
             }}
             className="absolute top-2 right-2 z-3 p-1.5 rounded-full bg-black/60 text-white hover:bg-black/80 active:scale-95 transition-all"
-            title="Aggiungi al Vault Spedizione"
-            aria-label="Aggiungi al Vault Spedizione"
+            title={t('blueprints.addToVault')}
+            aria-label={t('blueprints.addToVault')}
           >
             <ShieldAlert size={14} className="text-amber-400" />
           </button>

@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
-  Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages
+  Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages,
+  Code2, FileJson, FlaskConical
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -12,9 +13,10 @@ import { useTranslation, type AppLanguage } from '@/i18n';
 
 interface SettingsPageProps {
   onBack: () => void;
+  onNavigate?: (tab: string) => void;
 }
 
-export const SettingsPage = ({ onBack }: SettingsPageProps) => {
+export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
   const { dark: isDark, toggle: toggleTheme } = useTheme();
   const store = useAppStore();
   const { t, language, setLanguage, languages } = useTranslation();
@@ -26,19 +28,19 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const stashGridDensity = useAppStore(s => s.stashGridDensity);
   const setStashGridDensity = useAppStore(s => s.setStashGridDensity);
 
-  const AVAILABLE_PAGES = [
-    { id: 'stash', label: 'Stash' },
-    { id: 'liste', label: 'Banchi & Liste' },
-    { id: 'blueprints', label: 'Progetti Blueprints' },
-    { id: 'items', label: 'Database Oggetti' },
-    { id: 'settings', label: 'Impostazioni' },
-  ];
+  const AVAILABLE_PAGES: { id: string; label: string }[] = useMemo(() => [
+    { id: 'stash', label: t('nav.stash') },
+    { id: 'liste', label: t('lists.title') },
+    { id: 'blueprints', label: t('blueprints.title') },
+    { id: 'items', label: t('nav.catalog') },
+    { id: 'settings', label: t('settings.title') },
+  ], [t]);
 
   const handleFavoriteChange = (index: 0 | 1, value: string) => {
     const updated: [string, string] = [...quickFavorites] as [string, string];
     updated[index] = value;
     setQuickFavorites(updated);
-    setFeedbackMsg(`Pagina Rapida ${index + 1} impostata su: ${AVAILABLE_PAGES.find(p => p.id === value)?.label}`);
+    setFeedbackMsg(t('settings.feedbackQuickFavorite', { index: index + 1, page: AVAILABLE_PAGES.find((p: { id: string; label: string }) => p.id === value)?.label ?? value }));
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
   const mainProfileId = useAppStore(s => s.mainProfileId);
@@ -53,31 +55,31 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const handleLanguageChange = (langCode: AppLanguage) => {
     setLanguage(langCode);
     const selected = languages.find(l => l.code === langCode);
-    setFeedbackMsg(`${t('settings.language')}: ${selected?.label} ${selected?.flag}`);
+    setFeedbackMsg(t('settings.feedbackLanguage', { lang: `${selected?.label} ${selected?.flag}` }));
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
   const handleNavSideChange = (side: 'left' | 'right') => {
     setNavSide(side);
-    setFeedbackMsg(`Posizione navigazione impostata a: ${side === 'right' ? 'Mano Destra' : 'Mano Sinistra'}`);
+    setFeedbackMsg(t('settings.feedbackNavSide', { side: side === 'right' ? t('settings.navRight') : t('settings.navLeft') }));
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
   const handleStashGridDensityChange = (density: 'comfortable' | 'compact') => {
     setStashGridDensity(density);
-    setFeedbackMsg(`Densità griglia Stash impostata a: ${density === 'comfortable' ? 'Comoda (Card Grandi)' : 'Compatta (Card Piccole)'}`);
+    setFeedbackMsg(t('settings.feedbackDensity', { density: density === 'comfortable' ? `${t('settings.comfortable')} (${t('settings.comfortableDesc')})` : `${t('settings.compact')} (${t('settings.compactDesc')})` }));
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
   const handleMainProfileChange = (id: string) => {
     setMainProfileId(id);
-    setFeedbackMsg('Profilo Principale aggiornato!');
+    setFeedbackMsg(t('settings.feedbackMainProfile'));
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
   const handleStartupProfileChange = (option: string) => {
     setStartupProfileOption(option);
-    setFeedbackMsg('Profilo all\'apertura aggiornato!');
+    setFeedbackMsg(t('settings.feedbackStartupProfile'));
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
@@ -86,7 +88,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
     store.createProfile(newProfileName.trim());
     setNewProfileName('');
     setShowNewProfileInput(false);
-    setFeedbackMsg('Nuovo profilo creato con successo!');
+    setFeedbackMsg(t('settings.feedbackProfileCreated'));
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
@@ -100,7 +102,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
       <SectionHeader
         title={t('settings.title')}
         leading={
-          <IconButton onClick={onBack} title="Indietro">
+          <IconButton onClick={onBack} title={t('common.back')}>
             <ArrowLeft size={18} />
           </IconButton>
         }
@@ -152,7 +154,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{t('settings.theme')}</p>
-            <p className="text-xs text-gray-500">Modalità chiara o scura ad alto contrasto</p>
+            <p className="text-xs text-gray-500">{t('settings.themeDesc')}</p>
           </div>
           <button
             onClick={toggleTheme}
@@ -168,15 +170,15 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
         {/* Navigazione Rapida: Pagine Preferite per il Tap Singolo */}
         <div className="space-y-3">
           <div>
-            <p className="text-sm font-bold text-gray-800 dark:text-gray-200">Pagine Preferite (Navigazione Rapida)</p>
+            <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{t('settings.quickFavorites')}</p>
             <p className="text-xs text-gray-500">
-              Il <strong>tap singolo</strong> sul pulsante della pill alterna tra queste due pagine. La <strong>pressione prolungata</strong> apre il menù completo.
+              {t('settings.quickFavoritesDesc')}
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-2 pt-1">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Pagina 1</label>
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t('settings.page1')}</label>
               <select
                 value={quickFavorites[0]}
                 onChange={(e) => handleFavoriteChange(0, e.target.value)}
@@ -189,7 +191,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Pagina 2</label>
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t('settings.page2')}</label>
               <select
                 value={quickFavorites[1]}
                 onChange={(e) => handleFavoriteChange(1, e.target.value)}
@@ -209,8 +211,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold text-gray-800 dark:text-gray-200">Posizione Barra Flottante</p>
-              <p className="text-xs text-gray-500">Ottimizzato per uso con pollice destro o sinistro</p>
+              <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{t('settings.navPosition')}</p>
+              <p className="text-xs text-gray-500">{t('settings.navPositionDesc')}</p>
             </div>
             <Hand size={18} className="text-gray-400" />
           </div>
@@ -223,7 +225,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                   : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
               }`}
             >
-              Mano Sinistra {navSide === 'left' && <Check size={14} />}
+              {t('settings.navLeft')} {navSide === 'left' && <Check size={14} />}
             </button>
             <button
               onClick={() => handleNavSideChange('right')}
@@ -233,7 +235,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                   : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
               }`}
             >
-              Mano Destra {navSide === 'right' && <Check size={14} />}
+              {t('settings.navRight')} {navSide === 'right' && <Check size={14} />}
             </button>
           </div>
         </div>
@@ -244,8 +246,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold text-gray-800 dark:text-gray-200">Densità Griglia Stash</p>
-              <p className="text-xs text-gray-500">Dimensione card e numero di colonne nello Stash</p>
+              <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{t('settings.stashDensity')}</p>
+              <p className="text-xs text-gray-500">{t('settings.stashDensityDesc')}</p>
             </div>
             <LayoutGrid size={18} className="text-gray-400" />
           </div>
@@ -259,10 +261,10 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
               }`}
             >
               <div className="flex items-center gap-1.5">
-                <span>Comoda</span>
+                <span>{t('settings.comfortable')}</span>
                 {stashGridDensity === 'comfortable' && <Check size={14} />}
               </div>
-              <span className={`text-[10px] font-normal ${stashGridDensity === 'comfortable' ? 'text-blue-100' : 'text-gray-400'}`}>Card Grandi (~2 col)</span>
+              <span className={`text-[10px] font-normal ${stashGridDensity === 'comfortable' ? 'text-blue-100' : 'text-gray-400'}`}>{t('settings.comfortableDesc')}</span>
             </button>
             <button
               onClick={() => handleStashGridDensityChange('compact')}
@@ -273,10 +275,10 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
               }`}
             >
               <div className="flex items-center gap-1.5">
-                <span>Compatta</span>
+                <span>{t('settings.compact')}</span>
                 {stashGridDensity === 'compact' && <Check size={14} />}
               </div>
-              <span className={`text-[10px] font-normal ${stashGridDensity === 'compact' ? 'text-blue-100' : 'text-gray-400'}`}>Card Piccole (~3 col)</span>
+              <span className={`text-[10px] font-normal ${stashGridDensity === 'compact' ? 'text-blue-100' : 'text-gray-400'}`}>{t('settings.compactDesc')}</span>
             </button>
           </div>
         </div>
@@ -286,14 +288,14 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
       <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] p-5 shadow-sm space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-            <Users size={14} className="text-purple-500" /> Gestione Profili ({store.profiles.length})
+            <Users size={14} className="text-purple-500" /> {t('settings.profilesHeader', { count: store.profiles.length })}
           </h2>
           {!showNewProfileInput && (
             <button
               onClick={() => setShowNewProfileInput(true)}
               className="text-xs font-bold text-blue-500 hover:underline flex items-center gap-1"
             >
-              <Plus size={14} /> Nuovo
+              <Plus size={14} /> {t('settings.newProfile')}
             </button>
           )}
         </div>
@@ -302,7 +304,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-purple-50/50 dark:bg-purple-950/20 rounded-2xl border border-purple-200/60 dark:border-purple-900/40">
           <div>
             <label className="text-[11px] font-bold text-purple-900 dark:text-purple-300 block mb-1">
-              ⭐ Profilo Principale:
+              {t('settings.mainProfileLabel')}
             </label>
             <select
               value={mainProfileId}
@@ -311,7 +313,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
             >
               {store.profiles.map(p => (
                 <option key={p.id} value={p.id}>
-                  {p.name} {p.id === store.activeProfileId ? '(In uso)' : ''}
+                  {p.name} {p.id === store.activeProfileId ? t('settings.inUse') : ''}
                 </option>
               ))}
             </select>
@@ -319,18 +321,18 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
 
           <div>
             <label className="text-[11px] font-bold text-purple-900 dark:text-purple-300 block mb-1">
-              🚀 Profilo all'Apertura:
+              {t('settings.startupProfileLabel')}
             </label>
             <select
               value={startupProfileOption}
               onChange={e => handleStartupProfileChange(e.target.value)}
               className="w-full bg-white dark:bg-gray-800 border border-purple-200 dark:border-purple-800 rounded-xl px-2.5 py-1.5 text-xs text-gray-800 dark:text-gray-200"
             >
-              <option value="last-used">Ultimo profilo utilizzato</option>
-              <option value="main">Sempre il Profilo Principale</option>
+              <option value="last-used">{t('settings.startupLastUsed')}</option>
+              <option value="main">{t('settings.startupAlwaysMain')}</option>
               {store.profiles.map(p => (
                 <option key={p.id} value={p.id}>
-                  Fisso: {p.name}
+                  {t('settings.startupFixed', { name: p.name })}
                 </option>
               ))}
             </select>
@@ -341,7 +343,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
           <div className="flex gap-2 p-3 bg-gray-50 dark:bg-gray-800/70 rounded-2xl border border-gray-200 dark:border-gray-700 animate-in fade-in">
             <input
               type="text"
-              placeholder="Nome profilo (es. Personaggio 2)"
+              placeholder={t('settings.profileNamePlaceholder')}
               value={newProfileName}
               onChange={e => setNewProfileName(e.target.value)}
               className="flex-1 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 px-3 py-1.5 rounded-xl text-xs text-gray-900 dark:text-gray-100"
@@ -350,13 +352,13 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
               onClick={handleCreateProfile}
               className="px-3 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 active:scale-95 text-white text-xs font-bold transition-all shadow-sm"
             >
-              Crea
+              {t('settings.createProfile')}
             </button>
             <button
               onClick={() => setShowNewProfileInput(false)}
               className="px-3 py-1.5 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-xs font-semibold transition-all"
             >
-              Annulla
+              {t('settings.cancelProfile')}
             </button>
           </div>
         )}
@@ -378,7 +380,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                     <span className="text-sm font-bold text-gray-800 dark:text-gray-100">{p.name}</span>
                     {isActive && (
                       <span className="text-[10px] bg-purple-500 text-white font-bold px-2 py-0.2 rounded-full">
-                        Attivo
+                        {t('settings.active')}
                       </span>
                     )}
                   </div>
@@ -392,17 +394,17 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                         onClick={() => store.switchProfile(p.id)}
                         className="px-2.5 py-1 rounded-xl bg-white dark:bg-gray-800 text-xs font-bold text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-900 shadow-sm hover:bg-purple-50"
                       >
-                        Attiva
+                        {t('settings.activate')}
                       </button>
                       {store.profiles.length > 1 && (
                         <button
                           onClick={() => {
-                            if (confirm(`Eliminare il profilo "${p.name}"? Tutti i dati associati andranno persi.`)) {
+                            if (confirm(t('settings.deleteProfileConfirm', { name: p.name }))) {
                               store.deleteProfile(p.id);
                             }
                           }}
                           className="p-1.5 text-gray-400 hover:text-rose-500"
-                          title="Elimina profilo"
+                          title={t('settings.deleteProfileTitle')}
                         >
                           <Trash2 size={14} />
                         </button>
@@ -419,7 +421,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
       {/* 3. BACKUP & DATI */}
       <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] p-5 shadow-sm space-y-4">
         <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-          <Download size={14} className="text-emerald-500" /> Backup & Portabilità
+          <Download size={14} className="text-emerald-500" /> {t('settings.backupPortability')}
         </h2>
 
         <div className="grid grid-cols-2 gap-2">
@@ -428,25 +430,74 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
             className="p-3 bg-gray-50 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl text-xs font-bold text-gray-700 dark:text-gray-200 flex flex-col items-center gap-1.5 transition-colors"
           >
             <Upload size={18} className="text-blue-500" />
-            <span>Esporta Backup JSON</span>
+            <span>{t('settings.exportJson')}</span>
           </button>
           <button
-            onClick={() => alert('Usa la voce Importa dal menu rapido o trascina il file JSON')}
+            onClick={() => alert(t('settings.importPrompt'))}
             className="p-3 bg-gray-50 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl text-xs font-bold text-gray-700 dark:text-gray-200 flex flex-col items-center gap-1.5 transition-colors"
           >
             <Download size={18} className="text-emerald-500" />
-            <span>Importa Backup JSON</span>
+            <span>{t('settings.importJson')}</span>
           </button>
         </div>
       </section>
 
-      {/* 4. INFORMAZIONI APP */}
+      {/* 4. STRUMENTI SVILUPPATORE (Solo in DEV) */}
+      {import.meta.env.DEV && onNavigate && (
+        <section className="bg-white dark:bg-gray-900 border border-blue-200 dark:border-blue-900/50 rounded-[28px] p-5 shadow-sm space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xs font-bold text-blue-500 uppercase tracking-wider flex items-center gap-2">
+              <Code2 size={14} /> {t('settings.devTools')}
+            </h2>
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
+              {t('settings.devOnly')}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+            <button
+              onClick={() => onNavigate('dev-translations')}
+              className="p-3 bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 border border-blue-200 dark:border-blue-800/60 rounded-2xl text-xs font-bold text-blue-700 dark:text-blue-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
+            >
+              <Languages size={18} className="shrink-0 text-blue-500" />
+              <div>
+                <p className="font-bold">{t('settings.devTranslationsTitle')}</p>
+                <p className="text-[10px] font-normal text-blue-600/70 dark:text-blue-400/70">{t('settings.devTranslationsDesc')}</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => onNavigate('dev-overrides')}
+              className="p-3 bg-purple-50 dark:bg-purple-950/30 hover:bg-purple-100 dark:hover:bg-purple-900/40 border border-purple-200 dark:border-purple-800/60 rounded-2xl text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
+            >
+              <FileJson size={18} className="shrink-0 text-purple-500" />
+              <div>
+                <p className="font-bold">{t('settings.devOverridesTitle')}</p>
+                <p className="text-[10px] font-normal text-purple-600/70 dark:text-purple-400/70">{t('settings.devOverridesDesc')}</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => onNavigate('dev-lab')}
+              className="p-3 bg-amber-50 dark:bg-amber-950/30 hover:bg-amber-100 dark:hover:bg-amber-900/40 border border-amber-200 dark:border-amber-800/60 rounded-2xl text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
+            >
+              <FlaskConical size={18} className="shrink-0 text-amber-500" />
+              <div>
+                <p className="font-bold">{t('settings.devLabTitle')}</p>
+                <p className="text-[10px] font-normal text-amber-600/70 dark:text-amber-400/70">{t('settings.devLabDesc')}</p>
+              </div>
+            </button>
+          </div>
+        </section>
+      )}
+
+      {/* 5. INFORMAZIONI APP */}
       <section className="p-4 bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-800 rounded-[24px] text-center space-y-1">
         <p className="text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center justify-center gap-1.5">
-          <Info size={14} className="text-blue-500" /> ARC Benches Tracker
+          <Info size={14} className="text-blue-500" /> {t('settings.appInfo')}
         </p>
         <p className="text-[11px] text-gray-500">
-          Versione <span className="font-mono font-bold text-gray-700 dark:text-gray-300">0.2.0</span> • Dati catalogo MetaForge
+          {t('settings.versionInfo', { version: '0.3.0' })}
         </p>
       </section>
     </div>

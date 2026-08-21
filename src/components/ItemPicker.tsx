@@ -90,7 +90,7 @@ export const ItemPicker = ({ excludeIds, onPick, onClose }: ItemPickerProps) => 
         <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
           <Search size={32} className="text-gray-300 dark:text-gray-700" />
           <p className="text-sm font-medium text-gray-400 dark:text-gray-500">
-            Cerca un oggetto per aggiungerlo
+            {t('itemPicker.searchPrompt')}
           </p>
         </div>
       )}
@@ -124,7 +124,7 @@ export const ItemPicker = ({ excludeIds, onPick, onClose }: ItemPickerProps) => 
       )}
 
       {hasQuery && processedItems.length === 0 && (
-        <p className="p-10 text-center text-gray-500 italic text-sm">Nessun oggetto trovato.</p>
+        <p className="p-10 text-center text-gray-500 italic text-sm">{t('itemPicker.noItemsFound')}</p>
       )}
     </BottomSheet>
   );

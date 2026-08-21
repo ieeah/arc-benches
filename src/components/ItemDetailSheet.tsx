@@ -1,4 +1,4 @@
-import { Hammer } from 'lucide-react';
+import { Hammer, FileJson } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
@@ -6,8 +6,16 @@ import { ItemCardFrame } from '@/components/ItemCardFrame';
 import { BottomSheet } from '@/components/BottomSheet';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
 
-export const ItemDetailSheet = ({ item, refinerLevel, onClose }: {
-  item: ItemInfo; refinerLevel: number; onClose: () => void;
+export const ItemDetailSheet = ({
+  item,
+  refinerLevel,
+  onClose,
+  onOpenOverrides,
+}: {
+  item: ItemInfo;
+  refinerLevel: number;
+  onClose: () => void;
+  onOpenOverrides?: (itemId: string) => void;
 }) => {
   const { t, language } = useTranslation();
   const { glow } = getRarityStyles(item.rarity);
@@ -22,8 +30,24 @@ export const ItemDetailSheet = ({ item, refinerLevel, onClose }: {
       onClose={onClose}
       bodyClassName="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 pb-8"
       titleSlot={
-        <div className="min-w-0">
-          <h2 className="text-xl font-bold truncate">{displayName}</h2>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="text-xl font-bold truncate">{displayName}</h2>
+            {import.meta.env.DEV && onOpenOverrides && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenOverrides(item.id);
+                }}
+                className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer"
+                title="Modifica in Dev Overrides"
+              >
+                <FileJson size={13} />
+                <span>Overrides</span>
+              </button>
+            )}
+          </div>
           <p className={`text-xs font-bold uppercase tracking-wide ${getRarityText(item.rarity)}`}>
             {getRarityLabel(item.rarity, language)}
           </p>

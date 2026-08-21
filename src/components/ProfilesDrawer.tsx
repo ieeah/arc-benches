@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Check, Pencil, Plus, Trash2 } from 'lucide-react';
 import { Drawer, type DrawerFrom } from '@/components/Drawer';
 import { useAppStore } from '@/store';
+import { useTranslation } from '@/i18n';
 
 export function ProfilesDrawer({
   isOpen,
@@ -12,6 +13,7 @@ export function ProfilesDrawer({
   onClose: () => void;
   from?: DrawerFrom;
 }) {
+  const { t } = useTranslation();
   const profiles = useAppStore(s => s.profiles);
   const activeProfileId = useAppStore(s => s.activeProfileId);
   const switchProfile = useAppStore(s => s.switchProfile);
@@ -51,7 +53,7 @@ export function ProfilesDrawer({
   };
 
   return (
-    <Drawer from={from} title="Profili" onClose={handleClose}>
+    <Drawer from={from} title={t('profiles.title')} onClose={handleClose}>
       <div className="space-y-1.5 pt-1">
         {profiles.map(profile => {
           const isActive = profile.id === activeProfileId;
@@ -130,7 +132,7 @@ export function ProfilesDrawer({
                     }}
                     className="px-2.5 py-1 bg-red-500 text-white text-xs font-bold rounded-full"
                   >
-                    Elimina
+                    {t('common.delete')}
                   </button>
                   <button
                     onClick={() => setDeletingProfileId(null)}
@@ -172,7 +174,7 @@ export function ProfilesDrawer({
               <input
                 autoFocus
                 className="flex-1 text-sm bg-gray-100 dark:bg-gray-800 border border-blue-400 rounded-xl px-3 py-2 focus:outline-none"
-                placeholder="Nome profilo…"
+                placeholder={t('profiles.namePlaceholder')}
                 value={newProfileName}
                 onChange={e => setNewProfileName(e.target.value)}
                 onKeyDown={e => {
@@ -209,7 +211,7 @@ export function ProfilesDrawer({
               className="w-full flex items-center gap-2 p-3 text-blue-500 font-bold text-sm rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
             >
               <Plus size={15} />
-              Nuovo profilo
+              {t('profiles.create')}
             </button>
           )}
         </div>

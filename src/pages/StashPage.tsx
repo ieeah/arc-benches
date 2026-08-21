@@ -41,7 +41,11 @@ interface StashMaterial {
   isCompleted: boolean;
 }
 
-export const StashPage = () => {
+export const StashPage = ({
+  onOpenOverrides,
+}: {
+  onOpenOverrides?: (itemId: string) => void;
+} = {}) => {
   const { t, language } = useTranslation();
   // Selettori mirati — re-render solo quando la slice pertinente cambia
   const inventory = useAppStore(s => s.inventory);
@@ -130,17 +134,17 @@ export const StashPage = () => {
   const filterCategories = useMemo<FilterCategory<StashMaterial>[]>(() => [
     {
       id: 'all',
-      label: 'Tutti',
+      label: t('stash.filterAll'),
       predicate: item => (filterHideCompleted ? !item.isCompleted : true),
     },
     {
       id: 'missing',
-      label: 'Mancanti',
+      label: t('stash.filterMissing'),
       predicate: item => !item.isCompleted,
     },
     {
       id: 'craftable',
-      label: 'Craftabili',
+      label: t('stash.filterCraftable'),
       predicate: item => {
         const info = itemsInfo[item.itemId];
         const isRefiner = info?.workbench === 'Refiner';
@@ -149,29 +153,29 @@ export const StashPage = () => {
     },
     {
       id: 'completed',
-      label: 'Completati',
+      label: t('stash.filterCompleted'),
       predicate: item => item.isCompleted,
     },
-  ], [itemsInfo, filterHideCompleted]);
+  ], [itemsInfo, filterHideCompleted, t]);
 
   // Opzioni di ordinamento statiche
   const sortOptions = useMemo<SortOption<StashMaterial>[]>(() => [
     {
       id: 'priority_asc',
-      label: 'Priorità',
+      label: t('stash.sortPriority'),
       toggleId: 'priority_desc',
       compare: (a, b) => (priorityMap.get(a.itemId) ?? 999) - (priorityMap.get(b.itemId) ?? 999),
     },
     {
       id: 'priority_desc',
-      label: 'Priorità (Inversa)',
+      label: `${t('stash.sortPriority')} (${t('stash.sortInverse')})`,
       toggleId: 'priority_asc',
       hideFromUi: true,
       compare: (a, b) => (priorityMap.get(b.itemId) ?? 999) - (priorityMap.get(a.itemId) ?? 999),
     },
     {
       id: 'name_asc',
-      label: 'Nome (A-Z)',
+      label: `${t('stash.sortName')} (A-Z)`,
       toggleId: 'name_desc',
       compare: (a, b) => {
         const nameA = getItemName(itemsInfo[a.itemId], language) || a.itemId;
@@ -181,7 +185,7 @@ export const StashPage = () => {
     },
     {
       id: 'name_desc',
-      label: 'Nome (Z-A)',
+      label: `${t('stash.sortName')} (Z-A)`,
       toggleId: 'name_asc',
       hideFromUi: true,
       compare: (a, b) => {
@@ -192,7 +196,7 @@ export const StashPage = () => {
     },
     {
       id: 'rarity_desc',
-      label: 'Rarità',
+      label: t('stash.sortRarity'),
       toggleId: 'rarity_asc',
       compare: (a, b) => {
         const rA = rarityOrder[itemsInfo[a.itemId]?.rarity?.toLowerCase() ?? ''] ?? 0;
@@ -202,7 +206,7 @@ export const StashPage = () => {
     },
     {
       id: 'rarity_asc',
-      label: 'Rarità (Crescente)',
+      label: `${t('stash.sortRarity')} (${t('stash.sortAscending')})`,
       toggleId: 'rarity_desc',
       hideFromUi: true,
       compare: (a, b) => {
@@ -213,7 +217,7 @@ export const StashPage = () => {
     },
     {
       id: 'type_asc',
-      label: 'Tipo',
+      label: t('stash.sortType'),
       toggleId: 'type_desc',
       compare: (a, b) => {
         const tA = itemsInfo[a.itemId]?.item_type ?? '';
@@ -223,7 +227,7 @@ export const StashPage = () => {
     },
     {
       id: 'type_desc',
-      label: 'Tipo (Inverso)',
+      label: `${t('stash.sortType')} (${t('stash.sortInverse')})`,
       toggleId: 'type_asc',
       hideFromUi: true,
       compare: (a, b) => {
@@ -232,7 +236,7 @@ export const StashPage = () => {
         return tB.localeCompare(tA);
       },
     },
-  ], [itemsInfo, priorityMap, language]);
+  ], [itemsInfo, priorityMap, language, t]);
 
   // Inizializza l'ordinamento salvato solo al mount
   const initialSortId = useMemo<StashSortId>(() => {
@@ -291,8 +295,8 @@ export const StashPage = () => {
                       ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                       : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
                   }`}
-                  title="Vista Griglia"
-                  aria-label="Vista Griglia"
+                  title={t('stash.viewGrid')}
+                  aria-label={t('stash.viewGrid')}
                 >
                   <LayoutGrid size={16} />
                 </button>
@@ -303,8 +307,8 @@ export const StashPage = () => {
                       ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                       : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
                   }`}
-                  title="Vista Lista"
-                  aria-label="Vista Lista"
+                  title={t('stash.viewList')}
+                  aria-label={t('stash.viewList')}
                 >
                   <ListIcon size={16} />
                 </button>
@@ -399,7 +403,7 @@ export const StashPage = () => {
 
       {processedItems.length === 0 && (
         <div className="p-20 text-center text-gray-500 italic text-sm">
-          Nessun materiale trovato.
+          {t('stash.noMaterialsFound')}
         </div>
       )}
 
@@ -412,6 +416,7 @@ export const StashPage = () => {
           refinerLevel={refinerLevel}
           dependencies={dependenciesMap.get(selectedItemForDetail.id) ?? []}
           onClose={() => setSelectedItemForDetail(null)}
+          onOpenOverrides={onOpenOverrides}
         />
       )}
     </div>

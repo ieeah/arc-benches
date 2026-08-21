@@ -7,7 +7,7 @@ import { SUPPORTED_LANGUAGES, type AppLanguage } from './types';
 
 export * from './types';
 
-const LOCALES: Record<AppLanguage, typeof it> = {
+const LOCALES: Record<string, typeof it> = {
   it,
   en,
 };
@@ -21,11 +21,11 @@ type NestedKeyOf<ObjectType extends object> = {
 export type TranslationPath = NestedKeyOf<typeof it>;
 
 export function translate(
-  lang: AppLanguage,
+  lang: AppLanguage = 'en',
   path: string,
   params?: Record<string, string | number>
 ): string {
-  const dict = LOCALES[lang] || LOCALES.it;
+  const dict = LOCALES[lang] || LOCALES.en || LOCALES.it;
   const parts = path.split('.');
   let current: any = dict;
 
@@ -33,8 +33,8 @@ export function translate(
     if (current && typeof current === 'object' && part in current) {
       current = current[part];
     } else {
-      // Fallback to Italian
-      let fallbackCurrent: any = LOCALES.it;
+      // Fallback to English, then Italian
+      let fallbackCurrent: any = LOCALES.en || LOCALES.it;
       for (const fPart of parts) {
         if (fallbackCurrent && typeof fallbackCurrent === 'object' && fPart in fallbackCurrent) {
           fallbackCurrent = fallbackCurrent[fPart];
@@ -60,7 +60,7 @@ export function translate(
 }
 
 export function useTranslation() {
-  const language = useAppStore(s => s.language ?? 'it');
+  const language = useAppStore(s => s.language ?? 'en');
   const setLanguage = useAppStore(s => s.setLanguage);
 
   const t = useCallback(
@@ -81,7 +81,7 @@ export function useTranslation() {
 /**
  * Returns localized item name with intelligent fallback to default (EN) name.
  */
-export function getItemName(item?: ItemInfo | null, lang: AppLanguage = 'it'): string {
+export function getItemName(item?: ItemInfo | null, lang: AppLanguage = 'en'): string {
   if (!item) return '';
   if (lang !== 'en' && item.translations?.[lang]?.name) {
     return item.translations[lang].name!;
@@ -92,7 +92,7 @@ export function getItemName(item?: ItemInfo | null, lang: AppLanguage = 'it'): s
 /**
  * Returns localized item description with intelligent fallback to default (EN) description.
  */
-export function getItemDescription(item?: ItemInfo | null, lang: AppLanguage = 'it'): string {
+export function getItemDescription(item?: ItemInfo | null, lang: AppLanguage = 'en'): string {
   if (!item) return '';
   if (lang !== 'en' && item.translations?.[lang]?.description) {
     return item.translations[lang].description!;
@@ -103,15 +103,23 @@ export function getItemDescription(item?: ItemInfo | null, lang: AppLanguage = '
 /**
  * Returns localized workbench name.
  */
-export function getWorkbenchName(workbench?: List | null, _lang: AppLanguage = 'it'): string {
+export function getWorkbenchName(workbench?: List | null, _lang: AppLanguage = 'en'): string {
   if (!workbench) return '';
   return workbench.name;
 }
 
 /**
+ * Returns localized list / workbench name.
+ */
+export function getListName(list?: List | null, _lang: AppLanguage = 'en'): string {
+  if (!list) return '';
+  return list.name;
+}
+
+/**
  * Returns localized rarity name (e.g. "Comune" / "Common").
  */
-export function getRarityLabel(rarity?: string | null, lang: AppLanguage = 'it'): string {
+export function getRarityLabel(rarity?: string | null, lang: AppLanguage = 'en'): string {
   if (!rarity) return '';
   const key = `rarities.${rarity}`;
   return translate(lang, key);

@@ -1,6 +1,7 @@
 import { Plus, Minus } from "lucide-react";
 import { useLongPress } from "@/hooks/useLongPress";
 import { getRarityHex } from "@/lib/rarity";
+import { useTranslation } from "@/i18n";
 
 export interface QuantityStepperProps {
   tempValue: string;
@@ -25,6 +26,7 @@ export const QuantityStepper = ({
   itemName,
   className = "",
 }: QuantityStepperProps) => {
+  const { t } = useTranslation();
   const longPressInc = useLongPress(onIncrement);
   const longPressDec = useLongPress(onDecrement);
 
@@ -33,6 +35,7 @@ export const QuantityStepper = ({
   const borderColor = hex ? `${hex}80` : undefined;
 
   const isVertical = orientation === "vertical";
+  const targetName = itemName ?? t('quantityStepper.itemFallback');
 
   return (
     <div
@@ -59,7 +62,7 @@ export const QuantityStepper = ({
             onContextMenu={(e) => e.preventDefault()}
             onClick={onIncrement}
             {...longPressInc}
-            aria-label={`Aumenta quantità ${itemName ?? "oggetto"}`}
+            aria-label={t('quantityStepper.increase', { name: targetName })}
             className="w-8 h-7 flex items-center justify-center text-gray-900 dark:text-gray-100 hover:bg-black/10 dark:hover:bg-white/20 rounded-lg active:scale-90 transition-all shrink-0 font-bold"
           >
             <Plus size={14} />
@@ -90,7 +93,7 @@ export const QuantityStepper = ({
             onContextMenu={(e) => e.preventDefault()}
             onClick={onDecrement}
             {...longPressDec}
-            aria-label={`Riduci quantità ${itemName ?? "oggetto"}`}
+            aria-label={t('quantityStepper.decrease', { name: targetName })}
             className="w-8 h-7 flex items-center justify-center text-gray-900 dark:text-gray-100 hover:bg-black/10 dark:hover:bg-white/20 rounded-lg active:scale-90 transition-all shrink-0 font-bold"
           >
             <Minus size={14} />
@@ -103,7 +106,7 @@ export const QuantityStepper = ({
             onContextMenu={(e) => e.preventDefault()}
             onClick={onDecrement}
             {...longPressDec}
-            aria-label={`Riduci quantità ${itemName ?? "oggetto"}`}
+            aria-label={t('quantityStepper.decrease', { name: targetName })}
             className="w-8 h-7 flex items-center justify-center text-gray-900 dark:text-gray-100 hover:bg-black/10 dark:hover:bg-white/20 rounded-lg active:scale-90 transition-all shrink-0 font-bold"
           >
             <Minus size={14} />
@@ -134,7 +137,7 @@ export const QuantityStepper = ({
             onContextMenu={(e) => e.preventDefault()}
             onClick={onIncrement}
             {...longPressInc}
-            aria-label={`Aumenta quantità ${itemName ?? "oggetto"}`}
+            aria-label={t('quantityStepper.increase', { name: targetName })}
             className="w-8 h-7 flex items-center justify-center text-gray-900 dark:text-gray-100 hover:bg-black/10 dark:hover:bg-white/20 rounded-lg active:scale-90 transition-all shrink-0 font-bold"
           >
             <Plus size={14} />

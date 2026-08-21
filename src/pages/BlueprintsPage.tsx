@@ -53,7 +53,7 @@ export const BlueprintsPage = () => {
     },
     {
       id: 'owned_last',
-      label: 'Mancanti',
+      label: t('stash.filterMissing'),
       compare: (a, b) => {
         const aOwned = ownedBlueprints[a.id] ? 1 : 0;
         const bOwned = ownedBlueprints[b.id] ? 1 : 0;
@@ -63,7 +63,7 @@ export const BlueprintsPage = () => {
     },
     {
       id: 'owned_first',
-      label: 'Sbloccati',
+      label: t('blueprints.owned'),
       compare: (a, b) => {
         const aOwned = ownedBlueprints[a.id] ? 1 : 0;
         const bOwned = ownedBlueprints[b.id] ? 1 : 0;
@@ -72,7 +72,7 @@ export const BlueprintsPage = () => {
       toggleId: 'owned_last',
       hideFromUi: true,
     },
-  ], [ownedBlueprints, language]);
+  ], [ownedBlueprints, language, t]);
 
   // Filtra gli elementi se filterHideOwned è attivo
   const displayedBlueprints = useMemo(() => {
@@ -113,11 +113,11 @@ export const BlueprintsPage = () => {
                   ? 'bg-blue-500 text-white border-blue-500 shadow-blue-500/20'
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700'
               }`}
-              title={filterHideOwned ? 'Mostra tutti i progetti' : 'Mostra solo progetti mancanti'}
-              aria-label={filterHideOwned ? 'Mostra tutti i progetti' : 'Mostra solo progetti mancanti'}
+              title={filterHideOwned ? t('blueprints.showOwned') : t('blueprints.hideOwned')}
+              aria-label={filterHideOwned ? t('blueprints.showOwned') : t('blueprints.hideOwned')}
             >
               {filterHideOwned ? <EyeOff size={14} /> : <Eye size={14} />}
-              <span className="hidden sm:inline">{filterHideOwned ? 'Solo Mancanti' : 'Tutti'}</span>
+              <span className="hidden sm:inline">{filterHideOwned ? t('stash.filterMissing') : t('stash.filterAll')}</span>
             </button>
           }
         />
@@ -132,15 +132,15 @@ export const BlueprintsPage = () => {
           </div>
           <div className="flex items-center justify-between text-[11px] font-medium text-gray-400">
             <span className="font-semibold text-gray-700 dark:text-gray-200">
-              <strong className="text-blue-500 font-bold font-mono text-xs">{ownedCount}</strong> / {totalCount} Progetti
+              <strong className="text-blue-500 font-bold font-mono text-xs">{ownedCount}</strong> / {totalCount} {t('nav.blueprints')}
             </span>
             <span>
               {ownedCount === totalCount && totalCount > 0 ? (
                 <span className="text-emerald-500 font-bold flex items-center gap-1">
-                  <CheckCircle2 size={12} /> Completa!
+                  <CheckCircle2 size={12} /> {t('common.done')}!
                 </span>
               ) : (
-                `${totalCount - ownedCount} ancora da sbloccare`
+                `${totalCount - ownedCount} ${t('stash.filterMissing').toLowerCase()}`
               )}
             </span>
           </div>
@@ -157,7 +157,7 @@ export const BlueprintsPage = () => {
           setGroupByEnabled={() => {}}
           categories={[]}
           sortOptions={sortOptions}
-          searchPlaceholder="Cerca blueprint..."
+          searchPlaceholder={t('blueprints.searchPlaceholder')}
           items={displayedBlueprints}
           sortType="pills"
         />
@@ -167,11 +167,11 @@ export const BlueprintsPage = () => {
         {/* ── GRIGLIA BLUEPRINTS (Con Content-Visibility Ottimizzata #39) ── */}
         {processedItems.length === 0 ? (
           <div className="p-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] text-center space-y-2">
-            <p className="text-sm font-bold text-gray-700 dark:text-gray-300">Nessun blueprint trovato</p>
+            <p className="text-sm font-bold text-gray-700 dark:text-gray-300">{t('common.none')}</p>
             <p className="text-xs text-gray-400">
               {filterHideOwned
-                ? 'Tutti i blueprint in questa visualizzazione sono già stati sbloccati!'
-                : 'Prova a modificare il termine di ricerca.'}
+                ? t('listDetail.completed')
+                : t('stash.searchPlaceholder')}
             </p>
           </div>
         ) : (

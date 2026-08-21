@@ -16,7 +16,7 @@ describe('i18n core engine', () => {
     expect(translate('it', 'customLists.deleteItemConfirm', { name: 'Cavi' })).toBe('Vuoi rimuovere "Cavi" dalla lista?');
     expect(translate('en', 'customLists.deleteItemConfirm', { name: 'Wires' })).toBe('Do you want to remove "Wires" from the list?');
     expect(translate('it', 'customLists.deleteItemStage', { level: 2 })).toBe("L'oggetto verrà rimosso dal Livello 2.");
-    expect(translate('en', 'customLists.deleteItemStage', { level: 2 })).toBe('Item will be removed from Stage 2.');
+    expect(translate('en', 'customLists.deleteItemStage', { level: 2 })).toBe('The item will be removed from Level 2.');
   });
 
   it('falls back to key path when translation is completely missing', () => {
@@ -84,5 +84,15 @@ describe('item localization & multi-language search', () => {
     expect(getRarityLabel('Common', 'en')).toBe('Common');
     expect(getRarityLabel('Epic', 'it')).toBe('Epico');
     expect(getRarityLabel('Epic', 'en')).toBe('Epic');
+  });
+
+  it('correctly reflects items-overrides.json and drafts on effective items', async () => {
+    const { computeEffectiveItemsInfo } = await import('@/store/gameData');
+    const effective = computeEffectiveItemsInfo();
+
+    // surveyor-vault has override in items-overrides.json
+    expect(effective['surveyor-vault']).toBeDefined();
+    expect(getItemName(effective['surveyor-vault'], 'it')).toBe('Cassaforte del supervisore');
+    expect(getItemName(effective['surveyor-vault'], 'en')).toBe('Surveyor Vault');
   });
 });

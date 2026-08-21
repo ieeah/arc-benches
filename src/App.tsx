@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import {
-  Backpack, Database, Dice5, Download, EyeOff, FileJson, FlaskConical,
-  LayoutList, Plus, RotateCcw, ScrollText, Settings, Upload, Wrench
-} from 'lucide-react';
+import { Download, EyeOff, Plus, RotateCcw, Upload } from 'lucide-react';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import { FloatingNav } from '@/components/FloatingNav';
-import type { ContextAction, NavItem } from '@/components/FloatingNav';
+import type { ContextAction } from '@/components/FloatingNav';
 import { RoleMakerModal } from '@/components/RoleMakerModal';
 import { StashPage } from '@/pages/StashPage';
 import { ListsPage } from '@/pages/ListsPage';
@@ -14,18 +11,22 @@ import { BlueprintsPage } from '@/pages/BlueprintsPage';
 import { ItemsPage } from '@/pages/ItemsPage';
 import { DevCatalogLabPage } from '@/pages/DevCatalogLabPage';
 import { DevOverridesPage } from '@/pages/DevOverridesPage';
+import { DevTranslationsPage } from '@/pages/DevTranslationsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
 import { useAppStore } from '@/store';
+import { useTranslation } from '@/i18n';
 
 const isDev = import.meta.env.DEV;
 
-type Tab = 'stash' | 'liste' | 'blueprints' | 'items' | 'dev-lab' | 'dev-overrides' | 'list-detail' | 'settings';
+type Tab = 'stash' | 'liste' | 'blueprints' | 'items' | 'dev-lab' | 'dev-overrides' | 'dev-translations' | 'list-detail' | 'settings';
 
 export default function App() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<Tab>('stash');
   const [returnTab, setReturnTab] = useState<Tab>('stash');
   const [detailListId, setDetailListId] = useState<string | null>(null);
+  const [devOverrideItemId, setDevOverrideItemId] = useState<string | null>(null);
   const [isRoleMakerOpen, setIsRoleMakerOpen] = useState(false);
   const [listsAction, setListsAction] = useState<ListsPageAction>(null);
 
@@ -42,26 +43,11 @@ export default function App() {
     setActiveTab('list-detail');
   };
 
-  const navTree: NavItem[] = [
-    { id: 'stash', label: 'Stash', icon: <Backpack size={20} /> },
-    { id: 'liste', label: 'Banchi & Liste', icon: <LayoutList size={20} /> },
-    { id: 'blueprints', label: 'Progetti Blueprints', icon: <ScrollText size={20} /> },
-    {
-      id: 'tools',
-      label: 'Strumenti',
-      icon: <Wrench size={20} />,
-      isCategory: true,
-      children: [
-        { id: 'items', label: 'Database Oggetti', icon: <Database size={18} /> },
-        { id: 'role-maker', label: 'Role Maker 🎲', icon: <Dice5 size={18} /> },
-        ...(isDev ? [
-          { id: 'dev-lab', label: 'Dev Catalog Lab 🧪', icon: <FlaskConical size={18} /> },
-          { id: 'dev-overrides', label: 'Dev Overrides 🛠️', icon: <FileJson size={18} /> },
-        ] : []),
-      ],
-    },
-    { id: 'settings', label: 'Impostazioni', icon: <Settings size={20} /> },
-  ];
+  const handleOpenOverrides = (itemId: string) => {
+    setDevOverrideItemId(itemId);
+    setReturnTab(activeTab);
+    setActiveTab('dev-overrides');
+  };
 
   const handleNavigate = (pageId: string) => {
     if (pageId === 'role-maker') {
@@ -78,7 +64,7 @@ export default function App() {
       return [
         {
           icon: <EyeOff size={15} />,
-          label: 'Nascondi completati',
+          label: t('stash.hideCompleted'),
           onClick: () => setFilterHideCompleted(!filterHideCompleted),
           checked: filterHideCompleted,
         },
@@ -88,7 +74,7 @@ export default function App() {
       return [
         {
           icon: <EyeOff size={15} />,
-          label: 'Nascondi sbloccati',
+          label: t('blueprints.hideOwned'),
           onClick: () => setFilterHideOwnedBlueprints(!filterHideOwnedBlueprints),
           checked: filterHideOwnedBlueprints,
         },
@@ -98,22 +84,22 @@ export default function App() {
       return [
         {
           icon: <Plus size={15} />,
-          label: '+ Nuova Lista',
+          label: t('lists.newListBtn'),
           onClick: () => setListsAction('create'),
         },
         {
           icon: <Upload size={15} />,
-          label: 'Esporta Backup JSON',
+          label: t('lists.exportBackup'),
           onClick: () => setListsAction('export'),
         },
         {
           icon: <Download size={15} />,
-          label: 'Importa Backup JSON',
+          label: t('lists.importBackup'),
           onClick: () => setListsAction('import'),
         },
         {
           icon: <RotateCcw size={15} />,
-          label: 'Ripristina Progressi',
+          label: t('lists.resetProgress'),
           onClick: () => resetProgress(),
           variant: 'danger',
           dividerBefore: true,
@@ -127,11 +113,16 @@ export default function App() {
     <ThemeProvider>
       <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-hidden w-full">
         {isDev && activeTab === 'dev-overrides' ? (
-          <DevOverridesPage onBack={() => setActiveTab(returnTab)} />
+          <DevOverridesPage
+            onBack={() => setActiveTab(returnTab)}
+            initialSelectedItemId={devOverrideItemId}
+          />
+        ) : isDev && activeTab === 'dev-translations' ? (
+          <DevTranslationsPage onBack={() => setActiveTab(returnTab)} />
         ) : (
           <>
             <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
-              {activeTab === 'stash' && <StashPage />}
+              {activeTab === 'stash' && <StashPage onOpenOverrides={handleOpenOverrides} />}
               {activeTab === 'liste' && (
                 <ListsPage
                   action={listsAction}
@@ -140,9 +131,24 @@ export default function App() {
                 />
               )}
               {activeTab === 'blueprints' && <BlueprintsPage />}
-              {activeTab === 'items' && <ItemsPage onBack={() => setActiveTab(returnTab)} />}
-              {isDev && activeTab === 'dev-lab' && <DevCatalogLabPage onBack={() => setActiveTab(returnTab)} />}
-              {activeTab === 'settings' && <SettingsPage onBack={() => setActiveTab(returnTab)} />}
+              {activeTab === 'items' && (
+                <ItemsPage
+                  onBack={() => setActiveTab(returnTab)}
+                  onOpenOverrides={handleOpenOverrides}
+                />
+              )}
+              {isDev && activeTab === 'dev-lab' && (
+                <DevCatalogLabPage
+                  onBack={() => setActiveTab(returnTab)}
+                  onOpenOverrides={handleOpenOverrides}
+                />
+              )}
+              {activeTab === 'settings' && (
+                <SettingsPage
+                  onBack={() => setActiveTab(returnTab)}
+                  onNavigate={handleNavigate}
+                />
+              )}
               {activeTab === 'list-detail' && detailListId && (
                 <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} />
               )}
@@ -153,7 +159,6 @@ export default function App() {
                 activePage={activeTab}
                 onNavigate={handleNavigate}
                 contextActions={getContextActions()}
-                items={navTree}
               />
             )}
           </>

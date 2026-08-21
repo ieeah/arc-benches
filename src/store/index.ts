@@ -72,7 +72,8 @@ useAppStore.subscribe((state, prev) => {
     state.checkedActions !== prev.checkedActions ||
     state.activePersonalityId !== prev.activePersonalityId ||
     state.ownedBlueprints !== prev.ownedBlueprints ||
-    state.filterHideOwnedBlueprints !== prev.filterHideOwnedBlueprints;
+    state.filterHideOwnedBlueprints !== prev.filterHideOwnedBlueprints ||
+    state.language !== prev.language;
   // On a profile switch the active id changes together with all the slice refs:
   // we write the (new) active profile's state to its own key, never the old one.
   if (profileStateChanged || state.activeProfileId !== prev.activeProfileId) {

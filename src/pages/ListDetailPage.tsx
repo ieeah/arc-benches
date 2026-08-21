@@ -1,5 +1,6 @@
 import { ArrowLeft, Check } from 'lucide-react';
 import { useAppStore } from '@/store';
+import { useTranslation, getItemName, getListName } from '@/i18n';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { LevelPills } from '@/components/LevelPills';
@@ -14,14 +15,15 @@ export const ListDetailPage = ({ listId, onBack }: {
   listId: string;
   onBack: () => void;
 }) => {
+  const { t, language } = useTranslation();
   const store = useAppStore();
   const list = store.getAllLists().find(l => l.id === listId);
 
   if (!list) {
     return (
       <div className="p-4">
-        <SectionHeader title="Lista non trovata"
-          leading={<IconButton onClick={onBack} title="Indietro"><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
+        <SectionHeader title={t('lists.notFound')}
+          leading={<IconButton onClick={onBack} title={t('common.back')}><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
       </div>
     );
   }
@@ -36,13 +38,13 @@ export const ListDetailPage = ({ listId, onBack }: {
   return (
     <div className="pb-28">
       <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
-        <SectionHeader title={list.name}
-          leading={<IconButton onClick={onBack} title="Indietro"><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
+        <SectionHeader title={getListName(list, language)}
+          leading={<IconButton onClick={onBack} title={t('common.back')}><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
         <div className="mt-3">
-          <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">Livello Attuale</p>
+          <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">{t('benches.current')}</p>
           <LevelPills min={baseLevel} max={list.maxLevel} value={current}
             activeClass="bg-blue-500 text-white"
-            ariaLabel={lvl => `Livello attuale ${lvl}`}
+            ariaLabel={lvl => `${t('benches.current')} ${lvl}`}
             onChange={setCurrent} />
         </div>
       </div>
@@ -60,10 +62,10 @@ export const ListDetailPage = ({ listId, onBack }: {
               )}>
               <div className="flex items-center justify-between gap-2 mb-2.5">
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="text-xs font-bold uppercase text-gray-400 tracking-wider">Livello {lvl.level}</span>
+                  <span className="text-xs font-bold uppercase text-gray-400 tracking-wider">{t('benches.level')} {lvl.level}</span>
                   {done && (
                     <span className="flex items-center gap-1 text-[10px] font-bold text-green-600 dark:text-green-400">
-                      <Check size={12} strokeWidth={3} /> Fatto
+                      <Check size={12} strokeWidth={3} /> {t('common.done')}
                     </span>
                   )}
                 </div>
@@ -72,7 +74,7 @@ export const ListDetailPage = ({ listId, onBack }: {
                     'text-[10px] font-bold uppercase px-2.5 py-1 rounded-full transition-colors shrink-0',
                     inObjectives ? 'bg-green-500 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-500',
                   )}>
-                  {inObjectives ? 'Obiettivo' : 'Ignorato'}
+                  {inObjectives ? t('benches.target') : t('common.none')}
                 </button>
               </div>
 
@@ -80,6 +82,7 @@ export const ListDetailPage = ({ listId, onBack }: {
                 <div className="space-y-2">
                   {lvl.requirementItemIds.map(req => {
                     const info = store.itemsInfo[req.itemId];
+                    const itemName = getItemName(info, language) || req.itemId;
                     const { color } = getRarityStyles(info?.rarity ?? '');
                     const owned = store.inventory[req.itemId] ?? 0;
                     const enough = done || owned >= req.quantity;
@@ -87,11 +90,11 @@ export const ListDetailPage = ({ listId, onBack }: {
                       <div key={req.itemId} className="flex items-center gap-2.5">
                         <div className="relative w-9 h-9 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
                           {info?.icon
-                            ? <img src={iconUrl(info.icon)} alt={info.name} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
+                            ? <img src={iconUrl(info.icon)} alt={itemName} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
                             : <span className="text-[7px] text-gray-400">{req.itemId}</span>}
                           <div className={cn('absolute bottom-0 left-0 right-0 h-1', color)} />
                         </div>
-                        <span className="flex-1 min-w-0 text-sm font-semibold truncate">{info?.name ?? req.itemId}</span>
+                        <span className="flex-1 min-w-0 text-sm font-semibold truncate">{itemName}</span>
                         <span className={cn(
                           'text-xs font-bold font-mono shrink-0',
                           enough ? 'text-green-600 dark:text-green-400' : 'text-gray-400',
@@ -117,7 +120,7 @@ export const ListDetailPage = ({ listId, onBack }: {
               )}
 
               {lvl.requirementItemIds.length === 0 && (lvl.actions?.length ?? 0) === 0 && (
-                <p className="text-xs text-gray-400 italic">Nessun oggetto o azione.</p>
+                <p className="text-xs text-gray-400 italic">{t('customLists.emptyStage')}</p>
               )}
             </div>
           );

@@ -1,32 +1,22 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
-  ArrowLeft, Search, Download, Copy, Check, Sparkles,
-  Trash2, RotateCcw, FileJson, Monitor, Edit3, Globe,
-  Plus, EyeOff
+  Search, Download, Copy, Check, Sparkles,
+  Trash2, RotateCcw, FileJson, Edit3, Globe,
+  EyeOff
 } from 'lucide-react';
 import type { ItemInfo, ItemTranslation } from '@/types';
 import { useAppStore } from '@/store';
-import { IconButton } from '@/components/IconButton';
+import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
 import itemsDataBase from '@/data/items.json';
 import initialOverrides from '@/data/items-overrides.json';
 import { getRarityText } from '@/lib/rarity';
+import { SUPPORTED_LANGUAGES } from '@/i18n';
 
 type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
 const RARITIES: ItemRarity[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
 
-const AVAILABLE_LANGUAGES: { code: string; label: string; flag: string }[] = [
-  { code: 'it', label: 'Italiano', flag: '🇮🇹' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'pt', label: 'Português', flag: '🇵🇹' },
-  { code: 'pl', label: 'Polski', flag: '🇵🇱' },
-  { code: 'ru', label: 'Русский', flag: '🇷🇺' },
-  { code: 'ja', label: '日本語', flag: '🇯🇵' },
-  { code: 'ko', label: '한국어', flag: '🇰🇷' },
-  { code: 'zh', label: '中文', flag: '🇨🇳' },
-];
+const AVAILABLE_LANGUAGES = SUPPORTED_LANGUAGES.filter(l => l.code !== 'en');
 
 const SUGGESTED_ITEM_TYPES = [
   'Basic Material', 'Topside Material', 'Refined Material', 'Advanced Material',
@@ -116,7 +106,13 @@ const SidebarItemRow = React.memo(({
   );
 });
 
-export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
+export const DevOverridesPage = ({
+  onBack,
+  initialSelectedItemId,
+}: {
+  onBack: () => void;
+  initialSelectedItemId?: string | null;
+}) => {
   const syncItemsOverrides = useAppStore(s => s.syncItemsOverrides);
   const allItems = useMemo(() => Object.values(itemsDataBase as Record<string, ItemInfo>), []);
 
@@ -132,10 +128,19 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterOnlyOverridden, setFilterOnlyOverridden] = useState(false);
   const [filterOnlyHidden, setFilterOnlyHidden] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState<string>(allItems[0]?.id || 'metal-parts');
+  const [selectedItemId, setSelectedItemId] = useState<string>(
+    initialSelectedItemId && (itemsDataBase as Record<string, ItemInfo>)[initialSelectedItemId]
+      ? initialSelectedItemId
+      : allItems[0]?.id || 'metal-parts'
+  );
   const [selectedLang, setSelectedLang] = useState<string>('it');
-  const [customLangCode, setCustomLangCode] = useState<string>('');
   const [copyFeedback, setCopyFeedback] = useState(false);
+
+  useEffect(() => {
+    if (initialSelectedItemId && (itemsDataBase as Record<string, ItemInfo>)[initialSelectedItemId]) {
+      setSelectedItemId(initialSelectedItemId);
+    }
+  }, [initialSelectedItemId]);
 
   // Serializzazione JSON non bloccante tramite concurrent rendering di React 19
   const deferredOverrides = React.useDeferredValue(overrides);
@@ -335,46 +340,17 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
   }, [currentItemOverride]);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col">
-      {/* ── AVVISO PER SCHERMI PICCOLI (DESKTOP ONLY REQUIREMENT) ── */}
-      <div className="lg:hidden fixed inset-0 z-50 bg-gray-900/95 text-white flex flex-col items-center justify-center p-6 text-center">
-        <Monitor size={48} className="text-amber-400 mb-4 animate-bounce" />
-        <h2 className="text-xl font-bold mb-2">Dashboard Solo per Desktop</h2>
-        <p className="text-sm text-gray-300 max-w-sm mb-6">
-          La gestione e modifica degli Overrides di gioco è uno strumento per sviluppatori ottimizzato esclusivamente per schermi Desktop (risoluzione &ge; 1024px).
-        </p>
-        <button
-          onClick={onBack}
-          className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 font-bold text-sm rounded-2xl flex items-center gap-2 cursor-pointer"
-        >
-          <ArrowLeft size={16} /> Torna all'App
-        </button>
-      </div>
-
-      {/* ── HEADER SUPERIORE ── */}
-      <header className="shrink-0 px-6 py-3.5 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between z-30 shadow-xs">
-        <div className="flex items-center gap-4">
-          <IconButton onClick={onBack} title="Torna all'App">
-            <ArrowLeft size={18} />
-          </IconButton>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-base font-black tracking-tight text-gray-900 dark:text-white flex items-center gap-2">
-                <FileJson size={18} className="text-blue-500" />
-                MetaForge Overrides Studio
-              </h1>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
-                Dev Only
-              </span>
-            </div>
-            <p className="text-[11px] text-gray-500 dark:text-gray-400">
-              Modifica, dichiara ed esporta gli overrides locali per <code className="text-blue-500 font-mono">src/data/items-overrides.json</code>
-            </p>
-          </div>
-        </div>
-
-        {/* Toolbar Azioni Globali */}
-        <div className="flex items-center gap-2.5">
+    <DevStudioLayout
+      title="MetaForge Overrides Studio"
+      subtitle={
+        <>
+          Modifica, dichiara ed esporta gli overrides locali per <code className="text-blue-500 font-mono">src/data/items-overrides.json</code>
+        </>
+      }
+      icon={<FileJson size={18} className="text-blue-500" />}
+      onBack={onBack}
+      headerActions={
+        <>
           <div className="px-3 py-1 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
             <Sparkles size={13} />
             <span>{totalOverriddenItems} Override</span>
@@ -410,13 +386,10 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
           >
             <RotateCcw size={15} />
           </button>
-        </div>
-      </header>
-
-      {/* ── LAYOUT A 3 COLONNE (DESKTOP) ── */}
-      <main className="flex-1 min-h-0 grid grid-cols-12 overflow-hidden">
-        {/* COLONNA 1: LISTA OGGETTI (3 / 12) - ALTEZZA FISSA CON SCROLLBAR */}
-        <aside className="col-span-3 h-full overflow-hidden border-r border-gray-200 dark:border-gray-800 flex flex-col bg-white dark:bg-gray-900">
+        </>
+      }
+      sidebar={
+        <>
           <div className="shrink-0 p-3 border-b border-gray-100 dark:border-gray-800 space-y-2">
             <div className="relative">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -455,7 +428,7 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
               <SidebarItemRow
                 key={item.id}
                 item={item}
-                isSelected={item.id === selectedItemId}
+                isSelected={selectedItemId === item.id}
                 hasOverride={Boolean(overrides[item.id] && Object.keys(overrides[item.id]).length > 0)}
                 isHidden={Boolean(overrides[item.id]?.hidden)}
                 overrideName={overrides[item.id]?.name}
@@ -463,26 +436,34 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
                 onSelect={handleSelect}
               />
             ))}
+            {filteredItems.length === 0 && (
+              <div className="p-8 text-center text-xs text-gray-400">
+                Nessun oggetto trovato
+              </div>
+            )}
           </div>
-        </aside>
-
-        {/* COLONNA 2: EDITOR OVERRIDE OGGETTO (6 / 12) */}
-        <section className="col-span-6 h-full overflow-y-auto border-r border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-black/50 p-6 space-y-6">
-          {selectedItemBase ? (
-            <>
-              {/* Scheda di Anteprima Live */}
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-5 shadow-xs flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <ItemCardFrame
-                    icon={selectedItemEffective.icon}
-                    alt={selectedItemEffective.name}
-                    rarity={selectedItemEffective.rarity}
-                    fallbackText={selectedItemEffective.id}
-                    className={`w-16 h-16 shrink-0 ${currentItemOverride.hidden ? 'opacity-40 grayscale' : ''}`}
-                    imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                  />
-                  <div>
-                    <div className="flex items-center gap-2">
+        </>
+      }
+      previewTitle="items-overrides.json"
+      previewIcon={<FileJson size={14} className="text-blue-400" />}
+      previewBadge={`${totalOverriddenItems} chiavi`}
+      previewContent={<pre>{jsonString}</pre>}
+    >
+      {selectedItemBase ? (
+        <>
+          {/* Scheda di Anteprima Live */}
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-5 shadow-xs flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <ItemCardFrame
+                icon={selectedItemEffective.icon}
+                alt={selectedItemEffective.name}
+                rarity={selectedItemEffective.rarity}
+                fallbackText={selectedItemEffective.id}
+                className={`w-16 h-16 shrink-0 ${currentItemOverride.hidden ? 'opacity-40 grayscale' : ''}`}
+                imgClassName="max-w-[85%] max-h-[85%] object-contain"
+              />
+              <div>
+                <div className="flex items-center gap-2">
                       <h2 className={`text-base font-black ${
                         currentItemOverride.hidden ? 'text-gray-400 line-through' : 'text-gray-900 dark:text-white'
                       }`}>
@@ -829,32 +810,7 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
                         {lang.flag} {lang.label} ({lang.code})
                       </option>
                     ))}
-                    {customLangCode && !AVAILABLE_LANGUAGES.some(l => l.code === customLangCode) && (
-                      <option value={customLangCode}>🌐 Custom ({customLangCode})</option>
-                    )}
                   </select>
-
-                  {/* Input codice lingua personalizzato */}
-                  <div className="flex items-center gap-1 shrink-0">
-                    <input
-                      type="text"
-                      maxLength={5}
-                      placeholder="es. zh-TW"
-                      value={customLangCode}
-                      onChange={e => setCustomLangCode(e.target.value.trim().toLowerCase())}
-                      className="w-20 px-2 py-1.5 text-xs bg-white dark:bg-gray-800 border border-purple-200 dark:border-purple-800 rounded-xl text-center font-mono uppercase"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (customLangCode) setSelectedLang(customLangCode);
-                      }}
-                      className="p-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold cursor-pointer"
-                      title="Usa codice personalizzato"
-                    >
-                      <Plus size={14} />
-                    </button>
-                  </div>
                 </div>
 
                 {/* Form Traduzione per la Lingua Selezionata */}
@@ -929,24 +885,6 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
               Seleziona un oggetto dalla colonna di sinistra
             </div>
           )}
-        </section>
-
-        {/* COLONNA 3: JSON LIVE PREVIEW (3 / 12) - ALTEZZA FISSA */}
-        <aside className="col-span-3 h-full overflow-hidden flex flex-col bg-gray-900 text-gray-300">
-          <div className="shrink-0 p-3 bg-gray-950 border-b border-gray-800 flex items-center justify-between">
-            <span className="text-xs font-bold font-mono text-gray-400 flex items-center gap-1.5">
-              <FileJson size={14} className="text-blue-400" />
-              items-overrides.json
-            </span>
-            <span className="text-[10px] text-gray-500 font-mono">
-              {totalOverriddenItems} chiavi
-            </span>
-          </div>
-          <div className="flex-1 min-h-0 p-4 overflow-auto font-mono text-[11px] leading-relaxed text-emerald-400 select-all">
-            <pre>{jsonString}</pre>
-          </div>
-        </aside>
-      </main>
-    </div>
+    </DevStudioLayout>
   );
 };

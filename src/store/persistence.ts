@@ -12,11 +12,12 @@ export const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
-/** The 11 keys persisted per profile. */
+/** The 12 keys persisted per profile. */
 export type PersistedState = Pick<AppState,
   'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
-  'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints'
+  'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
+  'language'
 >;
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
@@ -71,6 +72,7 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
   }
   if (isObject(raw.ownedBlueprints)) out.ownedBlueprints = sanitizeBoolRecord(raw.ownedBlueprints);
   if (typeof raw.filterHideOwnedBlueprints === 'boolean') out.filterHideOwnedBlueprints = raw.filterHideOwnedBlueprints;
+  if (typeof raw.language === 'string') out.language = raw.language as AppLanguage;
   return out;
 }
 
@@ -100,6 +102,7 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     activePersonalityId: s.activePersonalityId ?? null,
     ownedBlueprints: s.ownedBlueprints ?? {},
     filterHideOwnedBlueprints: s.filterHideOwnedBlueprints ?? false,
+    language: s.language ?? 'en',
   };
   safeLS(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }
@@ -162,9 +165,8 @@ export function loadSettings(): AppSettingsData {
       try { parsed = JSON.parse(raw); } catch { /* ignore */ }
     }
 
-    const browserLang: AppLanguage = (typeof navigator !== 'undefined' && navigator.language && navigator.language.startsWith('en')) ? 'en' : 'it';
     const rawLang = legacyLang || parsed.language;
-    const initialLang: AppLanguage = (rawLang === 'it' || rawLang === 'en') ? rawLang : browserLang;
+    const initialLang: AppLanguage = (rawLang === 'it' || rawLang === 'en') ? rawLang : 'en';
 
     const defaultFavorites: [string, string] = ['stash', 'liste'];
     const favorites: [string, string] = (Array.isArray(parsed.quickFavorites) && parsed.quickFavorites.length === 2 && typeof parsed.quickFavorites[0] === 'string' && typeof parsed.quickFavorites[1] === 'string')
@@ -200,7 +202,7 @@ export function loadSettings(): AppSettingsData {
       stashGridDensity: initialStashDensity,
     };
   }, {
-    language: 'it',
+    language: 'en',
     navSide: 'right',
     radialMenuEnabled: true,
     quickFavorites: ['stash', 'liste'],

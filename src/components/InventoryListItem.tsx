@@ -33,7 +33,7 @@ export const InventoryListItem = ({
   onSet,
   onOpenDetail,
 }: InventoryListItemProps) => {
-  const { language } = useTranslation();
+  const { t, language } = useTranslation();
   const displayName = getItemName(itemInfo, language) || itemId.replace(/-/g, ' ');
   const isCompleted = owned >= required;
   const { border, glow } = getRarityStyles(itemInfo?.rarity);
@@ -49,7 +49,7 @@ export const InventoryListItem = ({
   }
 
   const handleBlur = () => {
-    let val = parseInt(tempValue, 10);
+    let val = parseInt(tempValue);
     if (isNaN(val) || val < 0) {
       val = 0;
     }
@@ -81,8 +81,8 @@ export const InventoryListItem = ({
               <div
                 title={
                   craftableNow
-                    ? 'Craftabile ora nel Refiner'
-                    : `Richiede Refiner Lvl ${craftLevel} (sei a ${refinerLevel})`
+                    ? t('stash.craftableNowInRefiner')
+                    : t('stash.requiresRefinerLevelShort', { level: craftLevel, current: refinerLevel })
                 }
                 className={`flex items-center gap-0.5 px-1 py-0.2 rounded-full text-[7px] font-bold uppercase tracking-wide text-white ${
                   craftableNow ? 'bg-emerald-500' : 'bg-amber-500'
@@ -138,12 +138,12 @@ export const InventoryListItem = ({
             ))}
             {dependencies.length > 1 && (
               <div className="inline-flex items-center text-[10px] font-bold text-blue-500 dark:text-blue-400 pl-0.5">
-                <span>+{dependencies.length - 1} {dependencies.length - 1 === 1 ? 'altro' : 'altri'}</span>
+                <span>+{dependencies.length - 1} {dependencies.length - 1 === 1 ? t('stash.moreOtherSingle') : t('stash.moreOtherPlural')}</span>
               </div>
             )}
           </div>
         ) : (
-          <p className="text-[10px] text-gray-400 italic mt-1.5">Nessun obiettivo attivo</p>
+          <p className="text-[10px] text-gray-400 italic mt-1.5">{t('stash.noActiveObjectivesShort')}</p>
         )}
       </div>
 

@@ -31,7 +31,13 @@ const WORKBENCH_KEYWORDS = [
 type SortKey = 'name_asc' | 'name_desc' | 'rarity_desc' | 'rarity_asc' | 'value_desc' | 'value_asc' | 'type_asc' | 'stack_desc' | 'loot_asc';
 type GroupKey = 'none' | 'item_type' | 'rarity' | 'loot_area' | 'workbench';
 
-export const DevCatalogLabPage = ({ onBack }: { onBack: () => void }) => {
+export const DevCatalogLabPage = ({
+  onBack,
+  onOpenOverrides,
+}: {
+  onBack: () => void;
+  onOpenOverrides?: (itemId: string) => void;
+}) => {
   const store = useAppStore();
   const allItems = useMemo(() => Object.values(store.itemsInfo), [store.itemsInfo]);
   const refinerLevel = store.getRefinerLevel();
@@ -510,6 +516,7 @@ export const DevCatalogLabPage = ({ onBack }: { onBack: () => void }) => {
           item={selectedItem}
           refinerLevel={refinerLevel}
           onClose={() => setSelectedItem(null)}
+          onOpenOverrides={onOpenOverrides}
         />
       )}
     </div>

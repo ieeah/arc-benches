@@ -84,6 +84,7 @@ export interface ProfileExportEntry {
   profile: Profile;
   lists: ListExportEntry[];
   inventory: Record<string, number>;
+  language?: AppLanguage;
 }
 
 /** Version 3 export: always multi-profile, even when exporting a single profile. */

@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 import { useScrollLock } from '@/hooks/useScrollLock';
 import { useDialog } from '@/hooks/useDialog';
+import { useTranslation } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 /**
@@ -30,6 +31,7 @@ export const BottomSheet = ({
   bodyClassName?: string;
   overlayZ?: string;
 }) => {
+  const { t } = useTranslation();
   useScrollLock();
   const panelRef = useDialog(onClose);
 
@@ -47,7 +49,7 @@ export const BottomSheet = ({
       >
         <div className="flex justify-between items-start gap-2 p-4 pb-2 shrink-0">
           {titleSlot ?? <h2 className="text-lg font-bold">{title}</h2>}
-          <IconButton onClick={onClose} title="Chiudi">
+          <IconButton onClick={onClose} title={t('common.close')}>
             <X size={16} />
           </IconButton>
         </div>

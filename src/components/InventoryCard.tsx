@@ -28,7 +28,7 @@ export const InventoryCard = ({
   onSet: (val: number) => void;
   onOpenDetail?: () => void;
 }) => {
-  const { language } = useTranslation();
+  const { t, language } = useTranslation();
   const displayName = getItemName(itemInfo, language) || itemId.replace(/-/g, ' ');
   const isCompleted = owned >= required;
   const { border, glow } = getRarityStyles(itemInfo?.rarity);
@@ -71,8 +71,8 @@ export const InventoryCard = ({
             <div
               title={
                 craftableNow
-                  ? 'Craftabile ora nel Refiner'
-                  : `Richiede Refiner Lvl ${craftLevel} (sei a ${refinerLevel})`
+                  ? t('stash.craftableNowInRefiner')
+                  : t('stash.requiresRefinerLevelShort', { level: craftLevel, current: refinerLevel })
               }
               className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wide text-white ${
                 craftableNow ? 'bg-emerald-500' : 'bg-amber-500'

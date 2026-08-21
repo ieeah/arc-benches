@@ -1,4 +1,4 @@
-import { CheckCircle2, Hammer, ClipboardList } from 'lucide-react';
+import { CheckCircle2, Hammer, ClipboardList, FileJson } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
@@ -15,6 +15,7 @@ interface StashItemDetailSheetProps {
   refinerLevel: number;
   dependencies: ItemListDependency[];
   onClose: () => void;
+  onOpenOverrides?: (itemId: string) => void;
 }
 
 export const StashItemDetailSheet = ({
@@ -24,8 +25,9 @@ export const StashItemDetailSheet = ({
   refinerLevel,
   dependencies,
   onClose,
+  onOpenOverrides,
 }: StashItemDetailSheetProps) => {
-  const { language } = useTranslation();
+  const { t, language } = useTranslation();
   const { glow } = getRarityStyles(item.rarity);
   const craftLevel = refinerCraftLevel(item);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
@@ -42,8 +44,24 @@ export const StashItemDetailSheet = ({
       onClose={onClose}
       bodyClassName="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 pb-8 space-y-5"
       titleSlot={
-        <div className="min-w-0">
-          <h2 className="text-xl font-bold truncate text-gray-900 dark:text-gray-100">{displayName}</h2>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="text-xl font-bold truncate text-gray-900 dark:text-gray-100">{displayName}</h2>
+            {import.meta.env.DEV && onOpenOverrides && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenOverrides(item.id);
+                }}
+                className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer"
+                title="Modifica in Dev Overrides"
+              >
+                <FileJson size={13} />
+                <span>Overrides</span>
+              </button>
+            )}
+          </div>
           <div className="flex items-center gap-2 mt-0.5">
             <span className={`text-xs font-bold uppercase tracking-wide ${getRarityText(item.rarity)}`}>
               {getRarityLabel(item.rarity, language)}
@@ -74,7 +92,7 @@ export const StashItemDetailSheet = ({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between mb-1">
-            <span className="text-xs font-semibold text-gray-500">Stato Stash</span>
+            <span className="text-xs font-semibold text-gray-500">{t('stash.stashStatus')}</span>
             <span className="text-sm font-mono font-bold text-gray-900 dark:text-gray-100">
               {owned} / {required}
             </span>
@@ -93,11 +111,11 @@ export const StashItemDetailSheet = ({
           <div className="flex items-center justify-between text-xs">
             {isCompleted ? (
               <span className="inline-flex items-center gap-1 font-bold text-emerald-500">
-                <CheckCircle2 size={13} /> Fabbisogno Completato
+                <CheckCircle2 size={13} /> {t('stash.quotaCompleted')}
               </span>
             ) : (
               <span className="font-bold text-amber-500">
-                Mancano {missing} unità
+                {t('stash.missingUnits', { count: missing })}
               </span>
             )}
             <span className="text-gray-400 font-mono">{progressPercent}%</span>
@@ -120,10 +138,10 @@ export const StashItemDetailSheet = ({
             </div>
             <div className="min-w-0">
               <p className="text-xs font-bold text-gray-900 dark:text-gray-100">
-                Fabbricabile nel Refiner
+                {t('stash.craftableInRefiner')}
               </p>
               <p className="text-[11px] text-gray-500">
-                Richiede Refiner Livello {craftLevel} (attuale: Lvl {refinerLevel})
+                {t('stash.requiresRefinerLevel', { level: craftLevel, current: refinerLevel })}
               </p>
             </div>
           </div>
@@ -135,7 +153,7 @@ export const StashItemDetailSheet = ({
                 : 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30'
             }`}
           >
-            {craftableNow ? 'Disponibile' : 'Bloccato'}
+            {craftableNow ? t('stash.available') : t('stash.locked')}
           </span>
         </div>
       )}
@@ -143,7 +161,7 @@ export const StashItemDetailSheet = ({
       {/* ── SEZIONE 3: ZONE DI LOOT & PROVENIENZA ── */}
       <div>
         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-          Zone di Loot & Ritrovamento
+          {t('stash.lootAreasTitle')}
         </h3>
         {lootAreas.length > 0 ? (
           <div className="grid grid-cols-2 gap-2">
@@ -159,14 +177,14 @@ export const StashItemDetailSheet = ({
                   <p className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
                     {area.label}
                   </p>
-                  <p className="text-[10px] text-gray-400">Container / Mappa</p>
+                  <p className="text-[10px] text-gray-400">{t('stash.containerMap')}</p>
                 </div>
               </div>
             ))}
           </div>
         ) : (
           <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 text-xs text-gray-400 italic">
-            Nessuna zona di loot specifica indicata.
+            {t('stash.noLootArea')}
           </div>
         )}
       </div>
@@ -175,10 +193,10 @@ export const StashItemDetailSheet = ({
       <div>
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-            Richiesto da Banchi & Liste ({dependencies.length})
+            {t('stash.requiredByLists', { count: dependencies.length })}
           </h3>
           <span className="text-xs font-mono font-semibold text-gray-400">
-            Totale: {required}
+            {t('stash.totalRequiredLabel', { count: required })}
           </span>
         </div>
 
@@ -204,7 +222,7 @@ export const StashItemDetailSheet = ({
                       {dep.listName}
                     </p>
                     <p className="text-[11px] text-gray-500 font-semibold">
-                      Livello {dep.level}
+                      {t('benches.level')} {dep.level}
                     </p>
                   </div>
                 </div>
@@ -219,7 +237,7 @@ export const StashItemDetailSheet = ({
           </div>
         ) : (
           <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 text-xs text-gray-400 italic">
-            Nessun banco o lista ha questo materiale tra i target attivi.
+            {t('stash.noActiveObjectives')}
           </div>
         )}
       </div>
@@ -228,7 +246,7 @@ export const StashItemDetailSheet = ({
       {displayDesc && (
         <div className="pt-2 border-t border-gray-200 dark:border-gray-800">
           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
-            Descrizione
+            {t('stash.description')}
           </h3>
           <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
             {displayDesc}

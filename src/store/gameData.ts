@@ -87,6 +87,7 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   activePersonalityId: loaded.activePersonalityId ?? null,
   ownedBlueprints: loaded.ownedBlueprints ?? {},
   filterHideOwnedBlueprints: loaded.filterHideOwnedBlueprints ?? false,
+  language: loaded.language ?? 'en',
 });
 
 /** Fresh (empty) progress for a brand-new profile. */
@@ -102,4 +103,5 @@ export const freshProfile = (): PersistedState => ({
   activePersonalityId: null,
   ownedBlueprints: {},
   filterHideOwnedBlueprints: false,
+  language: 'en',
 });
