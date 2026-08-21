@@ -98,13 +98,26 @@ export const ListControls = <T,>({
     return visibleSortOptions.map(opt => {
       const isSelected = activeSortId === opt.id || !!(opt.toggleId && activeSortId === opt.toggleId);
       const counterpart = opt.toggleId ? sortOptions.find(o => o.id === opt.toggleId) : null;
-      const currentLabel = (isSelected && activeSortId === opt.toggleId && counterpart)
-        ? counterpart.label
-        : opt.label;
-      
-      const hasSameLabel = counterpart && opt.label === counterpart.label;
-      const showArrow = isSelected && opt.toggleId && hasSameLabel;
-      const isReversed = activeSortId === opt.toggleId;
+      const isReversed = opt.toggleId ? activeSortId === opt.toggleId : false;
+      const currentOpt = isReversed && counterpart ? counterpart : opt;
+
+      let indicator: React.ReactNode = undefined;
+      if (isSelected && opt.toggleId) {
+        if (currentOpt.indicatorType === 'text' && currentOpt.indicatorText) {
+          indicator = (
+            <span className="text-[10px] font-bold px-1 py-0.5 bg-white/20 dark:bg-black/30 rounded leading-none">
+              {currentOpt.indicatorText}
+            </span>
+          );
+        } else {
+          const isAsc = currentOpt.direction === 'asc' || currentOpt.id.endsWith('_asc');
+          indicator = isAsc ? (
+            <ArrowUp size={11} strokeWidth={2.75} className="shrink-0 animate-fade-in text-white" />
+          ) : (
+            <ArrowDown size={11} strokeWidth={2.75} className="shrink-0 animate-fade-in text-white" />
+          );
+        }
+      }
 
       const handleSortClick = () => {
         if (activeSortId === opt.id && opt.toggleId) {
@@ -118,16 +131,10 @@ export const ListControls = <T,>({
 
       return {
         id: opt.id,
-        label: currentLabel,
+        label: opt.label,
         isSelected,
+        indicator,
         onClick: handleSortClick,
-        icon: showArrow ? (
-          isReversed ? (
-            <ArrowUp size={11} className="shrink-0 animate-fade-in text-white/90" />
-          ) : (
-            <ArrowDown size={11} className="shrink-0 animate-fade-in text-white/90" />
-          )
-        ) : undefined,
       };
     });
   }, [visibleSortOptions, activeSortId, sortOptions, setActiveSortId]);

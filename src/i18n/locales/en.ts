@@ -190,6 +190,8 @@ export const en: LocaleSchema = {
     notOwned: 'Locked',
     progress: '{count}/{total} Blueprints Unlocked',
     addToVault: 'Add to Expedition Vault',
+    sortName: 'Name',
+    sortStatus: 'Unlock Status',
   },
   roleMaker: {
     title: 'Role Maker — Behavioral Role',
@@ -318,6 +320,9 @@ export const en: LocaleSchema = {
     filterQuickUse: 'Quick Use',
     filterTrinkets: 'Trinkets',
     filterOther: 'Other',
+    sortName: 'Name',
+    sortRarity: 'Rarity',
+    sortValue: 'Value',
     sortAZ: 'A-Z',
     sortZA: 'Z-A',
     sortRarityDesc: 'Rarity (Descending)',

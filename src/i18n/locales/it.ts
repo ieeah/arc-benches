@@ -188,6 +188,8 @@ export const it = {
     notOwned: 'Non posseduto',
     progress: '{count}/{total} Progetti Sbloccati',
     addToVault: 'Aggiungi al Vault Spedizione',
+    sortName: 'Nome',
+    sortStatus: 'Stato Sblocco',
   },
   roleMaker: {
     title: 'Role Maker — Ruolo Comportamentale',
@@ -316,6 +318,9 @@ export const it = {
     filterQuickUse: 'Uso Rapido',
     filterTrinkets: 'Trinket',
     filterOther: 'Altro',
+    sortName: 'Nome',
+    sortRarity: 'Rarità',
+    sortValue: 'Valore',
     sortAZ: 'A-Z',
     sortZA: 'Z-A',
     sortRarityDesc: 'Rarità (Decrescente)',

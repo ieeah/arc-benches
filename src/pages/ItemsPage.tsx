@@ -130,7 +130,10 @@ export const ItemsPage = ({
   const sortOptions: SortOption<ItemInfo>[] = useMemo(() => [
     {
       id: "name_asc",
-      label: t('catalog.sortAZ'),
+      label: t('catalog.sortName'),
+      direction: "asc",
+      indicatorType: "text",
+      indicatorText: "A-Z",
       compare: (a: ItemInfo, b: ItemInfo) => {
         const nameA = getItemName(a, language);
         const nameB = getItemName(b, language);
@@ -140,7 +143,10 @@ export const ItemsPage = ({
     },
     {
       id: "name_desc",
-      label: t('catalog.sortZA'),
+      label: t('catalog.sortName'),
+      direction: "desc",
+      indicatorType: "text",
+      indicatorText: "Z-A",
       compare: (a: ItemInfo, b: ItemInfo) => {
         const nameA = getItemName(a, language);
         const nameB = getItemName(b, language);
@@ -151,26 +157,30 @@ export const ItemsPage = ({
     },
     {
       id: "rarity_desc",
-      label: t('catalog.sortRarityDesc'),
+      label: t('catalog.sortRarity'),
+      direction: "desc",
       compare: (a: ItemInfo, b: ItemInfo) => getRarityWeight(b.rarity) - getRarityWeight(a.rarity),
       toggleId: "rarity_asc",
     },
     {
       id: "rarity_asc",
-      label: t('catalog.sortRarityAsc'),
+      label: t('catalog.sortRarity'),
+      direction: "asc",
       compare: (a: ItemInfo, b: ItemInfo) => getRarityWeight(a.rarity) - getRarityWeight(b.rarity),
       toggleId: "rarity_desc",
       hideFromUi: true,
     },
     {
       id: "value_desc",
-      label: t('catalog.sortValueDesc'),
+      label: t('catalog.sortValue'),
+      direction: "desc",
       compare: (a: ItemInfo, b: ItemInfo) => b.value - a.value,
       toggleId: "value_asc",
     },
     {
       id: "value_asc",
-      label: t('catalog.sortValueAsc'),
+      label: t('catalog.sortValue'),
+      direction: "asc",
       compare: (a: ItemInfo, b: ItemInfo) => a.value - b.value,
       toggleId: "value_desc",
       hideFromUi: true,

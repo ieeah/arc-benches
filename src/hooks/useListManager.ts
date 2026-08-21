@@ -6,12 +6,17 @@ export interface FilterCategory<T> {
   predicate: (item: T) => boolean;
 }
 
+export type SortIndicatorType = 'arrow' | 'text';
+
 export interface SortOption<T> {
   id: string;
   label: string;
   compare: (a: T, b: T) => number;
   toggleId?: string;
   hideFromUi?: boolean;
+  direction?: 'asc' | 'desc';
+  indicatorType?: SortIndicatorType;
+  indicatorText?: string;
 }
 
 export interface ListManagerConfig<T> {

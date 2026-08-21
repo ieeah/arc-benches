@@ -74,12 +74,14 @@ Changelog: [changelog/0.3.0.md](../changelog/0.3.0.md)
 - [x] #21 [Internazionalizzazione i18n (Fase 3)](https://github.com/ieeah/arc-benches/issues/21)
 - [x] #48 [Scroll non bloccato quando gli overlay sono aperti](https://github.com/ieeah/arc-benches/issues/48)
 - [x] #49 [i18n: Estensione del multilingua a tutti i componenti dell'UI](https://github.com/ieeah/arc-benches/issues/49)
+- [x] #50 [UI/UX: Refactor Pills di Ordinamento con label fissa e slot toggle](https://github.com/ieeah/arc-benches/issues/50)
 - [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
 - [ ] #9 [Icone Categoria Elementi](https://github.com/ieeah/arc-benches/issues/9)
 
 ---
 
 ## 0.5.0 "Segnale Radio" — Community & Onboarding — Non ancora raggiunta
+- [ ] #51 [Navigazione: Sincronizzazione dell'URL con la pagina attiva tramite Hash Routing](https://github.com/ieeah/arc-benches/issues/51)
 - [ ] #26 [Vista Aggregata per Banco (Fase 3)](https://github.com/ieeah/arc-benches/issues/26)
 - [x] #24 [Role Maker — Estensione Biografie & Lore](https://github.com/ieeah/arc-benches/issues/24)
 - [ ] #27 [View Transitions](https://github.com/ieeah/arc-benches/issues/27)

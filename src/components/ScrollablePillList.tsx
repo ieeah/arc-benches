@@ -8,6 +8,7 @@ export interface PillItem {
   isDisabled?: boolean;
   onClick: () => void;
   icon?: React.ReactNode;
+  indicator?: React.ReactNode;
 }
 
 interface ScrollablePillListProps {
@@ -113,7 +114,7 @@ export const ScrollablePillList = ({
           <button
             key={item.id}
             onClick={() => !item.isDisabled && item.onClick()}
-            className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1 ${
+            className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
               item.isSelected
                 ? 'bg-blue-600 text-white shadow-sm cursor-default'
                 : item.isDisabled
@@ -125,6 +126,7 @@ export const ScrollablePillList = ({
             {item.count !== undefined && (
               <span className="text-[10px] font-bold opacity-60">({item.count})</span>
             )}
+            {item.indicator}
             {item.icon}
           </button>
         ))}

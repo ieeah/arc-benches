@@ -158,45 +158,54 @@ export const StashPage = ({
     },
   ], [itemsInfo, filterHideCompleted, t]);
 
-  // Opzioni di ordinamento statiche
+  // Opzioni di ordinamento statiche con label fissa e indicatore di direzione
   const sortOptions = useMemo<SortOption<StashMaterial>[]>(() => [
     {
       id: 'priority_asc',
       label: t('stash.sortPriority'),
+      direction: 'asc',
       toggleId: 'priority_desc',
       compare: (a, b) => (priorityMap.get(a.itemId) ?? 999) - (priorityMap.get(b.itemId) ?? 999),
     },
     {
       id: 'priority_desc',
-      label: `${t('stash.sortPriority')} (${t('stash.sortInverse')})`,
+      label: t('stash.sortPriority'),
+      direction: 'desc',
       toggleId: 'priority_asc',
       hideFromUi: true,
       compare: (a, b) => (priorityMap.get(b.itemId) ?? 999) - (priorityMap.get(a.itemId) ?? 999),
     },
     {
       id: 'name_asc',
-      label: `${t('stash.sortName')} (A-Z)`,
+      label: t('stash.sortName'),
+      direction: 'asc',
+      indicatorType: 'text',
+      indicatorText: 'A-Z',
       toggleId: 'name_desc',
       compare: (a, b) => {
         const nameA = getItemName(itemsInfo[a.itemId], language) || a.itemId;
         const nameB = getItemName(itemsInfo[b.itemId], language) || b.itemId;
-        return nameA.localeCompare(nameB);
+        return nameA.localeCompare(nameB, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
       },
     },
     {
       id: 'name_desc',
-      label: `${t('stash.sortName')} (Z-A)`,
+      label: t('stash.sortName'),
+      direction: 'desc',
+      indicatorType: 'text',
+      indicatorText: 'Z-A',
       toggleId: 'name_asc',
       hideFromUi: true,
       compare: (a, b) => {
         const nameA = getItemName(itemsInfo[a.itemId], language) || a.itemId;
         const nameB = getItemName(itemsInfo[b.itemId], language) || b.itemId;
-        return nameB.localeCompare(nameA);
+        return nameB.localeCompare(nameA, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
       },
     },
     {
       id: 'rarity_desc',
       label: t('stash.sortRarity'),
+      direction: 'desc',
       toggleId: 'rarity_asc',
       compare: (a, b) => {
         const rA = rarityOrder[itemsInfo[a.itemId]?.rarity?.toLowerCase() ?? ''] ?? 0;
@@ -206,7 +215,8 @@ export const StashPage = ({
     },
     {
       id: 'rarity_asc',
-      label: `${t('stash.sortRarity')} (${t('stash.sortAscending')})`,
+      label: t('stash.sortRarity'),
+      direction: 'asc',
       toggleId: 'rarity_desc',
       hideFromUi: true,
       compare: (a, b) => {
@@ -218,6 +228,7 @@ export const StashPage = ({
     {
       id: 'type_asc',
       label: t('stash.sortType'),
+      direction: 'asc',
       toggleId: 'type_desc',
       compare: (a, b) => {
         const tA = itemsInfo[a.itemId]?.item_type ?? '';
@@ -227,7 +238,8 @@ export const StashPage = ({
     },
     {
       id: 'type_desc',
-      label: `${t('stash.sortType')} (${t('stash.sortInverse')})`,
+      label: t('stash.sortType'),
+      direction: 'desc',
       toggleId: 'type_asc',
       hideFromUi: true,
       compare: (a, b) => {

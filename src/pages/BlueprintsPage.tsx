@@ -32,7 +32,10 @@ export const BlueprintsPage = () => {
   const sortOptions: SortOption<ItemInfo>[] = useMemo(() => [
     {
       id: 'name_asc',
-      label: 'A-Z',
+      label: t('blueprints.sortName'),
+      direction: 'asc',
+      indicatorType: 'text',
+      indicatorText: 'A-Z',
       compare: (a, b) => {
         const nameA = getItemName(a, language);
         const nameB = getItemName(b, language);
@@ -42,7 +45,10 @@ export const BlueprintsPage = () => {
     },
     {
       id: 'name_desc',
-      label: 'Z-A',
+      label: t('blueprints.sortName'),
+      direction: 'desc',
+      indicatorType: 'text',
+      indicatorText: 'Z-A',
       compare: (a, b) => {
         const nameA = getItemName(a, language);
         const nameB = getItemName(b, language);
@@ -53,7 +59,8 @@ export const BlueprintsPage = () => {
     },
     {
       id: 'owned_last',
-      label: t('stash.filterMissing'),
+      label: t('blueprints.sortStatus'),
+      direction: 'asc',
       compare: (a, b) => {
         const aOwned = ownedBlueprints[a.id] ? 1 : 0;
         const bOwned = ownedBlueprints[b.id] ? 1 : 0;
@@ -63,7 +70,8 @@ export const BlueprintsPage = () => {
     },
     {
       id: 'owned_first',
-      label: t('blueprints.owned'),
+      label: t('blueprints.sortStatus'),
+      direction: 'desc',
       compare: (a, b) => {
         const aOwned = ownedBlueprints[a.id] ? 1 : 0;
         const bOwned = ownedBlueprints[b.id] ? 1 : 0;
