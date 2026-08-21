@@ -136,16 +136,24 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
   const [selectedLang, setSelectedLang] = useState<string>('it');
   const [customLangCode, setCustomLangCode] = useState<string>('');
   const [copyFeedback, setCopyFeedback] = useState(false);
-  const [debouncedJson, setDebouncedJson] = useState(() => JSON.stringify(overrides, null, 2));
+
+  // Serializzazione JSON non bloccante tramite concurrent rendering di React 19
+  const deferredOverrides = React.useDeferredValue(overrides);
+  const jsonString = useMemo(() => JSON.stringify(deferredOverrides, null, 2), [deferredOverrides]);
 
   // Salva bozza in localStorage e sincronizza lo store Zustand con debounce per evitare lag durante la digitazione
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
         localStorage.setItem('dev_items_overrides_draft', JSON.stringify(overrides));
+      } catch (err) {
+        console.warn('Errore salvataggio bozza overrides:', err);
+      }
+      try {
         syncItemsOverrides?.();
-        setDebouncedJson(JSON.stringify(overrides, null, 2));
-      } catch { /* ignore */ }
+      } catch (err) {
+        console.warn('Errore sync overrides store:', err);
+      }
     }, 250);
     return () => clearTimeout(timer);
   }, [overrides, syncItemsOverrides]);
@@ -935,7 +943,7 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
             </span>
           </div>
           <div className="flex-1 min-h-0 p-4 overflow-auto font-mono text-[11px] leading-relaxed text-emerald-400 select-all">
-            <pre>{debouncedJson}</pre>
+            <pre>{jsonString}</pre>
           </div>
         </aside>
       </main>
