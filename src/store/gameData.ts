@@ -1,13 +1,45 @@
 import type { ItemInfo, List } from '@/types';
 import workbenchesData from '@/data/workbenches.json';
 import itemsData from '@/data/items.json';
+import itemsOverridesData from '@/data/items-overrides.json';
 import type { PersistedState } from '@/store/persistence';
 
 // The Refiner bench gates item crafting (see refinerCraftLevel + the craftable-now badges).
 export const REFINER_ID = 'refiner';
 
 export const workbenches = (workbenchesData.items as List[]).filter(w => w.maxLevel > 0);
-export const itemsInfo = itemsData as Record<string, ItemInfo>;
+
+export function computeEffectiveItemsInfo(): Record<string, ItemInfo> {
+  const result: Record<string, ItemInfo> = { ...(itemsData as Record<string, ItemInfo>) };
+  let activeOverrides: Record<string, any> = (itemsOverridesData as Record<string, any>) || {};
+
+  if (import.meta.env.DEV) {
+    try {
+      const draft = localStorage.getItem('dev_items_overrides_draft');
+      if (draft) {
+        activeOverrides = { ...activeOverrides, ...JSON.parse(draft) };
+      }
+    } catch { /* ignore */ }
+  }
+
+  for (const [id, ovr] of Object.entries(activeOverrides)) {
+    if (!ovr) continue;
+    if (ovr.hidden) {
+      delete result[id];
+      continue;
+    }
+    if (result[id]) {
+      result[id] = {
+        ...result[id],
+        ...ovr,
+      };
+    }
+  }
+
+  return result;
+}
+
+export const itemsInfo = computeEffectiveItemsInfo();
 
 export const levelsAbove = (current: number, max: number): number[] => {
   const r: number[] = [];

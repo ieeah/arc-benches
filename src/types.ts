@@ -39,10 +39,16 @@ export interface Profile {
   name: string;
 }
 
+export interface ItemTranslation {
+  name?: string;
+  description?: string;
+}
+
 export interface ItemInfo {
   id: string;
-  name: string;
-  description: string;
+  name: string; // Default / English
+  description: string; // Default / English
+  translations?: Record<string, ItemTranslation>; // e.g. { it: { name: "...", description: "..." } }
   icon: string | null; // local path relative to BASE_URL (e.g. "icons/items/lemon.webp")
   rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | string;
   item_type: string;
@@ -51,6 +57,7 @@ export interface ItemInfo {
   workbench: string | null;
   loot_area: string | null;
   stack_size: number | null;
+  hidden?: boolean;
 }
 
 export interface ListExportEntry {
@@ -181,6 +188,7 @@ export interface AppState {
   toggleBlueprintOwned: (id: string) => void;
   setBlueprintOwned: (id: string, owned: boolean) => void;
   setFilterHideOwnedBlueprints: (hide: boolean) => void;
+  syncItemsOverrides?: () => void;
 
   createProfile: (name: string) => void;
   switchProfile: (id: string) => void;

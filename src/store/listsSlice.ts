@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { AppState, List, ListExportFile } from '@/types';
 import { bootProfileState, bootSharedLists } from '@/store/boot';
-import { itemsInfo, levelsAbove, REFINER_ID, workbenches } from '@/store/gameData';
+import { computeEffectiveItemsInfo, itemsInfo, levelsAbove, REFINER_ID, workbenches } from '@/store/gameData';
 import {
   getAllListsPure,
   getOrderedListsPure,
@@ -17,12 +17,16 @@ export type ListsSlice = Pick<AppState,
   'workbenches' | 'itemsInfo' | 'customLists' | 'sharedCustomLists' |
   'createCustomList' | 'updateCustomList' | 'deleteCustomList' | 'importLists' |
   'getAllLists' | 'getOrderedLists' | 'getRefinerLevel' | 'getActiveLists' | 'getMaxedLists' |
-  'getTotalRequiredMaterials' | 'getMissingMaterials' | 'getAvailableUpgrades'
+  'getTotalRequiredMaterials' | 'getMissingMaterials' | 'getAvailableUpgrades' |
+  'syncItemsOverrides'
 >;
 
 export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set, get) => ({
   workbenches,
   itemsInfo,
+  syncItemsOverrides: () => {
+    set({ itemsInfo: computeEffectiveItemsInfo() });
+  },
   customLists: bootProfileState.customLists,
   sharedCustomLists: bootSharedLists,
 

@@ -134,7 +134,7 @@ export function getOtherNeedsPure(
 
 export function getAllBlueprintsPure(itemsInfo: Record<string, import('@/types').ItemInfo>): import('@/types').ItemInfo[] {
   return Object.values(itemsInfo).filter(
-    item => item.item_type === 'Blueprint' || item.subcategory === 'Blueprint'
+    item => !item.hidden && (item.item_type === 'Blueprint' || item.subcategory === 'Blueprint')
   );
 }
 

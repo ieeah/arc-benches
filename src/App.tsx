@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Backpack, Database, Dice5, Download, EyeOff, FlaskConical,
+  Backpack, Database, Dice5, Download, EyeOff, FileJson, FlaskConical,
   LayoutList, Plus, RotateCcw, ScrollText, Settings, Upload, Wrench
 } from 'lucide-react';
 import { ThemeProvider } from '@/context/ThemeProvider';
@@ -13,13 +13,14 @@ import type { ListsPageAction } from '@/pages/ListsPage';
 import { BlueprintsPage } from '@/pages/BlueprintsPage';
 import { ItemsPage } from '@/pages/ItemsPage';
 import { DevCatalogLabPage } from '@/pages/DevCatalogLabPage';
+import { DevOverridesPage } from '@/pages/DevOverridesPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
 import { useAppStore } from '@/store';
 
 const isDev = import.meta.env.DEV;
 
-type Tab = 'stash' | 'liste' | 'blueprints' | 'items' | 'dev-lab' | 'list-detail' | 'settings';
+type Tab = 'stash' | 'liste' | 'blueprints' | 'items' | 'dev-lab' | 'dev-overrides' | 'list-detail' | 'settings';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('stash');
@@ -53,7 +54,10 @@ export default function App() {
       children: [
         { id: 'items', label: 'Database Oggetti', icon: <Database size={18} /> },
         { id: 'role-maker', label: 'Role Maker 🎲', icon: <Dice5 size={18} /> },
-        ...(isDev ? [{ id: 'dev-lab', label: 'Dev Catalog Lab 🧪', icon: <FlaskConical size={18} /> }] : []),
+        ...(isDev ? [
+          { id: 'dev-lab', label: 'Dev Catalog Lab 🧪', icon: <FlaskConical size={18} /> },
+          { id: 'dev-overrides', label: 'Dev Overrides 🛠️', icon: <FileJson size={18} /> },
+        ] : []),
       ],
     },
     { id: 'settings', label: 'Impostazioni', icon: <Settings size={20} /> },
@@ -122,31 +126,37 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-hidden w-full">
-        <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
-          {activeTab === 'stash' && <StashPage />}
-          {activeTab === 'liste' && (
-            <ListsPage
-              action={listsAction}
-              onActionHandled={() => setListsAction(null)}
-              onOpenDetail={openListDetail}
-            />
-          )}
-          {activeTab === 'blueprints' && <BlueprintsPage />}
-          {activeTab === 'items' && <ItemsPage onBack={() => setActiveTab(returnTab)} />}
-          {isDev && activeTab === 'dev-lab' && <DevCatalogLabPage onBack={() => setActiveTab(returnTab)} />}
-          {activeTab === 'settings' && <SettingsPage onBack={() => setActiveTab(returnTab)} />}
-          {activeTab === 'list-detail' && detailListId && (
-            <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} />
-          )}
-        </main>
+        {isDev && activeTab === 'dev-overrides' ? (
+          <DevOverridesPage onBack={() => setActiveTab(returnTab)} />
+        ) : (
+          <>
+            <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
+              {activeTab === 'stash' && <StashPage />}
+              {activeTab === 'liste' && (
+                <ListsPage
+                  action={listsAction}
+                  onActionHandled={() => setListsAction(null)}
+                  onOpenDetail={openListDetail}
+                />
+              )}
+              {activeTab === 'blueprints' && <BlueprintsPage />}
+              {activeTab === 'items' && <ItemsPage onBack={() => setActiveTab(returnTab)} />}
+              {isDev && activeTab === 'dev-lab' && <DevCatalogLabPage onBack={() => setActiveTab(returnTab)} />}
+              {activeTab === 'settings' && <SettingsPage onBack={() => setActiveTab(returnTab)} />}
+              {activeTab === 'list-detail' && detailListId && (
+                <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} />
+              )}
+            </main>
 
-        {activeTab !== 'list-detail' && (
-          <FloatingNav
-            activePage={activeTab}
-            onNavigate={handleNavigate}
-            contextActions={getContextActions()}
-            items={navTree}
-          />
+            {activeTab !== 'list-detail' && (
+              <FloatingNav
+                activePage={activeTab}
+                onNavigate={handleNavigate}
+                contextActions={getContextActions()}
+                items={navTree}
+              />
+            )}
+          </>
         )}
 
         <RoleMakerModal

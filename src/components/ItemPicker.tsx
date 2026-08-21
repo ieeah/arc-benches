@@ -22,6 +22,7 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
   const pickableItems = useMemo(() => {
     return Object.values(itemsInfo).filter(
       i =>
+        !i.hidden &&
         !exclude.has(i.id) &&
         i.item_type?.toLowerCase() !== 'blueprint' &&
         i.item_type?.toLowerCase() !== 'cosmetic'
