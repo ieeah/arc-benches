@@ -15,6 +15,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - [ ] #20 [Tour Onboarding con driver.js (Fase 3)](https://github.com/ieeah/arc-benches/issues/20)
 - [x] #21 [Internazionalizzazione i18n (Fase 3)](https://github.com/ieeah/arc-benches/issues/21)
 - [x] #48 [Scroll non bloccato quando gli overlay sono aperti](https://github.com/ieeah/arc-benches/issues/48)
+- [x] #49 [i18n: Estensione del multilingua a tutti i componenti dell'UI](https://github.com/ieeah/arc-benches/issues/49)
 - [ ] #37 [Role Maker: Arricchimento, coerenza gameplay e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)
 - [ ] #38 [Role Maker: Creazione della pagina dedicata e inserimento nel nuovo menu](https://github.com/ieeah/arc-benches/issues/38)
 - [x] #31 [Predisposizione sistema di prefiltraggio per le barre di ricerca degli elementi](https://github.com/ieeah/arc-benches/issues/31)

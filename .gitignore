@@ -19,6 +19,7 @@ scripts/metaforge-raw.json
 .vscode/*
 !.vscode/extensions.json
 .idea
+.claude
 .DS_Store
 *.suo
 *.ntvs*
