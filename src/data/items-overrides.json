@@ -1,1 +1,10 @@
-{}
+{
+  "surveyor-vault": {
+    "translations": {
+      "it": {
+        "name": "Cassaforte del supervisore",
+        "description": "Può essere riciclato in materiali"
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@ import type { StateCreator } from 'zustand';
 import type { AppState, List, ListExportFile } from '@/types';
 import { bootProfileState, bootSharedLists } from '@/store/boot';
 import { computeEffectiveItemsInfo, itemsInfo, levelsAbove, REFINER_ID, workbenches } from '@/store/gameData';
+import { generateUUID } from '@/lib/uuid';
 import {
   getAllListsPure,
   getOrderedListsPure,
@@ -34,7 +35,7 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   createCustomList: ({ name, levels, listType, shared = false }) => {
     const s = get();
-    const id = `custom:${crypto.randomUUID()}`;
+    const id = `custom:${generateUUID()}`;
     const maxLevel = levels.length ? Math.max(...levels.map(l => l.level)) : 1;
     const list: List = { id, name, maxLevel, levels, custom: true, listType: listType ?? 'custom', shared };
 

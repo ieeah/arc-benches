@@ -93,9 +93,10 @@ describe('persistence.ts', () => {
       activePersonalityId: 'persona-1',
       ownedBlueprints: { 'bp-1': true },
       filterHideOwnedBlueprints: false,
+      language: 'it',
     };
 
-    it('saves and loads active profile state', () => {
+    it('saves and loads active profile state with per-profile language', () => {
       saveProfileState('p1', sampleState);
 
       const raw = localStorage.getItem(profileKey('p1'));
@@ -106,6 +107,7 @@ describe('persistence.ts', () => {
       expect(loaded.hideoutLevels).toEqual({ workbench1: 2 });
       expect(loaded.activePersonalityId).toBe('persona-1');
       expect(loaded.checkedActions).toEqual({ 'workbench1|1|act1': true });
+      expect(loaded.language).toBe('it');
     });
 
     it('loads legacy single-profile key if default profile is missing', () => {
@@ -194,6 +196,46 @@ describe('persistence.ts', () => {
       expect(loaded.theme).toBe('light');
       expect(loaded.stashViewMode).toBe('list');
       expect(loaded.stashGridDensity).toBe('compact');
+    });
+  });
+
+  describe('Multi-Profile and Language Persistence across Reloads', () => {
+    it('persists newly created profile in metadata and retains it upon reload', () => {
+      // Seed initial
+      const initialMeta = initProfilesMeta();
+      expect(initialMeta.profiles).toHaveLength(1);
+
+      // Add new profile
+      const newProfile = { id: 'custom-uuid-1', name: 'Alt Raider' };
+      const updatedMeta = {
+        profiles: [...initialMeta.profiles, newProfile],
+        activeProfileId: 'custom-uuid-1',
+      };
+      saveProfilesMeta(updatedMeta);
+      saveProfileState('custom-uuid-1', {
+        hideoutLevels: {},
+        targetLevels: {},
+        activeModules: {},
+        inventory: { 'fabric': 10 },
+        filterHideCompleted: true,
+        listOrder: [],
+        customLists: [],
+        checkedActions: {},
+        activePersonalityId: null,
+        ownedBlueprints: {},
+        filterHideOwnedBlueprints: false,
+        language: 'it',
+      });
+
+      // Simulate browser reload
+      const reloadedMeta = loadProfilesMeta();
+      expect(reloadedMeta).not.toBeNull();
+      expect(reloadedMeta!.profiles).toHaveLength(2);
+      expect(reloadedMeta!.activeProfileId).toBe('custom-uuid-1');
+
+      const reloadedProfileState = loadProfileState('custom-uuid-1');
+      expect(reloadedProfileState.language).toBe('it');
+      expect(reloadedProfileState.inventory?.['fabric']).toBe(10);
     });
   });
 });
