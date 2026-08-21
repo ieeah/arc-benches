@@ -124,34 +124,33 @@ export const StashPage = () => {
     return map;
   }, [orderedLists, activeModules, hideoutLevels, targetLevels]);
 
-  // Filtra gli elementi completati se il toggle globale è attivo
-  const stashItems = useMemo(() => {
-    if (!filterHideCompleted) return missingMaterials;
-    return missingMaterials.filter(m => !m.isCompleted);
-  }, [missingMaterials, filterHideCompleted]);
-
   // Categorie di filtro statiche
   const filterCategories = useMemo<FilterCategory<StashMaterial>[]>(() => [
-    { id: 'all', label: 'Tutti', predicate: () => true },
+    {
+      id: 'all',
+      label: 'Tutti',
+      predicate: item => (filterHideCompleted ? !item.isCompleted : true),
+    },
     {
       id: 'missing',
       label: 'Mancanti',
       predicate: item => !item.isCompleted,
     },
     {
-      id: 'completed',
-      label: 'Completati',
-      predicate: item => item.isCompleted,
-    },
-    {
       id: 'craftable',
       label: 'Craftabili',
       predicate: item => {
         const info = itemsInfo[item.itemId];
-        return info?.workbench === 'Refiner';
+        const isRefiner = info?.workbench === 'Refiner';
+        return filterHideCompleted ? isRefiner && !item.isCompleted : isRefiner;
       },
     },
-  ], [itemsInfo]);
+    {
+      id: 'completed',
+      label: 'Completati',
+      predicate: item => item.isCompleted,
+    },
+  ], [itemsInfo, filterHideCompleted]);
 
   // Opzioni di ordinamento statiche
   const sortOptions = useMemo<SortOption<StashMaterial>[]>(() => [
@@ -251,7 +250,7 @@ export const StashPage = () => {
     setActiveSortId,
     processedItems,
   } = useListManager<StashMaterial>({
-    items: stashItems,
+    items: missingMaterials,
     search: {
       fields: m => [itemsInfo[m.itemId]?.name || m.itemId, m.itemId],
     },
@@ -264,6 +263,11 @@ export const StashPage = () => {
       defaultSortId: initialSortId,
     },
   });
+
+  // Cliccando su una categoria impostiamo activeCategoryId senza mutare il toggle globale
+  const handleCategorySelect = (catId: string) => {
+    setActiveCategoryId(catId);
+  };
 
   // Persistenza ordinamento scelto dallo stash
   useEffect(() => {
@@ -310,7 +314,7 @@ export const StashPage = () => {
           query={query}
           setQuery={setQuery}
           activeCategoryId={activeCategoryId}
-          setActiveCategoryId={setActiveCategoryId}
+          setActiveCategoryId={handleCategorySelect}
           activeSortId={activeSortId}
           setActiveSortId={setActiveSortId}
           groupByEnabled={false}
@@ -319,7 +323,7 @@ export const StashPage = () => {
           categories={filterCategories}
           sortOptions={sortOptions}
           sortType="pills" // Utilizza le pillole per l'ordinamento
-          items={stashItems} // Passiamo stashItems per calcolare il conteggio ed disabilitare i filtri vuoti
+          items={missingMaterials} // Calcola i badge sul totale reale dei materiali tracciati
         />
       </div>
 
