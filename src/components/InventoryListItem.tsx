@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Plus, Minus, CheckCircle2, Hammer } from 'lucide-react';
+import { CheckCircle2, Hammer } from 'lucide-react';
 import type { ItemInfo } from '@/types';
-import { useLongPress } from '@/hooks/useLongPress';
 import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
-import { ItemIcon } from '@/components/ItemIcon';
+import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { QuantityStepper } from '@/components/QuantityStepper';
 import type { ItemListDependency } from '@/store/selectors';
 
 interface InventoryListItemProps {
@@ -33,9 +33,7 @@ export const InventoryListItem = ({
   onOpenDetail,
 }: InventoryListItemProps) => {
   const isCompleted = owned >= required;
-  const longPressInc = useLongPress(onIncrement);
-  const longPressDec = useLongPress(onDecrement);
-  const { color, border, glow } = getRarityStyles(itemInfo?.rarity);
+  const { border, glow } = getRarityStyles(itemInfo?.rarity);
   const craftLevel = refinerCraftLevel(itemInfo);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
 
@@ -61,57 +59,48 @@ export const InventoryListItem = ({
 
   return (
     <div
-      className={`flex items-center gap-3 p-3 rounded-[24px] border-2 ${border} bg-white dark:bg-gray-900 transition-all ${
+      className={`flex items-center gap-3 p-3 rounded-[24px] card-concentric-24 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all ${
         isCompleted ? 'opacity-45 grayscale-[0.6]' : 'shadow-xs'
       }`}
     >
       {/* ── COLONNA SX: ICONA (ingrandita) ── */}
       <div className="flex flex-col items-center shrink-0">
-        <div
+        <ItemCardFrame
+          icon={itemInfo?.icon}
+          alt={itemInfo?.name}
+          rarity={itemInfo?.rarity}
+          fallbackText={itemId.replace(/-/g, ' ')}
           onClick={onOpenDetail}
-          className={`relative w-16 h-16 sm:w-20 sm:h-20 aspect-square rounded-[20px] overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center cursor-pointer active:scale-95 transition-transform ${
-            !isCompleted ? glow : ''
-          }`}
-        >
-          <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center">
-            <ItemIcon
-              icon={itemInfo?.icon}
-              alt={itemInfo?.name}
-              fallbackText={itemId.replace(/-/g, ' ')}
-              imgClassName="max-w-full max-h-full object-contain scale-115"
-            />
-          </div>
-
-          {/* Badge Refiner */}
-          {craftLevel !== null && (
-            <div
-              title={
-                craftableNow
-                  ? 'Craftabile ora nel Refiner'
-                  : `Richiede Refiner Lvl ${craftLevel} (sei a ${refinerLevel})`
-              }
-              className={`absolute top-1 left-1 flex items-center gap-0.5 px-1 py-0.2 rounded-full text-[7px] font-bold uppercase tracking-wide text-white ${
-                craftableNow ? 'bg-emerald-500' : 'bg-amber-500'
-              }`}
-            >
-              <Hammer size={8} />
-              Ref{craftLevel === 2 ? ' II' : ''}
-            </div>
-          )}
-
-          {/* Checkmark Completato */}
-          {isCompleted && (
-            <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">
-              <CheckCircle2
-                size={22}
-                className="text-green-500 bg-white dark:bg-black rounded-full shadow-lg"
-              />
-            </div>
-          )}
-
-          {/* Barra rarità inferiore */}
-          <div className={`absolute bottom-0 left-0 right-0 h-1.5 ${color}`} />
-        </div>
+          className={`w-16 h-16 sm:w-20 sm:h-20 shrink-0 ${!isCompleted ? glow : ''}`}
+          imgClassName="max-w-full max-h-full object-contain"
+          topLeftSlot={
+            craftLevel !== null ? (
+              <div
+                title={
+                  craftableNow
+                    ? 'Craftabile ora nel Refiner'
+                    : `Richiede Refiner Lvl ${craftLevel} (sei a ${refinerLevel})`
+                }
+                className={`flex items-center gap-0.5 px-1 py-0.2 rounded-full text-[7px] font-bold uppercase tracking-wide text-white ${
+                  craftableNow ? 'bg-emerald-500' : 'bg-amber-500'
+                }`}
+              >
+                <Hammer size={8} />
+                Ref{craftLevel === 2 ? ' II' : ''}
+              </div>
+            ) : undefined
+          }
+          overlay={
+            isCompleted ? (
+              <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">
+                <CheckCircle2
+                  size={22}
+                  className="text-green-500 bg-white dark:bg-black rounded-full shadow-lg"
+                />
+              </div>
+            ) : undefined
+          }
+        />
       </div>
 
       {/* ── COLONNA CENTRO: NOME & LISTE PER CUI È RICHIESTO ── */}
@@ -155,50 +144,18 @@ export const InventoryListItem = ({
         )}
       </div>
 
-      {/* ── COLONNA DX: STEPPER VERTICALE ── */}
+      {/* ── COLONNA DX: STEPPER VERTICALE CONCENTRO CON RARITY BORDER TINT ── */}
       <div className="flex flex-col items-center shrink-0 pl-1 self-center">
-        {/* Gruppo Verticale Stepper: + in alto, input in mezzo, - in basso */}
-        <div className="flex flex-col items-center bg-gray-100 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 rounded-2xl p-0.5 shadow-2xs">
-          <button
-            onContextMenu={e => e.preventDefault()}
-            onClick={onIncrement}
-            {...longPressInc}
-            aria-label={`Aumenta quantità ${itemInfo?.name ?? itemId}`}
-            className="w-8 h-7 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl active:scale-90 transition-all shrink-0"
-          >
-            <Plus size={14} />
-          </button>
-
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            value={tempValue}
-            onChange={e => {
-              const val = e.target.value;
-              if (val === '' || /^\d+$/.test(val)) {
-                setTempValue(val);
-              }
-            }}
-            onBlur={handleBlur}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                e.currentTarget.blur();
-              }
-            }}
-            className="w-8 h-6 text-center font-bold bg-transparent text-xs font-mono focus:outline-none focus:ring-1 focus:ring-blue-400 rounded-lg text-gray-900 dark:text-gray-100"
-          />
-
-          <button
-            onContextMenu={e => e.preventDefault()}
-            onClick={onDecrement}
-            {...longPressDec}
-            aria-label={`Riduci quantità ${itemInfo?.name ?? itemId}`}
-            className="w-8 h-7 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl active:scale-90 transition-all shrink-0"
-          >
-            <Minus size={14} />
-          </button>
-        </div>
+        <QuantityStepper
+          orientation="vertical"
+          tempValue={tempValue}
+          onTempValueChange={setTempValue}
+          onBlur={handleBlur}
+          onIncrement={onIncrement}
+          onDecrement={onDecrement}
+          rarity={itemInfo?.rarity}
+          itemName={itemInfo?.name ?? itemId}
+        />
       </div>
     </div>
   );

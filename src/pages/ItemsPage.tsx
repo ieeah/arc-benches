@@ -2,14 +2,14 @@ import { useState } from "react";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import type { ItemInfo } from "@/types";
 import { useAppStore } from "@/store";
-import { getRarityStyles, getRarityText } from "@/lib/rarity";
+import { getRarityText } from "@/lib/rarity";
 import { SectionHeader } from "@/components/SectionHeader";
 import { IconButton } from "@/components/IconButton";
 import { ItemDetailSheet } from "@/components/ItemDetailSheet";
 import { useListManager } from "@/hooks/useListManager";
 import type { FilterCategory, SortOption } from "@/hooks/useListManager";
 import { ListControls } from "@/components/ListControls";
-import { ItemIcon } from "@/components/ItemIcon";
+import { ItemCardFrame } from "@/components/ItemCardFrame";
 
 const RARITY_WEIGHTS: Record<string, number> = {
   legendary: 5,
@@ -197,24 +197,20 @@ export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
                 </h3>
                 <div data-list-container="compact">
                   {groupedItems?.[groupName].map((item) => {
-                    const { color } = getRarityStyles(item.rarity);
                     return (
                       <button
                         key={item.id}
                         onClick={() => setSelected(item)}
-                        className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform"
+                        className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform"
                       >
-                        <div className="relative w-12 h-12 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                          <ItemIcon
-                            icon={item.icon}
-                            alt={item.name}
-                            fallbackText={item.id}
-                            imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                          />
-                          <div
-                            className={`absolute bottom-0 left-0 right-0 h-1 ${color}`}
-                          />
-                        </div>
+                        <ItemCardFrame
+                          icon={item.icon}
+                          alt={item.name}
+                          rarity={item.rarity}
+                          fallbackText={item.id}
+                          className="w-12 h-12 shrink-0"
+                          imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                        />
                         <div className="flex-1 min-w-0">
                           <p className="font-bold text-sm truncate">
                             {item.name}
@@ -239,24 +235,20 @@ export const ItemsPage = ({ onBack }: { onBack: () => void }) => {
               </div>
             ))
           : processedItems.map((item) => {
-              const { color } = getRarityStyles(item.rarity);
               return (
                 <button
                   key={item.id}
                   onClick={() => setSelected(item)}
-                  className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform"
+                  className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform"
                 >
-                  <div className="relative w-12 h-12 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                    <ItemIcon
-                      icon={item.icon}
-                      alt={item.name}
-                      fallbackText={item.id}
-                      imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                    />
-                    <div
-                      className={`absolute bottom-0 left-0 right-0 h-1 ${color}`}
-                    />
-                  </div>
+                  <ItemCardFrame
+                    icon={item.icon}
+                    alt={item.name}
+                    rarity={item.rarity}
+                    fallbackText={item.id}
+                    className="w-12 h-12 shrink-0"
+                    imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                  />
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-sm truncate">{item.name}</p>
                     <p className="text-[10px] text-gray-400">

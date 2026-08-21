@@ -2,8 +2,8 @@ import { useRef, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { useAppStore } from '@/store';
-import { getRarityStyles, getRarityText } from '@/lib/rarity';
-import { ItemIcon } from '@/components/ItemIcon';
+import { getRarityText } from '@/lib/rarity';
+import { ItemCardFrame } from '@/components/ItemCardFrame';
 import { BottomSheet } from '@/components/BottomSheet';
 import { useListManager } from '@/hooks/useListManager';
 
@@ -86,19 +86,17 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
       {hasQuery && (
         <div data-list-container="compact">
           {processedItems.map(item => {
-            const { color } = getRarityStyles(item.rarity);
             return (
               <button key={item.id} onClick={() => onPick(item)}
-                className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] text-left active:scale-[0.99] transition-transform">
-                <div className="relative w-11 h-11 rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0">
-                  <ItemIcon
-                    icon={item.icon}
-                    alt={item.name}
-                    fallbackText={item.id}
-                    imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                  />
-                  <div className={`absolute bottom-0 left-0 right-0 h-1 ${color}`} />
-                </div>
+                className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform">
+                <ItemCardFrame
+                  icon={item.icon}
+                  alt={item.name}
+                  rarity={item.rarity}
+                  fallbackText={item.id}
+                  className="w-11 h-11 shrink-0"
+                  imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                />
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm truncate">{item.name}</p>
                   <p className="text-[10px] text-gray-400">

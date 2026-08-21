@@ -7,6 +7,34 @@
   padding-bottom: max(env(safe-area-inset-bottom, 0px), --spacing(2));
 }
 
+/* ── Squircle Continuous Corner Smoothing ── */
+@utility squircle {
+  corner-shape: squircle;
+  -webkit-corner-shape: squircle;
+  corner-smoothing: 100%;
+  -webkit-corner-smoothing: 100%;
+}
+
+/* ── Concentric Geometry Variables ── */
+@utility card-concentric-28 {
+  --card-radius: 28px;
+  --card-padding: 10px;
+}
+
+@utility card-concentric-24 {
+  --card-radius: 24px;
+  --card-padding: 12px;
+}
+
+@utility card-concentric-20 {
+  --card-radius: 20px;
+  --card-padding: 10px;
+}
+
+@utility concentric-inner {
+  border-radius: max(6px, calc(var(--card-radius, 24px) - var(--card-padding, 10px)));
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

@@ -3,7 +3,7 @@ import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
 import { getLootAreas } from '@/lib/lootArea';
-import { ItemIcon } from '@/components/ItemIcon';
+import { ItemCardFrame } from '@/components/ItemCardFrame';
 import { BottomSheet } from '@/components/BottomSheet';
 import type { ItemListDependency } from '@/store/selectors';
 
@@ -24,7 +24,7 @@ export const StashItemDetailSheet = ({
   dependencies,
   onClose,
 }: StashItemDetailSheetProps) => {
-  const { color, border, glow } = getRarityStyles(item.rarity);
+  const { glow } = getRarityStyles(item.rarity);
   const craftLevel = refinerCraftLevel(item);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
   const lootAreas = getLootAreas(item.loot_area, 15);
@@ -58,21 +58,15 @@ export const StashItemDetailSheet = ({
     >
       {/* ── SEZIONE 1: ICONA HERO PULITA & PROGRESSO INVENTARIO ── */}
       <div className="flex items-center gap-4 p-4 rounded-[24px] bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60">
-        <div
-          className={`relative w-20 h-20 shrink-0 aspect-square rounded-[20px] overflow-hidden bg-white dark:bg-gray-800 border-2 ${border} flex items-center justify-center ${glow}`}
-        >
-          <div className="w-16 h-16 flex items-center justify-center">
-            <ItemIcon
-              icon={item.icon}
-              alt={item.name}
-              fallbackText={item.id.replace(/-/g, ' ')}
-              imgClassName="max-w-full max-h-full object-contain scale-110"
-            />
-          </div>
-
-          {/* Barra rarità inferiore */}
-          <div className={`absolute bottom-0 left-0 right-0 h-2 ${color}`} />
-        </div>
+        <ItemCardFrame
+          icon={item.icon}
+          alt={item.name}
+          rarity={item.rarity}
+          borderRadius={14}
+          fallbackText={item.id.replace(/-/g, ' ')}
+          className={`w-20 h-20 shrink-0 ${glow}`}
+          imgClassName="max-w-full max-h-full object-contain"
+        />
 
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between mb-1">
