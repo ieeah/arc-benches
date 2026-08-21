@@ -15,7 +15,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - [ ] #21 [Internazionalizzazione i18n (Fase 3)](https://github.com/ieeah/arc-benches/issues/21)
 - [ ] #37 [Role Maker: Arricchimento, coerenza gameplay e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)
 - [ ] #38 [Role Maker: Creazione della pagina dedicata e inserimento nel nuovo menu](https://github.com/ieeah/arc-benches/issues/38)
-- [ ] #31 [Predisposizione sistema di prefiltraggio per le barre di ricerca degli elementi](https://github.com/ieeah/arc-benches/issues/31)
+- [x] #31 [Predisposizione sistema di prefiltraggio per le barre di ricerca degli elementi](https://github.com/ieeah/arc-benches/issues/31)
 - [ ] #25 [Condivisione Lista tramite Link (Fase 4d)](https://github.com/ieeah/arc-benches/issues/25)
 - [ ] #26 [Vista Aggregata per Banco (Fase 3)](https://github.com/ieeah/arc-benches/issues/26)
 - [ ] #27 [View Transitions](https://github.com/ieeah/arc-benches/issues/27)
