@@ -7,6 +7,7 @@ import {
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { useIsOverlayOpen } from '@/hooks/useOverlayCount';
+import { useScrollLock } from '@/hooks/useScrollLock';
 
 import { useTranslation } from '@/i18n';
 
@@ -79,6 +80,7 @@ export const FloatingNav = ({
 
   // Menù di navigazione completo (aperto con long-press)
   const [menuOpen, setMenuOpen] = useState(false);
+  useScrollLock(Boolean(menuOpen || contextMenuOpen), false);
   const [drillCategory, setDrillCategory] = useState<NavItem | null>(null);
   const [menuHeight, setMenuHeight] = useState<number | undefined>(undefined);
 
@@ -222,7 +224,7 @@ export const FloatingNav = ({
     <>
       {(menuOpen || contextMenuOpen) && (
         <div
-          className="fixed inset-0 bg-black/50 dark:bg-black/70 z-40 backdrop-blur-xs transition-opacity duration-200 pointer-events-auto"
+          className="fixed inset-0 bg-black/50 dark:bg-black/70 z-40 backdrop-blur-xs transition-opacity duration-200 pointer-events-auto overscroll-contain touch-none"
           onClick={closeAll}
         />
       )}
@@ -234,7 +236,7 @@ export const FloatingNav = ({
       />
 
       <div className={`fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center transition-all duration-300 ${
-        isOverlayOpen ? 'translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+        isOverlayOpen && !menuOpen && !contextMenuOpen ? 'translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}>
         <div className={`w-full max-w-md md:max-w-3xl flex ${navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
           <div

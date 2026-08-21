@@ -53,7 +53,7 @@ export const Drawer = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/60"
+      className="fixed inset-0 z-50 bg-black/60 overscroll-contain touch-none"
       style={{ animation: `${isClosing ? 'drawer-fade-out' : 'drawer-fade-in'} ${isClosing ? DURATION_OUT : DURATION_IN}ms ease both` }}
       onClick={handleClose}
     >
@@ -63,7 +63,7 @@ export const Drawer = ({
         aria-modal="true"
         aria-label={title}
         tabIndex={-1}
-        className={`fixed bg-white dark:bg-gray-900 overflow-y-auto overscroll-contain focus:outline-none ${panelClass[from]}`}
+        className={`fixed bg-white dark:bg-gray-900 overflow-y-auto overscroll-contain focus:outline-none touch-auto ${panelClass[from]}`}
         style={{ animation: isClosing ? exitAnim[from] : enterAnim[from] }}
         onClick={e => e.stopPropagation()}
       >

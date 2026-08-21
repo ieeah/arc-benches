@@ -25,6 +25,7 @@ import { UnifiedListCard } from '@/components/UnifiedListCard';
 import { CustomListEditor } from '@/components/CustomListEditor';
 import { CollapsibleSection } from '@/components/CollapsibleSection';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
+import { useScrollLock } from '@/hooks/useScrollLock';
 import { downloadExport, parseImport } from '@/lib/listIO';
 import { v } from '@/lib/validate';
 import { safeLS } from '@/lib/safeStorage';
@@ -93,6 +94,8 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useScrollLock(Boolean(importPending || showExportModal));
 
   const allLists = useMemo(
     () => getAllListsPure(workbenches, sharedCustomLists, customLists),
@@ -327,9 +330,13 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
 
       {/* Import confirmation modal */}
       {importPending && (
-        <div className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-6"
+        <div className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-6 overscroll-contain touch-none"
           onClick={() => { setImportPending(null); setImportSelectedIds(new Set()); }}>
-          <div className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm max-h-[85vh] flex flex-col"
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Importa liste"
+            className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm max-h-[85vh] flex flex-col touch-auto"
             onClick={e => e.stopPropagation()}>
             <h3 className="text-base font-bold mb-2 shrink-0">Importa liste</h3>
 
@@ -420,9 +427,13 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
 
       {/* Export profile selection modal */}
       {showExportModal && (
-        <div className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-6"
+        <div className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-6 overscroll-contain touch-none"
           onClick={() => setShowExportModal(false)}>
-          <div className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm"
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Esporta liste"
+            className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm touch-auto"
             onClick={e => e.stopPropagation()}>
             <h3 className="text-base font-bold mb-3">Esporta liste</h3>
 

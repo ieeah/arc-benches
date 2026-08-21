@@ -34,7 +34,7 @@ export const BottomSheet = ({
   const panelRef = useDialog(onClose);
 
   return (
-    <div className={cn('fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center', overlayZ)}
+    <div className={cn('fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center overscroll-contain touch-none', overlayZ)}
       onClick={onBackdropClick ?? onClose}>
       <div
         ref={panelRef}
@@ -42,7 +42,7 @@ export const BottomSheet = ({
         aria-modal="true"
         aria-label={title}
         tabIndex={-1}
-        className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] flex flex-col max-h-[85dvh] focus:outline-none"
+        className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-[28px] sm:rounded-[28px] flex flex-col max-h-[85dvh] focus:outline-none touch-auto"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex justify-between items-start gap-2 p-4 pb-2 shrink-0">
