@@ -22,6 +22,7 @@ import type { ItemInfo } from '@/types';
 import { useListManager } from '@/hooks/useListManager';
 import type { FilterCategory, SortOption } from '@/hooks/useListManager';
 import { ListControls } from '@/components/ListControls';
+import { useTranslation, getItemName, getItemSearchFields } from '@/i18n';
 
 const STASH_SORT_IDS = [
   'priority_asc', 'priority_desc',
@@ -41,6 +42,7 @@ interface StashMaterial {
 }
 
 export const StashPage = () => {
+  const { t, language } = useTranslation();
   // Selettori mirati — re-render solo quando la slice pertinente cambia
   const inventory = useAppStore(s => s.inventory);
   const hideoutLevels = useAppStore(s => s.hideoutLevels);
@@ -172,8 +174,8 @@ export const StashPage = () => {
       label: 'Nome (A-Z)',
       toggleId: 'name_desc',
       compare: (a, b) => {
-        const nameA = itemsInfo[a.itemId]?.name ?? a.itemId;
-        const nameB = itemsInfo[b.itemId]?.name ?? b.itemId;
+        const nameA = getItemName(itemsInfo[a.itemId], language) || a.itemId;
+        const nameB = getItemName(itemsInfo[b.itemId], language) || b.itemId;
         return nameA.localeCompare(nameB);
       },
     },
@@ -183,8 +185,8 @@ export const StashPage = () => {
       toggleId: 'name_asc',
       hideFromUi: true,
       compare: (a, b) => {
-        const nameA = itemsInfo[a.itemId]?.name ?? a.itemId;
-        const nameB = itemsInfo[b.itemId]?.name ?? b.itemId;
+        const nameA = getItemName(itemsInfo[a.itemId], language) || a.itemId;
+        const nameB = getItemName(itemsInfo[b.itemId], language) || b.itemId;
         return nameB.localeCompare(nameA);
       },
     },
@@ -230,7 +232,7 @@ export const StashPage = () => {
         return tB.localeCompare(tA);
       },
     },
-  ], [itemsInfo, priorityMap]);
+  ], [itemsInfo, priorityMap, language]);
 
   // Inizializza l'ordinamento salvato solo al mount
   const initialSortId = useMemo<StashSortId>(() => {
@@ -252,7 +254,7 @@ export const StashPage = () => {
   } = useListManager<StashMaterial>({
     items: missingMaterials,
     search: {
-      fields: m => [itemsInfo[m.itemId]?.name || m.itemId, m.itemId],
+      fields: m => itemsInfo[m.itemId] ? getItemSearchFields(itemsInfo[m.itemId]) : [m.itemId],
     },
     filters: {
       categories: filterCategories,
@@ -319,7 +321,7 @@ export const StashPage = () => {
           setActiveSortId={setActiveSortId}
           groupByEnabled={false}
           setGroupByEnabled={() => {}}
-          searchPlaceholder="Cerca nello stash…"
+          searchPlaceholder={t('stash.searchPlaceholder')}
           categories={filterCategories}
           sortOptions={sortOptions}
           sortType="pills" // Utilizza le pillole per l'ordinamento

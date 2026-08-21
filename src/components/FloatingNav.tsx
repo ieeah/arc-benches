@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo, type ReactNode } from 'react';
 import {
   Backpack, LayoutList, ScrollText, Wrench, Database,
   ShieldAlert, Dice5, MoreHorizontal, Check, Users, X, Settings,
@@ -7,6 +7,8 @@ import {
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { useIsOverlayOpen } from '@/hooks/useOverlayCount';
+
+import { useTranslation } from '@/i18n';
 
 export type NavItem = {
   id: string;
@@ -25,25 +27,6 @@ export type ContextAction = {
   dividerBefore?: boolean;
 };
 
-// Albero di navigazione predefinito
-const DEFAULT_NAV_TREE: NavItem[] = [
-  { id: 'stash', label: 'Stash', icon: <Backpack size={18} /> },
-  { id: 'liste', label: 'Banchi & Liste', icon: <LayoutList size={18} /> },
-  { id: 'blueprints', label: 'Progetti Blueprints', icon: <ScrollText size={18} /> },
-  {
-    id: 'tools',
-    label: 'Strumenti',
-    icon: <Wrench size={18} />,
-    isCategory: true,
-    children: [
-      { id: 'vault', label: 'Vault Spedizione', icon: <ShieldAlert size={16} /> },
-      { id: 'items', label: 'Database Oggetti', icon: <Database size={16} /> },
-      { id: 'role-maker', label: 'Role Maker 🎲', icon: <Dice5 size={16} /> },
-    ],
-  },
-  { id: 'settings', label: 'Impostazioni', icon: <Settings size={18} /> },
-];
-
 export interface FloatingNavProps {
   activePage: string;
   onNavigate: (pageId: string) => void;
@@ -56,12 +39,31 @@ export const FloatingNav = ({
   activePage,
   onNavigate,
   contextActions,
-  items = DEFAULT_NAV_TREE,
+  items,
   navSide: navSideProp,
 }: FloatingNavProps) => {
+  const { t } = useTranslation();
   const storeNavSide = useAppStore(s => s.navSide);
   const navSide = navSideProp ?? storeNavSide;
   const isOverlayOpen = useIsOverlayOpen();
+
+  const navTree: NavItem[] = useMemo(() => items ?? [
+    { id: 'stash', label: t('nav.stash'), icon: <Backpack size={18} /> },
+    { id: 'liste', label: t('nav.benches'), icon: <LayoutList size={18} /> },
+    { id: 'blueprints', label: t('nav.blueprints'), icon: <ScrollText size={18} /> },
+    {
+      id: 'tools',
+      label: t('nav.tools'),
+      icon: <Wrench size={18} />,
+      isCategory: true,
+      children: [
+        { id: 'vault', label: 'Vault Spedizione', icon: <ShieldAlert size={16} /> },
+        { id: 'items', label: t('nav.catalog'), icon: <Database size={16} /> },
+        { id: 'role-maker', label: 'Role Maker 🎲', icon: <Dice5 size={16} /> },
+      ],
+    },
+    { id: 'settings', label: t('nav.settings'), icon: <Settings size={18} /> },
+  ], [items, t]);
 
   // Pagine preferite per navigazione rapida (default: stash / liste)
   const quickFavorites = useAppStore(s => s.quickFavorites) ?? ['stash', 'liste'];
@@ -97,7 +99,7 @@ export const FloatingNav = ({
     if (targetEl) {
       setMenuHeight(targetEl.scrollHeight);
     }
-  }, [menuOpen, drillCategory, items]);
+  }, [menuOpen, drillCategory, navTree]);
 
   // Calcola la destinazione del tap rapido (alternanza tra le due preferite)
   const fav1 = quickFavorites[0] ?? 'stash';
@@ -116,7 +118,7 @@ export const FloatingNav = ({
     return null;
   };
 
-  const nextTargetItem = findItemById(nextTargetPage, items) ?? items[0];
+  const nextTargetItem = findItemById(nextTargetPage, navTree) ?? navTree[0];
 
   const triggerHaptic = (ms = 15) => {
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
@@ -278,7 +280,7 @@ export const FloatingNav = ({
                   >
                     {/* Pane 1: Root Menu */}
                     <div ref={rootPaneRef} className="w-1/2 shrink-0 p-2 space-y-0.5 overflow-y-auto max-h-[60vh]">
-                      {items.map(item => {
+                      {navTree.map(item => {
                         const hasChildren = Boolean(item.children && item.children.length > 0);
                         const isSelected = item.id === activePage;
 

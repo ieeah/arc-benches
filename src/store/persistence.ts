@@ -1,4 +1,5 @@
 import type { AppState, List, Profile } from '@/types';
+import type { AppLanguage } from '@/i18n/types';
 import { safeLS } from '@/lib/safeStorage';
 import {
   isObject, sanitizeBoolRecord, sanitizeNumberRecord, sanitizeStringArray, validateList, validateProfile,
@@ -133,6 +134,7 @@ export function initProfilesMeta(): ProfilesMeta {
 export const SETTINGS_KEY = 'arc-raiders-tracker-settings';
 
 export interface AppSettingsData {
+  language: AppLanguage;
   navSide: 'left' | 'right';
   radialMenuEnabled: boolean;
   quickFavorites: [string, string];
@@ -146,6 +148,7 @@ export interface AppSettingsData {
 export function loadSettings(): AppSettingsData {
   return safeLS(() => {
     const raw = localStorage.getItem(SETTINGS_KEY);
+    const legacyLang = localStorage.getItem('language') as AppLanguage | null;
     const legacyNav = localStorage.getItem('nav-side') as 'left' | 'right' | null;
     const legacyRadial = localStorage.getItem('radial-menu-enabled');
     const legacyMain = localStorage.getItem('main-profile-id');
@@ -158,6 +161,10 @@ export function loadSettings(): AppSettingsData {
     if (raw) {
       try { parsed = JSON.parse(raw); } catch { /* ignore */ }
     }
+
+    const browserLang: AppLanguage = (typeof navigator !== 'undefined' && navigator.language && navigator.language.startsWith('en')) ? 'en' : 'it';
+    const rawLang = legacyLang || parsed.language;
+    const initialLang: AppLanguage = (rawLang === 'it' || rawLang === 'en') ? rawLang : browserLang;
 
     const defaultFavorites: [string, string] = ['stash', 'liste'];
     const favorites: [string, string] = (Array.isArray(parsed.quickFavorites) && parsed.quickFavorites.length === 2 && typeof parsed.quickFavorites[0] === 'string' && typeof parsed.quickFavorites[1] === 'string')
@@ -182,6 +189,7 @@ export function loadSettings(): AppSettingsData {
       : 'comfortable';
 
     return {
+      language: initialLang,
       navSide: (parsed.navSide === 'left' || parsed.navSide === 'right') ? parsed.navSide : (legacyNav === 'left' || legacyNav === 'right' ? legacyNav : 'right'),
       radialMenuEnabled: typeof parsed.radialMenuEnabled === 'boolean' ? parsed.radialMenuEnabled : (legacyRadial !== null ? legacyRadial !== 'false' : true),
       quickFavorites: favorites,
@@ -192,6 +200,7 @@ export function loadSettings(): AppSettingsData {
       stashGridDensity: initialStashDensity,
     };
   }, {
+    language: 'it',
     navSide: 'right',
     radialMenuEnabled: true,
     quickFavorites: ['stash', 'liste'],
@@ -206,6 +215,7 @@ export function loadSettings(): AppSettingsData {
 export function saveSettings(settings: AppSettingsData) {
   safeLS(() => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    localStorage.setItem('language', settings.language);
     localStorage.setItem('nav-side', settings.navSide);
     localStorage.setItem('radial-menu-enabled', String(settings.radialMenuEnabled));
     localStorage.setItem('main-profile-id', settings.mainProfileId);

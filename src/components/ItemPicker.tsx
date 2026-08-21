@@ -1,32 +1,32 @@
-import { useRef, useMemo } from 'react';
-import { Search } from 'lucide-react';
+import { useMemo, useRef } from 'react';
+import { Search, X } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { useAppStore } from '@/store';
 import { getRarityText } from '@/lib/rarity';
-import { ItemCardFrame } from '@/components/ItemCardFrame';
 import { BottomSheet } from '@/components/BottomSheet';
+import { ItemCardFrame } from '@/components/ItemCardFrame';
 import { useListManager } from '@/hooks/useListManager';
+import { useTranslation, getItemName, getItemSearchFields, getRarityLabel } from '@/i18n';
 
-/** Full-screen catalog picker over the whole item DB. Tap an item to pick it.
- *  Search bar is anchored to the bottom so the keyboard pushes it up,
- *  keeping results visible in the space above the keyboard. */
-export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
+interface ItemPickerProps {
   excludeIds?: string[];
   onPick: (item: ItemInfo) => void;
   onClose: () => void;
-}) => {
-  const itemsInfo = useAppStore(s => s.itemsInfo);
-  const inputRef = useRef<HTMLInputElement>(null);
+}
 
-  const exclude = useMemo(() => new Set(excludeIds), [excludeIds]);
+export const ItemPicker = ({ excludeIds, onPick, onClose }: ItemPickerProps) => {
+  const itemsInfo = useAppStore(s => s.itemsInfo);
+  const exclude = useMemo(() => new Set(excludeIds ?? []), [excludeIds]);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { t, language } = useTranslation();
+
+  // Exclude hidden items (unless picked already) and blueprints/cosmetics
   const pickableItems = useMemo(() => {
-    return Object.values(itemsInfo).filter(
-      i =>
-        !i.hidden &&
-        !exclude.has(i.id) &&
-        i.item_type?.toLowerCase() !== 'blueprint' &&
-        i.item_type?.toLowerCase() !== 'cosmetic'
-    );
+    return Object.values(itemsInfo).filter(item => {
+      if (item.hidden && !exclude.has(item.id)) return false;
+      if (item.item_type === 'Blueprint' || item.item_type === 'Cosmetic') return false;
+      return !exclude.has(item.id);
+    });
   }, [itemsInfo, exclude]);
 
   const {
@@ -37,7 +37,7 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
   } = useListManager<ItemInfo>({
     items: pickableItems,
     search: {
-      fields: item => [item.name, item.id],
+      fields: getItemSearchFields,
     },
   });
 
@@ -53,37 +53,44 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
 
   return (
     <BottomSheet
-      title="Aggiungi oggetto"
+      title={t('customLists.addItem')}
       onClose={onClose}
       onBackdropClick={handleBackdropClick}
       overlayZ="z-[60]"
       bodyClassName="flex-1 min-h-0 px-3 pb-2 overflow-y-auto overscroll-contain"
       footer={
-        <div className="px-3 pb-3 pt-2 border-t border-gray-200 dark:border-gray-800">
-          <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <div className="p-3 border-t border-gray-100 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md">
+          <div className="relative flex items-center">
+            <Search className="absolute left-3 text-gray-400 pointer-events-none" size={16} />
             <input
               ref={inputRef}
               type="text"
+              placeholder={t('common.search')}
               value={query}
               onChange={e => setQuery(e.target.value)}
+              className="w-full pl-9 pr-8 py-2.5 bg-gray-100 dark:bg-gray-800 rounded-full text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               autoFocus
-              placeholder="Cerca tra tutti gli oggetti…"
-              className="w-full pl-9 pr-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full focus:outline-none focus:ring-1 focus:ring-blue-400"
             />
+            {query && (
+              <button
+                type="button"
+                onClick={() => { setQuery(''); inputRef.current?.focus(); }}
+                className="absolute right-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                aria-label={t('common.close')}
+              >
+                <X size={14} />
+              </button>
+            )}
           </div>
         </div>
       }
     >
-      {/* Empty state: no query yet */}
+      {/* Empty / Initial State */}
       {!hasQuery && (
         <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
           <Search size={32} className="text-gray-300 dark:text-gray-700" />
           <p className="text-sm font-medium text-gray-400 dark:text-gray-500">
             Cerca un oggetto per aggiungerlo
-          </p>
-          <p className="text-xs text-gray-300 dark:text-gray-600">
-            Digita il nome o l'ID dell'oggetto nella barra in basso
           </p>
         </div>
       )}
@@ -92,21 +99,22 @@ export const ItemPicker = ({ excludeIds = [], onPick, onClose }: {
       {hasQuery && (
         <div data-list-container="compact">
           {processedItems.map(item => {
+            const displayName = getItemName(item, language);
             return (
               <button key={item.id} onClick={() => onPick(item)}
-                className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform">
+                className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer">
                 <ItemCardFrame
                   icon={item.icon}
-                  alt={item.name}
+                  alt={displayName}
                   rarity={item.rarity}
                   fallbackText={item.id}
                   className="w-11 h-11 shrink-0"
                   imgClassName="max-w-[85%] max-h-[85%] object-contain"
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-sm truncate">{item.name}</p>
+                  <p className="font-bold text-sm truncate">{displayName}</p>
                   <p className="text-[10px] text-gray-400">
-                    <span className={`font-bold ${getRarityText(item.rarity)}`}>{item.rarity}</span> · {item.item_type}
+                    <span className={`font-bold ${getRarityText(item.rarity)}`}>{getRarityLabel(item.rarity, language)}</span> · {item.item_type}
                   </p>
                 </div>
               </button>

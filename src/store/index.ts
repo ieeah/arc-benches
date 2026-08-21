@@ -39,6 +39,7 @@ useAppStore.subscribe((state, prev) => {
     saveSharedLists(state.sharedCustomLists);
   }
   if (
+    state.language !== prev.language ||
     state.navSide !== prev.navSide ||
     state.radialMenuEnabled !== prev.radialMenuEnabled ||
     state.quickFavorites !== prev.quickFavorites ||
@@ -49,6 +50,7 @@ useAppStore.subscribe((state, prev) => {
     state.stashGridDensity !== prev.stashGridDensity
   ) {
     saveSettings({
+      language: state.language,
       navSide: state.navSide,
       radialMenuEnabled: state.radialMenuEnabled,
       quickFavorites: state.quickFavorites,

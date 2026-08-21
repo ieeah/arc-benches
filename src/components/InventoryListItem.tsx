@@ -6,6 +6,7 @@ import { refinerCraftLevel } from '@/lib/craft';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import type { ItemListDependency } from '@/store/selectors';
+import { useTranslation, getItemName } from '@/i18n';
 
 interface InventoryListItemProps {
   itemId: string;
@@ -32,6 +33,8 @@ export const InventoryListItem = ({
   onSet,
   onOpenDetail,
 }: InventoryListItemProps) => {
+  const { language } = useTranslation();
+  const displayName = getItemName(itemInfo, language) || itemId.replace(/-/g, ' ');
   const isCompleted = owned >= required;
   const { border, glow } = getRarityStyles(itemInfo?.rarity);
   const craftLevel = refinerCraftLevel(itemInfo);
@@ -67,7 +70,7 @@ export const InventoryListItem = ({
       <div className="flex flex-col items-center shrink-0">
         <ItemCardFrame
           icon={itemInfo?.icon}
-          alt={itemInfo?.name}
+          alt={displayName}
           rarity={itemInfo?.rarity}
           fallbackText={itemId.replace(/-/g, ' ')}
           onClick={onOpenDetail}
@@ -109,7 +112,7 @@ export const InventoryListItem = ({
         className="flex-1 min-w-0 flex flex-col justify-center cursor-pointer select-none pr-1"
       >
         <h4 className="text-sm sm:text-base font-bold truncate capitalize leading-tight text-gray-900 dark:text-gray-100 hover:text-blue-500 transition-colors">
-          {itemInfo?.name ?? itemId.replace(/-/g, ' ')}
+          {displayName}
         </h4>
 
         {/* Posseduti / Richiesti sotto al titolo */}
@@ -154,7 +157,7 @@ export const InventoryListItem = ({
           onIncrement={onIncrement}
           onDecrement={onDecrement}
           rarity={itemInfo?.rarity}
-          itemName={itemInfo?.name ?? itemId}
+          itemName={displayName}
         />
       </div>
     </div>

@@ -2,6 +2,7 @@ import { CheckCircle2, ShieldAlert } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { ItemIcon } from '@/components/ItemIcon';
 import { iconUrl } from '@/lib/icons';
+import { useTranslation, getItemName } from '@/i18n';
 
 interface BlueprintCardProps {
   blueprint: ItemInfo;
@@ -19,6 +20,9 @@ export const BlueprintCard = ({
   onAddToVault,
   showVaultAction = false,
 }: BlueprintCardProps) => {
+  const { language } = useTranslation();
+  const displayName = getItemName(blueprint, language);
+
   return (
     <div
       onClick={onToggleOwned}
@@ -51,7 +55,7 @@ export const BlueprintCard = ({
         <div className="relative z-1 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center drop-shadow-md">
           <ItemIcon
             icon={blueprint.icon}
-            alt={blueprint.name}
+            alt={displayName}
             fallbackText={blueprint.id.replace(/-/g, ' ')}
             imgClassName="max-w-full max-h-full object-contain scale-[1.25]"
           />
@@ -83,7 +87,7 @@ export const BlueprintCard = ({
       {/* Titolo e Dettagli */}
       <div className="flex-1 min-w-0 text-center flex flex-col justify-center py-1">
         <h4 className="text-[13px] sm:text-sm font-bold truncate capitalize leading-tight">
-          {blueprint.name.replace(/\s*Blueprint\s*/i, '')}
+          {displayName.replace(/\s*Blueprint\s*/i, '')}
         </h4>
       </div>
     </div>

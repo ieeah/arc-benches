@@ -8,6 +8,7 @@ import { useListManager } from '@/hooks/useListManager';
 import type { SortOption } from '@/hooks/useListManager';
 import { getAllBlueprintsPure, getBlueprintProgressPure } from '@/store/selectors';
 import type { ItemInfo } from '@/types';
+import { useTranslation, getItemName, getItemSearchFields } from '@/i18n';
 
 export const BlueprintsPage = () => {
   const itemsInfo = useAppStore(s => s.itemsInfo);
@@ -15,6 +16,7 @@ export const BlueprintsPage = () => {
   const filterHideOwned = useAppStore(s => s.filterHideOwnedBlueprints);
   const toggleBlueprintOwned = useAppStore(s => s.toggleBlueprintOwned);
   const setFilterHideOwned = useAppStore(s => s.setFilterHideOwnedBlueprints);
+  const { t, language } = useTranslation();
 
   // Tutti i blueprint statici
   const allBlueprints = useMemo(() => {
@@ -31,13 +33,21 @@ export const BlueprintsPage = () => {
     {
       id: 'name_asc',
       label: 'A-Z',
-      compare: (a, b) => a.name.localeCompare(b.name, 'it', { sensitivity: 'base' }),
+      compare: (a, b) => {
+        const nameA = getItemName(a, language);
+        const nameB = getItemName(b, language);
+        return nameA.localeCompare(nameB, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+      },
       toggleId: 'name_desc',
     },
     {
       id: 'name_desc',
       label: 'Z-A',
-      compare: (a, b) => b.name.localeCompare(a.name, 'it', { sensitivity: 'base' }),
+      compare: (a, b) => {
+        const nameA = getItemName(a, language);
+        const nameB = getItemName(b, language);
+        return nameB.localeCompare(nameA, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+      },
       toggleId: 'name_asc',
       hideFromUi: true,
     },
@@ -47,7 +57,7 @@ export const BlueprintsPage = () => {
       compare: (a, b) => {
         const aOwned = ownedBlueprints[a.id] ? 1 : 0;
         const bOwned = ownedBlueprints[b.id] ? 1 : 0;
-        return aOwned - bOwned || a.name.localeCompare(b.name, 'it');
+        return aOwned - bOwned || getItemName(a, language).localeCompare(getItemName(b, language), language === 'en' ? 'en' : 'it');
       },
       toggleId: 'owned_first',
     },
@@ -57,12 +67,12 @@ export const BlueprintsPage = () => {
       compare: (a, b) => {
         const aOwned = ownedBlueprints[a.id] ? 1 : 0;
         const bOwned = ownedBlueprints[b.id] ? 1 : 0;
-        return bOwned - aOwned || a.name.localeCompare(b.name, 'it');
+        return bOwned - aOwned || getItemName(a, language).localeCompare(getItemName(b, language), language === 'en' ? 'en' : 'it');
       },
       toggleId: 'owned_last',
       hideFromUi: true,
     },
-  ], [ownedBlueprints]);
+  ], [ownedBlueprints, language]);
 
   // Filtra gli elementi se filterHideOwned è attivo
   const displayedBlueprints = useMemo(() => {
@@ -80,7 +90,7 @@ export const BlueprintsPage = () => {
   } = useListManager<ItemInfo>({
     items: displayedBlueprints,
     search: {
-      fields: (bp) => [bp.name, bp.id, bp.subcategory ?? ''],
+      fields: getItemSearchFields,
       debounceMs: 200,
     },
     sorting: {
@@ -94,7 +104,7 @@ export const BlueprintsPage = () => {
       {/* ── HEADER STICKY CON TITOLO, PROGRESSO COMPATTO E CONTROLLI ── */}
       <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800 space-y-2.5">
         <SectionHeader
-          title="Progetti Blueprints"
+          title={t('blueprints.title')}
           actions={
             <button
               onClick={() => setFilterHideOwned(!filterHideOwned)}

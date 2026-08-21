@@ -6,6 +6,7 @@ import { getLootAreas } from '@/lib/lootArea';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
 import { BottomSheet } from '@/components/BottomSheet';
 import type { ItemListDependency } from '@/store/selectors';
+import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
 
 interface StashItemDetailSheetProps {
   item: ItemInfo;
@@ -24,6 +25,7 @@ export const StashItemDetailSheet = ({
   dependencies,
   onClose,
 }: StashItemDetailSheetProps) => {
+  const { language } = useTranslation();
   const { glow } = getRarityStyles(item.rarity);
   const craftLevel = refinerCraftLevel(item);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
@@ -31,18 +33,20 @@ export const StashItemDetailSheet = ({
   const isCompleted = owned >= required;
   const missing = Math.max(0, required - owned);
   const progressPercent = required > 0 ? Math.min(100, Math.round((owned / required) * 100)) : 100;
+  const displayName = getItemName(item, language);
+  const displayDesc = getItemDescription(item, language);
 
   return (
     <BottomSheet
-      title={item.name}
+      title={displayName}
       onClose={onClose}
       bodyClassName="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 pb-8 space-y-5"
       titleSlot={
         <div className="min-w-0">
-          <h2 className="text-xl font-bold truncate text-gray-900 dark:text-gray-100">{item.name}</h2>
+          <h2 className="text-xl font-bold truncate text-gray-900 dark:text-gray-100">{displayName}</h2>
           <div className="flex items-center gap-2 mt-0.5">
             <span className={`text-xs font-bold uppercase tracking-wide ${getRarityText(item.rarity)}`}>
-              {item.rarity}
+              {getRarityLabel(item.rarity, language)}
             </span>
             {item.subcategory && (
               <>
@@ -221,13 +225,13 @@ export const StashItemDetailSheet = ({
       </div>
 
       {/* ── SEZIONE 5: DESCRIZIONE & LORE (se disponibile) ── */}
-      {item.description && (
+      {displayDesc && (
         <div className="pt-2 border-t border-gray-200 dark:border-gray-800">
           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
             Descrizione
           </h3>
           <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-            {item.description}
+            {displayDesc}
           </p>
         </div>
       )}

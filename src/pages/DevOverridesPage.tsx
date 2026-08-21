@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   ArrowLeft, Search, Download, Copy, Check, Sparkles,
   Trash2, RotateCcw, FileJson, Monitor, Edit3, Globe,
@@ -61,8 +61,63 @@ export interface ItemOverrideData {
 
 type ItemOverrideMap = Record<string, ItemOverrideData>;
 
+interface SidebarItemRowProps {
+  item: ItemInfo;
+  isSelected: boolean;
+  hasOverride: boolean;
+  isHidden: boolean;
+  overrideName?: string;
+  overrideRarity?: string;
+  onSelect: (id: string) => void;
+}
+
+const SidebarItemRow = React.memo(({
+  item,
+  isSelected,
+  hasOverride,
+  isHidden,
+  overrideName,
+  overrideRarity,
+  onSelect,
+}: SidebarItemRowProps) => {
+  return (
+    <button
+      onClick={() => onSelect(item.id)}
+      className={`w-full flex items-center gap-3 p-2 rounded-2xl text-left transition-all cursor-pointer ${
+        isSelected
+          ? 'bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 shadow-xs'
+          : 'hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent'
+      }`}
+    >
+      <ItemCardFrame
+        icon={item.icon}
+        alt={item.name}
+        rarity={overrideRarity || item.rarity}
+        fallbackText={item.id}
+        className={`w-11 h-11 shrink-0 rounded-xl shadow-2xs ${isHidden ? 'opacity-40 grayscale' : ''}`}
+        imgClassName="max-w-[88%] max-h-[88%] object-contain"
+      />
+      <div className="flex-1 min-w-0">
+        <p className={`text-xs font-bold truncate ${
+          isHidden ? 'text-gray-400 line-through' : isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-gray-800 dark:text-gray-200'
+        }`}>
+          {overrideName || item.name}
+        </p>
+        <p className="text-[10px] text-gray-400 truncate font-mono mt-0.5">{item.id}</p>
+      </div>
+      {isHidden ? (
+        <span title="Nascosto dall'app" className="shrink-0">
+          <EyeOff size={13} className="text-red-500" />
+        </span>
+      ) : hasOverride ? (
+        <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" title="Override attivo" />
+      ) : null}
+    </button>
+  );
+});
+
 export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
-  const store = useAppStore();
+  const syncItemsOverrides = useAppStore(s => s.syncItemsOverrides);
   const allItems = useMemo(() => Object.values(itemsDataBase as Record<string, ItemInfo>), []);
 
   // Stato degli overrides locali in memoria
@@ -81,14 +136,19 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
   const [selectedLang, setSelectedLang] = useState<string>('it');
   const [customLangCode, setCustomLangCode] = useState<string>('');
   const [copyFeedback, setCopyFeedback] = useState(false);
+  const [debouncedJson, setDebouncedJson] = useState(() => JSON.stringify(overrides, null, 2));
 
-  // Salva bozza in localStorage e sincronizza istantaneamente lo store Zustand dell'intera app
+  // Salva bozza in localStorage e sincronizza lo store Zustand con debounce per evitare lag durante la digitazione
   useEffect(() => {
-    try {
-      localStorage.setItem('dev_items_overrides_draft', JSON.stringify(overrides));
-      store.syncItemsOverrides?.();
-    } catch { /* ignore */ }
-  }, [overrides, store]);
+    const timer = setTimeout(() => {
+      try {
+        localStorage.setItem('dev_items_overrides_draft', JSON.stringify(overrides));
+        syncItemsOverrides?.();
+        setDebouncedJson(JSON.stringify(overrides, null, 2));
+      } catch { /* ignore */ }
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [overrides, syncItemsOverrides]);
 
   const selectedItemBase = useMemo(() => {
     return (itemsDataBase as Record<string, ItemInfo>)[selectedItemId] || allItems[0];
@@ -97,6 +157,10 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
   const currentItemOverride = useMemo(() => {
     return overrides[selectedItemId] || {};
   }, [overrides, selectedItemId]);
+
+  const handleSelect = useCallback((id: string) => {
+    setSelectedItemId(id);
+  }, []);
 
   // Item calcolato con override attivi
   const selectedItemEffective: ItemInfo = useMemo(() => {
@@ -234,13 +298,10 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
     }
   };
 
-  const jsonString = useMemo(() => {
-    return JSON.stringify(overrides, null, 2);
-  }, [overrides]);
-
   const handleCopyJson = async () => {
     try {
-      await navigator.clipboard.writeText(jsonString);
+      const currentJson = JSON.stringify(overrides, null, 2);
+      await navigator.clipboard.writeText(currentJson);
       setCopyFeedback(true);
       setTimeout(() => setCopyFeedback(false), 2500);
     } catch {
@@ -249,7 +310,8 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
   };
 
   const handleDownloadJson = () => {
-    const blob = new Blob([jsonString], { type: 'application/json' });
+    const currentJson = JSON.stringify(overrides, null, 2);
+    const blob = new Blob([currentJson], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -381,46 +443,18 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
           </div>
 
           <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1">
-            {filteredItems.map(item => {
-              const isSelected = item.id === selectedItemId;
-              const hasOverride = Boolean(overrides[item.id] && Object.keys(overrides[item.id]).length > 0);
-              const isHidden = Boolean(overrides[item.id]?.hidden);
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setSelectedItemId(item.id)}
-                  className={`w-full flex items-center gap-3 p-2 rounded-2xl text-left transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 shadow-xs'
-                      : 'hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent'
-                  }`}
-                >
-                  <ItemCardFrame
-                    icon={item.icon}
-                    alt={item.name}
-                    rarity={overrides[item.id]?.rarity || item.rarity}
-                    fallbackText={item.id}
-                    className={`w-11 h-11 shrink-0 rounded-xl shadow-2xs ${isHidden ? 'opacity-40 grayscale' : ''}`}
-                    imgClassName="max-w-[88%] max-h-[88%] object-contain"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-xs font-bold truncate ${
-                      isHidden ? 'text-gray-400 line-through' : isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-gray-800 dark:text-gray-200'
-                    }`}>
-                      {overrides[item.id]?.name || item.name}
-                    </p>
-                    <p className="text-[10px] text-gray-400 truncate font-mono mt-0.5">{item.id}</p>
-                  </div>
-                  {isHidden ? (
-                    <span title="Nascosto dall'app" className="shrink-0">
-                      <EyeOff size={13} className="text-red-500" />
-                    </span>
-                  ) : hasOverride ? (
-                    <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" title="Override attivo" />
-                  ) : null}
-                </button>
-              );
-            })}
+            {filteredItems.map(item => (
+              <SidebarItemRow
+                key={item.id}
+                item={item}
+                isSelected={item.id === selectedItemId}
+                hasOverride={Boolean(overrides[item.id] && Object.keys(overrides[item.id]).length > 0)}
+                isHidden={Boolean(overrides[item.id]?.hidden)}
+                overrideName={overrides[item.id]?.name}
+                overrideRarity={overrides[item.id]?.rarity}
+                onSelect={handleSelect}
+              />
+            ))}
           </div>
         </aside>
 
@@ -901,7 +935,7 @@ export const DevOverridesPage = ({ onBack }: { onBack: () => void }) => {
             </span>
           </div>
           <div className="flex-1 min-h-0 p-4 overflow-auto font-mono text-[11px] leading-relaxed text-emerald-400 select-all">
-            <pre>{jsonString}</pre>
+            <pre>{debouncedJson}</pre>
           </div>
         </aside>
       </main>

@@ -1,3 +1,5 @@
+import type { AppLanguage } from '@/i18n/types';
+
 export interface ItemRequirement {
   itemId: string;
   quantity: number;
@@ -133,6 +135,7 @@ export interface AppState {
   listOrder: string[];
 
   /** Global Settings */
+  language: AppLanguage;
   navSide: 'left' | 'right';
   radialMenuEnabled: boolean;
   quickFavorites: [string, string];
@@ -141,6 +144,7 @@ export interface AppState {
   theme: 'light' | 'dark';
   stashViewMode: 'grid' | 'list';
   stashGridDensity: 'comfortable' | 'compact';
+  setLanguage: (lang: AppLanguage) => void;
   setNavSide: (side: 'left' | 'right') => void;
   setRadialMenuEnabled: (enabled: boolean) => void;
   setQuickFavorites: (favorites: [string, string]) => void;

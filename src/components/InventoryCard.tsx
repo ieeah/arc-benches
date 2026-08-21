@@ -5,6 +5,7 @@ import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
 import { QuantityStepper } from '@/components/QuantityStepper';
+import { useTranslation, getItemName } from '@/i18n';
 
 export const InventoryCard = ({
   itemId,
@@ -27,6 +28,8 @@ export const InventoryCard = ({
   onSet: (val: number) => void;
   onOpenDetail?: () => void;
 }) => {
+  const { language } = useTranslation();
+  const displayName = getItemName(itemInfo, language) || itemId.replace(/-/g, ' ');
   const isCompleted = owned >= required;
   const { border, glow } = getRarityStyles(itemInfo?.rarity);
   const craftLevel = refinerCraftLevel(itemInfo);
@@ -57,7 +60,7 @@ export const InventoryCard = ({
     >
       <ItemCardFrame
         icon={itemInfo?.icon}
-        alt={itemInfo?.name}
+        alt={displayName}
         rarity={itemInfo?.rarity}
         fallbackText={itemId.replace(/-/g, ' ')}
         onClick={onOpenDetail}
@@ -91,7 +94,7 @@ export const InventoryCard = ({
 
       <div className="flex-1 min-w-0 mb-2 text-center">
         <h4 className="text-[13px] sm:text-sm font-bold truncate capitalize leading-tight mb-1">
-          {itemInfo?.name ?? itemId.replace(/-/g, ' ')}
+          {displayName}
         </h4>
         <p className="text-[10px] text-gray-400 font-bold font-mono">{owned}/{required}</p>
       </div>
@@ -105,7 +108,7 @@ export const InventoryCard = ({
         onIncrement={onIncrement}
         onDecrement={onDecrement}
         rarity={itemInfo?.rarity}
-        itemName={itemInfo?.name ?? itemId}
+        itemName={displayName}
       />
     </div>
   );

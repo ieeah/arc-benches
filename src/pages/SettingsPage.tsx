@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
-  Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid
+  Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { useTheme } from '@/context/ThemeContext';
 import { useAppStore } from '@/store';
 import { downloadExport } from '@/lib/listIO';
+import { useTranslation, type AppLanguage } from '@/i18n';
 
 interface SettingsPageProps {
   onBack: () => void;
@@ -16,6 +17,7 @@ interface SettingsPageProps {
 export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const { dark: isDark, toggle: toggleTheme } = useTheme();
   const store = useAppStore();
+  const { t, language, setLanguage, languages } = useTranslation();
 
   const navSide = useAppStore(s => s.navSide);
   const setNavSide = useAppStore(s => s.setNavSide);
@@ -47,6 +49,13 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const [newProfileName, setNewProfileName] = useState('');
   const [showNewProfileInput, setShowNewProfileInput] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState<string | null>(null);
+
+  const handleLanguageChange = (langCode: AppLanguage) => {
+    setLanguage(langCode);
+    const selected = languages.find(l => l.code === langCode);
+    setFeedbackMsg(`${t('settings.language')}: ${selected?.label} ${selected?.flag}`);
+    setTimeout(() => setFeedbackMsg(null), 3000);
+  };
 
   const handleNavSideChange = (side: 'left' | 'right') => {
     setNavSide(side);
@@ -89,7 +98,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   return (
     <div className="pb-36 p-4 w-full space-y-6">
       <SectionHeader
-        title="Impostazioni"
+        title={t('settings.title')}
         leading={
           <IconButton onClick={onBack} title="Indietro">
             <ArrowLeft size={18} />
@@ -106,21 +115,51 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
       {/* 1. ASPETTO & ERGONOMIA */}
       <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] p-5 shadow-sm space-y-4">
         <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-          <Sparkles size={14} className="text-blue-500" /> Aspetto & Ergonomia
+          <Sparkles size={14} className="text-blue-500" /> {t('settings.appearance')} & {t('settings.ergonomics')}
         </h2>
+
+        {/* Lingua */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{t('settings.language')}</p>
+              <p className="text-xs text-gray-500">{t('settings.languageDesc')}</p>
+            </div>
+            <Languages size={18} className="text-gray-400" />
+          </div>
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            {languages.map(l => (
+              <button
+                key={l.code}
+                onClick={() => handleLanguageChange(l.code)}
+                className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  language === l.code
+                    ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                    : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <span>{l.flag}</span>
+                <span>{l.label}</span>
+                {language === l.code && <Check size={14} />}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="h-px bg-gray-100 dark:bg-gray-800" />
 
         {/* Tema */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-bold text-gray-800 dark:text-gray-200">Tema Interfaccia</p>
+            <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{t('settings.theme')}</p>
             <p className="text-xs text-gray-500">Modalità chiara o scura ad alto contrasto</p>
           </div>
           <button
             onClick={toggleTheme}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm active:scale-95 transition-all"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-gray-100 dark:bg-gray-800 text-xs font-bold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm active:scale-95 transition-all cursor-pointer"
           >
             {isDark ? <Moon size={15} className="text-blue-400" /> : <Sun size={15} className="text-amber-500" />}
-            <span>{isDark ? 'Scuro' : 'Chiaro'}</span>
+            <span>{isDark ? t('settings.themeDark') : t('settings.themeLight')}</span>
           </button>
         </div>
 

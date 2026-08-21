@@ -165,6 +165,7 @@ describe('persistence.ts', () => {
     it('saves and loads theme, stash view mode and stash grid density settings', async () => {
       const { loadSettings, saveSettings } = await import('@/store/persistence');
       saveSettings({
+        language: 'en',
         navSide: 'left',
         radialMenuEnabled: false,
         quickFavorites: ['blueprints', 'items'],
@@ -176,6 +177,7 @@ describe('persistence.ts', () => {
       });
 
       const loaded = loadSettings();
+      expect(loaded.language).toBe('en');
       expect(loaded.theme).toBe('light');
       expect(loaded.stashViewMode).toBe('list');
       expect(loaded.stashGridDensity).toBe('compact');
