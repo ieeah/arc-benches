@@ -24,6 +24,8 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - [x] #35 [Tracker Blueprints (Pagina Progetti)](https://github.com/ieeah/arc-benches/issues/35)
 - [x] #39 [Ottimizzazione rendering liste con CSS content-visibility e accorgimenti a zero-dipendenze](https://github.com/ieeah/arc-benches/issues/39)
 - [x] #41 [Pagina Impostazioni & Gestione Globale (Tema, Profili, Backup, Ergonomia)](https://github.com/ieeah/arc-benches/issues/41)
+- [ ] #43 [Impostazione densità griglia Stash: selettore 2 vs 3 colonne (Card Grandi / Piccole)](https://github.com/ieeah/arc-benches/issues/43)
+- [ ] #44 [Refactor visivo e proporzioni delle card e icone degli oggetti di gioco](https://github.com/ieeah/arc-benches/issues/44)
 - [ ] #11 [Performance: Strategie di Ottimizzazione Rendering per Liste Lunghe](https://github.com/ieeah/arc-benches/issues/11)
 - [ ] #28 [Next.js & Vercel (Fase 5)](https://github.com/ieeah/arc-benches/issues/28)
 - [ ] #40 [Wrapper Mobile Nativo (React Native / Capacitor / Expo)](https://github.com/ieeah/arc-benches/issues/40)
