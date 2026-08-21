@@ -153,7 +153,7 @@ export const BlueprintsPage = () => {
         />
       </div>
 
-      <div className="p-4 max-w-xl mx-auto">
+      <div className="p-4 w-full">
         {/* ── GRIGLIA BLUEPRINTS (Con Content-Visibility Ottimizzata #39) ── */}
         {processedItems.length === 0 ? (
           <div className="p-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] text-center space-y-2">
@@ -167,7 +167,7 @@ export const BlueprintsPage = () => {
         ) : (
           <div
             data-list-container
-            className="grid grid-cols-2 gap-3"
+            className="grid grid-cols-2 md:grid-cols-3 gap-3"
           >
             {processedItems.map(bp => (
               <BlueprintCard

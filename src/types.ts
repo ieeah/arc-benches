@@ -133,6 +133,7 @@ export interface AppState {
   startupProfileOption: string;
   theme: 'light' | 'dark';
   stashViewMode: 'grid' | 'list';
+  stashGridDensity: 'comfortable' | 'compact';
   setNavSide: (side: 'left' | 'right') => void;
   setRadialMenuEnabled: (enabled: boolean) => void;
   setQuickFavorites: (favorites: [string, string]) => void;
@@ -140,6 +141,7 @@ export interface AppState {
   setStartupProfileOption: (option: string) => void;
   setTheme: (theme: 'light' | 'dark') => void;
   setStashViewMode: (mode: 'grid' | 'list') => void;
+  setStashGridDensity: (density: 'comfortable' | 'compact') => void;
 
   /** Active Role Maker personality for the active profile */
   activePersonalityId: string | null;

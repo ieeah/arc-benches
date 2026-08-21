@@ -4,8 +4,8 @@ import { bootSettings } from '@/store/boot';
 import { safeLS } from '@/lib/safeStorage';
 
 export type SettingsSlice = Pick<AppState,
-  'navSide' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' | 'theme' | 'stashViewMode' |
-  'setNavSide' | 'setRadialMenuEnabled' | 'setQuickFavorites' | 'setMainProfileId' | 'setStartupProfileOption' | 'setTheme' | 'setStashViewMode'
+  'navSide' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' | 'theme' | 'stashViewMode' | 'stashGridDensity' |
+  'setNavSide' | 'setRadialMenuEnabled' | 'setQuickFavorites' | 'setMainProfileId' | 'setStartupProfileOption' | 'setTheme' | 'setStashViewMode' | 'setStashGridDensity'
 >;
 
 export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> = (set) => ({
@@ -16,6 +16,7 @@ export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> 
   startupProfileOption: bootSettings.startupProfileOption,
   theme: bootSettings.theme,
   stashViewMode: bootSettings.stashViewMode,
+  stashGridDensity: bootSettings.stashGridDensity,
 
   setNavSide: (navSide) => set({ navSide }),
   setRadialMenuEnabled: (radialMenuEnabled) => set({ radialMenuEnabled }),
@@ -29,5 +30,9 @@ export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> 
   setStashViewMode: (stashViewMode) => {
     safeLS(() => localStorage.setItem('stash-view-mode', stashViewMode), undefined);
     set({ stashViewMode });
+  },
+  setStashGridDensity: (stashGridDensity) => {
+    safeLS(() => localStorage.setItem('stash-grid-density', stashGridDensity), undefined);
+    set({ stashGridDensity });
   },
 });

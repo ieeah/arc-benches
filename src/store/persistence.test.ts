@@ -162,7 +162,7 @@ describe('persistence.ts', () => {
   });
 
   describe('Settings', () => {
-    it('saves and loads theme and stash view mode settings', async () => {
+    it('saves and loads theme, stash view mode and stash grid density settings', async () => {
       const { loadSettings, saveSettings } = await import('@/store/persistence');
       saveSettings({
         navSide: 'left',
@@ -172,22 +172,26 @@ describe('persistence.ts', () => {
         startupProfileOption: 'main',
         theme: 'light',
         stashViewMode: 'list',
+        stashGridDensity: 'compact',
       });
 
       const loaded = loadSettings();
       expect(loaded.theme).toBe('light');
       expect(loaded.stashViewMode).toBe('list');
+      expect(loaded.stashGridDensity).toBe('compact');
       expect(loaded.navSide).toBe('left');
     });
 
-    it('prioritizes direct localStorage keys for theme and view mode', async () => {
+    it('prioritizes direct localStorage keys for theme, view mode and grid density', async () => {
       const { loadSettings } = await import('@/store/persistence');
       localStorage.setItem('theme', 'light');
       localStorage.setItem('stash-view-mode', 'list');
+      localStorage.setItem('stash-grid-density', 'compact');
 
       const loaded = loadSettings();
       expect(loaded.theme).toBe('light');
       expect(loaded.stashViewMode).toBe('list');
+      expect(loaded.stashGridDensity).toBe('compact');
     });
   });
 });

@@ -45,7 +45,8 @@ useAppStore.subscribe((state, prev) => {
     state.mainProfileId !== prev.mainProfileId ||
     state.startupProfileOption !== prev.startupProfileOption ||
     state.theme !== prev.theme ||
-    state.stashViewMode !== prev.stashViewMode
+    state.stashViewMode !== prev.stashViewMode ||
+    state.stashGridDensity !== prev.stashGridDensity
   ) {
     saveSettings({
       navSide: state.navSide,
@@ -55,6 +56,7 @@ useAppStore.subscribe((state, prev) => {
       startupProfileOption: state.startupProfileOption,
       theme: state.theme,
       stashViewMode: state.stashViewMode,
+      stashGridDensity: state.stashGridDensity,
     });
   }
   const profileStateChanged =

@@ -122,7 +122,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-hidden w-full">
-        <main className="max-w-md w-full mx-auto min-h-screen">
+        <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
           {activeTab === 'stash' && <StashPage />}
           {activeTab === 'liste' && (
             <ListsPage

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
-  Sun, Trash2, Upload, Users, Info, Sparkles
+  Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -21,6 +21,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const setNavSide = useAppStore(s => s.setNavSide);
   const quickFavorites = useAppStore(s => s.quickFavorites) ?? ['stash', 'liste'];
   const setQuickFavorites = useAppStore(s => s.setQuickFavorites);
+  const stashGridDensity = useAppStore(s => s.stashGridDensity);
+  const setStashGridDensity = useAppStore(s => s.setStashGridDensity);
 
   const AVAILABLE_PAGES = [
     { id: 'stash', label: 'Stash' },
@@ -52,6 +54,12 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
+  const handleStashGridDensityChange = (density: 'comfortable' | 'compact') => {
+    setStashGridDensity(density);
+    setFeedbackMsg(`Densità griglia Stash impostata a: ${density === 'comfortable' ? 'Comoda (Card Grandi)' : 'Compatta (Card Piccole)'}`);
+    setTimeout(() => setFeedbackMsg(null), 3000);
+  };
+
   const handleMainProfileChange = (id: string) => {
     setMainProfileId(id);
     setFeedbackMsg('Profilo Principale aggiornato!');
@@ -79,7 +87,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   };
 
   return (
-    <div className="pb-36 p-4 max-w-xl mx-auto space-y-6">
+    <div className="pb-36 p-4 w-full space-y-6">
       <SectionHeader
         title="Impostazioni"
         leading={
@@ -187,6 +195,49 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
               }`}
             >
               Mano Destra {navSide === 'right' && <Check size={14} />}
+            </button>
+          </div>
+        </div>
+
+        <div className="h-px bg-gray-100 dark:bg-gray-800" />
+
+        {/* Densità Griglia Stash */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-bold text-gray-800 dark:text-gray-200">Densità Griglia Stash</p>
+              <p className="text-xs text-gray-500">Dimensione card e numero di colonne nello Stash</p>
+            </div>
+            <LayoutGrid size={18} className="text-gray-400" />
+          </div>
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <button
+              onClick={() => handleStashGridDensityChange('comfortable')}
+              className={`p-3 rounded-2xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                stashGridDensity === 'comfortable'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <div className="flex items-center gap-1.5">
+                <span>Comoda</span>
+                {stashGridDensity === 'comfortable' && <Check size={14} />}
+              </div>
+              <span className={`text-[10px] font-normal ${stashGridDensity === 'comfortable' ? 'text-blue-100' : 'text-gray-400'}`}>Card Grandi (~2 col)</span>
+            </button>
+            <button
+              onClick={() => handleStashGridDensityChange('compact')}
+              className={`p-3 rounded-2xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                stashGridDensity === 'compact'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <div className="flex items-center gap-1.5">
+                <span>Compatta</span>
+                {stashGridDensity === 'compact' && <Check size={14} />}
+              </div>
+              <span className={`text-[10px] font-normal ${stashGridDensity === 'compact' ? 'text-blue-100' : 'text-gray-400'}`}>Card Piccole (~3 col)</span>
             </button>
           </div>
         </div>

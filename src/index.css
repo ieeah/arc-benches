@@ -35,6 +35,15 @@
   border-radius: max(6px, calc(var(--card-radius, 24px) - var(--card-padding, 10px)));
 }
 
+/* ── Stash Grid Density Utilities (Auto-fill Responsive) ── */
+@utility grid-stash-comfortable {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+@utility grid-stash-compact {
+  grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

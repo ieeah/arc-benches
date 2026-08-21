@@ -140,6 +140,7 @@ export interface AppSettingsData {
   startupProfileOption: string;
   theme: 'light' | 'dark';
   stashViewMode: 'grid' | 'list';
+  stashGridDensity: 'comfortable' | 'compact';
 }
 
 export function loadSettings(): AppSettingsData {
@@ -151,6 +152,7 @@ export function loadSettings(): AppSettingsData {
     const legacyStartup = localStorage.getItem('startup-profile-option');
     const legacyTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const legacyStashView = localStorage.getItem('stash-view-mode') as 'grid' | 'list' | null;
+    const legacyStashDensity = localStorage.getItem('stash-grid-density') as 'comfortable' | 'compact' | null;
 
     let parsed: Partial<AppSettingsData> = {};
     if (raw) {
@@ -174,6 +176,11 @@ export function loadSettings(): AppSettingsData {
       ? rawStashView
       : 'grid';
 
+    const rawStashDensity = legacyStashDensity || parsed.stashGridDensity;
+    const initialStashDensity: 'comfortable' | 'compact' = (rawStashDensity === 'comfortable' || rawStashDensity === 'compact')
+      ? rawStashDensity
+      : 'comfortable';
+
     return {
       navSide: (parsed.navSide === 'left' || parsed.navSide === 'right') ? parsed.navSide : (legacyNav === 'left' || legacyNav === 'right' ? legacyNav : 'right'),
       radialMenuEnabled: typeof parsed.radialMenuEnabled === 'boolean' ? parsed.radialMenuEnabled : (legacyRadial !== null ? legacyRadial !== 'false' : true),
@@ -182,6 +189,7 @@ export function loadSettings(): AppSettingsData {
       startupProfileOption: typeof parsed.startupProfileOption === 'string' ? parsed.startupProfileOption : (legacyStartup || 'last-used'),
       theme: initialTheme,
       stashViewMode: initialStashView,
+      stashGridDensity: initialStashDensity,
     };
   }, {
     navSide: 'right',
@@ -191,6 +199,7 @@ export function loadSettings(): AppSettingsData {
     startupProfileOption: 'last-used',
     theme: 'dark',
     stashViewMode: 'grid',
+    stashGridDensity: 'comfortable',
   });
 }
 
@@ -203,5 +212,6 @@ export function saveSettings(settings: AppSettingsData) {
     localStorage.setItem('startup-profile-option', settings.startupProfileOption);
     localStorage.setItem('theme', settings.theme);
     localStorage.setItem('stash-view-mode', settings.stashViewMode);
+    localStorage.setItem('stash-grid-density', settings.stashGridDensity);
   }, undefined);
 }

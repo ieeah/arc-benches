@@ -48,18 +48,9 @@ export const StashPage = () => {
   const activeModules = useAppStore(s => s.activeModules);
   const filterHideCompleted = useAppStore(s => s.filterHideCompleted);
   const itemsInfo = useAppStore(s => s.itemsInfo);
-
-  // Modalità di visualizzazione: Griglia vs Lista (persistita con safeLS)
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>(() =>
-    safeLS(() => {
-      const saved = localStorage.getItem('stash-view-mode');
-      return saved === 'list' || saved === 'grid' ? saved : 'grid';
-    }, 'grid')
-  );
-
-  useEffect(() => {
-    safeLS(() => localStorage.setItem('stash-view-mode', viewMode), undefined);
-  }, [viewMode]);
+  const stashGridDensity = useAppStore(s => s.stashGridDensity);
+  const stashViewMode = useAppStore(s => s.stashViewMode);
+  const setStashViewMode = useAppStore(s => s.setStashViewMode);
 
   const [selectedItemForDetail, setSelectedItemForDetail] = useState<ItemInfo | null>(null);
 
@@ -288,12 +279,9 @@ export const StashPage = () => {
             actions={
               <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-0.5 rounded-xl border border-gray-200 dark:border-gray-700">
                 <button
-                  onClick={() => {
-                    setViewMode('grid');
-                    safeLS(() => localStorage.setItem('stash-view-mode', 'grid'), undefined);
-                  }}
+                  onClick={() => setStashViewMode('grid')}
                   className={`p-1.5 rounded-lg transition-all ${
-                    viewMode === 'grid'
+                    stashViewMode === 'grid'
                       ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                       : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
                   }`}
@@ -303,12 +291,9 @@ export const StashPage = () => {
                   <LayoutGrid size={16} />
                 </button>
                 <button
-                  onClick={() => {
-                    setViewMode('list');
-                    safeLS(() => localStorage.setItem('stash-view-mode', 'list'), undefined);
-                  }}
+                  onClick={() => setStashViewMode('list')}
                   className={`p-1.5 rounded-lg transition-all ${
-                    viewMode === 'list'
+                    stashViewMode === 'list'
                       ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                       : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
                   }`}
@@ -328,7 +313,7 @@ export const StashPage = () => {
           setActiveCategoryId={setActiveCategoryId}
           activeSortId={activeSortId}
           setActiveSortId={setActiveSortId}
-          groupByEnabled={false} // Raggruppamento disabilitato per lo stash
+          groupByEnabled={false}
           setGroupByEnabled={() => {}}
           searchPlaceholder="Cerca nello stash…"
           categories={filterCategories}
@@ -338,8 +323,13 @@ export const StashPage = () => {
         />
       </div>
 
-      {viewMode === 'grid' ? (
-        <div data-list-container className="p-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+      {stashViewMode === 'grid' ? (
+        <div
+          data-list-container
+          className={`p-2 grid gap-2.5 ${
+            stashGridDensity === 'compact' ? 'grid-stash-compact' : 'grid-stash-comfortable'
+          }`}
+        >
           {processedItems.map(mat => (
             <InventoryCard
               key={mat.itemId}

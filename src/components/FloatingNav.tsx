@@ -234,7 +234,7 @@ export const FloatingNav = ({
       <div className={`fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center transition-all duration-300 ${
         isOverlayOpen ? 'translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}>
-        <div className={`w-full max-w-md flex ${navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
+        <div className={`w-full max-w-md md:max-w-3xl flex ${navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
           <div
             ref={pillRef}
             className="relative mb-6 flex items-center gap-3 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-2xl border border-gray-200/70 dark:border-gray-800 p-2 transition-all duration-200 pointer-events-auto"

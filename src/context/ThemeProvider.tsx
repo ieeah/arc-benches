@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ThemeContext } from '@/context/ThemeContext';
-import { safeLS } from '@/lib/safeStorage';
+import { useAppStore } from '@/store';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [dark, setDark] = useState(() =>
-    safeLS(() => {
-      const saved = localStorage.getItem('theme');
-      if (saved) return saved === 'dark';
-      return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }, false)
-  );
+  const theme = useAppStore(s => s.theme);
+  const setTheme = useAppStore(s => s.setTheme);
+
+  const isDark = theme === 'dark';
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark);
-    safeLS(() => localStorage.setItem('theme', dark ? 'dark' : 'light'), undefined);
-  }, [dark]);
+    document.documentElement.classList.toggle('dark', isDark);
+  }, [isDark]);
+
+  const toggle = () => {
+    setTheme(isDark ? 'light' : 'dark');
+  };
 
   return (
-    <ThemeContext.Provider value={{ dark, toggle: () => setDark(d => !d) }}>
+    <ThemeContext.Provider value={{ dark: isDark, toggle }}>
       {children}
     </ThemeContext.Provider>
   );
