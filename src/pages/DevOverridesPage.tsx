@@ -7,7 +7,7 @@ import {
 import type { ItemInfo, ItemTranslation } from '@/types';
 import { useAppStore } from '@/store';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
-import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
 import itemsDataBase from '@/data/items.json';
 import initialOverrides from '@/data/items-overrides.json';
@@ -135,13 +135,14 @@ const SidebarItemRow = React.memo(({
           : 'hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent'
       }`}
     >
-      <ItemCardFrame
+      <ItemCardFrameV2
         icon={item.icon}
         alt={item.name}
         rarity={overrideRarity || item.rarity}
         fallbackText={item.id}
         className={`w-11 h-11 shrink-0 rounded-xl shadow-2xs ${isHidden ? 'opacity-40 grayscale' : ''}`}
         imgClassName="max-w-[88%] max-h-[88%] object-contain"
+        compact
       />
       <div className="flex-1 min-w-0">
         <p className={`text-xs font-bold truncate ${
@@ -543,7 +544,7 @@ export const DevOverridesPage = ({
           {/* Scheda di Anteprima Live */}
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-5 shadow-xs flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <ItemCardFrame
+              <ItemCardFrameV2
                 icon={selectedItemEffective.icon}
                 alt={selectedItemEffective.name}
                 rarity={selectedItemEffective.rarity}

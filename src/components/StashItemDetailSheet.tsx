@@ -3,7 +3,7 @@ import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
 import { getLootAreas } from '@/lib/lootArea';
-import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
 import { BottomSheet } from '@/components/BottomSheet';
 import type { ItemListDependency } from '@/store/selectors';
@@ -81,7 +81,7 @@ export const StashItemDetailSheet = ({
     >
       {/* ── SEZIONE 1: ICONA HERO PULITA & PROGRESSO INVENTARIO ── */}
       <div className="flex items-center gap-4 p-4 rounded-[24px] bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60">
-        <ItemCardFrame
+        <ItemCardFrameV2
           icon={item.icon}
           alt={item.name}
           rarity={item.rarity}
@@ -89,7 +89,7 @@ export const StashItemDetailSheet = ({
           fallbackText={item.id.replace(/-/g, ' ')}
           className={`w-20 h-20 shrink-0 ${glow}`}
           imgClassName="max-w-full max-h-full object-contain"
-          bottomLeftSlot={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="sm" />}
+          categoryBadge={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} bare />}
         />
 
         <div className="flex-1 min-w-0">

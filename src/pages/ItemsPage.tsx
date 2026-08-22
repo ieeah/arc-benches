@@ -5,12 +5,11 @@ import { useAppStore } from "@/store";
 import { getRarityText } from "@/lib/rarity";
 import { SectionHeader } from "@/components/SectionHeader";
 import { IconButton } from "@/components/IconButton";
-import { CategoryBadge } from "@/components/CategoryBadge";
 import { ItemDetailSheet } from "@/components/ItemDetailSheet";
 import { useListManager } from "@/hooks/useListManager";
 import type { FilterCategory, SortOption } from "@/hooks/useListManager";
 import { ListControls } from "@/components/ListControls";
-import { ItemCardFrame } from "@/components/ItemCardFrame";
+import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
 import { useTranslation, getItemName, getItemSearchFields, getRarityLabel } from "@/i18n";
 
 const RARITY_WEIGHTS: Record<string, number> = {
@@ -268,14 +267,16 @@ export const ItemsPage = ({
                         onClick={() => setSelected(item)}
                         className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer"
                       >
-                        <ItemCardFrame
+                        {/* Prototipo ItemCardFrameV2 (#44 follow-up): a questa dimensione (48px)
+                            l'icona categoria va rimossa per non accavallarsi (compact) */}
+                        <ItemCardFrameV2
                           icon={item.icon}
                           alt={displayName}
                           rarity={item.rarity}
                           fallbackText={item.id}
                           className="w-12 h-12 shrink-0"
                           imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                          bottomLeftSlot={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="xs" />}
+                          compact
                         />
                         <div className="flex-1 min-w-0">
                           <p className="font-bold text-sm truncate">
@@ -308,14 +309,14 @@ export const ItemsPage = ({
                   onClick={() => setSelected(item)}
                   className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer"
                 >
-                  <ItemCardFrame
+                  <ItemCardFrameV2
                     icon={item.icon}
                     alt={displayName}
                     rarity={item.rarity}
                     fallbackText={item.id}
                     className="w-12 h-12 shrink-0"
                     imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                    bottomLeftSlot={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="xs" />}
+                    compact
                   />
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-sm truncate">{displayName}</p>

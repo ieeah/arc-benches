@@ -1,11 +1,16 @@
-import { Hammer, FileJson } from 'lucide-react';
-import type { ItemInfo } from '@/types';
-import { getRarityStyles, getRarityText } from '@/lib/rarity';
-import { refinerCraftLevel } from '@/lib/craft';
-import { ItemCardFrame } from '@/components/ItemCardFrame';
-import { CategoryBadge } from '@/components/CategoryBadge';
-import { BottomSheet } from '@/components/BottomSheet';
-import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
+import { Hammer, FileJson } from "lucide-react";
+import type { ItemInfo } from "@/types";
+import { getRarityStyles, getRarityText } from "@/lib/rarity";
+import { refinerCraftLevel } from "@/lib/craft";
+import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
+import { CategoryBadge } from "@/components/CategoryBadge";
+import { BottomSheet } from "@/components/BottomSheet";
+import {
+  useTranslation,
+  getItemName,
+  getItemDescription,
+  getRarityLabel,
+} from "@/i18n";
 
 export const ItemDetailSheet = ({
   item,
@@ -49,56 +54,93 @@ export const ItemDetailSheet = ({
               </button>
             )}
           </div>
-          <p className={`text-xs font-bold uppercase tracking-wide ${getRarityText(item.rarity)}`}>
+          <p
+            className={`text-xs font-bold uppercase tracking-wide ${getRarityText(item.rarity)}`}
+          >
             {getRarityLabel(item.rarity, language)}
           </p>
         </div>
       }
     >
-      <ItemCardFrame
+      {/* Prototipo ItemCardFrameV2 (#44 follow-up): rarità come bordo + bagliore d'angolo,
+          barra inferiore neutra per l'icona categoria invece del gradiente pieno */}
+      <ItemCardFrameV2
         icon={item.icon}
         alt={displayName}
         rarity={item.rarity}
         fallbackText={item.id}
         className={`mx-auto w-40 h-40 mb-4 shrink-0 ${glow}`}
-        imgClassName="max-w-[85%] max-h-[85%] object-contain"
-        bottomLeftSlot={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="md" />}
+        imgClassName="max-w-[95%] max-h-[95%] object-contain"
+        categoryBadge={
+          <CategoryBadge
+            itemType={item.item_type}
+            subcategory={item.subcategory}
+            bare
+          />
+        }
       />
 
       {displayDesc && (
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{displayDesc}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+          {displayDesc}
+        </p>
       )}
 
       <div className="space-y-2 text-sm">
         <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-          <span className="text-gray-400 font-medium">{t('itemDetail.type')}</span>
+          <span className="text-gray-400 font-medium">
+            {t("itemDetail.type")}
+          </span>
           <span className="font-semibold inline-flex items-center gap-1.5">
-            <CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="xs" />
-            <span>{item.item_type}{item.subcategory && item.subcategory !== item.item_type ? ` · ${item.subcategory}` : ''}</span>
+            <CategoryBadge
+              itemType={item.item_type}
+              subcategory={item.subcategory}
+              size="xs"
+            />
+            <span>
+              {item.item_type}
+              {item.subcategory && item.subcategory !== item.item_type
+                ? ` · ${item.subcategory}`
+                : ""}
+            </span>
           </span>
         </div>
         <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
-          <span className="text-gray-400 font-medium">{t('itemDetail.value')}</span>
-          <span className="font-semibold font-mono">{item.value.toLocaleString(language === 'en' ? 'en-US' : 'it-IT')}</span>
+          <span className="text-gray-400 font-medium">
+            {t("itemDetail.value")}
+          </span>
+          <span className="font-semibold font-mono">
+            {item.value.toLocaleString(language === "en" ? "en-US" : "it-IT")}
+          </span>
         </div>
         {item.stack_size != null && item.stack_size > 1 && (
           <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-gray-400 font-medium">{t('itemDetail.stackSize')}</span>
+            <span className="text-gray-400 font-medium">
+              {t("itemDetail.stackSize")}
+            </span>
             <span className="font-semibold font-mono">×{item.stack_size}</span>
           </div>
         )}
         {craftLevel !== null && (
           <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
             <span className="text-gray-400 font-medium">Craft</span>
-            <span className={`flex items-center gap-1.5 font-semibold ${craftableNow ? 'text-emerald-500' : 'text-amber-500'}`}>
+            <span
+              className={`flex items-center gap-1.5 font-semibold ${craftableNow ? "text-emerald-500" : "text-amber-500"}`}
+            >
               <Hammer size={14} />
-              {craftableNow ? (language === 'en' ? 'Craftable now' : 'Craftabile ora') : `Refiner Lvl ${craftLevel}`}
+              {craftableNow
+                ? language === "en"
+                  ? "Craftable now"
+                  : "Craftabile ora"
+                : `Refiner Lvl ${craftLevel}`}
             </span>
           </div>
         )}
         {item.loot_area && (
           <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-gray-400 font-medium">{t('itemDetail.lootArea')}</span>
+            <span className="text-gray-400 font-medium">
+              {t("itemDetail.lootArea")}
+            </span>
             <span className="font-semibold">{item.loot_area}</span>
           </div>
         )}

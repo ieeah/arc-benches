@@ -6,7 +6,7 @@ import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { ItemDetailSheet } from '@/components/ItemDetailSheet';
-import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 
 const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] as const;
 const RARITY_WEIGHTS: Record<string, number> = {
@@ -529,7 +529,7 @@ const ItemCard = ({ item, onSelect }: { item: ItemInfo; onSelect: (i: ItemInfo) 
       onClick={() => onSelect(item)}
       className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform"
     >
-      <ItemCardFrame
+      <ItemCardFrameV2
         icon={item.icon}
         alt={item.name}
         rarity={item.rarity}

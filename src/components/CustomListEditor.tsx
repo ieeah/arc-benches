@@ -7,8 +7,7 @@ import { generateUUID } from '@/lib/uuid';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { BottomSheet } from '@/components/BottomSheet';
-import { ItemCardFrame } from '@/components/ItemCardFrame';
-import { CategoryBadge } from '@/components/CategoryBadge';
+import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import { getRarityText } from '@/lib/rarity';
 
@@ -30,14 +29,14 @@ const CustomListRequirementItem = ({
 
   return (
     <div className="flex items-center gap-3 p-2 rounded-2xl bg-gray-50/70 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800/80 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
-      <ItemCardFrame
+      <ItemCardFrameV2
         icon={info?.icon ?? null}
         alt={itemName}
         rarity={info?.rarity ?? 'Common'}
         fallbackText={itemId}
         className="w-11 h-11 shrink-0 rounded-xl"
         imgClassName="max-w-[85%] max-h-[85%] object-contain"
-        bottomLeftSlot={<CategoryBadge itemType={info?.item_type} subcategory={info?.subcategory} size="xs" />}
+        compact
       />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
@@ -147,14 +146,14 @@ const ItemQuantityModal = ({
       <div className="flex flex-col items-center py-2 space-y-4">
         {/* Item preview card */}
         <div className="w-full flex items-center gap-3.5 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-[22px] border border-gray-100 dark:border-gray-700/60">
-          <ItemCardFrame
+          <ItemCardFrameV2
             icon={item.icon}
             alt={itemName}
             rarity={item.rarity}
             fallbackText={item.id}
             className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
             imgClassName="max-w-[85%] max-h-[85%] object-contain"
-            bottomLeftSlot={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="xs" />}
+            compact
           />
           <div className="flex-1 min-w-0">
             <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 truncate">
@@ -270,14 +269,14 @@ const ConfirmDeleteItemModal = ({
       }
     >
       <div className="flex flex-col items-center text-center py-4 px-2 space-y-3">
-        <ItemCardFrame
+        <ItemCardFrameV2
           icon={itemInfo?.icon ?? null}
           alt={localizedName}
           rarity={itemInfo?.rarity ?? 'Common'}
           fallbackText={itemId}
           className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
           imgClassName="max-w-[85%] max-h-[85%] object-contain"
-          bottomLeftSlot={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} size="xs" />}
+          compact
         />
         <div>
           <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">

@@ -3,7 +3,7 @@ import { CheckCircle2, Hammer } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
-import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import { useTranslation, getItemName } from '@/i18n';
@@ -59,7 +59,7 @@ export const InventoryCard = ({
     <div
       className={`flex flex-col p-2.5 rounded-[28px] card-concentric-28 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all ${isCompleted ? 'opacity-40 grayscale-[0.8]' : ''}`}
     >
-      <ItemCardFrame
+      <ItemCardFrameV2
         icon={itemInfo?.icon}
         alt={displayName}
         rarity={itemInfo?.rarity}
@@ -84,7 +84,7 @@ export const InventoryCard = ({
             </div>
           ) : undefined
         }
-        bottomLeftSlot={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} />}
+        categoryBadge={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} bare />}
         overlay={
           isCompleted ? (
             <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">
