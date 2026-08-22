@@ -1,13 +1,14 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import {
   Search, Download, Copy, Check, Sparkles,
   Trash2, RotateCcw, FileJson, Edit3, Globe,
-  EyeOff
+  EyeOff, ChevronDown
 } from 'lucide-react';
 import type { ItemInfo, ItemTranslation } from '@/types';
 import { useAppStore } from '@/store';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { CategoryBadge } from '@/components/CategoryBadge';
 import itemsDataBase from '@/data/items.json';
 import initialOverrides from '@/data/items-overrides.json';
 import { getRarityText } from '@/lib/rarity';
@@ -16,13 +17,68 @@ import { SUPPORTED_LANGUAGES } from '@/i18n';
 type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
 const RARITIES: ItemRarity[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
 
+// Stato + wiring (click esterno, Escape) per un menu a comparsa custom, usato dalle
+// select con icona di "Tipo Oggetto" e "Sottocategoria" (un <select> nativo non può
+// mostrare icone nelle opzioni). Il ref del contenitore resta un useRef separato nel
+// componente chiamante: restituirlo insieme allo stato dall'hook fa sì che il linter
+// (react-hooks/refs) tratti per prudenza l'intero oggetto come un ref.
+function useDropdownMenu(ref: React.RefObject<HTMLDivElement | null>) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const handlePointerDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [open, ref]);
+
+  return { open, setOpen };
+}
+
 const AVAILABLE_LANGUAGES = SUPPORTED_LANGUAGES.filter(l => l.code !== 'en');
 
-const SUGGESTED_ITEM_TYPES = [
-  'Basic Material', 'Topside Material', 'Refined Material', 'Advanced Material',
-  'Weapon', 'Modification', 'Quick Use', 'Consumable', 'Throwable', 'Gadget',
-  'Augment', 'Shield', 'Trinket', 'Key', 'Recyclable', 'Nature', 'Misc'
-];
+// Tipi oggetto e sottocategorie derivati dal catalogo EFFETTIVO (items.json + le
+// correzioni già presenti in items-overrides.json), non dal solo dato grezzo MetaForge:
+// per il dominio "Quick Use" (Healing/Utility/Gadget/Grenade/Trap) item_type e subcategory
+// sono quasi sempre appiattiti su "Quick Use" dallo scraping, e la classificazione reale
+// (icone comprese, vedi src/lib/categoryIcons.ts) sopravvive solo nelle correzioni curate.
+// Derivare le opzioni dal catalogo effettivo fa sì che quelle correzioni compaiano come
+// valori selezionabili anche per gli item non ancora corretti nello stesso tipo.
+const itemsRecord = itemsDataBase as Record<string, ItemInfo>;
+const overridesRecord = initialOverrides as Record<string, Partial<ItemOverrideData>>;
+const effectiveBaseItems: ItemInfo[] = Object.entries(itemsRecord).map(([id, item]) => ({
+  ...item,
+  ...overridesRecord[id],
+}));
+
+const ITEM_TYPES: string[] = Array.from(
+  new Set(
+    effectiveBaseItems
+      .map(i => i.item_type?.trim())
+      .filter((t): t is string => Boolean(t))
+  )
+).sort((a, b) => a.localeCompare(b));
+
+const ITEM_TYPE_SUBCATEGORIES: Record<string, string[]> = {};
+for (const item of effectiveBaseItems) {
+  const type = item.item_type?.trim();
+  const sub = item.subcategory?.trim();
+  if (!type || !sub) continue;
+  const list = ITEM_TYPE_SUBCATEGORIES[type] || (ITEM_TYPE_SUBCATEGORIES[type] = []);
+  if (!list.includes(sub)) list.push(sub);
+}
+for (const list of Object.values(ITEM_TYPE_SUBCATEGORIES)) {
+  list.sort((a, b) => a.localeCompare(b));
+}
 
 const SUGGESTED_WORKBENCHES = [
   'Refiner', 'Gunsmith', 'Weapon Bench', 'Med Station', 'Medical Lab',
@@ -171,6 +227,39 @@ export const DevOverridesPage = ({
     return overrides[selectedItemId] || {};
   }, [overrides, selectedItemId]);
 
+  const activeItemType = currentItemOverride.item_type !== undefined ? currentItemOverride.item_type : selectedItemBase.item_type;
+  const activeSubcategory = currentItemOverride.subcategory !== undefined ? currentItemOverride.subcategory : selectedItemBase.subcategory;
+
+  // Elenco tipi oggetto per la select: valori reali da items.json, più il valore
+  // attivo se per qualche motivo non fosse già incluso (dato legacy/anomalo).
+  const itemTypeOptions = useMemo(() => {
+    const set = new Set(ITEM_TYPES);
+    if (activeItemType) set.add(activeItemType);
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [activeItemType]);
+
+  // Dropdown custom per "Tipo Oggetto" e "Sottocategoria": un <select> nativo non
+  // può mostrare icone nelle opzioni, quindi usiamo un menu a comparsa con CategoryBadge.
+  // L'icona finale dipende dalla sottocategoria quando è una delle 6 riconosciute
+  // (Healing/Utility/Gadget/Grenade/Trap/Key, vedi src/lib/categoryIcons.ts), quindi
+  // entrambe le select mostrano l'icona effettiva risultante, non solo quella del tipo.
+  const typeMenuRef = useRef<HTMLDivElement>(null);
+  const typeMenu = useDropdownMenu(typeMenuRef);
+  const subMenuRef = useRef<HTMLDivElement>(null);
+  const subMenu = useDropdownMenu(subMenuRef);
+
+  // Sottocategorie pertinenti al tipo oggetto attivo (dinamiche), più il valore
+  // attivo se non presente nella lista derivata.
+  const subcategoryOptions = useMemo(() => {
+    const list = (activeItemType && ITEM_TYPE_SUBCATEGORIES[activeItemType]) || [];
+    const set = new Set(list);
+    if (activeSubcategory) set.add(activeSubcategory);
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [activeItemType, activeSubcategory]);
+
+  // Cambiare item chiude comunque i menu a comparsa: la riga selezionata nella
+  // sidebar è fuori da typeMenuRef/subMenuRef, quindi il click-outside dell'hook
+  // se ne occupa già senza bisogno di deps instabili qui.
   const handleSelect = useCallback((id: string) => {
     setSelectedItemId(id);
   }, []);
@@ -591,19 +680,48 @@ export const DevOverridesPage = ({
                 <div className="grid grid-cols-12 gap-3 items-center">
                   <label className="col-span-3 text-xs font-bold text-gray-700 dark:text-gray-300">Tipo Oggetto</label>
                   <div className="col-span-9 flex items-center gap-2">
-                    <input
-                      type="text"
-                      list="suggested-types"
-                      value={currentItemOverride.item_type !== undefined ? currentItemOverride.item_type : selectedItemBase.item_type}
-                      onChange={e => handleFieldChange('item_type', e.target.value)}
-                      placeholder={selectedItemBase.item_type}
-                      className={`flex-1 px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium ${
-                        currentItemOverride.item_type !== undefined ? 'border-amber-400 dark:border-amber-600' : 'border-gray-200 dark:border-gray-700'
-                      }`}
-                    />
-                    <datalist id="suggested-types">
-                      {SUGGESTED_ITEM_TYPES.map(t => <option key={t} value={t} />)}
-                    </datalist>
+                    <div className="relative flex-1" ref={typeMenuRef}>
+                      <button
+                        type="button"
+                        aria-haspopup="listbox"
+                        aria-expanded={typeMenu.open}
+                        onClick={() => typeMenu.setOpen(o => !o)}
+                        className={`w-full flex items-center gap-2 px-2 py-1 text-xs bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium text-left ${
+                          currentItemOverride.item_type !== undefined ? 'border-amber-400 dark:border-amber-600' : 'border-gray-200 dark:border-gray-700'
+                        }`}
+                      >
+                        <CategoryBadge itemType={activeItemType} subcategory={activeSubcategory} size="xs" />
+                        <span className="flex-1 truncate">{activeItemType || '—'}</span>
+                        <ChevronDown size={14} className={`shrink-0 text-gray-400 transition-transform ${typeMenu.open ? 'rotate-180' : ''}`} />
+                      </button>
+                      {typeMenu.open && (
+                        <div
+                          role="listbox"
+                          className="absolute z-20 mt-1 w-full max-h-64 overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1"
+                        >
+                          {itemTypeOptions.map(t => (
+                            <button
+                              key={t}
+                              type="button"
+                              role="option"
+                              aria-selected={t === activeItemType}
+                              onClick={() => {
+                                handleFieldChange('item_type', t);
+                                // La sottocategoria è legata al tipo precedente: si resetta al cambio tipo
+                                handleFieldChange('subcategory', undefined);
+                                typeMenu.setOpen(false);
+                              }}
+                              className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                                t === activeItemType ? 'bg-blue-50 dark:bg-blue-900/30 font-semibold' : ''
+                              }`}
+                            >
+                              <CategoryBadge itemType={t} size="xs" />
+                              <span className="truncate">{t}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     {currentItemOverride.item_type !== undefined && (
                       <button
                         onClick={() => handleFieldChange('item_type', undefined)}
@@ -620,15 +738,61 @@ export const DevOverridesPage = ({
                 <div className="grid grid-cols-12 gap-3 items-center">
                   <label className="col-span-3 text-xs font-bold text-gray-700 dark:text-gray-300">Sottocategoria</label>
                   <div className="col-span-9 flex items-center gap-2">
-                    <input
-                      type="text"
-                      value={currentItemOverride.subcategory !== undefined ? (currentItemOverride.subcategory || '') : (selectedItemBase.subcategory || '')}
-                      onChange={e => handleFieldChange('subcategory', e.target.value || null)}
-                      placeholder={selectedItemBase.subcategory || 'Nessuna'}
-                      className={`flex-1 px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium ${
-                        currentItemOverride.subcategory !== undefined ? 'border-amber-400 dark:border-amber-600' : 'border-gray-200 dark:border-gray-700'
-                      }`}
-                    />
+                    <div className="relative flex-1" ref={subMenuRef}>
+                      <button
+                        type="button"
+                        aria-haspopup="listbox"
+                        aria-expanded={subMenu.open}
+                        onClick={() => subMenu.setOpen(o => !o)}
+                        className={`w-full flex items-center gap-2 px-2 py-1 text-xs bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium text-left ${
+                          currentItemOverride.subcategory !== undefined ? 'border-amber-400 dark:border-amber-600' : 'border-gray-200 dark:border-gray-700'
+                        }`}
+                      >
+                        <CategoryBadge itemType={activeItemType} subcategory={activeSubcategory} size="xs" />
+                        <span className="flex-1 truncate">{activeSubcategory || 'Nessuna / Default'}</span>
+                        <ChevronDown size={14} className={`shrink-0 text-gray-400 transition-transform ${subMenu.open ? 'rotate-180' : ''}`} />
+                      </button>
+                      {subMenu.open && (
+                        <div
+                          role="listbox"
+                          className="absolute z-20 mt-1 w-full max-h-64 overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1"
+                        >
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={!activeSubcategory}
+                            onClick={() => {
+                              handleFieldChange('subcategory', null);
+                              subMenu.setOpen(false);
+                            }}
+                            className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                              !activeSubcategory ? 'bg-blue-50 dark:bg-blue-900/30 font-semibold' : ''
+                            }`}
+                          >
+                            <CategoryBadge itemType={activeItemType} size="xs" />
+                            <span className="truncate">Nessuna / Default</span>
+                          </button>
+                          {subcategoryOptions.map(s => (
+                            <button
+                              key={s}
+                              type="button"
+                              role="option"
+                              aria-selected={s === activeSubcategory}
+                              onClick={() => {
+                                handleFieldChange('subcategory', s);
+                                subMenu.setOpen(false);
+                              }}
+                              className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                                s === activeSubcategory ? 'bg-blue-50 dark:bg-blue-900/30 font-semibold' : ''
+                              }`}
+                            >
+                              <CategoryBadge itemType={activeItemType} subcategory={s} size="xs" />
+                              <span className="truncate">{s}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     {currentItemOverride.subcategory !== undefined && (
                       <button
                         onClick={() => handleFieldChange('subcategory', undefined)}
