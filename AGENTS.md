@@ -14,7 +14,8 @@ npm run preview    # Anteprima della build di produzione
 npm run check:lock # Verifica che package-lock.json sia in sync (stesso check di npm ci in CI)
 
 # Script dati (pacchetto separato in scripts/):
-cd scripts && npm install && node fetch-items.mjs   # Rigenera items.json + icone da MetaForge
+cd scripts && npm install && node fetch-items.mjs            # Rigenera items.json + icone da MetaForge
+cd scripts && npm install && node fetch-category-icons.mjs   # Scarica & normalizza icone di categoria da Wiki API
 ```
 
 > ⚠️ **Gestione Lockfile (Bug npm cross-platform)**:
@@ -66,11 +67,10 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/VERSIONING.md](docs/VERSIONING.md) — Piano previsionale delle versioni e della roadmap SemVer fino all'MVP (1.0.0).
 
 ### Specifiche di Dettaglio (`docs/specs/`)
-- [docs/specs/tieni-o-butta.md](docs/specs/tieni-o-butta.md) — Specifica indicatore "non vendere".
-- [docs/specs/role-maker.md](docs/specs/role-maker.md) — Specifica randomizer di personalità.
+- [docs/specs/progetti.md](docs/specs/progetti.md) — Specifica sistema progetti.
+- [docs/specs/spedizioni.md](docs/specs/spedizioni.md) — Specifica spedizioni e donazioni.
 - [docs/specs/condivisione-liste-link.md](docs/specs/condivisione-liste-link.md) — Specifica condivisione liste via link.
-- [docs/specs/ottimizzazione-zustand.md](docs/specs/ottimizzazione-zustand.md) — Specifica selettori pure Zustand.
-- [docs/specs/bugs/accessibilita-overlay-e-controlli.md](docs/specs/bugs/accessibilita-overlay-e-controlli.md) — Specifica bug A11y.
+- [docs/specs/data-sources-analysis.md](docs/specs/data-sources-analysis.md) — Analisi comparativa delle fonti dati catalogo.
 - [docs/specs/gameplay-tips-and-strategies.md](docs/specs/gameplay-tips-and-strategies.md) — Suggerimenti e strategie per la gestione delle risorse di gioco.
 
 ### Decisioni Architetturali (`docs/adrs/`)

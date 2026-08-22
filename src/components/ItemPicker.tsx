@@ -5,6 +5,7 @@ import { useAppStore } from '@/store';
 import { getRarityText } from '@/lib/rarity';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { CategoryBadge } from '@/components/CategoryBadge';
 import { useListManager } from '@/hooks/useListManager';
 import { useTranslation, getItemName, getItemSearchFields, getRarityLabel } from '@/i18n';
 
@@ -110,6 +111,7 @@ export const ItemPicker = ({ excludeIds, onPick, onClose }: ItemPickerProps) => 
                   fallbackText={item.id}
                   className="w-11 h-11 shrink-0"
                   imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                  bottomLeftSlot={<CategoryBadge itemType={item.item_type} size="xs" />}
                 />
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm truncate">{displayName}</p>

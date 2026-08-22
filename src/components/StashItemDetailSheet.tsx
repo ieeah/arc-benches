@@ -4,6 +4,7 @@ import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
 import { getLootAreas } from '@/lib/lootArea';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { CategoryBadge } from '@/components/CategoryBadge';
 import { BottomSheet } from '@/components/BottomSheet';
 import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
@@ -88,6 +89,7 @@ export const StashItemDetailSheet = ({
           fallbackText={item.id.replace(/-/g, ' ')}
           className={`w-20 h-20 shrink-0 ${glow}`}
           imgClassName="max-w-full max-h-full object-contain"
+          bottomLeftSlot={<CategoryBadge itemType={item.item_type} size="sm" />}
         />
 
         <div className="flex-1 min-w-0">

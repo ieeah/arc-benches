@@ -5,6 +5,7 @@ import { useAppStore } from "@/store";
 import { getRarityText } from "@/lib/rarity";
 import { SectionHeader } from "@/components/SectionHeader";
 import { IconButton } from "@/components/IconButton";
+import { CategoryBadge } from "@/components/CategoryBadge";
 import { ItemDetailSheet } from "@/components/ItemDetailSheet";
 import { useListManager } from "@/hooks/useListManager";
 import type { FilterCategory, SortOption } from "@/hooks/useListManager";
@@ -274,6 +275,7 @@ export const ItemsPage = ({
                           fallbackText={item.id}
                           className="w-12 h-12 shrink-0"
                           imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                          bottomLeftSlot={<CategoryBadge itemType={item.item_type} size="xs" />}
                         />
                         <div className="flex-1 min-w-0">
                           <p className="font-bold text-sm truncate">
@@ -313,6 +315,7 @@ export const ItemsPage = ({
                     fallbackText={item.id}
                     className="w-12 h-12 shrink-0"
                     imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                    bottomLeftSlot={<CategoryBadge itemType={item.item_type} size="xs" />}
                   />
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-sm truncate">{displayName}</p>

@@ -8,6 +8,7 @@ import { ItemPicker } from '@/components/ItemPicker';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { CategoryBadge } from '@/components/CategoryBadge';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import { getRarityText } from '@/lib/rarity';
 
@@ -36,6 +37,7 @@ const CustomListRequirementItem = ({
         fallbackText={itemId}
         className="w-11 h-11 shrink-0 rounded-xl"
         imgClassName="max-w-[85%] max-h-[85%] object-contain"
+        bottomLeftSlot={<CategoryBadge itemType={info?.item_type} size="xs" />}
       />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
@@ -152,6 +154,7 @@ const ItemQuantityModal = ({
             fallbackText={item.id}
             className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
             imgClassName="max-w-[85%] max-h-[85%] object-contain"
+            bottomLeftSlot={<CategoryBadge itemType={item.item_type} size="xs" />}
           />
           <div className="flex-1 min-w-0">
             <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 truncate">
@@ -274,6 +277,7 @@ const ConfirmDeleteItemModal = ({
           fallbackText={itemId}
           className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
           imgClassName="max-w-[85%] max-h-[85%] object-contain"
+          bottomLeftSlot={<CategoryBadge itemType={itemInfo?.item_type} size="xs" />}
         />
         <div>
           <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">

@@ -4,6 +4,7 @@ import type { ItemInfo } from '@/types';
 import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { CategoryBadge } from '@/components/CategoryBadge';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName } from '@/i18n';
@@ -93,6 +94,7 @@ export const InventoryListItem = ({
               </div>
             ) : undefined
           }
+          bottomLeftSlot={<CategoryBadge itemType={itemInfo?.item_type} size="xs" />}
           overlay={
             isCompleted ? (
               <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">

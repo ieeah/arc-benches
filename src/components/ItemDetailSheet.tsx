@@ -3,6 +3,7 @@ import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
 import { ItemCardFrame } from '@/components/ItemCardFrame';
+import { CategoryBadge } from '@/components/CategoryBadge';
 import { BottomSheet } from '@/components/BottomSheet';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
 
@@ -61,6 +62,7 @@ export const ItemDetailSheet = ({
         fallbackText={item.id}
         className={`mx-auto w-40 h-40 mb-4 shrink-0 ${glow}`}
         imgClassName="max-w-[85%] max-h-[85%] object-contain"
+        bottomLeftSlot={<CategoryBadge itemType={item.item_type} size="md" />}
       />
 
       {displayDesc && (
@@ -68,9 +70,12 @@ export const ItemDetailSheet = ({
       )}
 
       <div className="space-y-2 text-sm">
-        <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
+        <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
           <span className="text-gray-400 font-medium">{t('itemDetail.type')}</span>
-          <span className="font-semibold">{item.item_type}{item.subcategory && item.subcategory !== item.item_type ? ` · ${item.subcategory}` : ''}</span>
+          <span className="font-semibold inline-flex items-center gap-1.5">
+            <CategoryBadge itemType={item.item_type} size="xs" />
+            <span>{item.item_type}{item.subcategory && item.subcategory !== item.item_type ? ` · ${item.subcategory}` : ''}</span>
+          </span>
         </div>
         <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800">
           <span className="text-gray-400 font-medium">{t('itemDetail.value')}</span>
