@@ -84,7 +84,7 @@ export const InventoryCard = ({
             </div>
           ) : undefined
         }
-        bottomLeftSlot={<CategoryBadge itemType={itemInfo?.item_type} />}
+        bottomLeftSlot={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} />}
         overlay={
           isCompleted ? (
             <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">

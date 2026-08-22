@@ -42,4 +42,29 @@ describe('categoryIcons', () => {
     expect(getCategoryIconPath('Misc')).toContain('misc.webp');
     expect(getCategoryIconPath('Unknown Type X')).toContain('misc.webp');
   });
+
+  it('prioritizes the curated subcategory over the unreliable MetaForge item_type for the Quick Use domain', () => {
+    // MetaForge scrapes Healing/Utility/Gadget/Grenade/Trap items almost entirely as
+    // item_type "Quick Use" — the real distinction survives only in the curated
+    // subcategory overrides (items-overrides.json), which must win over item_type here.
+    expect(getCategoryIconPath('Quick Use', 'Healing')).toContain('regenerative.webp');
+    expect(getCategoryIconPath('Quick Use', 'Utility')).toContain('utility.webp');
+    expect(getCategoryIconPath('Quick Use', 'Gadget')).toContain('gadget.webp');
+    expect(getCategoryIconPath('Quick Use', 'Grenade')).toContain('grenade.webp');
+    expect(getCategoryIconPath('Quick Use', 'Trap')).toContain('trap.webp');
+    // Also overrides a wrong/misleading item_type entirely, not just the generic "Quick Use" one
+    expect(getCategoryIconPath('Trinket', 'Key')).toContain('key.webp');
+    expect(getCategoryIconPath('Quest Item', 'Key')).toContain('key.webp');
+  });
+
+  it('is case-insensitive and trims whitespace on subcategory', () => {
+    expect(getCategoryIconPath('Quick Use', '  grenade  ')).toContain('grenade.webp');
+    expect(getCategoryIconPath('Quick Use', 'GRENADE')).toContain('grenade.webp');
+  });
+
+  it('falls back to the item_type resolution when subcategory is not one of the curated values', () => {
+    expect(getCategoryIconPath('Weapon', 'Assault Rifle')).toContain('weapon.webp');
+    expect(getCategoryIconPath('Basic Material', 'Basic Material')).toContain('material.webp');
+    expect(getCategoryIconPath('Weapon', null)).toContain('weapon.webp');
+  });
 });

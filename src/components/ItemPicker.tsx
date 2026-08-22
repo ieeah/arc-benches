@@ -111,7 +111,7 @@ export const ItemPicker = ({ excludeIds, onPick, onClose }: ItemPickerProps) => 
                   fallbackText={item.id}
                   className="w-11 h-11 shrink-0"
                   imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                  bottomLeftSlot={<CategoryBadge itemType={item.item_type} size="xs" />}
+                  bottomLeftSlot={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="xs" />}
                 />
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-sm truncate">{displayName}</p>

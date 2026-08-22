@@ -1,13 +1,37 @@
 /**
  * Category icons resolver for ARC Raiders items.
- * Maps MetaForge item_type values to localized category icon assets in public/icons/categories/*.webp
+ * Maps item_type/subcategory values to localized category icon assets in public/icons/categories/*.webp
+ *
+ * MetaForge's item_type field is unreliable for the "Quick Use" domain: Healing items,
+ * Utility items, Gadgets, Grenades and Traps (per arcraiders.wiki/wiki/Quick_Use, each with
+ * its own distinct in-game icon) are almost all scraped as item_type "Quick Use" / subcategory
+ * "Quick Use". A handful of items outside that domain are misfiled too (e.g. quest-only Keys
+ * scraped as item_type "Quest Item"/"Trinket"). The real classification only survives in the
+ * curated `subcategory` overrides in items-overrides.json, so those are checked first;
+ * item_type stays the primary signal for every other domain (Weapon, Material, ecc., verified
+ * against arcraiders.wiki/wiki/Weapons + wiki/Loot — already correct there, no override needed).
  */
 
-export function getCategoryIconPath(itemType?: string | null): string | null {
-  if (!itemType) return null;
-  const t = itemType.toLowerCase().trim();
+const SUBCATEGORY_ICON_MAP: Record<string, string> = {
+  healing: 'regenerative.webp',
+  utility: 'utility.webp',
+  gadget: 'gadget.webp',
+  grenade: 'grenade.webp',
+  trap: 'trap.webp',
+  key: 'key.webp',
+};
+
+export function getCategoryIconPath(itemType?: string | null, subcategory?: string | null): string | null {
   const base = import.meta.env.BASE_URL || '/';
   const prefix = base.endsWith('/') ? base : `${base}/`;
+
+  const s = subcategory?.toLowerCase().trim();
+  if (s && SUBCATEGORY_ICON_MAP[s]) {
+    return `${prefix}icons/categories/${SUBCATEGORY_ICON_MAP[s]}`;
+  }
+
+  if (!itemType) return null;
+  const t = itemType.toLowerCase().trim();
 
   if (t.includes('material') || t === 'recyclable') {
     return `${prefix}icons/categories/material.webp`;

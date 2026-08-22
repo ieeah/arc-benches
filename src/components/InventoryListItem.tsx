@@ -94,7 +94,7 @@ export const InventoryListItem = ({
               </div>
             ) : undefined
           }
-          bottomLeftSlot={<CategoryBadge itemType={itemInfo?.item_type} size="xs" />}
+          bottomLeftSlot={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} size="xs" />}
           overlay={
             isCompleted ? (
               <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">

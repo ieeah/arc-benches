@@ -62,7 +62,7 @@ export const ItemDetailSheet = ({
         fallbackText={item.id}
         className={`mx-auto w-40 h-40 mb-4 shrink-0 ${glow}`}
         imgClassName="max-w-[85%] max-h-[85%] object-contain"
-        bottomLeftSlot={<CategoryBadge itemType={item.item_type} size="md" />}
+        bottomLeftSlot={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="md" />}
       />
 
       {displayDesc && (
@@ -73,7 +73,7 @@ export const ItemDetailSheet = ({
         <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
           <span className="text-gray-400 font-medium">{t('itemDetail.type')}</span>
           <span className="font-semibold inline-flex items-center gap-1.5">
-            <CategoryBadge itemType={item.item_type} size="xs" />
+            <CategoryBadge itemType={item.item_type} subcategory={item.subcategory} size="xs" />
             <span>{item.item_type}{item.subcategory && item.subcategory !== item.item_type ? ` · ${item.subcategory}` : ''}</span>
           </span>
         </div>
