@@ -6,5 +6,340 @@
         "description": "Può essere riciclato in materiali"
       }
     }
+  },
+  "acoustic-guitar": {
+    "translations": {
+      "it": {
+        "description": "Una Chitarra Acustica suonabile, utilizzata per attirare gli Arc e fare colpo sugli altri Raider.",
+        "name": "Chitarra Acustica"
+      }
+    },
+    "item_type": "Quick Use",
+    "subcategory": "Gadget"
+  },
+  "adrenaline-shot": {
+    "translations": {
+      "it": {
+        "name": "Iniezione di Adrenalina",
+        "description": "Un siero che ripristina completamente l'energia e aumenta temporaneamente la rigenerazione dell'energia."
+      }
+    },
+    "subcategory": "Healing"
+  },
+  "bandage": {
+    "subcategory": "Healing"
+  },
+  "defibrillator": {
+    "subcategory": "Healing"
+  },
+  "fruit-mix": {
+    "subcategory": "Healing"
+  },
+  "herbal-bandage": {
+    "subcategory": "Healing"
+  },
+  "sterilized-bandage": {
+    "subcategory": "Healing"
+  },
+  "vita-shot": {
+    "subcategory": "Healing"
+  },
+  "vita-spray": {
+    "subcategory": "Healing"
+  },
+  "shield-recharger": {
+    "subcategory": "Healing"
+  },
+  "surge-shield-recharger": {
+    "subcategory": "Healing"
+  },
+  "barricade-kit": {
+    "subcategory": "Utility"
+  },
+  "door-blocker": {
+    "subcategory": "Utility"
+  },
+  "fireworks-box": {
+    "subcategory": "Utility"
+  },
+  "remote-raider-flare": {
+    "subcategory": "Utility"
+  },
+  "zipline": {
+    "subcategory": "Utility"
+  },
+  "surge-coil": {
+    "subcategory": "Utility"
+  },
+  "binoculars": {
+    "subcategory": "Gadget"
+  },
+  "flame-spray": {
+    "subcategory": "Gadget"
+  },
+  "dockmasters-detector": {
+    "subcategory": "Gadget"
+  },
+  "noisemaker": {
+    "subcategory": "Gadget"
+  },
+  "photoelectric-cloak": {
+    "subcategory": "Gadget"
+  },
+  "powered-descender": {
+    "subcategory": "Gadget"
+  },
+  "recorder": {
+    "subcategory": "Gadget"
+  },
+  "shaker": {
+    "subcategory": "Gadget"
+  },
+  "snap-hook": {
+    "subcategory": "Gadget"
+  },
+  "light-impact-grenade": {
+    "subcategory": "Grenade"
+  },
+  "heavy-fuze-grenade": {
+    "subcategory": "Grenade"
+  },
+  "blaze-grenade": {
+    "subcategory": "Grenade"
+  },
+  "gas-grenade": {
+    "subcategory": "Grenade"
+  },
+  "showstopper": {
+    "subcategory": "Grenade"
+  },
+  "snap-blast-grenade": {
+    "subcategory": "Grenade"
+  },
+  "seeker-grenade": {
+    "subcategory": "Grenade"
+  },
+  "shrapnel-grenade": {
+    "subcategory": "Grenade"
+  },
+  "trigger-nade": {
+    "subcategory": "Grenade"
+  },
+  "trailblazer-grenade": {
+    "subcategory": "Grenade"
+  },
+  "wolfpack": {
+    "subcategory": "Grenade"
+  },
+  "lure-grenade": {
+    "subcategory": "Grenade"
+  },
+  "lil-smoke-grenade": {
+    "subcategory": "Grenade"
+  },
+  "smoke-grenade": {
+    "subcategory": "Grenade"
+  },
+  "tagging-grenade": {
+    "subcategory": "Grenade"
+  },
+  "green-light-stick": {
+    "subcategory": "Grenade"
+  },
+  "yellow-light-stick": {
+    "subcategory": "Grenade"
+  },
+  "red-light-stick": {
+    "subcategory": "Grenade"
+  },
+  "blue-light-stick": {
+    "subcategory": "Grenade"
+  },
+  "firecracker": {
+    "subcategory": "Grenade"
+  },
+  "crash-mat": {
+    "subcategory": "Grenade"
+  },
+  "blaze-grenade-trap": {
+    "subcategory": "Trap"
+  },
+  "gas-grenade-trap": {
+    "subcategory": "Trap"
+  },
+  "lure-grenade-trap": {
+    "subcategory": "Trap"
+  },
+  "laser-trap-smoke-recipe": {
+    "subcategory": "Trap"
+  },
+  "laser-trap-lure-recipe": {
+    "subcategory": "Trap"
+  },
+  "explosive-mine": {
+    "subcategory": "Trap"
+  },
+  "gas-mine": {
+    "subcategory": "Trap"
+  },
+  "jolt-mine": {
+    "subcategory": "Trap"
+  },
+  "pulse-mine": {
+    "subcategory": "Trap"
+  },
+  "deadline": {
+    "subcategory": "Trap"
+  },
+  "dam-utility-key": {
+    "subcategory": "Key"
+  },
+  "flushing-terminal-key": {
+    "subcategory": "Key"
+  },
+  "advanced-arc-powercell": {
+    "translations": {
+      "it": {
+        "name": "Cellula ARC Avanzata",
+        "description": "Risorsa molto preziosa rilasciata da alcuni nemici ARC"
+      }
+    },
+    "item_type": "Topside Material",
+    "subcategory": "Topside Material"
+  },
+  "advanced-electrical-components": {
+    "translations": {
+      "it": {
+        "name": "Componenti Elettrici Avanzati",
+        "description": "Si usa per creare una vasta gamma di oggetti. Si può riciclare in materiali da creazione."
+      }
+    }
+  },
+  "advanced-mechanical-components": {
+    "translations": {
+      "it": {
+        "name": "Componenti Meccanici Avanzati",
+        "description": "Utile per creare armi avanzate. Si può riciclare in materiali da creazione."
+      }
+    }
+  },
+  "agave-juice": {
+    "subcategory": "Healing"
+  },
+  "alarm-clock": {
+    "translations": {
+      "it": {
+        "name": "Sveglia",
+        "description": "Si può riciclare in materiali da creazione."
+      }
+    }
+  },
+  "ancient-fort-security-code": {
+    "hidden": true
+  },
+  "antiseptic": {
+    "translations": {
+      "it": {
+        "name": "Antisettico"
+      }
+    }
+  },
+  "anvil-i": {
+    "translations": {
+      "it": {
+        "name": "Incudine I"
+      }
+    }
+  },
+  "anvil-ii": {
+    "translations": {
+      "it": {
+        "name": "Incudine II"
+      }
+    }
+  },
+  "anvil-iii": {
+    "translations": {
+      "it": {
+        "name": "Incudine III"
+      }
+    }
+  },
+  "anvil-iv": {
+    "translations": {
+      "it": {
+        "name": "Incudine IV"
+      }
+    }
+  },
+  "anvil-splitter": {
+    "translations": {
+      "it": {
+        "name": "Spaccaincudini"
+      }
+    }
+  },
+  "aphelion-rifle": {
+    "translations": {
+      "it": {
+        "name": "Aphelion"
+      }
+    }
+  },
+  "apricot": {
+    "translations": {
+      "it": {
+        "name": "Albicocca"
+      }
+    }
+  },
+  "arc-alloy": {
+    "translations": {
+      "it": {
+        "name": "Lega ARC"
+      }
+    }
+  },
+  "arc-circuitry": {
+    "translations": {
+      "it": {
+        "name": "Circuito ARC"
+      }
+    }
+  },
+  "arc-coolant": {
+    "translations": {
+      "it": {
+        "name": "Refrigerante ARC"
+      }
+    }
+  },
+  "arc-motion-core": {
+    "translations": {
+      "it": {
+        "name": "Nucleo di movimento ARC"
+      }
+    }
+  },
+  "arc-performance-steel": {
+    "translations": {
+      "it": {
+        "name": "Acciaio Performante ARC"
+      }
+    }
+  },
+  "arc-powercell": {
+    "translations": {
+      "it": {
+        "name": "Cellula ARC"
+      }
+    }
+  },
+  "arc-synthetic-resin": {
+    "translations": {
+      "it": {
+        "name": "Resina Sintetica ARC"
+      }
+    }
   }
 }
