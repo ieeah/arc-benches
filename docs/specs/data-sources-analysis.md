@@ -7,55 +7,71 @@ Poiché Embark Studios non fornisce attualmente un'API pubblica ufficiale per i 
 ## 1. Sorgenti Primarie (Le più affidabili)
 
 ### MetaForge (metaforge.app / metaforge.gg)
-*   **Cos'è:** Piattaforma community-driven progettata per fornire API e integrazioni a sviluppatori di terze parti.
-*   **Affidabilità:** **Altissima**. È il motore che alimenta le applicazioni più popolari della community (es. *Coe.gg*). Dispone di endpoint API documentati ed è manutenuta attivamente da un team.
-*   **Ruolo nel progetto:** **Sorgente di verità principale** per i dati JSON strutturati (items, statistiche, costi). Il nostro script `scripts/fetch-items.mjs` fa bene ad appoggiarsi qui.
+*   **Cos'è:** Piattaforma community-driven leader per API e integrazioni di terze parti su *ARC Raiders*.
+*   **Affidabilità:** **Altissima**. Dispone di endpoint documentati e manutenuti attivamente.
+*   **Ruolo nel progetto:**
+    1. **Sorgente di verità catalogo oggetti:** `items.json` e icone via `scripts/fetch-items.mjs`.
+    2. **Sorgente di verità eventi live & condizioni mappe:** `GET /api/arc-raiders/events-schedule?region={region}` (orizzonte 41h, suddiviso per i 5 server regionali: `europe`, `north-america`, `south-america`, `asia`, `oceania`).
+
+### ARDB.app (ARC Raiders Database — ardb.app/api)
+*   **Cos'è:** Database strutturato e documentato della community con endpoint JSON REST dedicati.
+*   **Affidabilità:** **Molto Alta**. Espone dati dettagliati su nemici ARC, drop rate e contratti delle quest.
+*   **Ruolo nel progetto:**
+    1. **Bestiario ARC & Drop Tables (Fase 0.7.0):** `GET /api/arc-enemies` e `/api/arc-enemies/{id}`, inclusi asset vettoriali SVG (`/arc/icons/*.svg`) e drop list complete per componente.
+    2. **Quest Tracker Informativo (Fase 0.7.0):** `GET /api/quests`, con contratti, step operativi, commercianti associati e reward.
 
 ### RaidTheory/arcraiders-data (GitHub)
-*   **Cos'è:** Il repository GitHub più citato e utilizzato per il dump dei dati crudi di gioco in formato JSON. È la base dati per molti bot Discord e companion app.
-*   **Affidabilità:** **Alta**. È un progetto open-source consolidato.
-*   **Ruolo nel progetto:** **Sorgente di backup**. Se MetaForge dovesse avere dei downtime prolungati, questo repository rappresenta l'alternativa ideale per sincronizzare il nostro catalogo oggetti.
+*   **Cos'è:** Il repository GitHub più citato e utilizzato per il dump dei dati crudi di gioco in formato JSON.
+*   **Affidabilità:** **Alta**.
+*   **Ruolo nel progetto:** **Sorgente di backup**. Se MetaForge o ARDB dovessero avere downtime, rappresenta l'alternativa ideale per sincronizzare il catalogo.
 
 ### ARC Raiders Wiki (arcraiders.wiki)
 *   **Cos'è:** La wiki della community, basata su motore MediaWiki (`MediaWiki 1.43.8`).
-*   **Affidabilità:** **Altissima per i media e le icone di categoria / mappa**. Sfrutta la robusta API nativa di MediaWiki (`/w/api.php`) per l'interrogazione strutturata dei dati e dei file multimediali ad alta risoluzione (1024x1024 / 512x512 trasparenti).
-*   **Ruolo nel progetto:** **Sorgente di asset grafici & icone**. Uno script dedicato (`scripts/fetch-category-icons.mjs`) interroga le API batch di MediaWiki e genera file `.webp` ottimizzati in `public/icons/categories/`.
+*   **Affidabilità:** **Altissima per i media e le icone di categoria / mappa**. Sfrutta la robusta API nativa di MediaWiki (`/w/api.php`) per l'interrogazione batch dei file multimediali ad alta risoluzione.
+*   **Ruolo nel progetto:** **Sorgente di asset grafici & icone di categoria**. Lo script `scripts/fetch-category-icons.mjs` interroga le API batch di MediaWiki e genera file `.webp` in `public/icons/categories/`.
 
-#### Dettaglio Endpoint & Query MediaWiki (`/w/api.php`)
-
-*   **Base URL:** `https://arcraiders.wiki/w/api.php`
-*   **Query Icone di Categoria Oggetti (Batch):**
-    ```http
-    GET /w/api.php?action=query&generator=categorymembers&gcmtitle=Category:Item_category_icons&gcmlimit=50&prop=imageinfo&iiprop=url|size|mime&format=json
-    ```
-    Restituisce tutti i file della categoria `Category:Item category icons` (`Icon_Material.png`, `Icon_Blueprint.png`, `Icon_Weapon.png`, `Icon_WeaponMod.png`, `Icon_Gadget.png`, `Icon_Grenade.png`, `Icon_Key.png`, `Icon_Augment.png`, `Icon_Shield.png`, `Icon_Regenerative.png`, `Icon_Trinket.png`, `Icon_Utility.png`, `Icon_Trap.png`, `Icon_Nature.png`, `Icon_Misc.png`, `Icon_Gift.png`).
-*   **Query Icone Mappa & Condizioni (Per future estensioni mappe):**
-    ```http
-    GET /w/api.php?action=query&generator=categorymembers&gcmtitle=Category:Map_icons&gcmlimit=50&prop=imageinfo&iiprop=url|size|mime&format=json
-    GET /w/api.php?action=query&generator=categorymembers&gcmtitle=Category:Map_condition_icons&gcmlimit=50&prop=imageinfo&iiprop=url|size|mime&format=json
-    ```
-*   **Query Icone Banchi di Lavoro & Stash:**
-    ```http
-    GET /w/api.php?action=query&generator=categorymembers&gcmtitle=Category:Workshop_icons&gcmlimit=50&prop=imageinfo&iiprop=url|size|mime&format=json
-    GET /w/api.php?action=query&generator=categorymembers&gcmtitle=Category:Stash_icons&gcmlimit=50&prop=imageinfo&iiprop=url|size|mime&format=json
-    ```
+---
 
 ## 2. Sorgenti Secondarie / Alternative Tecniche
 
 ### Mahcks/arcraiders-data-api (GitHub)
-*   **Cos'è:** Un repository personale che espone i file JSON di gioco tramite REST.
-*   **Criticità:** Sebbene sia utile e ben fatto, è manutenuto da un singolo sviluppatore. Non ha la stessa scala di adozione di MetaForge o RaidTheory.
-*   **Ruolo nel progetto:** Risorsa di riserva, utile per incrociare eventuali incongruenze nei dati.
+*   **Cos'è:** Repository personale che espone i file JSON di gioco tramite REST.
+*   **Ruolo nel progetto:** Risorsa di riserva per incrociare eventuali incongruenze nei dati.
 
-## 3. Applicazioni Frontend (Non utili per i dati grezzi)
+---
 
-I seguenti strumenti sono eccellenti prodotti finali ma **non offrono API pubbliche stabili** per l'esportazione dei dati:
+## 3. Applicazioni Frontend & Ispirazione UI
 
-*   **Coe.gg:** Il companion tracker più famoso. Molto utile per trarre ispirazione su UI/UX, ma i dati sotto il cofano provengono da MetaForge.
-*   **ARC Raiders Maps (arcraidersmaps.app):** Mappa interattiva Next.js. I dati geografici (coordinate, nodi di loot) sono iniettati nell'HTML. Potrebbe essere scrapata in futuro se decidessimo di implementare indicazioni su *dove* trovare materiali specifici.
-*   **ARCTracker.io / ARDB (ardb.app):** Applicazioni web chiuse (senza API esposte). I dati sono fusi nel markup React Server Components (RSC) o HTML, rendendo lo scraping estremamente fragile.
+*   **Coe.gg:** Companion tracker di riferimento per ispirazione UI/UX. Dati alimentati da MetaForge.
+*   **ARC Raiders Maps (arcraidersmaps.app):** Mappa interattiva da cui trarre ispirazione per coordinate e nodi di loot in ottica v1.x.
+
+---
+
+---
+
+## 4. Evoluzione Architetturale: Transizione a Supabase Storage & Backoffice Next.js (Fase 0.9.0+)
+
+Con la migrazione a Next.js e Supabase, l'infrastruttura dati e asset subirà una trasformazione radicale:
+
+### A. Hosting Autonomo degli Asset (Supabase Storage)
+* **Zero Dipendenze da CDN Esterne:** Tutti gli asset grafici (icone oggetti, immagini nemici, render 3D, tile ad alta risoluzione delle mappe) verranno salvati in bucket pubblici dedicati su **Supabase Storage** (`/storage/v1/object/public/arc-assets/...`).
+* **Ruolo delle API Esterne:** MetaForge e ARDB non verranno interrogate in tempo reale dal browser per gli asset statici, ma usate esclusivamente a monte come sorgenti di aggiornamento per le nostre pipeline di sincronizzazione.
+
+### B. Gestione Ibrida: Supabase Studio vs Next.js `/admin`
+* **Supabase Studio (Dashboard Ufficiale):**
+  * Gestione tabelle Postgres, visualizzazione e query SQL su cataloghi (`items`, `workbenches`, `quests`, `map_pois`).
+  * Gestione bucket storage, permessi RLS e account utente.
+* **Next.js `/admin` (Area Operativa Protetta per Ruolo Admin):**
+  * **Sync Center:** Trigger manuale o visualizzazione job di importazione da MetaForge/ARDB, con **Visual Diff** (confronto a schermo di variazioni prezzi, ricette e nuovi oggetti prima dell'applicazione a DB).
+  * **Studio Overrides & Traduzioni:** Evoluzione delle attuali pagine dev (`DevOverridesPage`, `DevTranslationsPage`) con salvataggio diretto su database.
+  * **Map Tiler:** Script/tool per la scomposizione e l'upload automatico dei tile piramidali delle mappe.
+
+---
 
 ## Conclusioni & Workflow Asset
 
-1. **MetaForge (`scripts/fetch-items.mjs`)**: scarica e aggiorna `items.json` e le icone degli oggetti (`public/icons/items/*.webp`).
-2. **ARC Raiders Wiki MediaWiki API (`scripts/fetch-category-icons.mjs`)**: scarica e normalizza le icone di categoria (`public/icons/categories/*.webp`).
+1. **Catalogo Oggetti & Icone Base:** MetaForge (`scripts/fetch-items.mjs` $\rightarrow$ `items.json` e `public/icons/items/`).
+2. **Icone di Categoria:** ARC Raiders Wiki MediaWiki API (`scripts/fetch-category-icons.mjs` $\rightarrow$ `public/icons/categories/`).
+3. **Eventi Live Mappe:** MetaForge Events API (`/api/arc-raiders/events-schedule?region=...`).
+4. **Bestiario ARC & Quest Informative:** ARDB API (`/api/arc-enemies`, `/api/quests` e relative icone vettoriali SVG).
+5. **Storage & Sync a Regime (0.9.0+):** Supabase Storage per tutti gli asset multimediali + Next.js `/admin` per le pipeline e gli override.

@@ -12,7 +12,7 @@ Elenco dei bug, debito tecnico e miglioramenti su funzionalità esistenti in **A
 - [x] #6 [Lockfile NPM WASM Check](https://github.com/ieeah/arc-benches/issues/6)
 - [x] #7 [Overflow Componenti Floating](https://github.com/ieeah/arc-benches/issues/7)
 - [x] #8 [UX Input Numerici (Stash & Liste Custom)](https://github.com/ieeah/arc-benches/issues/8)
-- [ ] #9 [Icone Categoria Elementi](https://github.com/ieeah/arc-benches/issues/9)
+- [x] #9 [Icone Categoria Elementi](https://github.com/ieeah/arc-benches/issues/9)
 - [x] #10 [Logica Icona Refiner in Stash](https://github.com/ieeah/arc-benches/issues/10)
 - [ ] #11 [Virtualizzazione Liste](https://github.com/ieeah/arc-benches/issues/11)
 - [x] #12 [UX Catalogo e ItemPicker: Filtri, ordinamento e raggruppamento per "tipo oggetto"](https://github.com/ieeah/arc-benches/issues/12)
