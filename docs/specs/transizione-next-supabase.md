@@ -1,4 +1,4 @@
-﻿# Strategia di Transizione a Next.js & Supabase (Fase 0.9.0+)
+# Strategia di Transizione a Next.js & Supabase (Fase 0.9.0+)
 
 Questo documento formalizza la decisione architetturale e la roadmap per il passaggio dell'applicazione da prototipo/client-SPA (Vite + Tailwind + localStorage) al prodotto definitivo (Next.js + Supabase + CSS proprietario).
 
@@ -50,9 +50,23 @@ Per prevenire la *Sindrome del Secondo Sistema*, il nuovo progetto riutilizzerà
    * Continuare a utilizzare questo repository per testare la logica delle spedizioni, la dashboard, gli eventi live e consolidare i requisiti.
 2. **Inizializzazione Nuovo Repo (v0.9.0):**
    * Creazione nuovo repository Next.js + Supabase.
-   * Migrazione del *Domain Core* (lib/, 	ypes/, scripts/, docs/).
+   * Migrazione del *Domain Core* (`lib/`, `types/`, `scripts/`, `docs/`).
    * Setup dello schema database Supabase e Storage bucket.
    * Ricostruzione delle pagine e dei componenti con il nuovo design system CSS.
 3. **Chiusura & Archiviazione:**
    * Archiviazione/privatizzazione di questo repository come sandbox di ricerca.
    * Lancio ufficiale della **v1.0.0** sul nuovo repository.
+
+---
+
+## 5. Subdomain Routing & Micro-App (es. Role Maker Standalone)
+
+Con Next.js App Router e Vercel, l'architettura supporterà nativamente il **routing per sottodomini** tramite `middleware.ts`:
+
+* **Struttura dei Domini:**
+  * `arcbenches.app` / `app.arcbenches.app` $\rightarrow$ Companion Tracker principale (Banchi, Stash, Spedizioni, Dashboard, Mappe).
+  * `rolemaker.arcbenches.app` (o `role.arcbenches.app`) $\rightarrow$ Micro-app autonoma dedicata alla generazione di identità, roleplay, archetipi e lore.
+* **Vantaggi dell'Approccio Unificato in Next.js:**
+  1. **Infrastruttura Singola:** Unico progetto Next.js (o monorepo Turborepo) con routing interno gestito dal middleware di riscrittura (`NextResponse.rewrite()`).
+  2. **Single Sign-On & DB Condiviso:** Stesso database Supabase e condivisione automatica della sessione utente su tutti i sottodomini (cookie con wildcard `domain: .arcbenches.app`).
+  3. **Identità Indipendente:** Il Role Maker può essere condiviso sui social/community Discord come strumento a sé stante con un proprio layout, branding e metadati Open-Graph dedicati, senza appesantire l'interfaccia del tracker.

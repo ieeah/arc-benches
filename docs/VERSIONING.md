@@ -136,7 +136,7 @@ Changelog: [changelog/0.3.0.md](../changelog/0.3.0.md)
 - [ ] #62 [Skill Tree dei Raiders: Albero delle abilità e sinergie](https://github.com/ieeah/arc-benches/issues/62)
 - [ ] #24 [Role Maker — Estensione Biografie & Lore](https://github.com/ieeah/arc-benches/issues/24)
 - [ ] #37 [Role Maker — Arricchimento, coerenza gameplay e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)
-- [ ] #38 [Role Maker — Creazione della pagina dedicata e inserimento nel nuovo menu](https://github.com/ieeah/arc-benches/issues/38)
+- [ ] #38 [Role Maker: Creazione della pagina / micro-app autonoma su sottodominio dedicato](https://github.com/ieeah/arc-benches/issues/38)
 
 ---
 
