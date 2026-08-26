@@ -334,80 +334,90 @@ export const MorphingFloatingNav = ({
                   </button>
                 </div>
 
-                {/* 2. Corpo del Menu di Navigazione (con Morph dinamico tra root e sottomenu) */}
+                {/* 2. Corpo del Menu di Navigazione (con GPU Directional Slide-Fade fluido) */}
                 {mode === 'nav' && (
                   <div className="relative overflow-hidden w-full flex-1">
+                    {/* Pane 1: Root Menu */}
                     <div
-                      className={`flex items-start w-[200%] ${
-                        isReducedMotion ? '' : 'transition-transform duration-200 ease-out'
+                      ref={rootPaneRef}
+                      className={`w-full p-1 space-y-0.5 transform-gpu ${
+                        isReducedMotion ? '' : 'transition-all duration-200 ease-out'
                       } ${
-                        drillCategory !== null ? '-translate-x-1/2' : 'translate-x-0'
+                        drillCategory !== null
+                          ? 'opacity-0 -translate-x-4 pointer-events-none absolute inset-0'
+                          : 'opacity-100 translate-x-0 relative'
                       }`}
                     >
-                      {/* Pane 1: Root Menu */}
-                      <div ref={rootPaneRef} className="w-1/2 shrink-0 p-1 space-y-0.5">
-                        {navTree.map(item => {
-                          const hasChildren = Boolean(item.children && item.children.length > 0);
-                          const isSelected = item.id === activePage;
+                      {navTree.map(item => {
+                        const hasChildren = Boolean(item.children && item.children.length > 0);
+                        const isSelected = item.id === activePage;
 
-                          return (
-                            <button
-                              key={item.id}
-                              onClick={() => {
-                                if (hasChildren) {
-                                  setDrillCategory(item);
-                                  triggerHaptic(15);
-                                } else {
-                                  onNavigate(item.id);
-                                  closeMenu();
-                                  triggerHaptic(20);
-                                }
-                              }}
-                              className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
-                                isSelected
-                                  ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
-                                  : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                              }`}
-                            >
-                              <div className="flex items-center gap-3 truncate">
-                                {item.icon}
-                                <span className="truncate">{item.label}</span>
-                              </div>
-                              {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
-                              {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Pane 2: Sub-category Menu */}
-                      <div ref={subPaneRef} className="w-1/2 shrink-0 p-1 space-y-0.5">
-                        {(drillCategory?.children ?? []).map(item => {
-                          const isSelected = item.id === activePage;
-
-                          return (
-                            <button
-                              key={item.id}
-                              onClick={() => {
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              if (hasChildren) {
+                                setDrillCategory(item);
+                                triggerHaptic(15);
+                              } else {
                                 onNavigate(item.id);
                                 closeMenu();
                                 triggerHaptic(20);
-                              }}
-                              className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
-                                isSelected
-                                  ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
-                                  : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                              }`}
-                            >
-                              <div className="flex items-center gap-3 truncate">
-                                {item.icon}
-                                <span className="truncate">{item.label}</span>
-                              </div>
-                              {isSelected && <Check size={14} className="shrink-0" />}
-                            </button>
-                          );
-                        })}
-                      </div>
+                              }
+                            }}
+                            className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                                : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3 truncate">
+                              {item.icon}
+                              <span className="truncate">{item.label}</span>
+                            </div>
+                            {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
+                            {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Pane 2: Sub-category Menu */}
+                    <div
+                      ref={subPaneRef}
+                      className={`w-full p-1 space-y-0.5 transform-gpu ${
+                        isReducedMotion ? '' : 'transition-all duration-200 ease-out'
+                      } ${
+                        drillCategory !== null
+                          ? 'opacity-100 translate-x-0 relative'
+                          : 'opacity-0 translate-x-4 pointer-events-none absolute inset-0'
+                      }`}
+                    >
+                      {(drillCategory?.children ?? []).map(item => {
+                        const isSelected = item.id === activePage;
+
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              onNavigate(item.id);
+                              closeMenu();
+                              triggerHaptic(20);
+                            }}
+                            className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                                : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3 truncate">
+                              {item.icon}
+                              <span className="truncate">{item.label}</span>
+                            </div>
+                            {isSelected && <Check size={14} className="shrink-0" />}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
