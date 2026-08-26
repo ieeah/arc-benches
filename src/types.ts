@@ -138,6 +138,7 @@ export interface AppState {
   /** Global Settings */
   language: AppLanguage;
   navSide: 'left' | 'right';
+  navVariant: 'classic' | 'morphing';
   radialMenuEnabled: boolean;
   quickFavorites: [string, string];
   mainProfileId: string;
@@ -147,6 +148,7 @@ export interface AppState {
   stashGridDensity: 'comfortable' | 'compact';
   setLanguage: (lang: AppLanguage) => void;
   setNavSide: (side: 'left' | 'right') => void;
+  setNavVariant: (variant: 'classic' | 'morphing') => void;
   setRadialMenuEnabled: (enabled: boolean) => void;
   setQuickFavorites: (favorites: [string, string]) => void;
   setMainProfileId: (id: string) => void;

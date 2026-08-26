@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Download, EyeOff, Plus, RotateCcw, Upload } from 'lucide-react';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import { FloatingNav } from '@/components/FloatingNav';
+import { MorphingFloatingNav } from '@/components/MorphingFloatingNav';
 import type { ContextAction } from '@/components/FloatingNav';
 import { RoleMakerModal } from '@/components/RoleMakerModal';
 import { StashPage } from '@/pages/StashPage';
@@ -31,6 +32,7 @@ export default function App() {
   const [listsAction, setListsAction] = useState<ListsPageAction>(null);
 
   // Selettori Zustand
+  const navVariant = useAppStore(s => s.navVariant);
   const filterHideCompleted = useAppStore(s => s.filterHideCompleted);
   const setFilterHideCompleted = useAppStore(s => s.setFilterHideCompleted);
   const filterHideOwnedBlueprints = useAppStore(s => s.filterHideOwnedBlueprints);
@@ -155,11 +157,19 @@ export default function App() {
             </main>
 
             {activeTab !== 'list-detail' && (
-              <FloatingNav
-                activePage={activeTab}
-                onNavigate={handleNavigate}
-                contextActions={getContextActions()}
-              />
+              navVariant === 'morphing' ? (
+                <MorphingFloatingNav
+                  activePage={activeTab}
+                  onNavigate={handleNavigate}
+                  contextActions={getContextActions()}
+                />
+              ) : (
+                <FloatingNav
+                  activePage={activeTab}
+                  onNavigate={handleNavigate}
+                  contextActions={getContextActions()}
+                />
+              )
             )}
           </>
         )}

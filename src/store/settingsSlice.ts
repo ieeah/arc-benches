@@ -4,13 +4,14 @@ import { bootSettings, bootProfileState } from '@/store/boot';
 import { safeLS } from '@/lib/safeStorage';
 
 export type SettingsSlice = Pick<AppState,
-  'language' | 'navSide' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' | 'theme' | 'stashViewMode' | 'stashGridDensity' |
-  'setLanguage' | 'setNavSide' | 'setRadialMenuEnabled' | 'setQuickFavorites' | 'setMainProfileId' | 'setStartupProfileOption' | 'setTheme' | 'setStashViewMode' | 'setStashGridDensity'
+  'language' | 'navSide' | 'navVariant' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' | 'theme' | 'stashViewMode' | 'stashGridDensity' |
+  'setLanguage' | 'setNavSide' | 'setNavVariant' | 'setRadialMenuEnabled' | 'setQuickFavorites' | 'setMainProfileId' | 'setStartupProfileOption' | 'setTheme' | 'setStashViewMode' | 'setStashGridDensity'
 >;
 
 export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> = (set) => ({
   language: bootProfileState.language ?? bootSettings.language ?? 'en',
   navSide: bootSettings.navSide,
+  navVariant: bootSettings.navVariant ?? 'classic',
   radialMenuEnabled: bootSettings.radialMenuEnabled,
   quickFavorites: bootSettings.quickFavorites,
   mainProfileId: bootSettings.mainProfileId,
@@ -24,6 +25,10 @@ export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> 
     set({ language });
   },
   setNavSide: (navSide) => set({ navSide }),
+  setNavVariant: (navVariant) => {
+    safeLS(() => localStorage.setItem('nav-variant', navVariant), undefined);
+    set({ navVariant });
+  },
   setRadialMenuEnabled: (radialMenuEnabled) => set({ radialMenuEnabled }),
   setQuickFavorites: (quickFavorites) => set({ quickFavorites }),
   setMainProfileId: (mainProfileId) => set({ mainProfileId }),

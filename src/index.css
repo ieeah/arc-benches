@@ -21,6 +21,30 @@
   --card-padding: 10px;
 }
 
+/* ── Spring Physics Morphing ── */
+@utility transition-spring-morph {
+  transition-property: width, height, max-height, min-height, border-radius, padding, transform, box-shadow, background-color;
+  transition-duration: 380ms;
+  /* Fallback per browser datati: curva elastica con overshoot */
+  transition-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
+  /* Browser moderni: vera fisica a molla smorzata */
+  transition-timing-function: linear(
+    0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 20.2%,
+    1.047 24.3%, 1.032 29.4%, 0.997 39.8%, 1.001 50%, 1
+  );
+}
+
+@utility transition-spring-snappy {
+  transition-property: all;
+  transition-duration: 280ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-timing-function: linear(
+    0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%,
+    0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 60.5%,
+    1.014 66.9%, 1.001 81.3%, 0.999 89.1%, 1
+  );
+}
+
 @utility card-concentric-24 {
   --card-radius: 24px;
   --card-padding: 12px;

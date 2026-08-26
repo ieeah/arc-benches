@@ -41,6 +41,7 @@ useAppStore.subscribe((state, prev) => {
   if (
     state.language !== prev.language ||
     state.navSide !== prev.navSide ||
+    state.navVariant !== prev.navVariant ||
     state.radialMenuEnabled !== prev.radialMenuEnabled ||
     state.quickFavorites !== prev.quickFavorites ||
     state.mainProfileId !== prev.mainProfileId ||
@@ -52,6 +53,7 @@ useAppStore.subscribe((state, prev) => {
     saveSettings({
       language: state.language,
       navSide: state.navSide,
+      navVariant: state.navVariant,
       radialMenuEnabled: state.radialMenuEnabled,
       quickFavorites: state.quickFavorites,
       mainProfileId: state.mainProfileId,

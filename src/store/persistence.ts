@@ -139,6 +139,7 @@ export const SETTINGS_KEY = 'arc-raiders-tracker-settings';
 export interface AppSettingsData {
   language: AppLanguage;
   navSide: 'left' | 'right';
+  navVariant?: 'classic' | 'morphing';
   radialMenuEnabled: boolean;
   quickFavorites: [string, string];
   mainProfileId: string;
@@ -153,6 +154,7 @@ export function loadSettings(): AppSettingsData {
     const raw = localStorage.getItem(SETTINGS_KEY);
     const legacyLang = localStorage.getItem('language') as AppLanguage | null;
     const legacyNav = localStorage.getItem('nav-side') as 'left' | 'right' | null;
+    const legacyNavVariant = localStorage.getItem('nav-variant') as 'classic' | 'morphing' | null;
     const legacyRadial = localStorage.getItem('radial-menu-enabled');
     const legacyMain = localStorage.getItem('main-profile-id');
     const legacyStartup = localStorage.getItem('startup-profile-option');
@@ -190,9 +192,14 @@ export function loadSettings(): AppSettingsData {
       ? rawStashDensity
       : 'comfortable';
 
+    const navVariant: 'classic' | 'morphing' = (parsed.navVariant === 'classic' || parsed.navVariant === 'morphing')
+      ? parsed.navVariant
+      : (legacyNavVariant === 'classic' || legacyNavVariant === 'morphing' ? legacyNavVariant : 'classic');
+
     return {
       language: initialLang,
       navSide: (parsed.navSide === 'left' || parsed.navSide === 'right') ? parsed.navSide : (legacyNav === 'left' || legacyNav === 'right' ? legacyNav : 'right'),
+      navVariant,
       radialMenuEnabled: typeof parsed.radialMenuEnabled === 'boolean' ? parsed.radialMenuEnabled : (legacyRadial !== null ? legacyRadial !== 'false' : true),
       quickFavorites: favorites,
       mainProfileId: typeof parsed.mainProfileId === 'string' ? parsed.mainProfileId : (legacyMain || 'default'),
@@ -204,6 +211,7 @@ export function loadSettings(): AppSettingsData {
   }, {
     language: 'en',
     navSide: 'right',
+    navVariant: 'classic',
     radialMenuEnabled: true,
     quickFavorites: ['stash', 'liste'],
     mainProfileId: 'default',
@@ -219,6 +227,7 @@ export function saveSettings(settings: AppSettingsData) {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
     localStorage.setItem('language', settings.language);
     localStorage.setItem('nav-side', settings.navSide);
+    if (settings.navVariant) localStorage.setItem('nav-variant', settings.navVariant);
     localStorage.setItem('radial-menu-enabled', String(settings.radialMenuEnabled));
     localStorage.setItem('main-profile-id', settings.mainProfileId);
     localStorage.setItem('startup-profile-option', settings.startupProfileOption);

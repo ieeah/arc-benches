@@ -23,6 +23,8 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
 
   const navSide = useAppStore(s => s.navSide);
   const setNavSide = useAppStore(s => s.setNavSide);
+  const navVariant = useAppStore(s => s.navVariant);
+  const setNavVariant = useAppStore(s => s.setNavVariant);
   const quickFavorites = useAppStore(s => s.quickFavorites) ?? ['stash', 'liste'];
   const setQuickFavorites = useAppStore(s => s.setQuickFavorites);
   const stashGridDensity = useAppStore(s => s.stashGridDensity);
@@ -62,6 +64,12 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
   const handleNavSideChange = (side: 'left' | 'right') => {
     setNavSide(side);
     setFeedbackMsg(t('settings.feedbackNavSide', { side: side === 'right' ? t('settings.navRight') : t('settings.navLeft') }));
+    setTimeout(() => setFeedbackMsg(null), 3000);
+  };
+
+  const handleNavVariantChange = (variant: 'classic' | 'morphing') => {
+    setNavVariant(variant);
+    setFeedbackMsg(variant === 'morphing' ? 'Stile Navigazione: Morphing a Molla (Demo)' : 'Stile Navigazione: Classico (Dropdown)');
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
@@ -236,6 +244,48 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
               }`}
             >
               {t('settings.navRight')} {navSide === 'right' && <Check size={14} />}
+            </button>
+          </div>
+        </div>
+
+        <div className="h-px bg-gray-100 dark:bg-gray-800" />
+
+        {/* Stile Barra di Navigazione (Classico vs Morphing a Molla) */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-bold text-gray-800 dark:text-gray-200 flex items-center gap-1.5">
+                Stile Barra di Navigazione
+                <span className="text-[10px] bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 font-bold px-1.5 py-0.5 rounded-full">
+                  Demo
+                </span>
+              </p>
+              <p className="text-xs text-gray-500">
+                Scegli tra il dropdown classico separato e il morphing elastico a molla
+              </p>
+            </div>
+            <Sparkles size={18} className="text-purple-500" />
+          </div>
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <button
+              onClick={() => handleNavVariantChange('classic')}
+              className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                navVariant === 'classic'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Classico (Dropdown) {navVariant === 'classic' && <Check size={14} />}
+            </button>
+            <button
+              onClick={() => handleNavVariantChange('morphing')}
+              className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                navVariant === 'morphing'
+                  ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Morphing a Molla {navVariant === 'morphing' && <Check size={14} />}
             </button>
           </div>
         </div>
