@@ -30,6 +30,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 ## Versione 0.6.0 "Centro Operativo"
 - [ ] #55 [Condizioni Mappe & Eventi Live: Service multi-regione, caching 24h e preferenze](https://github.com/ieeah/arc-benches/issues/55)
 - [ ] #56 [Dashboard Minimale: Panoramica eventi live filtrabili e sintesi rifugio ad alto livello](https://github.com/ieeah/arc-benches/issues/56)
+- [ ] #66 [Telemetria & Metriche: Definizione tassonomia eventi, KPI di utilizzo e specifiche privacy](https://github.com/ieeah/arc-benches/issues/66)
 
 ---
 
@@ -52,6 +53,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - [ ] #15 [Supabase — Account & Auth (Fase 4b)](https://github.com/ieeah/arc-benches/issues/15)
 - [ ] #16 [Supabase — Sync Background Offline-First (Fase 4c)](https://github.com/ieeah/arc-benches/issues/16)
 - [ ] #65 [Backoffice & Pipeline: Area riservata Next.js (/admin) per sync dati, storage asset e studio overrides](https://github.com/ieeah/arc-benches/issues/65)
+- [ ] #67 [Telemetria & Metriche: Implementazione first-party su Route Handlers Next.js e Supabase](https://github.com/ieeah/arc-benches/issues/67)
 
 ---
 
@@ -63,6 +65,9 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 
 ## Versione 1.x "Orizzonte Tattico" (Moduli Estesi Post-Lancio)
 - [ ] #61 [Mappe Interattive: Pan/Zoom Leaflet, POI, estrattori e loot nodes su database](https://github.com/ieeah/arc-benches/issues/61)
+  - *Multi-Livello & Floor Switcher*: Gestione piani verticali sovrapposti (Stella Montis L1/L2, Blue Gate e Spaceport) con toggle del layer e filtro POI su `floor_level`.
+  - *Asset & Risoluzione*: Ricerca/estrazione del livello sotterraneo mancante di The Blue Gate e valutazione estrazione texture native in 4K/8K da Unreal Engine 5 (FModel) per massima nitidezza.
+  - *Storage Remoto*: Distribuzione dei tile esclusivamente via Supabase Storage CDN (`scripts/data/maps/` $\rightarrow$ bucket CDN), senza inclusione nel bundle statico dell'app.
 - [ ] #62 [Skill Tree dei Raiders: Albero delle abilità e sinergie](https://github.com/ieeah/arc-benches/issues/62)
 - [ ] #24 [Role Maker — Estensione Biografie & Lore](https://github.com/ieeah/arc-benches/issues/24)
 - [ ] #37 [Role Maker — Arricchimento, coerenza gameplay e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)

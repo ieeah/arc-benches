@@ -1,0 +1,185 @@
+{
+  "generatedAt": "2026-08-25T14:16:29.746Z",
+  "maps": {
+    "buried-city": {
+      "id": "buried-city",
+      "title": "Buried City",
+      "minZoom": 8,
+      "maxZoom": 12,
+      "totalTiles": 341,
+      "totalBytes": 2245010,
+      "zoomStats": {
+        "8": {
+          "tiles": 1,
+          "bytes": 9063
+        },
+        "9": {
+          "tiles": 4,
+          "bytes": 34166
+        },
+        "10": {
+          "tiles": 16,
+          "bytes": 123222
+        },
+        "11": {
+          "tiles": 64,
+          "bytes": 438402
+        },
+        "12": {
+          "tiles": 256,
+          "bytes": 1640157
+        }
+      }
+    },
+    "dam-battlegrounds": {
+      "id": "dam-battlegrounds",
+      "title": "Dam Battlegrounds",
+      "minZoom": 8,
+      "maxZoom": 12,
+      "totalTiles": 341,
+      "totalBytes": 2216640,
+      "zoomStats": {
+        "8": {
+          "tiles": 1,
+          "bytes": 6645
+        },
+        "9": {
+          "tiles": 4,
+          "bytes": 25884
+        },
+        "10": {
+          "tiles": 16,
+          "bytes": 101217
+        },
+        "11": {
+          "tiles": 64,
+          "bytes": 402210
+        },
+        "12": {
+          "tiles": 256,
+          "bytes": 1680684
+        }
+      }
+    },
+    "spaceport": {
+      "id": "spaceport",
+      "title": "Spaceport (Acerra)",
+      "minZoom": 8,
+      "maxZoom": 12,
+      "totalTiles": 341,
+      "totalBytes": 1844810,
+      "zoomStats": {
+        "8": {
+          "tiles": 1,
+          "bytes": 5920
+        },
+        "9": {
+          "tiles": 4,
+          "bytes": 22956
+        },
+        "10": {
+          "tiles": 16,
+          "bytes": 88446
+        },
+        "11": {
+          "tiles": 64,
+          "bytes": 343256
+        },
+        "12": {
+          "tiles": 256,
+          "bytes": 1384232
+        }
+      }
+    },
+    "the-blue-gate": {
+      "id": "the-blue-gate",
+      "title": "The Blue Gate",
+      "minZoom": 8,
+      "maxZoom": 12,
+      "totalTiles": 341,
+      "totalBytes": 2224478,
+      "zoomStats": {
+        "8": {
+          "tiles": 1,
+          "bytes": 7654
+        },
+        "9": {
+          "tiles": 4,
+          "bytes": 29342
+        },
+        "10": {
+          "tiles": 16,
+          "bytes": 112528
+        },
+        "11": {
+          "tiles": 64,
+          "bytes": 430442
+        },
+        "12": {
+          "tiles": 256,
+          "bytes": 1644512
+        }
+      }
+    },
+    "stella-montis": {
+      "id": "stella-montis",
+      "title": "Stella Montis",
+      "minZoom": 8,
+      "maxZoom": 12,
+      "totalTiles": 341,
+      "totalBytes": 2736241,
+      "zoomStats": {
+        "8": {
+          "tiles": 1,
+          "bytes": 12167
+        },
+        "9": {
+          "tiles": 4,
+          "bytes": 43838
+        },
+        "10": {
+          "tiles": 16,
+          "bytes": 155527
+        },
+        "11": {
+          "tiles": 64,
+          "bytes": 549972
+        },
+        "12": {
+          "tiles": 256,
+          "bytes": 1974737
+        }
+      }
+    },
+    "riven-tides": {
+      "id": "riven-tides",
+      "title": "Riven Tides",
+      "minZoom": 8,
+      "maxZoom": 12,
+      "totalTiles": 341,
+      "totalBytes": 2229016,
+      "zoomStats": {
+        "8": {
+          "tiles": 1,
+          "bytes": 10276
+        },
+        "9": {
+          "tiles": 4,
+          "bytes": 36928
+        },
+        "10": {
+          "tiles": 16,
+          "bytes": 130206
+        },
+        "11": {
+          "tiles": 64,
+          "bytes": 456694
+        },
+        "12": {
+          "tiles": 256,
+          "bytes": 1594912
+        }
+      }
+    }
+  }
+}
