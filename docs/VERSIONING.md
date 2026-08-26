@@ -83,6 +83,7 @@ Changelog: [changelog/0.3.0.md](../changelog/0.3.0.md)
 - [x] #48 [Scroll non bloccato quando gli overlay sono aperti](https://github.com/ieeah/arc-benches/issues/48)
 - [x] #49 [i18n: Estensione del multilingua a tutti i componenti dell'UI](https://github.com/ieeah/arc-benches/issues/49)
 - [x] #50 [UI/UX: Refactor Pills di Ordinamento con label fissa e slot toggle](https://github.com/ieeah/arc-benches/issues/50)
+- [x] #68 [Navigazione Morphing a Molla con Navigation Stack e Gestione Animazioni Ridotte](https://github.com/ieeah/arc-benches/issues/68)
 - [ ] #51 [Navigazione: Store centralizzato, memorizzazione ultima pagina e predisposizione App Router](https://github.com/ieeah/arc-benches/issues/51)
 - [ ] #54 [Layout & Legal: Disclaimer non-affiliazione Embark Studios e attribuzioni dati MetaForge/ARDB](https://github.com/ieeah/arc-benches/issues/54)
 
@@ -99,6 +100,7 @@ Changelog: [changelog/0.3.0.md](../changelog/0.3.0.md)
 ## 0.6.0 "Centro Operativo" — Dashboard Minimale & Eventi Live — Non ancora raggiunta
 - [ ] #55 [Condizioni Mappe & Eventi Live: Service multi-regione, caching 24h e preferenze](https://github.com/ieeah/arc-benches/issues/55)
 - [ ] #56 [Dashboard Minimale: Panoramica eventi live filtrabili e sintesi rifugio ad alto livello](https://github.com/ieeah/arc-benches/issues/56)
+- [ ] #66 [Telemetria & Metriche: Definizione tassonomia eventi, KPI di utilizzo e specifiche privacy](https://github.com/ieeah/arc-benches/issues/66)
 
 ---
 
@@ -121,6 +123,7 @@ Changelog: [changelog/0.3.0.md](../changelog/0.3.0.md)
 - [ ] #15 [Supabase — Account & Auth (Fase 4b)](https://github.com/ieeah/arc-benches/issues/15)
 - [ ] #16 [Supabase — Sync Background Offline-First (Fase 4c)](https://github.com/ieeah/arc-benches/issues/16)
 - [ ] #65 [Backoffice & Pipeline: Area riservata Next.js (/admin) per sync dati, storage asset e studio overrides](https://github.com/ieeah/arc-benches/issues/65)
+- [ ] #67 [Telemetria & Metriche: Implementazione first-party su Route Handlers Next.js e Supabase](https://github.com/ieeah/arc-benches/issues/67)
 
 ---
 
