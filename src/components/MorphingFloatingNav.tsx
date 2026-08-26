@@ -60,36 +60,41 @@ export const MorphingFloatingNav = ({
 
   const [mode, setMode] = useState<MorphMode>('idle');
   const [profilesDrawerOpen, setProfilesDrawerOpen] = useState(false);
-  const [drillCategory, setDrillCategory] = useState<NavItem | null>(null);
+  const [navStack, setNavStack] = useState<NavItem[]>([]);
+  const [transitionState, setTransitionState] = useState<{
+    prevItems: NavItem[] | null;
+    direction: 'forward' | 'backward' | null;
+  }>({ prevItems: null, direction: null });
 
   const isOpen = mode !== 'idle';
   useScrollLock(isOpen, false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const rootPaneRef = useRef<HTMLDivElement>(null);
-  const subPaneRef = useRef<HTMLDivElement>(null);
   const contextPaneRef = useRef<HTMLDivElement>(null);
   const mainBtnRef = useRef<HTMLButtonElement>(null);
   const pressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isLongPressRef = useRef(false);
-  // Calcolo altezza per sottomenu e container
-  const [menuHeight, setMenuHeight] = useState<number | undefined>(undefined);
+
+  // Calcolo elementi correnti per la vista attiva
+  const currentItems = useMemo(() => {
+    if (navStack.length === 0) return navTree;
+    return navStack[navStack.length - 1].children ?? [];
+  }, [navStack, navTree]);
+
+  // Calcolo dinamico dell'altezza del container per il morphing elastico
   const [dynamicHeight, setDynamicHeight] = useState<number>(68);
 
   useEffect(() => {
     if (mode === 'idle') {
-      setMenuHeight(undefined);
       setDynamicHeight(68);
       return;
     }
 
     if (mode === 'nav') {
-      const targetEl = drillCategory !== null ? subPaneRef.current : rootPaneRef.current;
-      const targetH = targetEl?.scrollHeight ?? 240;
-      setMenuHeight(targetH);
-      const headerH = headerRef.current?.offsetHeight ?? 44;
-      const total = headerH + targetH + 22;
+      const itemCount = currentItems.length;
+      const bodyH = Math.min(350, itemCount * 44 + 10);
+      const total = 44 + bodyH + 20;
       const maxAllowed = typeof window !== 'undefined' ? window.innerHeight * 0.75 : 500;
       setDynamicHeight(Math.min(maxAllowed, total));
     } else if (mode === 'context') {
@@ -99,7 +104,30 @@ export const MorphingFloatingNav = ({
       const maxAllowed = typeof window !== 'undefined' ? window.innerHeight * 0.75 : 500;
       setDynamicHeight(Math.min(maxAllowed, total));
     }
-  }, [mode, drillCategory, navTree, contextActions]);
+  }, [mode, currentItems, navTree, contextActions]);
+
+  // Cleanup automatico transizione slide a fine animazione
+  useEffect(() => {
+    if (transitionState.direction !== null) {
+      const timer = setTimeout(() => {
+        setTransitionState({ prevItems: null, direction: null });
+      }, 230);
+      return () => clearTimeout(timer);
+    }
+  }, [transitionState]);
+
+  const handlePushCategory = (category: NavItem) => {
+    setTransitionState({ prevItems: currentItems, direction: 'forward' });
+    setNavStack(prev => [...prev, category]);
+    triggerHaptic(15);
+  };
+
+  const handlePopCategory = () => {
+    if (navStack.length === 0) return;
+    setTransitionState({ prevItems: currentItems, direction: 'backward' });
+    setNavStack(prev => prev.slice(0, -1));
+    triggerHaptic(15);
+  };
 
   const fav1 = quickFavorites[0] ?? 'stash';
   const fav2 = quickFavorites[1] ?? 'liste';
@@ -126,7 +154,8 @@ export const MorphingFloatingNav = ({
 
   const closeMenu = useCallback(() => {
     setMode('idle');
-    setDrillCategory(null);
+    setNavStack([]);
+    setTransitionState({ prevItems: null, direction: null });
     isLongPressRef.current = false;
     if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
   }, []);
@@ -183,10 +212,46 @@ export const MorphingFloatingNav = ({
       closeMenu();
     } else {
       setMode('context');
-      setDrillCategory(null);
+      setNavStack([]);
       triggerHaptic(20);
     }
   };
+
+  const renderItemList = (itemList: NavItem[]) => (
+    <div className="p-1 space-y-0.5 overflow-y-auto max-h-[60vh]">
+      {itemList.map(item => {
+        const hasChildren = Boolean(item.children && item.children.length > 0);
+        const isSelected = item.id === activePage;
+
+        return (
+          <button
+            key={item.id}
+            onClick={() => {
+              if (hasChildren) {
+                handlePushCategory(item);
+              } else {
+                onNavigate(item.id);
+                closeMenu();
+                triggerHaptic(20);
+              }
+            }}
+            className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-colors cursor-pointer ${
+              isSelected
+                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            <div className="flex items-center gap-3 truncate">
+              {item.icon}
+              <span className="truncate">{item.label}</span>
+            </div>
+            {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
+            {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
+          </button>
+        );
+      })}
+    </div>
+  );
 
   const isAnchorRight = navSide === 'right';
 
@@ -299,12 +364,12 @@ export const MorphingFloatingNav = ({
                   ref={headerRef}
                   className="flex items-center justify-between px-2 py-1.5 mb-1 border-b border-gray-100 dark:border-gray-800 shrink-0"
                 >
-                  {mode === 'nav' && drillCategory !== null ? (
+                  {mode === 'nav' && navStack.length > 0 ? (
                     <button
-                      onClick={() => setDrillCategory(null)}
+                      onClick={handlePopCategory}
                       className="flex items-center gap-1 text-xs font-bold text-blue-500 hover:text-blue-600 active:scale-95 transition-all cursor-pointer"
                     >
-                      <ChevronLeft size={16} /> {drillCategory.label}
+                      <ChevronLeft size={16} /> {navStack[navStack.length - 1].label}
                     </button>
                   ) : mode === 'nav' ? (
                     <span className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -325,89 +390,31 @@ export const MorphingFloatingNav = ({
                   </button>
                 </div>
 
-                {/* 2. Corpo del Menu di Navigazione (Sliding Panes Container identico a FloatingNav) */}
+                {/* 2. Corpo del Menu di Navigazione (Navigation Stack a 2 Viste con slide GPU) */}
                 {mode === 'nav' && (
-                  <div
-                    className={`relative overflow-hidden w-full ${
-                      isReducedMotion ? '' : 'transition-[height] duration-250 ease-out'
-                    }`}
-                    style={{
-                      height: menuHeight !== undefined ? `${menuHeight}px` : 'auto',
-                      maxHeight: '60vh',
-                    }}
-                  >
+                  <div className="relative overflow-hidden w-full flex-1">
+                    {transitionState.prevItems && transitionState.direction && !isReducedMotion && (
+                      <div
+                        className={`absolute inset-0 w-full ${
+                          transitionState.direction === 'forward'
+                            ? 'animate-stack-out-left'
+                            : 'animate-stack-out-right'
+                        }`}
+                      >
+                        {renderItemList(transitionState.prevItems)}
+                      </div>
+                    )}
+
                     <div
-                      className={`flex items-start w-[200%] ${
-                        isReducedMotion ? '' : 'transition-transform duration-250 ease-out'
+                      className={`w-full relative ${
+                        transitionState.direction && !isReducedMotion
+                          ? transitionState.direction === 'forward'
+                            ? 'animate-stack-in-right'
+                            : 'animate-stack-in-left'
+                          : ''
                       }`}
-                      style={{
-                        transform: drillCategory !== null ? 'translateX(-50%)' : 'translateX(0%)',
-                      }}
                     >
-                      {/* Pane 1: Root Menu */}
-                      <div ref={rootPaneRef} className="w-1/2 shrink-0 p-1 space-y-0.5 overflow-y-auto max-h-[60vh]">
-                        {navTree.map(item => {
-                          const hasChildren = Boolean(item.children && item.children.length > 0);
-                          const isSelected = item.id === activePage;
-
-                          return (
-                            <button
-                              key={item.id}
-                              onClick={() => {
-                                if (hasChildren) {
-                                  setDrillCategory(item);
-                                  triggerHaptic(15);
-                                } else {
-                                  onNavigate(item.id);
-                                  closeMenu();
-                                  triggerHaptic(20);
-                                }
-                              }}
-                              className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
-                                isSelected
-                                  ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
-                                  : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                              }`}
-                            >
-                              <div className="flex items-center gap-3 truncate">
-                                {item.icon}
-                                <span className="truncate">{item.label}</span>
-                              </div>
-                              {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
-                              {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Pane 2: Sub-category Menu */}
-                      <div ref={subPaneRef} className="w-1/2 shrink-0 p-1 space-y-0.5 overflow-y-auto max-h-[60vh]">
-                        {(drillCategory?.children ?? []).map(item => {
-                          const isSelected = item.id === activePage;
-
-                          return (
-                            <button
-                              key={item.id}
-                              onClick={() => {
-                                onNavigate(item.id);
-                                closeMenu();
-                                triggerHaptic(20);
-                              }}
-                              className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
-                                isSelected
-                                  ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
-                                  : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                              }`}
-                            >
-                              <div className="flex items-center gap-3 truncate">
-                                {item.icon}
-                                <span className="truncate">{item.label}</span>
-                              </div>
-                              {isSelected && <Check size={14} className="shrink-0" />}
-                            </button>
-                          );
-                        })}
-                      </div>
+                      {renderItemList(currentItems)}
                     </div>
                   </div>
                 )}
