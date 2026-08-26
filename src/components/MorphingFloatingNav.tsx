@@ -73,41 +73,32 @@ export const MorphingFloatingNav = ({
   const mainBtnRef = useRef<HTMLButtonElement>(null);
   const pressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isLongPressRef = useRef(false);
-
-  // Calcolo dinamico dell'altezza del container per il morphing fluido ad ogni sottomenu/sezione
+  // Calcolo altezza per sottomenu e container
+  const [menuHeight, setMenuHeight] = useState<number | undefined>(undefined);
   const [dynamicHeight, setDynamicHeight] = useState<number>(68);
 
   useEffect(() => {
     if (mode === 'idle') {
+      setMenuHeight(undefined);
       setDynamicHeight(68);
       return;
     }
 
-    // Piccolo rinvio per consentire al DOM di montare il pannello attivo
-    const measure = () => {
+    if (mode === 'nav') {
+      const targetEl = drillCategory !== null ? subPaneRef.current : rootPaneRef.current;
+      const targetH = targetEl?.scrollHeight ?? 240;
+      setMenuHeight(targetH);
       const headerH = headerRef.current?.offsetHeight ?? 44;
-      let bodyH = 0;
-
-      if (mode === 'nav') {
-        const activePane = drillCategory !== null ? subPaneRef.current : rootPaneRef.current;
-        if (activePane) {
-          bodyH = activePane.scrollHeight;
-        }
-      } else if (mode === 'context') {
-        if (contextPaneRef.current) {
-          bodyH = contextPaneRef.current.scrollHeight;
-        }
-      }
-
-      // Padding container (20px) + Header + Body
+      const total = headerH + targetH + 22;
+      const maxAllowed = typeof window !== 'undefined' ? window.innerHeight * 0.75 : 500;
+      setDynamicHeight(Math.min(maxAllowed, total));
+    } else if (mode === 'context') {
+      const headerH = headerRef.current?.offsetHeight ?? 44;
+      const bodyH = contextPaneRef.current?.scrollHeight ?? 200;
       const total = headerH + bodyH + 22;
       const maxAllowed = typeof window !== 'undefined' ? window.innerHeight * 0.75 : 500;
-      setDynamicHeight(Math.min(maxAllowed, Math.max(120, total)));
-    };
-
-    measure();
-    const timer = setTimeout(measure, 10);
-    return () => clearTimeout(timer);
+      setDynamicHeight(Math.min(maxAllowed, total));
+    }
   }, [mode, drillCategory, navTree, contextActions]);
 
   const fav1 = quickFavorites[0] ?? 'stash';
@@ -334,90 +325,89 @@ export const MorphingFloatingNav = ({
                   </button>
                 </div>
 
-                {/* 2. Corpo del Menu di Navigazione (con GPU Directional Slide-Fade fluido) */}
+                {/* 2. Corpo del Menu di Navigazione (Sliding Panes Container identico a FloatingNav) */}
                 {mode === 'nav' && (
-                  <div className="relative overflow-hidden w-full flex-1">
-                    {/* Pane 1: Root Menu */}
+                  <div
+                    className={`relative overflow-hidden w-full ${
+                      isReducedMotion ? '' : 'transition-[height] duration-250 ease-out'
+                    }`}
+                    style={{
+                      height: menuHeight !== undefined ? `${menuHeight}px` : 'auto',
+                      maxHeight: '60vh',
+                    }}
+                  >
                     <div
-                      ref={rootPaneRef}
-                      className={`w-full p-1 space-y-0.5 transform-gpu ${
-                        isReducedMotion ? '' : 'transition-all duration-200 ease-out'
-                      } ${
-                        drillCategory !== null
-                          ? 'opacity-0 -translate-x-4 pointer-events-none absolute inset-0'
-                          : 'opacity-100 translate-x-0 relative'
+                      className={`flex items-start w-[200%] ${
+                        isReducedMotion ? '' : 'transition-transform duration-250 ease-out'
                       }`}
+                      style={{
+                        transform: drillCategory !== null ? 'translateX(-50%)' : 'translateX(0%)',
+                      }}
                     >
-                      {navTree.map(item => {
-                        const hasChildren = Boolean(item.children && item.children.length > 0);
-                        const isSelected = item.id === activePage;
+                      {/* Pane 1: Root Menu */}
+                      <div ref={rootPaneRef} className="w-1/2 shrink-0 p-1 space-y-0.5 overflow-y-auto max-h-[60vh]">
+                        {navTree.map(item => {
+                          const hasChildren = Boolean(item.children && item.children.length > 0);
+                          const isSelected = item.id === activePage;
 
-                        return (
-                          <button
-                            key={item.id}
-                            onClick={() => {
-                              if (hasChildren) {
-                                setDrillCategory(item);
-                                triggerHaptic(15);
-                              } else {
+                          return (
+                            <button
+                              key={item.id}
+                              onClick={() => {
+                                if (hasChildren) {
+                                  setDrillCategory(item);
+                                  triggerHaptic(15);
+                                } else {
+                                  onNavigate(item.id);
+                                  closeMenu();
+                                  triggerHaptic(20);
+                                }
+                              }}
+                              className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
+                                isSelected
+                                  ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                                  : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3 truncate">
+                                {item.icon}
+                                <span className="truncate">{item.label}</span>
+                              </div>
+                              {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
+                              {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Pane 2: Sub-category Menu */}
+                      <div ref={subPaneRef} className="w-1/2 shrink-0 p-1 space-y-0.5 overflow-y-auto max-h-[60vh]">
+                        {(drillCategory?.children ?? []).map(item => {
+                          const isSelected = item.id === activePage;
+
+                          return (
+                            <button
+                              key={item.id}
+                              onClick={() => {
                                 onNavigate(item.id);
                                 closeMenu();
                                 triggerHaptic(20);
-                              }
-                            }}
-                            className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
-                              isSelected
-                                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
-                                : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                            }`}
-                          >
-                            <div className="flex items-center gap-3 truncate">
-                              {item.icon}
-                              <span className="truncate">{item.label}</span>
-                            </div>
-                            {hasChildren && <ChevronRight size={14} className="opacity-60 shrink-0" />}
-                            {isSelected && !hasChildren && <Check size={14} className="shrink-0" />}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Pane 2: Sub-category Menu */}
-                    <div
-                      ref={subPaneRef}
-                      className={`w-full p-1 space-y-0.5 transform-gpu ${
-                        isReducedMotion ? '' : 'transition-all duration-200 ease-out'
-                      } ${
-                        drillCategory !== null
-                          ? 'opacity-100 translate-x-0 relative'
-                          : 'opacity-0 translate-x-4 pointer-events-none absolute inset-0'
-                      }`}
-                    >
-                      {(drillCategory?.children ?? []).map(item => {
-                        const isSelected = item.id === activePage;
-
-                        return (
-                          <button
-                            key={item.id}
-                            onClick={() => {
-                              onNavigate(item.id);
-                              closeMenu();
-                              triggerHaptic(20);
-                            }}
-                            className={`w-full flex items-center justify-between gap-3 px-3 py-2 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
-                              isSelected
-                                ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
-                                : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                            }`}
-                          >
-                            <div className="flex items-center gap-3 truncate">
-                              {item.icon}
-                              <span className="truncate">{item.label}</span>
-                            </div>
-                            {isSelected && <Check size={14} className="shrink-0" />}
-                          </button>
-                        );
-                      })}
+                              }}
+                              className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl text-xs font-bold text-left transition-all cursor-pointer ${
+                                isSelected
+                                  ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                                  : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3 truncate">
+                                {item.icon}
+                                <span className="truncate">{item.label}</span>
+                              </div>
+                              {isSelected && <Check size={14} className="shrink-0" />}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 )}
