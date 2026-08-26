@@ -4,14 +4,15 @@ import { bootSettings, bootProfileState } from '@/store/boot';
 import { safeLS } from '@/lib/safeStorage';
 
 export type SettingsSlice = Pick<AppState,
-  'language' | 'navSide' | 'navVariant' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' | 'theme' | 'stashViewMode' | 'stashGridDensity' |
-  'setLanguage' | 'setNavSide' | 'setNavVariant' | 'setRadialMenuEnabled' | 'setQuickFavorites' | 'setMainProfileId' | 'setStartupProfileOption' | 'setTheme' | 'setStashViewMode' | 'setStashGridDensity'
+  'language' | 'navSide' | 'navVariant' | 'reducedMotion' | 'radialMenuEnabled' | 'quickFavorites' | 'mainProfileId' | 'startupProfileOption' | 'theme' | 'stashViewMode' | 'stashGridDensity' |
+  'setLanguage' | 'setNavSide' | 'setNavVariant' | 'setReducedMotion' | 'setRadialMenuEnabled' | 'setQuickFavorites' | 'setMainProfileId' | 'setStartupProfileOption' | 'setTheme' | 'setStashViewMode' | 'setStashGridDensity'
 >;
 
 export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> = (set) => ({
   language: bootProfileState.language ?? bootSettings.language ?? 'en',
   navSide: bootSettings.navSide,
   navVariant: bootSettings.navVariant ?? 'classic',
+  reducedMotion: bootSettings.reducedMotion ?? 'auto',
   radialMenuEnabled: bootSettings.radialMenuEnabled,
   quickFavorites: bootSettings.quickFavorites,
   mainProfileId: bootSettings.mainProfileId,
@@ -28,6 +29,13 @@ export const createSettingsSlice: StateCreator<AppState, [], [], SettingsSlice> 
   setNavVariant: (navVariant) => {
     safeLS(() => localStorage.setItem('nav-variant', navVariant), undefined);
     set({ navVariant });
+  },
+  setReducedMotion: (reducedMotion) => {
+    safeLS(() => localStorage.setItem('reduced-motion', reducedMotion), undefined);
+    if (typeof document !== 'undefined') {
+      document.documentElement.dataset.reducedMotion = reducedMotion;
+    }
+    set({ reducedMotion });
   },
   setRadialMenuEnabled: (radialMenuEnabled) => set({ radialMenuEnabled }),
   setQuickFavorites: (quickFavorites) => set({ quickFavorites }),

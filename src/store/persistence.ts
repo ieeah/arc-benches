@@ -140,6 +140,7 @@ export interface AppSettingsData {
   language: AppLanguage;
   navSide: 'left' | 'right';
   navVariant?: 'classic' | 'morphing';
+  reducedMotion?: 'auto' | 'reduce' | 'normal';
   radialMenuEnabled: boolean;
   quickFavorites: [string, string];
   mainProfileId: string;
@@ -155,6 +156,7 @@ export function loadSettings(): AppSettingsData {
     const legacyLang = localStorage.getItem('language') as AppLanguage | null;
     const legacyNav = localStorage.getItem('nav-side') as 'left' | 'right' | null;
     const legacyNavVariant = localStorage.getItem('nav-variant') as 'classic' | 'morphing' | null;
+    const legacyReducedMotion = localStorage.getItem('reduced-motion') as 'auto' | 'reduce' | 'normal' | null;
     const legacyRadial = localStorage.getItem('radial-menu-enabled');
     const legacyMain = localStorage.getItem('main-profile-id');
     const legacyStartup = localStorage.getItem('startup-profile-option');
@@ -196,10 +198,19 @@ export function loadSettings(): AppSettingsData {
       ? parsed.navVariant
       : (legacyNavVariant === 'classic' || legacyNavVariant === 'morphing' ? legacyNavVariant : 'classic');
 
+    const reducedMotion: 'auto' | 'reduce' | 'normal' = (parsed.reducedMotion === 'auto' || parsed.reducedMotion === 'reduce' || parsed.reducedMotion === 'normal')
+      ? parsed.reducedMotion
+      : (legacyReducedMotion === 'auto' || legacyReducedMotion === 'reduce' || legacyReducedMotion === 'normal' ? legacyReducedMotion : 'auto');
+
+    if (typeof document !== 'undefined') {
+      document.documentElement.dataset.reducedMotion = reducedMotion;
+    }
+
     return {
       language: initialLang,
       navSide: (parsed.navSide === 'left' || parsed.navSide === 'right') ? parsed.navSide : (legacyNav === 'left' || legacyNav === 'right' ? legacyNav : 'right'),
       navVariant,
+      reducedMotion,
       radialMenuEnabled: typeof parsed.radialMenuEnabled === 'boolean' ? parsed.radialMenuEnabled : (legacyRadial !== null ? legacyRadial !== 'false' : true),
       quickFavorites: favorites,
       mainProfileId: typeof parsed.mainProfileId === 'string' ? parsed.mainProfileId : (legacyMain || 'default'),
@@ -212,6 +223,7 @@ export function loadSettings(): AppSettingsData {
     language: 'en',
     navSide: 'right',
     navVariant: 'classic',
+    reducedMotion: 'auto',
     radialMenuEnabled: true,
     quickFavorites: ['stash', 'liste'],
     mainProfileId: 'default',
@@ -228,6 +240,7 @@ export function saveSettings(settings: AppSettingsData) {
     localStorage.setItem('language', settings.language);
     localStorage.setItem('nav-side', settings.navSide);
     if (settings.navVariant) localStorage.setItem('nav-variant', settings.navVariant);
+    if (settings.reducedMotion) localStorage.setItem('reduced-motion', settings.reducedMotion);
     localStorage.setItem('radial-menu-enabled', String(settings.radialMenuEnabled));
     localStorage.setItem('main-profile-id', settings.mainProfileId);
     localStorage.setItem('startup-profile-option', settings.startupProfileOption);

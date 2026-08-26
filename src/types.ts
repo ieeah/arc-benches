@@ -139,6 +139,7 @@ export interface AppState {
   language: AppLanguage;
   navSide: 'left' | 'right';
   navVariant: 'classic' | 'morphing';
+  reducedMotion: 'auto' | 'reduce' | 'normal';
   radialMenuEnabled: boolean;
   quickFavorites: [string, string];
   mainProfileId: string;
@@ -149,6 +150,7 @@ export interface AppState {
   setLanguage: (lang: AppLanguage) => void;
   setNavSide: (side: 'left' | 'right') => void;
   setNavVariant: (variant: 'classic' | 'morphing') => void;
+  setReducedMotion: (mode: 'auto' | 'reduce' | 'normal') => void;
   setRadialMenuEnabled: (enabled: boolean) => void;
   setQuickFavorites: (favorites: [string, string]) => void;
   setMainProfileId: (id: string) => void;

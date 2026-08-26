@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
   Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages,
-  Code2, FileJson, FlaskConical
+  Code2, FileJson, FlaskConical, Zap, ZapOff
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -25,6 +25,8 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
   const setNavSide = useAppStore(s => s.setNavSide);
   const navVariant = useAppStore(s => s.navVariant);
   const setNavVariant = useAppStore(s => s.setNavVariant);
+  const reducedMotion = useAppStore(s => s.reducedMotion) ?? 'auto';
+  const setReducedMotion = useAppStore(s => s.setReducedMotion);
   const quickFavorites = useAppStore(s => s.quickFavorites) ?? ['stash', 'liste'];
   const setQuickFavorites = useAppStore(s => s.setQuickFavorites);
   const stashGridDensity = useAppStore(s => s.stashGridDensity);
@@ -70,6 +72,17 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
   const handleNavVariantChange = (variant: 'classic' | 'morphing') => {
     setNavVariant(variant);
     setFeedbackMsg(variant === 'morphing' ? 'Stile Navigazione: Morphing a Molla (Demo)' : 'Stile Navigazione: Classico (Dropdown)');
+    setTimeout(() => setFeedbackMsg(null), 3000);
+  };
+
+  const handleReducedMotionChange = (mode: 'auto' | 'reduce' | 'normal') => {
+    setReducedMotion(mode);
+    const labels = {
+      auto: 'Animazioni: Automatico (Segui Sistema)',
+      reduce: 'Animazioni: Disattivate (Movimento Ridotto)',
+      normal: 'Animazioni: Sempre Attive',
+    };
+    setFeedbackMsg(labels[mode]);
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
@@ -286,6 +299,58 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
               }`}
             >
               Morphing a Molla {navVariant === 'morphing' && <Check size={14} />}
+            </button>
+          </div>
+        </div>
+
+        <div className="h-px bg-gray-100 dark:bg-gray-800" />
+
+        {/* Effetti e Animazioni (Movimento Ridotto) */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
+                Effetti e Animazioni
+              </p>
+              <p className="text-xs text-gray-500">
+                Gestisci le transizioni e il movimento ridotto (accessibilità e performance)
+              </p>
+            </div>
+            {reducedMotion === 'reduce' ? <ZapOff size={18} className="text-amber-500" /> : <Zap size={18} className="text-blue-500" />}
+          </div>
+          <div className="grid grid-cols-3 gap-2 pt-1">
+            <button
+              onClick={() => handleReducedMotionChange('auto')}
+              className={`p-2.5 rounded-2xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                reducedMotion === 'auto'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <span>Sistema</span>
+              <span className="text-[10px] opacity-75 font-normal">Auto</span>
+            </button>
+            <button
+              onClick={() => handleReducedMotionChange('reduce')}
+              className={`p-2.5 rounded-2xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                reducedMotion === 'reduce'
+                  ? 'bg-amber-600 text-white border-amber-600 shadow-md shadow-amber-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <span>Ridotte</span>
+              <span className="text-[10px] opacity-75 font-normal">Off</span>
+            </button>
+            <button
+              onClick={() => handleReducedMotionChange('normal')}
+              className={`p-2.5 rounded-2xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                reducedMotion === 'normal'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <span>Attive</span>
+              <span className="text-[10px] opacity-75 font-normal">On</span>
             </button>
           </div>
         </div>

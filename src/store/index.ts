@@ -42,6 +42,7 @@ useAppStore.subscribe((state, prev) => {
     state.language !== prev.language ||
     state.navSide !== prev.navSide ||
     state.navVariant !== prev.navVariant ||
+    state.reducedMotion !== prev.reducedMotion ||
     state.radialMenuEnabled !== prev.radialMenuEnabled ||
     state.quickFavorites !== prev.quickFavorites ||
     state.mainProfileId !== prev.mainProfileId ||
@@ -50,10 +51,14 @@ useAppStore.subscribe((state, prev) => {
     state.stashViewMode !== prev.stashViewMode ||
     state.stashGridDensity !== prev.stashGridDensity
   ) {
+    if (typeof document !== 'undefined' && state.reducedMotion !== prev.reducedMotion) {
+      document.documentElement.dataset.reducedMotion = state.reducedMotion;
+    }
     saveSettings({
       language: state.language,
       navSide: state.navSide,
       navVariant: state.navVariant,
+      reducedMotion: state.reducedMotion,
       radialMenuEnabled: state.radialMenuEnabled,
       quickFavorites: state.quickFavorites,
       mainProfileId: state.mainProfileId,

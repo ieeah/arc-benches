@@ -8,6 +8,7 @@ import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { useIsOverlayOpen } from '@/hooks/useOverlayCount';
 import { useScrollLock } from '@/hooks/useScrollLock';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useTranslation } from '@/i18n';
 import type { NavItem, FloatingNavProps } from '@/components/FloatingNav';
 
@@ -26,6 +27,7 @@ export const MorphingFloatingNav = ({
   const storeNavSide = useAppStore(s => s.navSide);
   const navSide = navSideProp ?? storeNavSide;
   const isOverlayOpen = useIsOverlayOpen();
+  const isReducedMotion = useReducedMotion();
 
   const navTree: NavItem[] = useMemo(() => items ?? [
     { id: 'stash', label: t('nav.stash'), icon: <Backpack size={18} /> },
@@ -233,15 +235,17 @@ export const MorphingFloatingNav = ({
               width: isOpen ? '304px' : '136px',
               borderRadius: isOpen ? '26px' : '34px',
             }}
-            className={`relative mb-6 overflow-hidden pointer-events-auto transform-gpu transition-spring-morph select-none shadow-2xl border border-gray-200/80 dark:border-gray-800 ${
-              isOpen
-                ? 'bg-white dark:bg-gray-900 p-2.5 flex flex-col'
-                : 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl p-1.5 flex items-center justify-center'
+            className={`relative mb-6 overflow-hidden pointer-events-auto transform-gpu select-none shadow-2xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 ${
+              isReducedMotion ? 'transition-none' : 'transition-spring-morph'
+            } ${
+              isOpen ? 'p-2.5 flex flex-col' : 'p-1.5 flex items-center justify-center'
             }`}
           >
             {/* ── STATO COMPATTO (PILLOLA): VISIBILE SOLO SE MODE === 'IDLE' ── */}
             <div
-              className={`flex items-center gap-2 transition-opacity duration-150 ${
+              className={`flex items-center gap-2 ${
+                isReducedMotion ? '' : 'transition-opacity duration-150'
+              } ${
                 isOpen ? 'opacity-0 pointer-events-none absolute' : 'opacity-100'
               }`}
             >
@@ -334,7 +338,9 @@ export const MorphingFloatingNav = ({
                 {mode === 'nav' && (
                   <div className="relative overflow-hidden w-full flex-1">
                     <div
-                      className={`flex items-start w-[200%] transition-transform duration-250 ease-out ${
+                      className={`flex items-start w-[200%] ${
+                        isReducedMotion ? '' : 'transition-transform duration-200 ease-out'
+                      } ${
                         drillCategory !== null ? '-translate-x-1/2' : 'translate-x-0'
                       }`}
                     >
