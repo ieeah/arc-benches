@@ -10,6 +10,7 @@ import { ListsPage } from '@/pages/ListsPage';
 import type { ListsPageAction } from '@/pages/ListsPage';
 import { BlueprintsPage } from '@/pages/BlueprintsPage';
 import { ItemsPage } from '@/pages/ItemsPage';
+import { MapsPage } from '@/pages/MapsPage';
 import { DevCatalogLabPage } from '@/pages/DevCatalogLabPage';
 import { DevOverridesPage } from '@/pages/DevOverridesPage';
 import { DevTranslationsPage } from '@/pages/DevTranslationsPage';
@@ -21,18 +22,17 @@ import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
 import { hasUnsavedDevChanges } from '@/lib/devDrafts';
 import { AppFooter } from '@/components/AppFooter';
+import { useRouter, type AppRoute } from '@/router';
 
 const isDev = import.meta.env.DEV;
 
-type Tab = 'stash' | 'liste' | 'blueprints' | 'expeditions' | 'items' | 'dev-lab' | 'dev-overrides' | 'dev-translations' | 'dev-lists' | 'list-detail' | 'settings';
-
 export default function App() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<Tab>('stash');
-  const [returnTab, setReturnTab] = useState<Tab>('stash');
-  const [detailListId, setDetailListId] = useState<string | null>(null);
-  const [devOverrideItemId, setDevOverrideItemId] = useState<string | null>(null);
-  const [isRoleMakerOpen, setIsRoleMakerOpen] = useState(false);
+  const router = useRouter();
+  const activeTab = router.route;
+  const detailListId = router.params.id || null;
+  const devOverrideItemId = router.params.item || null;
+
   const [listsAction, setListsAction] = useState<ListsPageAction>(null);
 
   // Selettori Zustand
@@ -56,24 +56,15 @@ export default function App() {
   }, []);
 
   const openListDetail = (id: string) => {
-    setReturnTab(activeTab);
-    setDetailListId(id);
-    setActiveTab('list-detail');
+    router.push('list-detail', { id });
   };
 
   const handleOpenOverrides = (itemId: string) => {
-    setDevOverrideItemId(itemId);
-    setReturnTab(activeTab);
-    setActiveTab('dev-overrides');
+    router.push('dev-overrides', { item: itemId });
   };
 
   const handleNavigate = (pageId: string) => {
-    if (pageId === 'role-maker') {
-      setIsRoleMakerOpen(true);
-      return;
-    }
-    setReturnTab(activeTab);
-    setActiveTab(pageId as Tab);
+    router.push(pageId as AppRoute);
   };
 
   // Azioni contestuali della pillola (...)
@@ -132,13 +123,13 @@ export default function App() {
       <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-hidden w-full">
         {isDev && activeTab === 'dev-overrides' ? (
           <DevOverridesPage
-            onBack={() => setActiveTab(returnTab)}
+            onBack={() => router.back()}
             initialSelectedItemId={devOverrideItemId}
           />
         ) : isDev && activeTab === 'dev-translations' ? (
-          <DevTranslationsPage onBack={() => setActiveTab(returnTab)} />
+          <DevTranslationsPage onBack={() => router.back()} />
         ) : isDev && activeTab === 'dev-lists' ? (
-          <DevListsPage onBack={() => setActiveTab(returnTab)} />
+          <DevListsPage onBack={() => router.back()} />
         ) : (
           <>
             <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
@@ -154,29 +145,32 @@ export default function App() {
               {activeTab === 'expeditions' && <ExpeditionPage />}
               {activeTab === 'items' && (
                 <ItemsPage
-                  onBack={() => setActiveTab(returnTab)}
+                  onBack={() => router.back()}
                   onOpenOverrides={handleOpenOverrides}
                 />
               )}
+              {activeTab === 'maps' && (
+                <MapsPage onBack={() => router.back()} />
+              )}
               {isDev && activeTab === 'dev-lab' && (
                 <DevCatalogLabPage
-                  onBack={() => setActiveTab(returnTab)}
+                  onBack={() => router.back()}
                   onOpenOverrides={handleOpenOverrides}
                 />
               )}
               {activeTab === 'settings' && (
                 <SettingsPage
-                  onBack={() => setActiveTab(returnTab)}
+                  onBack={() => router.back()}
                   onNavigate={handleNavigate}
                 />
               )}
               {activeTab === 'list-detail' && detailListId && (
-                <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} />
+                <ListDetailPage listId={detailListId} onBack={() => router.back()} />
               )}
               <AppFooter />
             </main>
 
-            {activeTab !== 'list-detail' && (
+            {activeTab !== 'list-detail' && activeTab !== 'role-maker' && (
               navVariant === 'morphing' ? (
                 <MorphingFloatingNav
                   activePage={activeTab}
@@ -195,8 +189,8 @@ export default function App() {
         )}
 
         <RoleMakerModal
-          isOpen={isRoleMakerOpen}
-          onClose={() => setIsRoleMakerOpen(false)}
+          isOpen={activeTab === 'role-maker'}
+          onClose={() => router.back()}
         />
       </div>
     </ThemeProvider>

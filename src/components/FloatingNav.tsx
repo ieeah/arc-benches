@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback, useMemo, type ReactNode } fro
 import {
   Backpack, LayoutList, ScrollText, Wrench, Database,
   ShieldAlert, Dice5, MoreHorizontal, Check, Users, X, Settings,
-  ChevronRight, ChevronLeft, FlaskConical, FileJson, Languages, Compass, Layers
+  ChevronRight, ChevronLeft, FlaskConical, FileJson, Languages, Compass, Layers, Map
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
@@ -63,6 +63,7 @@ export const FloatingNav = ({
       children: [
         { id: 'vault', label: 'Vault Spedizione', icon: <ShieldAlert size={16} /> },
         { id: 'items', label: t('nav.catalog'), icon: <Database size={16} /> },
+        { id: 'maps', label: 'Mappe Tattiche 🗺️', icon: <Map size={16} /> },
         { id: 'role-maker', label: 'Role Maker 🎲', icon: <Dice5 size={16} /> },
         ...(isDev ? [
           { id: 'dev-lists', label: 'Dev Liste 📋', icon: <Layers size={16} /> },

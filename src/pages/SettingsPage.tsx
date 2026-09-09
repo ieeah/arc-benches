@@ -36,7 +36,9 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
     { id: 'stash', label: t('nav.stash') },
     { id: 'liste', label: t('lists.title') },
     { id: 'blueprints', label: t('blueprints.title') },
+    { id: 'expeditions', label: t('nav.expeditions') },
     { id: 'items', label: t('nav.catalog') },
+    { id: 'maps', label: 'Mappe Tattiche' },
     { id: 'settings', label: t('settings.title') },
   ], [t]);
 
