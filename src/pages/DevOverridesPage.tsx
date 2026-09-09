@@ -185,6 +185,10 @@ export const DevOverridesPage = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [filterOnlyOverridden, setFilterOnlyOverridden] = useState(false);
   const [filterOnlyHidden, setFilterOnlyHidden] = useState(false);
+  const [filterMissingName, setFilterMissingName] = useState(false);
+  const [filterMissingDesc, setFilterMissingDesc] = useState(false);
+  const [filterMissingBoth, setFilterMissingBoth] = useState(false);
+  const [filterTranslationLang, setFilterTranslationLang] = useState<string>('it');
   const [selectedItemId, setSelectedItemId] = useState<string>(
     initialSelectedItemId && (itemsDataBase as Record<string, ItemInfo>)[initialSelectedItemId]
       ? initialSelectedItemId
@@ -274,6 +278,22 @@ export const DevOverridesPage = ({
     };
   }, [selectedItemBase, currentItemOverride, allItems]);
 
+  const getItemTranslationStatus = useCallback((item: ItemInfo, lang: string) => {
+    const overrideTrans = overrides[item.id]?.translations?.[lang];
+    const baseTrans = item.translations?.[lang];
+    const effectiveName = overrideTrans?.name !== undefined ? overrideTrans.name : baseTrans?.name;
+    const effectiveDesc = overrideTrans?.description !== undefined ? overrideTrans.description : baseTrans?.description;
+    const hasName = Boolean(effectiveName && effectiveName.trim() !== '');
+    const hasDesc = Boolean(effectiveDesc && effectiveDesc.trim() !== '');
+    return {
+      hasName,
+      hasDesc,
+      missingName: !hasName,
+      missingDesc: !hasDesc,
+      missingBoth: !hasName && !hasDesc,
+    };
+  }, [overrides]);
+
   // Lista oggetti filtrata per la sidebar sinistra
   const filteredItems = useMemo(() => {
     let list = allItems;
@@ -282,6 +302,15 @@ export const DevOverridesPage = ({
     }
     if (filterOnlyHidden) {
       list = list.filter(item => Boolean(overrides[item.id]?.hidden));
+    }
+    if (filterMissingBoth || filterMissingName || filterMissingDesc) {
+      list = list.filter(item => {
+        const st = getItemTranslationStatus(item, filterTranslationLang);
+        if (filterMissingBoth && st.missingBoth) return true;
+        if (filterMissingName && st.missingName) return true;
+        if (filterMissingDesc && st.missingDesc) return true;
+        return false;
+      });
     }
     const q = searchQuery.toLowerCase().trim();
     if (q) {
@@ -292,7 +321,7 @@ export const DevOverridesPage = ({
       );
     }
     return list;
-  }, [allItems, searchQuery, filterOnlyOverridden, filterOnlyHidden, overrides]);
+  }, [allItems, searchQuery, filterOnlyOverridden, filterOnlyHidden, filterMissingName, filterMissingDesc, filterMissingBoth, filterTranslationLang, overrides, getItemTranslationStatus]);
 
   const totalOverriddenItems = useMemo(() => {
     return Object.values(overrides).filter(o => o && Object.keys(o).length > 0).length;
@@ -301,6 +330,18 @@ export const DevOverridesPage = ({
   const totalHiddenItems = useMemo(() => {
     return Object.values(overrides).filter(o => o?.hidden).length;
   }, [overrides]);
+
+  const totalMissingName = useMemo(() => {
+    return allItems.filter(item => getItemTranslationStatus(item, filterTranslationLang).missingName).length;
+  }, [allItems, getItemTranslationStatus, filterTranslationLang]);
+
+  const totalMissingDesc = useMemo(() => {
+    return allItems.filter(item => getItemTranslationStatus(item, filterTranslationLang).missingDesc).length;
+  }, [allItems, getItemTranslationStatus, filterTranslationLang]);
+
+  const totalMissingBoth = useMemo(() => {
+    return allItems.filter(item => getItemTranslationStatus(item, filterTranslationLang).missingBoth).length;
+  }, [allItems, getItemTranslationStatus, filterTranslationLang]);
 
   // Modifica di un campo generico (mantiene il valore digitato anche se stringa vuota)
   const handleFieldChange = <K extends keyof ItemOverrideData>(field: K, value: ItemOverrideData[K] | undefined) => {
@@ -327,7 +368,7 @@ export const DevOverridesPage = ({
   const handleTranslationChange = (
     lang: string,
     field: keyof ItemTranslation,
-    value: string
+    value: string | undefined
   ) => {
     setOverrides(prev => {
       const updated = { ...prev };
@@ -335,7 +376,7 @@ export const DevOverridesPage = ({
       const currentTranslations = { ...(current.translations || {}) };
       const langEntry = { ...(currentTranslations[lang] || {}) };
 
-      if (value === '') {
+      if (value === undefined) {
         delete langEntry[field];
       } else {
         langEntry[field] = value;
@@ -423,11 +464,21 @@ export const DevOverridesPage = ({
     URL.revokeObjectURL(url);
   };
 
-  // Lingue attive per l'oggetto selezionato
+  // Lingue attive/tradotte per l'oggetto selezionato (da catalogo base o overrides)
   const activeLangsForItem = useMemo(() => {
-    if (!currentItemOverride.translations) return [];
-    return Object.keys(currentItemOverride.translations);
-  }, [currentItemOverride]);
+    const langs = new Set<string>();
+    if (selectedItemBase?.translations) {
+      Object.keys(selectedItemBase.translations).forEach(l => {
+        if (selectedItemBase.translations?.[l]?.name) langs.add(l);
+      });
+    }
+    if (currentItemOverride.translations) {
+      Object.keys(currentItemOverride.translations).forEach(l => {
+        if (currentItemOverride.translations?.[l]?.name) langs.add(l);
+      });
+    }
+    return Array.from(langs);
+  }, [selectedItemBase, currentItemOverride]);
 
   return (
     <DevStudioLayout
@@ -510,6 +561,72 @@ export const DevOverridesPage = ({
                 />
                 <span>Solo nascosti ({totalHiddenItems})</span>
               </label>
+            </div>
+            <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-1.5">
+              <div className="flex items-center justify-between text-[11px] font-bold text-purple-900 dark:text-purple-300">
+                <span className="flex items-center gap-1">
+                  <Globe size={12} className="text-purple-500" />
+                  Mancanti ({filterTranslationLang.toUpperCase()}):
+                </span>
+                <select
+                  value={filterTranslationLang}
+                  onChange={e => {
+                    const newLang = e.target.value;
+                    setFilterTranslationLang(newLang);
+                    setSelectedLang(newLang);
+                  }}
+                  className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md px-1.5 py-0.5 font-bold uppercase text-gray-700 dark:text-gray-300 focus:outline-none cursor-pointer text-[10px]"
+                  title="Seleziona lingua del filtro"
+                >
+                  {AVAILABLE_LANGUAGES.map(l => (
+                    <option key={l.code} value={l.code} className="dark:bg-gray-800">
+                      {l.code.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-1 text-xs text-purple-800 dark:text-purple-300">
+                <label className="flex items-center gap-1.5 cursor-pointer select-none hover:text-purple-900 dark:hover:text-purple-200">
+                  <input
+                    type="checkbox"
+                    checked={filterMissingName}
+                    onChange={e => {
+                      setFilterMissingName(e.target.checked);
+                      if (e.target.checked) setFilterMissingBoth(false);
+                    }}
+                    className="rounded text-purple-500"
+                  />
+                  <span>Senza nome / label ({totalMissingName})</span>
+                </label>
+                <label className="flex items-center gap-1.5 cursor-pointer select-none hover:text-purple-900 dark:hover:text-purple-200">
+                  <input
+                    type="checkbox"
+                    checked={filterMissingDesc}
+                    onChange={e => {
+                      setFilterMissingDesc(e.target.checked);
+                      if (e.target.checked) setFilterMissingBoth(false);
+                    }}
+                    className="rounded text-purple-500"
+                  />
+                  <span>Senza descrizione ({totalMissingDesc})</span>
+                </label>
+                <label className="flex items-center gap-1.5 cursor-pointer select-none hover:text-purple-900 dark:hover:text-purple-200 font-medium">
+                  <input
+                    type="checkbox"
+                    checked={filterMissingBoth}
+                    onChange={e => {
+                      setFilterMissingBoth(e.target.checked);
+                      if (e.target.checked) {
+                        setFilterMissingName(false);
+                        setFilterMissingDesc(false);
+                      }
+                    }}
+                    className="rounded text-purple-500"
+                  />
+                  <span>Senza entrambe ({totalMissingBoth})</span>
+                </label>
+              </div>
             </div>
           </div>
 
@@ -979,70 +1096,113 @@ export const DevOverridesPage = ({
                 </div>
 
                 {/* Form Traduzione per la Lingua Selezionata */}
-                <div className="space-y-4 pt-2">
-                  {/* Nome Tradotto */}
-                  <div className="grid grid-cols-12 gap-3 items-center">
-                    <label className="col-span-3 text-xs font-bold text-gray-700 dark:text-gray-300">
-                      Nome ({selectedLang.toUpperCase()})
-                    </label>
-                    <div className="col-span-9 flex items-center gap-2">
-                      <input
-                        type="text"
-                        value={currentItemOverride.translations?.[selectedLang]?.name || ''}
-                        onChange={e => handleTranslationChange(selectedLang, 'name', e.target.value)}
-                        placeholder={`Traduzione nome in ${selectedLang} (Default: ${selectedItemEffective.name})`}
-                        className="flex-1 px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border border-purple-200 dark:border-purple-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500 font-medium"
-                      />
-                      {currentItemOverride.translations?.[selectedLang]?.name && (
-                        <button
-                          onClick={() => handleTranslationChange(selectedLang, 'name', '')}
-                          className="text-xs text-gray-400 hover:text-red-500 px-1"
-                          title="Cancella traduzione nome"
-                        >
-                          ✕
-                        </button>
+                {(() => {
+                  const baseTrans = selectedItemBase?.translations?.[selectedLang];
+                  const overrideTrans = currentItemOverride.translations?.[selectedLang];
+                  const effectiveTransName = overrideTrans?.name !== undefined ? overrideTrans.name : (baseTrans?.name || '');
+                  const effectiveTransDesc = overrideTrans?.description !== undefined ? overrideTrans.description : (baseTrans?.description || '');
+                  const hasNameOverride = overrideTrans?.name !== undefined;
+                  const hasDescOverride = overrideTrans?.description !== undefined;
+                  const hasLangOverride = Boolean(overrideTrans && (overrideTrans.name !== undefined || overrideTrans.description !== undefined));
+
+                  return (
+                    <div className="space-y-4 pt-2">
+                      {/* Nome Tradotto */}
+                      <div className="grid grid-cols-12 gap-3 items-center">
+                        <div className="col-span-3 flex flex-col">
+                          <label className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                            Nome ({selectedLang.toUpperCase()})
+                          </label>
+                          {hasNameOverride ? (
+                            <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400">Override attivo</span>
+                          ) : baseTrans?.name ? (
+                            <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Da catalogo base</span>
+                          ) : (
+                            <span className="text-[10px] text-gray-400">Non tradotto</span>
+                          )}
+                        </div>
+                        <div className="col-span-9 flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={effectiveTransName}
+                            onChange={e => handleTranslationChange(selectedLang, 'name', e.target.value)}
+                            placeholder={baseTrans?.name ? `Base: ${baseTrans.name}` : `Traduzione nome in ${selectedLang} (Default EN: ${selectedItemEffective.name})`}
+                            className={`flex-1 px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500 font-medium ${
+                              hasNameOverride
+                                ? 'border-amber-400 dark:border-amber-600'
+                                : baseTrans?.name
+                                ? 'border-purple-200 dark:border-purple-800/70'
+                                : 'border-gray-200 dark:border-gray-700'
+                            }`}
+                          />
+                          {hasNameOverride && (
+                            <button
+                              onClick={() => handleTranslationChange(selectedLang, 'name', undefined)}
+                              className="text-xs text-gray-400 hover:text-red-500 px-1"
+                              title="Ripristina traduzione base del catalogo"
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Descrizione Tradotta */}
+                      <div className="space-y-1.5 pt-2 border-t border-purple-100 dark:border-purple-900/30">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <label className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                              Descrizione ({selectedLang.toUpperCase()})
+                            </label>
+                            {hasDescOverride ? (
+                              <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400">Override attivo</span>
+                            ) : baseTrans?.description ? (
+                              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">Da catalogo base</span>
+                            ) : (
+                              <span className="text-[10px] text-gray-400">Non tradotta</span>
+                            )}
+                          </div>
+                          {hasDescOverride && (
+                            <button
+                              onClick={() => handleTranslationChange(selectedLang, 'description', undefined)}
+                              className="text-[11px] text-gray-400 hover:text-red-500"
+                              title="Ripristina descrizione base del catalogo"
+                            >
+                              Ripristina traduzione base
+                            </button>
+                          )}
+                        </div>
+                        <textarea
+                          rows={3}
+                          value={effectiveTransDesc}
+                          onChange={e => handleTranslationChange(selectedLang, 'description', e.target.value)}
+                          placeholder={baseTrans?.description ? `Base: ${baseTrans.description}` : `Traduzione descrizione in ${selectedLang} (Default EN: ${selectedItemEffective.description})`}
+                          className={`w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500 font-medium leading-relaxed ${
+                            hasDescOverride
+                              ? 'border-amber-400 dark:border-amber-600'
+                              : baseTrans?.description
+                              ? 'border-purple-200 dark:border-purple-800/70'
+                              : 'border-gray-200 dark:border-gray-700'
+                          }`}
+                        />
+                      </div>
+
+                      {/* Azione elimina traduzione lingua corrente */}
+                      {hasLangOverride && (
+                        <div className="flex justify-end pt-2">
+                          <button
+                            type="button"
+                            onClick={() => handleClearLanguageTranslation(selectedLang)}
+                            className="text-xs text-red-500 hover:text-red-600 font-bold flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <Trash2 size={13} />
+                            <span>Rimuovi tutti gli override per {selectedLang.toUpperCase()}</span>
+                          </button>
+                        </div>
                       )}
                     </div>
-                  </div>
-
-                  {/* Descrizione Tradotta */}
-                  <div className="space-y-1.5 pt-2 border-t border-purple-100 dark:border-purple-900/30">
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs font-bold text-gray-700 dark:text-gray-300">
-                        Descrizione ({selectedLang.toUpperCase()})
-                      </label>
-                      {currentItemOverride.translations?.[selectedLang]?.description && (
-                        <button
-                          onClick={() => handleTranslationChange(selectedLang, 'description', '')}
-                          className="text-[11px] text-gray-400 hover:text-red-500"
-                        >
-                          Cancella traduzione descrizione
-                        </button>
-                      )}
-                    </div>
-                    <textarea
-                      rows={3}
-                      value={currentItemOverride.translations?.[selectedLang]?.description || ''}
-                      onChange={e => handleTranslationChange(selectedLang, 'description', e.target.value)}
-                      placeholder={`Traduzione descrizione in ${selectedLang} (Default: ${selectedItemEffective.description})`}
-                      className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-purple-200 dark:border-purple-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500 font-medium leading-relaxed"
-                    />
-                  </div>
-
-                  {/* Azione elimina traduzione lingua corrente */}
-                  {currentItemOverride.translations?.[selectedLang] && (
-                    <div className="flex justify-end pt-2">
-                      <button
-                        type="button"
-                        onClick={() => handleClearLanguageTranslation(selectedLang)}
-                        className="text-xs text-red-500 hover:text-red-600 font-bold flex items-center gap-1.5 cursor-pointer"
-                      >
-                        <Trash2 size={13} />
-                        <span>Rimuovi traduzione per lingua {selectedLang.toUpperCase()}</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
+                  );
+                })()}
               </div>
             </>
           ) : (

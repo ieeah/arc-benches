@@ -341,5 +341,39 @@
         "name": "Resina Sintetica ARC"
       }
     }
+  },
+  "colorful-shoes-epic": {
+    "translations": {
+      "it": {
+        "name": "Scarpe Colorate",
+        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
+      }
+    }
+  },
+  "colorful-shoes": {
+    "translations": {
+      "it": {
+        "name": "Scarpe Colorate",
+        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
+      }
+    }
+  },
+  "colorful-shoes-rare": {
+    "translations": {
+      "it": {
+        "name": "Scarpe Colorate",
+        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
+      }
+    }
+  },
+  "coffee-pot": {
+    "translations": {
+      "it": {
+        "name": "Caffettiera"
+      }
+    }
+  },
+  "bison-driver": {
+    "hidden": true
   }
 }

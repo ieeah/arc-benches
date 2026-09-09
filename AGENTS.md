@@ -16,6 +16,7 @@ npm run check:lock # Verifica che package-lock.json sia in sync (stesso check di
 # Script dati (pacchetto separato in scripts/):
 cd scripts && npm install && node fetch-items.mjs            # Rigenera items.json + icone da MetaForge
 cd scripts && npm install && node fetch-category-icons.mjs   # Scarica & normalizza icone di categoria da Wiki API
+cd scripts && node fetch-translations.mjs                    # Sincronizza traduzioni IT degli oggetti da RaidTheory (passa --refresh per riscaricare)
 ```
 
 > ⚠️ **Gestione Lockfile (Bug npm cross-platform)**:
