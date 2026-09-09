@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react';
 
+const INPUT_SELECTOR =
+  'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])';
+
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -8,9 +11,9 @@ const FOCUSABLE =
 const stack: symbol[] = [];
 
 /**
- * Accessibility plumbing for modal dialogs: moves focus inside on open (unless the content
- * already auto-focused something), traps Tab, closes on Esc, and restores focus to the trigger
- * on unmount. Attach the returned ref to the dialog panel and set role="dialog" aria-modal.
+ * Accessibility plumbing for modal dialogs: moves focus automatically to the first input
+ * (or first focusable element) on open, traps Tab navigation, closes on Esc, and restores focus
+ * to the trigger on unmount. Attach the returned ref to the dialog panel.
  */
 export function useDialog(onClose: () => void) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -23,11 +26,22 @@ export function useDialog(onClose: () => void) {
     const panel = panelRef.current;
     const previouslyFocused = document.activeElement as HTMLElement | null;
 
-    // Respect content that already auto-focused (e.g. search/name inputs).
-    if (panel && !panel.contains(document.activeElement)) {
-      const first = panel.querySelector<HTMLElement>(FOCUSABLE);
-      (first ?? panel).focus();
-    }
+    // Move focus inside dialog on open (prioritize first text input / form field, else first focusable)
+    const focusTimer = setTimeout(() => {
+      if (!panel) return;
+      if (!panel.contains(document.activeElement)) {
+        const firstInput = panel.querySelector<HTMLElement>(INPUT_SELECTOR);
+        if (firstInput) {
+          firstInput.focus();
+          if (firstInput instanceof HTMLInputElement && (firstInput.type === 'text' || firstInput.type === 'number')) {
+            firstInput.select?.();
+          }
+          return;
+        }
+        const first = panel.querySelector<HTMLElement>(FOCUSABLE);
+        (first ?? panel).focus();
+      }
+    }, 50);
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (stack[stack.length - 1] !== id) return; // only the topmost dialog reacts
@@ -37,7 +51,9 @@ export function useDialog(onClose: () => void) {
         return;
       }
       if (e.key === 'Tab' && panel) {
-        const items = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE));
+        const items = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+          el => !el.hasAttribute('disabled') && (el.offsetParent !== null || el.getClientRects().length > 0)
+        );
         if (items.length === 0) { e.preventDefault(); return; }
         const first = items[0];
         const last = items[items.length - 1];
@@ -54,6 +70,7 @@ export function useDialog(onClose: () => void) {
 
     document.addEventListener('keydown', onKeyDown, true);
     return () => {
+      clearTimeout(focusTimer);
       document.removeEventListener('keydown', onKeyDown, true);
       const i = stack.indexOf(id);
       if (i >= 0) stack.splice(i, 1);
