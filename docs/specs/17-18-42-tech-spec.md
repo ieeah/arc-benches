@@ -111,21 +111,36 @@ condizione già usata per i materiali basta.
 Esporre `getMissingActions` che chiama `getMissingActionsPure` con lo state
 corrente (stesso wrapper thin già usato per gli altri selector).
 
-### `StashPage.tsx`
+### `StashPage.tsx` & Componente `ActionSlider`
 
 Nuova sezione collassabile (`CollapsibleSection`, coerente con lo stile
 esistente) sotto/accanto a quella dei materiali mancanti, che renderizza
-`MissingAction[]` raggruppate per `listId`, ciascuna riga con `ActionCheckbox`
-già esistente, wired a `store.toggleAction(listId, level, actionId)`. Va
-gestito il caso "materiali completi ma azioni pendenti" sostituendo il
+`MissingAction[]` raggruppate per `listId`.
+
+**Scelta UX (Anti-tocchi involontari & Fisica del Gesto)**:
+Invece di una semplice `ActionCheckbox` (facilmente cliccabile per errore
+durante lo scroll verticale frequente dello Stash su mobile), le azioni
+nello Stash utilizzeranno un componente dedicato **`ActionSlider`**
+(pattern *Slide-to-Complete* / swipe orizzontale a trascinamento fluido):
+- **Curva di Resistenza Asimmetrica**:
+  1. *Inizio (0% – 15%) — Deadzone/Slop*: i primi 8-10px orizzontali non muovono
+     lo slider per consentire allo scroll verticale della pagina di operare
+     naturalmente senza catture accidentali.
+  2. *Metà corsa (15% – 75%) — Movimento 1:1*: segue fluidamente il tocco con
+     riempimento progressivo e feedback cromatico della traccia.
+  3. *Fine corsa (75% – 100%) — Resistenza Elastica & Snap*: richiede una spinta
+     decisa per raggiungere la soglia di attivazione (**85%** della larghezza).
+- **Rilascio Anticipato**: se il tocco viene rilasciato prima dell'85%, una
+  transizione a molla smorzata (`spring` / `cubic-bezier(0.25, 1, 0.5, 1)` a 260ms)
+  riporta istantaneamente il cursore all'inizio (`0%`).
+- **Stato e Annullamento**: al completamento l'icona scatta in spunta confermata
+  e la barra si blocca in stato completato; supporta il tap/slide inverso di
+  annullamento per riaprire l'azione in caso di errore.
+- Wired a `store.toggleAction(listId, level, actionId)` / `store.setActionChecked(...)`.
+
+Va gestito il caso "materiali completi ma azioni pendenti" sostituendo il
 messaggio attuale `noMaterialsFound` con un check congiunto
 (`missingMaterials.length === 0 && missingActions.length === 0`).
-
-Nota dell'utente: non del tutto convinto che una sezione separata sia la UX
-giusta rispetto a un'unica lista mista materiali+azioni, ma essendo una
-scelta puramente di presentazione (a valle dello stesso selector), si
-procede così e si valuta l'effetto reale prima di eventualmente rivedere il
-layout — non blocca il resto del piano.
 
 ### Parte B-bis — Bug preesistente da correggere: azioni non sincronizzate con `hideoutLevels` in discesa
 

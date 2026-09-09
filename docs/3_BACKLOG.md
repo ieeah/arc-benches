@@ -17,3 +17,4 @@ Elenco dei bug, debito tecnico e miglioramenti su funzionalità esistenti in **A
 - [ ] #11 [Virtualizzazione Liste](https://github.com/ieeah/arc-benches/issues/11)
 - [x] #12 [UX Catalogo e ItemPicker: Filtri, ordinamento e raggruppamento per "tipo oggetto"](https://github.com/ieeah/arc-benches/issues/12)
 - [x] #13 [UX Catalogo e ItemPicker: Toggle per nascondere skin/elementi non droppabili](https://github.com/ieeah/arc-benches/issues/13)
+- [ ] Indicatore Fabbricazione Banchi di Lavoro: estensione dell'icona craft a tutti i banchi (non solo Refiner), con stato verde (livello banco raggiunto / producibile) e ambra (livello banco non ancora sufficiente)
