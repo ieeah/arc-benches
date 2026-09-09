@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Layers,
   Search,
@@ -11,7 +11,6 @@ import {
   Package,
   CheckSquare,
   Gift,
-  ChevronRight,
   Pencil,
   FileJson,
   Compass,
@@ -22,11 +21,9 @@ import {
   X,
   Milestone,
   AlertCircle,
-  Swords,
 } from "lucide-react";
 import type {
   List,
-  ListLevel,
   CheckboxAction,
   Reward,
   ListType,
@@ -45,10 +42,12 @@ import { TieredActionTimeline } from "@/components/TieredActionTimeline";
 import { useTranslation, getItemName, getListName } from "@/i18n";
 import { validateExpeditionIndex } from "@/lib/validate";
 import itemsDatabase from "@/data/items.json";
-import defaultWorkbenchesData from "@/data/workbenches.json";
-import defaultExpeditionsData from "@/data/expeditions.json";
 import { generateUUID } from "@/lib/uuid";
 import { cn } from "@/lib/cn";
+import { useDevListDrafts } from "@/hooks/dev/useDevListDrafts";
+import { useDevListEditor } from "@/hooks/dev/useDevListEditor";
+import { DevListCard } from "@/components/dev/DevListCard";
+import { DevDamageChallengeSection } from "@/components/dev/DevDamageChallengeSection";
 
 interface DevListsPageProps {
   onBack: () => void;
@@ -92,68 +91,15 @@ const LIST_TYPE_CONFIG: Record<
   },
 };
 
-const DRAFT_STORAGE_KEY = "arc_benches_dev_lists_draft_v1";
 
-const DEFAULT_EXPEDITION_DAMAGE: TieredAction = {
-  id: "damage-challenge",
-  label: "Damage Requirements",
-  translations: {
-    it: { label: "Danni Richiesti" },
-  },
-  steps: [
-    { id: "tier-1", label: "5.000" },
-    { id: "tier-2", label: "10.000" },
-    { id: "tier-3", label: "30.000" },
-    { id: "tier-4", label: "50.000" },
-    { id: "tier-5", label: "100.000" },
-  ],
-};
 
 export function DevListsPage({ onBack }: DevListsPageProps) {
   const { language } = useTranslation();
   const itemsMap = useMemo(() => itemsDatabase as Record<string, ItemInfo>, []);
 
-  // Baseline data from files
-  const initialData: Record<ListType, List[]> = useMemo(() => {
-    return {
-      workbench: (defaultWorkbenchesData.items || []) as List[],
-      expedition: ((defaultExpeditionsData as any).lists ||
-        (defaultExpeditionsData as any).items ||
-        []) as List[],
-      project: [],
-      quest: [],
-      custom: [],
-    };
-  }, []);
+  const { listsData, setListsData, initialData, resetAllDrafts } = useDevListDrafts();
 
-  // Persistent Draft State
-  const [listsData, setListsData] = useState<Record<ListType, List[]>>(() => {
-    try {
-      const saved = localStorage.getItem(DRAFT_STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        return {
-          workbench: parsed.workbench || initialData.workbench,
-          expedition: parsed.expedition || initialData.expedition,
-          project: parsed.project || [],
-          quest: parsed.quest || [],
-          custom: parsed.custom || [],
-        };
-      }
-    } catch {
-      // ignore
-    }
-    return initialData;
-  });
 
-  // Save to localStorage on change
-  useEffect(() => {
-    try {
-      localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(listsData));
-    } catch {
-      // ignore
-    }
-  }, [listsData]);
 
   // Selected State
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
@@ -253,10 +199,25 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     });
   }, [allLists, activeFilter, searchQuery, language]);
 
-  // Active selected list object
-  const selectedList = useMemo(() => {
-    return allLists.find((l) => l.id === selectedListId) || null;
-  }, [allLists, selectedListId]);
+  const {
+    selectedList,
+    updateSelectedList,
+    handleCreateList,
+    handleDuplicateList,
+    handleDeleteList,
+    handleResetCurrentList,
+    handleResetCurrentLevel,
+    handleAddLevel,
+    handleRemoveLevel,
+  } = useDevListEditor({
+    listsData,
+    setListsData,
+    initialData,
+    selectedListId,
+    setSelectedListId,
+    setActiveLevelNumber,
+    setConfirmModalConfig,
+  });
 
   // Active level within selected list
   const activeLevel = useMemo(() => {
@@ -279,289 +240,6 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     );
   }, [selectedList, listsData.expedition]);
 
-  // Update List Handler
-  const updateSelectedList = useCallback(
-    (updater: (prev: List) => List) => {
-      if (!selectedList) return;
-      const category = selectedList.typeCategory;
-      setListsData((prev) => {
-        const categoryLists = prev[category] || [];
-        const index = categoryLists.findIndex((l) => l.id === selectedList.id);
-        if (index === -1) return prev;
-        const updated = updater(categoryLists[index]);
-        const nextCategoryLists = [...categoryLists];
-        nextCategoryLists[index] = updated;
-        return {
-          ...prev,
-          [category]: nextCategoryLists,
-        };
-      });
-    },
-    [selectedList],
-  );
-
-  // Add New List
-  const handleCreateList = (type: ListType = "project") => {
-    const count = (listsData[type] || []).length + 1;
-    let newId = `${type}-${count}`;
-    let expIndex: number | undefined;
-
-    if (type === "expedition") {
-      const existingIndices = (listsData.expedition || [])
-        .map((e) => e.expeditionIndex)
-        .filter(
-          (n): n is number =>
-            typeof n === "number" && Number.isInteger(n) && n > 0,
-        );
-      let nextIndex = 1;
-      while (existingIndices.includes(nextIndex)) {
-        nextIndex++;
-      }
-      expIndex = nextIndex;
-      newId = `expedition-${nextIndex}`;
-    }
-
-    const newList: List = {
-      id: newId,
-      name:
-        type === "expedition"
-          ? `Expedition #${expIndex}`
-          : `New ${type.toUpperCase()} List #${count}`,
-      translations: {
-        it: {
-          name:
-            type === "expedition"
-              ? `Spedizione #${expIndex}`
-              : `Nuova Lista ${type.toUpperCase()} #${count}`,
-        },
-      },
-      maxLevel: 3,
-      listType: type,
-      ...(expIndex !== undefined ? { expeditionIndex: expIndex } : {}),
-      levels: [
-        { level: 1, requirementItemIds: [] },
-        { level: 2, requirementItemIds: [] },
-        { level: 3, requirementItemIds: [] },
-      ],
-    };
-    setListsData((prev) => ({
-      ...prev,
-      [type]: [...(prev[type] || []), newList],
-    }));
-    setSelectedListId(newId);
-    setActiveLevelNumber(1);
-  };
-
-  // Duplicate / Copy List
-  const handleDuplicateList = (
-    sourceList: List & { typeCategory: ListType },
-  ) => {
-    const category = sourceList.typeCategory;
-    const existingIds = new Set(
-      Object.values(listsData).flatMap((arr) => (arr || []).map((l) => l.id)),
-    );
-
-    let copyNum = 1;
-    let newId = `${sourceList.id}-copy`;
-    while (existingIds.has(newId)) {
-      copyNum++;
-      newId = `${sourceList.id}-copy-${copyNum}`;
-    }
-
-    const clonedList: List = JSON.parse(JSON.stringify(sourceList));
-    clonedList.id = newId;
-    clonedList.name = `${sourceList.name} (Copia)`;
-    if (clonedList.translations?.it?.name) {
-      clonedList.translations.it.name = `${clonedList.translations.it.name} (Copia)`;
-    }
-
-    if (category === "expedition") {
-      const existingIndices = (listsData.expedition || [])
-        .map((e) => e.expeditionIndex)
-        .filter(
-          (n): n is number =>
-            typeof n === "number" && Number.isInteger(n) && n > 0,
-        );
-      let nextIndex = 1;
-      while (existingIndices.includes(nextIndex)) {
-        nextIndex++;
-      }
-      clonedList.expeditionIndex = nextIndex;
-      clonedList.id = `expedition-${nextIndex}`;
-      while (existingIds.has(clonedList.id)) {
-        nextIndex++;
-        clonedList.id = `expedition-${nextIndex}`;
-      }
-      clonedList.name = `Expedition #${nextIndex}`;
-      if (clonedList.translations?.it?.name) {
-        clonedList.translations.it.name = `Spedizione #${nextIndex}`;
-      }
-    }
-
-    // Refresh action IDs to prevent duplicates
-    if (clonedList.levels) {
-      clonedList.levels = clonedList.levels.map((lvl) => ({
-        ...lvl,
-        actions: lvl.actions?.map((act) => ({
-          ...act,
-          id: generateUUID(),
-        })),
-        tieredActions: lvl.tieredActions?.map((tact) => ({
-          ...tact,
-          id: generateUUID(),
-          steps: tact.steps?.map((s) => ({
-            ...s,
-            id: generateUUID(),
-          })),
-        })),
-      }));
-    }
-    delete (clonedList as any).typeCategory;
-
-    setListsData((prev) => ({
-      ...prev,
-      [category]: [...(prev[category] || []), clonedList],
-    }));
-    setSelectedListId(clonedList.id);
-    setActiveLevelNumber(1);
-  };
-
-  // Delete List
-  const handleDeleteList = (id: string, category: ListType) => {
-    setConfirmModalConfig({
-      title: "Elimina Lista",
-      message: `Sei sicuro di voler eliminare la lista "${id}"?`,
-      description:
-        "Questa operazione rimuoverà la lista dai dati di lavoro locali.",
-      confirmText: "Elimina",
-      variant: "danger",
-      onConfirm: () => {
-        setListsData((prev) => ({
-          ...prev,
-          [category]: (prev[category] || []).filter((l) => l.id !== id),
-        }));
-        if (selectedListId === id) {
-          setSelectedListId(null);
-        }
-      },
-    });
-  };
-
-  // Reset List to baseline
-  const handleResetCurrentList = () => {
-    if (!selectedList) return;
-    const category = selectedList.typeCategory;
-    const baselineList = initialData[category]?.find(
-      (l) => l.id === selectedList.id,
-    );
-    setConfirmModalConfig({
-      title: "Ripristina Lista",
-      message: `Ripristinare la lista "${selectedList.name}" ai dati originali di fabbrica?`,
-      description:
-        "Tutte le modifiche locali non esportate per questa lista verranno sovrascritte.",
-      confirmText: "Ripristina",
-      variant: "warning",
-      onConfirm: () => {
-        if (baselineList) {
-          updateSelectedList(() => JSON.parse(JSON.stringify(baselineList)));
-        } else {
-          updateSelectedList((prev) => ({
-            ...prev,
-            levels: [
-              { level: 1, requirementItemIds: [], actions: [], rewards: [] },
-            ],
-            maxLevel: 1,
-          }));
-        }
-      },
-    });
-  };
-
-  // Reset Active Level to baseline
-  const handleResetCurrentLevel = () => {
-    if (!selectedList || !activeLevel) return;
-    const category = selectedList.typeCategory;
-    const baselineList = initialData[category]?.find(
-      (l) => l.id === selectedList.id,
-    );
-    const baselineLevel = baselineList?.levels.find(
-      (lvl) => lvl.level === activeLevel.level,
-    );
-
-    setConfirmModalConfig({
-      title: "Ripristina Livello",
-      message: `Ripristinare il Livello ${activeLevel.level} ai valori originali?`,
-      description:
-        "I materiali richiesti, le azioni e le ricompense di questo livello torneranno allo stato iniziale.",
-      confirmText: "Ripristina",
-      variant: "warning",
-      onConfirm: () => {
-        updateSelectedList((prev) => {
-          const levels = prev.levels.map((lvl) => {
-            if (lvl.level !== activeLevel.level) return lvl;
-            if (baselineLevel) {
-              return JSON.parse(JSON.stringify(baselineLevel));
-            }
-            return {
-              ...lvl,
-              requirementItemIds: [],
-              actions: [],
-              rewards: [],
-            };
-          });
-          return { ...prev, levels };
-        });
-      },
-    });
-  };
-
-  // Add / Remove Level
-  const handleAddLevel = () => {
-    if (!selectedList) return;
-    const nextLevelNum = (selectedList.levels.length || 0) + 1;
-    updateSelectedList((prev) => {
-      const newLevels: ListLevel[] = [
-        ...prev.levels,
-        {
-          level: nextLevelNum,
-          requirementItemIds: [],
-        },
-      ];
-      return {
-        ...prev,
-        maxLevel: Math.max(prev.maxLevel || 1, newLevels.length),
-        levels: newLevels,
-      };
-    });
-    setActiveLevelNumber(nextLevelNum);
-  };
-
-  const handleRemoveLevel = (lvlNum: number) => {
-    if (!selectedList || selectedList.levels.length <= 1) return;
-    setConfirmModalConfig({
-      title: "Elimina Livello",
-      message: `Eliminare il Livello ${lvlNum}?`,
-      description: "I livelli successivi verranno automaticamente rinumerati.",
-      confirmText: "Elimina Livello",
-      variant: "danger",
-      onConfirm: () => {
-        updateSelectedList((prev) => {
-          const filtered = prev.levels.filter((l) => l.level !== lvlNum);
-          const reindexed = filtered.map((l, idx) => ({
-            ...l,
-            level: idx + 1,
-          }));
-          return {
-            ...prev,
-            maxLevel: reindexed.length,
-            levels: reindexed,
-          };
-        });
-        setActiveLevelNumber(Math.max(1, lvlNum - 1));
-      },
-    });
-  };
-
   // Requirement Confirmation (Save quantity from ItemQuantityModal)
   const handleConfirmRequirementQuantity = (quantity: number) => {
     if (!selectedList || !activeLevel || !itemToConfigure) return;
@@ -570,7 +248,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     updateSelectedList((prev) => {
       const levels = prev.levels.map((lvl) => {
         if (lvl.level !== activeLevel.level) return lvl;
-        let reqs = [...lvl.requirementItemIds];
+        const reqs = [...lvl.requirementItemIds];
         if (editIndex !== undefined) {
           reqs[editIndex] = { itemId: item.id, quantity };
         } else {
@@ -938,9 +616,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     const items = listsData[currentCategory] || [];
     const payload = {
       lists: items.map((l) => {
-        const { typeCategory, ...rest } = l as List & {
-          typeCategory?: ListType;
-        };
+        const rest = { ...l } as List & { typeCategory?: ListType };
+        delete rest.typeCategory;
         return rest;
       }),
     };
@@ -949,7 +626,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
 
   const singleJsonContent = useMemo(() => {
     if (!selectedList) return "{}";
-    const { typeCategory, ...rest } = selectedList;
+    const rest = { ...selectedList } as List & { typeCategory?: ListType };
+    delete rest.typeCategory;
     return JSON.stringify(rest, null, 2);
   }, [selectedList]);
 
@@ -981,10 +659,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
         "Eventuali modifiche locali non esportate per tutti i banchi, le spedizioni e i progetti verranno cancellate.",
       confirmText: "Ripristina Tutto",
       variant: "warning",
-      onConfirm: () => {
-        setListsData(initialData);
-        localStorage.removeItem(DRAFT_STORAGE_KEY);
-      },
+      onConfirm: resetAllDrafts,
     });
   };
 
@@ -1090,116 +765,23 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                 Nessuna lista trovata.
               </p>
             ) : (
-              filteredLists.map((list) => {
-                const isSelected = list.id === selectedListId;
-                const config = LIST_TYPE_CONFIG[list.typeCategory];
-                const displayName = getListName(list, language);
-                const expValidation =
-                  list.typeCategory === "expedition"
-                    ? validateExpeditionIndex(
-                        list.expeditionIndex ?? 0,
-                        list.id,
-                        listsData.expedition || [],
-                      )
-                    : null;
-
-                return (
-                  <div
-                    key={list.id}
-                    className={cn(
-                      "w-full text-left p-2.5 rounded-xl border transition-all flex items-center justify-between group",
-                      isSelected
-                        ? "bg-purple-50/80 dark:bg-purple-950/40 border-purple-300 dark:border-purple-800 shadow-xs"
-                        : "bg-white dark:bg-gray-800/60 border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800",
-                    )}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedListId(list.id);
-                        setActiveLevelNumber(1);
-                      }}
-                      className="min-w-0 flex-1 pr-2 text-left cursor-pointer"
-                    >
-                      <div className="flex items-center gap-1.5">
-                        {config.icon}
-                        <p className="text-xs font-bold text-gray-900 dark:text-gray-100 truncate">
-                          {displayName}
-                        </p>
-                        {expValidation && !expValidation.isValid && (
-                          <span
-                            className="px-1.5 py-0.5 rounded bg-red-100 dark:bg-red-950/80 text-red-600 dark:text-red-400 font-bold text-[9px] flex items-center gap-0.5 shrink-0"
-                            title={expValidation.error ?? "Indice non valido"}
-                          >
-                            <AlertCircle size={9} />
-                            Errore
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 mt-1 text-[10px] text-gray-400 flex-wrap">
-                        <span className="font-mono">{list.id}</span>
-                        {list.typeCategory === "expedition" &&
-                          list.expeditionIndex !== undefined && (
-                            <>
-                              <span>•</span>
-                              <span className="text-blue-600 dark:text-blue-400 font-bold">
-                                Idx #{list.expeditionIndex}
-                              </span>
-                            </>
-                          )}
-                        <span>•</span>
-                        <span>{list.levels.length} Lvl</span>
-                        {list.translations?.it?.name && (
-                          <>
-                            <span>•</span>
-                            <span className="text-blue-500 font-medium">
-                              IT
-                            </span>
-                          </>
-                        )}
-                        {list.expirationDate && (
-                          <>
-                            <span>•</span>
-                            <span className="text-amber-500 font-medium">
-                              Scade
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    </button>
-                    <div className="flex items-center gap-1 shrink-0">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDuplicateList(list);
-                        }}
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-100/60 dark:hover:bg-purple-900/40 transition-colors cursor-pointer"
-                        title="Duplica questa lista"
-                      >
-                        <Copy size={13} />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedListId(list.id);
-                          setActiveLevelNumber(1);
-                        }}
-                        className="p-1 text-gray-400 group-hover:translate-x-0.5 transition-transform cursor-pointer"
-                      >
-                        <ChevronRight
-                          size={14}
-                          className={cn(
-                            "text-gray-400",
-                            isSelected &&
-                              "text-purple-600 dark:text-purple-400",
-                          )}
-                        />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
+              filteredLists.map((list) => (
+                <DevListCard
+                  key={list.id}
+                  list={list}
+                  isSelected={list.id === selectedListId}
+                  expeditionLists={listsData.expedition || []}
+                  typeIcon={LIST_TYPE_CONFIG[list.typeCategory].icon}
+                  onSelect={() => {
+                    setSelectedListId(list.id);
+                    setActiveLevelNumber(1);
+                  }}
+                  onDuplicate={(e) => {
+                    e.stopPropagation();
+                    handleDuplicateList(list);
+                  }}
+                />
+              ))
             )}
           </div>
         </div>
@@ -1548,7 +1130,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={handleResetCurrentLevel}
+                  onClick={() => handleResetCurrentLevel(activeLevelNumber)}
                   className="text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-purple-600 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer flex items-center gap-1"
                   title={`Ripristina il Livello ${activeLevelNumber} ai dati originali`}
                 >
@@ -2656,295 +2238,10 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           </div>
           {/* Expedition-Specific: Damage Challenge Configuration */}
           {selectedList.typeCategory === "expedition" && (
-            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[24px] p-5 shadow-xs space-y-5">
-              {/* Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800 flex-wrap gap-2">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
-                    <Swords size={18} />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                      <span>Damage Challenge (Sfida Danni Spedizione)</span>
-                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 font-mono">
-                        {
-                          (
-                            selectedList.damageChallenge?.steps ??
-                            DEFAULT_EXPEDITION_DAMAGE.steps
-                          ).length
-                        }{" "}
-                        Soglie
-                      </span>
-                    </h3>
-                    <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                      Personalizza il nome e le soglie di danno specifiche per
-                      questa spedizione.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      updateSelectedList((prev) => ({
-                        ...prev,
-                        damageChallenge: JSON.parse(
-                          JSON.stringify(DEFAULT_EXPEDITION_DAMAGE),
-                        ),
-                      }));
-                    }}
-                    className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs font-bold rounded-xl transition-colors cursor-pointer"
-                    title="Ripristina valori predefiniti"
-                  >
-                    <RotateCcw size={13} />
-                    <span>Ripristina Default</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Title & Italian Translation */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 bg-gray-50/70 dark:bg-gray-800/40 border border-gray-200/70 dark:border-gray-700/60 rounded-2xl">
-                <div>
-                  <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-1">
-                    Titolo Sfida EN (Default)
-                  </label>
-                  <input
-                    type="text"
-                    value={
-                      selectedList.damageChallenge?.label ??
-                      DEFAULT_EXPEDITION_DAMAGE.label
-                    }
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      updateSelectedList((prev) => {
-                        const current =
-                          prev.damageChallenge ??
-                          JSON.parse(JSON.stringify(DEFAULT_EXPEDITION_DAMAGE));
-                        return {
-                          ...prev,
-                          damageChallenge: {
-                            ...current,
-                            label: val,
-                          },
-                        };
-                      });
-                    }}
-                    placeholder="es. Damage Requirements"
-                    className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl text-xs font-semibold"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 flex items-center gap-1 mb-1">
-                    <Languages size={11} className="text-red-500" />
-                    Traduzione Titolo (IT)
-                  </label>
-                  <input
-                    type="text"
-                    value={
-                      selectedList.damageChallenge?.translations?.it?.label ??
-                      DEFAULT_EXPEDITION_DAMAGE.translations?.it?.label ??
-                      ""
-                    }
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      updateSelectedList((prev) => {
-                        const current =
-                          prev.damageChallenge ??
-                          JSON.parse(JSON.stringify(DEFAULT_EXPEDITION_DAMAGE));
-                        return {
-                          ...prev,
-                          damageChallenge: {
-                            ...current,
-                            translations: {
-                              ...(current.translations || {}),
-                              it: {
-                                ...(current.translations?.it || {}),
-                                label: val,
-                              },
-                            },
-                          },
-                        };
-                      });
-                    }}
-                    placeholder="es. Danni Richiesti"
-                    className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl text-xs font-semibold"
-                  />
-                </div>
-              </div>
-
-              {/* Thresholds / Steps List */}
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <span>Scaglioni / Soglie Danno</span>
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      updateSelectedList((prev) => {
-                        const current =
-                          prev.damageChallenge ??
-                          JSON.parse(JSON.stringify(DEFAULT_EXPEDITION_DAMAGE));
-                        const steps = [...(current.steps || [])];
-                        const newStepIdx = steps.length + 1;
-                        steps.push({
-                          id: generateUUID(),
-                          label: `${newStepIdx * 25}.000`,
-                          translations: {
-                            it: { label: `${newStepIdx * 25}.000` },
-                          },
-                        });
-                        return {
-                          ...prev,
-                          damageChallenge: {
-                            ...current,
-                            steps,
-                          },
-                        };
-                      });
-                    }}
-                    className="flex items-center gap-1 px-3 py-1 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 text-red-700 dark:text-red-300 text-xs font-bold rounded-xl transition-colors cursor-pointer"
-                  >
-                    <Plus size={12} />
-                    <span>Aggiungi Soglia Danno</span>
-                  </button>
-                </div>
-
-                <div className="space-y-2">
-                  {(
-                    selectedList.damageChallenge?.steps ??
-                    DEFAULT_EXPEDITION_DAMAGE.steps
-                  ).map((step, sIdx) => {
-                    const currentSteps =
-                      selectedList.damageChallenge?.steps ??
-                      DEFAULT_EXPEDITION_DAMAGE.steps;
-                    return (
-                      <div
-                        key={step.id || sIdx}
-                        className="p-2.5 bg-gray-50 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl flex items-center gap-2.5"
-                      >
-                        <span className="w-6 h-6 rounded-full bg-red-100 dark:bg-red-950/80 text-red-700 dark:text-red-300 text-xs font-black flex items-center justify-center shrink-0 font-mono">
-                          {sIdx + 1}
-                        </span>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1">
-                          <div>
-                            <input
-                              type="text"
-                              value={step.label}
-                              onChange={(e) => {
-                                const val = e.target.value;
-                                updateSelectedList((prev) => {
-                                  const current =
-                                    prev.damageChallenge ??
-                                    JSON.parse(
-                                      JSON.stringify(DEFAULT_EXPEDITION_DAMAGE),
-                                    );
-                                  const nextSteps = [...(current.steps || [])];
-                                  nextSteps[sIdx] = {
-                                    ...nextSteps[sIdx],
-                                    label: val,
-                                  };
-                                  return {
-                                    ...prev,
-                                    damageChallenge: {
-                                      ...current,
-                                      steps: nextSteps,
-                                    },
-                                  };
-                                });
-                              }}
-                              placeholder="Soglia EN (es. 5.000)"
-                              className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-xs font-bold"
-                            />
-                          </div>
-                          <div>
-                            <input
-                              type="text"
-                              value={step.translations?.it?.label ?? ""}
-                              onChange={(e) => {
-                                const val = e.target.value;
-                                updateSelectedList((prev) => {
-                                  const current =
-                                    prev.damageChallenge ??
-                                    JSON.parse(
-                                      JSON.stringify(DEFAULT_EXPEDITION_DAMAGE),
-                                    );
-                                  const nextSteps = [...(current.steps || [])];
-                                  nextSteps[sIdx] = {
-                                    ...nextSteps[sIdx],
-                                    translations: {
-                                      ...(nextSteps[sIdx].translations || {}),
-                                      it: {
-                                        ...(nextSteps[sIdx].translations?.it ||
-                                          {}),
-                                        label: val,
-                                      },
-                                    },
-                                  };
-                                  return {
-                                    ...prev,
-                                    damageChallenge: {
-                                      ...current,
-                                      steps: nextSteps,
-                                    },
-                                  };
-                                });
-                              }}
-                              placeholder={`Soglia IT (opzionale, default: ${step.label})`}
-                              className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-xs font-bold"
-                            />
-                          </div>
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            updateSelectedList((prev) => {
-                              const current =
-                                prev.damageChallenge ??
-                                JSON.parse(
-                                  JSON.stringify(DEFAULT_EXPEDITION_DAMAGE),
-                                );
-                              const nextSteps = (current.steps || []).filter(
-                                (_: ActionStep, i: number) => i !== sIdx,
-                              );
-                              return {
-                                ...prev,
-                                damageChallenge: {
-                                  ...current,
-                                  steps: nextSteps,
-                                },
-                              };
-                            });
-                          }}
-                          disabled={currentSteps.length <= 1}
-                          className="w-7 h-7 rounded-full bg-red-50/80 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/60 disabled:opacity-30 transition-colors flex items-center justify-center cursor-pointer shadow-2xs shrink-0"
-                          title="Rimuovi soglia"
-                        >
-                          <Trash2 size={12} />
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Live Interactive Timeline Preview */}
-              <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2">
-                <span className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block">
-                  Anteprima Live Timeline Utente
-                </span>
-                <TieredActionTimeline
-                  tieredAction={
-                    selectedList.damageChallenge ?? DEFAULT_EXPEDITION_DAMAGE
-                  }
-                  listId="expedition-damage"
-                  levelNum={0}
-                />
-              </div>
-            </div>
+            <DevDamageChallengeSection
+              selectedList={selectedList}
+              updateSelectedList={updateSelectedList}
+            />
           )}
         </div>
       )}
