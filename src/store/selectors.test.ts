@@ -12,8 +12,12 @@ import {
   getAllBlueprintsPure,
   getBlueprintProgressPure,
   getItemDependenciesPure,
+  isListExpired,
+  getMissingActionsPure,
+  getStashActionsPure,
 } from '@/store/selectors';
 import type { List } from '@/types';
+
 
 // ---------------------------------------------------------------------------
 // Fixtures
@@ -464,5 +468,160 @@ describe('getItemDependenciesPure', () => {
       { listId: 'bench-1', listName: 'Banco Equipaggiamento', level: 2, quantity: 20, isCustom: false },
     ]);
   });
+
+  it('ignores expired lists', () => {
+    const expiredList = {
+      id: 'expired-1',
+      name: 'Event 1',
+      maxLevel: 1,
+      expirationDate: '2020-01-01T00:00:00Z',
+      levels: [{ level: 1, requirementItemIds: [{ itemId: 'metal-parts', quantity: 5 }] }],
+    } as unknown as import('@/types').List;
+
+    const deps = getItemDependenciesPure(
+      'metal-parts',
+      [expiredList],
+      { 'expired-1': true },
+      { 'expired-1': 0 },
+      { 'expired-1': [1] },
+      new Date('2026-01-01').getTime(),
+    );
+    expect(deps).toEqual([]);
+  });
 });
+
+describe('isListExpired and expiration selectors', () => {
+  it('correctly detects expired and non-expired dates', () => {
+    const past = { expirationDate: '2025-01-01T00:00:00.000Z' };
+    const future = { expirationDate: '2027-01-01T00:00:00.000Z' };
+    const noExp = {};
+    const invalidExp = { expirationDate: 'not-a-date' };
+
+    const testNow = new Date('2026-06-01T00:00:00.000Z').getTime();
+
+    expect(isListExpired(past as unknown as List, testNow)).toBe(true);
+    expect(isListExpired(future as unknown as List, testNow)).toBe(false);
+    expect(isListExpired(noExp as unknown as List, testNow)).toBe(false);
+    expect(isListExpired(invalidExp as unknown as List, testNow)).toBe(false);
+  });
+
+  it('excludes expired lists from getTotalRequiredMaterialsPure', () => {
+    const expiredList: List = {
+      id: 'exp:1',
+      name: 'Expired Event',
+      maxLevel: 1,
+      expirationDate: '2025-01-01T00:00:00.000Z',
+      levels: [{ level: 1, requirementItemIds: [{ itemId: 'metal-parts', quantity: 50 }] }],
+    };
+    const testNow = new Date('2026-06-01T00:00:00.000Z').getTime();
+
+    const total = getTotalRequiredMaterialsPure(
+      [bench1, expiredList],
+      { 'wb:1': true, 'exp:1': true },
+      { 'wb:1': 0, 'exp:1': 0 },
+      { 'wb:1': [1], 'exp:1': [1] },
+      undefined,
+      testNow,
+    );
+
+    expect(total['metal-parts']).toBe(5); // only bench1 level 1
+  });
+});
+
+describe('getMissingActionsPure', () => {
+  const actionList: List = {
+    id: 'quest:1',
+    name: 'Intro Quest',
+    maxLevel: 2,
+    custom: true,
+    levels: [
+      {
+        level: 1,
+        requirementItemIds: [],
+        actions: [
+          { id: 'act-1', label: 'Talk to Celeste' },
+          { id: 'act-2', label: 'Explore the Dam' },
+        ],
+      },
+      {
+        level: 2,
+        requirementItemIds: [],
+        actions: [{ id: 'act-3', label: 'Defeat ARC Sentry' }],
+      },
+    ],
+  };
+
+  it('returns uncompleted actions for active targeted levels', () => {
+    const checked = { 'quest:1|1|act-1': true };
+    const missing = getMissingActionsPure(
+      [actionList],
+      { 'quest:1': true },
+      { 'quest:1': 0 },
+      { 'quest:1': [1, 2] },
+      checked,
+    );
+
+    expect(missing).toHaveLength(2);
+    expect(missing[0]).toEqual({
+      listId: 'quest:1',
+      listName: 'Intro Quest',
+      level: 1,
+      actionId: 'act-2',
+      label: 'Explore the Dam',
+      isCustom: true,
+      isCompleted: false,
+    });
+    expect(missing[1]).toEqual({
+      listId: 'quest:1',
+      listName: 'Intro Quest',
+      level: 2,
+      actionId: 'act-3',
+      label: 'Defeat ARC Sentry',
+      isCustom: true,
+      isCompleted: false,
+    });
+  });
+
+  it('returns all stash actions including completed ones with getStashActionsPure', () => {
+    const checked = { 'quest:1|1|act-1': true };
+    const allActions = getStashActionsPure(
+      [actionList],
+      { 'quest:1': true },
+      { 'quest:1': 0 },
+      { 'quest:1': [1, 2] },
+      checked,
+    );
+
+    expect(allActions).toHaveLength(3);
+    expect(allActions[0]).toEqual({
+      listId: 'quest:1',
+      listName: 'Intro Quest',
+      level: 1,
+      actionId: 'act-1',
+      label: 'Talk to Celeste',
+      isCustom: true,
+      isCompleted: true,
+    });
+    expect(allActions[1].isCompleted).toBe(false);
+    expect(allActions[2].isCompleted).toBe(false);
+  });
+
+  it('excludes actions from expired lists', () => {
+    const expiredQuest: List = {
+      ...actionList,
+      expirationDate: '2020-01-01T00:00:00Z',
+    };
+    const missing = getMissingActionsPure(
+      [expiredQuest],
+      { 'quest:1': true },
+      { 'quest:1': 0 },
+      { 'quest:1': [1, 2] },
+      {},
+      new Date('2026-01-01').getTime(),
+    );
+
+    expect(missing).toEqual([]);
+  });
+});
+
 

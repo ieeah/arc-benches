@@ -101,4 +101,57 @@ describe('useAppStore persistence boundary', () => {
     expect(state.radialMenuEnabled).toBe(false);
     expect(state.startupProfileOption).toBe('main');
   });
+
+  it('unchecks actions when level is reduced', () => {
+    const listId = useAppStore.getState().createCustomList({
+      name: 'Quest with actions',
+      levels: [
+        {
+          level: 1,
+          requirementItemIds: [],
+          actions: [{ id: 'act-1', label: 'Action 1' }],
+        },
+        {
+          level: 2,
+          requirementItemIds: [],
+          actions: [{ id: 'act-2', label: 'Action 2' }],
+        },
+      ],
+    });
+
+    // Level up to 2: actions for level 1 and 2 become checked
+    useAppStore.getState().setModuleCurrentLevel(listId, 2);
+    expect(useAppStore.getState().checkedActions[`${listId}|1|act-1`]).toBe(true);
+    expect(useAppStore.getState().checkedActions[`${listId}|2|act-2`]).toBe(true);
+
+    // Downward sync back to level 1: level 2 action should be unchecked, level 1 action remains
+    useAppStore.getState().setModuleCurrentLevel(listId, 1);
+    expect(useAppStore.getState().checkedActions[`${listId}|1|act-1`]).toBe(true);
+    expect(useAppStore.getState().checkedActions[`${listId}|2|act-2`]).toBeUndefined();
+
+    // Missing actions selector should now report level 2 action
+    const missing = useAppStore.getState().getMissingActions();
+    expect(missing.some(a => a.actionId === 'act-2')).toBe(true);
+  });
+
+  it('supports creating and updating custom lists with expirationDate', () => {
+    const listId = useAppStore.getState().createCustomList({
+      name: 'Timed Event',
+      levels: [{ level: 1, requirementItemIds: [{ itemId: 'lemon', quantity: 2 }] }],
+      expirationDate: '2026-12-31T23:59:59.000Z',
+    });
+
+    const created = useAppStore.getState().customLists.find(l => l.id === listId);
+    expect(created?.expirationDate).toBe('2026-12-31T23:59:59.000Z');
+
+    useAppStore.getState().updateCustomList(listId, {
+      name: 'Timed Event Extended',
+      expirationDate: '2027-01-15T23:59:59.000Z',
+    });
+
+    const updated = useAppStore.getState().customLists.find(l => l.id === listId);
+    expect(updated?.name).toBe('Timed Event Extended');
+    expect(updated?.expirationDate).toBe('2027-01-15T23:59:59.000Z');
+  });
 });
+

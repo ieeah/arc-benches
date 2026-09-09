@@ -59,6 +59,11 @@ export const it = {
     moreOtherPlural: 'altri',
     noMaterialsFound: 'Nessun materiale trovato.',
     description: 'Descrizione',
+    actions: 'Azioni da Completare',
+    actionsCount: '{count} azioni richieste',
+    slideActionToComplete: 'Scorri per completare',
+    actionCompleted: 'Completata',
+    reopenAction: 'Riapri azione',
   },
   benches: {
     title: 'Banchi del Rifugio',
@@ -96,6 +101,10 @@ export const it = {
     edit: 'Modifica lista',
     delete: 'Elimina lista',
     notFound: 'Lista non trovata',
+    expired: 'Scaduto',
+    expiresIn: 'Scade tra {time}',
+    expiredNotice: 'Questa lista è scaduta. I suoi requisiti non sono inclusi nel conteggio dello Stash.',
+    rewards: 'Ricompense',
   },
   listDetail: {
     backToLists: 'Torna alle liste',
@@ -106,7 +115,9 @@ export const it = {
     targetLevel: 'Livello Obiettivo',
     noMaterialsRequired: 'Nessun materiale richiesto per questo livello',
     completed: 'Tutti gli obiettivi sono stati raggiunti!',
+    rewards: 'Ricompense',
   },
+
   customLists: {
     title: 'Nuova lista',
     editTitle: 'Modifica lista',
@@ -131,8 +142,14 @@ export const it = {
     remove: 'Rimuovi',
     clearAll: 'Svuota lista',
     clearAllConfirm: 'Vuoi davvero rimuovere tutti gli elementi inseriti?',
+    expirationLabel: 'Scadenza lista',
+    expirationOptional: 'Data di scadenza (opzionale)',
+    expirationDesc: 'I materiali non saranno più conteggiati nello Stash dopo la scadenza.',
+    noExpiration: 'Nessuna scadenza impostata',
+    clearExpiration: 'Rimuovi scadenza',
   },
   quantityModal: {
+
     title: 'Imposta Quantità',
     requiredQty: 'Quantità Richiesta',
     stack: 'Stack ({size})',

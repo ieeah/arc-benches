@@ -1,4 +1,7 @@
 import type { List } from '@/types';
+import { isListExpired } from '@/lib/expiration';
+
+export { isListExpired };
 
 export interface MissingMaterial {
   itemId: string;
@@ -50,10 +53,11 @@ export function getTotalRequiredMaterialsPure(
   hideoutLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   excludeModuleId?: string,
+  now: number = Date.now(),
 ): Record<string, number> {
   const total: Record<string, number> = {};
   for (const list of allLists) {
-    if (list.id === excludeModuleId || !activeModules[list.id]) continue;
+    if (list.id === excludeModuleId || !activeModules[list.id] || isListExpired(list, now)) continue;
     const current = hideoutLevels[list.id] ?? 0;
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
@@ -88,10 +92,11 @@ export function getAvailableUpgradesPure(
   activeModules: Record<string, boolean>,
   hideoutLevels: Record<string, number>,
   inventory: Record<string, number>,
+  now: number = Date.now(),
 ): string[] {
   return allLists
     .filter(list => {
-      if (!activeModules[list.id]) return false;
+      if (!activeModules[list.id] || isListExpired(list, now)) return false;
       const current = hideoutLevels[list.id] ?? 0;
       if (current >= list.maxLevel) return false;
       const nextLevel = list.levels.find(l => l.level === current + 1);
@@ -113,7 +118,11 @@ export function getOtherNeedsPure(
   list: List,
   hideoutLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
+  now: number = Date.now(),
 ): Record<string, number> {
+  if (isListExpired(list, now)) {
+    return { ...totalRequired };
+  }
   const result = { ...totalRequired };
   const current = hideoutLevels[list.id] ?? 0;
   const selected = targetLevels[list.id] ?? [];
@@ -157,6 +166,7 @@ export interface ItemListDependency {
   level: number;
   quantity: number;
   isCustom?: boolean;
+  expirationDate?: string;
 }
 
 export function getItemDependenciesPure(
@@ -165,10 +175,11 @@ export function getItemDependenciesPure(
   activeModules: Record<string, boolean>,
   hideoutLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
+  now: number = Date.now(),
 ): ItemListDependency[] {
   const deps: ItemListDependency[] = [];
   for (const list of allLists) {
-    if (!activeModules[list.id]) continue;
+    if (!activeModules[list.id] || isListExpired(list, now)) continue;
     const current = hideoutLevels[list.id] ?? 0;
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
@@ -181,6 +192,7 @@ export function getItemDependenciesPure(
             level: lvl.level,
             quantity: req.quantity,
             isCustom: Boolean(list.custom),
+            expirationDate: list.expirationDate,
           });
         }
       }
@@ -188,3 +200,64 @@ export function getItemDependenciesPure(
   }
   return deps;
 }
+
+export interface StashAction {
+
+  listId: string;
+  listName: string;
+  level: number;
+  actionId: string;
+  label: string;
+  isCustom?: boolean;
+  isCompleted: boolean;
+}
+
+export type MissingAction = StashAction;
+
+export function getStashActionsPure(
+  allLists: List[],
+  activeModules: Record<string, boolean>,
+  hideoutLevels: Record<string, number>,
+  targetLevels: Record<string, number[]>,
+  checkedActions: Record<string, boolean>,
+  now: number = Date.now(),
+): StashAction[] {
+  const actions: StashAction[] = [];
+  for (const list of allLists) {
+    if (!activeModules[list.id] || isListExpired(list, now)) continue;
+    const current = hideoutLevels[list.id] ?? 0;
+    const selected = targetLevels[list.id] ?? [];
+    for (const lvl of list.levels) {
+      if (lvl.level > current && selected.includes(lvl.level)) {
+        for (const action of lvl.actions ?? []) {
+          const key = `${list.id}|${lvl.level}|${action.id}`;
+          const isCompleted = Boolean(checkedActions[key]);
+          actions.push({
+            listId: list.id,
+            listName: list.name,
+            level: lvl.level,
+            actionId: action.id,
+            label: action.label,
+            isCustom: Boolean(list.custom),
+            isCompleted,
+          });
+        }
+      }
+    }
+  }
+  return actions;
+}
+
+export function getMissingActionsPure(
+  allLists: List[],
+  activeModules: Record<string, boolean>,
+  hideoutLevels: Record<string, number>,
+  targetLevels: Record<string, number[]>,
+  checkedActions: Record<string, boolean>,
+  now: number = Date.now(),
+): MissingAction[] {
+  return getStashActionsPure(allLists, activeModules, hideoutLevels, targetLevels, checkedActions, now)
+    .filter(a => !a.isCompleted);
+}
+
+

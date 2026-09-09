@@ -44,10 +44,19 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
       const next = level + 1;
       const cur = targetLevels[moduleId] ?? [];
       if (next <= list.maxLevel && !cur.includes(next)) targetLevels[moduleId] = [...cur, next].sort((a, b) => a - b);
+    } else if (list && level < prevLevel) {
+      list.levels
+        .filter(l => l.level > level && l.level <= prevLevel)
+        .forEach(l => {
+          (l.actions ?? []).forEach(a => {
+            delete checkedActions[`${moduleId}|${l.level}|${a.id}`];
+          });
+        });
     }
 
     set({ hideoutLevels, inventory, checkedActions, targetLevels });
   },
+
 
   toggleTargetLevel: (moduleId, level) => {
     const s = get();
