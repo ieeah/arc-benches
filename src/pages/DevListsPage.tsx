@@ -21,6 +21,7 @@ import {
   X,
   Milestone,
   AlertCircle,
+  ChevronDown,
 } from "lucide-react";
 import type {
   List,
@@ -54,6 +55,14 @@ interface DevListsPageProps {
 }
 
 type FilterType = "all" | ListType;
+
+const LIST_TYPES_ORDER: ListType[] = [
+  "workbench",
+  "expedition",
+  "project",
+  "quest",
+  "custom",
+];
 
 const LIST_TYPE_CONFIG: Record<
   ListType,
@@ -169,16 +178,12 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     onConfirm: () => void;
   } | null>(null);
 
-  // Flattened lists across categories
+  // Flattened lists across buckets — listType è la fonte di verità, garantito dal JSON
   const allLists = useMemo(() => {
-    const list: (List & { typeCategory: ListType })[] = [];
+    const list: List[] = [];
     (Object.keys(listsData) as ListType[]).forEach((type) => {
       listsData[type].forEach((item) => {
-        list.push({
-          ...item,
-          typeCategory: type,
-          listType: item.listType || type,
-        });
+        list.push({ ...item, listType: (item.listType || type) as ListType });
       });
     });
     return list;
@@ -188,7 +193,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   const filteredLists = useMemo(() => {
     return allLists.filter((l) => {
       const matchesFilter =
-        activeFilter === "all" || l.typeCategory === activeFilter;
+        activeFilter === "all" || l.listType === activeFilter;
       const localizedName = getListName(l, language);
       const matchesSearch =
         searchQuery.trim() === "" ||
@@ -198,6 +203,39 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       return matchesFilter && matchesSearch;
     });
   }, [allLists, activeFilter, searchQuery, language]);
+
+  // Collapsible category groups state
+  const [collapsedTypes, setCollapsedTypes] = useState<Record<string, boolean>>({});
+
+  const toggleTypeCollapse = (type: ListType) => {
+    setCollapsedTypes((prev) => ({
+      ...prev,
+      [type]: !prev[type],
+    }));
+  };
+
+  // Grouped lists by listType for collapsible sections
+  const groupedLists = useMemo(() => {
+    const map = new Map<ListType, List[]>();
+    LIST_TYPES_ORDER.forEach((t) => map.set(t, []));
+    filteredLists.forEach((l) => {
+      const key = l.listType as ListType;
+      const arr = map.get(key);
+      if (arr) {
+        arr.push(l);
+      } else {
+        map.set(key, [l]);
+      }
+    });
+    return map;
+  }, [filteredLists]);
+
+  const visibleGroups = useMemo(() => {
+    return LIST_TYPES_ORDER.filter((type) => {
+      const lists = groupedLists.get(type) || [];
+      return lists.length > 0;
+    });
+  }, [groupedLists]);
 
   const {
     selectedList,
@@ -231,7 +269,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
 
   // Validation for expedition index
   const expeditionIndexValidation = useMemo(() => {
-    if (!selectedList || selectedList.typeCategory !== "expedition")
+    if (!selectedList || selectedList.listType !== "expedition")
       return null;
     return validateExpeditionIndex(
       selectedList.expeditionIndex ?? 0,
@@ -611,24 +649,15 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   };
 
   // JSON Preview Generator
-  const currentCategory = selectedList?.typeCategory || "workbench";
+  const currentCategory = (selectedList?.listType || "workbench") as ListType;
   const fileJsonContent = useMemo(() => {
     const items = listsData[currentCategory] || [];
-    const payload = {
-      lists: items.map((l) => {
-        const rest = { ...l } as List & { typeCategory?: ListType };
-        delete rest.typeCategory;
-        return rest;
-      }),
-    };
-    return JSON.stringify(payload, null, 2);
+    return JSON.stringify({ lists: items }, null, 2);
   }, [listsData, currentCategory]);
 
   const singleJsonContent = useMemo(() => {
     if (!selectedList) return "{}";
-    const rest = { ...selectedList } as List & { typeCategory?: ListType };
-    delete rest.typeCategory;
-    return JSON.stringify(rest, null, 2);
+    return JSON.stringify(selectedList, null, 2);
   }, [selectedList]);
 
   const activeJsonToDisplay =
@@ -758,30 +787,81 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             </div>
           </div>
 
-          {/* List Items */}
-          <div className="flex-1 overflow-y-auto p-2 space-y-1">
-            {filteredLists.length === 0 ? (
+          {/* List Items (Grouped by Category) */}
+          <div className="flex-1 overflow-y-auto p-2 space-y-2">
+            {visibleGroups.length === 0 ? (
               <p className="p-4 text-xs text-center text-gray-400">
                 Nessuna lista trovata.
               </p>
             ) : (
-              filteredLists.map((list) => (
-                <DevListCard
-                  key={list.id}
-                  list={list}
-                  isSelected={list.id === selectedListId}
-                  expeditionLists={listsData.expedition || []}
-                  typeIcon={LIST_TYPE_CONFIG[list.typeCategory].icon}
-                  onSelect={() => {
-                    setSelectedListId(list.id);
-                    setActiveLevelNumber(1);
-                  }}
-                  onDuplicate={(e) => {
-                    e.stopPropagation();
-                    handleDuplicateList(list);
-                  }}
-                />
-              ))
+              visibleGroups.map((type) => {
+                const config = LIST_TYPE_CONFIG[type];
+                const listsInGroup = groupedLists.get(type) || [];
+                const isCollapsed = Boolean(collapsedTypes[type]);
+                const containsSelected = listsInGroup.some(
+                  (l) => l.id === selectedListId,
+                );
+
+                return (
+                  <div key={type} className="space-y-1">
+                    {/* Collapsible Group Header */}
+                    <button
+                      type="button"
+                      onClick={() => toggleTypeCollapse(type)}
+                      className={cn(
+                        "w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer select-none",
+                        isCollapsed
+                          ? "bg-gray-50/80 dark:bg-gray-800/40 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                          : "text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/60",
+                      )}
+                    >
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="shrink-0">{config.icon}</span>
+                        <span className="truncate">{config.label}</span>
+                        <span className="px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold bg-gray-200/70 dark:bg-gray-700/60 text-gray-600 dark:text-gray-300">
+                          {listsInGroup.length}
+                        </span>
+                        {containsSelected && isCollapsed && (
+                          <span
+                            className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400 shrink-0"
+                            title="Contiene la lista selezionata"
+                          />
+                        )}
+                      </div>
+                      <ChevronDown
+                        size={14}
+                        className={cn(
+                          "text-gray-400 transition-transform duration-200 shrink-0",
+                          isCollapsed && "-rotate-90",
+                        )}
+                      />
+                    </button>
+
+                    {/* Group Items */}
+                    {!isCollapsed && (
+                      <div className="space-y-1 pl-1">
+                        {listsInGroup.map((list) => (
+                          <DevListCard
+                            key={list.id}
+                            list={list}
+                            isSelected={list.id === selectedListId}
+                            expeditionLists={listsData.expedition || []}
+                            typeIcon={config.icon}
+                            onSelect={() => {
+                              setSelectedListId(list.id);
+                              setActiveLevelNumber(1);
+                            }}
+                            onDuplicate={(e) => {
+                              e.stopPropagation();
+                              handleDuplicateList(list);
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             )}
           </div>
         </div>
@@ -840,7 +920,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             <div className="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
               <div className="flex items-center gap-2.5">
                 <span className="p-2 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
-                  {LIST_TYPE_CONFIG[selectedList.typeCategory].icon}
+                  {LIST_TYPE_CONFIG[selectedList.listType as ListType].icon}
                 </span>
                 <div>
                   <h2 className="text-base font-black text-gray-900 dark:text-gray-100">
@@ -876,7 +956,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                 <button
                   type="button"
                   onClick={() =>
-                    handleDeleteList(selectedList.id, selectedList.typeCategory)
+                    handleDeleteList(selectedList.id, selectedList.listType as ListType)
                   }
                   className="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors cursor-pointer"
                   title="Elimina lista"
@@ -912,7 +992,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                   Tipologia (listType)
                 </label>
                 <select
-                  value={selectedList.listType || selectedList.typeCategory}
+                  value={selectedList.listType}
                   onChange={(e) => {
                     const newType = e.target.value as ListType;
                     updateSelectedList((prev) => ({
@@ -932,7 +1012,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
               </div>
 
               {/* Multilingua: Nome EN / Default */}
-              <div>
+              <div className="sm:col-span-2">
                 <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center justify-between mb-1">
                   <span>Nome Principale (EN / Default)</span>
                   <span className="text-[10px] font-mono text-gray-400">
@@ -953,7 +1033,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
               </div>
 
               {/* Multilingua: Traduzione IT */}
-              <div>
+              <div className="sm:col-span-2">
                 <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center justify-between mb-1">
                   <span className="flex items-center gap-1">
                     <Languages size={13} className="text-blue-500" />
@@ -986,7 +1066,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
               </div>
 
               {/* Multilingua: Descrizione EN */}
-              <div>
+              <div className="sm:col-span-2">
                 <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 block mb-1">
                   Descrizione (EN / Default)
                 </label>
@@ -1004,7 +1084,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
               </div>
 
               {/* Multilingua: Descrizione IT */}
-              <div>
+              <div className="sm:col-span-2">
                 <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1 mb-1">
                   <Languages size={13} className="text-blue-500" />
                   Descrizione (Italiano)
@@ -1031,7 +1111,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                 />
               </div>
 
-              {selectedList.typeCategory === "expedition" && (
+              {selectedList.listType === "expedition" && (
                 <div className="sm:col-span-2 space-y-1.5">
                   <div className="flex items-center justify-between">
                     <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 block">
@@ -1076,7 +1156,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
               )}
             </div>
 
-            {/* Date Fields with ISO + Datetime Picker Helper */}
+            {/* Date Fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2 border-t border-gray-100 dark:border-gray-800">
               <IsoDateTimeField
                 label="Data Inizio Finestra (Apertura)"
@@ -1313,7 +1393,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                           </button>
                         </div>
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 gap-2">
                         <div>
                           <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
                             Descrizione EN (Default)
@@ -1401,7 +1481,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                   </button>
                                 </div>
                               </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              <div className="grid grid-cols-1 gap-2">
                                 <div>
                                   <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
                                     Descrizione EN (Default)
@@ -1571,7 +1651,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                       </div>
 
                       {/* Main Action Labels */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 gap-2">
                         <div>
                           <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
                             Nome Obiettivo EN (Default)
@@ -1731,7 +1811,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                 </div>
                               </div>
 
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              <div className="grid grid-cols-1 gap-2">
                                 <div>
                                   <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
                                     Nome Obiettivo EN (Default)
@@ -2032,7 +2112,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                           </button>
                         </div>
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 gap-2">
                         <div>
                           <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
                             Descrizione EN (Default)
@@ -2120,7 +2200,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                   </button>
                                 </div>
                               </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              <div className="grid grid-cols-1 gap-2">
                                 <div>
                                   <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
                                     Descrizione EN (Default)
@@ -2237,7 +2317,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             )}
           </div>
           {/* Expedition-Specific: Damage Challenge Configuration */}
-          {selectedList.typeCategory === "expedition" && (
+          {selectedList.listType === "expedition" && (
             <DevDamageChallengeSection
               selectedList={selectedList}
               updateSelectedList={updateSelectedList}

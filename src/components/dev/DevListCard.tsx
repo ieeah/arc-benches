@@ -6,7 +6,7 @@ import { getListName } from '@/i18n';
 import { useTranslation } from '@/i18n';
 
 interface DevListCardProps {
-  list: List & { typeCategory: ListType };
+  list: List;
   isSelected: boolean;
   expeditionLists: List[];
   typeIcon: React.ReactNode;
@@ -27,7 +27,7 @@ export const DevListCard = ({
 
   const displayName = getListName(list, language);
   const expValidation =
-    list.typeCategory === 'expedition'
+    list.listType === 'expedition'
       ? validateExpeditionIndex(list.expeditionIndex ?? 0, list.id, expeditionLists)
       : null;
 
@@ -62,7 +62,7 @@ export const DevListCard = ({
         </div>
         <div className="flex items-center gap-2 mt-1 text-[10px] text-gray-400 flex-wrap">
           <span className="font-mono">{list.id}</span>
-          {list.typeCategory === 'expedition' && list.expeditionIndex !== undefined && (
+          {list.listType === 'expedition' && list.expeditionIndex !== undefined && (
             <>
               <span>•</span>
               <span className="text-blue-600 dark:text-blue-400 font-bold">

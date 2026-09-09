@@ -17,7 +17,7 @@ const DEFAULT_EXPEDITION_DAMAGE: TieredAction = {
 };
 
 interface DevDamageChallengeSectionProps {
-  selectedList: List & { typeCategory: string };
+  selectedList: List;
   updateSelectedList: (updater: (prev: List) => List) => void;
 }
 

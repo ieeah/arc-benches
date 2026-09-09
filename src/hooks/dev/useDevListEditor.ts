@@ -28,6 +28,8 @@ interface UseDevListEditorOptions {
  *
  * Non gestisce la persistenza (affidata a useDevListDrafts)
  * né lo stato di editing inline (rimasto in DevListsPage).
+ *
+ * Il bucket in listsData è determinato da list.listType.
  */
 export function useDevListEditor({
   listsData,
@@ -38,28 +40,34 @@ export function useDevListEditor({
   setActiveLevelNumber,
   setConfirmModalConfig,
 }: UseDevListEditorOptions) {
-  // Derivato: lista selezionata (con categoria iniettata)
+  // Derivato: lista selezionata (listType sempre garantito)
   const allLists = Object.entries(listsData).flatMap(([type, lists]) =>
-    (lists as List[]).map((l) => ({ ...l, typeCategory: type as ListType, listType: l.listType || (type as ListType) }))
+    (lists as List[]).map((l) => ({ ...l, listType: l.listType || (type as ListType) }))
   );
   const selectedList = allLists.find((l) => l.id === selectedListId) ?? null;
+
+  // Il bucket è determinato da listType
+  const getBucket = (list: List): ListType => (list.listType || 'workbench') as ListType;
 
   // Aggiornamento generico della lista selezionata
   const updateSelectedList = useCallback(
     (updater: (prev: List) => List) => {
       if (!selectedList) return;
-      const category = selectedList.typeCategory;
+      const bucket = getBucket(selectedList);
       setListsData((prev) => {
-        const categoryLists = prev[category] || [];
-        const index = categoryLists.findIndex((l) => l.id === selectedList.id);
+        const bucketLists = prev[bucket] || [];
+        const index = bucketLists.findIndex((l) => l.id === selectedList.id);
         if (index === -1) return prev;
-        const updated = updater(categoryLists[index]);
-        const nextCategoryLists = [...categoryLists];
-        nextCategoryLists[index] = updated;
-        return { ...prev, [category]: nextCategoryLists };
+        const updated = updater(bucketLists[index]);
+        if (updated.id !== selectedList.id) {
+          setSelectedListId(updated.id);
+        }
+        const nextBucketLists = [...bucketLists];
+        nextBucketLists[index] = updated;
+        return { ...prev, [bucket]: nextBucketLists };
       });
     },
-    [selectedList, setListsData],
+    [selectedList, setListsData, setSelectedListId],
   );
 
   // Crea nuova lista
@@ -101,8 +109,8 @@ export function useDevListEditor({
   };
 
   // Duplica lista
-  const handleDuplicateList = (sourceList: List & { typeCategory: ListType }) => {
-    const category = sourceList.typeCategory;
+  const handleDuplicateList = (sourceList: List) => {
+    const bucket = getBucket(sourceList);
     const existingIds = new Set(
       Object.values(listsData).flatMap((arr) => (arr || []).map((l) => l.id))
     );
@@ -121,7 +129,7 @@ export function useDevListEditor({
       clonedList.translations.it.name = `${clonedList.translations.it.name} (Copia)`;
     }
 
-    if (category === 'expedition') {
+    if (bucket === 'expedition') {
       const existingIndices = (listsData.expedition || [])
         .map((e) => e.expeditionIndex)
         .filter((n): n is number => typeof n === 'number' && Number.isInteger(n) && n > 0);
@@ -151,15 +159,14 @@ export function useDevListEditor({
         })),
       }));
     }
-    delete (clonedList as List & { typeCategory?: ListType }).typeCategory;
 
-    setListsData((prev) => ({ ...prev, [category]: [...(prev[category] || []), clonedList] }));
+    setListsData((prev) => ({ ...prev, [bucket]: [...(prev[bucket] || []), clonedList] }));
     setSelectedListId(clonedList.id);
     setActiveLevelNumber(1);
   };
 
   // Elimina lista
-  const handleDeleteList = (id: string, category: ListType) => {
+  const handleDeleteList = (id: string, bucket: ListType) => {
     setConfirmModalConfig({
       title: 'Elimina Lista',
       message: `Sei sicuro di voler eliminare la lista "${id}"?`,
@@ -169,7 +176,7 @@ export function useDevListEditor({
       onConfirm: () => {
         setListsData((prev) => ({
           ...prev,
-          [category]: (prev[category] || []).filter((l) => l.id !== id),
+          [bucket]: (prev[bucket] || []).filter((l) => l.id !== id),
         }));
         if (selectedListId === id) setSelectedListId(null);
       },
@@ -179,8 +186,8 @@ export function useDevListEditor({
   // Ripristina lista selezionata
   const handleResetCurrentList = () => {
     if (!selectedList) return;
-    const category = selectedList.typeCategory;
-    const baselineList = initialData[category]?.find((l) => l.id === selectedList.id);
+    const bucket = getBucket(selectedList);
+    const baselineList = initialData[bucket]?.find((l) => l.id === selectedList.id);
     setConfirmModalConfig({
       title: 'Ripristina Lista',
       message: `Ripristinare la lista "${selectedList.name}" ai dati originali di fabbrica?`,
@@ -204,8 +211,8 @@ export function useDevListEditor({
   // Ripristina livello attivo
   const handleResetCurrentLevel = (activeLevelNumber: number) => {
     if (!selectedList) return;
-    const category = selectedList.typeCategory;
-    const baselineList = initialData[category]?.find((l) => l.id === selectedList.id);
+    const bucket = getBucket(selectedList);
+    const baselineList = initialData[bucket]?.find((l) => l.id === selectedList.id);
     const baselineLevel = baselineList?.levels.find((lvl) => lvl.level === activeLevelNumber);
     setConfirmModalConfig({
       title: 'Ripristina Livello',

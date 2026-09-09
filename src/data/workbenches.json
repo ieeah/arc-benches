@@ -62,7 +62,8 @@
         "it": {
           "name": "Banco Equipaggiamento"
         }
-      }
+      },
+      "listType": "workbench"
     },
     {
       "id": "explosives-bench",
@@ -121,7 +122,8 @@
         "it": {
           "name": "Stazione Esplosivi"
         }
-      }
+      },
+      "listType": "workbench"
     },
     {
       "id": "med-station",
@@ -180,7 +182,8 @@
         "it": {
           "name": "Laboratorio Medico"
         }
-      }
+      },
+      "listType": "workbench"
     },
     {
       "id": "refiner",
@@ -239,7 +242,8 @@
         "it": {
           "name": "Rifinitore"
         }
-      }
+      },
+      "listType": "workbench"
     },
     {
       "id": "scrappy",
@@ -311,7 +315,8 @@
         "it": {
           "name": "Scartino"
         }
-      }
+      },
+      "listType": "workbench"
     },
     {
       "id": "utility-bench",
@@ -370,7 +375,8 @@
         "it": {
           "name": "Postazione di Funzionalità"
         }
-      }
+      },
+      "listType": "workbench"
     },
     {
       "id": "weapon-bench",
@@ -429,7 +435,8 @@
         "it": {
           "name": "Banco delle armi"
         }
-      }
+      },
+      "listType": "workbench"
     },
     {
       "id": "workbench",
@@ -440,7 +447,8 @@
         "it": {
           "name": "Banco da Lavoro"
         }
-      }
+      },
+      "listType": "workbench"
     }
   ]
 }

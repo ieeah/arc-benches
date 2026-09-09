@@ -1,0 +1,211 @@
+{
+  "lists": [
+    {
+      "id": "trophy-display",
+      "name": "Trophy Display",
+      "translations": {
+        "it": {
+          "name": "Bacheca dei Trofei"
+        }
+      },
+      "maxLevel": 5,
+      "listType": "project",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "rusted-bolts",
+              "quantity": 3
+            },
+            {
+              "itemId": "pop-trigger",
+              "quantity": 15
+            },
+            {
+              "itemId": "tick-pod",
+              "quantity": 15
+            },
+            {
+              "itemId": "surveyor-vault",
+              "quantity": 5
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "spotter-relay",
+              "quantity": 10
+            },
+            {
+              "itemId": "expired-respirator",
+              "quantity": 3
+            },
+            {
+              "itemId": "wasp-driver",
+              "quantity": 20
+            },
+            {
+              "itemId": "hornet-driver",
+              "quantity": 15
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "arc-performance-steel",
+              "quantity": 10
+            },
+            {
+              "itemId": "shredder-gyro",
+              "quantity": 5
+            },
+            {
+              "itemId": "leaper-pulse-unit",
+              "quantity": 10
+            },
+            {
+              "itemId": "bastion-part",
+              "quantity": 5
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "arc-synthetic-resin",
+              "quantity": 10
+            },
+            {
+              "itemId": "magnetic-accelerator",
+              "quantity": 10
+            },
+            {
+              "itemId": "rocketeer-part",
+              "quantity": 8
+            },
+            {
+              "itemId": "queen-reactor",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [
+            {
+              "itemId": "exodus-modules",
+              "quantity": 5
+            },
+            {
+              "itemId": "geiger-counter",
+              "quantity": 3
+            },
+            {
+              "itemId": "bombardier-cell",
+              "quantity": 8
+            },
+            {
+              "itemId": "matriarch-reactor",
+              "quantity": 3
+            }
+          ]
+        }
+      ],
+      "startDate": "2026-07-01T21:45:00.000Z",
+      "expirationDate": "2026-07-01T21:46:00.000Z"
+    },
+    {
+      "id": "phantom-targets",
+      "name": "Phantom Targets",
+      "translations": {
+        "it": {
+          "name": "Obiettivi Fantasma"
+        }
+      },
+      "maxLevel": 3,
+      "listType": "project",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "259de9bd-776c-4380-bb59-42251636668d",
+              "label": "Upgrade 3 antennas found on top of any Cargo Elevator",
+              "translations": {
+                "it": {
+                  "label": "Migliora 3 antenne in cima a qualsiasi ascensore"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "701d9332-5bc4-4995-a6d3-4e10642adaff",
+              "label": "Deal damage to any ARC enemy using Pop Triggers (50)",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni a qualsiasi nemico ARC usando i Grilletti Pop (50)"
+                }
+              }
+            },
+            {
+              "id": "51b3b976-4aa6-4920-8cb5-c9937450a3f8",
+              "label": "Deal damage to any ARC enemy using Wasp Drivers (500)",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni a qualsiasi ARC usando i Driver di Vespa (500)"
+                }
+              }
+            },
+            {
+              "id": "64147868-b26d-41dc-a760-099df758886a",
+              "label": "Deal damage to any ARC enemy using Leaper Pulse Unit (1000)",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni a qualsiasi nemico ARC usando le Unità ad impulso Leaper (1000)"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "ece45353-1e1e-4865-9bdf-15341e529bf0",
+              "label": "Damage ARC enemies using fire damage items [Blaze Grenade, Firefly and Fireball Burner, Flame Spray] (1500)",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni a qualsiasi ARC usando oggetti incendiari [Granate Incendiarie, Bruciatori Lucciola e Palla di Fuoco o Lanciafiamme] (1500)"
+                }
+              }
+            },
+            {
+              "id": "bf2bdf93-ee8f-4abe-8d39-e4e42c7bd5a7",
+              "label": "Destroy Bastion, Leapers, Vaporizers or Rocketeers using energy weapons [Aphelion, Dolabra, Jupiter, Equalizer] (3)",
+              "translations": {
+                "it": {
+                  "label": "Distruggi Bastioni, Leapers, Vaporizzatori o Lanciarazzi usando armi energetiche [Aphelion, Dolabra, Giove, Equalizzatore] (3)"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "startDate": "2026-09-08T00:00:00.000Z",
+      "expirationDate": "2026-09-08T00:00:00.000Z"
+    }
+  ]
+}
