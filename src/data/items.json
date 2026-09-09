@@ -912,19 +912,6 @@
       }
     }
   },
-  "bison-driver": {
-    "id": "bison-driver",
-    "name": "Bison Driver",
-    "description": "A critical control component from a Bison vehicle.",
-    "icon": "icons/items/bison-driver.webp",
-    "rarity": "Rare",
-    "item_type": "Recyclable",
-    "subcategory": null,
-    "value": 2500,
-    "workbench": null,
-    "loot_area": "ARC",
-    "stack_size": 3
-  },
   "black-and-white-origin-color": {
     "id": "black-and-white-origin-color",
     "name": "Black & White (Origin Color)",
@@ -1833,7 +1820,13 @@
     "value": 10000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Scarpe Colorate",
+        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
+      }
+    }
   },
   "colorful-shoes-epic": {
     "id": "colorful-shoes-epic",
@@ -1846,7 +1839,13 @@
     "value": 7000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Scarpe Colorate",
+        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
+      }
+    }
   },
   "colorful-shoes-rare": {
     "id": "colorful-shoes-rare",
@@ -1859,7 +1858,13 @@
     "value": 3000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Scarpe Colorate",
+        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
+      }
+    }
   },
   "combat-mk-1": {
     "id": "combat-mk-1",
@@ -2676,6 +2681,25 @@
       "it": {
         "name": "Resina ARC essiccata",
         "description": "Ottenuto da nemici o attività ARC. Si può riciclare in plastica."
+      }
+    }
+  },
+  "duct-tape": {
+    "id": "duct-tape",
+    "name": "Duct Tape",
+    "description": "Used to craft a wide range of items. Can be recycled into crafting materials",
+    "icon": "icons/items/duct-tape.webp",
+    "rarity": "Uncommon",
+    "item_type": "Topside Material",
+    "subcategory": "Topside Material",
+    "value": 300,
+    "workbench": null,
+    "loot_area": "Residential, Commercial",
+    "stack_size": 15,
+    "translations": {
+      "it": {
+        "name": "Nastro adesivo",
+        "description": "Si usa per creare una vasta gamma di oggetti. Si può riciclare in materiali da creazione. Si usa per creare: Calcio stabile I, Impugnatura verticale I, Impugnatura angolata I, Impugnatura verticale II, Impugnatura angolata II"
       }
     }
   },
@@ -4648,6 +4672,38 @@
       "it": {
         "name": "Mixtape di Lance (5ª edizione)",
         "description": "Lance ne ha piantati personalmente diversi in giro per la Rust Belt, per qualche motivo."
+      }
+    }
+  },
+  "laser-trap-lure": {
+    "id": "laser-trap-lure",
+    "name": "Laser Trap: Lure",
+    "description": "A deployable laser trip wire that detonates a Lure Grenade.",
+    "icon": "icons/items/laser-trap-lure.webp",
+    "rarity": "Common",
+    "item_type": "Quick Use",
+    "subcategory": "Trap",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": 3
+  },
+  "laser-trap-smoke": {
+    "id": "laser-trap-smoke",
+    "name": "Smoke Grenade Trap",
+    "description": "A laser trip wire that detonates a Smoke Grenade.",
+    "icon": "icons/items/laser-trap-smoke.webp",
+    "rarity": "Rare",
+    "item_type": "Quick Use",
+    "subcategory": "Trap",
+    "value": 640,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": 3,
+    "translations": {
+      "it": {
+        "name": "Trappola con granata fumogena",
+        "description": "Un filo laser che fa detonare una granata fumogena."
       }
     }
   },
@@ -6852,6 +6908,25 @@
       }
     }
   },
+  "rubber-parts": {
+    "id": "rubber-parts",
+    "name": "Rubber Parts",
+    "description": "Used to craft a wide range of items.",
+    "icon": "icons/items/rubber-parts.webp",
+    "rarity": "Common",
+    "item_type": "Basic Material",
+    "subcategory": "Basic Material",
+    "value": 50,
+    "workbench": null,
+    "loot_area": "Medical, Industrial, Technological",
+    "stack_size": 50,
+    "translations": {
+      "it": {
+        "name": "Componenti di gomma",
+        "description": "Si usa per creare una vasta gamme di oggetti. Si usa per creare: Ferro, Stormo, Saccheggio Mk. 1, Caricascudi, Suturante"
+      }
+    }
+  },
   "ruined-accordion": {
     "id": "ruined-accordion",
     "name": "Ruined Accordion",
@@ -7115,6 +7190,25 @@
       "it": {
         "name": "Granata cercatrice",
         "description": "Una granata a ricerca che prende di mira un singolo ARC nelle vicinanze infliggendo danni esplosivi all'impatto."
+      }
+    }
+  },
+  "sensors": {
+    "id": "sensors",
+    "name": "Sensors",
+    "description": "Used to craft utility items and explosives. Can be recycled into scrap metal.",
+    "icon": "icons/items/sensors.webp",
+    "rarity": "Rare",
+    "item_type": "Topside Material",
+    "subcategory": "Topside Material",
+    "value": 500,
+    "workbench": null,
+    "loot_area": "Security, Technological",
+    "stack_size": 5,
+    "translations": {
+      "it": {
+        "name": "Sensori",
+        "description": "Usato per la fabbricazione. Si usa per creare: Branco di lupi, Mina esplosiva, Chiave del portello del predone, Granata marcatrice"
       }
     }
   },
@@ -9267,6 +9361,25 @@
       }
     }
   },
+  "wires": {
+    "id": "wires",
+    "name": "Wires",
+    "description": "A bundle of old wires. Used to craft a wide range of items. Can be recycled into scrap metal.",
+    "icon": "icons/items/wires.webp",
+    "rarity": "Uncommon",
+    "item_type": "Topside Material",
+    "subcategory": "Topside Material",
+    "value": 200,
+    "workbench": null,
+    "loot_area": "Electrical, Technological",
+    "stack_size": 15,
+    "translations": {
+      "it": {
+        "name": "Cavi",
+        "description": "Si usa per creare un'ampia gamma di oggetti. Si può riciclare in materiali da creazione. Si usa per creare: Trappola laser: Fuoco, Trappola laser: Fumogeno, Trappola laser: Esca, Trappola laser: Gas, Freno di bocca I"
+      }
+    }
+  },
   "wolfpack": {
     "id": "wolfpack",
     "name": "Wolfpack",
@@ -9341,7 +9454,7 @@
     "id": "angled-grip-ii-recipe",
     "name": "Angled Grip II Blueprint",
     "description": "Lets you craft an Angled Grip II",
-    "icon": "icons/items/angled-grip-ii-recipe.webp",
+    "icon": "icons/items/angled-grip-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9360,7 +9473,7 @@
     "id": "angled-grip-iii-recipe",
     "name": "Angled Grip III Blueprint",
     "description": "Lets you craft an Angled Grip III",
-    "icon": "icons/items/angled-grip-iii-recipe.webp",
+    "icon": "icons/items/angled-grip-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9379,7 +9492,7 @@
     "id": "anvil-recipe",
     "name": "Anvil Blueprint",
     "description": "Lets you craft an Anvil - Has high damage output and headshot damage, but slow handling.",
-    "icon": "icons/items/anvil-recipe.webp",
+    "icon": "icons/items/anvil.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9398,7 +9511,7 @@
     "id": "aphelion-rifle-blueprint",
     "name": "Aphelion Rifle Blueprint",
     "description": "Lets you craft an Aphelion Rifle",
-    "icon": "icons/items/aphelion-rifle-blueprint.webp",
+    "icon": "icons/items/aphelion-rifle.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9411,7 +9524,7 @@
     "id": "barricade-kit-recipe",
     "name": "Barricade Kit Blueprint",
     "description": "Lets you craft a Barricade Kit",
-    "icon": "icons/items/barricade-kit-recipe.webp",
+    "icon": "icons/items/barricade-kit.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9449,7 +9562,7 @@
     "id": "blaze-grenade-blueprint",
     "name": "Blaze Grenade Blueprint",
     "description": "Lets you craft a Blaze Grenade",
-    "icon": "icons/items/blaze-grenade-blueprint.webp",
+    "icon": "icons/items/blaze-grenade.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9468,7 +9581,7 @@
     "id": "blue-light-stick-blueprint",
     "name": "Blue Light Stick Blueprint",
     "description": "Lets you craft a Blue Light Stick.",
-    "icon": "icons/items/blue-light-stick-blueprint.webp",
+    "icon": "icons/items/blue-light-stick.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9487,7 +9600,7 @@
     "id": "bobcat-i-recipe",
     "name": "Bobcat Blueprint",
     "description": "Lets you craft a Bobcat I",
-    "icon": "icons/items/bobcat-i-recipe.webp",
+    "icon": "icons/items/bobcat-i.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9525,7 +9638,7 @@
     "id": "canto-blueprint",
     "name": "Canto Blueprint",
     "description": "Lets you craft a Canto SMG.",
-    "icon": "icons/items/canto-blueprint.webp",
+    "icon": "icons/items/canto.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9563,7 +9676,7 @@
     "id": "combat-mk3-aggressive-blueprint",
     "name": "Combat Mk.3 (Aggressive) Blueprint",
     "description": "An improved version of the Combat II augment. Supports more shield types and comes with extra space for grenades",
-    "icon": "icons/items/combat-mk3-aggressive-blueprint.webp",
+    "icon": "icons/items/combat-mk3-aggressive.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9582,7 +9695,7 @@
     "id": "compensator-ii-recipe",
     "name": "Compensator II Blueprint",
     "description": "Lets you craft a Compensator II",
-    "icon": "icons/items/compensator-ii-recipe.webp",
+    "icon": "icons/items/compensator-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9601,7 +9714,7 @@
     "id": "compensator-iii-recipe",
     "name": "Compensator III Blueprint",
     "description": "Lets you craft a Compensator III",
-    "icon": "icons/items/compensator-iii-recipe.webp",
+    "icon": "icons/items/compensator-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9620,7 +9733,7 @@
     "id": "complex-gun-parts-blueprint",
     "name": "Complex Gun Parts Blueprint",
     "description": "Used to craft advanced weapons.",
-    "icon": "icons/items/complex-gun-parts-blueprint.webp",
+    "icon": "icons/items/complex-gun-parts.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9639,7 +9752,7 @@
     "id": "crash-mat-blueprint",
     "name": "Crash Mat Blueprint",
     "description": "Lets you craft a Crash Mat.",
-    "icon": "icons/items/crash-mat-blueprint.webp",
+    "icon": "icons/items/crash-mat.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9658,7 +9771,7 @@
     "id": "deadline-blueprint",
     "name": "Deadline Blueprint",
     "description": "Lets you craft a Deadline Mine",
-    "icon": "icons/items/deadline-blueprint.webp",
+    "icon": "icons/items/deadline.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9677,7 +9790,7 @@
     "id": "defibrillator-recipe",
     "name": "Defibrillator Blueprint",
     "description": "Lets you craft a Defibrillator",
-    "icon": "icons/items/defibrillator-recipe.webp",
+    "icon": "icons/items/defibrillator.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9696,7 +9809,7 @@
     "id": "dolabra-blueprint",
     "name": "Dolabra Blueprint",
     "description": "Lets you craft a Dolabra Shotgun.",
-    "icon": "icons/items/dolabra-blueprint.webp",
+    "icon": "icons/items/dolabra.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9711,30 +9824,11 @@
       }
     }
   },
-  "duct-tape-recipe": {
-    "id": "duct-tape-recipe",
-    "name": "Duct Tape",
-    "description": "Used to craft a wide range of items. Can be recycled into crafting materials",
-    "icon": "icons/items/duct-tape-recipe.webp",
-    "rarity": "Uncommon",
-    "item_type": "Topside Material",
-    "subcategory": "Topside Material",
-    "value": 300,
-    "workbench": null,
-    "loot_area": "Residential, Commercial",
-    "stack_size": 15,
-    "translations": {
-      "it": {
-        "name": "Nastro adesivo",
-        "description": "Si usa per creare una vasta gamma di oggetti. Si può riciclare in materiali da creazione. Si usa per creare: Calcio stabile I, Impugnatura verticale I, Impugnatura angolata I, Impugnatura verticale II, Impugnatura angolata II"
-      }
-    }
-  },
   "equalizer-recipe": {
     "id": "equalizer-recipe",
     "name": "Equalizer Blueprint",
     "description": "A high capacity experimental beam rifle.",
-    "icon": "icons/items/equalizer-recipe.webp",
+    "icon": "icons/items/equalizer.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9753,7 +9847,7 @@
     "id": "explosive-mine-blueprint",
     "name": "Explosive Mine Blueprint",
     "description": "Lets you craft an Explosive Mine",
-    "icon": "icons/items/explosive-mine-blueprint.webp",
+    "icon": "icons/items/explosive-mine.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9772,7 +9866,7 @@
     "id": "extended-barrel-ii-blueprint",
     "name": "Extended Barrel II Blueprint",
     "description": "Moderately increases bullet velocity & distance until damage falloff.",
-    "icon": "icons/items/extended-barrel-ii-blueprint.webp",
+    "icon": "icons/items/extended-barrel-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9791,7 +9885,7 @@
     "id": "extended-barrel-recipe",
     "name": "Extended Barrel III Blueprint",
     "description": "Lets you craft an Extended Barrel",
-    "icon": "icons/items/extended-barrel-recipe.webp",
+    "icon": "icons/items/extended-barrel.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9810,7 +9904,7 @@
     "id": "extended-light-mag-ii-recipe",
     "name": "Extended Light Mag II Blueprint",
     "description": "Lets you craft a Extended Light Mag II",
-    "icon": "icons/items/extended-light-mag-ii-recipe.webp",
+    "icon": "icons/items/extended-light-mag-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9829,7 +9923,7 @@
     "id": "extended-light-mag-iii-recipe",
     "name": "Extended Light Mag III Blueprint",
     "description": "Lets you craft a Extended Light Mag III",
-    "icon": "icons/items/extended-light-mag-iii-recipe.webp",
+    "icon": "icons/items/extended-light-mag-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9848,7 +9942,7 @@
     "id": "extended-medium-mag-ii-recipe",
     "name": "Extended Medium Mag II Blueprint",
     "description": "Lets you craft a Extended Medium Mag II",
-    "icon": "icons/items/extended-medium-mag-ii-recipe.webp",
+    "icon": "icons/items/extended-medium-mag-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9867,7 +9961,7 @@
     "id": "extended-medium-mag-iii-blueprint",
     "name": "Extended Medium Mag III Blueprint",
     "description": "Lets you craft the Medium Mag III",
-    "icon": "icons/items/extended-medium-mag-iii-blueprint.webp",
+    "icon": "icons/items/extended-medium-mag-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9886,7 +9980,7 @@
     "id": "extended-shotgun-mag-ii-recipe",
     "name": "Extended Shotgun Mag II Blueprint",
     "description": "Lets you craft a Extended Shotgun Mag II - Moderately extends the ammo capacity of shotguns.",
-    "icon": "icons/items/extended-shotgun-mag-ii-recipe.webp",
+    "icon": "icons/items/extended-shotgun-mag-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9905,7 +9999,7 @@
     "id": "extended-shotgun-mag-iii-recipe",
     "name": "Extended Shotgun Mag III Blueprint",
     "description": "Lets you craft a Extended Shotgun Mag III",
-    "icon": "icons/items/extended-shotgun-mag-iii-recipe.webp",
+    "icon": "icons/items/extended-shotgun-mag-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9924,7 +10018,7 @@
     "id": "fireworks-box-blueprint",
     "name": "Fireworks Box Blueprint",
     "description": "Lets you craft a Fireworks Box",
-    "icon": "icons/items/fireworks-box-blueprint.webp",
+    "icon": "icons/items/fireworks-box.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9943,7 +10037,7 @@
     "id": "gas-mine-blueprint",
     "name": "Gas Mine Blueprint",
     "description": "Lets you craft a Gas Mine",
-    "icon": "icons/items/gas-mine-blueprint.webp",
+    "icon": "icons/items/gas-mine.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9962,7 +10056,7 @@
     "id": "green-light-stick-blueprint",
     "name": "Green Light Stick Blueprint",
     "description": "Lets you craft a Green Light Stick.",
-    "icon": "icons/items/green-light-stick-blueprint.webp",
+    "icon": "icons/items/green-light-stick.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -9981,7 +10075,7 @@
     "id": "heavy-gun-parts-recipe",
     "name": "Heavy Gun Parts Blueprint",
     "description": "Used directly in crafting items of all tiers.",
-    "icon": "icons/items/heavy-gun-parts-recipe.webp",
+    "icon": "icons/items/heavy-gun-parts.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10000,7 +10094,7 @@
     "id": "hullcracker-blueprint",
     "name": "Hullcracker Blueprint",
     "description": "Lets you craft an Hullcracker",
-    "icon": "icons/items/hullcracker-blueprint.webp",
+    "icon": "icons/items/hullcracker.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10019,7 +10113,7 @@
     "id": "il-toro-recipe",
     "name": "Il Toro Blueprint",
     "description": "Lets you craft an Il Toro",
-    "icon": "icons/items/il-toro-recipe.webp",
+    "icon": "icons/items/il-toro.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10038,7 +10132,7 @@
     "id": "jolt-mine-recipe",
     "name": "Jolt Mine Blueprint",
     "description": "Lets you craft a Jolt Mine",
-    "icon": "icons/items/jolt-mine-recipe.webp",
+    "icon": "icons/items/jolt-mine.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10057,7 +10151,7 @@
     "id": "jupiter-i-recipe",
     "name": "Jupiter Blueprint",
     "description": "Fires projectiles at an incredible velocity, capable of damaging multiple targets with one shot.",
-    "icon": "icons/items/jupiter-i-recipe.webp",
+    "icon": "icons/items/jupiter-i.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10072,43 +10166,11 @@
       }
     }
   },
-  "laser-trap-lure-recipe": {
-    "id": "laser-trap-lure-recipe",
-    "name": "Laser Trap: Lure",
-    "description": "A deployable laser trip wire that detonates a Lure Grenade.",
-    "icon": "icons/items/laser-trap-lure-recipe.webp",
-    "rarity": "Common",
-    "item_type": "Quick Use",
-    "subcategory": "Trap",
-    "value": 0,
-    "workbench": null,
-    "loot_area": "",
-    "stack_size": 3
-  },
-  "laser-trap-smoke-recipe": {
-    "id": "laser-trap-smoke-recipe",
-    "name": "Smoke Grenade Trap",
-    "description": "A laser trip wire that detonates a Smoke Grenade.",
-    "icon": "icons/items/laser-trap-smoke-recipe.webp",
-    "rarity": "Rare",
-    "item_type": "Quick Use",
-    "subcategory": "Trap",
-    "value": 640,
-    "workbench": null,
-    "loot_area": "",
-    "stack_size": 3,
-    "translations": {
-      "it": {
-        "name": "Trappola con granata fumogena",
-        "description": "Un filo laser che fa detonare una granata fumogena."
-      }
-    }
-  },
   "light-gun-parts-recipe": {
     "id": "light-gun-parts-recipe",
     "name": "Light Gun Parts Blueprint",
     "description": "Lets you craft Light Gun Parts",
-    "icon": "icons/items/light-gun-parts-recipe.webp",
+    "icon": "icons/items/light-gun-parts.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10127,7 +10189,7 @@
     "id": "lightweight-stock-recipe",
     "name": "Lightweight Stock Blueprint",
     "description": "Lets you craft a Lightweight Stock",
-    "icon": "icons/items/lightweight-stock-recipe.webp",
+    "icon": "icons/items/lightweight-stock.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10146,7 +10208,7 @@
     "id": "looting-mk-3-safekeeper-blueprint",
     "name": "Looting MK. 3 (Safekeeper) Blueprint",
     "description": "Lets you craft the Looting Mk. 3 (Safekeeper) Augment.",
-    "icon": "icons/items/looting-mk-3-safekeeper-blueprint.webp",
+    "icon": "icons/items/looting-mk-3-safekeeper.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10165,7 +10227,7 @@
     "id": "looting-mk-3-survivor-blueprint",
     "name": "Looting MK. 3 (Survivor) Blueprint",
     "description": "A heavy-duty pack mule augment. Large weight capacity and large backpack space.",
-    "icon": "icons/items/looting-mk-3-survivor-blueprint.webp",
+    "icon": "icons/items/looting-mk-3-survivor.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10184,7 +10246,7 @@
     "id": "lure-grenade-recipe",
     "name": "Lure Grenade Blueprint",
     "description": "Lets you craft a Lure Grenade",
-    "icon": "icons/items/lure-grenade-recipe.webp",
+    "icon": "icons/items/lure-grenade.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10203,7 +10265,7 @@
     "id": "medium-gun-parts-recipe",
     "name": "Medium Gun Parts Blueprint",
     "description": "Lets you craft Medium Gun Parts",
-    "icon": "icons/items/medium-gun-parts-recipe.webp",
+    "icon": "icons/items/medium-gun-parts.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10222,7 +10284,7 @@
     "id": "muzzle-brake-ii-recipe",
     "name": "Muzzle Brake II Blueprint",
     "description": "Lets you craft a Muzzle Brake II",
-    "icon": "icons/items/muzzle-brake-ii-recipe.webp",
+    "icon": "icons/items/muzzle-brake-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10241,7 +10303,7 @@
     "id": "muzzle-brake-iii-recipe",
     "name": "Muzzle Brake III Blueprint",
     "description": "Lets you craft a Muzzle Brake III",
-    "icon": "icons/items/muzzle-brake-iii-recipe.webp",
+    "icon": "icons/items/muzzle-brake-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10260,7 +10322,7 @@
     "id": "osprey-recipe",
     "name": "Osprey Blueprint",
     "description": "Has reliable damage output and accuracy.",
-    "icon": "icons/items/osprey-recipe.webp",
+    "icon": "icons/items/osprey.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10279,7 +10341,7 @@
     "id": "padded-stock-recipe",
     "name": "Padded Stock Blueprint",
     "description": "Lets you craft a Padded Stock",
-    "icon": "icons/items/padded-stock-recipe.webp",
+    "icon": "icons/items/padded-stock.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10298,7 +10360,7 @@
     "id": "powered-descender-blueprint",
     "name": "Powered Descender Blueprint",
     "description": "Reduces fall speed when used in the air, but has a wind-up time before reaching full force. Shuts down once out of power.",
-    "icon": "icons/items/powered-descender-blueprint.webp",
+    "icon": "icons/items/powered-descender.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10317,7 +10379,7 @@
     "id": "pulse-mine-blueprint",
     "name": "Pulse Mine Blueprint",
     "description": "Lets you craft a Pulse Mine",
-    "icon": "icons/items/pulse-mine-blueprint.webp",
+    "icon": "icons/items/pulse-mine.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10336,7 +10398,7 @@
     "id": "rascal-blueprint",
     "name": "Rascal Blueprint",
     "description": "Fires explosive projectiles that only detonate when hitting ARC.",
-    "icon": "icons/items/rascal-blueprint.webp",
+    "icon": "icons/items/rascal.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10355,7 +10417,7 @@
     "id": "red-light-stick-blueprint",
     "name": "Red Light Stick Blueprint",
     "description": "Lets you craft a Red Light Stick.",
-    "icon": "icons/items/red-light-stick-blueprint.webp",
+    "icon": "icons/items/red-light-stick.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10374,7 +10436,7 @@
     "id": "remote-raider-flare-blueprint",
     "name": "Remote Raider Flare Blueprint",
     "description": "Allows you to craft the Remote Raider Flare.",
-    "icon": "icons/items/remote-raider-flare-blueprint.webp",
+    "icon": "icons/items/remote-raider-flare.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10389,30 +10451,11 @@
       }
     }
   },
-  "rubber-parts-recipe": {
-    "id": "rubber-parts-recipe",
-    "name": "Rubber Parts",
-    "description": "Used to craft a wide range of items.",
-    "icon": "icons/items/rubber-parts-recipe.webp",
-    "rarity": "Common",
-    "item_type": "Basic Material",
-    "subcategory": "Basic Material",
-    "value": 50,
-    "workbench": null,
-    "loot_area": "Medical, Industrial, Technological",
-    "stack_size": 50,
-    "translations": {
-      "it": {
-        "name": "Componenti di gomma",
-        "description": "Si usa per creare una vasta gamme di oggetti. Si usa per creare: Ferro, Stormo, Saccheggio Mk. 1, Caricascudi, Suturante"
-      }
-    }
-  },
   "seeker-grenade-blueprint": {
     "id": "seeker-grenade-blueprint",
     "name": "Seeker Grenade Blueprint",
     "description": "Lets you craft a Seeker Grenade",
-    "icon": "icons/items/seeker-grenade-blueprint.webp",
+    "icon": "icons/items/seeker-grenade.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10427,30 +10470,11 @@
       }
     }
   },
-  "sensors-recipe": {
-    "id": "sensors-recipe",
-    "name": "Sensors",
-    "description": "Used to craft utility items and explosives. Can be recycled into scrap metal.",
-    "icon": "icons/items/sensors-recipe.webp",
-    "rarity": "Rare",
-    "item_type": "Topside Material",
-    "subcategory": "Topside Material",
-    "value": 500,
-    "workbench": null,
-    "loot_area": "Security, Technological",
-    "stack_size": 5,
-    "translations": {
-      "it": {
-        "name": "Sensori",
-        "description": "Usato per la fabbricazione. Si usa per creare: Branco di lupi, Mina esplosiva, Chiave del portello del predone, Granata marcatrice"
-      }
-    }
-  },
   "shotgun-choke-ii-recipe": {
     "id": "shotgun-choke-ii-recipe",
     "name": "Shotgun Choke II Blueprint",
     "description": "Lets you craft a Shotgun Choke II",
-    "icon": "icons/items/shotgun-choke-ii-recipe.webp",
+    "icon": "icons/items/shotgun-choke-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10469,7 +10493,7 @@
     "id": "shotgun-choke-iii-recipe",
     "name": "Shotgun Choke III Blueprint",
     "description": "Lets you craft a Shotgun Choke III",
-    "icon": "icons/items/shotgun-choke-iii-recipe.webp",
+    "icon": "icons/items/shotgun-choke-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10488,7 +10512,7 @@
     "id": "shotgun-silencer-blueprint",
     "name": "Shotgun Silencer Blueprint",
     "description": "Lets you craft a Shotgun Silencer. Moderately reduces the amount of noise produced when firing.",
-    "icon": "icons/items/shotgun-silencer-blueprint.webp",
+    "icon": "icons/items/shotgun-silencer.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10507,7 +10531,7 @@
     "id": "showstopper-blueprint",
     "name": "Showstopper Blueprint",
     "description": "Lets you craft a Showstopper.",
-    "icon": "icons/items/showstopper-blueprint.webp",
+    "icon": "icons/items/showstopper.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10526,7 +10550,7 @@
     "id": "silencer-i-recipe",
     "name": "Silencer I Blueprint",
     "description": "Lets you craft a Silencer I",
-    "icon": "icons/items/silencer-i-recipe.webp",
+    "icon": "icons/items/silencer-i.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10545,7 +10569,7 @@
     "id": "silencer-ii-recipe",
     "name": "Silencer II Blueprint",
     "description": "Lets you craft a Silencer II",
-    "icon": "icons/items/silencer-ii-recipe.webp",
+    "icon": "icons/items/silencer-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10564,7 +10588,7 @@
     "id": "smoke-grenade-blueprint",
     "name": "Smoke Grenade Blueprint",
     "description": "Lets you craft a Smoke Grenade",
-    "icon": "icons/items/smoke-grenade-blueprint.webp",
+    "icon": "icons/items/smoke-grenade.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10583,7 +10607,7 @@
     "id": "snap-hook-recipe",
     "name": "Snap Hook Blueprint",
     "description": "Lets you craft a Snap Hook",
-    "icon": "icons/items/snap-hook-recipe.webp",
+    "icon": "icons/items/snap-hook.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10602,7 +10626,7 @@
     "id": "stable-stock-ii-recipe",
     "name": "Stable Stock II Blueprint",
     "description": "Lets you craft a Stable Stock II",
-    "icon": "icons/items/stable-stock-ii-recipe.webp",
+    "icon": "icons/items/stable-stock-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10621,7 +10645,7 @@
     "id": "stable-stock-iii-recipe",
     "name": "Stable Stock III Blueprint",
     "description": "Lets you craft a Stable Stock III",
-    "icon": "icons/items/stable-stock-iii-recipe.webp",
+    "icon": "icons/items/stable-stock-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10640,7 +10664,7 @@
     "id": "surge-coil-blueprint",
     "name": "Surge Coil Blueprint",
     "description": "Lets you craft a Surge Coil.",
-    "icon": "icons/items/surge-coil-blueprint.webp",
+    "icon": "icons/items/surge-coil.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10659,7 +10683,7 @@
     "id": "tacical-mk3-healing-blueprint",
     "name": "Tactical MK.3 (Healing) Blueprint",
     "description": "A healing-focused augment which adds extra slots for healing items.",
-    "icon": "icons/items/tacical-mk3-healing-blueprint.webp",
+    "icon": "icons/items/tacical-mk3-healing.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10678,7 +10702,7 @@
     "id": "tactical-mk-3-revival-blueprint",
     "name": "Tactical Mk. 3 (Revival) Blueprint",
     "description": "Lets you craft Tactical MK. 3 (Revival) Blueprint.",
-    "icon": "icons/items/tactical-mk-3-revival-blueprint.webp",
+    "icon": "icons/items/tactical-mk-3-revival.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10697,7 +10721,7 @@
     "id": "tactical-mk3-defensive-blueprint",
     "name": "Tactical MK.3 (Defensive) Blueprint",
     "description": "a defense-focused augment for keeping Shields topped up",
-    "icon": "icons/items/tactical-mk3-defensive-blueprint.webp",
+    "icon": "icons/items/tactical-mk3-defensive.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10716,7 +10740,7 @@
     "id": "tagging-grenade-recipe",
     "name": "Tagging Grenade Blueprint",
     "description": "Lets you craft a Tagging Grenade",
-    "icon": "icons/items/tagging-grenade-recipe.webp",
+    "icon": "icons/items/tagging-grenade.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10735,7 +10759,7 @@
     "id": "tempest-i-recipe",
     "name": "Tempest Blueprint",
     "description": "Lets you craft a Tempest",
-    "icon": "icons/items/tempest-i-recipe.webp",
+    "icon": "icons/items/tempest-i.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10754,7 +10778,7 @@
     "id": "torrent-i-recipe",
     "name": "Torrente Blueprint",
     "description": "Lets you craft a Torrente",
-    "icon": "icons/items/torrent-i-recipe.webp",
+    "icon": "icons/items/torrent-i.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10773,7 +10797,7 @@
     "id": "trailblazer-grenade-blueprint",
     "name": "Trailblazer Grenade Blueprint",
     "description": "Lets you craft a Trailblazer Grenade",
-    "icon": "icons/items/trailblazer-grenade-blueprint.webp",
+    "icon": "icons/items/trailblazer-grenade.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10786,7 +10810,7 @@
     "id": "trigger-nade-recipe",
     "name": "Trigger Nade Blueprint",
     "description": "Lets you craft a Trigger Nade",
-    "icon": "icons/items/trigger-nade-recipe.webp",
+    "icon": "icons/items/trigger-nade.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10805,7 +10829,7 @@
     "id": "utility-augment-t3-smoke-blueprint",
     "name": "Tactical MK.3 (Smoke) Blueprint",
     "description": "An upgraded version of the Tactical MK. 2 augment, adding expanded capacity across the board.",
-    "icon": "icons/items/utility-augment-t3-smoke-blueprint.webp",
+    "icon": "icons/items/utility-augment-t3-smoke.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10824,7 +10848,7 @@
     "id": "venator-recipe",
     "name": "Venator Blueprint",
     "description": "Lets you craft a Venator. Fires two shots at a time.",
-    "icon": "icons/items/venator-recipe.webp",
+    "icon": "icons/items/venator.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10843,7 +10867,7 @@
     "id": "vertical-grip-ii-recipe",
     "name": "Vertical Grip II Blueprint",
     "description": "Lets you craft a Vertical Grip II",
-    "icon": "icons/items/vertical-grip-ii-recipe.webp",
+    "icon": "icons/items/vertical-grip-ii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10862,7 +10886,7 @@
     "id": "vertical-grip-iii-recipe",
     "name": "Vertical Grip III Blueprint",
     "description": "Lets you craft a Vertical Grip III",
-    "icon": "icons/items/vertical-grip-iii-recipe.webp",
+    "icon": "icons/items/vertical-grip-iii.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10881,7 +10905,7 @@
     "id": "vita-shot-recipe",
     "name": "Vita Shot Blueprint",
     "description": "Lets you craft a Vita Shot - A medical item that restores a large amount of health.",
-    "icon": "icons/items/vita-shot-recipe.webp",
+    "icon": "icons/items/vita-shot.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10900,7 +10924,7 @@
     "id": "vita-spray-recipe",
     "name": "Vita Spray Blueprint",
     "description": "Lets you craft a Vita Spray",
-    "icon": "icons/items/vita-spray-recipe.webp",
+    "icon": "icons/items/vita-spray.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10919,7 +10943,7 @@
     "id": "vulcano-blueprint",
     "name": "Vulcano Blueprint",
     "description": "Allows you to craft the Vulcano.",
-    "icon": "icons/items/vulcano-blueprint.webp",
+    "icon": "icons/items/vulcano.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10938,7 +10962,7 @@
     "id": "white-flag-blueprint",
     "name": "White Flag Blueprint",
     "description": "A deployable white flag.",
-    "icon": "icons/items/white-flag-blueprint.webp",
+    "icon": "icons/items/white-flag.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10953,30 +10977,11 @@
       }
     }
   },
-  "wires-recipe": {
-    "id": "wires-recipe",
-    "name": "Wires",
-    "description": "A bundle of old wires. Used to craft a wide range of items. Can be recycled into scrap metal.",
-    "icon": "icons/items/wires-recipe.webp",
-    "rarity": "Uncommon",
-    "item_type": "Topside Material",
-    "subcategory": "Topside Material",
-    "value": 200,
-    "workbench": null,
-    "loot_area": "Electrical, Technological",
-    "stack_size": 15,
-    "translations": {
-      "it": {
-        "name": "Cavi",
-        "description": "Si usa per creare un'ampia gamma di oggetti. Si può riciclare in materiali da creazione. Si usa per creare: Trappola laser: Fuoco, Trappola laser: Fumogeno, Trappola laser: Esca, Trappola laser: Gas, Freno di bocca I"
-      }
-    }
-  },
   "wolfpack-recipe": {
     "id": "wolfpack-recipe",
     "name": "Wolfpack Blueprint",
     "description": "Lets you craft a Wolfpack",
-    "icon": "icons/items/wolfpack-recipe.webp",
+    "icon": "icons/items/wolfpack.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",
@@ -10995,7 +11000,7 @@
     "id": "yellow-light-stick-blueprint",
     "name": "Yellow Light Stick Blueprint",
     "description": "Lets you craft a Yellow Light Stick",
-    "icon": "icons/items/yellow-light-stick-blueprint.webp",
+    "icon": "icons/items/yellow-light-stick.webp",
     "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": "Blueprint",

@@ -170,10 +170,10 @@
   "lure-grenade-trap": {
     "subcategory": "Trap"
   },
-  "laser-trap-smoke-recipe": {
+  "laser-trap-smoke": {
     "subcategory": "Trap"
   },
-  "laser-trap-lure-recipe": {
+  "laser-trap-lure": {
     "subcategory": "Trap"
   },
   "explosive-mine": {

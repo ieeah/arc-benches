@@ -180,16 +180,27 @@ async function main() {
     writeFileSync(RAW_CACHE, JSON.stringify(catalog, null, 2), 'utf-8');
     console.log(`\nFetched ${catalog.length} items. Cached raw source to ${RAW_CACHE}`);
   }
-  console.log('Processing icons with automatic hash deduplication…\n');
+  // Normalizza gli ID per quegli oggetti che MetaForge marca erroneamente con suffisso '-recipe'
+  // pur non essendo blueprint (es. rubber-parts-recipe, wires-recipe, sensors-recipe, duct-tape-recipe)
+  for (const item of catalog) {
+    const isBp = item.item_type === 'Blueprint' || item.subcategory === 'Blueprint';
+    if (!isBp && item.id.endsWith('-recipe')) {
+      item.id = item.id.replace(/-recipe$/, '');
+    }
+  }
 
   // Ordiniamo il catalogo processando prima gli oggetti base e poi i blueprint/ricette
-  // in modo che il file canonico unico mantenga il nome pulito dell'oggetto base (es. wolfpack.webp)
+  // in modo che il file canonico unico mantenga il nome pulito dell'oggetto base (es. wolfpack.webp, anvil.webp)
   const sortedCatalog = [...catalog].sort((a, b) => {
     const aIsBp = a.item_type === 'Blueprint' || a.subcategory === 'Blueprint' || a.id.includes('recipe') || a.id.includes('blueprint');
     const bIsBp = b.item_type === 'Blueprint' || b.subcategory === 'Blueprint' || b.id.includes('recipe') || b.id.includes('blueprint');
     if (aIsBp !== bIsBp) return aIsBp ? 1 : -1;
     return a.id.localeCompare(b.id);
   });
+
+  const getCanonicalIconId = (id) => {
+    return id.replace(/-recipe$/, '').replace(/-blueprint$/, '');
+  };
 
   const results = {};
   const hashToCanonicalPath = new Map();
@@ -212,8 +223,9 @@ async function main() {
 
     let icon = null;
     if (item.icon) {
-      const dest = join(iconsDir, `${item.id}.webp`);
-      const localPath = `icons/items/${item.id}.webp`; // resolved against BASE_URL at runtime
+      const canonicalIconId = getCanonicalIconId(item.id);
+      const dest = join(iconsDir, `${canonicalIconId}.webp`);
+      const localPath = `icons/items/${canonicalIconId}.webp`; // resolved against BASE_URL at runtime
       try {
         let normalizedBuf;
         if (existsSync(dest)) {
@@ -236,7 +248,7 @@ async function main() {
           icon = hashToCanonicalPath.get(hash);
           deduplicatedCount++;
         } else {
-          // Nuova icona unica: salva su disco
+          // Nuova icona unica: salva su disco col nome canonico pulito (senza -recipe)
           if (!existsSync(dest)) {
             writeFileSync(dest, normalizedBuf);
           }
@@ -253,7 +265,7 @@ async function main() {
     results[item.id] = trimItem(item, icon, itemOverride || {});
   }
 
-  // Pulizia automatica dei file duplicati/orfani su disco in public/icons/items/
+  // Pulizia automatica dei file duplicati/orfani su disco in public/icons/items/ (inclusi i vecchi *-recipe.webp)
   const diskFiles = readdirSync(iconsDir).filter(f => f.endsWith('.webp') || f.endsWith('.png'));
   let prunedCount = 0;
   for (const file of diskFiles) {
@@ -274,7 +286,7 @@ async function main() {
   writeFileSync(outPath, JSON.stringify(results, null, 2), 'utf-8');
 
   console.log(`\nDone. ${catalog.length} items (${overriddenCount} with overrides, ${hiddenCount} hidden).`);
-  console.log(`Icons: ${hashToCanonicalPath.size} unique saved, ${deduplicatedCount} deduplicated/shared, ${prunedCount} duplicates pruned from disk.`);
+  console.log(`Icons: ${hashToCanonicalPath.size} unique saved, ${deduplicatedCount} deduplicated/shared, ${prunedCount} duplicates/orphans pruned from disk.`);
   console.log(`Workbench coverage: ${workbenchIds.size - missing.length}/${workbenchIds.size} found.`);
   console.log(`Saved to ${outPath}`);
 }
