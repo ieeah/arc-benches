@@ -28,7 +28,7 @@ import type { ItemInfo } from '@/types';
 import { useListManager } from '@/hooks/useListManager';
 import type { FilterCategory, SortOption } from '@/hooks/useListManager';
 import { ListControls } from '@/components/ListControls';
-import { useTranslation, getItemName, getItemSearchFields } from '@/i18n';
+import { useTranslation, getItemName, getItemSearchFields, getActionLabel, getListName } from '@/i18n';
 
 const STASH_SORT_IDS = [
   'priority_asc', 'priority_desc',
@@ -427,8 +427,8 @@ export const StashPage = ({
               {visibleActions.map(action => (
                 <ActionSlider
                   key={`${action.listId}|${action.level}|${action.actionId}`}
-                  label={action.label}
-                  listName={action.listName}
+                  label={getActionLabel(action.action, language) || action.label}
+                  listName={getListName(action.list, language) || action.listName}
                   level={action.level}
                   isCompleted={action.isCompleted}
                   onComplete={() => toggleAction(action.listId, action.level, action.actionId)}

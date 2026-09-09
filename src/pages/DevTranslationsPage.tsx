@@ -4,6 +4,7 @@ import {
   Languages, FileCode, CheckCircle2, AlertCircle, Sparkles
 } from 'lucide-react';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
+import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { it as defaultIt } from '@/i18n/locales/it';
 import { en as defaultEn } from '@/i18n/locales/en';
 import { useTranslation, SUPPORTED_LANGUAGES } from '@/i18n';
@@ -73,6 +74,15 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
   const [selectedKey, setSelectedKey] = useState<string>('nav.benches');
   const [previewTab, setPreviewTab] = useState<PreviewTab>('it');
   const [copyFeedback, setCopyFeedback] = useState(false);
+  const [confirmModalConfig, setConfirmModalConfig] = useState<{
+    title?: string;
+    message: string;
+    description?: string;
+    confirmText?: string;
+    cancelText?: string;
+    variant?: 'danger' | 'warning' | 'primary';
+    onConfirm: () => void;
+  } | null>(null);
 
   // All unique keys
   const allKeys = useMemo(() => {
@@ -144,12 +154,19 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
   };
 
   const handleResetAll = () => {
-    if (confirm(language === 'en' ? 'Are you sure you want to reset all translations to their default values? Unexported changes will be lost.' : 'Sei sicuro di voler ripristinare tutte le traduzioni ai valori predefiniti? Le modifiche non esportate andranno perse.')) {
-      setItTranslations(defaultFlatIt);
-      setEnTranslations(defaultFlatEn);
-      localStorage.removeItem('dev_i18n_it_draft');
-      localStorage.removeItem('dev_i18n_en_draft');
-    }
+    setConfirmModalConfig({
+      title: language === 'en' ? 'Reset All Translations' : 'Ripristina Tutte le Traduzioni',
+      message: language === 'en' ? 'Reset all translations to their default values?' : 'Ripristinare tutte le traduzioni ai valori predefiniti?',
+      description: language === 'en' ? 'Unexported changes will be permanently lost.' : 'Le modifiche non esportate andranno perse.',
+      confirmText: language === 'en' ? 'Reset All' : 'Ripristina Tutto',
+      variant: 'warning',
+      onConfirm: () => {
+        setItTranslations(defaultFlatIt);
+        setEnTranslations(defaultFlatEn);
+        localStorage.removeItem('dev_i18n_it_draft');
+        localStorage.removeItem('dev_i18n_en_draft');
+      },
+    });
   };
 
   // Extract variables like {count}, {name} from current translation string
@@ -503,6 +520,20 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
         <div className="h-full flex items-center justify-center text-xs text-gray-400">
           {language === 'en' ? 'Select a translation key from the left column' : 'Seleziona una chiave di traduzione dalla colonna di sinistra'}
         </div>
+      )}
+
+      {/* Generic Action Confirm Modal */}
+      {confirmModalConfig !== null && (
+        <ConfirmActionModal
+          title={confirmModalConfig.title}
+          message={confirmModalConfig.message}
+          description={confirmModalConfig.description}
+          confirmText={confirmModalConfig.confirmText}
+          cancelText={confirmModalConfig.cancelText}
+          variant={confirmModalConfig.variant}
+          onConfirm={confirmModalConfig.onConfirm}
+          onClose={() => setConfirmModalConfig(null)}
+        />
       )}
     </DevStudioLayout>
   );

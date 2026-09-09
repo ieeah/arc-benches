@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import { X, Plus, Trash2, Pencil, ListPlus, CheckSquare, Users, Clock } from 'lucide-react';
+import { X, Plus, Trash2, Pencil, ListPlus, CheckSquare, Users, Clock, Copy } from 'lucide-react';
 import type { ListLevel, ItemInfo, CheckboxAction } from '@/types';
 import { useAppStore } from '@/store';
-import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
+import { useTranslation, getItemName, getListName, getActionLabel } from '@/i18n';
 import { generateUUID } from '@/lib/uuid';
 import { formatTimeRemaining } from '@/lib/expiration';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
-import { QuantityStepper } from '@/components/QuantityStepper';
-import { getRarityText } from '@/lib/rarity';
 
 const toInputDateTime = (isoString?: string): string => {
   if (!isoString) return '';
@@ -96,225 +94,8 @@ const CustomListRequirementItem = ({
   );
 };
 
-const ItemQuantityModal = ({
-  item,
-  initialQuantity = 1,
-  onConfirm,
-  onClose,
-}: {
-  item: ItemInfo;
-  initialQuantity?: number;
-  onConfirm: (quantity: number) => void;
-  onClose: () => void;
-}) => {
-  const { t, language } = useTranslation();
-  const [quantity, setQuantity] = useState(initialQuantity > 0 ? initialQuantity : 1);
-  const [tempValue, setTempValue] = useState(String(quantity));
-
-  const itemName = getItemName(item, language) || item.name;
-  const itemDesc = getItemDescription(item, language);
-  const rarityLabel = getRarityLabel(item.rarity, language);
-
-  const handleTempValueChange = (val: string) => {
-    setTempValue(val);
-    const parsed = parseInt(val, 10);
-    if (!isNaN(parsed) && parsed > 0) {
-      setQuantity(parsed);
-    }
-  };
-
-  const handleBlur = () => {
-    let parsed = parseInt(tempValue, 10);
-    if (isNaN(parsed) || parsed < 1) {
-      parsed = 1;
-    }
-    setQuantity(parsed);
-    setTempValue(String(parsed));
-  };
-
-  const adjustQty = (delta: number) => {
-    const next = Math.max(1, quantity + delta);
-    setQuantity(next);
-    setTempValue(String(next));
-  };
-
-  const setExact = (val: number) => {
-    const next = Math.max(1, val);
-    setQuantity(next);
-    setTempValue(String(next));
-  };
-
-  return (
-    <BottomSheet
-      title={t('quantityModal.title')}
-      onClose={onClose}
-      overlayZ="z-60"
-      footer={
-        <div className="p-4 pt-2 border-t border-gray-100 dark:border-gray-800 flex gap-2.5">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex-1 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          >
-            {t('common.cancel')}
-          </button>
-          <button
-            type="button"
-            onClick={() => onConfirm(quantity)}
-            className="flex-2 py-3 text-xs font-bold text-white bg-blue-500 hover:bg-blue-600 rounded-full shadow-xs transition-colors flex items-center justify-center gap-1.5"
-          >
-            <span>{t('quantityModal.addToList', { quantity })}</span>
-          </button>
-        </div>
-      }
-    >
-      <div className="flex flex-col items-center py-2 space-y-4">
-        {/* Item preview card */}
-        <div className="w-full flex items-center gap-3.5 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-[22px] border border-gray-100 dark:border-gray-700/60">
-          <ItemCardFrameV2
-            icon={item.icon}
-            alt={itemName}
-            rarity={item.rarity}
-            fallbackText={item.id}
-            className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
-            imgClassName="max-w-[85%] max-h-[85%] object-contain"
-            compact
-          />
-          <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 truncate">
-              {itemName}
-            </h3>
-            <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
-              <span className={`font-bold ${getRarityText(item.rarity)}`}>{rarityLabel}</span>
-              {item.item_type ? ` · ${item.item_type}` : ''}
-              {item.stack_size ? ` · Stack: ${item.stack_size}` : ''}
-            </p>
-            {itemDesc && (
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 line-clamp-2 mt-1">
-                {itemDesc}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Quantity selector */}
-        <div className="w-full flex flex-col items-center gap-3 pt-2">
-          <label className="text-xs font-bold uppercase tracking-wider text-gray-400">
-            {t('quantityModal.requiredQty')}
-          </label>
-          <div className="w-48">
-            <QuantityStepper
-              orientation="horizontal"
-              tempValue={tempValue}
-              onTempValueChange={handleTempValueChange}
-              onBlur={handleBlur}
-              onIncrement={() => adjustQty(1)}
-              onDecrement={() => adjustQty(-1)}
-              rarity={item.rarity}
-              itemName={itemName}
-            />
-          </div>
-
-          {/* Quick preset buttons */}
-          <div className="flex flex-wrap justify-center gap-1.5 pt-1">
-            {[1, 2, 5, 10, 25, 50, 100].map(val => (
-              <button
-                key={val}
-                type="button"
-                onClick={() => setExact(val)}
-                className={`px-2.5 py-1 text-xs font-bold rounded-xl transition-all ${
-                  quantity === val
-                    ? 'bg-blue-500 text-white shadow-2xs'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                {val}
-              </button>
-            ))}
-            {item.stack_size && ![1, 2, 5, 10, 25, 50, 100].includes(item.stack_size) && (
-              <button
-                type="button"
-                onClick={() => setExact(item.stack_size!)}
-                className={`px-2.5 py-1 text-xs font-bold rounded-xl transition-all ${
-                  quantity === item.stack_size
-                    ? 'bg-blue-500 text-white shadow-2xs'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                Stack ({item.stack_size})
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </BottomSheet>
-  );
-};
-
-const ConfirmDeleteItemModal = ({
-  itemName,
-  itemId,
-  itemInfo,
-  levelNum,
-  onConfirm,
-  onClose,
-}: {
-  itemName: string;
-  itemId: string;
-  itemInfo?: ItemInfo;
-  levelNum: number;
-  onConfirm: () => void;
-  onClose: () => void;
-}) => {
-  const { t, language } = useTranslation();
-  const localizedName = getItemName(itemInfo, language) || itemName;
-
-  return (
-    <BottomSheet
-      title={t('customLists.deleteItemTitle')}
-      onClose={onClose}
-      overlayZ="z-60"
-      footer={
-        <div className="p-4 pt-2 border-t border-gray-100 dark:border-gray-800 flex gap-2.5">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex-1 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          >
-            {t('common.cancel')}
-          </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            className="flex-1 py-3 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-full shadow-xs transition-colors"
-          >
-            {t('common.remove')}
-          </button>
-        </div>
-      }
-    >
-      <div className="flex flex-col items-center text-center py-4 px-2 space-y-3">
-        <ItemCardFrameV2
-          icon={itemInfo?.icon ?? null}
-          alt={localizedName}
-          rarity={itemInfo?.rarity ?? 'Common'}
-          fallbackText={itemId}
-          className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
-          imgClassName="max-w-[85%] max-h-[85%] object-contain"
-          compact
-        />
-        <div>
-          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-            {t('customLists.deleteItemConfirm', { name: localizedName })}
-          </p>
-          <p className="text-xs text-gray-400 mt-1">
-            {t('customLists.deleteItemStage', { level: levelNum })}
-          </p>
-        </div>
-      </div>
-    </BottomSheet>
-  );
-};
+import { ItemQuantityModal } from '@/components/ItemQuantityModal';
+import { ConfirmDeleteItemModal } from '@/components/ConfirmDeleteItemModal';
 
 /** Create or edit a custom list (multi-stage, mirrors the workbench engine). */
 export const CustomListEditor = ({ listId, onClose }: {
@@ -329,26 +110,82 @@ export const CustomListEditor = ({ listId, onClose }: {
 
   const [name, setName] = useState(existing?.name ?? '');
   const [shared, setShared] = useState(existing?.shared ?? false);
+  const [copyFromExisting, setCopyFromExisting] = useState(false);
+  const [selectedSourceId, setSelectedSourceId] = useState('');
   const [expirationInput, setExpirationInput] = useState<string>(toInputDateTime(existing?.expirationDate));
   const [levels, setLevels] = useState<ListLevel[]>(
     existing?.levels ?? [{ level: 1, requirementItemIds: [] }]
   );
   const [pickerLevel, setPickerLevel] = useState<number | null>(null);
-  const [itemToConfigure, setItemToConfigure] = useState<{ level: number; item: ItemInfo; initialQty: number } | null>(null);
+  const [itemToConfigure, setItemToConfigure] = useState<{
+    level: number;
+    item: ItemInfo;
+    initialQty: number;
+    previousItemId?: string;
+  } | null>(null);
+  const [pendingPickerConfig, setPendingPickerConfig] = useState<{
+    level: number;
+    initialQty: number;
+    previousItemId?: string;
+  } | null>(null);
   const [itemToDelete, setItemToDelete] = useState<{ level: number; itemId: string; name: string; info?: ItemInfo } | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [addingAction, setAddingAction] = useState<{ level: number; text: string } | null>(null);
 
+  const handleSelectSourceList = (sourceId: string) => {
+    setSelectedSourceId(sourceId);
+    if (!sourceId) return;
+
+    const allAvailable = [
+      ...store.workbenches,
+      ...store.expeditions,
+      ...store.customLists,
+      ...store.sharedCustomLists,
+    ];
+    const source = allAvailable.find(l => l.id === sourceId);
+    if (!source) return;
+
+    const sourceName = getListName(source, language) || source.name;
+    const copySuffix = t('common.copy') || 'Copia';
+    setName(`${sourceName} (${copySuffix})`);
+
+    const clonedLevels: ListLevel[] = (source.levels || []).map(lvl => ({
+      level: lvl.level,
+      requirementItemIds: (lvl.requirementItemIds || []).map(r => ({ ...r })),
+      actions: lvl.actions?.map(act => ({
+        id: generateUUID(),
+        label: getActionLabel(act, language) || act.label,
+        translations: act.translations ? JSON.parse(JSON.stringify(act.translations)) : undefined,
+      })),
+      rewards: lvl.rewards?.map(rew => ({
+        label: rew.label,
+        translations: rew.translations ? JSON.parse(JSON.stringify(rew.translations)) : undefined,
+      })),
+    }));
+
+    setLevels(clonedLevels.length > 0 ? clonedLevels : [{ level: 1, requirementItemIds: [] }]);
+
+    if (source.expirationDate) {
+      setExpirationInput(toInputDateTime(source.expirationDate));
+    }
+  };
+
   const updateLevel = (levelNum: number, items: ListLevel['requirementItemIds']) =>
     setLevels(ls => ls.map(l => (l.level === levelNum ? { ...l, requirementItemIds: items } : l)));
 
-  const addItemWithQuantity = (levelNum: number, item: ItemInfo, quantity: number) => {
+  const addItemWithQuantity = (levelNum: number, item: ItemInfo, quantity: number, previousItemId?: string) => {
     const lvl = levels.find(l => l.level === levelNum);
     if (!lvl) return;
-    const existingReq = lvl.requirementItemIds.find(r => r.itemId === item.id);
-    updateLevel(levelNum, existingReq
-      ? lvl.requirementItemIds.map(r => (r.itemId === item.id ? { ...r, quantity } : r))
-      : [...lvl.requirementItemIds, { itemId: item.id, quantity }]);
+    let nextReqs = [...lvl.requirementItemIds];
+    if (previousItemId && previousItemId !== item.id) {
+      nextReqs = nextReqs.map(r => (r.itemId === previousItemId ? { itemId: item.id, quantity } : r));
+    } else {
+      const existingReq = nextReqs.find(r => r.itemId === item.id);
+      nextReqs = existingReq
+        ? nextReqs.map(r => (r.itemId === item.id ? { ...r, quantity } : r))
+        : [...nextReqs, { itemId: item.id, quantity }];
+    }
+    updateLevel(levelNum, nextReqs);
     setItemToConfigure(null);
     setPickerLevel(null);
   };
@@ -436,6 +273,98 @@ export const CustomListEditor = ({ listId, onClose }: {
           </div>
         }
       >
+        {/* Optional: Copy from existing list template */}
+        {!existing && (
+          <div className="mb-4 space-y-2">
+            <button
+              type="button"
+              onClick={() => {
+                const next = !copyFromExisting;
+                setCopyFromExisting(next);
+                if (!next) {
+                  setSelectedSourceId('');
+                }
+              }}
+              className="w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left cursor-pointer transition-colors"
+            >
+              <div
+                className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${
+                  copyFromExisting ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'
+                }`}
+              >
+                <div
+                  className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                    copyFromExisting ? 'translate-x-[1.125rem]' : 'translate-x-0.5'
+                  }`}
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-1.5">
+                  <Copy size={13} className="text-blue-500" />
+                  <span>{t('customLists.copyFromExisting')}</span>
+                </p>
+                <p className="text-[10px] text-gray-400 truncate">
+                  {t('customLists.copyDesc')}
+                </p>
+              </div>
+            </button>
+
+            {copyFromExisting && (
+              <div className="p-3 bg-gray-50/80 dark:bg-gray-800/60 rounded-2xl border border-gray-100 dark:border-gray-800 space-y-1.5">
+                <label className="text-[10px] font-bold uppercase text-gray-400 block mb-0.5">
+                  {t('customLists.sourceList')}
+                </label>
+                <select
+                  value={selectedSourceId}
+                  onChange={(e) => handleSelectSourceList(e.target.value)}
+                  className="w-full px-3 py-2 text-xs font-medium bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-hidden focus:ring-1 focus:ring-blue-500 text-gray-800 dark:text-gray-100"
+                >
+                  <option value="">{t('customLists.selectSourcePlaceholder')}</option>
+                  {store.workbenches.length > 0 && (
+                    <optgroup label={t('customLists.sourceWorkbenches')}>
+                      {store.workbenches.map(wb => (
+                        <option key={wb.id} value={wb.id}>
+                          {getListName(wb, language)} ({wb.levels.length} Lvl)
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                  {store.expeditions.length > 0 && (
+                    <optgroup label={t('customLists.sourceExpeditions')}>
+                      {store.expeditions.map(exp => (
+                        <option key={exp.id} value={exp.id}>
+                          {getListName(exp, language)} ({exp.levels.length} Lvl)
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                  {store.customLists.length > 0 && (
+                    <optgroup label={t('customLists.sourceCustom')}>
+                      {store.customLists.map(cl => (
+                        <option key={cl.id} value={cl.id}>
+                          {cl.name} ({cl.levels.length} Lvl)
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                  {store.sharedCustomLists.length > 0 && (
+                    <optgroup label={t('customLists.sourceShared')}>
+                      {store.sharedCustomLists.map(sl => (
+                        <option key={sl.id} value={sl.id}>
+                          {sl.name} ({sl.levels.length} Lvl)
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                </select>
+                <p className="text-[10px] text-gray-400 px-0.5">
+                  {t('customLists.copyNotice')}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="mb-4">
           <label className="text-[10px] font-bold uppercase text-gray-400 mb-1.5 block">{t('customLists.nameLabel')}</label>
           <input type="text" value={name} onChange={e => setName(e.target.value)} autoFocus
@@ -565,6 +494,7 @@ export const CustomListEditor = ({ listId, onClose }: {
                           level: lvl.level,
                           item,
                           initialQty: req.quantity,
+                          previousItemId: req.itemId,
                         });
                       }}
                       onRemove={() => {
@@ -601,7 +531,7 @@ export const CustomListEditor = ({ listId, onClose }: {
                       <div key={action.id} className="flex items-center gap-1">
                         <div className="flex-1 min-w-0">
                           <ActionCheckbox
-                            label={action.label}
+                            label={getActionLabel(action, language)}
                             checked={checked}
                             onToggle={existing ? () => store.toggleAction(existing.id, lvl.level, action.id) : undefined}
                           />
@@ -665,13 +595,21 @@ export const CustomListEditor = ({ listId, onClose }: {
           onPick={item => {
             const lvl = levels.find(l => l.level === pickerLevel);
             const existingReq = lvl?.requirementItemIds.find(r => r.itemId === item.id);
+            const initialQty = pendingPickerConfig?.initialQty ?? existingReq?.quantity ?? 1;
+            const previousItemId = pendingPickerConfig?.previousItemId;
             setItemToConfigure({
               level: pickerLevel,
               item,
-              initialQty: existingReq?.quantity ?? 1,
+              initialQty,
+              previousItemId,
             });
+            setPendingPickerConfig(null);
+            setPickerLevel(null);
           }}
-          onClose={() => setPickerLevel(null)}
+          onClose={() => {
+            setPickerLevel(null);
+            setPendingPickerConfig(null);
+          }}
         />
       )}
 
@@ -679,8 +617,20 @@ export const CustomListEditor = ({ listId, onClose }: {
         <ItemQuantityModal
           item={itemToConfigure.item}
           initialQuantity={itemToConfigure.initialQty}
-          onConfirm={qty => addItemWithQuantity(itemToConfigure.level, itemToConfigure.item, qty)}
-          onClose={() => setItemToConfigure(null)}
+          onChangeItem={(currentQty) => {
+            setPendingPickerConfig({
+              level: itemToConfigure.level,
+              initialQty: currentQty,
+              previousItemId: itemToConfigure.previousItemId,
+            });
+            setPickerLevel(itemToConfigure.level);
+            setItemToConfigure(null);
+          }}
+          onConfirm={qty => addItemWithQuantity(itemToConfigure.level, itemToConfigure.item, qty, itemToConfigure.previousItemId)}
+          onClose={() => {
+            setItemToConfigure(null);
+            setPendingPickerConfig(null);
+          }}
         />
       )}
 

@@ -10,8 +10,40 @@ export const REFINER_ID = 'refiner';
 
 export const MAX_EXTRA_SKILL_POINTS = 15;
 
-export const workbenches = (workbenchesData.items as List[]).filter(w => w.maxLevel > 0);
-export const expeditions = (expeditionsData.items as List[]);
+export function computeEffectiveWorkbenches(): List[] {
+  let list = (workbenchesData.items as List[]);
+  if (import.meta.env.DEV) {
+    try {
+      const draft = localStorage.getItem('arc_benches_dev_lists_draft_v1');
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        if (parsed.workbench && Array.isArray(parsed.workbench)) {
+          list = parsed.workbench;
+        }
+      }
+    } catch { /* ignore */ }
+  }
+  return list.filter(w => w.maxLevel > 0);
+}
+
+export function computeEffectiveExpeditions(): List[] {
+  let list = (((expeditionsData as any).lists || (expeditionsData as any).items || []) as List[]);
+  if (import.meta.env.DEV) {
+    try {
+      const draft = localStorage.getItem('arc_benches_dev_lists_draft_v1');
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        if (parsed.expedition && Array.isArray(parsed.expedition)) {
+          list = parsed.expedition;
+        }
+      }
+    } catch { /* ignore */ }
+  }
+  return list;
+}
+
+export const workbenches = computeEffectiveWorkbenches();
+export const expeditions = computeEffectiveExpeditions();
 
 export function computeEffectiveItemsInfo(): Record<string, ItemInfo> {
   const result: Record<string, ItemInfo> = { ...(itemsData as Record<string, ItemInfo>) };

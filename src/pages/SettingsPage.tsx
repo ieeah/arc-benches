@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
   Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages,
-  Code2, FileJson, FlaskConical, Zap, ZapOff
+  Code2, FileJson, FlaskConical, Zap, ZapOff, Layers
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -569,7 +569,18 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-1">
+            <button
+              onClick={() => onNavigate('dev-lists')}
+              className="p-3 bg-emerald-50 dark:bg-emerald-950/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl text-xs font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
+            >
+              <Layers size={18} className="shrink-0 text-emerald-500" />
+              <div>
+                <p className="font-bold">{t('settings.devListsTitle')}</p>
+                <p className="text-[10px] font-normal text-emerald-600/70 dark:text-emerald-400/70">{t('settings.devListsDesc')}</p>
+              </div>
+            </button>
+
             <button
               onClick={() => onNavigate('dev-translations')}
               className="p-3 bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 border border-blue-200 dark:border-blue-800/60 rounded-2xl text-xs font-bold text-blue-700 dark:text-blue-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"

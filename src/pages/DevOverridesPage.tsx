@@ -9,6 +9,7 @@ import { useAppStore } from '@/store';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
+import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import itemsDataBase from '@/data/items.json';
 import initialOverrides from '@/data/items-overrides.json';
 import { getRarityText } from '@/lib/rarity';
@@ -192,9 +193,18 @@ export const DevOverridesPage = ({
   const [selectedItemId, setSelectedItemId] = useState<string>(
     initialSelectedItemId && (itemsDataBase as Record<string, ItemInfo>)[initialSelectedItemId]
       ? initialSelectedItemId
-      : allItems[0]?.id || 'metal-parts'
+      : allItems[0]?.id || ''
   );
   const [selectedLang, setSelectedLang] = useState<string>('it');
+  const [confirmModalConfig, setConfirmModalConfig] = useState<{
+    title?: string;
+    message: string;
+    description?: string;
+    confirmText?: string;
+    cancelText?: string;
+    variant?: 'danger' | 'warning' | 'primary';
+    onConfirm: () => void;
+  } | null>(null);
   const [copyFeedback, setCopyFeedback] = useState(false);
 
   useEffect(() => {
@@ -436,10 +446,17 @@ export const DevOverridesPage = ({
   };
 
   const handleResetAllOverrides = () => {
-    if (confirm('Sei sicuro di voler ripristinare tutti gli override allo stato iniziale di items-overrides.json?')) {
-      setOverrides((initialOverrides as ItemOverrideMap) || {});
-      localStorage.removeItem('dev_items_overrides_draft');
-    }
+    setConfirmModalConfig({
+      title: 'Ripristina Overrides',
+      message: 'Sei sicuro di voler ripristinare tutti gli override?',
+      description: 'Tutti gli override torneranno allo stato iniziale di items-overrides.json. Le modifiche non esportate andranno perse.',
+      confirmText: 'Ripristina Tutto',
+      variant: 'warning',
+      onConfirm: () => {
+        setOverrides((initialOverrides as ItemOverrideMap) || {});
+        localStorage.removeItem('dev_items_overrides_draft');
+      },
+    });
   };
 
   const handleCopyJson = async () => {
@@ -1210,6 +1227,20 @@ export const DevOverridesPage = ({
               Seleziona un oggetto dalla colonna di sinistra
             </div>
           )}
+
+      {/* Generic Action Confirm Modal */}
+      {confirmModalConfig !== null && (
+        <ConfirmActionModal
+          title={confirmModalConfig.title}
+          message={confirmModalConfig.message}
+          description={confirmModalConfig.description}
+          confirmText={confirmModalConfig.confirmText}
+          cancelText={confirmModalConfig.cancelText}
+          variant={confirmModalConfig.variant}
+          onConfirm={confirmModalConfig.onConfirm}
+          onClose={() => setConfirmModalConfig(null)}
+        />
+      )}
     </DevStudioLayout>
   );
 };

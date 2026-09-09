@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowLeft, Monitor } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { ArrowLeft, Monitor, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, GripVertical } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 
 export interface DevStudioLayoutProps {
@@ -18,21 +18,113 @@ export interface DevStudioLayoutProps {
   previewContent?: React.ReactNode;
 }
 
+const STORAGE_KEY = 'arc_benches_dev_studio_layout_v1';
+
 export function DevStudioLayout({
   title,
   subtitle,
   icon,
   onBack,
   headerActions,
-  sidebarWidth = 'col-span-3',
   sidebar,
   children,
-  previewWidth = 'col-span-3',
   previewTitle,
   previewIcon,
   previewBadge,
   previewContent,
 }: DevStudioLayoutProps) {
+  // Load saved preferences
+  const [layoutPrefs, setLayoutPrefs] = useState<{
+    sidebarWidth: number;
+    previewWidth: number;
+    sidebarCollapsed: boolean;
+    previewCollapsed: boolean;
+  }>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch {
+      // ignore
+    }
+    return {
+      sidebarWidth: 300,
+      previewWidth: 360,
+      sidebarCollapsed: false,
+      previewCollapsed: false,
+    };
+  });
+
+  // Save preferences
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(layoutPrefs));
+    } catch {
+      // ignore
+    }
+  }, [layoutPrefs]);
+
+  // Resizing state
+  const isDraggingSidebar = useRef(false);
+  const isDraggingPreview = useRef(false);
+
+  const startSidebarResize = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    isDraggingSidebar.current = true;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      if (!isDraggingSidebar.current) return;
+      const newWidth = Math.max(200, Math.min(500, moveEvent.clientX));
+      setLayoutPrefs(p => ({ ...p, sidebarWidth: newWidth, sidebarCollapsed: false }));
+    };
+
+    const onMouseUp = () => {
+      isDraggingSidebar.current = false;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  }, []);
+
+  const startPreviewResize = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    isDraggingPreview.current = true;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      if (!isDraggingPreview.current) return;
+      const newWidth = Math.max(240, Math.min(650, window.innerWidth - moveEvent.clientX));
+      setLayoutPrefs(p => ({ ...p, previewWidth: newWidth, previewCollapsed: false }));
+    };
+
+    const onMouseUp = () => {
+      isDraggingPreview.current = false;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  }, []);
+
+  const toggleSidebar = () => {
+    setLayoutPrefs(p => ({ ...p, sidebarCollapsed: !p.sidebarCollapsed }));
+  };
+
+  const togglePreview = () => {
+    setLayoutPrefs(p => ({ ...p, previewCollapsed: !p.previewCollapsed }));
+  };
+
   return (
     <div className="h-screen w-screen overflow-hidden bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col">
       {/* ── AVVISO PER SCHERMI PICCOLI (DESKTOP ONLY REQUIREMENT) ── */}
@@ -74,48 +166,109 @@ export function DevStudioLayout({
           </div>
         </div>
 
-        {/* Toolbar Azioni Globali */}
-        {headerActions && (
-          <div className="flex items-center gap-2.5">
-            {headerActions}
-          </div>
-        )}
+        {/* Toolbar Azioni Globali e Toggles Layout */}
+        <div className="flex items-center gap-2.5">
+          {headerActions}
+
+          <div className="h-5 w-px bg-gray-200 dark:bg-gray-800 mx-1" />
+
+          {/* Toggle Sidebar Sinistra */}
+          <button
+            type="button"
+            onClick={toggleSidebar}
+            className={`p-1.5 rounded-xl border transition-colors cursor-pointer ${
+              layoutPrefs.sidebarCollapsed
+                ? 'bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
+            }`}
+            title={layoutPrefs.sidebarCollapsed ? 'Espandi Sidebar (Elenco)' : 'Collassa Sidebar (Elenco)'}
+          >
+            {layoutPrefs.sidebarCollapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
+          </button>
+
+          {/* Toggle Anteprima Destra */}
+          {previewContent && (
+            <button
+              type="button"
+              onClick={togglePreview}
+              className={`p-1.5 rounded-xl border transition-colors cursor-pointer ${
+                layoutPrefs.previewCollapsed
+                  ? 'bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
+              }`}
+              title={layoutPrefs.previewCollapsed ? 'Espandi Anteprima JSON' : 'Collassa Anteprima JSON'}
+            >
+              {layoutPrefs.previewCollapsed ? <PanelRightOpen size={16} /> : <PanelRightClose size={16} />}
+            </button>
+          )}
+        </div>
       </header>
 
-      {/* ── CORPO A COLONNE (DESKTOP GRID) ── */}
-      <main className="flex-1 min-h-0 grid grid-cols-12 overflow-hidden">
+      {/* ── CORPO A COLONNE RESIDUABILI E COLLASSABILI ── */}
+      <main className="flex-1 min-h-0 flex overflow-hidden">
         {/* COLONNA 1: SIDEBAR SINISTRA */}
-        <aside className={`${sidebarWidth} h-full overflow-hidden border-r border-gray-200 dark:border-gray-800 flex flex-col bg-white dark:bg-gray-900`}>
-          {sidebar}
-        </aside>
+        {!layoutPrefs.sidebarCollapsed && (
+          <>
+            <aside
+              style={{ width: `${layoutPrefs.sidebarWidth}px` }}
+              className="h-full overflow-hidden flex flex-col bg-white dark:bg-gray-900 shrink-0"
+            >
+              {sidebar}
+            </aside>
+
+            {/* SPLITTER DRAGGABILE 1 (SINISTRA) */}
+            <div
+              onMouseDown={startSidebarResize}
+              className="w-1.5 hover:w-2 bg-gray-200 dark:bg-gray-800 hover:bg-purple-500 dark:hover:bg-purple-500 cursor-col-resize transition-all shrink-0 z-20 select-none group flex items-center justify-center"
+              title="Trascina per ridimensionare la colonna"
+            >
+              <GripVertical size={10} className="text-gray-400 dark:text-gray-600 group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
+          </>
+        )}
 
         {/* COLONNA 2: AREA DI LAVORO CENTRALE */}
-        <section className={`flex-1 h-full overflow-y-auto ${previewContent ? 'col-span-6' : 'col-span-9'} p-8 bg-gray-50/50 dark:bg-black/50 space-y-6`}>
+        <section className="flex-1 min-w-0 h-full overflow-y-auto p-8 bg-gray-50/50 dark:bg-black/50 space-y-6">
           {children}
         </section>
 
         {/* COLONNA 3: ANTEPRIMA LIVE CODICE / PREVIEW */}
-        {previewContent && (
-          <aside className={`${previewWidth} h-full overflow-hidden flex flex-col bg-gray-900 text-gray-300 border-l border-gray-800`}>
-            {previewTitle && (
-              <div className="shrink-0 p-3 bg-gray-950 border-b border-gray-800 flex items-center justify-between">
-                <span className="text-xs font-bold font-mono text-gray-400 flex items-center gap-1.5">
-                  {previewIcon}
-                  {previewTitle}
-                </span>
-                {previewBadge && (
-                  <span className="text-[10px] text-gray-500 font-mono">
-                    {previewBadge}
-                  </span>
-                )}
-              </div>
-            )}
-            <div className="flex-1 min-h-0 p-4 overflow-auto font-mono text-[11px] leading-relaxed text-emerald-400 select-all">
-              {previewContent}
+        {previewContent && !layoutPrefs.previewCollapsed && (
+          <>
+            {/* SPLITTER DRAGGABILE 2 (DESTRA) */}
+            <div
+              onMouseDown={startPreviewResize}
+              className="w-1.5 hover:w-2 bg-gray-800 hover:bg-purple-500 dark:hover:bg-purple-500 cursor-col-resize transition-all shrink-0 z-20 select-none group flex items-center justify-center"
+              title="Trascina per ridimensionare l'anteprima"
+            >
+              <GripVertical size={10} className="text-gray-500 group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-          </aside>
+
+            <aside
+              style={{ width: `${layoutPrefs.previewWidth}px` }}
+              className="h-full overflow-hidden flex flex-col bg-gray-900 text-gray-300 shrink-0"
+            >
+              {previewTitle && (
+                <div className="shrink-0 p-3 bg-gray-950 border-b border-gray-800 flex items-center justify-between">
+                  <span className="text-xs font-bold font-mono text-gray-400 flex items-center gap-1.5">
+                    {previewIcon}
+                    {previewTitle}
+                  </span>
+                  {previewBadge && (
+                    <span className="text-[10px] text-gray-500 font-mono">
+                      {previewBadge}
+                    </span>
+                  )}
+                </div>
+              )}
+              <div className="flex-1 min-h-0 p-4 overflow-auto font-mono text-[11px] leading-relaxed text-emerald-400 select-all">
+                {previewContent}
+              </div>
+            </aside>
+          </>
         )}
       </main>
     </div>
   );
 }
+

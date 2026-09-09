@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Download, EyeOff, Plus, RotateCcw, Upload } from 'lucide-react';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import { FloatingNav } from '@/components/FloatingNav';
@@ -13,15 +13,17 @@ import { ItemsPage } from '@/pages/ItemsPage';
 import { DevCatalogLabPage } from '@/pages/DevCatalogLabPage';
 import { DevOverridesPage } from '@/pages/DevOverridesPage';
 import { DevTranslationsPage } from '@/pages/DevTranslationsPage';
+import { DevListsPage } from '@/pages/DevListsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
 import { ExpeditionPage } from '@/pages/ExpeditionPage';
 import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
+import { hasUnsavedDevChanges } from '@/lib/devDrafts';
 
 const isDev = import.meta.env.DEV;
 
-type Tab = 'stash' | 'liste' | 'blueprints' | 'expeditions' | 'items' | 'dev-lab' | 'dev-overrides' | 'dev-translations' | 'list-detail' | 'settings';
+type Tab = 'stash' | 'liste' | 'blueprints' | 'expeditions' | 'items' | 'dev-lab' | 'dev-overrides' | 'dev-translations' | 'dev-lists' | 'list-detail' | 'settings';
 
 export default function App() {
   const { t } = useTranslation();
@@ -39,6 +41,18 @@ export default function App() {
   const filterHideOwnedBlueprints = useAppStore(s => s.filterHideOwnedBlueprints);
   const setFilterHideOwnedBlueprints = useAppStore(s => s.setFilterHideOwnedBlueprints);
   const resetProgress = useAppStore(s => s.resetProgress);
+
+  useEffect(() => {
+    if (!isDev) return;
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedDevChanges()) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
 
   const openListDetail = (id: string) => {
     setReturnTab(activeTab);
@@ -122,6 +136,8 @@ export default function App() {
           />
         ) : isDev && activeTab === 'dev-translations' ? (
           <DevTranslationsPage onBack={() => setActiveTab(returnTab)} />
+        ) : isDev && activeTab === 'dev-lists' ? (
+          <DevListsPage onBack={() => setActiveTab(returnTab)} />
         ) : (
           <>
             <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
