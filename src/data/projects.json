@@ -117,18 +117,17 @@
           ]
         }
       ],
-      "startDate": "2026-07-01T21:45:00.000Z",
-      "expirationDate": "2026-07-01T21:46:00.000Z"
+      "startDate": "2026-07-01T21:45:00.000Z"
     },
     {
       "id": "phantom-targets",
       "name": "Phantom Targets",
       "translations": {
         "it": {
-          "name": "Obiettivi Fantasma"
+          "name": "Bersagli Fantasma"
         }
       },
-      "maxLevel": 3,
+      "maxLevel": 6,
       "listType": "project",
       "levels": [
         {
@@ -137,10 +136,10 @@
           "actions": [
             {
               "id": "259de9bd-776c-4380-bb59-42251636668d",
-              "label": "Upgrade 3 antennas found on top of any Cargo Elevator",
+              "label": "Upgrade antennas found on top of any Cargo Elevator [3]",
               "translations": {
                 "it": {
-                  "label": "Migliora 3 antenne in cima a qualsiasi ascensore"
+                  "label": "Migliora le antenne in cima a qualsiasi ascensore [3]"
                 }
               }
             }
@@ -152,28 +151,28 @@
           "actions": [
             {
               "id": "701d9332-5bc4-4995-a6d3-4e10642adaff",
-              "label": "Deal damage to any ARC enemy using Pop Triggers (50)",
+              "label": "Deal damage to any ARC enemy using Pop Triggers [50]",
               "translations": {
                 "it": {
-                  "label": "Infliggi danni a qualsiasi nemico ARC usando i Grilletti Pop (50)"
+                  "label": "Infliggi danni a qualsiasi nemico ARC usando i Grilletti Pop [50]"
                 }
               }
             },
             {
               "id": "51b3b976-4aa6-4920-8cb5-c9937450a3f8",
-              "label": "Deal damage to any ARC enemy using Wasp Drivers (500)",
+              "label": "Deal damage to any ARC enemy using Wasp Drivers [500]",
               "translations": {
                 "it": {
-                  "label": "Infliggi danni a qualsiasi ARC usando i Driver di Vespa (500)"
+                  "label": "Infliggi danni a qualsiasi ARC usando i Driver di Vespa [500]"
                 }
               }
             },
             {
               "id": "64147868-b26d-41dc-a760-099df758886a",
-              "label": "Deal damage to any ARC enemy using Leaper Pulse Unit (1000)",
+              "label": "Deal damage to any ARC enemy using Leaper Pulse Unit [1000]",
               "translations": {
                 "it": {
-                  "label": "Infliggi danni a qualsiasi nemico ARC usando le Unità ad impulso Leaper (1000)"
+                  "label": "Infliggi danni a qualsiasi nemico ARC usando le Unità ad impulso Leaper [1000]"
                 }
               }
             }
@@ -185,19 +184,85 @@
           "actions": [
             {
               "id": "ece45353-1e1e-4865-9bdf-15341e529bf0",
-              "label": "Damage ARC enemies using fire damage items [Blaze Grenade, Firefly and Fireball Burner, Flame Spray] (1500)",
+              "label": "Damage ARC enemies using fire damage items (Blaze Grenade, Firefly and Fireball Burner, Flame Spray) [1500]",
               "translations": {
                 "it": {
-                  "label": "Infliggi danni a qualsiasi ARC usando oggetti incendiari [Granate Incendiarie, Bruciatori Lucciola e Palla di Fuoco o Lanciafiamme] (1500)"
+                  "label": "Infliggi danni a qualsiasi ARC usando oggetti incendiari (Granate Incendiarie, Bruciatori Lucciola e Palla di Fuoco o Lanciafiamme) [1500]"
                 }
               }
             },
             {
               "id": "bf2bdf93-ee8f-4abe-8d39-e4e42c7bd5a7",
-              "label": "Destroy Bastion, Leapers, Vaporizers or Rocketeers using energy weapons [Aphelion, Dolabra, Jupiter, Equalizer] (3)",
+              "label": "Destroy Bastion, Leapers, Vaporizers or Rocketeers using energy weapons (Aphelion, Dolabra, Jupiter, Equalizer) [3]",
               "translations": {
                 "it": {
-                  "label": "Distruggi Bastioni, Leapers, Vaporizzatori o Lanciarazzi usando armi energetiche [Aphelion, Dolabra, Giove, Equalizzatore] (3)"
+                  "label": "Distruggi Bastioni, Leapers, Vaporizzatori o Lanciarazzi usando armi energetiche (Aphelion, Dolabra, Giove, Equalizzatore) [3]"
+                }
+              }
+            },
+            {
+              "id": "de97c914-4980-49b6-971b-81772630b828",
+              "label": "Destroy Flying ARC using Launcher Ammo weapons (Hullcracker, Rascal) [20]",
+              "translations": {
+                "it": {
+                  "label": "Distruggi ARC volanti usando armi con Munizioni Lanciatore (Spaccascudi, Rascal) [20]"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "glitched-arc-power-converter",
+              "quantity": 10
+            },
+            {
+              "itemId": "glitched-arc-transmitter",
+              "quantity": 10
+            },
+            {
+              "itemId": "glitched-arc-phased-array",
+              "quantity": 10
+            },
+            {
+              "itemId": "advanced-arc-powercell",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [
+            {
+              "itemId": "glitched-arc-light-ring",
+              "quantity": 10
+            },
+            {
+              "itemId": "glitched-arc-circuitry",
+              "quantity": 10
+            },
+            {
+              "itemId": "arc-thermo-lining",
+              "quantity": 10
+            },
+            {
+              "itemId": "arc-circuitry",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "level": 6,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "91182544-0a62-4289-a0ca-300e36ac6109",
+              "label": "Deal damage to any flying ARC using Fireworks [100]",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni a qualsiasi ARC volante usando i Fuochi d'Artificio [100]"
                 }
               }
             }
@@ -206,6 +271,348 @@
       ],
       "startDate": "2026-09-08T00:00:00.000Z",
       "expirationDate": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "converging-paths",
+      "name": "Converging Paths",
+      "translations": {
+        "it": {
+          "name": "Percorsi Convergenti"
+        }
+      },
+      "maxLevel": 6,
+      "listType": "project",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "249a6cc7-a411-40c4-bf13-26bb33dcae54",
+              "label": "Deal Damage To ARC Enemies In The Swamp [1200]",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni a qualsiasi ARC volante nella palude [1200]"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "train-model",
+              "quantity": 3
+            },
+            {
+              "itemId": "vintage-steering-wheel",
+              "quantity": 2
+            },
+            {
+              "itemId": "air-freshener",
+              "quantity": 2
+            },
+            {
+              "itemId": "arc-thermo-lining",
+              "quantity": 6
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "sextant",
+              "quantity": 4
+            },
+            {
+              "itemId": "equatorial-sundial",
+              "quantity": 3
+            },
+            {
+              "itemId": "metal-brackets",
+              "quantity": 5
+            },
+            {
+              "itemId": "arc-performance-steel",
+              "quantity": 7
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "tellurion",
+              "quantity": 3
+            },
+            {
+              "itemId": "elephant-obelisk",
+              "quantity": 1
+            },
+            {
+              "itemId": "light-bulb",
+              "quantity": 6
+            },
+            {
+              "itemId": "arc-coolant",
+              "quantity": 9
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [
+            {
+              "itemId": "colorful-shoes-rare",
+              "quantity": 6
+            },
+            {
+              "itemId": "colorful-shoes-epic",
+              "quantity": 3
+            },
+            {
+              "itemId": "colorful-shoes",
+              "quantity": 2
+            },
+            {
+              "itemId": "arc-synthetic-resin",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "level": 6,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "6f8dd94a-ac07-478d-9c5a-2b3dd3811f57",
+              "label": "Deal damage to ARC using mines or traps",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni a qualsiasi ARC usando mine o trappole"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "startDate": "2026-09-08T00:00:00.000Z",
+      "expirationDate": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "avian-alarm",
+      "name": "Avian Alarm",
+      "translations": {
+        "it": {
+          "name": "Allarme Aviario"
+        }
+      },
+      "maxLevel": 5,
+      "listType": "project",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "42f059a8-5bb9-468a-92a6-c99bc999f20e",
+              "label": "Lay bird trap next to buoys",
+              "translations": {
+                "it": {
+                  "label": "Metti le trappole per uccelli vicino alle boe"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "tick-pod",
+              "quantity": 7
+            },
+            {
+              "itemId": "canister",
+              "quantity": 20
+            },
+            {
+              "itemId": "moss",
+              "quantity": 12
+            },
+            {
+              "itemId": "twilight-compass-ship-model",
+              "quantity": 5
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "comet-igniter",
+              "quantity": 3
+            },
+            {
+              "itemId": "fertilizer",
+              "quantity": 10
+            },
+            {
+              "itemId": "rusted-tools",
+              "quantity": 8
+            },
+            {
+              "itemId": "velocity-ship-model",
+              "quantity": 5
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "vaporizer-regulator",
+              "quantity": 1
+            },
+            {
+              "itemId": "water-filter",
+              "quantity": 3
+            },
+            {
+              "itemId": "agave",
+              "quantity": 8
+            },
+            {
+              "itemId": "sirena-dorata-ship-model",
+              "quantity": 5
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [
+            {
+              "itemId": "turbine-compressor",
+              "quantity": 2
+            },
+            {
+              "itemId": "red-coral-jewelry",
+              "quantity": 3
+            },
+            {
+              "itemId": "roots",
+              "quantity": 4
+            },
+            {
+              "itemId": "leviathans-crown-ship-model",
+              "quantity": 1
+            }
+          ]
+        }
+      ],
+      "startDate": "2026-09-08T00:00:00.000Z",
+      "expirationDate": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "ascending-the-mountains",
+      "name": "Ascending the Mountains",
+      "translations": {
+        "it": {
+          "name": "Scalare le Montagne"
+        }
+      },
+      "maxLevel": 4,
+      "listType": "project",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "mechanical-components",
+              "quantity": 10
+            },
+            {
+              "itemId": "pop-trigger",
+              "quantity": 6
+            },
+            {
+              "itemId": "explosive-compound",
+              "quantity": 10
+            },
+            {
+              "itemId": "headphones",
+              "quantity": 2
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "wires",
+              "quantity": 20
+            },
+            {
+              "itemId": "voltage-converter",
+              "quantity": 8
+            },
+            {
+              "itemId": "sentinel-part",
+              "quantity": 2
+            },
+            {
+              "itemId": "rocket-thruster",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "ruined-parachute",
+              "quantity": 2
+            },
+            {
+              "itemId": "crash-mat",
+              "quantity": 10
+            },
+            {
+              "itemId": "shredder-gyro",
+              "quantity": 5
+            },
+            {
+              "itemId": "breathtaking-snow-globe",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "sensors",
+              "quantity": 30
+            },
+            {
+              "itemId": "broken-guidance-system",
+              "quantity": 3
+            },
+            {
+              "itemId": "advanced-electrical-components",
+              "quantity": 15
+            },
+            {
+              "itemId": "vaporizer-regulator",
+              "quantity": 3
+            }
+          ]
+        }
+      ],
+      "startDate": "2026-09-08T00:00:00.000Z",
+      "expirationDate": "2026-10-08T00:00:00.000Z"
     }
   ]
 }
