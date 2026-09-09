@@ -1,4 +1,6 @@
 import { useState, useMemo } from 'react';
+import { getItemSearchFields } from '@/i18n';
+import { fuzzyMatch } from '@/lib/fuzzy';
 import { ArrowLeft, ChevronRight, RotateCcw, SlidersHorizontal, EyeOff, Sparkles, MapPin, Hammer, Search } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { useAppStore } from '@/store';
@@ -105,7 +107,7 @@ export const DevCatalogLabPage = ({
 
   // Pipeline di filtraggio
   const filteredItems = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = query.trim();
 
     return allItems.filter(item => {
       // 1. Toggles Esclusione
@@ -139,17 +141,15 @@ export const DevCatalogLabPage = ({
 
       // 7. Ricerca Testuale
       if (q.length > 0) {
-        const matchesName = item.name.toLowerCase().includes(q);
-        const matchesId = item.id.toLowerCase().includes(q);
-        const matchesSub = item.subcategory?.toLowerCase().includes(q) ?? false;
-        const matchesType = item.item_type?.toLowerCase().includes(q) ?? false;
-        const matchesLoot = item.loot_area?.toLowerCase().includes(q) ?? false;
-        const matchesWb = item.workbench?.toLowerCase().includes(q) ?? false;
-        const matchesDesc = searchInDesc && item.description?.toLowerCase().includes(q);
-
-        if (!matchesName && !matchesId && !matchesSub && !matchesType && !matchesLoot && !matchesWb && !matchesDesc) {
-          return false;
-        }
+        const structuralFields = [
+          item.subcategory ?? '',
+          item.item_type ?? '',
+          item.loot_area ?? '',
+          item.workbench ?? '',
+          ...(searchInDesc ? [item.description ?? ''] : []),
+        ];
+        const allFields = [...getItemSearchFields(item), ...structuralFields];
+        if (!allFields.some(f => fuzzyMatch(f, q))) return false;
       }
 
       return true;

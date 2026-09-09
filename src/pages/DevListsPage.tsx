@@ -40,7 +40,8 @@ import { ConfirmDeleteItemModal } from "@/components/ConfirmDeleteItemModal";
 import { ConfirmActionModal } from "@/components/ConfirmActionModal";
 import { IsoDateTimeField } from "@/components/IsoDateTimeField";
 import { TieredActionTimeline } from "@/components/TieredActionTimeline";
-import { useTranslation, getItemName, getListName } from "@/i18n";
+import { useTranslation, getItemName, getListName, getListSearchFields } from "@/i18n";
+import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
 import itemsDatabase from "@/data/items.json";
 import { generateUUID } from "@/lib/uuid";
@@ -191,18 +192,13 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
 
   // Filtered lists for sidebar
   const filteredLists = useMemo(() => {
+    const q = searchQuery.trim();
     return allLists.filter((l) => {
-      const matchesFilter =
-        activeFilter === "all" || l.listType === activeFilter;
-      const localizedName = getListName(l, language);
-      const matchesSearch =
-        searchQuery.trim() === "" ||
-        l.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        localizedName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        l.id.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesFilter = activeFilter === "all" || l.listType === activeFilter;
+      const matchesSearch = !q || getListSearchFields(l).some(f => fuzzyMatch(f, q));
       return matchesFilter && matchesSearch;
     });
-  }, [allLists, activeFilter, searchQuery, language]);
+  }, [allLists, activeFilter, searchQuery]);
 
   // Collapsible category groups state
   const [collapsedTypes, setCollapsedTypes] = useState<Record<string, boolean>>({});

@@ -13,7 +13,8 @@ import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import itemsDataBase from '@/data/items.json';
 import initialOverrides from '@/data/items-overrides.json';
 import { getRarityText } from '@/lib/rarity';
-import { SUPPORTED_LANGUAGES } from '@/i18n';
+import { SUPPORTED_LANGUAGES, getItemSearchFields } from '@/i18n';
+import { fuzzyMatch } from '@/lib/fuzzy';
 
 type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
 const RARITIES: ItemRarity[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
@@ -322,12 +323,10 @@ export const DevOverridesPage = ({
         return false;
       });
     }
-    const q = searchQuery.toLowerCase().trim();
+    const q = searchQuery.trim();
     if (q) {
       list = list.filter(item =>
-        item.name.toLowerCase().includes(q) ||
-        item.id.toLowerCase().includes(q) ||
-        item.item_type?.toLowerCase().includes(q)
+        [...getItemSearchFields(item), item.item_type ?? ''].some(f => fuzzyMatch(f, q))
       );
     }
     return list;

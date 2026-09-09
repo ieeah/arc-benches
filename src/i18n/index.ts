@@ -223,3 +223,18 @@ export function getItemSearchFields(item: ItemInfo): string[] {
   }
   return fields;
 }
+
+/**
+ * Multi-language search fields for a List: default name, id, and all translated names.
+ */
+export function getListSearchFields(list: List): string[] {
+  const fields = [list.name, list.id];
+  if (list.translations) {
+    for (const tr of Object.values(list.translations)) {
+      if (tr.name && !fields.includes(tr.name)) {
+        fields.push(tr.name);
+      }
+    }
+  }
+  return fields;
+}

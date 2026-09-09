@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { fuzzyMatch } from '@/lib/fuzzy';
 
 export interface FilterCategory<T> {
   id: string;
@@ -76,10 +77,10 @@ export const useListManager = <T>({
     let result = [...items];
 
     // 1. Text Search Filter
-    const q = debouncedQuery.toLowerCase().trim();
+    const q = debouncedQuery.trim();
     if (q && search) {
       result = result.filter(item =>
-        search.fields(item).some(field => field.toLowerCase().includes(q))
+        search.fields(item).some(field => fuzzyMatch(field, q))
       );
     }
 

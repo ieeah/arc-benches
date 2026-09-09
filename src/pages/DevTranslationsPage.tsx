@@ -8,6 +8,7 @@ import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { it as defaultIt } from '@/i18n/locales/it';
 import { en as defaultEn } from '@/i18n/locales/en';
 import { useTranslation, SUPPORTED_LANGUAGES } from '@/i18n';
+import { fuzzyMatch } from '@/lib/fuzzy';
 
 // Flatten nested object into dot-notation paths
 function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, string> {
@@ -115,15 +116,15 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
 
   // Filtered keys for sidebar
   const filteredKeys = useMemo(() => {
-    const q = searchQuery.toLowerCase().trim();
+    const q = searchQuery.trim();
     return allKeys.filter(k => {
       if (selectedNamespace !== 'all' && !k.startsWith(`${selectedNamespace}.`)) {
         return false;
       }
       if (!q) return true;
-      const itVal = (itTranslations[k] || '').toLowerCase();
-      const enVal = (enTranslations[k] || '').toLowerCase();
-      return k.toLowerCase().includes(q) || itVal.includes(q) || enVal.includes(q);
+      const itVal = itTranslations[k] || '';
+      const enVal = enTranslations[k] || '';
+      return fuzzyMatch(k, q) || fuzzyMatch(itVal, q) || fuzzyMatch(enVal, q);
     });
   }, [allKeys, selectedNamespace, searchQuery, itTranslations, enTranslations]);
 
