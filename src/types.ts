@@ -5,26 +5,55 @@ export interface ItemRequirement {
   quantity: number;
 }
 
+export interface ActionTranslation {
+  label?: string;
+}
+
 export interface CheckboxAction {
   id: string;   // crypto.randomUUID() — stable key, never changes after creation
   label: string;
+  translations?: Record<string, ActionTranslation>;
+}
+
+export interface ActionStep {
+  id: string;   // stable step identifier
+  label: string;
+  translations?: Record<string, ActionTranslation>;
+}
+
+export interface TieredAction {
+  id: string;   // crypto.randomUUID() — stable key, never changes after creation
+  label: string;
+  translations?: Record<string, ActionTranslation>;
+  steps: ActionStep[];
+}
+
+export interface RewardTranslation {
+  label?: string;
 }
 
 export interface Reward {
   itemId?: string;
   quantity?: number;
   label: string;
+  translations?: Record<string, RewardTranslation>;
 }
 
 export interface ListLevel {
   level: number;
   requirementItemIds: ItemRequirement[];
   actions?: CheckboxAction[];
+  tieredActions?: TieredAction[];
   rewards?: Reward[];
 }
 
 /** Semantic category of a list, orthogonal to `custom` (a custom list may also be a project, etc.). */
 export type ListType = 'workbench' | 'project' | 'quest' | 'custom' | 'expedition';
+
+export interface ListTranslation {
+  name?: string;
+  description?: string;
+}
 
 /**
  * A tracked list of materials by level — the generic engine. The game's hideout workbenches are
@@ -33,6 +62,8 @@ export type ListType = 'workbench' | 'project' | 'quest' | 'custom' | 'expeditio
 export interface List {
   id: string;
   name: string;
+  description?: string;
+  translations?: Record<string, ListTranslation>;
   maxLevel: number;
   levels: ListLevel[];
   /** true = user-created (persisted); absent/false = game seed (read-only). */
@@ -47,6 +78,8 @@ export interface List {
   startDate?: string;
   /** Data e ora di scadenza/partenza ISO 8601 (es. "2026-09-30T20:00:00+02:00"). Opzionale. */
   expirationDate?: string;
+  /** Custom damage challenge thresholds specific to this expedition. */
+  damageChallenge?: TieredAction;
 }
 
 export interface Profile {
@@ -204,6 +237,7 @@ export interface AppState {
   /** Checkbox actions completion — key: `${listId}|${level}|${actionId}` */
   checkedActions: Record<string, boolean>;
   toggleAction: (listId: string, level: number, actionId: string) => void;
+  setTieredActionStep: (listId: string, level: number, tieredActionId: string, steps: ActionStep[], stepIndex: number) => void;
 
   /** Expeditions & Prestige State for active profile */
   expeditions: List[];

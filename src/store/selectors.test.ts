@@ -571,9 +571,11 @@ describe('getMissingActionsPure', () => {
     expect(missing[0]).toEqual({
       listId: 'quest:1',
       listName: 'Intro Quest',
+      list: actionList,
       level: 1,
       actionId: 'act-2',
       label: 'Explore the Dam',
+      action: { id: 'act-2', label: 'Explore the Dam' },
       isCustom: true,
       isCompleted: false,
     });
@@ -594,9 +596,11 @@ describe('getMissingActionsPure', () => {
     expect(missing[0]).toEqual({
       listId: 'quest:1',
       listName: 'Intro Quest',
+      list: actionList,
       level: 2,
       actionId: 'act-3',
       label: 'Defeat ARC Sentry',
+      action: { id: 'act-3', label: 'Defeat ARC Sentry' },
       isCustom: true,
       isCompleted: false,
     });
@@ -617,9 +621,11 @@ describe('getMissingActionsPure', () => {
     expect(allActions[0]).toEqual({
       listId: 'quest:1',
       listName: 'Intro Quest',
+      list: actionList,
       level: 1,
       actionId: 'act-1',
       label: 'Talk to Celeste',
+      action: { id: 'act-1', label: 'Talk to Celeste' },
       isCustom: true,
       isCompleted: true,
     });
@@ -689,6 +695,23 @@ describe('Expedition Pure Selectors', () => {
     };
     expect(getExpeditionDamageTierPure(checked)).toBe(3);
     expect(getExpeditionDamageTierPure({})).toBe(0);
+
+    const customChallenge = {
+      id: 'custom-damage',
+      label: 'Custom Damage',
+      steps: [
+        { id: 's1', label: '10.000' },
+        { id: 's2', label: '50.000' },
+        { id: 's3', label: '100.000' },
+      ],
+    };
+
+    const customChecked = {
+      'expedition-damage|0|custom-damage:s1': true,
+      'expedition-damage|0|custom-damage:s2': true,
+    };
+
+    expect(getExpeditionDamageTierPure(customChecked, customChallenge)).toBe(2);
   });
 
   it('getExpeditionCatchupSPPure counts completed catchup points', () => {

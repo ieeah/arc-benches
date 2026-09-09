@@ -1,4 +1,4 @@
-import type { List } from '@/types';
+import type { List, CheckboxAction, TieredAction } from '@/types';
 import { isListExpired } from '@/lib/expiration';
 
 export { isListExpired };
@@ -224,9 +224,11 @@ export function getItemDependenciesPure(
 export interface StashAction {
   listId: string;
   listName: string;
+  list?: List;
   level: number;
   actionId: string;
   label: string;
+  action?: CheckboxAction;
   isCustom?: boolean;
   isCompleted: boolean;
 }
@@ -259,12 +261,31 @@ export function getStashActionsPure(
           actions.push({
             listId: list.id,
             listName: list.name,
+            list,
             level: lvl.level,
             actionId: action.id,
             label: action.label,
+            action,
             isCustom: Boolean(list.custom),
             isCompleted,
           });
+        }
+        for (const tiered of lvl.tieredActions ?? []) {
+          for (const step of tiered.steps ?? []) {
+            const key = `${list.id}|${lvl.level}|${tiered.id}:${step.id}`;
+            const isCompleted = Boolean(checkedActions[key]);
+            actions.push({
+              listId: list.id,
+              listName: list.name,
+              list,
+              level: lvl.level,
+              actionId: `${tiered.id}:${step.id}`,
+              label: `${tiered.label} — ${step.label}`,
+              action: { id: `${tiered.id}:${step.id}`, label: `${tiered.label} — ${step.label}`, translations: step.translations },
+              isCustom: Boolean(list.custom),
+              isCompleted,
+            });
+          }
         }
       }
     }
@@ -299,6 +320,7 @@ export function getExpeditionCompletedPhasePure(
   for (const lvl of caravan.levels) {
     const hasItems = lvl.requirementItemIds.length > 0;
     const hasActions = (lvl.actions?.length ?? 0) > 0;
+    const hasTiered = (lvl.tieredActions?.length ?? 0) > 0;
 
     const isItemsDone = !hasItems || lvl.requirementItemIds.every(
       req => Boolean(checkedActions[`${caravan.id}|${lvl.level}|item_${req.itemId}`]) || (inventory[req.itemId] ?? 0) >= req.quantity,
@@ -306,8 +328,11 @@ export function getExpeditionCompletedPhasePure(
     const isActionsDone = !hasActions || (lvl.actions ?? []).every(
       a => Boolean(checkedActions[`${caravan.id}|${lvl.level}|${a.id}`]),
     );
+    const isTieredDone = !hasTiered || (lvl.tieredActions ?? []).every(
+      t => (t.steps ?? []).every(s => Boolean(checkedActions[`${caravan.id}|${lvl.level}|${t.id}:${s.id}`])),
+    );
 
-    if (isItemsDone && isActionsDone) {
+    if (isItemsDone && isActionsDone && isTieredDone) {
       completed = lvl.level;
     } else {
       break; // Sequential: cannot complete level N if level N-1 is incomplete
@@ -333,12 +358,32 @@ export function getActiveExpeditionPure(
 }
 
 /**
- * Computes how many damage challenge tiers are checked (0 to 5).
+ * Computes how many damage challenge tiers are checked (0 to total steps).
  */
-export function getExpeditionDamageTierPure(checkedActions: Record<string, boolean>): number {
+export function getExpeditionDamageTierPure(
+  checkedActions: Record<string, boolean>,
+  damageChallenge?: TieredAction | null,
+): number {
+  if (damageChallenge?.steps && damageChallenge.steps.length > 0) {
+    let count = 0;
+    for (const step of damageChallenge.steps) {
+      if (
+        checkedActions[`expedition-damage|0|${damageChallenge.id}:${step.id}`] ||
+        checkedActions[`expedition-damage|0|${step.id}`] ||
+        checkedActions[`expedition-damage|0|tier_${step.id}`]
+      ) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   let count = 0;
   for (let i = 1; i <= 5; i++) {
-    if (checkedActions[`expedition-damage|0|tier_${i}`]) {
+    if (
+      checkedActions[`expedition-damage|0|tier_${i}`] ||
+      checkedActions[`expedition-damage|0|damage-challenge:tier-${i}`]
+    ) {
       count++;
     }
   }

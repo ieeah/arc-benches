@@ -27,8 +27,10 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { Drawer } from '@/components/Drawer';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
+import { TieredActionTimeline } from '@/components/TieredActionTimeline';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
-import { useTranslation, getItemName } from '@/i18n';
+import type { TieredAction } from '@/types';
+import { useTranslation, getItemName, getListName, getActionLabel } from '@/i18n';
 import { cn } from '@/lib/cn';
 
 export const ExpeditionPage = () => {
@@ -62,6 +64,25 @@ export const ExpeditionPage = () => {
     [expeditions, completedExpeditionsCount],
   );
 
+  const damageChallenge: TieredAction = useMemo(() => {
+    return (
+      activeCaravan?.damageChallenge ?? {
+        id: 'damage-challenge',
+        label: 'Damage Challenge',
+        translations: {
+          it: { label: 'Sfida Danni' },
+        },
+        steps: [
+          { id: 'tier-1', label: '5.000' },
+          { id: 'tier-2', label: '30.000' },
+          { id: 'tier-3', label: '50.000' },
+          { id: 'tier-4', label: '75.000' },
+          { id: 'tier-5', label: '100.000' },
+        ],
+      }
+    );
+  }, [activeCaravan]);
+
   const isWindowOpen = useMemo(
     () => isDepartureWindowActivePure(activeCaravan),
     [activeCaravan],
@@ -74,8 +95,8 @@ export const ExpeditionPage = () => {
 
   // Challenge Tiers and Reward calculation
   const damageTier = useMemo(
-    () => getExpeditionDamageTierPure(checkedActions),
-    [checkedActions],
+    () => getExpeditionDamageTierPure(checkedActions, damageChallenge),
+    [checkedActions, damageChallenge],
   );
 
   const catchupSP = useMemo(
@@ -231,7 +252,7 @@ export const ExpeditionPage = () => {
               </div>
               <div className="min-w-0">
                 <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 truncate">
-                  {activeCaravan.name}
+                  {getListName(activeCaravan, language)}
                 </h3>
                 <span className="text-[10px] text-gray-400 font-medium">
                   {t('expeditions.caravan.title')} • #{activeCaravan.expeditionIndex ?? 1}
@@ -366,9 +387,24 @@ export const ExpeditionPage = () => {
                       {level.actions?.map(action => (
                         <ActionCheckbox
                           key={action.id}
-                          label={action.label}
+                          label={getActionLabel(action, language)}
                           checked={Boolean(checkedActions[`${activeCaravan.id}|${level.level}|${action.id}`])}
                           onToggle={() => isUnlocked && toggleAction(activeCaravan.id, level.level, action.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Tiered Actions for Phase */}
+                  {(level.tieredActions?.length ?? 0) > 0 && (
+                    <div className={cn('space-y-2.5 pt-1', !isUnlocked && 'pointer-events-none')}>
+                      {level.tieredActions?.map(tiered => (
+                        <TieredActionTimeline
+                          key={tiered.id}
+                          tieredAction={tiered}
+                          listId={activeCaravan.id}
+                          levelNum={level.level}
+                          disabled={!isUnlocked}
                         />
                       ))}
                     </div>
@@ -397,41 +433,27 @@ export const ExpeditionPage = () => {
             </div>
           </div>
           <span className="text-xs font-black text-red-600 dark:text-red-400 px-2.5 py-1 bg-red-50 dark:bg-red-950/40 rounded-full shrink-0">
-            {damageTier}/5
+            {damageTier}/{damageChallenge.steps?.length ?? 5}
           </span>
         </div>
 
-        <div className="space-y-2">
-          {[1, 2, 3, 4, 5].map(tier => {
-            const key = `expedition-damage|0|tier_${tier}`;
-            const isChecked = Boolean(checkedActions[key]);
-            const isSpReward = completedExpeditionsCount < 3;
+        {/* Timeline Component for Damage Challenge */}
+        <TieredActionTimeline
+          tieredAction={damageChallenge}
+          listId="expedition-damage"
+          levelNum={0}
+        />
 
-            return (
-              <div
-                key={tier}
-                className={cn(
-                  'flex items-center justify-between p-2.5 rounded-2xl border transition-colors',
-                  isChecked
-                    ? 'bg-red-500/10 border-red-500/30'
-                    : 'bg-gray-50 dark:bg-gray-800/40 border-gray-200/70 dark:border-gray-800',
-                )}
-              >
-                <div className="flex items-center gap-2.5">
-                  <ActionCheckbox
-                    checked={isChecked}
-                    onToggle={() => toggleAction('expedition-damage', 0, `tier_${tier}`)}
-                    label={t('expeditions.damageChallenge.tier', { tier })}
-                  />
-                </div>
-                <span className="text-[11px] font-semibold text-gray-600 dark:text-gray-300">
-                  {isSpReward
-                    ? t('expeditions.damageChallenge.rewardSp')
-                    : t('expeditions.damageChallenge.rewardMystery')}
-                </span>
-              </div>
-            );
-          })}
+        {/* Reward advisory text */}
+        <div className="p-3 bg-red-50/50 dark:bg-red-950/20 rounded-2xl border border-red-100 dark:border-red-900/30 flex items-center justify-between gap-2">
+          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+            {completedExpeditionsCount < 3
+              ? t('expeditions.damageChallenge.rewardSp')
+              : t('expeditions.damageChallenge.rewardMystery')}
+          </span>
+          <span className="text-xs font-bold text-red-600 dark:text-red-400 font-mono">
+            {completedExpeditionsCount < 3 ? `+${damageTier} SP` : `+${damageTier} Blueprint`}
+          </span>
         </div>
       </div>
 

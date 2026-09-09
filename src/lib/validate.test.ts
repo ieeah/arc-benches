@@ -7,6 +7,7 @@ import {
   sanitizeStringArray,
   validateList,
   validateProfile,
+  validateExpeditionIndex,
   v,
 } from '@/lib/validate';
 
@@ -320,5 +321,42 @@ describe('v — never throws', () => {
     expect(() => schema.parse(undefined, { x: '' })).not.toThrow();
     expect(() => schema.parse(Symbol('x'), { x: '' })).not.toThrow();
     expect(() => v.array(v.boolean()).parse({ 0: true }, [])).not.toThrow();
+  });
+});
+
+describe('validateExpeditionIndex', () => {
+  const existingExpeditions = [
+    { id: 'expedition-1', name: 'Exp 1', maxLevel: 3, levels: [{ level: 1, requirementItemIds: [] }], expeditionIndex: 1 },
+    { id: 'expedition-2', name: 'Exp 2', maxLevel: 3, levels: [{ level: 1, requirementItemIds: [] }], expeditionIndex: 2 },
+  ];
+
+  it('accepts next sequential index (3)', () => {
+    const res = validateExpeditionIndex(3, 'expedition-3', existingExpeditions);
+    expect(res.isValid).toBe(true);
+    expect(res.error).toBeNull();
+  });
+
+  it('rejects duplicate index (2)', () => {
+    const res = validateExpeditionIndex(2, 'expedition-new', existingExpeditions);
+    expect(res.isValid).toBe(false);
+    expect(res.error).toContain('già presente');
+  });
+
+  it('rejects non-contiguous index with gap (4 when 3 does not exist)', () => {
+    const res = validateExpeditionIndex(4, 'expedition-new', existingExpeditions);
+    expect(res.isValid).toBe(false);
+    expect(res.error).toContain('indice 3 non esiste');
+  });
+
+  it('allows current expedition to keep its own index during edit', () => {
+    const res = validateExpeditionIndex(2, 'expedition-2', existingExpeditions);
+    expect(res.isValid).toBe(true);
+    expect(res.error).toBeNull();
+  });
+
+  it('rejects index < 1 or non-integer', () => {
+    expect(validateExpeditionIndex(0, 'exp-x', existingExpeditions).isValid).toBe(false);
+    expect(validateExpeditionIndex(-1, 'exp-x', existingExpeditions).isValid).toBe(false);
+    expect(validateExpeditionIndex(1.5, 'exp-x', existingExpeditions).isValid).toBe(false);
   });
 });

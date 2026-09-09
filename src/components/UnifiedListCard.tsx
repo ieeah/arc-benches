@@ -6,7 +6,8 @@ import { getBaseLevel } from '@/lib/lists';
 import { isListExpired, formatTimeRemaining } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
 import { refinerCraftLevel } from '@/lib/craft';
-import { useTranslation, getItemName, getListName } from '@/i18n';
+import { TieredActionTimeline } from '@/components/TieredActionTimeline';
+import { useTranslation, getItemName, getListName, getActionLabel } from '@/i18n';
 import { LevelBadge } from '@/components/LevelBadge';
 import { LevelPills } from '@/components/LevelPills';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
@@ -124,7 +125,7 @@ export const UnifiedListCard = ({
   const remaining = list.expirationDate ? formatTimeRemaining(list.expirationDate, language) : null;
 
   const actionLevels = list.levels.filter(
-    l => selectedTargets.includes(l.level) && (l.actions?.length ?? 0) > 0
+    l => selectedTargets.includes(l.level) && ((l.actions?.length ?? 0) > 0 || (l.tieredActions?.length ?? 0) > 0)
   );
 
   const closeMenu = useCallback(() => { setMenuOpen(false); setConfirmingDelete(false); }, []);
@@ -402,20 +403,36 @@ export const UnifiedListCard = ({
           {actionLevels.length > 0 && onToggleAction && (
             <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2.5">
               {actionLevels.map(lvl => (
-                <div key={lvl.level}>
+                <div key={lvl.level} className="space-y-2">
                   <p className="text-[10px] font-bold uppercase text-gray-400 mb-1.5">
                     {t('benches.actions')} — {t('benches.lvl')} {lvl.level}
                   </p>
-                  <div className="space-y-1">
-                    {lvl.actions!.map(action => (
-                      <ActionCheckbox
-                        key={action.id}
-                        label={action.label}
-                        checked={checkedActions?.[`${list.id}|${lvl.level}|${action.id}`] ?? false}
-                        onToggle={() => onToggleAction(lvl.level, action.id)}
-                      />
-                    ))}
-                  </div>
+                  {(lvl.actions?.length ?? 0) > 0 && (
+                    <div className="space-y-1">
+                      {lvl.actions!.map(action => (
+                        <ActionCheckbox
+                          key={action.id}
+                          label={getActionLabel(action, language)}
+                          checked={checkedActions?.[`${list.id}|${lvl.level}|${action.id}`] ?? false}
+                          onToggle={() => onToggleAction(lvl.level, action.id)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  {(lvl.tieredActions?.length ?? 0) > 0 && (
+                    <div className="space-y-2">
+                      {lvl.tieredActions!.map(tiered => (
+                        <TieredActionTimeline
+                          key={tiered.id}
+                          tieredAction={tiered}
+                          listId={list.id}
+                          levelNum={lvl.level}
+                          checkedActions={checkedActions}
+                          compact
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

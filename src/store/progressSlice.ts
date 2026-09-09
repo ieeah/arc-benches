@@ -9,7 +9,7 @@ export type ProgressSlice = Pick<AppState,
   'hideoutLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
   'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'setModuleCurrentLevel' | 'toggleTargetLevel' | 'toggleModuleActive' | 'setFilterHideCompleted' |
-  'setListOrder' | 'toggleAction' | 'upgradeModule' | 'resetProgress' |
+  'setListOrder' | 'toggleAction' | 'setTieredActionStep' | 'upgradeModule' | 'resetProgress' |
   'toggleBlueprintOwned' | 'setBlueprintOwned' | 'setFilterHideOwnedBlueprints'
 >;
 
@@ -84,6 +84,37 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
     const s = get();
     const key = `${listId}|${level}|${actionId}`;
     set({ checkedActions: { ...s.checkedActions, [key]: !s.checkedActions[key] } });
+  },
+
+  setTieredActionStep: (listId, level, tieredActionId, steps, stepIndex) => {
+    const s = get();
+    const checkedActions = { ...s.checkedActions };
+    const stepKey = (stepId: string) => `${listId}|${level}|${tieredActionId}:${stepId}`;
+
+    const targetStep = steps[stepIndex];
+    if (!targetStep) return;
+
+    const isTargetChecked = Boolean(checkedActions[stepKey(targetStep.id)]);
+    const isNextChecked = stepIndex + 1 < steps.length && Boolean(checkedActions[stepKey(steps[stepIndex + 1].id)]);
+
+    if (!isTargetChecked) {
+      // Check all steps up to stepIndex
+      for (let i = 0; i <= stepIndex; i++) {
+        checkedActions[stepKey(steps[i].id)] = true;
+      }
+    } else if (isNextChecked) {
+      // Target is checked and subsequent steps are also checked -> keep up to stepIndex, uncheck after
+      for (let i = stepIndex + 1; i < steps.length; i++) {
+        delete checkedActions[stepKey(steps[i].id)];
+      }
+    } else {
+      // Target is checked and next is NOT checked -> uncheck target step and any subsequent
+      for (let i = stepIndex; i < steps.length; i++) {
+        delete checkedActions[stepKey(steps[i].id)];
+      }
+    }
+
+    set({ checkedActions });
   },
 
   upgradeModule: (moduleId) => {

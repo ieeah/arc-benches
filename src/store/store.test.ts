@@ -197,5 +197,41 @@ describe('useAppStore persistence boundary', () => {
     expect(stateAfter.inventory['plastic-parts']).toBe(50); // Inventory kept
     expect(stateAfter.checkedActions['expedition-damage|0|tier_1']).toBeUndefined();
   });
+
+  it('manages tiered action steps cumulatively and updates persistence', () => {
+    const steps = [
+      { id: 'step-1', label: '5,000 Damage' },
+      { id: 'step-2', label: '30,000 Damage' },
+      { id: 'step-3', label: '50,000 Damage' },
+      { id: 'step-4', label: '75,000 Damage' },
+      { id: 'step-5', label: '100,000 Damage' },
+    ];
+
+    // Mark step 3 (index 2: 50,000 Damage) as completed -> steps 0, 1, 2 must be checked
+    useAppStore.getState().setTieredActionStep('expedition-damage', 0, 'damage-challenge', steps, 2);
+
+    let state = useAppStore.getState();
+    expect(state.checkedActions['expedition-damage|0|damage-challenge:step-1']).toBe(true);
+    expect(state.checkedActions['expedition-damage|0|damage-challenge:step-2']).toBe(true);
+    expect(state.checkedActions['expedition-damage|0|damage-challenge:step-3']).toBe(true);
+    expect(state.checkedActions['expedition-damage|0|damage-challenge:step-4']).toBeUndefined();
+    expect(state.checkedActions['expedition-damage|0|damage-challenge:step-5']).toBeUndefined();
+
+    // Clicking already active step 3 (index 2) unchecks it (and any subsequent)
+    useAppStore.getState().setTieredActionStep('expedition-damage', 0, 'damage-challenge', steps, 2);
+
+    state = useAppStore.getState();
+    expect(state.checkedActions['expedition-damage|0|damage-challenge:step-1']).toBe(true);
+    expect(state.checkedActions['expedition-damage|0|damage-challenge:step-2']).toBe(true);
+    expect(state.checkedActions['expedition-damage|0|damage-challenge:step-3']).toBeUndefined();
+
+    // Clicking step 5 (index 4) checks all 1..5
+    useAppStore.getState().setTieredActionStep('expedition-damage', 0, 'damage-challenge', steps, 4);
+
+    state = useAppStore.getState();
+    steps.forEach(s => {
+      expect(state.checkedActions[`expedition-damage|0|damage-challenge:${s.id}`]).toBe(true);
+    });
+  });
 });
 

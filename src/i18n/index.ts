@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { ItemInfo, List } from '@/types';
+import type { ItemInfo, List, CheckboxAction, Reward, ActionTranslation } from '@/types';
 import { useAppStore } from '@/store';
 import { it } from './locales/it';
 import { en } from './locales/en';
@@ -7,10 +7,50 @@ import { SUPPORTED_LANGUAGES, type AppLanguage } from './types';
 
 export * from './types';
 
-const LOCALES: Record<string, typeof it> = {
-  it,
-  en,
-};
+function computeEffectiveLocales(): Record<string, typeof it> {
+  const result: Record<string, any> = {
+    it: JSON.parse(JSON.stringify(it)),
+    en: JSON.parse(JSON.stringify(en)),
+  };
+
+  if (import.meta.env.DEV) {
+    try {
+      const itDraft = localStorage.getItem('dev_i18n_it_draft');
+      if (itDraft) {
+        const flat = JSON.parse(itDraft);
+        for (const [path, val] of Object.entries(flat)) {
+          const parts = path.split('.');
+          let cur: any = result.it;
+          for (let i = 0; i < parts.length - 1; i++) {
+            if (!cur[parts[i]] || typeof cur[parts[i]] !== 'object') cur[parts[i]] = {};
+            cur = cur[parts[i]];
+          }
+          cur[parts[parts.length - 1]] = val;
+        }
+      }
+
+      const enDraft = localStorage.getItem('dev_i18n_en_draft');
+      if (enDraft) {
+        const flat = JSON.parse(enDraft);
+        for (const [path, val] of Object.entries(flat)) {
+          const parts = path.split('.');
+          let cur: any = result.en;
+          for (let i = 0; i < parts.length - 1; i++) {
+            if (!cur[parts[i]] || typeof cur[parts[i]] !== 'object') cur[parts[i]] = {};
+            cur = cur[parts[i]];
+          }
+          cur[parts[parts.length - 1]] = val;
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  return result;
+}
+
+const LOCALES: Record<string, typeof it> = computeEffectiveLocales();
 
 type NestedKeyOf<ObjectType extends object> = {
   [Key in keyof ObjectType & (string | number)]: ObjectType[Key] extends object
@@ -103,17 +143,60 @@ export function getItemDescription(item?: ItemInfo | null, lang: AppLanguage = '
 /**
  * Returns localized workbench name.
  */
-export function getWorkbenchName(workbench?: List | null, _lang: AppLanguage = 'en'): string {
+export function getWorkbenchName(workbench?: List | null, lang: AppLanguage = 'en'): string {
   if (!workbench) return '';
+  if (lang !== 'en' && workbench.translations?.[lang]?.name) {
+    return workbench.translations[lang].name!;
+  }
   return workbench.name;
 }
 
 /**
  * Returns localized list / workbench name.
  */
-export function getListName(list?: List | null, _lang: AppLanguage = 'en'): string {
+export function getListName(list?: List | null, lang: AppLanguage = 'en'): string {
   if (!list) return '';
+  if (lang !== 'en' && list.translations?.[lang]?.name) {
+    return list.translations[lang].name!;
+  }
   return list.name;
+}
+
+/**
+ * Returns localized list description.
+ */
+export function getListDescription(list?: List | null, lang: AppLanguage = 'en'): string {
+  if (!list) return '';
+  if (lang !== 'en' && list.translations?.[lang]?.description) {
+    return list.translations[lang].description!;
+  }
+  return list.description ?? '';
+}
+
+/**
+ * Returns localized action label with fallback to default label.
+ */
+export function getActionLabel(
+  action?: { label: string; translations?: Record<string, ActionTranslation> } | CheckboxAction | null,
+  lang: AppLanguage = 'en',
+): string {
+  if (!action) return '';
+  const translated = action.translations?.[lang]?.label?.trim();
+  if (lang !== 'en' && translated) {
+    return translated;
+  }
+  return action.label;
+}
+
+/**
+ * Returns localized reward label with fallback to default label.
+ */
+export function getRewardLabel(reward?: Reward | null, lang: AppLanguage = 'en'): string {
+  if (!reward) return '';
+  if (lang !== 'en' && reward.translations?.[lang]?.label) {
+    return reward.translations[lang].label!;
+  }
+  return reward.label;
 }
 
 /**

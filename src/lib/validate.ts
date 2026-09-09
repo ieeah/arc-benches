@@ -1,4 +1,4 @@
-import type { CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward } from '@/types';
+import type { ActionStep, ActionTranslation, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, RewardTranslation, TieredAction } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -77,7 +77,22 @@ const validateAction = (v: unknown): CheckboxAction | null => {
   const id = asNonEmptyString(v.id);
   const label = asNonEmptyString(v.label);
   if (id === null || label === null) return null;
-  return { id, label };
+  const out: CheckboxAction = { id, label };
+  if (isObject(v.translations)) {
+    const translations: Record<string, ActionTranslation> = {};
+    for (const [lang, tr] of Object.entries(v.translations)) {
+      if (isObject(tr)) {
+        const trLabel = asNonEmptyString(tr.label);
+        if (trLabel !== null) {
+          translations[lang] = { label: trLabel };
+        }
+      }
+    }
+    if (Object.keys(translations).length > 0) {
+      out.translations = translations;
+    }
+  }
+  return out;
 };
 
 const validateReward = (v: unknown): Reward | null => {
@@ -89,9 +104,72 @@ const validateReward = (v: unknown): Reward | null => {
   if (itemId !== null) out.itemId = itemId;
   const quantity = asNonNegInt(v.quantity, 1);
   if (quantity !== null) out.quantity = quantity;
+  if (isObject(v.translations)) {
+    const translations: Record<string, RewardTranslation> = {};
+    for (const [lang, tr] of Object.entries(v.translations)) {
+      if (isObject(tr)) {
+        const trLabel = asNonEmptyString(tr.label);
+        if (trLabel !== null) {
+          translations[lang] = { label: trLabel };
+        }
+      }
+    }
+    if (Object.keys(translations).length > 0) {
+      out.translations = translations;
+    }
+  }
   return out;
 };
 
+
+const validateActionStep = (v: unknown): ActionStep | null => {
+  if (!isObject(v)) return null;
+  const id = asNonEmptyString(v.id);
+  const label = asNonEmptyString(v.label);
+  if (!id || label === null) return null;
+  const out: ActionStep = { id, label };
+  if (isObject(v.translations)) {
+    const translations: Record<string, ActionTranslation> = {};
+    for (const [lang, tr] of Object.entries(v.translations)) {
+      if (isObject(tr)) {
+        const trLabel = asNonEmptyString(tr.label);
+        if (trLabel !== null) {
+          translations[lang] = { label: trLabel };
+        }
+      }
+    }
+    if (Object.keys(translations).length > 0) {
+      out.translations = translations;
+    }
+  }
+  return out;
+};
+
+const validateTieredAction = (v: unknown): TieredAction | null => {
+  if (!isObject(v)) return null;
+  const id = asNonEmptyString(v.id);
+  const label = asNonEmptyString(v.label);
+  if (!id || label === null) return null;
+  const steps = Array.isArray(v.steps)
+    ? v.steps.map(validateActionStep).filter((s): s is ActionStep => s !== null)
+    : [];
+  const out: TieredAction = { id, label, steps };
+  if (isObject(v.translations)) {
+    const translations: Record<string, ActionTranslation> = {};
+    for (const [lang, tr] of Object.entries(v.translations)) {
+      if (isObject(tr)) {
+        const trLabel = asNonEmptyString(tr.label);
+        if (trLabel !== null) {
+          translations[lang] = { label: trLabel };
+        }
+      }
+    }
+    if (Object.keys(translations).length > 0) {
+      out.translations = translations;
+    }
+  }
+  return out;
+};
 
 const validateLevel = (v: unknown): ListLevel | null => {
   if (!isObject(v)) return null;
@@ -103,11 +181,15 @@ const validateLevel = (v: unknown): ListLevel | null => {
   const actions = Array.isArray(v.actions)
     ? v.actions.map(validateAction).filter((a): a is CheckboxAction => a !== null)
     : undefined;
+  const tieredActions = Array.isArray(v.tieredActions)
+    ? v.tieredActions.map(validateTieredAction).filter((a): a is TieredAction => a !== null)
+    : undefined;
   const rewards = Array.isArray(v.rewards)
     ? v.rewards.map(validateReward).filter((r): r is Reward => r !== null)
     : undefined;
   const out: ListLevel = { level, requirementItemIds };
   if (actions && actions.length > 0) out.actions = actions;
+  if (tieredActions && tieredActions.length > 0) out.tieredActions = tieredActions;
   if (rewards && rewards.length > 0) out.rewards = rewards;
   return out;
 };
@@ -147,8 +229,60 @@ export const validateList = (v: unknown): List | null => {
   if (expeditionIndex !== null) out.expeditionIndex = expeditionIndex;
   const expirationDate = asIsoDateString(v.expirationDate);
   if (expirationDate) out.expirationDate = expirationDate;
+  if (isObject(v.damageChallenge)) {
+    const validatedDamage = validateTieredAction(v.damageChallenge);
+    if (validatedDamage) out.damageChallenge = validatedDamage;
+  }
   return out;
 };
+
+/**
+ * Validates whether an expedition index is valid among a collection of expeditions.
+ * Rules:
+ * 1. Must be an integer >= 1
+ * 2. No duplicates
+ * 3. Gradual / Sequential without gaps (e.g. index 2 requires index 1, index 3 requires index 2, etc.)
+ */
+export function validateExpeditionIndex(
+  targetIndex: number,
+  currentExpeditionId: string,
+  allExpeditions: List[],
+): { isValid: boolean; error: string | null } {
+  if (typeof targetIndex !== 'number' || !Number.isInteger(targetIndex) || targetIndex < 1) {
+    return {
+      isValid: false,
+      error: "L'indice deve essere un numero intero maggiore o uguale a 1.",
+    };
+  }
+
+  const otherExpeditions = allExpeditions.filter(e => e.id !== currentExpeditionId);
+  const otherIndices = new Set(
+    otherExpeditions
+      .map(e => e.expeditionIndex)
+      .filter((n): n is number => typeof n === 'number' && Number.isInteger(n) && n > 0),
+  );
+
+  if (otherIndices.has(targetIndex)) {
+    return {
+      isValid: false,
+      error: `L'indice ${targetIndex} è già presente in un'altra spedizione (duplicato non consentito).`,
+    };
+  }
+
+  for (let i = 1; i < targetIndex; i++) {
+    if (!otherIndices.has(i)) {
+      return {
+        isValid: false,
+        error: `Non puoi inserire l'indice ${targetIndex} perché l'indice ${i} non esiste. Gli indici devono essere graduali e continui (nessun salto).`,
+      };
+    }
+  }
+
+  return {
+    isValid: true,
+    error: null,
+  };
+}
 
 export const validateProfile = (v: unknown): Profile | null => {
   if (!isObject(v)) return null;

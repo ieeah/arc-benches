@@ -1,10 +1,11 @@
 import { AlertTriangle, ArrowLeft, Check, Gift } from 'lucide-react';
 import { useAppStore } from '@/store';
-import { useTranslation, getItemName, getListName } from '@/i18n';
+import { useTranslation, getItemName, getListName, getActionLabel, getRewardLabel } from '@/i18n';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { LevelPills } from '@/components/LevelPills';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
+import { TieredActionTimeline } from '@/components/TieredActionTimeline';
 import { iconUrl } from '@/lib/icons';
 import { getRarityStyles } from '@/lib/rarity';
 import { getBaseLevel } from '@/lib/lists';
@@ -125,7 +126,7 @@ export const ListDetailPage = ({ listId, onBack }: {
                 <div className={cn('space-y-1', lvl.requirementItemIds.length > 0 && 'mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800')}>
                   {lvl.actions!.map(action => (
                     <ActionCheckbox key={action.id}
-                      label={action.label}
+                      label={getActionLabel(action, language)}
                       checked={store.checkedActions[`${list.id}|${lvl.level}|${action.id}`] ?? false}
                       onToggle={() => store.toggleAction(list.id, lvl.level, action.id)}
                     />
@@ -133,15 +134,28 @@ export const ListDetailPage = ({ listId, onBack }: {
                 </div>
               )}
 
+              {(lvl.tieredActions?.length ?? 0) > 0 && (
+                <div className={cn('space-y-2.5', (lvl.requirementItemIds.length > 0 || (lvl.actions?.length ?? 0) > 0) && 'mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800')}>
+                  {lvl.tieredActions!.map(tiered => (
+                    <TieredActionTimeline
+                      key={tiered.id}
+                      tieredAction={tiered}
+                      listId={list.id}
+                      levelNum={lvl.level}
+                    />
+                  ))}
+                </div>
+              )}
+
               {(lvl.rewards?.length ?? 0) > 0 && (
-                <div className={cn('space-y-2', (lvl.requirementItemIds.length > 0 || (lvl.actions?.length ?? 0) > 0) && 'mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800')}>
+                <div className={cn('space-y-2', (lvl.requirementItemIds.length > 0 || (lvl.actions?.length ?? 0) > 0 || (lvl.tieredActions?.length ?? 0) > 0) && 'mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800')}>
                   <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider flex items-center gap-1">
                     <Gift size={12} className="text-violet-500" /> {t('lists.rewards')}
                   </p>
                   <div className="space-y-1.5">
                     {lvl.rewards!.map((reward, rIdx) => {
                       const info = reward.itemId ? store.itemsInfo[reward.itemId] : undefined;
-                      const name = info ? (getItemName(info, language) || reward.itemId) : reward.label;
+                      const name = info ? (getItemName(info, language) || reward.itemId) : getRewardLabel(reward, language);
                       const { color } = getRarityStyles(info?.rarity ?? '');
                       return (
                         <div key={rIdx} className="flex items-center gap-2 bg-violet-50/50 dark:bg-violet-950/20 px-2.5 py-1.5 rounded-xl border border-violet-100 dark:border-violet-900/30">

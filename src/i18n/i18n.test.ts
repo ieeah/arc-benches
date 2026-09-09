@@ -95,4 +95,35 @@ describe('item localization & multi-language search', () => {
     expect(getItemName(effective['surveyor-vault'], 'it')).toBe('Cassaforte del supervisore');
     expect(getItemName(effective['surveyor-vault'], 'en')).toBe('Surveyor Vault');
   });
+
+  it('resolves getActionLabel with translation and falls back to default label when missing', async () => {
+    const { getActionLabel } = await import('./index');
+
+    const stepWithIt = {
+      id: 'step-1',
+      label: '5,000 Damage',
+      translations: { it: { label: '5.000 Danni' } },
+    };
+
+    const stepWithoutIt = {
+      id: 'step-2',
+      label: '10,000 Damage',
+    };
+
+    const stepWithEmptyIt = {
+      id: 'step-3',
+      label: '30,000 Damage',
+      translations: { it: { label: '   ' } },
+    };
+
+    expect(getActionLabel(stepWithIt, 'it')).toBe('5.000 Danni');
+    expect(getActionLabel(stepWithIt, 'en')).toBe('5,000 Damage');
+
+    // Missing translation -> falls back to default EN label
+    expect(getActionLabel(stepWithoutIt, 'it')).toBe('10,000 Damage');
+    expect(getActionLabel(stepWithoutIt, 'en')).toBe('10,000 Damage');
+
+    // Empty translation -> falls back to default EN label
+    expect(getActionLabel(stepWithEmptyIt, 'it')).toBe('30,000 Damage');
+  });
 });

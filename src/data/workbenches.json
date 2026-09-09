@@ -1,13 +1,13 @@
 {
-  "type": "hideout",
-  "total": 9,
-  "count": 9,
+  "type": "workbench",
+  "total": 8,
+  "count": 8,
   "offset": 0,
   "limit": 45,
   "items": [
     {
       "id": "equipment-bench",
-      "name": "Banco Equipaggiamento",
+      "name": "Gear Bench",
       "maxLevel": 3,
       "levels": [
         {
@@ -57,11 +57,16 @@
             }
           ]
         }
-      ]
+      ],
+      "translations": {
+        "it": {
+          "name": "Banco Equipaggiamento"
+        }
+      }
     },
     {
       "id": "explosives-bench",
-      "name": "Stazione Esplosivi",
+      "name": "Explosives Station",
       "maxLevel": 3,
       "levels": [
         {
@@ -111,11 +116,16 @@
             }
           ]
         }
-      ]
+      ],
+      "translations": {
+        "it": {
+          "name": "Stazione Esplosivi"
+        }
+      }
     },
     {
       "id": "med-station",
-      "name": "Laboratorio Medico",
+      "name": "Medical Lab",
       "maxLevel": 3,
       "levels": [
         {
@@ -165,11 +175,16 @@
             }
           ]
         }
-      ]
+      ],
+      "translations": {
+        "it": {
+          "name": "Laboratorio Medico"
+        }
+      }
     },
     {
       "id": "refiner",
-      "name": "Rifinitore",
+      "name": "Refiner",
       "maxLevel": 3,
       "levels": [
         {
@@ -219,11 +234,16 @@
             }
           ]
         }
-      ]
+      ],
+      "translations": {
+        "it": {
+          "name": "Rifinitore"
+        }
+      }
     },
     {
       "id": "scrappy",
-      "name": "Scartino",
+      "name": "Scrappy",
       "maxLevel": 5,
       "levels": [
         {
@@ -286,11 +306,16 @@
             }
           ]
         }
-      ]
+      ],
+      "translations": {
+        "it": {
+          "name": "Scartino"
+        }
+      }
     },
     {
       "id": "utility-bench",
-      "name": "Postazione di Funzionalità",
+      "name": "Utility Station",
       "maxLevel": 3,
       "levels": [
         {
@@ -340,11 +365,16 @@
             }
           ]
         }
-      ]
+      ],
+      "translations": {
+        "it": {
+          "name": "Postazione di Funzionalità"
+        }
+      }
     },
     {
       "id": "weapon-bench",
-      "name": "Banco delle armi",
+      "name": "Gunsmith",
       "maxLevel": 3,
       "levels": [
         {
@@ -394,13 +424,23 @@
             }
           ]
         }
-      ]
+      ],
+      "translations": {
+        "it": {
+          "name": "Banco delle armi"
+        }
+      }
     },
     {
       "id": "workbench",
-      "name": "Banco da Lavoro",
+      "name": "Workbench",
       "maxLevel": 0,
-      "levels": []
+      "levels": [],
+      "translations": {
+        "it": {
+          "name": "Banco da Lavoro"
+        }
+      }
     }
   ]
 }
