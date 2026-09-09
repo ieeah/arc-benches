@@ -13,6 +13,8 @@ import {
   getMissingMaterialsPure,
   getMissingActionsPure,
   getAvailableUpgradesPure,
+  getActiveExpeditionPure,
+  getExpeditionCompletedPhasePure,
 } from '@/store/selectors';
 
 export type ListsSlice = Pick<AppState,
@@ -35,11 +37,11 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   // ---- Custom lists -------------------------------------------------------
 
-  createCustomList: ({ name, levels, listType, shared = false, expirationDate }) => {
+  createCustomList: ({ name, levels, shared = false, expirationDate }) => {
     const s = get();
     const id = `custom:${generateUUID()}`;
     const maxLevel = levels.length ? Math.max(...levels.map(l => l.level)) : 1;
-    const list: List = { id, name, maxLevel, levels, custom: true, listType: listType ?? 'custom', shared, expirationDate };
+    const list: List = { id, name, maxLevel, levels, custom: true, listType: 'custom', shared, expirationDate };
 
     const hideoutLevels = { ...s.hideoutLevels, [id]: 0 };
     const targetLevels = { ...s.targetLevels, [id]: levelsAbove(0, maxLevel) };
@@ -69,7 +71,6 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
     const updated: List = {
       ...prev,
       name: patch.name ?? prev.name,
-      listType: patch.listType ?? prev.listType,
       expirationDate,
       levels,
       maxLevel,
@@ -142,13 +143,15 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getAllLists: () => {
     const s = get();
-    return getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists);
+    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    return getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists, activeExpedition);
   },
 
   getOrderedLists: () => {
     const s = get();
+    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
     return getOrderedListsPure(
-      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists, activeExpedition),
       s.listOrder,
     );
   },
@@ -157,60 +160,100 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getActiveLists: () => {
     const s = get();
+    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    const expeditionPhase = getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions);
+    const effectiveHideoutLevels = activeExpedition
+      ? { ...s.hideoutLevels, [activeExpedition.id]: expeditionPhase }
+      : s.hideoutLevels;
+
     return getActiveListsPure(
-      getOrderedListsPure(getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists), s.listOrder),
-      s.hideoutLevels,
+      getOrderedListsPure(getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists, activeExpedition), s.listOrder),
+      effectiveHideoutLevels,
     );
   },
 
   getMaxedLists: () => {
     const s = get();
+    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    const expeditionPhase = getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions);
+    const effectiveHideoutLevels = activeExpedition
+      ? { ...s.hideoutLevels, [activeExpedition.id]: expeditionPhase }
+      : s.hideoutLevels;
+
     return getMaxedListsPure(
-      getOrderedListsPure(getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists), s.listOrder),
-      s.hideoutLevels,
+      getOrderedListsPure(getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists, activeExpedition), s.listOrder),
+      effectiveHideoutLevels,
     );
   },
 
   getTotalRequiredMaterials: (excludeModuleId) => {
     const s = get();
+    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    const expeditionPhase = getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions);
+    const effectiveHideoutLevels = activeExpedition
+      ? { ...s.hideoutLevels, [activeExpedition.id]: expeditionPhase }
+      : s.hideoutLevels;
+
     return getTotalRequiredMaterialsPure(
-      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists, activeExpedition),
       s.activeModules,
-      s.hideoutLevels,
+      effectiveHideoutLevels,
       s.targetLevels,
       excludeModuleId,
+      Date.now(),
+      s.checkedActions,
     );
   },
 
   getMissingMaterials: () => {
     const s = get();
+    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    const expeditionPhase = getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions);
+    const effectiveHideoutLevels = activeExpedition
+      ? { ...s.hideoutLevels, [activeExpedition.id]: expeditionPhase }
+      : s.hideoutLevels;
+
     const total = getTotalRequiredMaterialsPure(
-      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists, activeExpedition),
       s.activeModules,
-      s.hideoutLevels,
+      effectiveHideoutLevels,
       s.targetLevels,
+      undefined,
+      Date.now(),
+      s.checkedActions,
     );
     return getMissingMaterialsPure(total, s.inventory);
   },
 
   getMissingActions: () => {
     const s = get();
+    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    const expeditionPhase = getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions);
+    const effectiveHideoutLevels = activeExpedition
+      ? { ...s.hideoutLevels, [activeExpedition.id]: expeditionPhase }
+      : s.hideoutLevels;
+
     return getMissingActionsPure(
-      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists, activeExpedition),
       s.activeModules,
-      s.hideoutLevels,
+      effectiveHideoutLevels,
       s.targetLevels,
       s.checkedActions,
     );
   },
 
   getAvailableUpgrades: () => {
-
     const s = get();
+    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    const expeditionPhase = getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions);
+    const effectiveHideoutLevels = activeExpedition
+      ? { ...s.hideoutLevels, [activeExpedition.id]: expeditionPhase }
+      : s.hideoutLevels;
+
     return getAvailableUpgradesPure(
-      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists, activeExpedition),
       s.activeModules,
-      s.hideoutLevels,
+      effectiveHideoutLevels,
       s.inventory,
     );
   },

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import {
   Backpack, LayoutList, ScrollText, Wrench, Database,
   ShieldAlert, Dice5, MoreHorizontal, Check, Users, X, Settings,
-  ChevronRight, ChevronLeft, FlaskConical, FileJson, Languages
+  ChevronRight, ChevronLeft, FlaskConical, FileJson, Languages, Compass
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
@@ -33,6 +33,7 @@ export const MorphingFloatingNav = ({
     { id: 'stash', label: t('nav.stash'), icon: <Backpack size={18} /> },
     { id: 'liste', label: t('nav.benches'), icon: <LayoutList size={18} /> },
     { id: 'blueprints', label: t('nav.blueprints'), icon: <ScrollText size={18} /> },
+    { id: 'expeditions', label: t('nav.expeditions'), icon: <Compass size={18} /> },
     {
       id: 'tools',
       label: t('nav.tools'),

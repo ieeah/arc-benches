@@ -15,8 +15,14 @@ export function getAllListsPure(
   workbenches: List[],
   sharedCustomLists: List[],
   customLists: List[],
+  activeExpedition?: List,
 ): List[] {
-  return [...workbenches, ...sharedCustomLists, ...customLists];
+  return [
+    ...workbenches,
+    ...sharedCustomLists,
+    ...customLists,
+    ...(activeExpedition ? [activeExpedition] : []),
+  ];
 }
 
 export function getOrderedListsPure(allLists: List[], listOrder: string[]): List[] {
@@ -54,6 +60,7 @@ export function getTotalRequiredMaterialsPure(
   targetLevels: Record<string, number[]>,
   excludeModuleId?: string,
   now: number = Date.now(),
+  checkedActions?: Record<string, boolean>,
 ): Record<string, number> {
   const total: Record<string, number> = {};
   for (const list of allLists) {
@@ -63,6 +70,10 @@ export function getTotalRequiredMaterialsPure(
     for (const lvl of list.levels) {
       if (lvl.level > current && selected.includes(lvl.level)) {
         for (const req of lvl.requirementItemIds) {
+          // If this material requirement has been individually marked as delivered/completed, skip it
+          if (checkedActions && checkedActions[`${list.id}|${lvl.level}|item_${req.itemId}`]) {
+            continue;
+          }
           total[req.itemId] = (total[req.itemId] ?? 0) + req.quantity;
         }
       }
@@ -119,6 +130,7 @@ export function getOtherNeedsPure(
   hideoutLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   now: number = Date.now(),
+  checkedActions?: Record<string, boolean>,
 ): Record<string, number> {
   if (isListExpired(list, now)) {
     return { ...totalRequired };
@@ -129,6 +141,9 @@ export function getOtherNeedsPure(
   for (const lvl of list.levels) {
     if (lvl.level > current && selected.includes(lvl.level)) {
       for (const req of lvl.requirementItemIds) {
+        if (checkedActions && checkedActions[`${list.id}|${lvl.level}|item_${req.itemId}`]) {
+          continue;
+        }
         const remaining = (result[req.itemId] ?? 0) - req.quantity;
         if (remaining <= 0) {
           delete result[req.itemId];
@@ -176,6 +191,7 @@ export function getItemDependenciesPure(
   hideoutLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   now: number = Date.now(),
+  checkedActions?: Record<string, boolean>,
 ): ItemListDependency[] {
   const deps: ItemListDependency[] = [];
   for (const list of allLists) {
@@ -186,6 +202,10 @@ export function getItemDependenciesPure(
       if (lvl.level > current && selected.includes(lvl.level)) {
         const req = lvl.requirementItemIds.find(r => r.itemId === itemId);
         if (req) {
+          // If this requirement is already checked off, don't show it as an outstanding dependency
+          if (checkedActions && checkedActions[`${list.id}|${lvl.level}|item_${req.itemId}`]) {
+            continue;
+          }
           deps.push({
             listId: list.id,
             listName: list.name,
@@ -202,7 +222,6 @@ export function getItemDependenciesPure(
 }
 
 export interface StashAction {
-
   listId: string;
   listName: string;
   level: number;
@@ -214,6 +233,10 @@ export interface StashAction {
 
 export type MissingAction = StashAction;
 
+/**
+ * Returns actions only for levels that have been reached (up to currentLevel + 1),
+ * preventing uncompletable future level actions from polluting the UI.
+ */
 export function getStashActionsPure(
   allLists: List[],
   activeModules: Record<string, boolean>,
@@ -228,7 +251,8 @@ export function getStashActionsPure(
     const current = hideoutLevels[list.id] ?? 0;
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
-      if (lvl.level > current && selected.includes(lvl.level)) {
+      // Actions are only displayed if the level has been reached (lvl.level <= current + 1)
+      if (lvl.level <= current + 1 && selected.includes(lvl.level)) {
         for (const action of lvl.actions ?? []) {
           const key = `${list.id}|${lvl.level}|${action.id}`;
           const isCompleted = Boolean(checkedActions[key]);
@@ -259,5 +283,136 @@ export function getMissingActionsPure(
   return getStashActionsPure(allLists, activeModules, hideoutLevels, targetLevels, checkedActions, now)
     .filter(a => !a.isCompleted);
 }
+
+/**
+ * Computes how many phases of an expedition are completed sequentially (0 to 6).
+ * Phase N is completed only if all its material requirements (checked or owned) and actions are met,
+ * and all preceding phases 1..N-1 are completed.
+ */
+export function getExpeditionCompletedPhasePure(
+  caravan: List | undefined,
+  inventory: Record<string, number>,
+  checkedActions: Record<string, boolean>,
+): number {
+  if (!caravan) return 0;
+  let completed = 0;
+  for (const lvl of caravan.levels) {
+    const hasItems = lvl.requirementItemIds.length > 0;
+    const hasActions = (lvl.actions?.length ?? 0) > 0;
+
+    const isItemsDone = !hasItems || lvl.requirementItemIds.every(
+      req => Boolean(checkedActions[`${caravan.id}|${lvl.level}|item_${req.itemId}`]) || (inventory[req.itemId] ?? 0) >= req.quantity,
+    );
+    const isActionsDone = !hasActions || (lvl.actions ?? []).every(
+      a => Boolean(checkedActions[`${caravan.id}|${lvl.level}|${a.id}`]),
+    );
+
+    if (isItemsDone && isActionsDone) {
+      completed = lvl.level;
+    } else {
+      break; // Sequential: cannot complete level N if level N-1 is incomplete
+    }
+  }
+  return completed;
+}
+
+/**
+ * Returns the active expedition based on completedExpeditionsCount (1-indexed progression).
+ */
+export function getActiveExpeditionPure(
+  expeditions: List[],
+  completedExpeditionsCount: number,
+): List | undefined {
+  if (!expeditions.length) return undefined;
+  const targetIndex = completedExpeditionsCount + 1;
+  const found = expeditions.find(e => e.expeditionIndex === targetIndex);
+  if (found) return found;
+  // If player passed all defined caravans, cycle or clamp to last
+  const cyclicIndex = ((targetIndex - 1) % expeditions.length) + 1;
+  return expeditions.find(e => e.expeditionIndex === cyclicIndex) ?? expeditions[expeditions.length - 1];
+}
+
+/**
+ * Computes how many damage challenge tiers are checked (0 to 5).
+ */
+export function getExpeditionDamageTierPure(checkedActions: Record<string, boolean>): number {
+  let count = 0;
+  for (let i = 1; i <= 5; i++) {
+    if (checkedActions[`expedition-damage|0|tier_${i}`]) {
+      count++;
+    }
+  }
+  return count;
+}
+
+/**
+ * Computes how many catch-up SP checkboxes are selected (0 to 5).
+ */
+export function getExpeditionCatchupSPPure(checkedActions: Record<string, boolean>): number {
+  let count = 0;
+  for (let i = 1; i <= 5; i++) {
+    if (checkedActions[`expedition-catchup|0|sp_${i}`]) {
+      count++;
+    }
+  }
+  return count;
+}
+
+export interface ExpeditionRewardEstimate {
+  skillPoints: number;
+  tokenReward: number;
+  blueprintReward: number;
+}
+
+/**
+ * Calculates estimated prestige rewards based on expedition index and checked challenge tiers.
+ * - Expeditions 1-3: each damage tier gives 1 SP.
+ * - Expeditions >= 4: each damage tier gives 1 Mystery Reward (+1 Blueprint, +150 Tokens).
+ * - Catch-up: each selected point gives 1 SP.
+ */
+export function calculateExpeditionRewardPure(
+  completedExpeditionsCount: number,
+  damageTier: number,
+  catchupSP: number,
+): ExpeditionRewardEstimate {
+  let skillPoints = catchupSP;
+  let tokenReward = 0;
+  let blueprintReward = 0;
+
+  if (completedExpeditionsCount < 3) {
+    skillPoints += damageTier;
+  } else {
+    tokenReward = damageTier * 150;
+    blueprintReward = damageTier;
+  }
+
+  return {
+    skillPoints,
+    tokenReward,
+    blueprintReward,
+  };
+}
+
+/**
+ * Determines whether the expedition departure window is currently open based on startDate and expirationDate,
+ * or if no date bounds are defined, returns true by default.
+ */
+export function isDepartureWindowActivePure(
+  expedition?: List,
+  now: number = Date.now(),
+): boolean {
+  if (!expedition) return false;
+  const start = expedition.startDate ? new Date(expedition.startDate).getTime() : undefined;
+  const end = expedition.expirationDate ? new Date(expedition.expirationDate).getTime() : undefined;
+
+  if (start !== undefined && !isNaN(start) && now < start) {
+    return false; // Window not opened yet
+  }
+  if (end !== undefined && !isNaN(end) && now > end) {
+    return false; // Window already closed / departed
+  }
+  return true;
+}
+
 
 

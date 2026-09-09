@@ -6,10 +6,11 @@ import { createListsSlice } from '@/store/listsSlice';
 import { createProfileSlice } from '@/store/profileSlice';
 import { createPersonalitySlice } from '@/store/personalitySlice';
 import { createSettingsSlice } from '@/store/settingsSlice';
+import { createExpeditionsSlice } from '@/store/expeditionsSlice';
 import { saveProfileState, saveProfilesMeta, saveSharedLists, saveSettings } from '@/store/persistence';
 
-// Domain slices (inventory / progress / lists / profile / personality / settings) combined into one store.
-// Static game data (workbenches, itemsInfo) lives in the lists slice; boot state is
+// Domain slices (inventory / progress / lists / profile / personality / settings / expeditions) combined into one store.
+// Static game data (workbenches, itemsInfo, expeditions) lives in the slices; boot state is
 // seeded per-slice from store/boot.ts.
 export const useAppStore = create<AppState>()((...a) => ({
   ...createInventorySlice(...a),
@@ -18,6 +19,7 @@ export const useAppStore = create<AppState>()((...a) => ({
   ...createProfileSlice(...a),
   ...createPersonalitySlice(...a),
   ...createSettingsSlice(...a),
+  ...createExpeditionsSlice(...a),
 }));
 
 // ---------------------------------------------------------------------------
@@ -80,7 +82,11 @@ useAppStore.subscribe((state, prev) => {
     state.activePersonalityId !== prev.activePersonalityId ||
     state.ownedBlueprints !== prev.ownedBlueprints ||
     state.filterHideOwnedBlueprints !== prev.filterHideOwnedBlueprints ||
-    state.language !== prev.language;
+    state.language !== prev.language ||
+    state.completedExpeditionsCount !== prev.completedExpeditionsCount ||
+    state.earnedPermanentSkillPoints !== prev.earnedPermanentSkillPoints ||
+    state.consecutiveStreak !== prev.consecutiveStreak ||
+    state.departureWindowActive !== prev.departureWindowActive;
   // On a profile switch the active id changes together with all the slice refs:
   // we write the (new) active profile's state to its own key, never the old one.
   if (profileStateChanged || state.activeProfileId !== prev.activeProfileId) {

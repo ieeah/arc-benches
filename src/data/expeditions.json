@@ -1,0 +1,534 @@
+{
+  "type": "expedition",
+  "total": 5,
+  "count": 5,
+  "offset": 0,
+  "limit": 45,
+  "items": [
+    {
+      "id": "expedition-1",
+      "name": "Carovana di Speranza #1",
+      "maxLevel": 6,
+      "expeditionIndex": 1,
+      "listType": "expedition",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "metal-parts",
+              "quantity": 50
+            },
+            {
+              "itemId": "rubber-parts",
+              "quantity": 30
+            },
+            {
+              "itemId": "plastic-parts",
+              "quantity": 40
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "power-cable",
+              "quantity": 8
+            },
+            {
+              "itemId": "electrical-components",
+              "quantity": 12
+            },
+            {
+              "itemId": "hornet-driver",
+              "quantity": 6
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "industrial-battery",
+              "quantity": 5
+            },
+            {
+              "itemId": "advanced-electrical-components",
+              "quantity": 8
+            },
+            {
+              "itemId": "wires",
+              "quantity": 25
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "bastion-part",
+              "quantity": 8
+            },
+            {
+              "itemId": "arc-alloy",
+              "quantity": 15
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "donations-combat",
+              "label": "Donazione Combattimento (0/200.000)"
+            },
+            {
+              "id": "donations-survival",
+              "label": "Donazione Sopravvivenza (0/200.000)"
+            },
+            {
+              "id": "donations-provisions",
+              "label": "Donazione Provviste (0/200.000)"
+            },
+            {
+              "id": "donations-materials",
+              "label": "Donazione Materiali (0/200.000)"
+            }
+          ]
+        },
+        {
+          "level": 6,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "expedition-registration",
+              "label": "Registrazione Partenza Spedizione"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expedition-2",
+      "name": "Carovana di Speranza #2",
+      "maxLevel": 6,
+      "expeditionIndex": 2,
+      "listType": "expedition",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "metal-parts",
+              "quantity": 60
+            },
+            {
+              "itemId": "rubber-parts",
+              "quantity": 35
+            },
+            {
+              "itemId": "plastic-parts",
+              "quantity": 50
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "power-cable",
+              "quantity": 10
+            },
+            {
+              "itemId": "electrical-components",
+              "quantity": 15
+            },
+            {
+              "itemId": "hornet-driver",
+              "quantity": 8
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "industrial-battery",
+              "quantity": 6
+            },
+            {
+              "itemId": "advanced-electrical-components",
+              "quantity": 10
+            },
+            {
+              "itemId": "cooling-fan",
+              "quantity": 12
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "bastion-part",
+              "quantity": 10
+            },
+            {
+              "itemId": "arc-alloy",
+              "quantity": 20
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "donations-combat",
+              "label": "Donazione Combattimento (0/200.000)"
+            },
+            {
+              "id": "donations-survival",
+              "label": "Donazione Sopravvivenza (0/200.000)"
+            },
+            {
+              "id": "donations-provisions",
+              "label": "Donazione Provviste (0/200.000)"
+            },
+            {
+              "id": "donations-materials",
+              "label": "Donazione Materiali (0/200.000)"
+            }
+          ]
+        },
+        {
+          "level": 6,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "expedition-registration",
+              "label": "Registrazione Partenza Spedizione"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expedition-3",
+      "name": "Carovana di Speranza #3",
+      "maxLevel": 6,
+      "expeditionIndex": 3,
+      "listType": "expedition",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "metal-parts",
+              "quantity": 75
+            },
+            {
+              "itemId": "rubber-parts",
+              "quantity": 40
+            },
+            {
+              "itemId": "plastic-parts",
+              "quantity": 60
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "power-cable",
+              "quantity": 12
+            },
+            {
+              "itemId": "electrical-components",
+              "quantity": 18
+            },
+            {
+              "itemId": "hornet-driver",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "industrial-battery",
+              "quantity": 8
+            },
+            {
+              "itemId": "advanced-electrical-components",
+              "quantity": 12
+            },
+            {
+              "itemId": "optical-lens",
+              "quantity": 8
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "bastion-part",
+              "quantity": 12
+            },
+            {
+              "itemId": "arc-alloy",
+              "quantity": 25
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "donations-combat",
+              "label": "Donazione Combattimento (0/200.000)"
+            },
+            {
+              "id": "donations-survival",
+              "label": "Donazione Sopravvivenza (0/200.000)"
+            },
+            {
+              "id": "donations-provisions",
+              "label": "Donazione Provviste (0/200.000)"
+            },
+            {
+              "id": "donations-materials",
+              "label": "Donazione Materiali (0/200.000)"
+            }
+          ]
+        },
+        {
+          "level": 6,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "expedition-registration",
+              "label": "Registrazione Partenza Spedizione"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expedition-4",
+      "name": "Carovana di Speranza #4",
+      "maxLevel": 6,
+      "expeditionIndex": 4,
+      "listType": "expedition",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "metal-parts",
+              "quantity": 80
+            },
+            {
+              "itemId": "rubber-parts",
+              "quantity": 45
+            },
+            {
+              "itemId": "plastic-parts",
+              "quantity": 70
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "power-cable",
+              "quantity": 15
+            },
+            {
+              "itemId": "electrical-components",
+              "quantity": 20
+            },
+            {
+              "itemId": "hornet-driver",
+              "quantity": 12
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "industrial-battery",
+              "quantity": 10
+            },
+            {
+              "itemId": "advanced-electrical-components",
+              "quantity": 15
+            },
+            {
+              "itemId": "magnet",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "bastion-part",
+              "quantity": 15
+            },
+            {
+              "itemId": "arc-alloy",
+              "quantity": 30
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "donations-combat",
+              "label": "Donazione Combattimento (0/200.000)"
+            },
+            {
+              "id": "donations-survival",
+              "label": "Donazione Sopravvivenza (0/200.000)"
+            },
+            {
+              "id": "donations-provisions",
+              "label": "Donazione Provviste (0/200.000)"
+            },
+            {
+              "id": "donations-materials",
+              "label": "Donazione Materiali (0/200.000)"
+            }
+          ]
+        },
+        {
+          "level": 6,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "expedition-registration",
+              "label": "Registrazione Partenza Spedizione"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "expedition-5",
+      "name": "Carovana di Speranza #5",
+      "maxLevel": 6,
+      "expeditionIndex": 5,
+      "listType": "expedition",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "metal-parts",
+              "quantity": 100
+            },
+            {
+              "itemId": "rubber-parts",
+              "quantity": 50
+            },
+            {
+              "itemId": "plastic-parts",
+              "quantity": 80
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "power-cable",
+              "quantity": 18
+            },
+            {
+              "itemId": "electrical-components",
+              "quantity": 25
+            },
+            {
+              "itemId": "hornet-driver",
+              "quantity": 15
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "industrial-battery",
+              "quantity": 12
+            },
+            {
+              "itemId": "advanced-electrical-components",
+              "quantity": 18
+            },
+            {
+              "itemId": "hydraulic-piston",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "bastion-part",
+              "quantity": 18
+            },
+            {
+              "itemId": "arc-alloy",
+              "quantity": 35
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "donations-combat",
+              "label": "Donazione Combattimento (0/200.000)"
+            },
+            {
+              "id": "donations-survival",
+              "label": "Donazione Sopravvivenza (0/200.000)"
+            },
+            {
+              "id": "donations-provisions",
+              "label": "Donazione Provviste (0/200.000)"
+            },
+            {
+              "id": "donations-materials",
+              "label": "Donazione Materiali (0/200.000)"
+            }
+          ]
+        },
+        {
+          "level": 6,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "expedition-registration",
+              "label": "Registrazione Partenza Spedizione"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

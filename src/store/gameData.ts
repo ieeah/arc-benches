@@ -1,5 +1,6 @@
 import type { ItemInfo, List } from '@/types';
 import workbenchesData from '@/data/workbenches.json';
+import expeditionsData from '@/data/expeditions.json';
 import itemsData from '@/data/items.json';
 import itemsOverridesData from '@/data/items-overrides.json';
 import type { PersistedState } from '@/store/persistence';
@@ -7,7 +8,10 @@ import type { PersistedState } from '@/store/persistence';
 // The Refiner bench gates item crafting (see refinerCraftLevel + the craftable-now badges).
 export const REFINER_ID = 'refiner';
 
+export const MAX_EXTRA_SKILL_POINTS = 15;
+
 export const workbenches = (workbenchesData.items as List[]).filter(w => w.maxLevel > 0);
+export const expeditions = (expeditionsData.items as List[]);
 
 export function computeEffectiveItemsInfo(): Record<string, ItemInfo> {
   const result: Record<string, ItemInfo> = { ...(itemsData as Record<string, ItemInfo>) };
@@ -70,6 +74,11 @@ workbenches.forEach(w => {
   defaultTargetLevels[w.id] = levelsAbove(cur, w.maxLevel);
   defaultActiveModules[w.id] = true;
 });
+expeditions.forEach(e => {
+  defaultHideoutLevels[e.id] = 0;
+  defaultTargetLevels[e.id] = levelsAbove(0, e.maxLevel);
+  defaultActiveModules[e.id] = true;
+});
 
 /** Build the full in-memory state for a profile from its (partial) persisted slice. */
 export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState => ({
@@ -88,6 +97,10 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   ownedBlueprints: loaded.ownedBlueprints ?? {},
   filterHideOwnedBlueprints: loaded.filterHideOwnedBlueprints ?? false,
   language: loaded.language ?? 'en',
+  completedExpeditionsCount: loaded.completedExpeditionsCount ?? 0,
+  earnedPermanentSkillPoints: loaded.earnedPermanentSkillPoints ?? 0,
+  consecutiveStreak: loaded.consecutiveStreak ?? 0,
+  departureWindowActive: loaded.departureWindowActive ?? false,
 });
 
 /** Fresh (empty) progress for a brand-new profile. */
@@ -104,4 +117,8 @@ export const freshProfile = (): PersistedState => ({
   ownedBlueprints: {},
   filterHideOwnedBlueprints: false,
   language: 'en',
+  completedExpeditionsCount: 0,
+  earnedPermanentSkillPoints: 0,
+  consecutiveStreak: 0,
+  departureWindowActive: false,
 });

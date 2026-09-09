@@ -12,12 +12,13 @@ export const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
-/** The 12 keys persisted per profile. */
+/** The 16 keys persisted per profile. */
 export type PersistedState = Pick<AppState,
   'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
   'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
-  'language'
+  'language' | 'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
+  'consecutiveStreak' | 'departureWindowActive'
 >;
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
@@ -73,6 +74,18 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
   if (isObject(raw.ownedBlueprints)) out.ownedBlueprints = sanitizeBoolRecord(raw.ownedBlueprints);
   if (typeof raw.filterHideOwnedBlueprints === 'boolean') out.filterHideOwnedBlueprints = raw.filterHideOwnedBlueprints;
   if (typeof raw.language === 'string') out.language = raw.language as AppLanguage;
+  if (typeof raw.completedExpeditionsCount === 'number' && Number.isFinite(raw.completedExpeditionsCount)) {
+    out.completedExpeditionsCount = Math.max(0, Math.floor(raw.completedExpeditionsCount));
+  }
+  if (typeof raw.earnedPermanentSkillPoints === 'number' && Number.isFinite(raw.earnedPermanentSkillPoints)) {
+    out.earnedPermanentSkillPoints = Math.max(0, Math.min(15, Math.floor(raw.earnedPermanentSkillPoints)));
+  }
+  if (typeof raw.consecutiveStreak === 'number' && Number.isFinite(raw.consecutiveStreak)) {
+    out.consecutiveStreak = Math.max(0, Math.floor(raw.consecutiveStreak));
+  }
+  if (typeof raw.departureWindowActive === 'boolean') {
+    out.departureWindowActive = raw.departureWindowActive;
+  }
   return out;
 }
 
@@ -103,6 +116,10 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     ownedBlueprints: s.ownedBlueprints ?? {},
     filterHideOwnedBlueprints: s.filterHideOwnedBlueprints ?? false,
     language: s.language ?? 'en',
+    completedExpeditionsCount: s.completedExpeditionsCount ?? 0,
+    earnedPermanentSkillPoints: s.earnedPermanentSkillPoints ?? 0,
+    consecutiveStreak: s.consecutiveStreak ?? 0,
+    departureWindowActive: s.departureWindowActive ?? false,
   };
   safeLS(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }

@@ -15,6 +15,11 @@ import {
   isListExpired,
   getMissingActionsPure,
   getStashActionsPure,
+  getActiveExpeditionPure,
+  getExpeditionDamageTierPure,
+  getExpeditionCatchupSPPure,
+  calculateExpeditionRewardPure,
+  getExpeditionCompletedPhasePure,
 } from '@/store/selectors';
 import type { List } from '@/types';
 
@@ -551,8 +556,9 @@ describe('getMissingActionsPure', () => {
     ],
   };
 
-  it('returns uncompleted actions for active targeted levels', () => {
+  it('returns uncompleted actions only for reached levels (up to current + 1)', () => {
     const checked = { 'quest:1|1|act-1': true };
+    // current = 0 -> only level 1 actions are reached (level 2 actions are hidden to prevent UI clutter)
     const missing = getMissingActionsPure(
       [actionList],
       { 'quest:1': true },
@@ -561,7 +567,7 @@ describe('getMissingActionsPure', () => {
       checked,
     );
 
-    expect(missing).toHaveLength(2);
+    expect(missing).toHaveLength(1);
     expect(missing[0]).toEqual({
       listId: 'quest:1',
       listName: 'Intro Quest',
@@ -571,7 +577,21 @@ describe('getMissingActionsPure', () => {
       isCustom: true,
       isCompleted: false,
     });
-    expect(missing[1]).toEqual({
+  });
+
+  it('reveals level 2 actions once current level reaches 1', () => {
+    const checked = { 'quest:1|1|act-1': true, 'quest:1|1|act-2': true };
+    // current = 1 -> level 2 actions become reached
+    const missing = getMissingActionsPure(
+      [actionList],
+      { 'quest:1': true },
+      { 'quest:1': 1 },
+      { 'quest:1': [1, 2] },
+      checked,
+    );
+
+    expect(missing).toHaveLength(1);
+    expect(missing[0]).toEqual({
       listId: 'quest:1',
       listName: 'Intro Quest',
       level: 2,
@@ -582,7 +602,7 @@ describe('getMissingActionsPure', () => {
     });
   });
 
-  it('returns all stash actions including completed ones with getStashActionsPure', () => {
+  it('returns reached stash actions including completed ones with getStashActionsPure', () => {
     const checked = { 'quest:1|1|act-1': true };
     const allActions = getStashActionsPure(
       [actionList],
@@ -592,7 +612,8 @@ describe('getMissingActionsPure', () => {
       checked,
     );
 
-    expect(allActions).toHaveLength(3);
+    // Only level 1 actions are reached when current=0
+    expect(allActions).toHaveLength(2);
     expect(allActions[0]).toEqual({
       listId: 'quest:1',
       listName: 'Intro Quest',
@@ -603,7 +624,6 @@ describe('getMissingActionsPure', () => {
       isCompleted: true,
     });
     expect(allActions[1].isCompleted).toBe(false);
-    expect(allActions[2].isCompleted).toBe(false);
   });
 
   it('excludes actions from expired lists', () => {
@@ -621,6 +641,173 @@ describe('getMissingActionsPure', () => {
     );
 
     expect(missing).toEqual([]);
+  });
+});
+
+describe('Expedition Pure Selectors', () => {
+  const sampleExpeditions: List[] = [
+    {
+      id: 'expedition-1',
+      name: 'Carovana #1',
+      maxLevel: 6,
+      expeditionIndex: 1,
+      listType: 'expedition',
+      levels: [],
+    },
+    {
+      id: 'expedition-2',
+      name: 'Carovana #2',
+      maxLevel: 6,
+      expeditionIndex: 2,
+      listType: 'expedition',
+      levels: [],
+    },
+    {
+      id: 'expedition-3',
+      name: 'Carovana #3',
+      maxLevel: 6,
+      expeditionIndex: 3,
+      listType: 'expedition',
+      levels: [],
+    },
+  ];
+
+  it('getActiveExpeditionPure picks the active expedition by completed count + 1', () => {
+    expect(getActiveExpeditionPure(sampleExpeditions, 0)?.id).toBe('expedition-1');
+    expect(getActiveExpeditionPure(sampleExpeditions, 1)?.id).toBe('expedition-2');
+    expect(getActiveExpeditionPure(sampleExpeditions, 2)?.id).toBe('expedition-3');
+    // If beyond max defined caravans, cycles safely
+    expect(getActiveExpeditionPure(sampleExpeditions, 3)?.id).toBe('expedition-1');
+  });
+
+  it('getExpeditionDamageTierPure counts completed damage challenge tiers', () => {
+    const checked = {
+      'expedition-damage|0|tier_1': true,
+      'expedition-damage|0|tier_2': true,
+      'expedition-damage|0|tier_3': true,
+      'other-action': true,
+    };
+    expect(getExpeditionDamageTierPure(checked)).toBe(3);
+    expect(getExpeditionDamageTierPure({})).toBe(0);
+  });
+
+  it('getExpeditionCatchupSPPure counts completed catchup points', () => {
+    const checked = {
+      'expedition-catchup|0|sp_1': true,
+      'expedition-catchup|0|sp_2': true,
+    };
+    expect(getExpeditionCatchupSPPure(checked)).toBe(2);
+    expect(getExpeditionCatchupSPPure({})).toBe(0);
+  });
+
+  it('calculateExpeditionRewardPure awards SP for expeditions 1-3 and mystery rewards for >= 4', () => {
+    // Expedition 1: 5 damage tiers + 2 catchup = 7 SP
+    const exp1 = calculateExpeditionRewardPure(0, 5, 2);
+    expect(exp1.skillPoints).toBe(7);
+    expect(exp1.tokenReward).toBe(0);
+    expect(exp1.blueprintReward).toBe(0);
+
+    // Expedition 4 (completed count = 3): 4 damage tiers gives 4 blueprints + 600 tokens + 2 catchup SP
+    const exp4 = calculateExpeditionRewardPure(3, 4, 2);
+    expect(exp4.skillPoints).toBe(2);
+    expect(exp4.tokenReward).toBe(600);
+    expect(exp4.blueprintReward).toBe(4);
+  });
+
+  it('getExpeditionCompletedPhasePure sequentially computes completed phases', () => {
+    const caravan: List = {
+      id: 'expedition-1',
+      name: 'Carovana #1',
+      maxLevel: 3,
+      levels: [
+        {
+          level: 1,
+          requirementItemIds: [{ itemId: 'metal-parts', quantity: 50 }],
+        },
+        {
+          level: 2,
+          requirementItemIds: [{ itemId: 'power-cable', quantity: 10 }],
+        },
+        {
+          level: 3,
+          requirementItemIds: [],
+          actions: [{ id: 'donations-combat', label: 'Donation Combat' }],
+        },
+      ],
+    };
+
+    // No items or checks -> phase 0
+    expect(getExpeditionCompletedPhasePure(caravan, {}, {})).toBe(0);
+
+    // Phase 1 item fulfilled via inventory
+    expect(getExpeditionCompletedPhasePure(caravan, { 'metal-parts': 50 }, {})).toBe(1);
+
+    // Phase 1 item fulfilled via checkedActions
+    expect(getExpeditionCompletedPhasePure(caravan, {}, { 'expedition-1|1|item_metal-parts': true })).toBe(1);
+
+    // Phase 2 fulfilled via inventory while phase 1 also fulfilled -> phase 2
+    expect(getExpeditionCompletedPhasePure(
+      caravan,
+      { 'metal-parts': 50, 'power-cable': 10 },
+      {},
+    )).toBe(2);
+
+    // Phase 2 fulfilled but Phase 1 incomplete -> remains 0 (strictly sequential)
+    expect(getExpeditionCompletedPhasePure(
+      caravan,
+      { 'power-cable': 10 },
+      {},
+    )).toBe(0);
+
+    // All phases fulfilled
+    expect(getExpeditionCompletedPhasePure(
+      caravan,
+      { 'metal-parts': 50, 'power-cable': 10 },
+      { 'expedition-1|3|donations-combat': true },
+    )).toBe(3);
+  });
+
+  it('getTotalRequiredMaterialsPure excludes items marked completed in checkedActions', () => {
+    const listWithItems: List = {
+      id: 'expedition-1',
+      name: 'Carovana #1',
+      maxLevel: 1,
+      levels: [
+        {
+          level: 1,
+          requirementItemIds: [
+            { itemId: 'metal-parts', quantity: 50 },
+            { itemId: 'rubber-parts', quantity: 30 },
+          ],
+        },
+      ],
+    };
+
+    // Without check
+    const totalWithout = getTotalRequiredMaterialsPure(
+      [listWithItems],
+      { 'expedition-1': true },
+      { 'expedition-1': 0 },
+      { 'expedition-1': [1] },
+      undefined,
+      Date.now(),
+      {},
+    );
+    expect(totalWithout['metal-parts']).toBe(50);
+    expect(totalWithout['rubber-parts']).toBe(30);
+
+    // With metal-parts checked
+    const totalWithCheck = getTotalRequiredMaterialsPure(
+      [listWithItems],
+      { 'expedition-1': true },
+      { 'expedition-1': 0 },
+      { 'expedition-1': [1] },
+      undefined,
+      Date.now(),
+      { 'expedition-1|1|item_metal-parts': true },
+    );
+    expect(totalWithCheck['metal-parts']).toBeUndefined();
+    expect(totalWithCheck['rubber-parts']).toBe(30);
   });
 });
 

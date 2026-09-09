@@ -94,6 +94,10 @@ describe('persistence.ts', () => {
       ownedBlueprints: { 'bp-1': true },
       filterHideOwnedBlueprints: false,
       language: 'it',
+      completedExpeditionsCount: 1,
+      earnedPermanentSkillPoints: 3,
+      consecutiveStreak: 2,
+      departureWindowActive: true,
     };
 
     it('saves and loads active profile state with per-profile language', () => {
@@ -225,6 +229,10 @@ describe('persistence.ts', () => {
         ownedBlueprints: {},
         filterHideOwnedBlueprints: false,
         language: 'it',
+        completedExpeditionsCount: 0,
+        earnedPermanentSkillPoints: 0,
+        consecutiveStreak: 0,
+        departureWindowActive: false,
       });
 
       // Simulate browser reload

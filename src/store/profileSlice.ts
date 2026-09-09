@@ -141,6 +141,10 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         ownedBlueprints: {},
         filterHideOwnedBlueprints: false,
         language: entry.language ?? 'en',
+        completedExpeditionsCount: 0,
+        earnedPermanentSkillPoints: 0,
+        consecutiveStreak: 0,
+        departureWindowActive: false,
       };
 
       if (!profiles.some(p => p.id === entry.profile.id)) profiles = [...profiles, entry.profile];

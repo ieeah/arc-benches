@@ -112,7 +112,7 @@ const validateLevel = (v: unknown): ListLevel | null => {
   return out;
 };
 
-const LIST_TYPES: ListType[] = ['workbench', 'project', 'quest', 'custom'];
+const LIST_TYPES: ListType[] = ['workbench', 'project', 'quest', 'custom', 'expedition'];
 
 const asIsoDateString = (v: unknown): string | undefined => {
   if (typeof v !== 'string' || !v) return undefined;
@@ -136,11 +136,15 @@ export const validateList = (v: unknown): List | null => {
   const maxLevel = asNonNegInt(v.maxLevel, 1) ?? maxFromLevels;
 
   const out: List = { id, name, maxLevel, levels };
-  if (v.custom === true) out.custom = true;
-  if (v.shared === true) out.shared = true;
-  if (typeof v.listType === 'string' && LIST_TYPES.includes(v.listType as ListType)) {
+  if (v.custom === true) {
+    out.custom = true;
+    out.listType = 'custom';
+  } else if (typeof v.listType === 'string' && LIST_TYPES.includes(v.listType as ListType)) {
     out.listType = v.listType as ListType;
   }
+  if (v.shared === true) out.shared = true;
+  const expeditionIndex = asNonNegInt(v.expeditionIndex, 1);
+  if (expeditionIndex !== null) out.expeditionIndex = expeditionIndex;
   const expirationDate = asIsoDateString(v.expirationDate);
   if (expirationDate) out.expirationDate = expirationDate;
   return out;

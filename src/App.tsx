@@ -15,12 +15,13 @@ import { DevOverridesPage } from '@/pages/DevOverridesPage';
 import { DevTranslationsPage } from '@/pages/DevTranslationsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
+import { ExpeditionPage } from '@/pages/ExpeditionPage';
 import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
 
 const isDev = import.meta.env.DEV;
 
-type Tab = 'stash' | 'liste' | 'blueprints' | 'items' | 'dev-lab' | 'dev-overrides' | 'dev-translations' | 'list-detail' | 'settings';
+type Tab = 'stash' | 'liste' | 'blueprints' | 'expeditions' | 'items' | 'dev-lab' | 'dev-overrides' | 'dev-translations' | 'list-detail' | 'settings';
 
 export default function App() {
   const { t } = useTranslation();
@@ -133,6 +134,7 @@ export default function App() {
                 />
               )}
               {activeTab === 'blueprints' && <BlueprintsPage />}
+              {activeTab === 'expeditions' && <ExpeditionPage />}
               {activeTab === 'items' && (
                 <ItemsPage
                   onBack={() => setActiveTab(returnTab)}

@@ -103,11 +103,15 @@ describe('validateList', () => {
     expect(out!.maxLevel).toBe(2);
   });
 
-  it('carries custom / shared / listType flags', () => {
-    const out = validateList({ ...valid, custom: true, shared: true, listType: 'project' });
-    expect(out!.custom).toBe(true);
-    expect(out!.shared).toBe(true);
-    expect(out!.listType).toBe('project');
+  it('forces custom listType for custom lists and preserves non-custom listType and expeditionIndex', () => {
+    const customOut = validateList({ ...valid, custom: true, shared: true, listType: 'project' });
+    expect(customOut!.custom).toBe(true);
+    expect(customOut!.shared).toBe(true);
+    expect(customOut!.listType).toBe('custom');
+
+    const expOut = validateList({ ...valid, listType: 'expedition', expeditionIndex: 2 });
+    expect(expOut!.listType).toBe('expedition');
+    expect(expOut!.expeditionIndex).toBe(2);
   });
 
   it('validates and preserves rewards and valid expirationDate', () => {

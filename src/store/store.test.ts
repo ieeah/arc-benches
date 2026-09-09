@@ -153,5 +153,49 @@ describe('useAppStore persistence boundary', () => {
     expect(updated?.name).toBe('Timed Event Extended');
     expect(updated?.expirationDate).toBe('2027-01-15T23:59:59.000Z');
   });
+
+  it('manages expedition departure, prestige reset, and streak properly', () => {
+    // Setup initial profile state
+    useAppStore.getState().setItemCount('metal-parts', 100);
+    useAppStore.getState().setExpeditionProfile({
+      completedExpeditionsCount: 0,
+      earnedPermanentSkillPoints: 2,
+      consecutiveStreak: 1,
+      departureWindowActive: true,
+    });
+    useAppStore.getState().toggleAction('expedition-damage', 0, 'tier_1');
+    useAppStore.getState().toggleAction('expedition-damage', 0, 'tier_2');
+
+    // Confirm departure without override (tier 1 and tier 2 = +2 SP)
+    useAppStore.getState().confirmDeparture();
+
+    const stateAfter = useAppStore.getState();
+    expect(stateAfter.completedExpeditionsCount).toBe(1);
+    expect(stateAfter.consecutiveStreak).toBe(2);
+    expect(stateAfter.earnedPermanentSkillPoints).toBe(4); // 2 + 2
+    expect(stateAfter.departureWindowActive).toBe(false);
+    expect(stateAfter.inventory['metal-parts'] ?? 0).toBe(0); // Inventory wiped
+    expect(stateAfter.checkedActions['expedition-damage|0|tier_1']).toBeUndefined(); // Temporary challenges cleaned
+  });
+
+  it('handles closing departure window without departure (breaks streak)', () => {
+    useAppStore.getState().setExpeditionProfile({
+      completedExpeditionsCount: 1,
+      earnedPermanentSkillPoints: 4,
+      consecutiveStreak: 3,
+      departureWindowActive: true,
+    });
+    useAppStore.getState().setItemCount('plastic-parts', 50);
+    useAppStore.getState().toggleAction('expedition-damage', 0, 'tier_1');
+
+    useAppStore.getState().closeWindowWithoutDeparture(false);
+
+    const stateAfter = useAppStore.getState();
+    expect(stateAfter.consecutiveStreak).toBe(0); // Streak broken
+    expect(stateAfter.completedExpeditionsCount).toBe(1); // Not incremented
+    expect(stateAfter.departureWindowActive).toBe(false);
+    expect(stateAfter.inventory['plastic-parts']).toBe(50); // Inventory kept
+    expect(stateAfter.checkedActions['expedition-damage|0|tier_1']).toBeUndefined();
+  });
 });
 

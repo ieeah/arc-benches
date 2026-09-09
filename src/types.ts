@@ -24,7 +24,7 @@ export interface ListLevel {
 }
 
 /** Semantic category of a list, orthogonal to `custom` (a custom list may also be a project, etc.). */
-export type ListType = 'workbench' | 'project' | 'quest' | 'custom';
+export type ListType = 'workbench' | 'project' | 'quest' | 'custom' | 'expedition';
 
 /**
  * A tracked list of materials by level — the generic engine. The game's hideout workbenches are
@@ -39,9 +39,13 @@ export interface List {
   custom?: boolean;
   /** Category for labels/icons/grouping; defaults to 'workbench' for game seed. */
   listType?: ListType;
+  /** Index for sequential progression (e.g. Expeditions 1, 2, 3...) */
+  expeditionIndex?: number;
   /** true = shared across all profiles; false/absent = profile-specific. Immutable after creation. */
   shared?: boolean;
-  /** Data e ora di scadenza ISO 8601 (es. "2026-09-30T20:00:00+02:00"). Opzionale. */
+  /** Data e ora di inizio/apertura finestra ISO 8601 (es. "2026-09-10T18:00:00+02:00"). Opzionale. */
+  startDate?: string;
+  /** Data e ora di scadenza/partenza ISO 8601 (es. "2026-09-30T20:00:00+02:00"). Opzionale. */
   expirationDate?: string;
 }
 
@@ -185,9 +189,9 @@ export interface AppState {
   setListOrder: (order: string[]) => void;
   resetProgress: () => void;
 
-  /** Create a user list; returns its namespaced id (`custom:<uuid>`). */
-  createCustomList: (data: { name: string; levels: ListLevel[]; listType?: ListType; shared?: boolean; expirationDate?: string }) => string;
-  updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; listType: ListType; expirationDate?: string }>) => void;
+  /** Create a user list; returns its namespaced id (`custom:<uuid>`). Always 'custom' listType. */
+  createCustomList: (data: { name: string; levels: ListLevel[]; shared?: boolean; expirationDate?: string }) => string;
+  updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; expirationDate?: string }>) => void;
   deleteCustomList: (id: string) => void;
 
   /** Import lists from a v2 export file. Custom lists: merge definition + state. Game lists: state only. */
@@ -200,6 +204,17 @@ export interface AppState {
   /** Checkbox actions completion — key: `${listId}|${level}|${actionId}` */
   checkedActions: Record<string, boolean>;
   toggleAction: (listId: string, level: number, actionId: string) => void;
+
+  /** Expeditions & Prestige State for active profile */
+  expeditions: List[];
+  completedExpeditionsCount: number;
+  earnedPermanentSkillPoints: number;
+  consecutiveStreak: number;
+  departureWindowActive: boolean;
+  setExpeditionProfile: (partial: Partial<{ completedExpeditionsCount: number; earnedPermanentSkillPoints: number; consecutiveStreak: number; departureWindowActive: boolean }>) => void;
+  setDepartureWindowActive: (active: boolean) => void;
+  confirmDeparture: (gainOverride?: number) => void;
+  closeWindowWithoutDeparture: (clearInventory?: boolean) => void;
 
   /** Blueprint Tracker state for the active profile */
   ownedBlueprints: Record<string, boolean>;
