@@ -424,6 +424,10 @@ export const en: LocaleSchema = {
       save: 'Save Configuration',
     },
   },
+  footer: {
+    nonAffiliation: 'ARC Benches is an unofficial fan-made tool, not affiliated with or endorsed by Embark Studios AB. ARC Raiders® is a trademark of Embark Studios AB.',
+    dataAttribution: 'Data aggregated from community sources:',
+  },
   common: {
     search: 'Search…',
     close: 'Close',

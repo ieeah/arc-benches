@@ -423,6 +423,10 @@ export const it = {
       save: 'Salva Configurazione',
     },
   },
+  footer: {
+    nonAffiliation: 'ARC Benches è un fan-made tool non ufficiale, non affiliato né approvato da Embark Studios AB. ARC Raiders® è un marchio di Embark Studios AB.',
+    dataAttribution: 'Dati aggregati da sorgenti della community:',
+  },
   common: {
     search: 'Cerca…',
     close: 'Chiudi',

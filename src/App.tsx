@@ -20,6 +20,7 @@ import { ExpeditionPage } from '@/pages/ExpeditionPage';
 import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
 import { hasUnsavedDevChanges } from '@/lib/devDrafts';
+import { AppFooter } from '@/components/AppFooter';
 
 const isDev = import.meta.env.DEV;
 
@@ -172,6 +173,7 @@ export default function App() {
               {activeTab === 'list-detail' && detailListId && (
                 <ListDetailPage listId={detailListId} onBack={() => setActiveTab(returnTab)} />
               )}
+              <AppFooter />
             </main>
 
             {activeTab !== 'list-detail' && (
