@@ -86,6 +86,7 @@ Changelog: [changelog/0.3.0.md](../changelog/0.3.0.md)
 - [x] #68 [Navigazione Morphing a Molla con Navigation Stack e Gestione Animazioni Ridotte](https://github.com/ieeah/arc-benches/issues/68)
 - [ ] #51 [Navigazione: Store centralizzato, memorizzazione ultima pagina e predisposizione App Router](https://github.com/ieeah/arc-benches/issues/51)
 - [ ] #54 [Layout & Legal: Disclaimer non-affiliazione Embark Studios e attribuzioni dati MetaForge/ARDB](https://github.com/ieeah/arc-benches/issues/54)
+- [ ] #71 [Refactor & Clean-up: Decomposizione pagine Dev e UI in componenti modulari e custom hook](https://github.com/ieeah/arc-benches/issues/71)
 
 ---
 
