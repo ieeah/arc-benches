@@ -375,5 +375,13 @@
   },
   "bison-driver": {
     "hidden": true
+  },
+  "torch-ginger": {
+    "translations": {
+      "it": {
+        "name": "Grande Verbasco",
+        "description": "Si usa per creare forniture mediche."
+      }
+    }
   }
 }
