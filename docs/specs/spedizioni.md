@@ -15,11 +15,11 @@ Tutto lo stato delle Spedizioni è memorizzato **per-profilo** ed è isolato tra
 
 ## 📐 Regole di Flusso e Funzionamento
 
-### 1. La Carovana (Fasi 1-6)
-* Le carovane sono modellate all'interno del motore di tracciamento come liste predefinite con `listType: 'expedition'`.
-* Ciascuna carovana predefinita ha un `expeditionIndex` numerico (1, 2, 3...).
-* Nella pagina Spedizioni, viene visualizzata esclusivamente la carovana che corrisponde all'indice corrente del giocatore:
+### 1. La Carovana (Fasi 1-6) e la Finestra Globale Centralizzata
+* **Finestra Temporale Globale**: La finestra di spedizione (data apertura `startDate` e data partenza/chiusura `expirationDate`) è un **evento globale di gioco identico per tutti i giocatori**, non una proprietà individuale della singola spedizione.
+* **Indice di Spedizione Personale**: Ciò che varia per ciascun utente è esclusivamente l'indice della spedizione a cui sta partecipando nel ciclo attuale:
   $$\text{Indice Attivo} = \text{completedExpeditionsCount} + 1$$
+* **Transizione Backend / Database (#14 / #28)**: Nel client SPA locale corrente, le date sono inserite a scopo di test e anteprima UI. Con l'introduzione del backend/DB centralizzato, le date della finestra saranno gestite da una singola entità/tabella server-side globale (`expedition_window`), sincronizzata in tempo reale per tutti i client.
 * **Fasi 1-4 (Assemblaggio)**: Tracciano i materiali specifici richiesti per la carovana.
 * **Fase 5 (Donazioni)**: Gestita tramite 4 checkbox di completamento per-categoria (Combat, Survival, Provisions, Materials).
 * **Fase 6 (Registrazione)**: 1 checkbox per registrare la prenotazione della partenza in gioco.

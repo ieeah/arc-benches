@@ -100,6 +100,7 @@ Changelog: [changelog/0.3.0.md](../changelog/0.3.0.md)
 ## 0.6.0 "Centro Operativo" — Dashboard Minimale & Eventi Live — Non ancora raggiunta
 - [ ] #55 [Condizioni Mappe & Eventi Live: Service multi-regione, caching 24h e preferenze](https://github.com/ieeah/arc-benches/issues/55)
 - [ ] #56 [Dashboard Minimale: Panoramica eventi live filtrabili e sintesi rifugio ad alto livello](https://github.com/ieeah/arc-benches/issues/56)
+- [ ] #70 [Bacheca dei Trofei: Pagina archivio per visualizzare progetti, spedizioni e traguardi completati](https://github.com/ieeah/arc-benches/issues/70)
 - [ ] #66 [Telemetria & Metriche: Definizione tassonomia eventi, KPI di utilizzo e specifiche privacy](https://github.com/ieeah/arc-benches/issues/66)
 
 ---

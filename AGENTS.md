@@ -74,6 +74,7 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/specs/data-sources-analysis.md](docs/specs/data-sources-analysis.md) — Analisi comparativa delle fonti dati catalogo.
 - [docs/specs/mappe-interattive.md](docs/specs/mappe-interattive.md) — Specifica tecnica e analisi di fattibilità mappe interattive (v1.x).
 - [docs/specs/transizione-next-supabase.md](docs/specs/transizione-next-supabase.md) — Strategia di transizione su nuovo repository Next.js & Supabase.
+- [docs/specs/confronto-stack-backend-supabase-vs-neon.md](docs/specs/confronto-stack-backend-supabase-vs-neon.md) — Analisi comparativa stack backend: Supabase vs Neon + Better-Auth + Drizzle.
 - [docs/specs/gameplay-tips-and-strategies.md](docs/specs/gameplay-tips-and-strategies.md) — Suggerimenti e strategie per la gestione delle risorse di gioco.
 
 ### Decisioni Architetturali (`docs/adrs/`)

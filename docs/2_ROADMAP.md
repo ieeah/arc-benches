@@ -30,6 +30,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 ## Versione 0.6.0 "Centro Operativo"
 - [ ] #55 [Condizioni Mappe & Eventi Live: Service multi-regione, caching 24h e preferenze](https://github.com/ieeah/arc-benches/issues/55)
 - [ ] #56 [Dashboard Minimale: Panoramica eventi live filtrabili e sintesi rifugio ad alto livello](https://github.com/ieeah/arc-benches/issues/56)
+- [ ] #70 [Bacheca dei Trofei: Pagina archivio per visualizzare progetti, spedizioni e traguardi completati](https://github.com/ieeah/arc-benches/issues/70)
 - [ ] #66 [Telemetria & Metriche: Definizione tassonomia eventi, KPI di utilizzo e specifiche privacy](https://github.com/ieeah/arc-benches/issues/66)
 
 ---
@@ -49,7 +50,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 
 ## Versione 0.9.0 "Ponte Next & Supabase"
 - [ ] #28 [Next.js & Vercel: Migrazione ad App Router, SSR e Route Handlers (Fase 5)](https://github.com/ieeah/arc-benches/issues/28)
-- [ ] #14 [Supabase — Schema Dati di Gioco Postgres & RLS (Fase 4a)](https://github.com/ieeah/arc-benches/issues/14)
+- [ ] #14 [Database & Backend — Schema Dati di Gioco, Finestra Spedizione Globale & RLS (Fase 4a)](https://github.com/ieeah/arc-benches/issues/14)
 - [ ] #15 [Supabase — Account & Auth (Fase 4b)](https://github.com/ieeah/arc-benches/issues/15)
 - [ ] #16 [Supabase — Sync Background Offline-First (Fase 4c)](https://github.com/ieeah/arc-benches/issues/16)
 - [ ] #65 [Backoffice & Pipeline: Area riservata Next.js (/admin) per sync dati, storage asset e studio overrides](https://github.com/ieeah/arc-benches/issues/65)

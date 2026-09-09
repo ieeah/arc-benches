@@ -68,5 +68,34 @@ Con Next.js App Router e Vercel, l'architettura supporterà nativamente il **rou
   * `rolemaker.arcbenches.app` (o `role.arcbenches.app`) $\rightarrow$ Micro-app autonoma dedicata alla generazione di identità, roleplay, archetipi e lore.
 * **Vantaggi dell'Approccio Unificato in Next.js:**
   1. **Infrastruttura Singola:** Unico progetto Next.js (o monorepo Turborepo) con routing interno gestito dal middleware di riscrittura (`NextResponse.rewrite()`).
-  2. **Single Sign-On & DB Condiviso:** Stesso database Supabase e condivisione automatica della sessione utente su tutti i sottodomini (cookie con wildcard `domain: .arcbenches.app`).
+  2. **Single Sign-On & DB Condiviso:** Stesso database e condivisione automatica della sessione utente su tutti i sottodomini (cookie con wildcard `domain: .arcbenches.app`).
   3. **Identità Indipendente:** Il Role Maker può essere condiviso sui social/community Discord come strumento a sé stante con un proprio layout, branding e metadati Open-Graph dedicati, senza appesantire l'interfaccia del tracker.
+
+---
+
+## 6. Modello Dati Centralizzato per la Finestra di Spedizione
+
+Nel modello client attuale, le date di apertura e chiusura sono temporaneamente memorizzate per lista. Nel backend definitivo, la finestra temporale è un'entità globale singleton:
+
+* **Tabella `expedition_window`**:
+  * `id`: UUID / primary key singleton (`current`)
+  * `start_date`: Timestamp UTC apertura finestra donazioni/preparativi
+  * `departure_date`: Timestamp UTC partenza effettiva (chiusura carovane)
+  * `status`: Enum (`upcoming` | `open` | `departed` | `closed`)
+  * `metadata`: Note opzionali su modificatori stagionali o condizioni globali
+* I profili utente (`user_expeditions`) memorizzano solo la loro progressione individuale (`current_expedition_index`, `consecutive_streak`, `earned_sp`, `phase_completions`), sincronizzandosi con l'unica finestra attiva globale.
+
+---
+
+## 7. Valutazione Alternative a Supabase (Resilienza all'Inattività e Pause Progetto)
+
+Il piano gratuito di Supabase mette forzatamente in pausa i progetti dopo **7 giorni di inattività**, richiedendo riattivazione manuale da dashboard o workaround di keep-alive inaffidabili. Per un companion tracker di gioco soggetto a stagionalità e pause tra playtest/wipe, si valutano le seguenti alternative architetturali:
+
+| Opzione | Architettura | Politica Inattività / Pause | Pro | Contro |
+| :--- | :--- | :--- | :--- | :--- |
+| **Neon Serverless Postgres** + Better-Auth | Serverless Postgres + Auth in Next.js | **Nessuna pausa bloccante** (scala a 0 compute ma si risveglia automaticamente via SQL/HTTP in ~500ms) | 100% Postgres standard, Drizzle ORM, branching DB, zero manutenzione dashboard | Auth gestita a livello applicativo (Better-Auth / Clerk) anziché BaaS integrato |
+| **Turso (libSQL / SQLite)** + Drizzle | SQLite distribuito su Edge | **Nessuna pausa** (500 DB, 9 GB storage gratis) | Cold start < 10ms, replica locale offline-first, velocissimo per letture | No RLS Postgres nativo; relazionale leggero |
+| **Cloudflare D1 + Workers/Pages** | SQLite Serverless globale su CDN Cloudflare | **Nessuna pausa** (5M read/giorno gratis) | Completamente serverless, zero costi fissi, integrazione KV e R2 per asset | Ecosistema Cloudflare vincolante |
+| **PocketBase (Self-Hosted)** | Go + SQLite (Auth, Realtime, File Storage, Admin UI) | **Sempre attivo** (su VPS Hetzner da 3.30€/mese o Fly.io) | BaaS completo chiavi in mano, zero limiti terzi, 100% controllo dati | Richiede gestione di una VPS o container Docker |
+| **Firebase / Firestore** | NoSQL BaaS Google | **Nessuna pausa** (free tier permanente) | Realtime nativo collaudatissimo, Auth eccellente | Paradigma NoSQL / Document-based anziché relazionale SQL |
+
