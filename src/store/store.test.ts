@@ -40,7 +40,7 @@ describe('useAppStore persistence boundary', () => {
     const raw = mockLocalStorage.getItem(profileKey(activeId));
     expect(raw).toBeTruthy();
     const parsed = JSON.parse(raw!);
-    expect(parsed.hideoutLevels['workbench-scrapper']).toBe(2);
+    expect(parsed.currentLevels['workbench-scrapper']).toBe(2);
   });
 
   it('automatically persists profile creation and profile switching', () => {
@@ -234,4 +234,4 @@ describe('useAppStore persistence boundary', () => {
     });
   });
 });
-
+

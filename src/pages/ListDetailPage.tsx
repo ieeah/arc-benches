@@ -31,7 +31,7 @@ export const ListDetailPage = ({ listId, onBack }: {
   }
 
   const expired = isListExpired(list);
-  const current = store.hideoutLevels[list.id] ?? 0;
+  const current = store.currentLevels[list.id] ?? 0;
   const selected = store.targetLevels[list.id] ?? [];
   const baseLevel = getBaseLevel(list);
   const levels = [...list.levels].sort((a, b) => a.level - b.level);

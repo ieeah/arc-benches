@@ -85,39 +85,39 @@ export const levelsAbove = (current: number, max: number): number[] => {
 
 export const migrateTargets = (
   savedTargets: Record<string, number | number[]> | undefined,
-  savedHideout: Record<string, number> | undefined,
+  savedLevels: Record<string, number> | undefined,
 ): Record<string, number[]> => {
   const out: Record<string, number[]> = {};
   if (!savedTargets) return out;
   for (const [id, val] of Object.entries(savedTargets)) {
     if (Array.isArray(val)) out[id] = val.filter((n): n is number => typeof n === 'number' && Number.isFinite(n) && n >= 0);
-    else if (typeof val === 'number') out[id] = levelsAbove(savedHideout?.[id] ?? 0, val);
+    else if (typeof val === 'number') out[id] = levelsAbove(savedLevels?.[id] ?? 0, val);
   }
   return out;
 };
 
 // Default progress state for the game workbenches (used on fresh profile + resetProgress).
-export const defaultHideoutLevels: Record<string, number> = {};
+export const defaultCurrentLevels: Record<string, number> = {};
 export const defaultTargetLevels: Record<string, number[]> = {};
 export const defaultActiveModules: Record<string, boolean> = {};
 workbenches.forEach(w => {
   const cur = w.id === 'scrappy' ? 1 : 0;
-  defaultHideoutLevels[w.id] = cur;
+  defaultCurrentLevels[w.id] = cur;
   defaultTargetLevels[w.id] = levelsAbove(cur, w.maxLevel);
   defaultActiveModules[w.id] = true;
 });
 expeditions.forEach(e => {
-  defaultHideoutLevels[e.id] = 0;
+  defaultCurrentLevels[e.id] = 0;
   defaultTargetLevels[e.id] = levelsAbove(0, e.maxLevel);
   defaultActiveModules[e.id] = true;
 });
 
 /** Build the full in-memory state for a profile from its (partial) persisted slice. */
 export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState => ({
-  hideoutLevels: { ...defaultHideoutLevels, ...loaded.hideoutLevels },
+  currentLevels: { ...defaultCurrentLevels, ...loaded.currentLevels },
   targetLevels: {
     ...defaultTargetLevels,
-    ...migrateTargets(loaded.targetLevels as Record<string, number | number[]> | undefined, loaded.hideoutLevels),
+    ...migrateTargets(loaded.targetLevels as Record<string, number | number[]> | undefined, loaded.currentLevels),
   },
   activeModules: { ...defaultActiveModules, ...loaded.activeModules },
   inventory: loaded.inventory ?? {},
@@ -137,7 +137,7 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
 
 /** Fresh (empty) progress for a brand-new profile. */
 export const freshProfile = (): PersistedState => ({
-  hideoutLevels: { ...defaultHideoutLevels },
+  currentLevels: { ...defaultCurrentLevels },
   targetLevels: { ...defaultTargetLevels },
   activeModules: { ...defaultActiveModules },
   inventory: {},

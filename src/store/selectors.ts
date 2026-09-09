@@ -33,30 +33,30 @@ export function getOrderedListsPure(allLists: List[], listOrder: string[]): List
 }
 
 export function getRefinerLevelPure(
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
   refinerId: string,
 ): number {
-  return hideoutLevels[refinerId] ?? 0;
+  return currentLevels[refinerId] ?? 0;
 }
 
 export function getActiveListsPure(
   orderedLists: List[],
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
 ): List[] {
-  return orderedLists.filter(l => (hideoutLevels[l.id] ?? 0) < l.maxLevel);
+  return orderedLists.filter(l => (currentLevels[l.id] ?? 0) < l.maxLevel);
 }
 
 export function getMaxedListsPure(
   orderedLists: List[],
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
 ): List[] {
-  return orderedLists.filter(l => (hideoutLevels[l.id] ?? 0) >= l.maxLevel);
+  return orderedLists.filter(l => (currentLevels[l.id] ?? 0) >= l.maxLevel);
 }
 
 export function getTotalRequiredMaterialsPure(
   allLists: List[],
   activeModules: Record<string, boolean>,
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   excludeModuleId?: string,
   now: number = Date.now(),
@@ -65,7 +65,7 @@ export function getTotalRequiredMaterialsPure(
   const total: Record<string, number> = {};
   for (const list of allLists) {
     if (list.id === excludeModuleId || !activeModules[list.id] || isListExpired(list, now)) continue;
-    const current = hideoutLevels[list.id] ?? 0;
+    const current = currentLevels[list.id] ?? 0;
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
       if (lvl.level > current && selected.includes(lvl.level)) {
@@ -101,14 +101,14 @@ export function getMissingMaterialsPure(
 export function getAvailableUpgradesPure(
   allLists: List[],
   activeModules: Record<string, boolean>,
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
   inventory: Record<string, number>,
   now: number = Date.now(),
 ): string[] {
   return allLists
     .filter(list => {
       if (!activeModules[list.id] || isListExpired(list, now)) return false;
-      const current = hideoutLevels[list.id] ?? 0;
+      const current = currentLevels[list.id] ?? 0;
       if (current >= list.maxLevel) return false;
       const nextLevel = list.levels.find(l => l.level === current + 1);
       if (!nextLevel) return false;
@@ -127,7 +127,7 @@ export function getAvailableUpgradesPure(
 export function getOtherNeedsPure(
   totalRequired: Record<string, number>,
   list: List,
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   now: number = Date.now(),
   checkedActions?: Record<string, boolean>,
@@ -136,7 +136,7 @@ export function getOtherNeedsPure(
     return { ...totalRequired };
   }
   const result = { ...totalRequired };
-  const current = hideoutLevels[list.id] ?? 0;
+  const current = currentLevels[list.id] ?? 0;
   const selected = targetLevels[list.id] ?? [];
   for (const lvl of list.levels) {
     if (lvl.level > current && selected.includes(lvl.level)) {
@@ -188,7 +188,7 @@ export function getItemDependenciesPure(
   itemId: string,
   allLists: List[],
   activeModules: Record<string, boolean>,
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   now: number = Date.now(),
   checkedActions?: Record<string, boolean>,
@@ -196,7 +196,7 @@ export function getItemDependenciesPure(
   const deps: ItemListDependency[] = [];
   for (const list of allLists) {
     if (!activeModules[list.id] || isListExpired(list, now)) continue;
-    const current = hideoutLevels[list.id] ?? 0;
+    const current = currentLevels[list.id] ?? 0;
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
       if (lvl.level > current && selected.includes(lvl.level)) {
@@ -242,7 +242,7 @@ export type MissingAction = StashAction;
 export function getStashActionsPure(
   allLists: List[],
   activeModules: Record<string, boolean>,
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   checkedActions: Record<string, boolean>,
   now: number = Date.now(),
@@ -250,7 +250,7 @@ export function getStashActionsPure(
   const actions: StashAction[] = [];
   for (const list of allLists) {
     if (!activeModules[list.id] || isListExpired(list, now)) continue;
-    const current = hideoutLevels[list.id] ?? 0;
+    const current = currentLevels[list.id] ?? 0;
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
       // Actions are only displayed if the level has been reached (lvl.level <= current + 1)
@@ -296,12 +296,12 @@ export function getStashActionsPure(
 export function getMissingActionsPure(
   allLists: List[],
   activeModules: Record<string, boolean>,
-  hideoutLevels: Record<string, number>,
+  currentLevels: Record<string, number>,
   targetLevels: Record<string, number[]>,
   checkedActions: Record<string, boolean>,
   now: number = Date.now(),
 ): MissingAction[] {
-  return getStashActionsPure(allLists, activeModules, hideoutLevels, targetLevels, checkedActions, now)
+  return getStashActionsPure(allLists, activeModules, currentLevels, targetLevels, checkedActions, now)
     .filter(a => !a.isCompleted);
 }
 

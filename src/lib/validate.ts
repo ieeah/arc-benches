@@ -26,7 +26,7 @@ const asNonEmptyString = (v: unknown): string | null =>
 
 // ── record sanitizers (keep only valid entries) ──────────────────────────────
 
-/** `Record<string, number>` keeping finite values ≥ 0 (inventory, hideoutLevels). */
+/** `Record<string, number>` keeping finite values ≥ 0 (inventory, currentLevels). */
 export const sanitizeNumberRecord = (v: unknown): Record<string, number> => {
   const out: Record<string, number> = {};
   if (!isObject(v)) return out;

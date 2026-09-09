@@ -46,7 +46,7 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   const { t } = useTranslation();
   // Selettori mirati — re-render solo sulla slice pertinente
   const inventory = useAppStore(s => s.inventory);
-  const hideoutLevels = useAppStore(s => s.hideoutLevels);
+  const currentLevels = useAppStore(s => s.currentLevels);
   const targetLevels = useAppStore(s => s.targetLevels);
   const activeModules = useAppStore(s => s.activeModules);
   const checkedActions = useAppStore(s => s.checkedActions);
@@ -108,24 +108,24 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
     [allLists, listOrder],
   );
   const activeLists = useMemo(
-    () => getActiveListsPure(orderedLists, hideoutLevels),
-    [orderedLists, hideoutLevels],
+    () => getActiveListsPure(orderedLists, currentLevels),
+    [orderedLists, currentLevels],
   );
   const maxedLists = useMemo(
-    () => getMaxedListsPure(orderedLists, hideoutLevels),
-    [orderedLists, hideoutLevels],
+    () => getMaxedListsPure(orderedLists, currentLevels),
+    [orderedLists, currentLevels],
   );
   const availableUpgrades = useMemo(
-    () => getAvailableUpgradesPure(allLists, activeModules, hideoutLevels, inventory),
-    [allLists, activeModules, hideoutLevels, inventory],
+    () => getAvailableUpgradesPure(allLists, activeModules, currentLevels, inventory),
+    [allLists, activeModules, currentLevels, inventory],
   );
   const refinerLevel = useMemo(
-    () => getRefinerLevelPure(hideoutLevels, REFINER_ID),
-    [hideoutLevels],
+    () => getRefinerLevelPure(currentLevels, REFINER_ID),
+    [currentLevels],
   );
   const totalRequired = useMemo(
-    () => getTotalRequiredMaterialsPure(allLists, activeModules, hideoutLevels, targetLevels),
-    [allLists, activeModules, hideoutLevels, targetLevels],
+    () => getTotalRequiredMaterialsPure(allLists, activeModules, currentLevels, targetLevels),
+    [allLists, activeModules, currentLevels, targetLevels],
   );
 
   const activeWorkbenches = activeLists.filter(l => !l.custom);
@@ -220,10 +220,10 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
 
   const sharedCardProps = (list: List) => ({
     list,
-    current: hideoutLevels[list.id] ?? 0,
+    current: currentLevels[list.id] ?? 0,
     isActive: activeModules[list.id],
     inventory,
-    otherNeeds: getOtherNeedsPure(totalRequired, list, hideoutLevels, targetLevels),
+    otherNeeds: getOtherNeedsPure(totalRequired, list, currentLevels, targetLevels),
     selectedTargets: targetLevels[list.id] ?? [],
     checkedActions,
     itemsInfo,
@@ -232,7 +232,7 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
     canUpgrade: availableUpgrades.includes(list.id),
     onUpgrade: () => {
       upgradeModule(list.id);
-      const nextLevel = (hideoutLevels[list.id] ?? 0) + 1;
+      const nextLevel = (currentLevels[list.id] ?? 0) + 1;
       if (nextLevel >= list.maxLevel) {
         setListOrder([...listOrder.filter(id => id !== list.id), list.id]);
       }

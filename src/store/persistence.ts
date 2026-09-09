@@ -14,7 +14,7 @@ export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
 /** The 16 keys persisted per profile. */
 export type PersistedState = Pick<AppState,
-  'hideoutLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
+  'currentLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
   'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'language' | 'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
@@ -58,7 +58,9 @@ export function saveProfilesMeta(meta: ProfilesMeta) {
 function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
   if (!isObject(raw)) return {};
   const out: Partial<PersistedState> = {};
-  if (isObject(raw.hideoutLevels)) out.hideoutLevels = sanitizeNumberRecord(raw.hideoutLevels);
+  // "hideoutLevels" was the legacy key — fall back to it for old localStorage data
+  const rawLevels = raw.currentLevels ?? raw.hideoutLevels;
+  if (isObject(rawLevels)) out.currentLevels = sanitizeNumberRecord(rawLevels);
   // migrateTargets() validates/normalizes element shapes; keep the raw object here.
   if (isObject(raw.targetLevels)) out.targetLevels = raw.targetLevels as Record<string, number[]>;
   if (isObject(raw.activeModules)) out.activeModules = sanitizeBoolRecord(raw.activeModules);
@@ -104,7 +106,7 @@ export function loadProfileState(profileId: string): Partial<PersistedState> {
 
 export function saveProfileState(profileId: string, s: PersistedState) {
   const slice: PersistedState = {
-    hideoutLevels: s.hideoutLevels,
+    currentLevels: s.currentLevels,
     targetLevels: s.targetLevels,
     activeModules: s.activeModules,
     inventory: s.inventory,

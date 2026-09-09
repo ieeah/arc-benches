@@ -82,7 +82,7 @@ describe('persistence.ts', () => {
 
   describe('Profile State', () => {
     const sampleState: PersistedState = {
-      hideoutLevels: { workbench1: 2 },
+      currentLevels: { workbench1: 2 },
       targetLevels: { workbench1: [3] },
       activeModules: { workbench1: true },
       inventory: { 'metal-parts': 10 },
@@ -108,7 +108,7 @@ describe('persistence.ts', () => {
 
       const loaded = loadProfileState('p1');
       expect(loaded.inventory).toEqual({ 'metal-parts': 10 });
-      expect(loaded.hideoutLevels).toEqual({ workbench1: 2 });
+      expect(loaded.currentLevels).toEqual({ workbench1: 2 });
       expect(loaded.activePersonalityId).toBe('persona-1');
       expect(loaded.checkedActions).toEqual({ 'workbench1|1|act1': true });
       expect(loaded.language).toBe('it');
@@ -217,7 +217,7 @@ describe('persistence.ts', () => {
       };
       saveProfilesMeta(updatedMeta);
       saveProfileState('custom-uuid-1', {
-        hideoutLevels: {},
+        currentLevels: {},
         targetLevels: {},
         activeModules: {},
         inventory: { 'fabric': 10 },

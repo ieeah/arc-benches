@@ -173,7 +173,7 @@ export interface AppState {
   profiles: Profile[];
   activeProfileId: string;
 
-  hideoutLevels: Record<string, number>;
+  currentLevels: Record<string, number>;
   /** Levels selected as objectives, per list. A level is tracked only if selected AND > current. */
   targetLevels: Record<string, number[]>;
   activeModules: Record<string, boolean>;

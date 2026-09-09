@@ -71,7 +71,7 @@ useAppStore.subscribe((state, prev) => {
     });
   }
   const profileStateChanged =
-    state.hideoutLevels !== prev.hideoutLevels ||
+    state.currentLevels !== prev.currentLevels ||
     state.targetLevels !== prev.targetLevels ||
     state.activeModules !== prev.activeModules ||
     state.inventory !== prev.inventory ||

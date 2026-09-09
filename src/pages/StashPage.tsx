@@ -55,7 +55,7 @@ export const StashPage = ({
   const { t, language } = useTranslation();
   // Selettori mirati — re-render solo quando la slice pertinente cambia
   const inventory = useAppStore(s => s.inventory);
-  const hideoutLevels = useAppStore(s => s.hideoutLevels);
+  const currentLevels = useAppStore(s => s.currentLevels);
   const targetLevels = useAppStore(s => s.targetLevels);
   const activeModules = useAppStore(s => s.activeModules);
   const checkedActions = useAppStore(s => s.checkedActions);
@@ -101,10 +101,10 @@ export const StashPage = ({
     [activeExpedition, inventory, checkedActions],
   );
 
-  const effectiveHideoutLevels = useMemo(() => {
-    if (!activeExpedition) return hideoutLevels;
-    return { ...hideoutLevels, [activeExpedition.id]: expeditionPhase };
-  }, [hideoutLevels, activeExpedition, expeditionPhase]);
+  const effectiveCurrentLevels = useMemo(() => {
+    if (!activeExpedition) return currentLevels;
+    return { ...currentLevels, [activeExpedition.id]: expeditionPhase };
+  }, [currentLevels, activeExpedition, expeditionPhase]);
 
   const orderedLists = useMemo(
     () => getOrderedListsPure(allLists, listOrder),
@@ -115,13 +115,13 @@ export const StashPage = ({
     () => getTotalRequiredMaterialsPure(
       allLists,
       activeModules,
-      effectiveHideoutLevels,
+      effectiveCurrentLevels,
       targetLevels,
       undefined,
       Date.now(),
       checkedActions,
     ),
-    [allLists, activeModules, effectiveHideoutLevels, targetLevels, checkedActions],
+    [allLists, activeModules, effectiveCurrentLevels, targetLevels, checkedActions],
   );
 
   const missingMaterials = useMemo(
@@ -130,13 +130,13 @@ export const StashPage = ({
   );
 
   const allStashActions = useMemo(
-    () => getStashActionsPure(allLists, activeModules, effectiveHideoutLevels, targetLevels, checkedActions),
-    [allLists, activeModules, effectiveHideoutLevels, targetLevels, checkedActions],
+    () => getStashActionsPure(allLists, activeModules, effectiveCurrentLevels, targetLevels, checkedActions),
+    [allLists, activeModules, effectiveCurrentLevels, targetLevels, checkedActions],
   );
 
   const refinerLevel = useMemo(
-    () => getRefinerLevelPure(effectiveHideoutLevels, REFINER_ID),
-    [effectiveHideoutLevels],
+    () => getRefinerLevelPure(effectiveCurrentLevels, REFINER_ID),
+    [effectiveCurrentLevels],
   );
 
   // Mappa delle dipendenze per ciascun materiale
@@ -145,18 +145,18 @@ export const StashPage = ({
     for (const mat of missingMaterials) {
       map.set(
         mat.itemId,
-        getItemDependenciesPure(mat.itemId, allLists, activeModules, effectiveHideoutLevels, targetLevels, Date.now(), checkedActions),
+        getItemDependenciesPure(mat.itemId, allLists, activeModules, effectiveCurrentLevels, targetLevels, Date.now(), checkedActions),
       );
     }
     return map;
-  }, [missingMaterials, allLists, activeModules, effectiveHideoutLevels, targetLevels, checkedActions]);
+  }, [missingMaterials, allLists, activeModules, effectiveCurrentLevels, targetLevels, checkedActions]);
 
   // Map pre-calcolata per priority sort: O(n) invece di O(n²) nel comparatore
   const priorityMap = useMemo(() => {
     const map = new Map<string, number>();
     orderedLists.forEach((list, i) => {
       if (activeModules[list.id] === false) return;
-      const current = effectiveHideoutLevels[list.id] ?? 0;
+      const current = effectiveCurrentLevels[list.id] ?? 0;
       const selected = targetLevels[list.id] ?? list.levels.map(l => l.level);
       list.levels.forEach(lvl => {
         if (lvl.level > current && selected.includes(lvl.level)) {
@@ -167,7 +167,7 @@ export const StashPage = ({
       });
     });
     return map;
-  }, [orderedLists, activeModules, effectiveHideoutLevels, targetLevels]);
+  }, [orderedLists, activeModules, effectiveCurrentLevels, targetLevels]);
 
   // Categorie di filtro statiche
   const filterCategories = useMemo<FilterCategory<StashMaterial>[]>(() => [

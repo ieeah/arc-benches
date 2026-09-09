@@ -2,11 +2,11 @@ import type { StateCreator } from 'zustand';
 import type { AppState } from '@/types';
 import { bootProfileState } from '@/store/boot';
 import {
-  defaultActiveModules, defaultHideoutLevels, defaultTargetLevels, levelsAbove,
+  defaultActiveModules, defaultCurrentLevels, defaultTargetLevels, levelsAbove,
 } from '@/store/gameData';
 
 export type ProgressSlice = Pick<AppState,
-  'hideoutLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
+  'currentLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
   'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'setModuleCurrentLevel' | 'toggleTargetLevel' | 'toggleModuleActive' | 'setFilterHideCompleted' |
   'setListOrder' | 'toggleAction' | 'setTieredActionStep' | 'upgradeModule' | 'resetProgress' |
@@ -14,7 +14,7 @@ export type ProgressSlice = Pick<AppState,
 >;
 
 export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> = (set, get) => ({
-  hideoutLevels: bootProfileState.hideoutLevels,
+  currentLevels: bootProfileState.currentLevels,
   targetLevels: bootProfileState.targetLevels,
   activeModules: bootProfileState.activeModules,
   checkedActions: bootProfileState.checkedActions,
@@ -26,8 +26,8 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
   setModuleCurrentLevel: (moduleId, level, deductMaterials = false) => {
     const s = get();
     const list = s.getAllLists().find(w => w.id === moduleId);
-    const prevLevel = s.hideoutLevels[moduleId] ?? 0;
-    const hideoutLevels = { ...s.hideoutLevels, [moduleId]: level };
+    const prevLevel = s.currentLevels[moduleId] ?? 0;
+    const currentLevels = { ...s.currentLevels, [moduleId]: level };
 
     const inventory = { ...s.inventory };
     const checkedActions = { ...s.checkedActions };
@@ -54,7 +54,7 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
         });
     }
 
-    set({ hideoutLevels, inventory, checkedActions, targetLevels });
+    set({ currentLevels, inventory, checkedActions, targetLevels });
   },
 
 
@@ -121,7 +121,7 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
     const s = get();
     const list = s.getAllLists().find(w => w.id === moduleId);
     if (!list) return;
-    const currentLevel = s.hideoutLevels[moduleId] ?? 0;
+    const currentLevel = s.currentLevels[moduleId] ?? 0;
     if (currentLevel >= list.maxLevel) return;
     const nextLevel = list.levels.find(l => l.level === currentLevel + 1);
     if (!nextLevel) return;
@@ -130,28 +130,28 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
       inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);
     });
     const newLevel = currentLevel + 1;
-    const hideoutLevels = { ...s.hideoutLevels, [moduleId]: newLevel };
+    const currentLevels = { ...s.currentLevels, [moduleId]: newLevel };
     const checkedActions = { ...s.checkedActions };
     (nextLevel.actions ?? []).forEach(a => { checkedActions[`${moduleId}|${newLevel}|${a.id}`] = true; });
     const targetLevels = { ...s.targetLevels };
     const next = newLevel + 1;
     const cur = targetLevels[moduleId] ?? [];
     if (next <= list.maxLevel && !cur.includes(next)) targetLevels[moduleId] = [...cur, next].sort((a, b) => a - b);
-    set({ inventory, hideoutLevels, checkedActions, targetLevels });
+    set({ inventory, currentLevels, checkedActions, targetLevels });
   },
 
   resetProgress: () => {
     const s = get();
-    const hideoutLevels = { ...defaultHideoutLevels };
+    const currentLevels = { ...defaultCurrentLevels };
     const targetLevels = { ...defaultTargetLevels };
     const activeModules = { ...defaultActiveModules };
     [...s.sharedCustomLists, ...s.customLists].forEach(l => {
-      hideoutLevels[l.id] = 0;
+      currentLevels[l.id] = 0;
       targetLevels[l.id] = levelsAbove(0, l.maxLevel);
       activeModules[l.id] = true;
     });
     set({
-      hideoutLevels,
+      currentLevels,
       targetLevels,
       activeModules,
       inventory: {},

@@ -2,7 +2,7 @@ import type { StateCreator } from 'zustand';
 import type { AppState } from '@/types';
 import { bootProfileState } from '@/store/boot';
 import {
-  defaultHideoutLevels,
+  defaultCurrentLevels,
   defaultTargetLevels,
   defaultActiveModules,
   expeditions,
@@ -88,7 +88,7 @@ export const createExpeditionsSlice: StateCreator<AppState, [], [], ExpeditionsS
 
     set({
       inventory: {},
-      hideoutLevels: { ...defaultHideoutLevels },
+      currentLevels: { ...defaultCurrentLevels },
       targetLevels: { ...defaultTargetLevels },
       activeModules: { ...defaultActiveModules },
       checkedActions: cleanedCheckedActions,

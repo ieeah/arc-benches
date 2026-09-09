@@ -169,14 +169,14 @@ describe('getMaxedListsPure', () => {
 
 describe('getTotalRequiredMaterialsPure', () => {
   const activeModules: Record<string, boolean> = { 'wb:1': true, 'wb:2': true };
-  const hideoutLevels: Record<string, number> = { 'wb:1': 0, 'wb:2': 0 };
+  const currentLevels: Record<string, number> = { 'wb:1': 0, 'wb:2': 0 };
   const targetLevels: Record<string, number[]> = { 'wb:1': [1, 2, 3], 'wb:2': [1, 2] };
 
   it('aggregates all required materials across active lists', () => {
     // bench1 level1: metal-parts×5; level2: metal-parts×10 + arc-alloy×2; level3: arc-alloy×5
     // bench2 level1: arc-alloy×3; level2: metal-parts×4
     const total = getTotalRequiredMaterialsPure(
-      [bench1, bench2], activeModules, hideoutLevels, targetLevels
+      [bench1, bench2], activeModules, currentLevels, targetLevels
     );
     expect(total['metal-parts']).toBe(5 + 10 + 4);   // 19
     expect(total['arc-alloy']).toBe(2 + 5 + 3);       // 10
@@ -214,7 +214,7 @@ describe('getTotalRequiredMaterialsPure', () => {
 
   it('excludes the specified moduleId', () => {
     const total = getTotalRequiredMaterialsPure(
-      [bench1, bench2], activeModules, hideoutLevels, targetLevels, 'wb:1'
+      [bench1, bench2], activeModules, currentLevels, targetLevels, 'wb:1'
     );
     // only bench2 contributes
     expect(total['metal-parts']).toBe(4);
@@ -347,16 +347,16 @@ describe('getAvailableUpgradesPure', () => {
 
 describe('getOtherNeedsPure', () => {
   const activeModules: Record<string, boolean> = { 'wb:1': true, 'wb:2': true };
-  const hideoutLevels: Record<string, number> = { 'wb:1': 0, 'wb:2': 0 };
+  const currentLevels: Record<string, number> = { 'wb:1': 0, 'wb:2': 0 };
   const targetLevels: Record<string, number[]> = { 'wb:1': [1, 2, 3], 'wb:2': [1, 2] };
 
   it('equals getTotalRequiredMaterials with the list excluded', () => {
     const totalRequired = getTotalRequiredMaterialsPure(
-      [bench1, bench2], activeModules, hideoutLevels, targetLevels
+      [bench1, bench2], activeModules, currentLevels, targetLevels
     );
-    const otherNeeds = getOtherNeedsPure(totalRequired, bench1, hideoutLevels, targetLevels);
+    const otherNeeds = getOtherNeedsPure(totalRequired, bench1, currentLevels, targetLevels);
     const expected = getTotalRequiredMaterialsPure(
-      [bench1, bench2], activeModules, hideoutLevels, targetLevels, 'wb:1'
+      [bench1, bench2], activeModules, currentLevels, targetLevels, 'wb:1'
     );
     expect(otherNeeds).toEqual(expected);
   });

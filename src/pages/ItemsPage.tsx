@@ -32,7 +32,7 @@ export const ItemsPage = ({
 }) => {
   const itemsInfo = useAppStore((s) => s.itemsInfo);
   const refinerLevel = useAppStore(
-    (s) => s.hideoutLevels["refiner"] || 0
+    (s) => s.currentLevels["refiner"] || 0
   );
   const [selected, setSelected] = useState<ItemInfo | null>(null);
   const { t, language } = useTranslation();

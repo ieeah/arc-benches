@@ -59,24 +59,24 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
       if (!profile) continue;
 
       let customLists: List[];
-      let hideoutLevels: Record<string, number>;
+      let currentLevels: Record<string, number>;
       let targetLevels: Record<string, number[]>;
       let activeModules: Record<string, boolean>;
       let inventory: Record<string, number>;
 
       if (profileId === s.activeProfileId) {
         customLists = s.customLists;
-        hideoutLevels = s.hideoutLevels;
+        currentLevels = s.currentLevels;
         targetLevels = s.targetLevels;
         activeModules = s.activeModules;
         inventory = s.inventory;
       } else {
         const state = loadProfileState(profileId);
         customLists = state.customLists ?? [];
-        hideoutLevels = state.hideoutLevels ?? {};
+        currentLevels = state.currentLevels ?? {};
         targetLevels = migrateTargets(
           state.targetLevels as Record<string, number | number[]> | undefined,
-          state.hideoutLevels,
+          state.currentLevels,
         );
         activeModules = state.activeModules ?? {};
         inventory = state.inventory ?? {};
@@ -89,7 +89,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         language: profileId === s.activeProfileId ? s.language : (loadProfileState(profileId).language ?? 'en'),
         lists: allLists.map(list => ({
           list,
-          currentLevel: hideoutLevels[list.id] ?? 0,
+          currentLevel: currentLevels[list.id] ?? 0,
           targetLevels: targetLevels[list.id] ?? list.levels.map(l => l.level),
           active: activeModules[list.id] ?? true,
         })),
@@ -117,7 +117,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
       if (!selectedProfileIds.includes(entry.profile.id)) continue;
 
       const customLists: List[] = [];
-      const hideoutLevels: Record<string, number> = {};
+      const currentLevels: Record<string, number> = {};
       const targetLevels: Record<string, number[]> = {};
       const activeModules: Record<string, boolean> = {};
       const listOrder: string[] = [];
@@ -127,14 +127,14 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         const isGameList = s.workbenches.some(w => w.id === list.id);
         const isSharedList = data.sharedLists.some(l => l.id === list.id);
         if (!isGameList && !isSharedList && list.custom) customLists.push(list);
-        hideoutLevels[list.id] = currentLevel;
+        currentLevels[list.id] = currentLevel;
         targetLevels[list.id] = entryTargets;
         activeModules[list.id] = active;
         listOrder.push(list.id);
       }
 
       const profileState: PersistedState = {
-        hideoutLevels, targetLevels, activeModules,
+        currentLevels, targetLevels, activeModules,
         inventory: entry.inventory,
         filterHideCompleted: true, listOrder, customLists, checkedActions: {},
         activePersonalityId: null,
