@@ -10,10 +10,17 @@ export interface CheckboxAction {
   label: string;
 }
 
+export interface Reward {
+  itemId?: string;
+  quantity?: number;
+  label: string;
+}
+
 export interface ListLevel {
   level: number;
   requirementItemIds: ItemRequirement[];
   actions?: CheckboxAction[];
+  rewards?: Reward[];
 }
 
 /** Semantic category of a list, orthogonal to `custom` (a custom list may also be a project, etc.). */
@@ -34,6 +41,8 @@ export interface List {
   listType?: ListType;
   /** true = shared across all profiles; false/absent = profile-specific. Immutable after creation. */
   shared?: boolean;
+  /** Data e ora di scadenza ISO 8601 (es. "2026-09-30T20:00:00+02:00"). Opzionale. */
+  expirationDate?: string;
 }
 
 export interface Profile {
@@ -177,9 +186,10 @@ export interface AppState {
   resetProgress: () => void;
 
   /** Create a user list; returns its namespaced id (`custom:<uuid>`). */
-  createCustomList: (data: { name: string; levels: ListLevel[]; listType?: ListType; shared?: boolean }) => string;
-  updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; listType: ListType }>) => void;
+  createCustomList: (data: { name: string; levels: ListLevel[]; listType?: ListType; shared?: boolean; expirationDate?: string }) => string;
+  updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; listType: ListType; expirationDate?: string }>) => void;
   deleteCustomList: (id: string) => void;
+
   /** Import lists from a v2 export file. Custom lists: merge definition + state. Game lists: state only. */
   importLists: (data: ListExportFile) => void;
   /** Import selected profiles from a v3 multi-profile export file. */
@@ -221,5 +231,7 @@ export interface AppState {
     missing: number;
     isCompleted: boolean;
   }>;
+  getMissingActions: () => import('@/store/selectors').MissingAction[];
   getAvailableUpgrades: () => string[];
 }
+

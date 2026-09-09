@@ -1,4 +1,4 @@
-import { ArrowLeft, Check } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Check, Gift } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName, getListName } from '@/i18n';
 import { SectionHeader } from '@/components/SectionHeader';
@@ -8,6 +8,7 @@ import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { iconUrl } from '@/lib/icons';
 import { getRarityStyles } from '@/lib/rarity';
 import { getBaseLevel } from '@/lib/lists';
+import { isListExpired } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
 
 /** Full-screen overview of one list: every level, its items and actions. */
@@ -28,6 +29,7 @@ export const ListDetailPage = ({ listId, onBack }: {
     );
   }
 
+  const expired = isListExpired(list);
   const current = store.hideoutLevels[list.id] ?? 0;
   const selected = store.targetLevels[list.id] ?? [];
   const baseLevel = getBaseLevel(list);
@@ -48,6 +50,18 @@ export const ListDetailPage = ({ listId, onBack }: {
             onChange={setCurrent} />
         </div>
       </div>
+
+      {expired && (
+        <div className="mx-4 mt-4 p-3.5 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-2xl flex items-start gap-2.5">
+          <AlertTriangle size={18} className="text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-bold text-red-700 dark:text-red-300">{t('lists.expired')}</p>
+            <p className="text-[11px] text-red-600/90 dark:text-red-400/90 mt-0.5 leading-relaxed">
+              {t('lists.expiredNotice')}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="p-4 space-y-3">
         {levels.map(lvl => {
@@ -119,7 +133,40 @@ export const ListDetailPage = ({ listId, onBack }: {
                 </div>
               )}
 
-              {lvl.requirementItemIds.length === 0 && (lvl.actions?.length ?? 0) === 0 && (
+              {(lvl.rewards?.length ?? 0) > 0 && (
+                <div className={cn('space-y-2', (lvl.requirementItemIds.length > 0 || (lvl.actions?.length ?? 0) > 0) && 'mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800')}>
+                  <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider flex items-center gap-1">
+                    <Gift size={12} className="text-violet-500" /> {t('lists.rewards')}
+                  </p>
+                  <div className="space-y-1.5">
+                    {lvl.rewards!.map((reward, rIdx) => {
+                      const info = reward.itemId ? store.itemsInfo[reward.itemId] : undefined;
+                      const name = info ? (getItemName(info, language) || reward.itemId) : reward.label;
+                      const { color } = getRarityStyles(info?.rarity ?? '');
+                      return (
+                        <div key={rIdx} className="flex items-center gap-2 bg-violet-50/50 dark:bg-violet-950/20 px-2.5 py-1.5 rounded-xl border border-violet-100 dark:border-violet-900/30">
+                          <div className="relative w-7 h-7 rounded-lg overflow-hidden bg-white dark:bg-gray-800 flex items-center justify-center shrink-0 border border-violet-200 dark:border-violet-800/40">
+                            {info?.icon ? (
+                              <img src={iconUrl(info.icon)} alt={name} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
+                            ) : (
+                              <span className="text-xs">🎁</span>
+                            )}
+                            {info && <div className={cn('absolute bottom-0 left-0 right-0 h-0.5', color)} />}
+                          </div>
+                          <span className="flex-1 min-w-0 text-xs font-semibold truncate text-gray-800 dark:text-gray-200">{name}</span>
+                          {reward.quantity && (
+                            <span className="text-xs font-mono font-bold text-violet-600 dark:text-violet-400 shrink-0">
+                              x{reward.quantity}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {lvl.requirementItemIds.length === 0 && (lvl.actions?.length ?? 0) === 0 && (lvl.rewards?.length ?? 0) === 0 && (
                 <p className="text-xs text-gray-400 italic">{t('customLists.emptyStage')}</p>
               )}
             </div>
@@ -129,3 +176,4 @@ export const ListDetailPage = ({ listId, onBack }: {
     </div>
   );
 };
+

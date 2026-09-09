@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import { CheckCircle2, Hammer } from 'lucide-react';
+import { CheckCircle2, Hammer, Clock } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
+import { formatTimeRemaining } from '@/lib/expiration';
+import { cn } from '@/lib/cn';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName } from '@/i18n';
+
 
 interface InventoryListItemProps {
   itemId: string;
@@ -136,8 +139,29 @@ export const InventoryListItem = ({
               >
                 <span className="truncate">{dep.listName}</span>
                 <span className="opacity-75 font-semibold shrink-0">Lvl {dep.level}</span>
+                {dep.expirationDate && (
+                  (() => {
+                    const remaining = formatTimeRemaining(dep.expirationDate, language);
+                    return (
+                      <span className={cn(
+                        'inline-flex items-center gap-0.5 text-[8px] font-bold uppercase tracking-wide px-1 rounded-full shrink-0',
+                        remaining.isExpired
+                          ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                          : remaining.urgent
+                          ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                          : remaining.warning
+                          ? 'text-amber-600 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
+                          : 'text-gray-500 bg-gray-200/80 dark:bg-gray-700 dark:text-gray-300'
+                      )}>
+                        <Clock size={8} />
+                        {remaining.isExpired ? t('lists.expired') : remaining.text}
+                      </span>
+                    );
+                  })()
+                )}
               </div>
             ))}
+
             {dependencies.length > 1 && (
               <div className="inline-flex items-center text-[10px] font-bold text-blue-500 dark:text-blue-400 pl-0.5">
                 <span>+{dependencies.length - 1} {dependencies.length - 1 === 1 ? t('stash.moreOtherSingle') : t('stash.moreOtherPlural')}</span>

@@ -1,13 +1,16 @@
 import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, ChevronDown, Hammer, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { CheckCircle2, ChevronDown, Clock, Hammer, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import type { ItemInfo, List } from '@/types';
 import { getBaseLevel } from '@/lib/lists';
+import { isListExpired, formatTimeRemaining } from '@/lib/expiration';
+import { cn } from '@/lib/cn';
 import { refinerCraftLevel } from '@/lib/craft';
 import { useTranslation, getItemName, getListName } from '@/i18n';
 import { LevelBadge } from '@/components/LevelBadge';
 import { LevelPills } from '@/components/LevelPills';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
+
 
 const RequirementsGrid = ({
   levelData,
@@ -117,6 +120,9 @@ export const UnifiedListCard = ({
   const hasCollapsedBody = !isMaxed || list.custom;
   const hasMenu = Boolean(onOpenDetail || onEdit || onDelete);
 
+  const expired = isListExpired(list);
+  const remaining = list.expirationDate ? formatTimeRemaining(list.expirationDate, language) : null;
+
   const actionLevels = list.levels.filter(
     l => selectedTargets.includes(l.level) && (l.actions?.length ?? 0) > 0
   );
@@ -173,7 +179,9 @@ export const UnifiedListCard = ({
     setPendingLevel(null);
   };
 
-  const cardBorder = canUpgrade && !expanded
+  const cardBorder = expired
+    ? 'border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 opacity-80'
+    : canUpgrade && !expanded
     ? 'border-green-500 bg-green-50 dark:bg-green-900/10'
     : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900';
 
@@ -192,6 +200,21 @@ export const UnifiedListCard = ({
                 Custom
               </span>
             )}
+            {remaining && (
+              <span className={cn(
+                'shrink-0 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full flex items-center gap-1',
+                expired
+                  ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                  : remaining.urgent
+                  ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                  : remaining.warning
+                  ? 'text-amber-600 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
+                  : 'text-gray-500 bg-gray-100 dark:bg-gray-800 dark:text-gray-400'
+              )}>
+                <Clock size={10} />
+                {expired ? t('lists.expired') : remaining.text}
+              </span>
+            )}
           </span>
           <LevelBadge current={current} max={list.maxLevel} state={isMaxed ? 'maxed' : canUpgrade ? 'ready' : 'default'} />
           <ChevronDown
@@ -199,6 +222,7 @@ export const UnifiedListCard = ({
             className={`shrink-0 text-gray-400 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
           />
         </button>
+
 
         {hasMenu && (
           <div className="relative shrink-0">

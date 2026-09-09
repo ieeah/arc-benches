@@ -1,4 +1,4 @@
-import type { CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile } from '@/types';
+import type { CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -75,10 +75,23 @@ const validateRequirement = (v: unknown): ItemRequirement | null => {
 const validateAction = (v: unknown): CheckboxAction | null => {
   if (!isObject(v)) return null;
   const id = asNonEmptyString(v.id);
-  const label = typeof v.label === 'string' ? v.label : null;
+  const label = asNonEmptyString(v.label);
   if (id === null || label === null) return null;
   return { id, label };
 };
+
+const validateReward = (v: unknown): Reward | null => {
+  if (!isObject(v)) return null;
+  const label = asNonEmptyString(v.label);
+  if (label === null) return null;
+  const out: Reward = { label };
+  const itemId = asNonEmptyString(v.itemId);
+  if (itemId !== null) out.itemId = itemId;
+  const quantity = asNonNegInt(v.quantity, 1);
+  if (quantity !== null) out.quantity = quantity;
+  return out;
+};
+
 
 const validateLevel = (v: unknown): ListLevel | null => {
   if (!isObject(v)) return null;
@@ -90,12 +103,22 @@ const validateLevel = (v: unknown): ListLevel | null => {
   const actions = Array.isArray(v.actions)
     ? v.actions.map(validateAction).filter((a): a is CheckboxAction => a !== null)
     : undefined;
+  const rewards = Array.isArray(v.rewards)
+    ? v.rewards.map(validateReward).filter((r): r is Reward => r !== null)
+    : undefined;
   const out: ListLevel = { level, requirementItemIds };
   if (actions && actions.length > 0) out.actions = actions;
+  if (rewards && rewards.length > 0) out.rewards = rewards;
   return out;
 };
 
 const LIST_TYPES: ListType[] = ['workbench', 'project', 'quest', 'custom'];
+
+const asIsoDateString = (v: unknown): string | undefined => {
+  if (typeof v !== 'string' || !v) return undefined;
+  const parsed = Date.parse(v);
+  return Number.isNaN(parsed) ? undefined : v;
+};
 
 /** Validate a full `List` definition. Returns null if structurally unusable. */
 export const validateList = (v: unknown): List | null => {
@@ -118,6 +141,8 @@ export const validateList = (v: unknown): List | null => {
   if (typeof v.listType === 'string' && LIST_TYPES.includes(v.listType as ListType)) {
     out.listType = v.listType as ListType;
   }
+  const expirationDate = asIsoDateString(v.expirationDate);
+  if (expirationDate) out.expirationDate = expirationDate;
   return out;
 };
 

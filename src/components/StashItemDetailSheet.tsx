@@ -1,13 +1,16 @@
-import { CheckCircle2, Hammer, ClipboardList, FileJson } from 'lucide-react';
+import { CheckCircle2, Hammer, ClipboardList, FileJson, Clock } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
 import { getLootAreas } from '@/lib/lootArea';
+import { formatTimeRemaining } from '@/lib/expiration';
+import { cn } from '@/lib/cn';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
 import { BottomSheet } from '@/components/BottomSheet';
 import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
+
 
 interface StashItemDetailSheetProps {
   item: ItemInfo;
@@ -223,13 +226,38 @@ export const StashItemDetailSheet = ({
                     <p className="text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100 truncate">
                       {dep.listName}
                     </p>
-                    <p className="text-[11px] text-gray-500 font-semibold">
-                      {t('benches.level')} {dep.level}
-                    </p>
+                    <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+                      <span className="text-[11px] text-gray-500 font-semibold">
+                        {t('benches.level')} {dep.level}
+                      </span>
+                      {dep.expirationDate && (
+                        (() => {
+                          const remaining = formatTimeRemaining(dep.expirationDate, language);
+                          return (
+                            <span
+                              className={cn(
+                                'inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full',
+                                remaining.isExpired
+                                  ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                                  : remaining.urgent
+                                  ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                                  : remaining.warning
+                                  ? 'text-amber-600 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
+                                  : 'text-gray-500 bg-gray-200/80 dark:bg-gray-700 dark:text-gray-300'
+                              )}
+                            >
+                              <Clock size={9} />
+                              {remaining.isExpired ? t('lists.expired') : remaining.text}
+                            </span>
+                          );
+                        })()
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 <div className="text-right shrink-0 pl-3">
+
                   <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-blue-100/70 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">
                     ×{dep.quantity}
                   </span>

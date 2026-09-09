@@ -11,6 +11,7 @@ import {
   getMaxedListsPure,
   getTotalRequiredMaterialsPure,
   getMissingMaterialsPure,
+  getMissingActionsPure,
   getAvailableUpgradesPure,
 } from '@/store/selectors';
 
@@ -18,9 +19,10 @@ export type ListsSlice = Pick<AppState,
   'workbenches' | 'itemsInfo' | 'customLists' | 'sharedCustomLists' |
   'createCustomList' | 'updateCustomList' | 'deleteCustomList' | 'importLists' |
   'getAllLists' | 'getOrderedLists' | 'getRefinerLevel' | 'getActiveLists' | 'getMaxedLists' |
-  'getTotalRequiredMaterials' | 'getMissingMaterials' | 'getAvailableUpgrades' |
+  'getTotalRequiredMaterials' | 'getMissingMaterials' | 'getMissingActions' | 'getAvailableUpgrades' |
   'syncItemsOverrides'
 >;
+
 
 export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set, get) => ({
   workbenches,
@@ -33,11 +35,11 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   // ---- Custom lists -------------------------------------------------------
 
-  createCustomList: ({ name, levels, listType, shared = false }) => {
+  createCustomList: ({ name, levels, listType, shared = false, expirationDate }) => {
     const s = get();
     const id = `custom:${generateUUID()}`;
     const maxLevel = levels.length ? Math.max(...levels.map(l => l.level)) : 1;
-    const list: List = { id, name, maxLevel, levels, custom: true, listType: listType ?? 'custom', shared };
+    const list: List = { id, name, maxLevel, levels, custom: true, listType: listType ?? 'custom', shared, expirationDate };
 
     const hideoutLevels = { ...s.hideoutLevels, [id]: 0 };
     const targetLevels = { ...s.targetLevels, [id]: levelsAbove(0, maxLevel) };
@@ -63,7 +65,16 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
     const prev = isShared ? s.sharedCustomLists[idx] : s.customLists[idx];
     const levels = patch.levels ?? prev.levels;
     const maxLevel = levels.length ? Math.max(...levels.map(l => l.level)) : 1;
-    const updated = { ...prev, name: patch.name ?? prev.name, listType: patch.listType ?? prev.listType, levels, maxLevel };
+    const expirationDate = 'expirationDate' in patch ? patch.expirationDate : prev.expirationDate;
+    const updated: List = {
+      ...prev,
+      name: patch.name ?? prev.name,
+      listType: patch.listType ?? prev.listType,
+      expirationDate,
+      levels,
+      maxLevel,
+    };
+
 
     const hideoutLevels = { ...s.hideoutLevels, [id]: Math.min(s.hideoutLevels[id] ?? 0, maxLevel) };
     const prevTargets = s.targetLevels[id] ?? levelsAbove(0, maxLevel);
@@ -182,7 +193,19 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
     return getMissingMaterialsPure(total, s.inventory);
   },
 
+  getMissingActions: () => {
+    const s = get();
+    return getMissingActionsPure(
+      getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),
+      s.activeModules,
+      s.hideoutLevels,
+      s.targetLevels,
+      s.checkedActions,
+    );
+  },
+
   getAvailableUpgrades: () => {
+
     const s = get();
     return getAvailableUpgradesPure(
       getAllListsPure(s.workbenches, s.sharedCustomLists, s.customLists),

@@ -1,15 +1,40 @@
 import { useState } from 'react';
-import { X, Plus, Trash2, Pencil, ListPlus, CheckSquare, Users } from 'lucide-react';
+import { X, Plus, Trash2, Pencil, ListPlus, CheckSquare, Users, Clock } from 'lucide-react';
 import type { ListLevel, ItemInfo, CheckboxAction } from '@/types';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
 import { generateUUID } from '@/lib/uuid';
+import { formatTimeRemaining } from '@/lib/expiration';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import { getRarityText } from '@/lib/rarity';
+
+const toInputDateTime = (isoString?: string): string => {
+  if (!isoString) return '';
+  const d = new Date(isoString);
+  if (isNaN(d.getTime())) return '';
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
+const toIsoString = (inputDateTime: string): string | undefined => {
+  if (!inputDateTime) return undefined;
+  const d = new Date(inputDateTime);
+  if (isNaN(d.getTime())) return undefined;
+  return d.toISOString();
+};
+
+const addDaysToNow = (days: number): string => {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  d.setSeconds(0, 0);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
 
 const CustomListRequirementItem = ({
   itemId,
@@ -296,7 +321,7 @@ export const CustomListEditor = ({ listId, onClose }: {
   listId?: string;
   onClose: () => void;
 }) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const store = useAppStore();
   const existing = listId
     ? store.customLists.find(l => l.id === listId) ?? store.sharedCustomLists.find(l => l.id === listId)
@@ -304,6 +329,7 @@ export const CustomListEditor = ({ listId, onClose }: {
 
   const [name, setName] = useState(existing?.name ?? '');
   const [shared, setShared] = useState(existing?.shared ?? false);
+  const [expirationInput, setExpirationInput] = useState<string>(toInputDateTime(existing?.expirationDate));
   const [levels, setLevels] = useState<ListLevel[]>(
     existing?.levels ?? [{ level: 1, requirementItemIds: [] }]
   );
@@ -370,12 +396,13 @@ export const CustomListEditor = ({ listId, onClose }: {
   const save = () => {
     if (!canSave) return;
     const cleanName = name.trim();
+    const expirationDate = toIsoString(expirationInput);
     // Drop levels that are empty (no items, no actions) and renumber
     const kept = levels
       .filter(l => l.requirementItemIds.length > 0 || (l.actions?.length ?? 0) > 0)
       .map((l, i) => ({ ...l, level: i + 1 }));
-    if (existing) store.updateCustomList(existing.id, { name: cleanName, levels: kept });
-    else store.createCustomList({ name: cleanName, levels: kept, shared });
+    if (existing) store.updateCustomList(existing.id, { name: cleanName, levels: kept, expirationDate });
+    else store.createCustomList({ name: cleanName, levels: kept, shared, expirationDate });
     onClose();
   };
 
@@ -441,6 +468,70 @@ export const CustomListEditor = ({ listId, onClose }: {
             {t('customLists.sharedWithProfiles')}
           </div>
         ) : null}
+
+        {/* Expiration date selector */}
+        <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-2xl border border-gray-100 dark:border-gray-800 space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <label className="text-[10px] font-bold uppercase text-gray-400 flex items-center gap-1.5">
+              <Clock size={12} className="text-blue-500" />
+              {t('customLists.expirationLabel')}
+            </label>
+            {expirationInput && (
+              <button
+                type="button"
+                onClick={() => setExpirationInput('')}
+                className="text-[10px] text-red-500 font-bold hover:underline"
+              >
+                {t('customLists.clearExpiration')}
+              </button>
+            )}
+          </div>
+
+          <input
+            type="datetime-local"
+            value={expirationInput}
+            onChange={e => setExpirationInput(e.target.value)}
+            className="w-full px-3 py-2 text-xs bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-400 font-mono"
+          />
+
+          {/* Quick presets */}
+          <div className="flex flex-wrap gap-1.5 pt-0.5">
+            {[
+              { label: '+1g', days: 1 },
+              { label: '+3g', days: 3 },
+              { label: '+7g', days: 7 },
+              { label: '+14g', days: 14 },
+              { label: '+30g', days: 30 },
+            ].map(p => (
+              <button
+                key={p.days}
+                type="button"
+                onClick={() => setExpirationInput(addDaysToNow(p.days))}
+                className="px-2 py-1 text-[10px] font-bold rounded-lg bg-gray-200/70 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:text-blue-600 transition-colors"
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-[10px] text-gray-400 dark:text-gray-500 leading-tight">
+            {expirationInput ? (
+              (() => {
+                const remaining = formatTimeRemaining(toIsoString(expirationInput), language);
+                return remaining.isExpired ? (
+                  <span className="text-red-500 font-semibold">{t('lists.expired')}</span>
+                ) : (
+                  <span>
+                    {t('lists.expiresIn', { time: remaining.text })} ({t('customLists.expirationDesc')})
+                  </span>
+                );
+              })()
+            ) : (
+              t('customLists.noExpiration')
+            )}
+          </p>
+        </div>
+
 
         {/* Insert before the first level */}
         <InsertDivider onInsert={() => insertLevelAt(0)} />

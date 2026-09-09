@@ -110,10 +110,38 @@ describe('validateList', () => {
     expect(out!.listType).toBe('project');
   });
 
+  it('validates and preserves rewards and valid expirationDate', () => {
+    const out = validateList({
+      ...valid,
+      expirationDate: '2026-10-31T20:00:00.000Z',
+      levels: [
+        {
+          level: 1,
+          requirementItemIds: [],
+          rewards: [
+            { itemId: 'arc-alloy', quantity: 2, label: 'Arc Alloy' },
+            { label: '500 XP' },
+            { label: '' }, // invalid label, dropped
+          ],
+        },
+      ],
+    });
+    expect(out!.expirationDate).toBe('2026-10-31T20:00:00.000Z');
+    expect(out!.levels[0].rewards).toHaveLength(2);
+    expect(out!.levels[0].rewards![0]).toEqual({ itemId: 'arc-alloy', quantity: 2, label: 'Arc Alloy' });
+    expect(out!.levels[0].rewards![1]).toEqual({ label: '500 XP' });
+  });
+
+  it('drops invalid expirationDate', () => {
+    const out = validateList({ ...valid, expirationDate: 'invalid-date' });
+    expect(out!.expirationDate).toBeUndefined();
+  });
+
   it('ignores an unknown listType', () => {
     const out = validateList({ ...valid, listType: 'bogus' });
     expect(out!.listType).toBeUndefined();
   });
+
 });
 
 describe('validateProfile', () => {
