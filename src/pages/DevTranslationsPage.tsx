@@ -5,42 +5,12 @@ import {
 } from 'lucide-react';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
-import { it as defaultIt } from '@/i18n/locales/it';
-import { en as defaultEn } from '@/i18n/locales/en';
 import { useTranslation, SUPPORTED_LANGUAGES } from '@/i18n';
 import { fuzzyMatch } from '@/lib/fuzzy';
-
-// Flatten nested object into dot-notation paths
-function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, string> {
-  const result: Record<string, string> = {};
-  for (const [key, value] of Object.entries(obj)) {
-    const fullPath = prefix ? `${prefix}.${key}` : key;
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      Object.assign(result, flattenObject(value, fullPath));
-    } else if (typeof value === 'string') {
-      result[fullPath] = value;
-    }
-  }
-  return result;
-}
-
-// Unflatten dot-notation paths back into structured object
-function unflattenObject(flat: Record<string, string>): Record<string, any> {
-  const result: Record<string, any> = {};
-  for (const [path, value] of Object.entries(flat)) {
-    const parts = path.split('.');
-    let current = result;
-    for (let i = 0; i < parts.length - 1; i++) {
-      const part = parts[i];
-      if (!current[part] || typeof current[part] !== 'object') {
-        current[part] = {};
-      }
-      current = current[part];
-    }
-    current[parts[parts.length - 1]] = value;
-  }
-  return result;
-}
+import {
+  DEFAULT_FLAT, readI18nDraft, writeI18nDraft, clearI18nDraft,
+  buildLocaleFileSource, buildCombinedLocalesJson, downloadTextFile,
+} from '@/lib/devI18n';
 
 interface DevTranslationsPageProps {
   onBack: () => void;
@@ -50,25 +20,16 @@ type PreviewTab = 'it' | 'en' | 'json';
 
 export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
   const { t, language } = useTranslation();
-  // Flat dictionaries
-  const defaultFlatIt = useMemo(() => flattenObject(defaultIt), []);
-  const defaultFlatEn = useMemo(() => flattenObject(defaultEn), []);
+  // Flat dictionaries (bundled defaults)
+  const defaultFlatIt = DEFAULT_FLAT.it;
+  const defaultFlatEn = DEFAULT_FLAT.en;
 
-  const [itTranslations, setItTranslations] = useState<Record<string, string>>(() => {
-    try {
-      const saved = localStorage.getItem('dev_i18n_it_draft');
-      if (saved) return JSON.parse(saved);
-    } catch { /* ignore */ }
-    return defaultFlatIt;
-  });
-
-  const [enTranslations, setEnTranslations] = useState<Record<string, string>>(() => {
-    try {
-      const saved = localStorage.getItem('dev_i18n_en_draft');
-      if (saved) return JSON.parse(saved);
-    } catch { /* ignore */ }
-    return defaultFlatEn;
-  });
+  const [itTranslations, setItTranslations] = useState<Record<string, string>>(
+    () => readI18nDraft('it') ?? defaultFlatIt,
+  );
+  const [enTranslations, setEnTranslations] = useState<Record<string, string>>(
+    () => readI18nDraft('en') ?? defaultFlatEn,
+  );
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedNamespace, setSelectedNamespace] = useState<string>('all');
@@ -104,12 +65,8 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
   // Save drafts to localStorage debounced
   useEffect(() => {
     const timer = setTimeout(() => {
-      try {
-        localStorage.setItem('dev_i18n_it_draft', JSON.stringify(itTranslations));
-        localStorage.setItem('dev_i18n_en_draft', JSON.stringify(enTranslations));
-      } catch (err) {
-        console.warn('Errore salvataggio bozza i18n:', err);
-      }
+      writeI18nDraft('it', itTranslations);
+      writeI18nDraft('en', enTranslations);
     }, 300);
     return () => clearTimeout(timer);
   }, [itTranslations, enTranslations]);
@@ -164,8 +121,8 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
       onConfirm: () => {
         setItTranslations(defaultFlatIt);
         setEnTranslations(defaultFlatEn);
-        localStorage.removeItem('dev_i18n_it_draft');
-        localStorage.removeItem('dev_i18n_en_draft');
+        clearI18nDraft('it');
+        clearI18nDraft('en');
       },
     });
   };
@@ -191,21 +148,9 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
 
   // Generate output code for Preview tab
   const previewCode = useMemo(() => {
-    if (previewTab === 'it') {
-      const structured = unflattenObject(itTranslations);
-      return `export const it = ${JSON.stringify(structured, null, 2)};\n\nexport type LocaleSchema = typeof it;\n`;
-    }
-    if (previewTab === 'en') {
-      const structured = unflattenObject(enTranslations);
-      return `import type { LocaleSchema } from './it';\n\nexport const en: LocaleSchema = ${JSON.stringify(structured, null, 2)};\n`;
-    }
-    if (previewTab === 'json') {
-      const combined = {
-        it: unflattenObject(itTranslations),
-        en: unflattenObject(enTranslations),
-      };
-      return JSON.stringify(combined, null, 2);
-    }
+    if (previewTab === 'it') return buildLocaleFileSource('it', itTranslations);
+    if (previewTab === 'en') return buildLocaleFileSource('en', enTranslations);
+    if (previewTab === 'json') return buildCombinedLocalesJson(itTranslations, enTranslations);
     return '';
   }, [previewTab, itTranslations, enTranslations]);
 
@@ -220,22 +165,8 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
   };
 
   const handleDownload = () => {
-    let filename = `locales-${previewTab}.ts`;
-    let mime = 'text/typescript';
-    if (previewTab === 'json') {
-      filename = 'locales.json';
-      mime = 'application/json';
-    } else {
-      filename = `${previewTab}.ts`;
-    }
-
-    const blob = new Blob([previewCode], { type: mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
+    if (previewTab === 'json') downloadTextFile('locales.json', previewCode, 'application/json');
+    else downloadTextFile(`${previewTab}.ts`, previewCode, 'text/typescript');
   };
 
   return (
