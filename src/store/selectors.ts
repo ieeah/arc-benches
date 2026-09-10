@@ -13,12 +13,14 @@ export interface MissingMaterial {
 
 export function getAllListsPure(
   workbenches: List[],
+  projects: List[],
   sharedCustomLists: List[],
   customLists: List[],
   activeExpedition?: List,
 ): List[] {
   return [
     ...workbenches,
+    ...projects,
     ...sharedCustomLists,
     ...customLists,
     ...(activeExpedition ? [activeExpedition] : []),

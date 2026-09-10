@@ -69,9 +69,10 @@ export const StashPage = ({
   const [showActions, setShowActions] = useState(true);
 
   // Liste — cambiano raramente, mai su tap +/-
-  const { workbenches, customLists, sharedCustomLists, listOrder, expeditions, completedExpeditionsCount } = useAppStore(
+  const { workbenches, projects, customLists, sharedCustomLists, listOrder, expeditions, completedExpeditionsCount } = useAppStore(
     useShallow(s => ({
       workbenches: s.workbenches,
+      projects: s.projects,
       customLists: s.customLists,
       sharedCustomLists: s.sharedCustomLists,
       listOrder: s.listOrder,
@@ -92,8 +93,8 @@ export const StashPage = ({
   );
 
   const allLists = useMemo(
-    () => getAllListsPure(workbenches, sharedCustomLists, customLists, activeExpedition),
-    [workbenches, sharedCustomLists, customLists, activeExpedition],
+    () => getAllListsPure(workbenches, projects, sharedCustomLists, customLists, activeExpedition),
+    [workbenches, projects, sharedCustomLists, customLists, activeExpedition],
   );
 
   const expeditionPhase = useMemo(

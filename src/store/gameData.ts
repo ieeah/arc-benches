@@ -1,6 +1,7 @@
 import type { ItemInfo, List } from '@/types';
 import workbenchesData from '@/data/workbenches.json';
 import expeditionsData from '@/data/expeditions.json';
+import projectsData from '@/data/projects.json';
 import itemsData from '@/data/items.json';
 import itemsOverridesData from '@/data/items-overrides.json';
 import type { PersistedState } from '@/store/persistence';
@@ -42,8 +43,25 @@ export function computeEffectiveExpeditions(): List[] {
   return list;
 }
 
+export function computeEffectiveProjects(): List[] {
+  let list = ((projectsData as { lists?: List[] }).lists ?? []) as List[];
+  if (import.meta.env.DEV) {
+    try {
+      const draft = localStorage.getItem('arc_benches_dev_lists_draft_v1');
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        if (parsed.project && Array.isArray(parsed.project)) {
+          list = parsed.project;
+        }
+      }
+    } catch { /* ignore */ }
+  }
+  return list.filter(p => p.maxLevel > 0);
+}
+
 export const workbenches = computeEffectiveWorkbenches();
 export const expeditions = computeEffectiveExpeditions();
+export const projects = computeEffectiveProjects();
 
 export function computeEffectiveItemsInfo(): Record<string, ItemInfo> {
   const result: Record<string, ItemInfo> = { ...(itemsData as Record<string, ItemInfo>) };
@@ -111,6 +129,11 @@ expeditions.forEach(e => {
   defaultTargetLevels[e.id] = levelsAbove(0, e.maxLevel);
   defaultActiveModules[e.id] = true;
 });
+projects.forEach(p => {
+  defaultCurrentLevels[p.id] = 0;
+  defaultTargetLevels[p.id] = levelsAbove(0, p.maxLevel);
+  defaultActiveModules[p.id] = true;
+});
 
 /** Build the full in-memory state for a profile from its (partial) persisted slice. */
 export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState => ({
@@ -122,7 +145,7 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   activeModules: { ...defaultActiveModules, ...loaded.activeModules },
   inventory: loaded.inventory ?? {},
   filterHideCompleted: loaded.filterHideCompleted ?? true,
-  listOrder: loaded.listOrder ?? workbenches.map(w => w.id),
+  listOrder: loaded.listOrder ?? [...workbenches, ...projects].map(l => l.id),
   customLists: loaded.customLists ?? [],
   checkedActions: loaded.checkedActions ?? {},
   activePersonalityId: loaded.activePersonalityId ?? null,
@@ -142,7 +165,7 @@ export const freshProfile = (): PersistedState => ({
   activeModules: { ...defaultActiveModules },
   inventory: {},
   filterHideCompleted: true,
-  listOrder: workbenches.map(w => w.id),
+  listOrder: [...workbenches, ...projects].map(l => l.id),
   customLists: [],
   checkedActions: {},
   activePersonalityId: null,

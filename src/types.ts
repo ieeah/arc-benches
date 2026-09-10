@@ -168,6 +168,8 @@ export interface PersonalityProfile {
 export interface AppState {
   /** Game-seed lists (the hideout workbenches), read-only — never persisted. */
   workbenches: List[];
+  /** Game-seed project lists (`listType: 'project'`), read-only — never persisted. */
+  projects: List[];
   /** User-created lists for the active profile only (persisted per-profile). */
   customLists: List[];
   /** User-created lists shared across all profiles (persisted globally). */

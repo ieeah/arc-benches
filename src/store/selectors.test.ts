@@ -74,14 +74,20 @@ const customList: List = {
 // ---------------------------------------------------------------------------
 
 describe('getAllListsPure', () => {
-  it('concatenates workbenches, sharedCustomLists, customLists in order', () => {
-    const result = getAllListsPure([bench1], [sharedList], [customList]);
+  it('concatenates workbenches, projects, sharedCustomLists, customLists in order', () => {
+    const result = getAllListsPure([bench1], [], [sharedList], [customList]);
     expect(result.map(l => l.id)).toEqual(['wb:1', 'custom:shared', 'custom:abc']);
   });
 
+  it('includes project lists after workbenches', () => {
+    const project1 = { ...bench1, id: 'project:1', listType: 'project' as const };
+    const result = getAllListsPure([bench1], [project1], [], []);
+    expect(result.map(l => l.id)).toEqual(['wb:1', 'project:1']);
+  });
+
   it('handles empty arrays', () => {
-    expect(getAllListsPure([], [], [])).toEqual([]);
-    expect(getAllListsPure([bench1], [], [])).toEqual([bench1]);
+    expect(getAllListsPure([], [], [], [])).toEqual([]);
+    expect(getAllListsPure([bench1], [], [], [])).toEqual([bench1]);
   });
 });
 

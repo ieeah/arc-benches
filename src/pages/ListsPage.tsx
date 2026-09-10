@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { GripVertical, Upload, Check } from 'lucide-react';
+import { GripVertical, Upload, Check, Eye, EyeOff } from 'lucide-react';
 import {
   DndContext, closestCenter, PointerSensor, TouchSensor,
   useSensor, useSensors,
@@ -17,6 +17,7 @@ import {
   getRefinerLevelPure,
   getTotalRequiredMaterialsPure,
   getOtherNeedsPure,
+  isListExpired,
 } from '@/store/selectors';
 import { REFINER_ID } from '@/store/gameData';
 import { SectionHeader } from '@/components/SectionHeader';
@@ -32,7 +33,21 @@ import { v } from '@/lib/validate';
 import { safeLS } from '@/lib/safeStorage';
 import type { List, ListExportFile, MultiProfileExportFile } from '@/types';
 
-type SectionsOpen = { workbench: boolean; custom: boolean; completati: boolean };
+type SectionKey = 'workbench' | 'project' | 'custom' | 'completati';
+type SectionsOpen = Record<SectionKey, boolean>;
+
+/** Per-section visibility + expired filter. Persisted view preference, not gameplay state. */
+type ViewPrefs = Record<`show_${SectionKey}`, boolean> & { hideExpired: boolean };
+
+const DEFAULT_VIEW_PREFS: ViewPrefs = {
+  show_workbench: true,
+  show_project: true,
+  show_custom: true,
+  show_completati: true,
+  hideExpired: true,
+};
+
+const SECTION_KEYS: SectionKey[] = ['workbench', 'project', 'custom', 'completati'];
 
 export type ListsPageAction = 'create' | 'export' | 'import' | null;
 
@@ -51,9 +66,10 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   const activeModules = useAppStore(s => s.activeModules);
   const checkedActions = useAppStore(s => s.checkedActions);
 
-  const { workbenches, customLists, sharedCustomLists, listOrder, itemsInfo, profiles, activeProfileId } = useAppStore(
+  const { workbenches, projects, customLists, sharedCustomLists, listOrder, itemsInfo, profiles, activeProfileId } = useAppStore(
     useShallow(s => ({
       workbenches: s.workbenches,
+      projects: s.projects,
       customLists: s.customLists,
       sharedCustomLists: s.sharedCustomLists,
       listOrder: s.listOrder,
@@ -83,26 +99,50 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportSelectedIds, setExportSelectedIds] = useState<Set<string>>(new Set());
   const [sectionsOpen, setSectionsOpen] = useState<SectionsOpen>(() => {
+    const fallback: SectionsOpen = { workbench: true, project: true, custom: true, completati: false };
     const SectionsSchema = v.object({
       workbench:  v.boolean(),
+      project:    v.boolean(),
       custom:     v.boolean(),
       completati: v.boolean(),
     });
     return safeLS(() => {
       const raw = localStorage.getItem('goals-sections');
-      if (raw) return SectionsSchema.parse(JSON.parse(raw), { workbench: true, custom: true, completati: false });
-      return { workbench: true, custom: true, completati: false };
-    }, { workbench: true, custom: true, completati: false });
+      if (raw) return SectionsSchema.parse({ ...fallback, ...JSON.parse(raw) }, fallback);
+      return fallback;
+    }, fallback);
   });
+
+  const [viewPrefs, setViewPrefs] = useState<ViewPrefs>(() => {
+    const ViewSchema = v.object({
+      show_workbench:  v.boolean(),
+      show_project:    v.boolean(),
+      show_custom:     v.boolean(),
+      show_completati: v.boolean(),
+      hideExpired:     v.boolean(),
+    });
+    return safeLS(() => {
+      const raw = localStorage.getItem('goals-view-v1');
+      if (raw) return ViewSchema.parse(JSON.parse(raw), DEFAULT_VIEW_PREFS);
+      return DEFAULT_VIEW_PREFS;
+    }, DEFAULT_VIEW_PREFS);
+  });
+
+  const patchViewPrefs = (patch: Partial<ViewPrefs>) => {
+    const next = { ...viewPrefs, ...patch };
+    setViewPrefs(next);
+    safeLS(() => localStorage.setItem('goals-view-v1', JSON.stringify(next)), undefined);
+  };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useScrollLock(Boolean(importPending || showExportModal));
 
   const allLists = useMemo(
-    () => getAllListsPure(workbenches, sharedCustomLists, customLists),
-    [workbenches, sharedCustomLists, customLists],
+    () => getAllListsPure(workbenches, projects, sharedCustomLists, customLists),
+    [workbenches, projects, sharedCustomLists, customLists],
   );
+  const projectIds = useMemo(() => new Set(projects.map(p => p.id)), [projects]);
   const orderedLists = useMemo(
     () => getOrderedListsPure(allLists, listOrder),
     [allLists, listOrder],
@@ -128,8 +168,15 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
     [allLists, activeModules, currentLevels, targetLevels],
   );
 
-  const activeWorkbenches = activeLists.filter(l => !l.custom);
-  const activeCustom = activeLists.filter(l => l.custom);
+  const keepByExpiry = useMemo(
+    () => (l: List) => !viewPrefs.hideExpired || !isListExpired(l),
+    [viewPrefs.hideExpired],
+  );
+
+  const activeWorkbenches = activeLists.filter(l => !l.custom && !projectIds.has(l.id) && keepByExpiry(l));
+  const activeProjects = activeLists.filter(l => projectIds.has(l.id) && keepByExpiry(l));
+  const activeCustom = activeLists.filter(l => l.custom && keepByExpiry(l));
+  const visibleMaxedLists = maxedLists.filter(keepByExpiry);
 
   const toggleSection = (key: keyof SectionsOpen) => {
     const next = { ...sectionsOpen, [key]: !sectionsOpen[key] };
@@ -281,37 +328,90 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
           {t('benches.prioritize')}
         </p>
 
-        <CollapsibleSection
-          title={t('lists.sectionWorkbench')}
-          count={activeWorkbenches.length}
-          open={sectionsOpen.workbench}
-          onToggle={() => toggleSection('workbench')}
-        >
-          {renderDndSection(activeWorkbenches)}
-        </CollapsibleSection>
+        {/* Preferenze di vista: mostra/nascondi sezioni + filtro scaduti */}
+        <div className="mb-3 flex flex-wrap items-center gap-1.5">
+          {SECTION_KEYS.map(key => {
+            const shown = viewPrefs[`show_${key}`];
+            return (
+              <button
+                key={key}
+                onClick={() => patchViewPrefs({ [`show_${key}`]: !shown } as Partial<ViewPrefs>)}
+                aria-pressed={shown}
+                className={`flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold transition-colors cursor-pointer ${
+                  shown
+                    ? 'bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border border-transparent'
+                }`}
+              >
+                {shown ? <Eye size={12} /> : <EyeOff size={12} />}
+                {t(`lists.section_${key}` as 'lists.section_workbench')}
+              </button>
+            );
+          })}
+          <button
+            onClick={() => patchViewPrefs({ hideExpired: !viewPrefs.hideExpired })}
+            aria-pressed={viewPrefs.hideExpired}
+            className={`flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold transition-colors cursor-pointer ${
+              viewPrefs.hideExpired
+                ? 'bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border border-transparent'
+            }`}
+          >
+            {viewPrefs.hideExpired ? <EyeOff size={12} /> : <Eye size={12} />}
+            {t('lists.hideExpired')}
+          </button>
+        </div>
 
-        <CollapsibleSection
-          title={t('lists.sectionCustom')}
-          count={activeCustom.length}
-          open={sectionsOpen.custom}
-          onToggle={() => toggleSection('custom')}
-        >
-          {activeCustom.length === 0 ? (
-            <p className="text-[11px] text-gray-400 italic px-1 pb-2">
-              {t('lists.emptyCustom')}
-            </p>
-          ) : renderDndSection(activeCustom)}
-        </CollapsibleSection>
+        {viewPrefs.show_workbench && (
+          <CollapsibleSection
+            title={t('lists.sectionWorkbench')}
+            count={activeWorkbenches.length}
+            open={sectionsOpen.workbench}
+            onToggle={() => toggleSection('workbench')}
+          >
+            {renderDndSection(activeWorkbenches)}
+          </CollapsibleSection>
+        )}
 
-        {maxedLists.length > 0 && (
+        {viewPrefs.show_project && projects.length > 0 && (
+          <CollapsibleSection
+            title={t('lists.sectionProject')}
+            count={activeProjects.length}
+            open={sectionsOpen.project}
+            onToggle={() => toggleSection('project')}
+          >
+            {activeProjects.length === 0 ? (
+              <p className="text-[11px] text-gray-400 italic px-1 pb-2">
+                {t('lists.emptyProject')}
+              </p>
+            ) : renderDndSection(activeProjects)}
+          </CollapsibleSection>
+        )}
+
+        {viewPrefs.show_custom && (
+          <CollapsibleSection
+            title={t('lists.sectionCustom')}
+            count={activeCustom.length}
+            open={sectionsOpen.custom}
+            onToggle={() => toggleSection('custom')}
+          >
+            {activeCustom.length === 0 ? (
+              <p className="text-[11px] text-gray-400 italic px-1 pb-2">
+                {t('lists.emptyCustom')}
+              </p>
+            ) : renderDndSection(activeCustom)}
+          </CollapsibleSection>
+        )}
+
+        {viewPrefs.show_completati && visibleMaxedLists.length > 0 && (
           <CollapsibleSection
             title={t('lists.sectionCompleted')}
-            count={maxedLists.length}
+            count={visibleMaxedLists.length}
             open={sectionsOpen.completati}
             onToggle={() => toggleSection('completati')}
           >
             <div data-list-container="benches" className="w-full flex flex-col gap-3">
-              {maxedLists.map(list => (
+              {visibleMaxedLists.map(list => (
                 <UnifiedListCard key={list.id} {...sharedCardProps(list)} />
               ))}
             </div>
