@@ -1,17 +1,25 @@
 /**
- * Returns true if every character of `query` appears in `text` in order
- * (case-insensitive subsequence match). Empty query always matches.
+ * Returns true if every character of `query` appears in order (case-insensitive)
+ * within at least one word of `text`. Words are split on spaces and hyphens.
+ * Empty query always matches.
  *
- * Examples: fuzzyMatch("useListManager", "ulm") → true
+ * Per-word matching keeps results tight: "magnet" matches "Magnetron" and
+ * "Industrial Magnet" but not "Manganello rovinato" (no single word contains
+ * all of m→a→g→n→e→t in sequence).
+ *
+ * Examples: fuzzyMatch("Industrial Magnet", "magnet") → true
+ *           fuzzyMatch("Manganello rovinato", "magnet") → false
  *           fuzzyMatch("Già scaduto", "gia") → true
  */
 export function fuzzyMatch(text: string, query: string): boolean {
   if (!query) return true;
-  const t = text.toLowerCase();
   const q = query.toLowerCase();
-  let qi = 0;
-  for (let ti = 0; ti < t.length && qi < q.length; ti++) {
-    if (t[ti] === q[qi]) qi++;
-  }
-  return qi === q.length;
+  const words = text.toLowerCase().split(/[\s\-]+/);
+  return words.some(word => {
+    let qi = 0;
+    for (let ti = 0; ti < word.length && qi < q.length; ti++) {
+      if (word[ti] === q[qi]) qi++;
+    }
+    return qi === q.length;
+  });
 }
