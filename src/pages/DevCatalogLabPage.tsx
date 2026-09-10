@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { getItemSearchFields } from '@/i18n';
+import { getItemSearchFields, getItemSearchMatch } from '@/i18n';
 import { fuzzyMatch } from '@/lib/fuzzy';
 import { ArrowLeft, ChevronRight, RotateCcw, SlidersHorizontal, EyeOff, Sparkles, MapPin, Hammer, Search } from 'lucide-react';
 import type { ItemInfo } from '@/types';
@@ -48,7 +48,6 @@ export const DevCatalogLabPage = ({
 
   // --- Filtri di Ricerca Testuale ---
   const [query, setQuery] = useState('');
-  const [searchInDesc, setSearchInDesc] = useState(false);
 
   // --- Toggles di Esclusione / Inclusione (Core Issue #13) ---
   const [hideCosmetics, setHideCosmetics] = useState(true);
@@ -81,7 +80,7 @@ export const DevCatalogLabPage = ({
   // Reset all filters
   const handleReset = () => {
     setQuery('');
-    setSearchInDesc(false);
+
     setHideCosmetics(false);
     setOnlyDroppable(false);
     setOnlyCraftable(false);
@@ -146,7 +145,6 @@ export const DevCatalogLabPage = ({
           item.item_type ?? '',
           item.loot_area ?? '',
           item.workbench ?? '',
-          ...(searchInDesc ? [item.description ?? ''] : []),
         ];
         const allFields = [...getItemSearchFields(item), ...structuralFields];
         if (!allFields.some(f => fuzzyMatch(f, q))) return false;
@@ -155,7 +153,7 @@ export const DevCatalogLabPage = ({
       return true;
     });
   }, [
-    allItems, query, searchInDesc, hideCosmetics, onlyDroppable, onlyCraftable,
+    allItems, query, hideCosmetics, onlyDroppable, onlyCraftable,
     hideQuestItems, hideKeys, hideZeroValue, selectedRarities, selectedItemType,
     selectedLootArea, selectedWorkbench, minValue, maxValue
   ]);
@@ -487,13 +485,13 @@ export const DevCatalogLabPage = ({
               </div>
 
               {items.map(item => (
-                <ItemCard key={item.id} item={item} onSelect={setSelectedItem} />
+                <ItemCard key={item.id} item={item} onSelect={setSelectedItem} query={query} />
               ))}
             </div>
           ))
         ) : (
           sortedItems.map(item => (
-            <ItemCard key={item.id} item={item} onSelect={setSelectedItem} />
+            <ItemCard key={item.id} item={item} onSelect={setSelectedItem} query={query} />
           ))
         )}
 
@@ -523,7 +521,8 @@ export const DevCatalogLabPage = ({
   );
 };
 
-const ItemCard = ({ item, onSelect }: { item: ItemInfo; onSelect: (i: ItemInfo) => void }) => {
+const ItemCard = ({ item, onSelect, query }: { item: ItemInfo; onSelect: (i: ItemInfo) => void; query?: string }) => {
+  const match = getItemSearchMatch(item, query ?? '', item.name);
   return (
     <button
       onClick={() => onSelect(item)}
@@ -565,6 +564,20 @@ const ItemCard = ({ item, onSelect }: { item: ItemInfo; onSelect: (i: ItemInfo) 
             </span>
           )}
         </div>
+        {match && (
+          <p className="flex items-center gap-1 mt-1 text-[10px] text-gray-500 dark:text-gray-400 truncate">
+            {match.kind === 'translation' ? (
+              <>
+                <span className="shrink-0 px-1 py-px font-bold uppercase rounded bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400" style={{ fontSize: 9 }}>
+                  {match.lang}
+                </span>
+                <span className="truncate italic">{match.value}</span>
+              </>
+            ) : (
+              <span className="font-mono truncate"># {item.id}</span>
+            )}
+          </p>
+        )}
       </div>
 
       <ChevronRight size={16} className="text-gray-300 dark:text-gray-600 shrink-0" />

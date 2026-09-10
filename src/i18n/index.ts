@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import type { ItemInfo, List, CheckboxAction, Reward, ActionTranslation } from '@/types';
+import { fuzzyMatch } from '@/lib/fuzzy';
 import { useAppStore } from '@/store';
 import { it } from './locales/it';
 import { en } from './locales/en';
@@ -222,6 +223,41 @@ export function getItemSearchFields(item: ItemInfo): string[] {
     }
   }
   return fields;
+}
+
+/**
+ * Describes which field caused an item to match a search query, when the match
+ * is not on the primary displayed name (no badge needed in that case).
+ */
+export type ItemSearchMatchReason =
+  | { kind: 'translation'; lang: string; value: string }
+  | { kind: 'id' }
+  | null;
+
+/**
+ * Returns why an item matched `query` when the reason is not obvious from the
+ * displayed name. Returns null when query is empty or when `displayedName`
+ * itself matches (the user can already see the reason).
+ */
+export function getItemSearchMatch(
+  item: ItemInfo,
+  query: string,
+  displayedName: string,
+): ItemSearchMatchReason {
+  if (!query) return null;
+  if (fuzzyMatch(displayedName, query)) return null;
+  if (item.translations) {
+    for (const [lang, tr] of Object.entries(item.translations)) {
+      if (tr.name && tr.name !== displayedName && fuzzyMatch(tr.name, query)) {
+        return { kind: 'translation', lang, value: tr.name };
+      }
+    }
+  }
+  if (item.name !== displayedName && fuzzyMatch(item.name, query)) {
+    return { kind: 'translation', lang: 'en', value: item.name };
+  }
+  if (fuzzyMatch(item.id, query)) return { kind: 'id' };
+  return null;
 }
 
 /**

@@ -13,7 +13,7 @@ import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import itemsDataBase from '@/data/items.json';
 import initialOverrides from '@/data/items-overrides.json';
 import { getRarityText } from '@/lib/rarity';
-import { SUPPORTED_LANGUAGES, getItemSearchFields } from '@/i18n';
+import { SUPPORTED_LANGUAGES, getItemSearchFields, getItemSearchMatch } from '@/i18n';
 import { fuzzyMatch } from '@/lib/fuzzy';
 
 type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
@@ -117,6 +117,7 @@ interface SidebarItemRowProps {
   overrideName?: string;
   overrideRarity?: string;
   onSelect: (id: string) => void;
+  query?: string;
 }
 
 const SidebarItemRow = React.memo(({
@@ -127,7 +128,12 @@ const SidebarItemRow = React.memo(({
   overrideName,
   overrideRarity,
   onSelect,
+  query,
 }: SidebarItemRowProps) => {
+  const displayedName = overrideName || item.name;
+  const match = getItemSearchMatch(item, query ?? '', displayedName);
+  // ID is already shown below the name, so skip the 'id' badge
+  const showMatch = match && match.kind === 'translation';
   return (
     <button
       onClick={() => onSelect(item.id)}
@@ -150,9 +156,17 @@ const SidebarItemRow = React.memo(({
         <p className={`text-xs font-bold truncate ${
           isHidden ? 'text-gray-400 line-through' : isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-gray-800 dark:text-gray-200'
         }`}>
-          {overrideName || item.name}
+          {displayedName}
         </p>
         <p className="text-[10px] text-gray-400 truncate font-mono mt-0.5">{item.id}</p>
+        {showMatch && (
+          <p className="flex items-center gap-1 mt-0.5 text-[10px] text-gray-500 dark:text-gray-400 truncate">
+            <span className="shrink-0 px-1 py-px font-bold uppercase rounded bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400" style={{ fontSize: 9 }}>
+              {match.lang}
+            </span>
+            <span className="truncate italic">{match.value}</span>
+          </p>
+        )}
       </div>
       {isHidden ? (
         <span title="Nascosto dall'app" className="shrink-0">
@@ -657,6 +671,7 @@ export const DevOverridesPage = ({
                 overrideName={overrides[item.id]?.name}
                 overrideRarity={overrides[item.id]?.rarity}
                 onSelect={handleSelect}
+                query={searchQuery}
               />
             ))}
             {filteredItems.length === 0 && (

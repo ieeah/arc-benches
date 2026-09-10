@@ -6,7 +6,7 @@ import { getRarityText } from '@/lib/rarity';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { useListManager } from '@/hooks/useListManager';
-import { useTranslation, getItemName, getItemSearchFields, getRarityLabel } from '@/i18n';
+import { useTranslation, getItemName, getItemSearchFields, getRarityLabel, getItemSearchMatch } from '@/i18n';
 
 interface ItemPickerProps {
   excludeIds?: string[];
@@ -100,6 +100,7 @@ export const ItemPicker = ({ excludeIds, onPick, onClose }: ItemPickerProps) => 
         <div data-list-container="compact">
           {processedItems.map(item => {
             const displayName = getItemName(item, language);
+            const match = getItemSearchMatch(item, debouncedQuery, displayName);
             return (
               <button key={item.id} onClick={() => onPick(item)}
                 className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer">
@@ -117,6 +118,20 @@ export const ItemPicker = ({ excludeIds, onPick, onClose }: ItemPickerProps) => 
                   <p className="text-[10px] text-gray-400">
                     <span className={`font-bold ${getRarityText(item.rarity)}`}>{getRarityLabel(item.rarity, language)}</span> · {item.item_type}
                   </p>
+                  {match && (
+                    <p className="flex items-center gap-1 mt-0.5 text-[10px] text-gray-500 dark:text-gray-400 truncate">
+                      {match.kind === 'translation' ? (
+                        <>
+                          <span className="shrink-0 px-1 py-px font-bold uppercase rounded bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400" style={{ fontSize: 9 }}>
+                            {match.lang}
+                          </span>
+                          <span className="truncate italic">{match.value}</span>
+                        </>
+                      ) : (
+                        <span className="font-mono truncate"># {item.id}</span>
+                      )}
+                    </p>
+                  )}
                 </div>
               </button>
             );
