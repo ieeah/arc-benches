@@ -12,14 +12,17 @@ export const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
-/** The 16 keys persisted per profile. */
+/** The 16 keys persisted per profile.
+ *  `language` is optional on purpose: a profile that never set one explicitly leaves it
+ *  absent, so boot/profile-switch fall back to the global `language` setting instead of
+ *  a hard-coded 'en'. */
 export type PersistedState = Pick<AppState,
   'currentLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
   'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
-  'language' | 'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
+  'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
   'consecutiveStreak' | 'departureWindowActive'
->;
+> & { language?: AppLanguage };
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
 
@@ -117,7 +120,9 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     activePersonalityId: s.activePersonalityId ?? null,
     ownedBlueprints: s.ownedBlueprints ?? {},
     filterHideOwnedBlueprints: s.filterHideOwnedBlueprints ?? false,
-    language: s.language ?? 'en',
+    // Only persist an explicit per-profile language; undefined is dropped by JSON.stringify
+    // so the profile keeps deferring to the global `language` setting.
+    language: s.language,
     completedExpeditionsCount: s.completedExpeditionsCount ?? 0,
     earnedPermanentSkillPoints: s.earnedPermanentSkillPoints ?? 0,
     consecutiveStreak: s.consecutiveStreak ?? 0,

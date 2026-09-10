@@ -6,6 +6,11 @@ import type { PersistedState } from '@/store/persistence';
 import { loadProfileState, removeProfileKey, saveProfileState } from '@/store/persistence';
 import { generateUUID } from '@/lib/uuid';
 
+// A profile without an explicit language keeps whatever language is currently active
+// (which itself resolves from the global `language` setting at boot).
+const withResolvedLanguage = (base: PersistedState, current: AppState['language']): PersistedState =>
+  ({ ...base, language: base.language ?? current });
+
 export type ProfileSlice = Pick<AppState,
   'profiles' | 'activeProfileId' |
   'createProfile' | 'switchProfile' | 'renameProfile' | 'deleteProfile' |
@@ -22,13 +27,13 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
   createProfile: (name: string) => {
     const s = get();
     const id = generateUUID();
-    set({ profiles: [...s.profiles, { id, name }], activeProfileId: id, ...freshProfile() });
+    set({ profiles: [...s.profiles, { id, name }], activeProfileId: id, ...withResolvedLanguage(freshProfile(), s.language) });
   },
 
   switchProfile: (newProfileId: string) => {
     const s = get();
     if (s.activeProfileId === newProfileId) return;
-    set({ activeProfileId: newProfileId, ...hydrateProfile(loadProfileState(newProfileId)) });
+    set({ activeProfileId: newProfileId, ...withResolvedLanguage(hydrateProfile(loadProfileState(newProfileId)), s.language) });
   },
 
   renameProfile: (id: string, name: string) => {
@@ -44,7 +49,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
 
     if (s.activeProfileId === id) {
       const newActiveId = profiles[0].id;
-      set({ profiles, activeProfileId: newActiveId, ...hydrateProfile(loadProfileState(newActiveId)) });
+      set({ profiles, activeProfileId: newActiveId, ...withResolvedLanguage(hydrateProfile(loadProfileState(newActiveId)), s.language) });
     } else {
       set({ profiles });
     }
@@ -86,7 +91,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
       exported.push({
         profile,
         inventory,
-        language: profileId === s.activeProfileId ? s.language : (loadProfileState(profileId).language ?? 'en'),
+        language: profileId === s.activeProfileId ? s.language : (loadProfileState(profileId).language ?? s.language),
         lists: allLists.map(list => ({
           list,
           currentLevel: currentLevels[list.id] ?? 0,
@@ -140,7 +145,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         activePersonalityId: null,
         ownedBlueprints: {},
         filterHideOwnedBlueprints: false,
-        language: entry.language ?? 'en',
+        language: entry.language,
         completedExpeditionsCount: 0,
         earnedPermanentSkillPoints: 0,
         consecutiveStreak: 0,
@@ -158,7 +163,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
 
     // The subscriber persists sharedCustomLists, the profiles meta and (if changed) the active state.
     if (activeProfileState) {
-      set({ profiles, sharedCustomLists, ...activeProfileState });
+      set({ profiles, sharedCustomLists, ...withResolvedLanguage(activeProfileState, get().language) });
     } else {
       set({ profiles, sharedCustomLists });
     }

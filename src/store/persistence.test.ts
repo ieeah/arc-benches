@@ -114,6 +114,15 @@ describe('persistence.ts', () => {
       expect(loaded.language).toBe('it');
     });
 
+    it('omits language from the persisted slice when the profile never set one', () => {
+      const { language: _drop, ...noLang } = sampleState;
+      saveProfileState('p-nolang', noLang);
+
+      const raw = JSON.parse(localStorage.getItem(profileKey('p-nolang'))!);
+      expect('language' in raw).toBe(false);
+      expect(loadProfileState('p-nolang').language).toBeUndefined();
+    });
+
     it('loads legacy single-profile key if default profile is missing', () => {
       localStorage.setItem('arc-raiders-tracker-storage', JSON.stringify({
         inventory: { 'rubber-parts': 5 },

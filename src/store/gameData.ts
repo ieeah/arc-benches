@@ -151,7 +151,8 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   activePersonalityId: loaded.activePersonalityId ?? null,
   ownedBlueprints: loaded.ownedBlueprints ?? {},
   filterHideOwnedBlueprints: loaded.filterHideOwnedBlueprints ?? false,
-  language: loaded.language ?? 'en',
+  // Left undefined when the profile never set one — callers resolve against the global setting.
+  language: loaded.language,
   completedExpeditionsCount: loaded.completedExpeditionsCount ?? 0,
   earnedPermanentSkillPoints: loaded.earnedPermanentSkillPoints ?? 0,
   consecutiveStreak: loaded.consecutiveStreak ?? 0,
@@ -171,7 +172,7 @@ export const freshProfile = (): PersistedState => ({
   activePersonalityId: null,
   ownedBlueprints: {},
   filterHideOwnedBlueprints: false,
-  language: 'en',
+  language: undefined,
   completedExpeditionsCount: 0,
   earnedPermanentSkillPoints: 0,
   consecutiveStreak: 0,
