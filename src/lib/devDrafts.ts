@@ -3,6 +3,7 @@ import defaultExpeditionsData from '@/data/expeditions.json';
 import itemsOverridesData from '@/data/items-overrides.json';
 import { it as defaultIt } from '@/i18n/locales/it';
 import { en as defaultEn } from '@/i18n/locales/en';
+import { hasNavDraftChanges } from '@/lib/navTree';
 
 function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, string> {
   const result: Record<string, string> = {};
@@ -24,6 +25,8 @@ function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, st
 export function hasUnsavedDevChanges(): boolean {
   if (!import.meta.env.DEV) return false;
   try {
+    if (hasNavDraftChanges()) return true;
+
     // 1. Check Lists Draft
     const listsDraft = localStorage.getItem('arc_benches_dev_lists_draft_v1');
     if (listsDraft) {

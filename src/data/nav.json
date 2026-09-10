@@ -1,0 +1,26 @@
+{
+  "tree": [
+    { "id": "stash", "labelKey": "nav.stash", "icon": "backpack" },
+    { "id": "liste", "labelKey": "nav.benches", "icon": "layout-list" },
+    { "id": "blueprints", "labelKey": "nav.blueprints", "icon": "scroll-text" },
+    { "id": "expeditions", "labelKey": "nav.expeditions", "icon": "compass" },
+    {
+      "id": "tools",
+      "labelKey": "nav.tools",
+      "icon": "wrench",
+      "category": true,
+      "children": [
+        { "id": "vault", "label": "Vault Spedizione", "icon": "shield-alert" },
+        { "id": "items", "labelKey": "nav.catalog", "icon": "database" },
+        { "id": "role-maker", "label": "Role Maker 🎲", "icon": "dice-5" },
+        { "id": "maps", "label": "Mappe Tattiche 🗺️", "icon": "map", "visibility": "dev" },
+        { "id": "dev-lists", "label": "Dev Liste 📋", "icon": "layers", "visibility": "dev" },
+        { "id": "dev-lab", "label": "Dev Catalog Lab 🧪", "icon": "flask-conical", "visibility": "dev" },
+        { "id": "dev-overrides", "label": "Dev Overrides 🛠️", "icon": "file-json", "visibility": "dev" },
+        { "id": "dev-translations", "label": "Dev i18n Studio 🌐", "icon": "languages", "visibility": "dev" },
+        { "id": "dev-nav", "label": "Dev Nav Editor 🧭", "icon": "route", "visibility": "dev" }
+      ]
+    },
+    { "id": "settings", "labelKey": "nav.settings", "icon": "settings" }
+  ]
+}

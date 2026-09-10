@@ -15,6 +15,7 @@ import { DevCatalogLabPage } from '@/pages/DevCatalogLabPage';
 import { DevOverridesPage } from '@/pages/DevOverridesPage';
 import { DevTranslationsPage } from '@/pages/DevTranslationsPage';
 import { DevListsPage } from '@/pages/DevListsPage';
+import { DevNavPage } from '@/pages/DevNavPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
 import { ExpeditionPage } from '@/pages/ExpeditionPage';
@@ -130,6 +131,8 @@ export default function App() {
           <DevTranslationsPage onBack={() => router.back()} />
         ) : isDev && activeTab === 'dev-lists' ? (
           <DevListsPage onBack={() => router.back()} />
+        ) : isDev && activeTab === 'dev-nav' ? (
+          <DevNavPage onBack={() => router.back()} />
         ) : (
           <>
             <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
@@ -149,7 +152,7 @@ export default function App() {
                   onOpenOverrides={handleOpenOverrides}
                 />
               )}
-              {activeTab === 'maps' && (
+              {isDev && activeTab === 'maps' && (
                 <MapsPage onBack={() => router.back()} />
               )}
               {isDev && activeTab === 'dev-lab' && (

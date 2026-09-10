@@ -315,6 +315,8 @@ export const en: LocaleSchema = {
     devOverridesDesc: 'MetaForge data overrides',
     devLabTitle: 'Dev Catalog Lab',
     devLabDesc: 'Catalog laboratory',
+    devNavTitle: 'Navigation Manager',
+    devNavDesc: 'Drag & drop menu editor',
     appInfo: 'ARC Benches Tracker',
     versionInfo: 'Version {version} • MetaForge catalog data',
     feedbackLanguage: 'Language set to: {lang}',

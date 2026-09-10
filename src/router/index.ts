@@ -16,7 +16,8 @@ export type AppRoute =
   | 'dev-lists'
   | 'dev-overrides'
   | 'dev-translations'
-  | 'dev-lab';
+  | 'dev-lab'
+  | 'dev-nav';
 
 export const VALID_ROUTES: readonly AppRoute[] = [
   'stash',
@@ -32,6 +33,7 @@ export const VALID_ROUTES: readonly AppRoute[] = [
   'dev-overrides',
   'dev-translations',
   'dev-lab',
+  'dev-nav',
 ] as const;
 
 export const DEV_ROUTES: readonly AppRoute[] = [
@@ -39,7 +41,16 @@ export const DEV_ROUTES: readonly AppRoute[] = [
   'dev-overrides',
   'dev-translations',
   'dev-lab',
+  'dev-nav',
 ] as const;
+
+/** Feature non ancora pronte: raggiungibili solo in dev, escluse dalla build di produzione. */
+export const UNRELEASED_ROUTES: readonly AppRoute[] = [
+  'maps',
+] as const;
+
+/** Rotte non disponibili in produzione (tooling dev + feature non rilasciate). */
+const NON_PROD_ROUTES: readonly AppRoute[] = [...DEV_ROUTES, ...UNRELEASED_ROUTES];
 
 export interface RouteLocation {
   route: AppRoute;
@@ -71,8 +82,8 @@ export function parseHash(hash: string): RouteLocation {
   const isValid = VALID_ROUTES.includes(normalizedRoute);
   let route: AppRoute = isValid ? normalizedRoute : 'stash';
 
-  // Se non siamo in DEV, blocca l'accesso diretto alle rotte dev
-  if (!isDev && DEV_ROUTES.includes(route)) {
+  // Se non siamo in DEV, blocca l'accesso diretto a rotte dev e feature non rilasciate
+  if (!isDev && NON_PROD_ROUTES.includes(route)) {
     route = 'stash';
   }
 
@@ -113,7 +124,7 @@ export function buildHash(route: AppRoute, params?: Record<string, string>): str
  */
 function saveLastRoute(loc: RouteLocation) {
   if (loc.route === 'role-maker') return;
-  if (!isDev && DEV_ROUTES.includes(loc.route)) return;
+  if (!isDev && NON_PROD_ROUTES.includes(loc.route)) return;
   try {
     localStorage.setItem(LAST_ROUTE_KEY, JSON.stringify(loc));
   } catch {
@@ -130,7 +141,7 @@ function getLastSavedRoute(): RouteLocation | null {
     if (raw) {
       const parsed = JSON.parse(raw) as RouteLocation;
       if (VALID_ROUTES.includes(parsed.route)) {
-        if (!isDev && DEV_ROUTES.includes(parsed.route)) {
+        if (!isDev && NON_PROD_ROUTES.includes(parsed.route)) {
           return null;
         }
         return parsed;

@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
   Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages,
-  Code2, FileJson, FlaskConical, Zap, ZapOff, Layers
+  Code2, FileJson, FlaskConical, Zap, ZapOff, Layers, Route
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -10,6 +10,11 @@ import { useTheme } from '@/context/ThemeContext';
 import { useAppStore } from '@/store';
 import { downloadExport } from '@/lib/listIO';
 import { useTranslation, type AppLanguage } from '@/i18n';
+import { useNavTree } from '@/hooks/useNavTree';
+import { flattenNavLeaves } from '@/lib/navTree';
+
+/** Nav ids that are not sensible quick-favorite targets (dead entry / modal). */
+const NON_FAVORITE_IDS = new Set(['vault', 'role-maker']);
 
 interface SettingsPageProps {
   onBack: () => void;
@@ -32,15 +37,16 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
   const stashGridDensity = useAppStore(s => s.stashGridDensity);
   const setStashGridDensity = useAppStore(s => s.setStashGridDensity);
 
-  const AVAILABLE_PAGES: { id: string; label: string }[] = useMemo(() => [
-    { id: 'stash', label: t('nav.stash') },
-    { id: 'liste', label: t('lists.title') },
-    { id: 'blueprints', label: t('blueprints.title') },
-    { id: 'expeditions', label: t('nav.expeditions') },
-    { id: 'items', label: t('nav.catalog') },
-    { id: 'maps', label: 'Mappe Tattiche' },
-    { id: 'settings', label: t('settings.title') },
-  ], [t]);
+  // Quick-favorite targets: navigable leaves of the nav tree (categories flattened out,
+  // non-page entries like the role-maker modal excluded).
+  const navTree = useNavTree();
+  const AVAILABLE_PAGES: { id: string; label: string }[] = useMemo(
+    () =>
+      flattenNavLeaves(navTree)
+        .filter(item => !item.devOnly && !NON_FAVORITE_IDS.has(item.id))
+        .map(item => ({ id: item.id, label: item.label })),
+    [navTree],
+  );
 
   const handleFavoriteChange = (index: 0 | 1, value: string) => {
     const updated: [string, string] = [...quickFavorites] as [string, string];
@@ -613,6 +619,17 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
               <div>
                 <p className="font-bold">{t('settings.devLabTitle')}</p>
                 <p className="text-[10px] font-normal text-amber-600/70 dark:text-amber-400/70">{t('settings.devLabDesc')}</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => onNavigate('dev-nav')}
+              className="p-3 bg-gray-50 dark:bg-gray-800/40 hover:bg-gray-100 dark:hover:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
+            >
+              <Route size={18} className="shrink-0 text-gray-500" />
+              <div>
+                <p className="font-bold">{t('settings.devNavTitle')}</p>
+                <p className="text-[10px] font-normal text-gray-600/70 dark:text-gray-400/70">{t('settings.devNavDesc')}</p>
               </div>
             </button>
           </div>

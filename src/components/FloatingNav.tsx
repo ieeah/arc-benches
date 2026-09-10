@@ -1,25 +1,15 @@
-import { useState, useRef, useEffect, useCallback, useMemo, type ReactNode } from 'react';
+import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
 import {
-  Backpack, LayoutList, ScrollText, Wrench, Database,
-  ShieldAlert, Dice5, MoreHorizontal, Check, Users, X, Settings,
-  ChevronRight, ChevronLeft, FlaskConical, FileJson, Languages, Compass, Layers, Map
+  MoreHorizontal, Check, Users, X,
+  ChevronRight, ChevronLeft
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { useIsOverlayOpen } from '@/hooks/useOverlayCount';
 import { useScrollLock } from '@/hooks/useScrollLock';
-
 import { useTranslation } from '@/i18n';
-
-const isDev = import.meta.env.DEV;
-
-export type NavItem = {
-  id: string;
-  label: string;
-  icon: ReactNode;
-  isCategory?: boolean;
-  children?: NavItem[];
-};
+import { useNavTree } from '@/hooks/useNavTree';
+import type { NavItem } from '@/lib/navTree';
 
 export type ContextAction = {
   icon: ReactNode;
@@ -50,31 +40,8 @@ export const FloatingNav = ({
   const navSide = navSideProp ?? storeNavSide;
   const isOverlayOpen = useIsOverlayOpen();
 
-  const navTree: NavItem[] = useMemo(() => items ?? [
-    { id: 'stash', label: t('nav.stash'), icon: <Backpack size={18} /> },
-    { id: 'liste', label: t('nav.benches'), icon: <LayoutList size={18} /> },
-    { id: 'blueprints', label: t('nav.blueprints'), icon: <ScrollText size={18} /> },
-    { id: 'expeditions', label: t('nav.expeditions'), icon: <Compass size={18} /> },
-    {
-      id: 'tools',
-      label: t('nav.tools'),
-      icon: <Wrench size={18} />,
-      isCategory: true,
-      children: [
-        { id: 'vault', label: 'Vault Spedizione', icon: <ShieldAlert size={16} /> },
-        { id: 'items', label: t('nav.catalog'), icon: <Database size={16} /> },
-        { id: 'maps', label: 'Mappe Tattiche 🗺️', icon: <Map size={16} /> },
-        { id: 'role-maker', label: 'Role Maker 🎲', icon: <Dice5 size={16} /> },
-        ...(isDev ? [
-          { id: 'dev-lists', label: 'Dev Liste 📋', icon: <Layers size={16} /> },
-          { id: 'dev-lab', label: 'Dev Catalog Lab 🧪', icon: <FlaskConical size={16} /> },
-          { id: 'dev-overrides', label: 'Dev Overrides 🛠️', icon: <FileJson size={16} /> },
-          { id: 'dev-translations', label: 'Dev i18n Studio 🌐', icon: <Languages size={16} /> },
-        ] : []),
-      ],
-    },
-    { id: 'settings', label: t('nav.settings'), icon: <Settings size={18} /> },
-  ], [items, t]);
+  const resolvedNavTree = useNavTree();
+  const navTree: NavItem[] = items ?? resolvedNavTree;
 
   // Pagine preferite per navigazione rapida (default: stash / liste)
   const quickFavorites = useAppStore(s => s.quickFavorites) ?? ['stash', 'liste'];

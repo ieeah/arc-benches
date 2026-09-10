@@ -314,6 +314,8 @@ export const it = {
     devOverridesDesc: 'Override dati MetaForge',
     devLabTitle: 'Dev Catalog Lab',
     devLabDesc: 'Laboratorio catalogo',
+    devNavTitle: 'Gestione Navigazione',
+    devNavDesc: 'Editor drag&drop del menu',
     appInfo: 'ARC Benches Tracker',
     versionInfo: 'Versione {version} • Dati catalogo MetaForge',
     feedbackLanguage: 'Lingua impostata: {lang}',
