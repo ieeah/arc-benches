@@ -1,5 +1,5 @@
 import { ChevronRight, Copy, AlertCircle } from 'lucide-react';
-import type { List, ListType } from '@/types';
+import type { List } from '@/types';
 import { cn } from '@/lib/cn';
 import { validateExpeditionIndex } from '@/lib/validate';
 import { getListName } from '@/i18n';
