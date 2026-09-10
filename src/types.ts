@@ -80,6 +80,10 @@ export interface List {
   expirationDate?: string;
   /** Custom damage challenge thresholds specific to this expedition. */
   damageChallenge?: TieredAction;
+  /** Trader that gives this quest (quest only). Matches ARDB trader id (e.g. "shani", "apollo"). */
+  trader?: string;
+  /** ARDB quest IDs that must be completed before this quest unlocks (quest only). */
+  prerequisites?: string[];
 }
 
 export interface Profile {
