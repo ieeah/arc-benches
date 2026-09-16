@@ -155,10 +155,10 @@ describe('useAppStore persistence boundary', () => {
   });
 
   it('manages expedition departure, prestige reset, and streak properly', () => {
-    // Setup initial profile state
+    // Setup initial profile state (1 completed expedition, 2 SP earned)
     useAppStore.getState().setItemCount('metal-parts', 100);
     useAppStore.getState().setExpeditionProfile({
-      completedExpeditionsCount: 0,
+      completedExpeditionsCount: 1,
       earnedPermanentSkillPoints: 2,
       consecutiveStreak: 1,
       departureWindowActive: true,
@@ -166,11 +166,11 @@ describe('useAppStore persistence boundary', () => {
     useAppStore.getState().toggleAction('expedition-damage', 0, 'tier_1');
     useAppStore.getState().toggleAction('expedition-damage', 0, 'tier_2');
 
-    // Confirm departure without override (tier 1 and tier 2 = +2 SP)
+    // Confirm departure without override (expedition 2 damage tier 1 and tier 2 = +2 SP)
     useAppStore.getState().confirmDeparture();
 
     const stateAfter = useAppStore.getState();
-    expect(stateAfter.completedExpeditionsCount).toBe(1);
+    expect(stateAfter.completedExpeditionsCount).toBe(2);
     expect(stateAfter.consecutiveStreak).toBe(2);
     expect(stateAfter.earnedPermanentSkillPoints).toBe(4); // 2 + 2
     expect(stateAfter.departureWindowActive).toBe(false);
@@ -196,6 +196,47 @@ describe('useAppStore persistence boundary', () => {
     expect(stateAfter.departureWindowActive).toBe(false);
     expect(stateAfter.inventory['plastic-parts']).toBe(50); // Inventory kept
     expect(stateAfter.checkedActions['expedition-damage|0|tier_1']).toBeUndefined();
+  });
+
+  it('caps completedExpeditionsCount at expeditions.length', () => {
+    const totalExpeditions = useAppStore.getState().expeditions.length;
+    useAppStore.getState().setExpeditionProfile({
+      completedExpeditionsCount: totalExpeditions,
+      consecutiveStreak: totalExpeditions,
+      earnedPermanentSkillPoints: 15,
+      departureWindowActive: true,
+    });
+
+    // Confirm departure when already at max count
+    useAppStore.getState().confirmDeparture();
+
+    const stateAfter = useAppStore.getState();
+    expect(stateAfter.completedExpeditionsCount).toBe(totalExpeditions);
+    expect(stateAfter.consecutiveStreak).toBe(totalExpeditions);
+    expect(stateAfter.earnedPermanentSkillPoints).toBe(15);
+  });
+
+  it('caps earnedPermanentSkillPoints to 5 * completedExpeditionsCount when < 3', () => {
+    // 1 expedition completed -> max 5 SP
+    useAppStore.getState().setExpeditionProfile({
+      completedExpeditionsCount: 1,
+      earnedPermanentSkillPoints: 12,
+    });
+    expect(useAppStore.getState().earnedPermanentSkillPoints).toBe(5);
+
+    // 2 expeditions completed -> max 10 SP
+    useAppStore.getState().setExpeditionProfile({
+      completedExpeditionsCount: 2,
+      earnedPermanentSkillPoints: 12,
+    });
+    expect(useAppStore.getState().earnedPermanentSkillPoints).toBe(10);
+
+    // 3 expeditions completed -> max 15 SP
+    useAppStore.getState().setExpeditionProfile({
+      completedExpeditionsCount: 3,
+      earnedPermanentSkillPoints: 12,
+    });
+    expect(useAppStore.getState().earnedPermanentSkillPoints).toBe(12);
   });
 
   it('manages tiered action steps cumulatively and updates persistence', () => {

@@ -393,11 +393,15 @@ export function getExpeditionDamageTierPure(
 }
 
 /**
- * Computes how many catch-up SP checkboxes are selected (0 to 5).
+ * Computes how many catch-up SP checkboxes are selected (0 up to maxLimit, default 5).
  */
-export function getExpeditionCatchupSPPure(checkedActions: Record<string, boolean>): number {
+export function getExpeditionCatchupSPPure(
+  checkedActions: Record<string, boolean>,
+  maxLimit: number = 5,
+): number {
   let count = 0;
-  for (let i = 1; i <= 5; i++) {
+  const limit = Math.max(0, Math.min(5, maxLimit));
+  for (let i = 1; i <= limit; i++) {
     if (checkedActions[`expedition-catchup|0|sp_${i}`]) {
       count++;
     }

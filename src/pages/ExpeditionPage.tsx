@@ -47,6 +47,7 @@ export const ExpeditionPage = () => {
 
   // Store actions
   const toggleAction = useAppStore(s => s.toggleAction);
+  const setLevelActionsBatch = useAppStore(s => s.setLevelActionsBatch);
   const confirmDeparture = useAppStore(s => s.confirmDeparture);
   const closeWindowWithoutDeparture = useAppStore(s => s.closeWindowWithoutDeparture);
   const setExpeditionProfile = useAppStore(s => s.setExpeditionProfile);
@@ -99,9 +100,14 @@ export const ExpeditionPage = () => {
     [checkedActions, damageChallenge],
   );
 
+  // Catch-Up represents recovering missed SP from past completed expeditions (up to completedExpeditionsCount * 5, capped at 15)
+  const maxPossiblePastSP = Math.min(MAX_EXTRA_SKILL_POINTS, completedExpeditionsCount * 5);
+  const missedSP = Math.max(0, maxPossiblePastSP - earnedPermanentSkillPoints);
+  const maxCatchupSP = Math.min(5, missedSP);
+
   const catchupSP = useMemo(
-    () => getExpeditionCatchupSPPure(checkedActions),
-    [checkedActions],
+    () => getExpeditionCatchupSPPure(checkedActions, maxCatchupSP),
+    [checkedActions, maxCatchupSP],
   );
 
   const rewardEstimate = useMemo(
@@ -109,27 +115,35 @@ export const ExpeditionPage = () => {
     [completedExpeditionsCount, damageTier, catchupSP],
   );
 
-  const canCatchUp = earnedPermanentSkillPoints < MAX_EXTRA_SKILL_POINTS && completedExpeditionsCount >= 1;
+  const canCatchUp = maxCatchupSP > 0 && completedExpeditionsCount >= 1;
   const catchUpLocked = damageTier < 5;
   const catchupCost = catchupSP * 300_000;
+  const maxExpeditions = expeditions.length > 0 ? expeditions.length : 5;
 
-  // Manual Config Drawer State
-  const [cfgCompleted, setCfgCompleted] = useState(completedExpeditionsCount);
-  const [cfgStreak, setCfgStreak] = useState(consecutiveStreak);
-  const [cfgSP, setCfgSP] = useState(earnedPermanentSkillPoints);
+  // Manual Config Drawer State (String-based inputs to allow empty state while typing)
+  const [cfgCompleted, setCfgCompleted] = useState(String(completedExpeditionsCount));
+  const [cfgStreak, setCfgStreak] = useState(String(consecutiveStreak));
+  const [cfgSP, setCfgSP] = useState(String(earnedPermanentSkillPoints));
 
   const openConfigDrawer = () => {
-    setCfgCompleted(completedExpeditionsCount);
-    setCfgStreak(consecutiveStreak);
-    setCfgSP(earnedPermanentSkillPoints);
+    setCfgCompleted(String(completedExpeditionsCount));
+    setCfgStreak(String(consecutiveStreak));
+    setCfgSP(String(earnedPermanentSkillPoints));
     setConfigDrawerOpen(true);
   };
 
+  const parsedCfgCompleted = cfgCompleted === '' ? 0 : Math.max(0, Math.min(maxExpeditions, parseInt(cfgCompleted, 10) || 0));
+  const maxConfigSP = parsedCfgCompleted < 3 ? parsedCfgCompleted * 5 : MAX_EXTRA_SKILL_POINTS;
+
   const saveConfig = () => {
+    const completedNum = parsedCfgCompleted;
+    const streakNum = cfgStreak === '' ? 0 : Math.max(0, Math.min(maxExpeditions, parseInt(cfgStreak, 10) || 0));
+    const spNum = cfgSP === '' ? 0 : Math.max(0, Math.min(maxConfigSP, parseInt(cfgSP, 10) || 0));
+
     setExpeditionProfile({
-      completedExpeditionsCount: cfgCompleted,
-      consecutiveStreak: cfgStreak,
-      earnedPermanentSkillPoints: cfgSP,
+      completedExpeditionsCount: completedNum,
+      consecutiveStreak: streakNum,
+      earnedPermanentSkillPoints: spNum,
     });
     setConfigDrawerOpen(false);
   };
@@ -272,6 +286,20 @@ export const ExpeditionPage = () => {
               const hasItems = level.requirementItemIds.length > 0;
               const hasActions = (level.actions?.length ?? 0) > 0;
 
+              // Collect all action keys for this level
+              const allActionIds: string[] = [
+                ...level.requirementItemIds.map(req => `item_${req.itemId}`),
+                ...(level.actions ?? []).map(a => a.id),
+                ...(level.tieredActions ?? []).flatMap(t => (t.steps ?? []).map(s => `${t.id}:${s.id}`)),
+              ];
+
+              const handleToggleAllPhaseItems = (e: React.MouseEvent) => {
+                e.stopPropagation();
+                if (!isUnlocked) return;
+                const shouldCheck = !isPhaseCompleted;
+                setLevelActionsBatch(activeCaravan.id, level.level, allActionIds, shouldCheck);
+              };
+
               return (
                 <div
                   key={level.level}
@@ -285,9 +313,9 @@ export const ExpeditionPage = () => {
                   )}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 min-w-0">
                       {!isUnlocked && <Lock size={12} className="text-gray-400 shrink-0" />}
-                      <span className="text-xs font-bold text-gray-800 dark:text-gray-200">
+                      <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
                         {t('expeditions.caravan.phase', { current: level.level, total: 6 })}
                         {level.level <= 4 && ` — ${t('expeditions.caravan.assembly')}`}
                         {level.level === 5 && ` — ${t('expeditions.caravan.donations')}`}
@@ -295,16 +323,28 @@ export const ExpeditionPage = () => {
                       </span>
                     </div>
 
-                    {!isUnlocked ? (
-                      <span className="text-[10px] font-medium text-gray-400 flex items-center gap-1">
-                        {t('expeditions.caravan.lockedPhase', { prev: level.level - 1 })}
-                      </span>
-                    ) : isPhaseCompleted ? (
-                      <span className="flex items-center gap-1 text-[10px] font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/40 px-2 py-0.5 rounded-full">
-                        <Check size={11} strokeWidth={3} />
-                        {t('stash.completed')}
-                      </span>
-                    ) : null}
+                    <div className="flex items-center gap-2 shrink-0">
+                      {!isUnlocked ? (
+                        <span className="text-[10px] font-medium text-gray-400 flex items-center gap-1">
+                          {t('expeditions.caravan.lockedPhase', { prev: level.level - 1 })}
+                        </span>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={handleToggleAllPhaseItems}
+                          className={cn(
+                            'flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full transition-all cursor-pointer shadow-2xs',
+                            isPhaseCompleted
+                              ? 'bg-green-500 text-white hover:bg-green-600'
+                              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-green-400',
+                          )}
+                          title={isPhaseCompleted ? t('expeditions.caravan.uncompletePhase') : t('expeditions.caravan.completePhase')}
+                        >
+                          <Check size={11} strokeWidth={3} />
+                          <span>{isPhaseCompleted ? t('stash.completed') : t('expeditions.caravan.completePhase')}</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {/* Materials list for Phases 1-4 */}
@@ -493,9 +533,29 @@ export const ExpeditionPage = () => {
                 })}
               </div>
 
-              {[1, 2, 3, 4, 5].map(sp => {
+              {Array.from({ length: maxCatchupSP }, (_, i) => i + 1).map(sp => {
                 const key = `expedition-catchup|0|sp_${sp}`;
                 const isChecked = Boolean(checkedActions[key]);
+
+                const handleToggleCatchup = () => {
+                  const checkedKeys = Array.from({ length: maxCatchupSP }, (_, i) => `sp_${i + 1}`);
+                  const currentChecked = Boolean(checkedActions[`expedition-catchup|0|sp_${sp}`]);
+                  const isNextChecked = sp < maxCatchupSP && Boolean(checkedActions[`expedition-catchup|0|sp_${sp + 1}`]);
+
+                  if (!currentChecked) {
+                    // Check all 1..sp
+                    const toCheck = checkedKeys.slice(0, sp);
+                    setLevelActionsBatch('expedition-catchup', 0, toCheck, true);
+                  } else if (isNextChecked) {
+                    // sp is checked and sp+1 is also checked -> uncheck after sp
+                    const toUncheck = checkedKeys.slice(sp);
+                    setLevelActionsBatch('expedition-catchup', 0, toUncheck, false);
+                  } else {
+                    // sp is checked and next is NOT checked -> uncheck sp
+                    const toUncheck = checkedKeys.slice(sp - 1);
+                    setLevelActionsBatch('expedition-catchup', 0, toUncheck, false);
+                  }
+                };
 
                 return (
                   <div
@@ -509,7 +569,7 @@ export const ExpeditionPage = () => {
                   >
                     <ActionCheckbox
                       checked={isChecked}
-                      onToggle={() => toggleAction('expedition-catchup', 0, `sp_${sp}`)}
+                      onToggle={handleToggleCatchup}
                       label={`Catch-Up SP #${sp}`}
                     />
                     <span className="text-[11px] font-semibold text-gray-500">
@@ -582,40 +642,72 @@ export const ExpeditionPage = () => {
             <div className="space-y-3">
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-gray-300 block mb-1">
-                  {t('expeditions.config.completedCount')}
+                  {t('expeditions.config.completedCount')} (max {maxExpeditions})
                 </label>
                 <input
                   type="number"
                   min="0"
+                  max={maxExpeditions}
                   value={cfgCompleted}
-                  onChange={e => setCfgCompleted(Math.max(0, parseInt(e.target.value) || 0))}
+                  onChange={e => {
+                    const val = e.target.value;
+                    if (val === '') {
+                      setCfgCompleted('');
+                    } else {
+                      const num = parseInt(val, 10);
+                      if (!isNaN(num)) {
+                        setCfgCompleted(String(Math.max(0, Math.min(maxExpeditions, num))));
+                      }
+                    }
+                  }}
                   className="w-full px-3.5 py-2 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl"
                 />
               </div>
 
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-gray-300 block mb-1">
-                  {t('expeditions.config.streakCount')}
+                  {t('expeditions.config.streakCount')} (max {maxExpeditions})
                 </label>
                 <input
                   type="number"
                   min="0"
+                  max={maxExpeditions}
                   value={cfgStreak}
-                  onChange={e => setCfgStreak(Math.max(0, parseInt(e.target.value) || 0))}
+                  onChange={e => {
+                    const val = e.target.value;
+                    if (val === '') {
+                      setCfgStreak('');
+                    } else {
+                      const num = parseInt(val, 10);
+                      if (!isNaN(num)) {
+                        setCfgStreak(String(Math.max(0, Math.min(maxExpeditions, num))));
+                      }
+                    }
+                  }}
                   className="w-full px-3.5 py-2 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl"
                 />
               </div>
 
               <div>
                 <label className="text-xs font-bold text-gray-700 dark:text-gray-300 block mb-1">
-                  {t('expeditions.config.earnedSP')}
+                  {t('expeditions.config.earnedSP')} (max {maxConfigSP})
                 </label>
                 <input
                   type="number"
                   min="0"
-                  max="15"
+                  max={maxConfigSP}
                   value={cfgSP}
-                  onChange={e => setCfgSP(Math.max(0, Math.min(15, parseInt(e.target.value) || 0)))}
+                  onChange={e => {
+                    const val = e.target.value;
+                    if (val === '') {
+                      setCfgSP('');
+                    } else {
+                      const num = parseInt(val, 10);
+                      if (!isNaN(num)) {
+                        setCfgSP(String(Math.max(0, Math.min(maxConfigSP, num))));
+                      }
+                    }
+                  }}
                   className="w-full px-3.5 py-2 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl"
                 />
               </div>
@@ -646,26 +738,33 @@ export const ExpeditionPage = () => {
               </p>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-800/60 rounded-2xl p-3 space-y-2 border border-gray-100 dark:border-gray-800">
-              <span className="text-xs font-bold text-gray-800 dark:text-gray-200">
-                {t('expeditions.departure.spRewardSummary', { gain: rewardEstimate.skillPoints })}
-              </span>
+            {earnedPermanentSkillPoints < MAX_EXTRA_SKILL_POINTS ? (
+              <div className="bg-gray-50 dark:bg-gray-800/60 rounded-2xl p-3 space-y-2 border border-gray-100 dark:border-gray-800">
+                <span className="text-xs font-bold text-gray-800 dark:text-gray-200">
+                  {t('expeditions.departure.spRewardSummary', { gain: rewardEstimate.skillPoints })}
+                </span>
 
-              <div>
-                <label className="text-[11px] font-medium text-gray-500 dark:text-gray-400 block mb-1">
-                  {t('expeditions.departure.overrideGainLabel')}
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  max="15"
-                  placeholder={t('expeditions.departure.overridePlaceholder')}
-                  value={overrideSPInput}
-                  onChange={e => setOverrideSPInput(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl"
-                />
+                <div>
+                  <label className="text-[11px] font-medium text-gray-500 dark:text-gray-400 block mb-1">
+                    {t('expeditions.departure.overrideGainLabel')}
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max={MAX_EXTRA_SKILL_POINTS - earnedPermanentSkillPoints}
+                    placeholder={t('expeditions.departure.overridePlaceholder')}
+                    value={overrideSPInput}
+                    onChange={e => setOverrideSPInput(e.target.value)}
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl"
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="bg-purple-500/10 border border-purple-500/20 rounded-2xl p-3 text-xs text-purple-700 dark:text-purple-300 font-semibold flex items-center gap-2">
+                <Award size={16} className="text-purple-500 shrink-0" />
+                <span>Hai già raggiunto il limite massimo di 15 Punti Abilità Permanenti!</span>
+              </div>
+            )}
 
             <div className="flex gap-2.5 pt-2">
               <button

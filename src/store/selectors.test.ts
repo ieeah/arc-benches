@@ -720,12 +720,17 @@ describe('Expedition Pure Selectors', () => {
     expect(getExpeditionDamageTierPure(customChecked, customChallenge)).toBe(2);
   });
 
-  it('getExpeditionCatchupSPPure counts completed catchup points', () => {
+  it('getExpeditionCatchupSPPure counts completed catchup points respecting maxLimit', () => {
     const checked = {
       'expedition-catchup|0|sp_1': true,
       'expedition-catchup|0|sp_2': true,
+      'expedition-catchup|0|sp_3': true,
+      'expedition-catchup|0|sp_4': true,
+      'expedition-catchup|0|sp_5': true,
     };
-    expect(getExpeditionCatchupSPPure(checked)).toBe(2);
+    expect(getExpeditionCatchupSPPure(checked)).toBe(5);
+    expect(getExpeditionCatchupSPPure(checked, 3)).toBe(3);
+    expect(getExpeditionCatchupSPPure(checked, 0)).toBe(0);
     expect(getExpeditionCatchupSPPure({})).toBe(0);
   });
 

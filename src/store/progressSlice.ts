@@ -9,7 +9,7 @@ export type ProgressSlice = Pick<AppState,
   'currentLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
   'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'setModuleCurrentLevel' | 'toggleTargetLevel' | 'toggleModuleActive' | 'setFilterHideCompleted' |
-  'setListOrder' | 'toggleAction' | 'setTieredActionStep' | 'upgradeModule' | 'resetProgress' |
+  'setListOrder' | 'toggleAction' | 'setLevelActionsBatch' | 'setTieredActionStep' | 'upgradeModule' | 'resetProgress' |
   'toggleBlueprintOwned' | 'setBlueprintOwned' | 'setFilterHideOwnedBlueprints'
 >;
 
@@ -84,6 +84,20 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
     const s = get();
     const key = `${listId}|${level}|${actionId}`;
     set({ checkedActions: { ...s.checkedActions, [key]: !s.checkedActions[key] } });
+  },
+
+  setLevelActionsBatch: (listId, level, actionIds, checked) => {
+    const s = get();
+    const checkedActions = { ...s.checkedActions };
+    for (const actionId of actionIds) {
+      const key = `${listId}|${level}|${actionId}`;
+      if (checked) {
+        checkedActions[key] = true;
+      } else {
+        delete checkedActions[key];
+      }
+    }
+    set({ checkedActions });
   },
 
   setTieredActionStep: (listId, level, tieredActionId, steps, stepIndex) => {

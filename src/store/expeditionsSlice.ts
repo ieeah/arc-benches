@@ -36,14 +36,18 @@ export const createExpeditionsSlice: StateCreator<AppState, [], [], ExpeditionsS
 
   setExpeditionProfile: (partial) => {
     const s = get();
+    const maxExpeditions = s.expeditions.length > 0 ? s.expeditions.length : 5;
     const completedExpeditionsCount = partial.completedExpeditionsCount !== undefined
-      ? Math.max(0, Math.floor(partial.completedExpeditionsCount))
+      ? Math.max(0, Math.min(maxExpeditions, Math.floor(partial.completedExpeditionsCount)))
       : s.completedExpeditionsCount;
+    const maxAllowedSP = completedExpeditionsCount < 3
+      ? completedExpeditionsCount * 5
+      : MAX_EXTRA_SKILL_POINTS;
     const earnedPermanentSkillPoints = partial.earnedPermanentSkillPoints !== undefined
-      ? Math.max(0, Math.min(MAX_EXTRA_SKILL_POINTS, Math.floor(partial.earnedPermanentSkillPoints)))
-      : s.earnedPermanentSkillPoints;
+      ? Math.max(0, Math.min(maxAllowedSP, Math.floor(partial.earnedPermanentSkillPoints)))
+      : Math.min(maxAllowedSP, s.earnedPermanentSkillPoints);
     const consecutiveStreak = partial.consecutiveStreak !== undefined
-      ? Math.max(0, Math.floor(partial.consecutiveStreak))
+      ? Math.max(0, Math.min(maxExpeditions, Math.floor(partial.consecutiveStreak)))
       : s.consecutiveStreak;
     const departureWindowActive = partial.departureWindowActive !== undefined
       ? partial.departureWindowActive
@@ -63,6 +67,7 @@ export const createExpeditionsSlice: StateCreator<AppState, [], [], ExpeditionsS
 
   confirmDeparture: (gainOverride) => {
     const s = get();
+    const maxExpeditions = s.expeditions.length > 0 ? s.expeditions.length : 5;
     const currentCompleted = s.completedExpeditionsCount;
     const currentSP = s.earnedPermanentSkillPoints;
 
@@ -71,7 +76,10 @@ export const createExpeditionsSlice: StateCreator<AppState, [], [], ExpeditionsS
       spGain = Math.max(0, Math.floor(gainOverride));
     } else {
       const damageTier = getExpeditionDamageTierPure(s.checkedActions);
-      const catchupSP = getExpeditionCatchupSPPure(s.checkedActions);
+      const maxPossiblePastSP = Math.min(MAX_EXTRA_SKILL_POINTS, currentCompleted * 5);
+      const missedSP = Math.max(0, maxPossiblePastSP - currentSP);
+      const maxCatchup = Math.min(5, missedSP);
+      const catchupSP = getExpeditionCatchupSPPure(s.checkedActions, maxCatchup);
       const reward = calculateExpeditionRewardPure(currentCompleted, damageTier, catchupSP);
       spGain = reward.skillPoints;
     }
@@ -92,8 +100,8 @@ export const createExpeditionsSlice: StateCreator<AppState, [], [], ExpeditionsS
       targetLevels: { ...defaultTargetLevels },
       activeModules: { ...defaultActiveModules },
       checkedActions: cleanedCheckedActions,
-      completedExpeditionsCount: currentCompleted + 1,
-      consecutiveStreak: s.consecutiveStreak + 1,
+      completedExpeditionsCount: Math.min(maxExpeditions, currentCompleted + 1),
+      consecutiveStreak: Math.min(maxExpeditions, s.consecutiveStreak + 1),
       earnedPermanentSkillPoints: newSP,
       departureWindowActive: false,
     });
