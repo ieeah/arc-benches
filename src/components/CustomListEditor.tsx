@@ -151,14 +151,29 @@ export const CustomListEditor = ({ listId, onClose }: {
 
     const clonedLevels: ListLevel[] = (source.levels || []).map(lvl => ({
       level: lvl.level,
-      requirementItemIds: (lvl.requirementItemIds || []).map(r => ({ ...r })),
+      requirementItemIds: (lvl.requirementItemIds || []).map(r => ({
+        ...r,
+        rewards: r.rewards ? JSON.parse(JSON.stringify(r.rewards)) : undefined,
+      })),
       actions: lvl.actions?.map(act => ({
         id: generateUUID(),
         label: getActionLabel(act, language) || act.label,
         translations: act.translations ? JSON.parse(JSON.stringify(act.translations)) : undefined,
+        rewards: act.rewards ? JSON.parse(JSON.stringify(act.rewards)) : undefined,
+      })),
+      tieredActions: lvl.tieredActions?.map(tiered => ({
+        id: generateUUID(),
+        label: getActionLabel(tiered, language) || tiered.label,
+        translations: tiered.translations ? JSON.parse(JSON.stringify(tiered.translations)) : undefined,
+        steps: tiered.steps.map(s => ({
+          id: generateUUID(),
+          label: getActionLabel(s, language) || s.label,
+          translations: s.translations ? JSON.parse(JSON.stringify(s.translations)) : undefined,
+          rewards: s.rewards ? JSON.parse(JSON.stringify(s.rewards)) : undefined,
+        })),
       })),
       rewards: lvl.rewards?.map(rew => ({
-        label: rew.label,
+        ...rew,
         translations: rew.translations ? JSON.parse(JSON.stringify(rew.translations)) : undefined,
       })),
     }));
@@ -595,7 +610,7 @@ export const CustomListEditor = ({ listId, onClose }: {
           onPick={item => {
             const lvl = levels.find(l => l.level === pickerLevel);
             const existingReq = lvl?.requirementItemIds.find(r => r.itemId === item.id);
-            const initialQty = pendingPickerConfig?.initialQty ?? existingReq?.quantity ?? 1;
+            const initialQty = pendingPickerConfig?.initialQty ?? existingReq?.quantity ?? 0;
             const previousItemId = pendingPickerConfig?.previousItemId;
             setItemToConfigure({
               level: pickerLevel,

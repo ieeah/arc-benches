@@ -167,12 +167,14 @@ export const en: LocaleSchema = {
     clearExpiration: 'Clear expiration',
   },
   quantityModal: {
-
     title: 'Set Quantity',
     requiredQty: 'Required Quantity',
     stack: 'Stack ({size})',
     addToList: 'Add to list ({quantity})',
     updateQty: 'Update quantity ({quantity})',
+    modeDirect: 'Direct',
+    modeAdditive: 'Additive',
+    reset: 'Reset',
   },
   itemPicker: {
     searchPrompt: 'Search for an item to add it',
@@ -395,6 +397,8 @@ export const en: LocaleSchema = {
       lockedPhase: 'Locked — Complete Phase {prev}',
       delivered: 'Delivered',
       markDelivered: 'Mark as delivered',
+      completePhase: 'Complete phase',
+      uncompletePhase: 'Uncomplete phase',
     },
     damageChallenge: {
       title: 'Damage Challenge',

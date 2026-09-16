@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, RotateCcw } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
 import { BottomSheet } from '@/components/BottomSheet';
@@ -19,7 +19,7 @@ export interface ItemQuantityModalProps {
 
 export function ItemQuantityModal({
   item,
-  initialQuantity = 1,
+  initialQuantity = 0,
   onConfirm,
   onClose,
   onChangeItem,
@@ -27,7 +27,7 @@ export function ItemQuantityModal({
   confirmLabel,
 }: ItemQuantityModalProps) {
   const { t, language } = useTranslation();
-  const [quantity, setQuantity] = useState(initialQuantity > 0 ? initialQuantity : 1);
+  const [quantity, setQuantity] = useState(initialQuantity >= 0 ? initialQuantity : 0);
   const [tempValue, setTempValue] = useState(String(quantity));
 
   const itemName = getItemName(item, language) || item.name;
@@ -37,28 +37,34 @@ export function ItemQuantityModal({
   const handleTempValueChange = (val: string) => {
     setTempValue(val);
     const parsed = parseInt(val, 10);
-    if (!isNaN(parsed) && parsed > 0) {
+    if (!isNaN(parsed) && parsed >= 0) {
       setQuantity(parsed);
     }
   };
 
   const handleBlur = () => {
     let parsed = parseInt(tempValue, 10);
-    if (isNaN(parsed) || parsed < 1) {
-      parsed = 1;
+    if (isNaN(parsed) || parsed < 0) {
+      parsed = 0;
     }
     setQuantity(parsed);
     setTempValue(String(parsed));
   };
 
   const adjustQty = (delta: number) => {
-    const next = Math.max(1, quantity + delta);
+    const next = Math.max(0, quantity + delta);
     setQuantity(next);
     setTempValue(String(next));
   };
 
   const setExact = (val: number) => {
-    const next = Math.max(1, val);
+    const next = Math.max(0, val);
+    setQuantity(next);
+    setTempValue(String(next));
+  };
+
+  const addAmount = (val: number) => {
+    const next = Math.max(0, quantity + val);
     setQuantity(next);
     setTempValue(String(next));
   };
@@ -130,51 +136,54 @@ export function ItemQuantityModal({
           )}
         </div>
 
-        {/* Quantity selector */}
-        <div className="w-full flex flex-col items-center gap-3 pt-2">
+        {/* Quantity selector with Reset button on the right */}
+        <div className="w-full flex flex-col items-center gap-3 pt-1">
           <label className="text-xs font-bold uppercase tracking-wider text-gray-400">
             {t('quantityModal.requiredQty')}
           </label>
-          <div className="w-48">
-            <QuantityStepper
-              orientation="horizontal"
-              tempValue={tempValue}
-              onTempValueChange={handleTempValueChange}
-              onBlur={handleBlur}
-              onIncrement={() => adjustQty(1)}
-              onDecrement={() => adjustQty(-1)}
-              rarity={item.rarity}
-              itemName={itemName}
-            />
+          <div className="flex items-center gap-2">
+            <div className="w-48">
+              <QuantityStepper
+                orientation="horizontal"
+                tempValue={tempValue}
+                onTempValueChange={handleTempValueChange}
+                onBlur={handleBlur}
+                onIncrement={() => adjustQty(1)}
+                onDecrement={() => adjustQty(-1)}
+                rarity={item.rarity}
+                itemName={itemName}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => setExact(0)}
+              className="h-8 px-2.5 flex items-center justify-center gap-1 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl border border-gray-200/80 dark:border-gray-700/80 transition-colors cursor-pointer shadow-2xs"
+              title={t('quantityModal.reset')}
+            >
+              <RotateCcw size={13} />
+              <span>0</span>
+            </button>
           </div>
 
-          {/* Quick preset buttons */}
+          {/* Additive Quick addition buttons */}
           <div className="flex flex-wrap justify-center gap-1.5 pt-1">
             {[1, 2, 5, 10, 25, 50, 100].map(val => (
               <button
                 key={val}
                 type="button"
-                onClick={() => setExact(val)}
-                className={`px-2.5 py-1 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                  quantity === val
-                    ? 'bg-blue-500 text-white shadow-2xs'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
+                onClick={() => addAmount(val)}
+                className="px-2.5 py-1 text-xs font-bold rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-all cursor-pointer"
               >
-                {val}
+                +{val}
               </button>
             ))}
-            {item.stack_size && ![1, 2, 5, 10, 25, 50, 100].includes(item.stack_size) && (
+            {item.stack_size && (
               <button
                 type="button"
-                onClick={() => setExact(item.stack_size!)}
-                className={`px-2.5 py-1 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                  quantity === item.stack_size
-                    ? 'bg-blue-500 text-white shadow-2xs'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
+                onClick={() => addAmount(item.stack_size!)}
+                className="px-2.5 py-1 text-xs font-bold rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 transition-all cursor-pointer"
               >
-                Stack ({item.stack_size})
+                +{item.stack_size} (Stack)
               </button>
             )}
           </div>

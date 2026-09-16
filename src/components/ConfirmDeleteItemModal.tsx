@@ -46,7 +46,7 @@ export function ConfirmDeleteItemModal({
             onClick={onConfirm}
             className="flex-1 py-3 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-full shadow-xs transition-colors cursor-pointer"
           >
-            {t('common.remove')}
+            {t('common.delete')}
           </button>
         </div>
       }

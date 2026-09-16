@@ -33,8 +33,8 @@ export function ConfirmActionModal({
       icon: <Trash2 className="text-red-500" size={24} />,
       iconBg: 'bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-900/50',
       confirmButton: 'bg-red-500 hover:bg-red-600 text-white',
-      defaultTitle: t('common.remove'),
-      defaultConfirmText: t('common.remove'),
+      defaultTitle: t('common.delete'),
+      defaultConfirmText: t('common.delete'),
     },
     warning: {
       icon: <RotateCcw className="text-amber-500" size={24} />,
