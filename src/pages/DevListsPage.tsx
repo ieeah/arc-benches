@@ -50,6 +50,8 @@ import { useDevListDrafts } from "@/hooks/dev/useDevListDrafts";
 import { useDevListEditor } from "@/hooks/dev/useDevListEditor";
 import { DevListCard } from "@/components/dev/DevListCard";
 import { DevDamageChallengeSection } from "@/components/dev/DevDamageChallengeSection";
+import { RewardBadge } from "@/components/RewardBadge";
+import { DevRewardEditorModal } from "@/components/dev/DevRewardEditorModal";
 
 interface DevListsPageProps {
   onBack: () => void;
@@ -160,14 +162,27 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     id: string;
     labelEn: string;
     labelIt: string;
-    steps: Array<{ id: string; labelEn: string; labelIt: string }>;
+    steps: Array<{ id: string; labelEn: string; labelIt: string; rewards?: Reward[] }>;
   } | null>(null);
   const [isAddingTieredAction, setIsAddingTieredAction] = useState(false);
   const [newTieredEn, setNewTieredEn] = useState("");
   const [newTieredIt, setNewTieredIt] = useState("");
   const [newTieredSteps, setNewTieredSteps] = useState<
-    Array<{ id: string; labelEn: string; labelIt: string }>
+    Array<{ id: string; labelEn: string; labelIt: string; rewards?: Reward[] }>
   >([]);
+
+  // Granular Reward Editor Modal State
+  const [rewardModalTarget, setRewardModalTarget] = useState<{
+    type: "requirement" | "action" | "tieredStep" | "newTieredStep" | "editingTieredStep";
+    title: string;
+    subtitle?: string;
+    itemId?: string;
+    actionId?: string;
+    tieredId?: string;
+    stepId?: string;
+    stepIndex?: number;
+    rewards: Reward[];
+  } | null>(null);
 
   const [confirmModalConfig, setConfirmModalConfig] = useState<{
     title?: string;
@@ -284,11 +299,12 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
         if (lvl.level !== activeLevel.level) return lvl;
         const reqs = [...lvl.requirementItemIds];
         if (editIndex !== undefined) {
-          reqs[editIndex] = { itemId: item.id, quantity };
+          reqs[editIndex] = { ...reqs[editIndex], itemId: item.id, quantity };
         } else {
           const existingIdx = reqs.findIndex((r) => r.itemId === item.id);
           if (existingIdx >= 0) {
             reqs[existingIdx] = {
+              ...reqs[existingIdx],
               itemId: item.id,
               quantity: reqs[existingIdx].quantity + quantity,
             };
@@ -532,6 +548,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           id: s.id || generateUUID(),
           label: stepEn,
           ...(stepIt ? { translations: { it: { label: stepIt } } } : {}),
+          ...(s.rewards && s.rewards.length > 0 ? { rewards: s.rewards } : {}),
         };
       });
 
@@ -604,6 +621,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           id: s.id || generateUUID(),
           label: stepEn,
           ...(stepIt ? { translations: { it: { label: stepIt } } } : {}),
+          ...(s.rewards && s.rewards.length > 0 ? { rewards: s.rewards } : {}),
         };
       });
 
@@ -642,6 +660,94 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       return { ...prev, levels };
     });
     setEditingTieredAction(null);
+  };
+
+  // Granular Rewards Save Handler (for ItemRequirement, Action, Step)
+  const handleSaveGranularRewards = (newRewards: Reward[]) => {
+    if (!rewardModalTarget) return;
+    const target = rewardModalTarget;
+
+    if (target.type === "newTieredStep" && target.stepIndex !== undefined) {
+      setNewTieredSteps((prev) =>
+        prev.map((s, i) =>
+          i === target.stepIndex
+            ? { ...s, rewards: newRewards.length > 0 ? newRewards : undefined }
+            : s,
+        ),
+      );
+      setRewardModalTarget(null);
+      return;
+    }
+
+    if (target.type === "editingTieredStep" && target.stepIndex !== undefined) {
+      setEditingTieredAction((prev) =>
+        prev
+          ? {
+              ...prev,
+              steps: prev.steps.map((s, i) =>
+                i === target.stepIndex
+                  ? { ...s, rewards: newRewards.length > 0 ? newRewards : undefined }
+                  : s,
+              ),
+            }
+          : null,
+      );
+      setRewardModalTarget(null);
+      return;
+    }
+
+    if (!selectedList || !activeLevel) {
+      setRewardModalTarget(null);
+      return;
+    }
+
+    updateSelectedList((prev) => {
+      const levels = prev.levels.map((lvl) => {
+        if (lvl.level !== activeLevel.level) return lvl;
+
+        if (target.type === "requirement" && target.itemId) {
+          const reqs = lvl.requirementItemIds.map((r) => {
+            if (r.itemId !== target.itemId) return r;
+            return {
+              ...r,
+              rewards: newRewards.length > 0 ? newRewards : undefined,
+            };
+          });
+          return { ...lvl, requirementItemIds: reqs };
+        }
+
+        if (target.type === "action" && target.actionId) {
+          const acts = (lvl.actions || []).map((a) => {
+            if (a.id !== target.actionId) return a;
+            return {
+              ...a,
+              rewards: newRewards.length > 0 ? newRewards : undefined,
+            };
+          });
+          return { ...lvl, actions: acts };
+        }
+
+        if (target.type === "tieredStep" && target.tieredId && target.stepId) {
+          const tiereds = (lvl.tieredActions || []).map((t) => {
+            if (t.id !== target.tieredId) return t;
+            const steps = t.steps.map((s) => {
+              if (s.id !== target.stepId) return s;
+              return {
+                ...s,
+                rewards: newRewards.length > 0 ? newRewards : undefined,
+              };
+            });
+            return { ...t, steps };
+          });
+          return { ...lvl, tieredActions: tiereds };
+        }
+
+        return lvl;
+      });
+      return { ...prev, levels };
+    });
+
+    setRewardModalTarget(null);
   };
 
   // JSON Preview Generator
@@ -1261,74 +1367,114 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                         return (
                           <div
                             key={`${req.itemId}-${index}`}
-                            className="p-2.5 bg-gray-50 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl flex items-center justify-between gap-3 group hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+                            className="p-2.5 bg-gray-50 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col gap-2 group hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
                           >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              <div className="w-10 h-10 shrink-0">
-                                <ItemCardFrameV2
-                                  icon={item?.icon}
-                                  rarity={item?.rarity || "Common"}
-                                  compact
-                                  borderRadius={12}
-                                />
+                            <div className="flex items-center justify-between gap-3">
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <div className="w-10 h-10 shrink-0">
+                                  <ItemCardFrameV2
+                                    icon={item?.icon}
+                                    rarity={item?.rarity || "Common"}
+                                    compact
+                                    borderRadius={12}
+                                  />
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="text-xs font-bold text-gray-900 dark:text-gray-100 truncate">
+                                    {itemName}
+                                  </p>
+                                  <span className="text-[10px] font-mono text-gray-400">
+                                    {req.itemId}
+                                  </span>
+                                </div>
                               </div>
-                              <div className="min-w-0">
-                                <p className="text-xs font-bold text-gray-900 dark:text-gray-100 truncate">
-                                  {itemName}
-                                </p>
-                                <span className="text-[10px] font-mono text-gray-400">
-                                  {req.itemId}
+
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="text-xs font-black px-2.5 py-1 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-800/60">
+                                  ×{req.quantity}
                                 </span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setRewardModalTarget({
+                                      type: "requirement",
+                                      title: `Ricompense: ${itemName}`,
+                                      subtitle: `Consegna di ${req.quantity}x ${itemName} (${req.itemId}) — Livello ${activeLevel.level}`,
+                                      itemId: req.itemId,
+                                      rewards: req.rewards || [],
+                                    });
+                                  }}
+                                  className={cn(
+                                    "w-8 h-8 rounded-full border transition-colors flex items-center justify-center cursor-pointer shadow-2xs relative",
+                                    (req.rewards?.length ?? 0) > 0
+                                      ? "bg-violet-600 text-white border-violet-600 hover:bg-violet-700"
+                                      : "bg-violet-50/80 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800 hover:bg-violet-100 dark:hover:bg-violet-900/60",
+                                  )}
+                                  title="Gestisci ricompense per questo materiale"
+                                >
+                                  <Gift size={13} />
+                                  {(req.rewards?.length ?? 0) > 0 && (
+                                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 text-white text-[9px] font-black rounded-full flex items-center justify-center border border-white dark:border-gray-900">
+                                      {req.rewards!.length}
+                                    </span>
+                                  )}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const baseInfo = item || {
+                                      id: req.itemId,
+                                      name: req.itemId,
+                                      description: "",
+                                      rarity: "Common",
+                                      item_type: "Material",
+                                      icon: null,
+                                      subcategory: null,
+                                      value: 0,
+                                      workbench: null,
+                                      loot_area: null,
+                                      stack_size: null,
+                                    };
+                                    setItemToConfigure({
+                                      item: baseInfo,
+                                      initialQty: req.quantity,
+                                      editIndex: index,
+                                    });
+                                  }}
+                                  className="w-8 h-8 rounded-full bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
+                                  title="Modifica quantità"
+                                >
+                                  <Pencil size={13} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setItemToDelete({
+                                      index,
+                                      itemId: req.itemId,
+                                      name: itemName,
+                                      info: item,
+                                    });
+                                  }}
+                                  className="w-8 h-8 rounded-full bg-red-50/80 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
+                                  title="Rimuovi"
+                                >
+                                  <Trash2 size={13} />
+                                </button>
                               </div>
                             </div>
 
-                            <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-xs font-black px-2.5 py-1 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-800/60">
-                                ×{req.quantity}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const baseInfo = item || {
-                                    id: req.itemId,
-                                    name: req.itemId,
-                                    description: "",
-                                    rarity: "Common",
-                                    item_type: "Material",
-                                    icon: null,
-                                    subcategory: null,
-                                    value: 0,
-                                    workbench: null,
-                                    loot_area: null,
-                                    stack_size: null,
-                                  };
-                                  setItemToConfigure({
-                                    item: baseInfo,
-                                    initialQty: req.quantity,
-                                    editIndex: index,
-                                  });
-                                }}
-                                className="w-8 h-8 rounded-full bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
-                                title="Modifica quantità"
-                              >
-                                <Pencil size={13} />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setItemToDelete({
-                                    index,
-                                    itemId: req.itemId,
-                                    name: itemName,
-                                    info: item,
-                                  });
-                                }}
-                                className="w-8 h-8 rounded-full bg-red-50/80 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
-                                title="Rimuovi"
-                              >
-                                <Trash2 size={13} />
-                              </button>
-                            </div>
+                            {/* Rewards Preview Badges */}
+                            {req.rewards && req.rewards.length > 0 && (
+                              <div className="flex items-center gap-1 flex-wrap pt-1 border-t border-gray-100 dark:border-gray-800/80">
+                                <span className="text-[10px] font-bold text-violet-600 dark:text-violet-400 flex items-center gap-0.5">
+                                  <Gift size={10} /> Ricompense:
+                                </span>
+                                {req.rewards.map((r, rIdx) => (
+                                  <RewardBadge key={rIdx} reward={r} size="xs" />
+                                ))}
+                              </div>
+                            )}
                           </div>
                         );
                       })}
@@ -1536,54 +1682,94 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                         return (
                           <div
                             key={action.id}
-                            className="p-2.5 bg-gray-50 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl flex items-center justify-between gap-3"
+                            className="p-2.5 bg-gray-50 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl flex flex-col gap-2"
                           >
-                            <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                              <span className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />
-                              <div className="min-w-0 flex-1">
-                                <p className="text-xs text-gray-800 dark:text-gray-200 font-medium truncate">
-                                  {action.label}
-                                </p>
-                                {action.translations?.it?.label && (
-                                  <p className="text-[11px] text-blue-600 dark:text-blue-400 flex items-center gap-1 mt-0.5">
-                                    <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
-                                      IT
-                                    </span>
-                                    <span className="truncate">
-                                      {action.translations.it.label}
-                                    </span>
+                            <div className="flex items-center justify-between gap-3">
+                              <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                                <span className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-xs text-gray-800 dark:text-gray-200 font-medium truncate">
+                                    {action.label}
                                   </p>
-                                )}
+                                  {action.translations?.it?.label && (
+                                    <p className="text-[11px] text-blue-600 dark:text-blue-400 flex items-center gap-1 mt-0.5">
+                                      <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
+                                        IT
+                                      </span>
+                                      <span className="truncate">
+                                        {action.translations.it.label}
+                                      </span>
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="text-[10px] font-mono text-gray-400">
+                                  {action.id.slice(0, 8)}…
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setRewardModalTarget({
+                                      type: "action",
+                                      title: `Ricompense Azione: ${action.label}`,
+                                      subtitle: `Azione ID: ${action.id.slice(0, 8)}… — Livello ${activeLevel.level}`,
+                                      actionId: action.id,
+                                      rewards: action.rewards || [],
+                                    });
+                                  }}
+                                  className={cn(
+                                    "w-7 h-7 rounded-full border transition-colors flex items-center justify-center cursor-pointer shadow-2xs relative",
+                                    (action.rewards?.length ?? 0) > 0
+                                      ? "bg-violet-600 text-white border-violet-600 hover:bg-violet-700"
+                                      : "bg-violet-50/80 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800 hover:bg-violet-100 dark:hover:bg-violet-900/60",
+                                  )}
+                                  title="Gestisci ricompense per questa azione"
+                                >
+                                  <Gift size={12} />
+                                  {(action.rewards?.length ?? 0) > 0 && (
+                                    <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-500 text-white text-[8px] font-black rounded-full flex items-center justify-center border border-white dark:border-gray-900">
+                                      {action.rewards!.length}
+                                    </span>
+                                  )}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setEditingAction({
+                                      id: action.id,
+                                      labelEn: action.label,
+                                      labelIt:
+                                        action.translations?.it?.label || "",
+                                    })
+                                  }
+                                  className="w-7 h-7 rounded-full bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
+                                  title="Modifica azione"
+                                >
+                                  <Pencil size={12} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveAction(action.id)}
+                                  className="w-7 h-7 rounded-full bg-red-50/80 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
+                                  title="Rimuovi azione"
+                                >
+                                  <Trash2 size={12} />
+                                </button>
                               </div>
                             </div>
-                            <div className="flex items-center gap-1.5 shrink-0">
-                              <span className="text-[10px] font-mono text-gray-400">
-                                {action.id.slice(0, 8)}…
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setEditingAction({
-                                    id: action.id,
-                                    labelEn: action.label,
-                                    labelIt:
-                                      action.translations?.it?.label || "",
-                                  })
-                                }
-                                className="w-7 h-7 rounded-full bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
-                                title="Modifica azione"
-                              >
-                                <Pencil size={12} />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveAction(action.id)}
-                                className="w-7 h-7 rounded-full bg-red-50/80 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
-                                title="Rimuovi azione"
-                              >
-                                <Trash2 size={12} />
-                              </button>
-                            </div>
+
+                            {/* Rewards Preview Badges */}
+                            {action.rewards && action.rewards.length > 0 && (
+                              <div className="flex items-center gap-1 flex-wrap pt-1 border-t border-gray-100 dark:border-gray-800/80">
+                                <span className="text-[10px] font-bold text-violet-600 dark:text-violet-400 flex items-center gap-0.5">
+                                  <Gift size={10} /> Ricompense:
+                                </span>
+                                {action.rewards.map((r, rIdx) => (
+                                  <RewardBadge key={rIdx} reward={r} size="xs" />
+                                ))}
+                              </div>
+                            )}
                           </div>
                         );
                       })}
@@ -1740,6 +1926,32 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                   className="w-full px-2 py-1 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-xs"
                                 />
                               </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setRewardModalTarget({
+                                    type: "newTieredStep",
+                                    title: `Ricompense Scaglione ${sIdx + 1}`,
+                                    subtitle: `Scaglione: ${step.labelEn || `Tier ${sIdx + 1}`}`,
+                                    stepIndex: sIdx,
+                                    rewards: step.rewards || [],
+                                  });
+                                }}
+                                className={cn(
+                                  "w-6 h-6 rounded-lg border flex items-center justify-center cursor-pointer shrink-0 transition-colors relative",
+                                  (step.rewards?.length ?? 0) > 0
+                                    ? "bg-violet-600 text-white border-violet-600 hover:bg-violet-700"
+                                    : "bg-violet-50 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800 hover:bg-violet-100",
+                                )}
+                                title="Gestisci ricompense scaglione"
+                              >
+                                <Gift size={11} />
+                                {(step.rewards?.length ?? 0) > 0 && (
+                                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 text-white text-[7px] font-black rounded-full flex items-center justify-center">
+                                    {step.rewards!.length}
+                                  </span>
+                                )}
+                              </button>
                               <button
                                 type="button"
                                 onClick={() =>
@@ -1944,6 +2156,32 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                         </div>
                                         <button
                                           type="button"
+                                          onClick={() => {
+                                            setRewardModalTarget({
+                                              type: "editingTieredStep",
+                                              title: `Ricompense Scaglione ${sIdx + 1}`,
+                                              subtitle: `Scaglione: ${step.labelEn || `Tier ${sIdx + 1}`}`,
+                                              stepIndex: sIdx,
+                                              rewards: step.rewards || [],
+                                            });
+                                          }}
+                                          className={cn(
+                                            "w-6 h-6 rounded-lg border flex items-center justify-center cursor-pointer shrink-0 transition-colors relative",
+                                            (step.rewards?.length ?? 0) > 0
+                                              ? "bg-violet-600 text-white border-violet-600 hover:bg-violet-700"
+                                              : "bg-violet-50 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-800 hover:bg-violet-100",
+                                          )}
+                                          title="Gestisci ricompense scaglione"
+                                        >
+                                          <Gift size={11} />
+                                          {(step.rewards?.length ?? 0) > 0 && (
+                                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 text-white text-[7px] font-black rounded-full flex items-center justify-center">
+                                              {step.rewards!.length}
+                                            </span>
+                                          )}
+                                        </button>
+                                        <button
+                                          type="button"
                                           onClick={() =>
                                             setEditingTieredAction((prev) =>
                                               prev
@@ -2020,6 +2258,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                         labelEn: s.label,
                                         labelIt:
                                           s.translations?.it?.label || "",
+                                        rewards: s.rewards ? [...s.rewards] : undefined,
                                       })),
                                     })
                                   }
@@ -2332,7 +2571,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
               (r) => r.itemId === item.id,
             );
             const initialQty =
-              pendingPickerConfig?.initialQty ?? existingReq?.quantity ?? 1;
+              pendingPickerConfig?.initialQty ?? existingReq?.quantity ?? 0;
             const editIndex = pendingPickerConfig?.editIndex;
             setItemToConfigure({
               item,
@@ -2392,6 +2631,18 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           variant={confirmModalConfig.variant}
           onConfirm={confirmModalConfig.onConfirm}
           onClose={() => setConfirmModalConfig(null)}
+        />
+      )}
+
+      {/* Granular Reward Editor Modal */}
+      {rewardModalTarget !== null && (
+        <DevRewardEditorModal
+          isOpen={true}
+          title={rewardModalTarget.title}
+          subtitle={rewardModalTarget.subtitle}
+          rewards={rewardModalTarget.rewards}
+          onSave={handleSaveGranularRewards}
+          onClose={() => setRewardModalTarget(null)}
         />
       )}
     </DevStudioLayout>

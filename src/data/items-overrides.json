@@ -383,5 +383,12 @@
         "description": "Si usa per creare forniture mediche."
       }
     }
+  },
+  "pop-trigger": {
+    "translations": {
+      "it": {
+        "name": "Detonatore di Pop"
+      }
+    }
   }
 }

@@ -122,7 +122,33 @@ describe('validateList', () => {
       levels: [
         {
           level: 1,
-          requirementItemIds: [],
+          requirementItemIds: [
+            {
+              itemId: 'metal-parts',
+              quantity: 10,
+              rewards: [{ itemId: 'blueprint-refiner-3', quantity: 1, label: 'Refiner Blueprint Lvl 3' }],
+            },
+          ],
+          actions: [
+            {
+              id: 'act-1',
+              label: 'Search the outpost',
+              rewards: [{ label: '+100 XP' }],
+            },
+          ],
+          tieredActions: [
+            {
+              id: 'tier-1',
+              label: 'Deal Damage',
+              steps: [
+                {
+                  id: 'step-1',
+                  label: '5000 Dmg',
+                  rewards: [{ label: '1 Raider Token', quantity: 1 }],
+                },
+              ],
+            },
+          ],
           rewards: [
             { itemId: 'arc-alloy', quantity: 2, label: 'Arc Alloy' },
             { label: '500 XP' },
@@ -135,6 +161,15 @@ describe('validateList', () => {
     expect(out!.levels[0].rewards).toHaveLength(2);
     expect(out!.levels[0].rewards![0]).toEqual({ itemId: 'arc-alloy', quantity: 2, label: 'Arc Alloy' });
     expect(out!.levels[0].rewards![1]).toEqual({ label: '500 XP' });
+    expect(out!.levels[0].requirementItemIds[0].rewards).toEqual([
+      { itemId: 'blueprint-refiner-3', quantity: 1, label: 'Refiner Blueprint Lvl 3' },
+    ]);
+    expect(out!.levels[0].actions![0].rewards).toEqual([
+      { label: '+100 XP' },
+    ]);
+    expect(out!.levels[0].tieredActions![0].steps[0].rewards).toEqual([
+      { label: '1 Raider Token', quantity: 1 },
+    ]);
   });
 
   it('drops invalid expirationDate', () => {

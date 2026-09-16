@@ -3,6 +3,7 @@ import { Check } from 'lucide-react';
 import type { TieredAction, ActionStep } from '@/types';
 import { useAppStore } from '@/store';
 import { useTranslation, getActionLabel } from '@/i18n';
+import { RewardBadge } from '@/components/RewardBadge';
 import { cn } from '@/lib/cn';
 
 interface TieredActionTimelineProps {
@@ -86,7 +87,7 @@ export const TieredActionTimeline: React.FC<TieredActionTimelineProps> = ({
         <p className="text-[11px] text-gray-400 italic">Nessuna soglia definita.</p>
       ) : (
         <div className="overflow-x-auto py-2 scrollbar-thin">
-          <div className="flex items-center min-w-full justify-between">
+          <div className="flex items-start min-w-full justify-between">
             {steps.map((step, idx) => {
               const isChecked = Boolean(checkedActions[stepKey(step)]);
               const isPrevChecked = idx > 0 && Boolean(checkedActions[stepKey(steps[idx - 1])]);
@@ -161,6 +162,21 @@ export const TieredActionTimeline: React.FC<TieredActionTimelineProps> = ({
                       />
                     </button>
                   </div>
+
+                  {/* Optional Step Rewards */}
+                  {step.rewards && step.rewards.length > 0 && (
+                    <div className="mt-1.5 flex flex-col items-center gap-0.5 max-w-full px-0.5">
+                      {step.rewards.map((r, rIdx) => (
+                        <RewardBadge
+                          key={rIdx}
+                          reward={r}
+                          size="xs"
+                          obtained={isChecked}
+                          className="max-w-20 sm:max-w-24 text-[9px] px-1 py-0.2"
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}

@@ -64,37 +64,6 @@ export const sanitizeStringArray = (v: unknown): string[] =>
 
 // ── domain shapes ────────────────────────────────────────────────────────────
 
-const validateRequirement = (v: unknown): ItemRequirement | null => {
-  if (!isObject(v)) return null;
-  const itemId = asNonEmptyString(v.itemId);
-  const quantity = asNonNegInt(v.quantity);
-  if (itemId === null || quantity === null) return null;
-  return { itemId, quantity };
-};
-
-const validateAction = (v: unknown): CheckboxAction | null => {
-  if (!isObject(v)) return null;
-  const id = asNonEmptyString(v.id);
-  const label = asNonEmptyString(v.label);
-  if (id === null || label === null) return null;
-  const out: CheckboxAction = { id, label };
-  if (isObject(v.translations)) {
-    const translations: Record<string, ActionTranslation> = {};
-    for (const [lang, tr] of Object.entries(v.translations)) {
-      if (isObject(tr)) {
-        const trLabel = asNonEmptyString(tr.label);
-        if (trLabel !== null) {
-          translations[lang] = { label: trLabel };
-        }
-      }
-    }
-    if (Object.keys(translations).length > 0) {
-      out.translations = translations;
-    }
-  }
-  return out;
-};
-
 const validateReward = (v: unknown): Reward | null => {
   if (!isObject(v)) return null;
   const label = asNonEmptyString(v.label);
@@ -121,6 +90,47 @@ const validateReward = (v: unknown): Reward | null => {
   return out;
 };
 
+const validateRewardsArray = (v: unknown): Reward[] | undefined => {
+  if (!Array.isArray(v)) return undefined;
+  const rewards = v.map(validateReward).filter((r): r is Reward => r !== null);
+  return rewards.length > 0 ? rewards : undefined;
+};
+
+const validateRequirement = (v: unknown): ItemRequirement | null => {
+  if (!isObject(v)) return null;
+  const itemId = asNonEmptyString(v.itemId);
+  const quantity = asNonNegInt(v.quantity);
+  if (itemId === null || quantity === null) return null;
+  const out: ItemRequirement = { itemId, quantity };
+  const rewards = validateRewardsArray(v.rewards);
+  if (rewards) out.rewards = rewards;
+  return out;
+};
+
+const validateAction = (v: unknown): CheckboxAction | null => {
+  if (!isObject(v)) return null;
+  const id = asNonEmptyString(v.id);
+  const label = asNonEmptyString(v.label);
+  if (id === null || label === null) return null;
+  const out: CheckboxAction = { id, label };
+  if (isObject(v.translations)) {
+    const translations: Record<string, ActionTranslation> = {};
+    for (const [lang, tr] of Object.entries(v.translations)) {
+      if (isObject(tr)) {
+        const trLabel = asNonEmptyString(tr.label);
+        if (trLabel !== null) {
+          translations[lang] = { label: trLabel };
+        }
+      }
+    }
+    if (Object.keys(translations).length > 0) {
+      out.translations = translations;
+    }
+  }
+  const rewards = validateRewardsArray(v.rewards);
+  if (rewards) out.rewards = rewards;
+  return out;
+};
 
 const validateActionStep = (v: unknown): ActionStep | null => {
   if (!isObject(v)) return null;
@@ -142,6 +152,8 @@ const validateActionStep = (v: unknown): ActionStep | null => {
       out.translations = translations;
     }
   }
+  const rewards = validateRewardsArray(v.rewards);
+  if (rewards) out.rewards = rewards;
   return out;
 };
 
@@ -184,9 +196,7 @@ const validateLevel = (v: unknown): ListLevel | null => {
   const tieredActions = Array.isArray(v.tieredActions)
     ? v.tieredActions.map(validateTieredAction).filter((a): a is TieredAction => a !== null)
     : undefined;
-  const rewards = Array.isArray(v.rewards)
-    ? v.rewards.map(validateReward).filter((r): r is Reward => r !== null)
-    : undefined;
+  const rewards = validateRewardsArray(v.rewards);
   const out: ListLevel = { level, requirementItemIds };
   if (actions && actions.length > 0) out.actions = actions;
   if (tieredActions && tieredActions.length > 0) out.tieredActions = tieredActions;

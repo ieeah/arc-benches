@@ -1,8 +1,20 @@
 import type { AppLanguage } from '@/i18n/types';
 
+export interface RewardTranslation {
+  label?: string;
+}
+
+export interface Reward {
+  itemId?: string;
+  quantity?: number;
+  label: string;
+  translations?: Record<string, RewardTranslation>;
+}
+
 export interface ItemRequirement {
   itemId: string;
   quantity: number;
+  rewards?: Reward[];
 }
 
 export interface ActionTranslation {
@@ -13,12 +25,14 @@ export interface CheckboxAction {
   id: string;   // crypto.randomUUID() — stable key, never changes after creation
   label: string;
   translations?: Record<string, ActionTranslation>;
+  rewards?: Reward[];
 }
 
 export interface ActionStep {
   id: string;   // stable step identifier
   label: string;
   translations?: Record<string, ActionTranslation>;
+  rewards?: Reward[];
 }
 
 export interface TieredAction {
@@ -26,17 +40,6 @@ export interface TieredAction {
   label: string;
   translations?: Record<string, ActionTranslation>;
   steps: ActionStep[];
-}
-
-export interface RewardTranslation {
-  label?: string;
-}
-
-export interface Reward {
-  itemId?: string;
-  quantity?: number;
-  label: string;
-  translations?: Record<string, RewardTranslation>;
 }
 
 export interface ListLevel {
@@ -243,6 +246,7 @@ export interface AppState {
   /** Checkbox actions completion — key: `${listId}|${level}|${actionId}` */
   checkedActions: Record<string, boolean>;
   toggleAction: (listId: string, level: number, actionId: string) => void;
+  setLevelActionsBatch: (listId: string, level: number, actionIds: string[], checked: boolean) => void;
   setTieredActionStep: (listId: string, level: number, tieredActionId: string, steps: ActionStep[], stepIndex: number) => void;
 
   /** Expeditions & Prestige State for active profile */

@@ -1,11 +1,12 @@
 import { AlertTriangle, ArrowLeft, Check, Gift } from 'lucide-react';
 import { useAppStore } from '@/store';
-import { useTranslation, getItemName, getListName, getActionLabel, getRewardLabel } from '@/i18n';
+import { useTranslation, getItemName, getListName, getActionLabel } from '@/i18n';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { LevelPills } from '@/components/LevelPills';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { TieredActionTimeline } from '@/components/TieredActionTimeline';
+import { RewardBadge } from '@/components/RewardBadge';
 import { iconUrl } from '@/lib/icons';
 import { getRarityStyles } from '@/lib/rarity';
 import { getBaseLevel } from '@/lib/lists';
@@ -109,7 +110,18 @@ export const ListDetailPage = ({ listId, onBack }: {
                             : <span className="text-[7px] text-gray-400">{req.itemId}</span>}
                           <div className={cn('absolute bottom-0 left-0 right-0 h-1', color)} />
                         </div>
-                        <span className="flex-1 min-w-0 text-sm font-semibold truncate">{itemName}</span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-sm font-semibold truncate">{itemName}</span>
+                            {req.rewards && req.rewards.length > 0 && (
+                              <span className="flex items-center gap-1 flex-wrap">
+                                {req.rewards.map((r, rIdx) => (
+                                  <RewardBadge key={rIdx} reward={r} size="xs" obtained={enough} />
+                                ))}
+                              </span>
+                            )}
+                          </div>
+                        </div>
                         <span className={cn(
                           'text-xs font-bold font-mono shrink-0',
                           enough ? 'text-green-600 dark:text-green-400' : 'text-gray-400',
@@ -129,6 +141,7 @@ export const ListDetailPage = ({ listId, onBack }: {
                       label={getActionLabel(action, language)}
                       checked={store.checkedActions[`${list.id}|${lvl.level}|${action.id}`] ?? false}
                       onToggle={() => store.toggleAction(list.id, lvl.level, action.id)}
+                      rewards={action.rewards}
                     />
                   ))}
                 </div>
@@ -153,29 +166,9 @@ export const ListDetailPage = ({ listId, onBack }: {
                     <Gift size={12} className="text-violet-500" /> {t('lists.rewards')}
                   </p>
                   <div className="space-y-1.5">
-                    {lvl.rewards!.map((reward, rIdx) => {
-                      const info = reward.itemId ? store.itemsInfo[reward.itemId] : undefined;
-                      const name = info ? (getItemName(info, language) || reward.itemId) : getRewardLabel(reward, language);
-                      const { color } = getRarityStyles(info?.rarity ?? '');
-                      return (
-                        <div key={rIdx} className="flex items-center gap-2 bg-violet-50/50 dark:bg-violet-950/20 px-2.5 py-1.5 rounded-xl border border-violet-100 dark:border-violet-900/30">
-                          <div className="relative w-7 h-7 rounded-lg overflow-hidden bg-white dark:bg-gray-800 flex items-center justify-center shrink-0 border border-violet-200 dark:border-violet-800/40">
-                            {info?.icon ? (
-                              <img src={iconUrl(info.icon)} alt={name} loading="lazy" decoding="async" className="max-w-[85%] max-h-[85%] object-contain" />
-                            ) : (
-                              <span className="text-xs">🎁</span>
-                            )}
-                            {info && <div className={cn('absolute bottom-0 left-0 right-0 h-0.5', color)} />}
-                          </div>
-                          <span className="flex-1 min-w-0 text-xs font-semibold truncate text-gray-800 dark:text-gray-200">{name}</span>
-                          {reward.quantity && (
-                            <span className="text-xs font-mono font-bold text-violet-600 dark:text-violet-400 shrink-0">
-                              x{reward.quantity}
-                            </span>
-                          )}
-                        </div>
-                      );
-                    })}
+                    {lvl.rewards!.map((reward, rIdx) => (
+                      <RewardBadge key={rIdx} reward={reward} size="md" obtained={done} />
+                    ))}
                   </div>
                 </div>
               )}
