@@ -22,7 +22,7 @@ import {
   getExpeditionCompletedPhasePure,
   isDepartureWindowActivePure,
 } from '@/store/selectors';
-import { MAX_EXTRA_SKILL_POINTS } from '@/store/gameData';
+import { MAX_EXTRA_SKILL_POINTS, DEFAULT_EXPEDITION_DAMAGE } from '@/store/gameData';
 import { SectionHeader } from '@/components/SectionHeader';
 import { Drawer } from '@/components/Drawer';
 import { BottomSheet } from '@/components/BottomSheet';
@@ -66,22 +66,7 @@ export const ExpeditionPage = () => {
   );
 
   const damageChallenge: TieredAction = useMemo(() => {
-    return (
-      activeCaravan?.damageChallenge ?? {
-        id: 'damage-challenge',
-        label: 'Damage Challenge',
-        translations: {
-          it: { label: 'Sfida Danni' },
-        },
-        steps: [
-          { id: 'tier-1', label: '5.000' },
-          { id: 'tier-2', label: '30.000' },
-          { id: 'tier-3', label: '50.000' },
-          { id: 'tier-4', label: '75.000' },
-          { id: 'tier-5', label: '100.000' },
-        ],
-      }
-    );
+    return activeCaravan?.damageChallenge ?? DEFAULT_EXPEDITION_DAMAGE;
   }, [activeCaravan]);
 
   const isWindowOpen = useMemo(

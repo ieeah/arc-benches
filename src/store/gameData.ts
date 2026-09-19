@@ -1,4 +1,4 @@
-import type { ItemInfo, List } from '@/types';
+import type { ItemInfo, List, TieredAction } from '@/types';
 import workbenchesData from '@/data/workbenches.json';
 import expeditionsData from '@/data/expeditions.json';
 import projectsData from '@/data/projects.json';
@@ -10,6 +10,19 @@ import type { PersistedState } from '@/store/persistence';
 export const REFINER_ID = 'refiner';
 
 export const MAX_EXTRA_SKILL_POINTS = 15;
+
+export const DEFAULT_EXPEDITION_DAMAGE: TieredAction = {
+  id: 'damage-challenge',
+  label: 'Damage Requirements',
+  translations: { it: { label: 'Danni Richiesti' } },
+  steps: [
+    { id: 'tier-1', label: '5.000' },
+    { id: 'tier-2', label: '10.000' },
+    { id: 'tier-3', label: '30.000' },
+    { id: 'tier-4', label: '50.000' },
+    { id: 'tier-5', label: '100.000' },
+  ],
+};
 
 export function computeEffectiveWorkbenches(): List[] {
   let list = (workbenchesData.items as List[]);

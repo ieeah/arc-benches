@@ -2,19 +2,7 @@ import { Languages, Plus, RotateCcw, Swords, Trash2 } from 'lucide-react';
 import type { List, TieredAction, ActionStep } from '@/types';
 import { TieredActionTimeline } from '@/components/TieredActionTimeline';
 import { generateUUID } from '@/lib/uuid';
-
-const DEFAULT_EXPEDITION_DAMAGE: TieredAction = {
-  id: 'damage-challenge',
-  label: 'Damage Requirements',
-  translations: { it: { label: 'Danni Richiesti' } },
-  steps: [
-    { id: 'tier-1', label: '5.000' },
-    { id: 'tier-2', label: '10.000' },
-    { id: 'tier-3', label: '30.000' },
-    { id: 'tier-4', label: '50.000' },
-    { id: 'tier-5', label: '100.000' },
-  ],
-};
+import { DEFAULT_EXPEDITION_DAMAGE } from '@/store/gameData';
 
 interface DevDamageChallengeSectionProps {
   selectedList: List;
