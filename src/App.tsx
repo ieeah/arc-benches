@@ -16,11 +16,13 @@ import { DevOverridesPage } from '@/pages/DevOverridesPage';
 import { DevTranslationsPage } from '@/pages/DevTranslationsPage';
 import { DevListsPage } from '@/pages/DevListsPage';
 import { DevNavPage } from '@/pages/DevNavPage';
+import { DevFlagsPage } from '@/pages/DevFlagsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
 import { ExpeditionPage } from '@/pages/ExpeditionPage';
 import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
+import { useFeatureFlags } from '@/lib/featureFlags';
 import { hasUnsavedDevChanges } from '@/lib/devDrafts';
 import { AppFooter } from '@/components/AppFooter';
 import { useRouter, type AppRoute } from '@/router';
@@ -33,6 +35,7 @@ export default function App() {
   const activeTab = router.route;
   const detailListId = router.params.id || null;
   const devOverrideItemId = router.params.item || null;
+  const { isEnabled: isFeatureEnabled } = useFeatureFlags();
 
   const [listsAction, setListsAction] = useState<ListsPageAction>(null);
 
@@ -80,7 +83,7 @@ export default function App() {
         },
       ];
     }
-    if (activeTab === 'blueprints') {
+    if (activeTab === 'blueprints' && isFeatureEnabled('blueprints')) {
       return [
         {
           icon: <EyeOff size={15} />,
@@ -133,6 +136,8 @@ export default function App() {
           <DevListsPage onBack={() => router.back()} />
         ) : isDev && activeTab === 'dev-nav' ? (
           <DevNavPage onBack={() => router.back()} />
+        ) : isDev && activeTab === 'dev-flags' ? (
+          <DevFlagsPage onBack={() => router.back()} />
         ) : (
           <>
             <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
@@ -144,8 +149,8 @@ export default function App() {
                   onOpenDetail={openListDetail}
                 />
               )}
-              {activeTab === 'blueprints' && <BlueprintsPage />}
-              {activeTab === 'expeditions' && <ExpeditionPage />}
+              {activeTab === 'blueprints' && isFeatureEnabled('blueprints') && <BlueprintsPage />}
+              {activeTab === 'expeditions' && isFeatureEnabled('expeditions') && <ExpeditionPage />}
               {activeTab === 'items' && (
                 <ItemsPage
                   onBack={() => router.back()}
@@ -191,10 +196,12 @@ export default function App() {
           </>
         )}
 
-        <RoleMakerModal
-          isOpen={activeTab === 'role-maker'}
-          onClose={() => router.back()}
-        />
+        {isFeatureEnabled('role-maker') && (
+          <RoleMakerModal
+            isOpen={activeTab === 'role-maker'}
+            onClose={() => router.back()}
+          />
+        )}
       </div>
     </ThemeProvider>
   );

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { navIcon } from '@/lib/navIcons';
+import { isNavIdEnabled as defaultIsNavIdEnabled } from '@/lib/featureFlags';
 import navConfigSeed from '@/data/nav.json';
 
 const isDev = import.meta.env.DEV;
@@ -90,6 +91,7 @@ export function hasNavDraftChanges(): boolean {
 interface BuildOpts {
   isDev: boolean;
   t: (key: string) => string;
+  isNavIdEnabled?: (id: string) => boolean;
 }
 
 function resolveLabel(item: NavConfigItem, t: BuildOpts['t']): string {
@@ -105,9 +107,11 @@ function resolveLabel(item: NavConfigItem, t: BuildOpts['t']): string {
 
 function buildItems(items: NavConfigItem[], opts: BuildOpts, depth: number): NavItem[] {
   const iconSize = depth === 0 ? 18 : 16;
+  const checkEnabled = opts.isNavIdEnabled ?? defaultIsNavIdEnabled;
   const out: NavItem[] = [];
   for (const item of items) {
     if (item.visibility === 'dev' && !opts.isDev) continue;
+    if (!checkEnabled(item.id)) continue;
     const children = item.children ? buildItems(item.children, opts, depth + 1) : undefined;
     // A category whose children are all hidden collapses away.
     if ((item.category || item.children) && (!children || children.length === 0)) continue;

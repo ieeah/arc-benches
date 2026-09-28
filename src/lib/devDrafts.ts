@@ -4,6 +4,7 @@ import itemsOverridesData from '@/data/items-overrides.json';
 import { it as defaultIt } from '@/i18n/locales/it';
 import { en as defaultEn } from '@/i18n/locales/en';
 import { hasNavDraftChanges } from '@/lib/navTree';
+import { hasCustomFeatureFlags } from '@/lib/featureFlags';
 
 function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, string> {
   const result: Record<string, string> = {};
@@ -26,6 +27,7 @@ export function hasUnsavedDevChanges(): boolean {
   if (!import.meta.env.DEV) return false;
   try {
     if (hasNavDraftChanges()) return true;
+    if (hasCustomFeatureFlags()) return true;
 
     // 1. Check Lists Draft
     const listsDraft = localStorage.getItem('arc_benches_dev_lists_draft_v1');

@@ -63,6 +63,17 @@ describe('buildNavTree', () => {
     expect(dev.find(i => i.id === 'secret')!.devOnly).toBe(true);
     expect(dev.find(i => i.id === 'stash')!.devOnly).toBeUndefined();
   });
+
+  it('filters out items disabled by feature flags', () => {
+    const tree = buildNavTree(config, {
+      isDev: true,
+      t: identity,
+      isNavIdEnabled: (id: string) => id !== 'items',
+    });
+    const toolsChildren = tree.find(i => i.id === 'tools')!.children!.map(c => c.id);
+    expect(toolsChildren).not.toContain('items');
+    expect(toolsChildren).toContain('dev-lab');
+  });
 });
 
 describe('flattenNavLeaves', () => {

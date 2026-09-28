@@ -319,6 +319,8 @@ export const en: LocaleSchema = {
     devLabDesc: 'Catalog laboratory',
     devNavTitle: 'Navigation Manager',
     devNavDesc: 'Drag & drop menu editor',
+    devFlagsTitle: 'Feature Flags Studio',
+    devFlagsDesc: 'Feature modules & submenus manager',
     appInfo: 'ARC Benches Tracker',
     versionInfo: 'Version {version} • MetaForge catalog data',
     feedbackLanguage: 'Language set to: {lang}',

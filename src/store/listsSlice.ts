@@ -3,6 +3,7 @@ import type { AppState, List, ListExportFile } from '@/types';
 import { bootProfileState, bootSharedLists } from '@/store/boot';
 import { computeEffectiveItemsInfo, itemsInfo, levelsAbove, projects, REFINER_ID, workbenches } from '@/store/gameData';
 import { generateUUID } from '@/lib/uuid';
+import { isFeatureEnabled } from '@/lib/featureFlags';
 import {
   getAllListsPure,
   getOrderedListsPure,
@@ -59,52 +60,35 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   updateCustomList: (id, patch) => {
     const s = get();
-    const sharedIdx = s.sharedCustomLists.findIndex(l => l.id === id);
-    const localIdx = s.customLists.findIndex(l => l.id === id);
-    const isShared = sharedIdx >= 0;
-    const idx = isShared ? sharedIdx : localIdx;
-    if (idx === -1) return;
-
-    const prev = isShared ? s.sharedCustomLists[idx] : s.customLists[idx];
-    const levels = patch.levels ?? prev.levels;
-    const maxLevel = levels.length ? Math.max(...levels.map(l => l.level)) : 1;
-    const expirationDate = 'expirationDate' in patch ? patch.expirationDate : prev.expirationDate;
-    const updated: List = {
-      ...prev,
-      name: patch.name ?? prev.name,
-      expirationDate,
-      levels,
-      maxLevel,
-    };
-
-
-    const currentLevels = { ...s.currentLevels, [id]: Math.min(s.currentLevels[id] ?? 0, maxLevel) };
-    const prevTargets = s.targetLevels[id] ?? levelsAbove(0, maxLevel);
-    const targetLevels = { ...s.targetLevels, [id]: prevTargets.filter(l => l <= maxLevel) };
+    const isShared = s.sharedCustomLists.some(l => l.id === id);
+    const update = (lists: List[]) => lists.map(l => {
+      if (l.id !== id) return l;
+      const levels = patch.levels ?? l.levels;
+      const maxLevel = levels.length ? Math.max(...levels.map(lvl => lvl.level)) : l.maxLevel;
+      return { ...l, ...patch, maxLevel };
+    });
 
     if (isShared) {
-      const sharedCustomLists = [...s.sharedCustomLists];
-      sharedCustomLists[idx] = updated;
-      set({ sharedCustomLists, currentLevels, targetLevels });
+      set({ sharedCustomLists: update(s.sharedCustomLists) });
     } else {
-      const customLists = [...s.customLists];
-      customLists[idx] = updated;
-      set({ customLists, currentLevels, targetLevels });
+      set({ customLists: update(s.customLists) });
     }
   },
 
   deleteCustomList: (id) => {
     const s = get();
     const isShared = s.sharedCustomLists.some(l => l.id === id);
-    const currentLevels = { ...s.currentLevels }; delete currentLevels[id];
-    const targetLevels = { ...s.targetLevels }; delete targetLevels[id];
-    const activeModules = { ...s.activeModules }; delete activeModules[id];
-    const listOrder = s.listOrder.filter(x => x !== id);
+    const filter = (lists: List[]) => lists.filter(l => l.id !== id);
+
+    const { [id]: _, ...currentLevels } = s.currentLevels;
+    const { [id]: __, ...targetLevels } = s.targetLevels;
+    const { [id]: ___, ...activeModules } = s.activeModules;
+    const listOrder = s.listOrder.filter(listId => listId !== id);
 
     if (isShared) {
-      set({ sharedCustomLists: s.sharedCustomLists.filter(l => l.id !== id), currentLevels, targetLevels, activeModules, listOrder });
+      set({ sharedCustomLists: filter(s.sharedCustomLists), currentLevels, targetLevels, activeModules, listOrder });
     } else {
-      set({ customLists: s.customLists.filter(l => l.id !== id), currentLevels, targetLevels, activeModules, listOrder });
+      set({ customLists: filter(s.customLists), currentLevels, targetLevels, activeModules, listOrder });
     }
   },
 
@@ -144,13 +128,13 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getAllLists: () => {
     const s = get();
-    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     return getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition);
   },
 
   getOrderedLists: () => {
     const s = get();
-    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
+    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     return getOrderedListsPure(
       getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
       s.listOrder,
@@ -161,8 +145,8 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getActiveLists: () => {
     const s = get();
-    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
-    const expeditionPhase = getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions);
+    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
+    const expeditionPhase = activeExpedition ? getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions) : 0;
     const effectiveCurrentLevels = activeExpedition
       ? { ...s.currentLevels, [activeExpedition.id]: expeditionPhase }
       : s.currentLevels;
@@ -175,8 +159,8 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getMaxedLists: () => {
     const s = get();
-    const activeExpedition = getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount);
-    const expeditionPhase = getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions);
+    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
+    const expeditionPhase = activeExpedition ? getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions) : 0;
     const effectiveCurrentLevels = activeExpedition
       ? { ...s.currentLevels, [activeExpedition.id]: expeditionPhase }
       : s.currentLevels;

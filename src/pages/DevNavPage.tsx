@@ -9,10 +9,11 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import {
   Route, GripVertical, RotateCcw, Download, Eye, EyeOff, FolderOpen, ChevronRight,
-  Languages, RefreshCw, FileCode,
+  Languages, RefreshCw, FileCode, Flag,
 } from 'lucide-react';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { useDevNavDraft } from '@/hooks/dev/useDevNavDraft';
+import { isNavIdEnabled } from '@/lib/featureFlags';
 import { NAV_ICON_NAMES, navIcon } from '@/lib/navIcons';
 import type { NavConfig, NavConfigItem } from '@/lib/navTree';
 import {
@@ -97,6 +98,7 @@ function ItemRow({
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 };
   const isCategory = Boolean(item.category || item.children);
   const dev = item.visibility === 'dev';
+  const flagEnabled = isNavIdEnabled(item.id);
   const [showTr, setShowTr] = useState(false);
 
   const hasLabelKey = Boolean(item.labelKey);
@@ -107,7 +109,7 @@ function ItemRow({
       <div
         className={`flex items-center gap-2 rounded-xl border px-2 py-1.5 bg-white dark:bg-gray-900 ${
           isCategory ? 'border-blue-200 dark:border-blue-900' : 'border-gray-200 dark:border-gray-800'
-        }`}
+        } ${!flagEnabled ? 'opacity-70 bg-rose-50/20 dark:bg-rose-950/10' : ''}`}
       >
         <button
           {...attributes}
@@ -159,6 +161,15 @@ function ItemRow({
         />
 
         <span className="shrink-0 font-mono text-[10px] text-gray-400 w-24 truncate" title={item.id}>#{item.id}</span>
+
+        {!flagEnabled && (
+          <span
+            className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900"
+            title="Disabilitato nella pagina Feature Flags"
+          >
+            <Flag size={9} /> Flag OFF
+          </span>
+        )}
 
         <button
           onClick={() => onPatch({ visibility: dev ? 'always' : 'dev' })}

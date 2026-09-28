@@ -317,6 +317,8 @@ export const it = {
     "devLabDesc": "Laboratorio catalogo",
     "devNavTitle": "Gestione Navigazione",
     "devNavDesc": "Editor drag&drop del menu",
+    "devFlagsTitle": "Feature Flags Studio",
+    "devFlagsDesc": "Gestione moduli e sottomenu",
     "appInfo": "ARC Benches Tracker",
     "versionInfo": "Versione {version} • Dati catalogo MetaForge",
     "feedbackLanguage": "Lingua impostata: {lang}",

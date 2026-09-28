@@ -18,7 +18,8 @@
         { "id": "dev-lab", "label": "Dev Catalog Lab 🧪", "icon": "flask-conical", "visibility": "dev" },
         { "id": "dev-overrides", "label": "Dev Overrides 🛠️", "icon": "file-json", "visibility": "dev" },
         { "id": "dev-translations", "label": "Dev i18n Studio 🌐", "icon": "languages", "visibility": "dev" },
-        { "id": "dev-nav", "label": "Dev Nav Editor 🧭", "icon": "route", "visibility": "dev" }
+        { "id": "dev-nav", "label": "Dev Nav Editor 🧭", "icon": "route", "visibility": "dev" },
+        { "id": "dev-flags", "label": "Feature Flags 🚩", "icon": "flag", "visibility": "dev" }
       ]
     },
     { "id": "settings", "labelKey": "nav.settings", "icon": "settings" }

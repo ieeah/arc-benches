@@ -1,7 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { parseHash, buildHash, VALID_ROUTES } from './index';
+import { setFeatureFlag, resetFeatureFlags } from '@/lib/featureFlags';
 
 describe('Router hash parsing & building', () => {
+  beforeEach(() => {
+    resetFeatureFlags();
+  });
+
   it('parses simple hash routes correctly', () => {
     expect(parseHash('#stash')).toEqual({ route: 'stash', params: {} });
     expect(parseHash('#/stash')).toEqual({ route: 'stash', params: {} });
@@ -10,6 +15,22 @@ describe('Router hash parsing & building', () => {
     expect(parseHash('#/expeditions')).toEqual({ route: 'expeditions', params: {} });
     expect(parseHash('#/items')).toEqual({ route: 'items', params: {} });
     expect(parseHash('#/maps')).toEqual({ route: 'maps', params: {} });
+    expect(parseHash('#/settings')).toEqual({ route: 'settings', params: {} });
+    expect(parseHash('#/dev-flags')).toEqual({ route: 'dev-flags', params: {} });
+  });
+
+  it('redirects to stash when a feature flag is disabled', () => {
+    setFeatureFlag('blueprints', false);
+    expect(parseHash('#/blueprints')).toEqual({ route: 'stash', params: {} });
+
+    setFeatureFlag('expeditions', false);
+    expect(parseHash('#/expeditions')).toEqual({ route: 'stash', params: {} });
+
+    setFeatureFlag('role-maker', false);
+    expect(parseHash('#/role-maker')).toEqual({ route: 'stash', params: {} });
+
+    // Stash and settings remain accessible
+    expect(parseHash('#/stash')).toEqual({ route: 'stash', params: {} });
     expect(parseHash('#/settings')).toEqual({ route: 'settings', params: {} });
   });
 
@@ -35,9 +56,10 @@ describe('Router hash parsing & building', () => {
     expect(buildHash('expeditions')).toBe('#/expeditions');
     expect(buildHash('list-detail', { id: 'workbench-gear' })).toBe('#/list-detail?id=workbench-gear');
     expect(buildHash('dev-overrides', { item: 'seeds' })).toBe('#/dev-overrides?item=seeds');
+    expect(buildHash('dev-flags')).toBe('#/dev-flags');
   });
 
-  it('supports all valid routes', () => {
+  it('supports all valid routes when flags are active', () => {
     VALID_ROUTES.forEach((r) => {
       const loc = parseHash(`#/${r}`);
       expect(loc.route).toBe(r);

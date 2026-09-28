@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { isRouteEnabled } from '@/lib/featureFlags';
 
 const isDev = import.meta.env.DEV;
 const LAST_ROUTE_KEY = 'arc_benches_last_route_v1';
@@ -17,7 +18,8 @@ export type AppRoute =
   | 'dev-overrides'
   | 'dev-translations'
   | 'dev-lab'
-  | 'dev-nav';
+  | 'dev-nav'
+  | 'dev-flags';
 
 export const VALID_ROUTES: readonly AppRoute[] = [
   'stash',
@@ -34,6 +36,7 @@ export const VALID_ROUTES: readonly AppRoute[] = [
   'dev-translations',
   'dev-lab',
   'dev-nav',
+  'dev-flags',
 ] as const;
 
 export const DEV_ROUTES: readonly AppRoute[] = [
@@ -42,6 +45,7 @@ export const DEV_ROUTES: readonly AppRoute[] = [
   'dev-translations',
   'dev-lab',
   'dev-nav',
+  'dev-flags',
 ] as const;
 
 /** Feature non ancora pronte: raggiungibili solo in dev, escluse dalla build di produzione. */
@@ -87,6 +91,11 @@ export function parseHash(hash: string): RouteLocation {
     route = 'stash';
   }
 
+  // Se la rotta è disabilitata dalle feature flags, reindirizza a stash
+  if (!isRouteEnabled(route)) {
+    route = 'stash';
+  }
+
   const params: Record<string, string> = {};
   if (queryPart) {
     const searchParams = new URLSearchParams(queryPart);
@@ -125,6 +134,7 @@ export function buildHash(route: AppRoute, params?: Record<string, string>): str
 function saveLastRoute(loc: RouteLocation) {
   if (loc.route === 'role-maker') return;
   if (!isDev && NON_PROD_ROUTES.includes(loc.route)) return;
+  if (!isRouteEnabled(loc.route)) return;
   try {
     localStorage.setItem(LAST_ROUTE_KEY, JSON.stringify(loc));
   } catch {
@@ -142,6 +152,9 @@ function getLastSavedRoute(): RouteLocation | null {
       const parsed = JSON.parse(raw) as RouteLocation;
       if (VALID_ROUTES.includes(parsed.route)) {
         if (!isDev && NON_PROD_ROUTES.includes(parsed.route)) {
+          return null;
+        }
+        if (!isRouteEnabled(parsed.route)) {
           return null;
         }
         return parsed;

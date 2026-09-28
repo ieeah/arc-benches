@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
   Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages,
-  Code2, FileJson, FlaskConical, Zap, ZapOff, Layers, Route
+  Code2, FileJson, FlaskConical, Zap, ZapOff, Layers, Route, Flag
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -630,6 +630,17 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
               <div>
                 <p className="font-bold">{t('settings.devNavTitle')}</p>
                 <p className="text-[10px] font-normal text-gray-600/70 dark:text-gray-400/70">{t('settings.devNavDesc')}</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => onNavigate('dev-flags')}
+              className="p-3 bg-purple-50/70 dark:bg-purple-950/30 hover:bg-purple-100 dark:hover:bg-purple-900/40 border border-purple-200 dark:border-purple-800/60 rounded-2xl text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
+            >
+              <Flag size={18} className="shrink-0 text-purple-500" />
+              <div>
+                <p className="font-bold">{t('settings.devFlagsTitle')}</p>
+                <p className="text-[10px] font-normal text-purple-600/70 dark:text-purple-400/70">{t('settings.devFlagsDesc')}</p>
               </div>
             </button>
           </div>

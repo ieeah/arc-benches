@@ -29,6 +29,7 @@ import { useListManager } from '@/hooks/useListManager';
 import type { FilterCategory, SortOption } from '@/hooks/useListManager';
 import { ListControls } from '@/components/ListControls';
 import { useTranslation, getItemName, getItemSearchFields, getActionLabel, getListName } from '@/i18n';
+import { useFeatureFlags } from '@/lib/featureFlags';
 
 const STASH_SORT_IDS = [
   'priority_asc', 'priority_desc',
@@ -53,6 +54,7 @@ export const StashPage = ({
   onOpenOverrides?: (itemId: string) => void;
 } = {}) => {
   const { t, language } = useTranslation();
+  const { isEnabled: isFeatureEnabled } = useFeatureFlags();
   // Selettori mirati — re-render solo quando la slice pertinente cambia
   const inventory = useAppStore(s => s.inventory);
   const currentLevels = useAppStore(s => s.currentLevels);
@@ -88,8 +90,8 @@ export const StashPage = ({
   const toggleAction = useAppStore(s => s.toggleAction);
 
   const activeExpedition = useMemo(
-    () => getActiveExpeditionPure(expeditions, completedExpeditionsCount),
-    [expeditions, completedExpeditionsCount],
+    () => isFeatureEnabled('expeditions') ? getActiveExpeditionPure(expeditions, completedExpeditionsCount) : undefined,
+    [expeditions, completedExpeditionsCount, isFeatureEnabled],
   );
 
   const allLists = useMemo(
