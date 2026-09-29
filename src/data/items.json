@@ -569,6 +569,19 @@
       }
     }
   },
+  "arcade-duck": {
+    "id": "arcade-duck",
+    "name": "Arcade Duck",
+    "description": "Can be thrown to create noise.",
+    "icon": "icons/items/arcade-duck.webp",
+    "rarity": "Epic",
+    "item_type": "Trinket",
+    "subcategory": "",
+    "value": 7000,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": 15
+  },
   "arpeggio-i": {
     "id": "arpeggio-i",
     "name": "Arpeggio I",
@@ -740,6 +753,32 @@
         "description": "Un oggetto medico che ripristina gradualmente la salute nel tempo."
       }
     }
+  },
+  "banjo": {
+    "id": "banjo",
+    "name": "Banjo",
+    "description": "Banjo",
+    "icon": null,
+    "rarity": "Common",
+    "item_type": "Gadget",
+    "subcategory": "",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
+  },
+  "bantam": {
+    "id": "bantam",
+    "name": "Bantam",
+    "description": "The Bantam is a snub-nosed revolver that uses heavy ammo to punch a hole straight through your adversaries. Effective against ARC and Raiders, the Bantam comes with a unique hip-fire capability to help you live out the cowboy fantasy… even if you’ve got frozen fingers. ",
+    "icon": "icons/items/bantam.webp",
+    "rarity": "Common",
+    "item_type": "Weapon",
+    "subcategory": "",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
   },
   "barricade-kit": {
     "id": "barricade-kit",
@@ -1560,6 +1599,19 @@
         "description": "Dopo il crollo della rete, le candele sono diventate la fonte di luce preferita da molti. A differenza dell'elettricità, una buona vecchia candela non ti deluderà mai. A meno che non ci sia vento. O pioggia. O..."
       }
     }
+  },
+  "camera": {
+    "id": "camera",
+    "name": "Camera",
+    "description": "Camera",
+    "icon": null,
+    "rarity": "Common",
+    "item_type": "Gadget",
+    "subcategory": "",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
   },
   "camera-lens": {
     "id": "camera-lens",
@@ -2749,7 +2801,7 @@
     "rarity": "Legendary",
     "item_type": "Trinket",
     "subcategory": "Trinket",
-    "value": 9996,
+    "value": 10000,
     "workbench": null,
     "loot_area": "",
     "stack_size": null,
@@ -3573,7 +3625,7 @@
     "rarity": "Common",
     "item_type": "Augment",
     "subcategory": "Augment",
-    "value": 100,
+    "value": 660,
     "workbench": null,
     "loot_area": "",
     "stack_size": null,
@@ -3621,6 +3673,19 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "frosty-duck": {
+    "id": "frosty-duck",
+    "name": "Frosty Duck",
+    "description": "Can be thrown to create noise.",
+    "icon": "icons/items/frosty-duck.webp",
+    "rarity": "Rare",
+    "item_type": "Trinket",
+    "subcategory": "",
+    "value": 3000,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": 15
   },
   "fruit-mix": {
     "id": "fruit-mix",
@@ -3895,6 +3960,19 @@
     "loot_area": "",
     "stack_size": null
   },
+  "grappling-hook": {
+    "id": "grappling-hook",
+    "name": "Grappling Hook",
+    "description": "It’s important for us to focus on gadgets and items that offer new ways to play and fresh modes of traversal. That’s where the Grapple Hook comes in, letting you climb hard to reach spots, abseil off buildings, and swing over large gaps. Raiders who get creative will find themselves able to navigate the terrain in totally new ways. ",
+    "icon": "icons/items/grappling-hook.webp",
+    "rarity": "Common",
+    "item_type": "Gadget",
+    "subcategory": "",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
+  },
   "great-muullein": {
     "id": "great-muullein",
     "name": "Great Mullein",
@@ -4016,6 +4094,19 @@
     "icon": "icons/items/happy-jig-emote.webp",
     "rarity": "",
     "item_type": "Misc",
+    "subcategory": "",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
+  },
+  "harmonica": {
+    "id": "harmonica",
+    "name": "Harmonica",
+    "description": "Two new instruments can be heard Topside this October, the Harmonica, and the Banjo (Blueprint offered in the Collector Set DLC). Bring the sounds of southern swamps to the Rust Belt this fall - It’s time to get the band back together!",
+    "icon": "icons/items/harmonica.webp",
+    "rarity": "Common",
+    "item_type": "Gadget",
     "subcategory": "",
     "value": 0,
     "workbench": null,
@@ -5385,6 +5476,19 @@
       }
     }
   },
+  "mri-duck": {
+    "id": "mri-duck",
+    "name": "MRI Duck",
+    "description": "Can be thrown to create noise.",
+    "icon": "icons/items/mri-duck.webp",
+    "rarity": "Legendary",
+    "item_type": "Trinket",
+    "subcategory": "",
+    "value": 10000,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": 15
+  },
   "mushroom": {
     "id": "mushroom",
     "name": "Mushroom",
@@ -5856,7 +5960,7 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Grilletto pop",
+        "name": "Detonatore di Pop",
         "description": "Si può riciclare in materiali da costruzione."
       }
     }
@@ -5958,7 +6062,7 @@
     "rarity": "Epic",
     "item_type": "Advanced Material",
     "subcategory": "Refined Material",
-    "value": 4997,
+    "value": 5000,
     "workbench": "Refiner",
     "loot_area": "Exodus",
     "stack_size": 3,
@@ -8048,6 +8152,19 @@
       }
     }
   },
+  "stiletto": {
+    "id": "stiletto",
+    "name": "Stiletto",
+    "description": "The Stiletto is a light-ammo battle rifle that fits in as an early-game alternative to the Renegade. Cheap to craft and easy to wield, it’s the perfect choice for Raiders with a steady shot looking to attack from distance. Fire rate can be fast, but button mashing will sacrifice accuracy - keep a cool head and hit your shots. ",
+    "icon": "icons/items/stiletto.webp",
+    "rarity": "Common",
+    "item_type": "Weapon",
+    "subcategory": "",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
+  },
   "stitcher-i": {
     "id": "stitcher-i",
     "name": "Stitcher I",
@@ -8530,6 +8647,19 @@
       }
     }
   },
+  "tether-launcher": {
+    "id": "tether-launcher",
+    "name": "Tether Launcher",
+    "description": "The Tether Launcher allows you to connect two separate points with a wire, rooting them in place for easy pickings or even attaching Raiders to ARC and watching as they’re dragged away.",
+    "icon": "icons/items/tether-launcher.webp",
+    "rarity": "Common",
+    "item_type": "Gadget",
+    "subcategory": "",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
+  },
   "thermostat": {
     "id": "thermostat",
     "name": "Thermostat",
@@ -8598,7 +8728,13 @@
     "value": 300,
     "workbench": null,
     "loot_area": "Nature",
-    "stack_size": 15
+    "stack_size": 15,
+    "translations": {
+      "it": {
+        "name": "Grande Verbasco",
+        "description": "Si usa per creare forniture mediche."
+      }
+    }
   },
   "torn-blanket": {
     "id": "torn-blanket",
@@ -9398,6 +9534,19 @@
         "description": "Una granata che si disperde in più missili guidati, ognuno dei quali ha come bersaglio l'ARC e infligge danni esplosivi all'impatto."
       }
     }
+  },
+  "yank-grenade": {
+    "id": "yank-grenade",
+    "name": "Yank Grenade",
+    "description": "The Yank Grenade works on the same principle, but when it explodes, it pulls a nearby target with a violent force. This is perfect for smashing flying ARC to the ground or pulling other Raiders out of cover. ",
+    "icon": "icons/items/yank-grenade.webp",
+    "rarity": "Common",
+    "item_type": "Gadget",
+    "subcategory": "",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null
   },
   "yellow-light-stick": {
     "id": "yellow-light-stick",
