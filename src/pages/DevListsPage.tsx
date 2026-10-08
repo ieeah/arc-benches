@@ -44,6 +44,7 @@ import { useTranslation, getItemName, getListName, getListSearchFields } from "@
 import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
 import { isExpedition, isProject, withListType } from "@/lib/lists";
+import { buildListsFileContent } from "@/lib/devArtifacts";
 import itemsDatabase from "@/data/items.json";
 import { generateUUID } from "@/lib/uuid";
 import { cn } from "@/lib/cn";
@@ -669,8 +670,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       isProject(selectedList) ||
       Boolean(selectedList.startDate || selectedList.expirationDate));
   const fileJsonContent = useMemo(() => {
-    const items = listsData[currentCategory] || [];
-    return JSON.stringify({ lists: items }, null, 2);
+    return buildListsFileContent(currentCategory, listsData[currentCategory] || []);
   }, [listsData, currentCategory]);
 
   const singleJsonContent = useMemo(() => {

@@ -5,11 +5,11 @@ import defaultExpeditionsData from '@/data/expeditions.json';
 import defaultProjectsData from '@/data/projects.json';
 import defaultQuestsData from '@/data/quests.json';
 
-const DRAFT_STORAGE_KEY = 'arc_benches_dev_lists_draft_v1';
+export const DRAFT_STORAGE_KEY = 'arc_benches_dev_lists_draft_v1';
 
 export type ListsDataMap = Record<ListType, List[]>;
 
-function getInitialData(): ListsDataMap {
+export function getInitialData(): ListsDataMap {
   return {
     workbench: (defaultWorkbenchesData.items || []) as List[],
     expedition: ((defaultExpeditionsData as unknown as { lists?: List[] }).lists || []) as List[],
