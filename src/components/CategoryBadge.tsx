@@ -1,5 +1,6 @@
 import React from 'react';
 import { getCategoryIconPath } from '@/lib/categoryIcons';
+import { useAppStore } from '@/store';
 
 export interface CategoryBadgeProps {
   itemType?: string | null;
@@ -30,7 +31,10 @@ export const CategoryBadge: React.FC<CategoryBadgeProps> = ({
   showLabel = false,
   bare = false,
 }) => {
-  const iconPath = getCategoryIconPath(itemType, subcategory);
+  const theme = useAppStore(s => s.theme);
+  // Variante `bare` (barra categoria delle card): icona disegnata direttamente sullo sfondo,
+  // quindi serve la serie del tema corrente; le altre varianti stanno su una pillola scura.
+  const iconPath = getCategoryIconPath(itemType, subcategory, bare && theme !== 'dark' ? 'light' : 'dark');
   if (!iconPath) return null;
   const label = subcategory || itemType;
 
@@ -45,7 +49,7 @@ export const CategoryBadge: React.FC<CategoryBadgeProps> = ({
         title={label || undefined}
         loading="lazy"
         decoding="async"
-        className={`h-full w-auto max-w-full object-contain filter drop-shadow-xs select-none ${className}`}
+        className={`h-full w-auto max-w-full object-contain select-none ${className}`}
       />
     );
   }

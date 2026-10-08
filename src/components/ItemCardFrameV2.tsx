@@ -35,7 +35,7 @@ export interface ItemCardFrameV2Props {
  *   sinistra — tutto scalato sulla sua sola altezza, la barra è una sorella, non ci
  *   rientra.
  * - barra: sfondo trasparente (mostra ciò che sta dietro la card), solo l'icona
- *   categoria, che si inverte in tema chiaro (le icone sorgente sono chiare).
+ *   categoria (la variante del tema corrente viene scelta da CategoryBadge, senza filtri CSS).
  *
  * Non sostituisce ItemCardFrame — coesistono per confronto visivo.
  */
@@ -149,7 +149,7 @@ export const ItemCardFrameV2 = ({
               da 80px con barra ~19px): il margine è tutto proporzionale, l'icona resta
               al 65% dell'altezza barra a qualunque taglia, non scende mai sotto o sopra
               soglie ragionevoli perché la barra stessa è già clampata (18-34px). */}
-          <div className="h-[65%] flex items-center [&_img]:invert dark:[&_img]:invert-0">
+          <div className="h-[65%] flex items-center">
             {categoryBadge}
           </div>
         </div>

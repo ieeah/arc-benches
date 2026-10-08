@@ -74,4 +74,11 @@ describe('categoryIcons', () => {
     expect(getFallbackItemIcon('Unknown Type', null)).toBe('icons/categories/misc.webp');
     expect(getFallbackItemIcon(null, null)).toBe('icons/categories/misc.webp');
   });
+
+  it('serves the light-theme variant from the light/ folder only when asked', () => {
+    expect(getCategoryIconPath('Weapon')).toMatch(/icons\/categories\/weapon\.webp$/);
+    expect(getCategoryIconPath('Weapon', null, 'dark')).toMatch(/icons\/categories\/weapon\.webp$/);
+    expect(getCategoryIconPath('Weapon', null, 'light')).toMatch(/icons\/categories\/light\/weapon\.webp$/);
+    expect(getCategoryIconPath(null, null, 'light')).toBeNull();
+  });
 });

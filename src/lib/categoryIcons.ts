@@ -83,12 +83,20 @@ function resolveCategoryIconFile(itemType?: string | null, subcategory?: string 
   return 'misc.webp';
 }
 
-export function getCategoryIconPath(itemType?: string | null, subcategory?: string | null): string | null {
+/**
+ * `theme: 'light'` serves the dark-ink variant (public/icons/categories/light/) for icons drawn
+ * straight on the page background; the default (dark) series is the original light-ink one.
+ */
+export function getCategoryIconPath(
+  itemType?: string | null,
+  subcategory?: string | null,
+  theme: 'light' | 'dark' = 'dark',
+): string | null {
   const file = resolveCategoryIconFile(itemType, subcategory);
   if (!file) return null;
   const base = import.meta.env.BASE_URL || '/';
   const prefix = base.endsWith('/') ? base : `${base}/`;
-  return `${prefix}${ICONS_DIR}/${file}`;
+  return `${prefix}${ICONS_DIR}/${theme === 'light' ? 'light/' : ''}${file}`;
 }
 
 /**
