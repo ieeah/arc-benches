@@ -161,9 +161,9 @@ function trimItem(item, icon, itemOverride = {}) {
   const base = {
     id: item.id,
     name: item.name,
-    description: item.description,
+    description: item.description ?? '', // cosmetics/furniture can come without a description
     icon,
-    rarity: item.rarity,
+    rarity: item.rarity ?? 'Common', // ...and without a rarity
     item_type: item.item_type,
     subcategory: item.subcategory,
     value: item.value,

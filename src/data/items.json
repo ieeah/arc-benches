@@ -1,4 +1,17 @@
 {
+  "abyss-outfit": {
+    "id": "abyss-outfit",
+    "name": "Abyss (Outfit)",
+    "description": "",
+    "icon": "icons/items/abyss-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "acoustic-guitar": {
     "id": "acoustic-guitar",
     "name": "Acoustic Guitar",
@@ -17,6 +30,19 @@
         "description": "Una Chitarra Acustica suonabile, utilizzata per attirare gli Arc e fare colpo sugli altri Raider."
       }
     }
+  },
+  "action-economy": {
+    "id": "action-economy",
+    "name": "Action Economy",
+    "description": "The Hairpin wastes very little motion between shots. That sort of efficiency gets more interesting once a scope is involved.",
+    "icon": "icons/items/action-economy.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "adrenaline-shot": {
     "id": "adrenaline-shot",
@@ -56,6 +82,19 @@
       }
     }
   },
+  "advanced-camera": {
+    "id": "advanced-camera",
+    "name": "Advanced Camera",
+    "description": "A more advanced camera with a few extra bells and whistles.",
+    "icon": "icons/items/advanced-camera.webp",
+    "rarity": "Rare",
+    "item_type": "Quick Use",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "advanced-electrical-components": {
     "id": "advanced-electrical-components",
     "name": "Advanced Electrical Components",
@@ -93,6 +132,19 @@
         "description": "Utile per creare armi avanzate. Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "aeronaut-outfit": {
+    "id": "aeronaut-outfit",
+    "name": "Aeronaut (Outfit)",
+    "description": "",
+    "icon": "icons/items/aeronaut-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "agave": {
     "id": "agave",
@@ -189,6 +241,331 @@
       }
     }
   },
+  "alpine-wardrobe": {
+    "id": "alpine-wardrobe",
+    "name": "Alpine Wardrobe",
+    "description": "",
+    "icon": "icons/items/alpine-wardrobe.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "alpine-wardrobe-design": {
+    "id": "alpine-wardrobe-design",
+    "name": "Alpine Wardrobe Design",
+    "description": "",
+    "icon": "icons/items/alpine-wardrobe.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "alpino-outfit": {
+    "id": "alpino-outfit",
+    "name": "Alpino (Outfit)",
+    "description": "",
+    "icon": "icons/items/alpino-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplification-module-mk-i": {
+    "id": "amplification-module-mk-i",
+    "name": "Amplification Module MK. I",
+    "description": "Advanced ARC technology that unlocks common weapon Amplification.",
+    "icon": "icons/items/amplification-module-mk-i.webp",
+    "rarity": "Amplified",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplification-module-mk-ii": {
+    "id": "amplification-module-mk-ii",
+    "name": "Amplification Module MK. II",
+    "description": "Advanced ARC technology that unlocks uncommon weapon Amplification.",
+    "icon": "icons/items/amplification-module-mk-ii.webp",
+    "rarity": "Amplified",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplification-module-mk-iii": {
+    "id": "amplification-module-mk-iii",
+    "name": "Amplification Module MK. III",
+    "description": "Advanced ARC technology that unlocks rare weapon Amplification.",
+    "icon": "icons/items/amplification-module-mk-iii.webp",
+    "rarity": "Amplified",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplification-module-mk-iv": {
+    "id": "amplification-module-mk-iv",
+    "name": "Amplification Module MK. IV",
+    "description": "Advanced ARC technology that unlocks epic weapon Amplification.",
+    "icon": "icons/items/amplification-module-mk-iv.webp",
+    "rarity": "Amplified",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplification-module-mk-v": {
+    "id": "amplification-module-mk-v",
+    "name": "Amplification Module MK. V",
+    "description": "Advanced ARC technology that unlocks legendary weapon Amplification.",
+    "icon": "icons/items/amplification-module-mk-v.webp",
+    "rarity": "Amplified",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-anvil": {
+    "id": "amplified-anvil",
+    "name": "Amplified Anvil",
+    "description": "An amplified variant of the Anvil.",
+    "icon": "icons/items/amplified-anvil.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Hand Cannon",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-aphelion": {
+    "id": "amplified-aphelion",
+    "name": "Amplified Aphelion",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-bettina": {
+    "id": "amplified-bettina",
+    "name": "Amplified Bettina",
+    "description": "An amplified variant of the Bettina.",
+    "icon": "icons/items/amplified-bettina.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 27200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-burletta": {
+    "id": "amplified-burletta",
+    "name": "Amplified Burletta",
+    "description": "An amplified variant of the Burletta.",
+    "icon": "icons/items/amplified-burletta.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-canto": {
+    "id": "amplified-canto",
+    "name": "Amplified Canto",
+    "description": "An amplified variant of the Canto.",
+    "icon": "icons/items/amplified-canto.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "SMG",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-equalizer": {
+    "id": "amplified-equalizer",
+    "name": "Amplified Equalizer",
+    "description": "An amplified variant of the Equalizer.",
+    "icon": "icons/items/amplified-equalizer.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-fragments": {
+    "id": "amplified-fragments",
+    "name": "Amplified Fragments",
+    "description": "Obtained through recycling and used to repair amplified weapons.",
+    "icon": "icons/items/amplified-fragments.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 500,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-hairpin": {
+    "id": "amplified-hairpin",
+    "name": "Amplified Hairpin",
+    "description": "An amplified variant of the Hairpin.",
+    "icon": "icons/items/amplified-hairpin.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-hullcracker": {
+    "id": "amplified-hullcracker",
+    "name": "Amplified Hullcracker",
+    "description": "An amplified variant of the Hullcracker.",
+    "icon": "icons/items/amplified-hullcracker.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 27200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-il-toro": {
+    "id": "amplified-il-toro",
+    "name": "Amplified Il Toro",
+    "description": "An amplified variant of the Il Toro.",
+    "icon": "icons/items/amplified-il-toro.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Shotgun",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-jupiter": {
+    "id": "amplified-jupiter",
+    "name": "Amplified Jupiter",
+    "description": "An amplified variant of the Jupiter.",
+    "icon": "icons/items/amplified-jupiter.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-kettle": {
+    "id": "amplified-kettle",
+    "name": "Amplified Kettle",
+    "description": "An amplified variant of the Kettle.",
+    "icon": "icons/items/amplified-kettle.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-osprey": {
+    "id": "amplified-osprey",
+    "name": "Amplified Osprey",
+    "description": "An amplified variant of the Osprey.",
+    "icon": "icons/items/amplified-osprey.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-rascal": {
+    "id": "amplified-rascal",
+    "name": "Amplified Rascal",
+    "description": "An amplified variant of the Rascal.",
+    "icon": "icons/items/amplified-rascal.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-rattler": {
+    "id": "amplified-rattler",
+    "name": "Amplified Rattler",
+    "description": "An amplified variant of the Rattler.",
+    "icon": "icons/items/amplified-rattler.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "amplified-renegade": {
+    "id": "amplified-renegade",
+    "name": "Amplified Renegade",
+    "description": "An amplified variant of the Renegade.",
+    "icon": "icons/items/amplified-renegade.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "anchor-outfit": {
+    "id": "anchor-outfit",
+    "name": "Anchor (Outfit)",
+    "description": "",
+    "icon": "icons/items/anchor-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "angled-grip-i": {
     "id": "angled-grip-i",
     "name": "Angled Grip I",
@@ -245,6 +622,19 @@
         "description": "Riduce significativamente il rinculo orizzontale. Compatibile con: Arpeggio, Ferro, Venator, Il Toro, Stitcher"
       }
     }
+  },
+  "anomalia-outfit": {
+    "id": "anomalia-outfit",
+    "name": "Anomalia (Outfit)",
+    "description": "",
+    "icon": "icons/items/anomalia-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "antiseptic": {
     "id": "antiseptic",
@@ -436,6 +826,19 @@
       }
     }
   },
+  "arc-conductive-coupler": {
+    "id": "arc-conductive-coupler",
+    "name": "ARC Conductive Coupler",
+    "description": "One of three distinct couplers found in ARC machines, said to combine into a singular conduit.",
+    "icon": "icons/items/arc-conductive-coupler.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "arc-coolant": {
     "id": "arc-coolant",
     "name": "ARC Coolant",
@@ -455,6 +858,19 @@
       }
     }
   },
+  "arc-data-module": {
+    "id": "arc-data-module",
+    "name": "ARC Data Module",
+    "description": "A secondary data module found in a range of ARC machines.",
+    "icon": "icons/items/arc-data-module.webp",
+    "rarity": "Epic",
+    "item_type": "Research Item",
+    "subcategory": null,
+    "value": 2000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "arc-flex-rubber": {
     "id": "arc-flex-rubber",
     "name": "ARC Flex Rubber",
@@ -473,6 +889,19 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "arc-insulated-coupler": {
+    "id": "arc-insulated-coupler",
+    "name": "ARC Insulated Coupler",
+    "description": "One of three distinct couplers found in ARC machines, said to combine into a singular conduit.",
+    "icon": "icons/items/arc-insulated-coupler.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "arc-motion-core": {
     "id": "arc-motion-core",
@@ -511,6 +940,19 @@
         "description": "Si può riciclare in materiali di fabbricazione."
       }
     }
+  },
+  "arc-plated-coupler": {
+    "id": "arc-plated-coupler",
+    "name": "ARC Plated Coupler",
+    "description": "One of three distinct couplers found in ARC machines, said to combine into a singular conduit.",
+    "icon": "icons/items/arc-plated-coupler.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "arc-powercell": {
     "id": "arc-powercell",
@@ -581,6 +1023,45 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 15
+  },
+  "archive-desk-lamp": {
+    "id": "archive-desk-lamp",
+    "name": "Archive Desk Lamp",
+    "description": "May be worth a few coins.",
+    "icon": "icons/items/archive-desk-lamp.webp",
+    "rarity": "Epic",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "archive-floor-lamp": {
+    "id": "archive-floor-lamp",
+    "name": "Archive Floor Lamp",
+    "description": "",
+    "icon": "icons/items/archive-floor-lamp.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "archive-floor-lamp-design": {
+    "id": "archive-floor-lamp-design",
+    "name": "Archive Floor Lamp Design",
+    "description": "",
+    "icon": "icons/items/archive-floor-lamp.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "arpeggio-i": {
     "id": "arpeggio-i",
@@ -696,6 +1177,19 @@
       }
     }
   },
+  "astrolite-outfit": {
+    "id": "astrolite-outfit",
+    "name": "Astrolite (Outfit)",
+    "description": "",
+    "icon": "icons/items/astrolite-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "aviator-outfit": {
     "id": "aviator-outfit",
     "name": "Aviator (Outfit)",
@@ -707,6 +1201,19 @@
     "value": null,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "azimuth-outfit": {
+    "id": "azimuth-outfit",
+    "name": "Azimuth (Outfit)",
+    "description": "",
+    "icon": "icons/items/azimuth-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "bag-radio-renegade-variant": {
@@ -757,27 +1264,92 @@
   "banjo": {
     "id": "banjo",
     "name": "Banjo",
-    "description": "Banjo",
-    "icon": null,
-    "rarity": "Common",
-    "item_type": "Gadget",
+    "description": "A playable banjo used to attract ARC's attention, and impress other Raiders.",
+    "icon": "icons/items/banjo.webp",
+    "rarity": "Rare",
+    "item_type": "Quick Use",
     "subcategory": "",
-    "value": null,
+    "value": 3000,
     "workbench": null,
     "loot_area": "",
     "stack_size": null
   },
+  "banshee-outfit": {
+    "id": "banshee-outfit",
+    "name": "Banshee (Outfit)",
+    "description": "",
+    "icon": "icons/items/banshee-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "bantam": {
     "id": "bantam",
-    "name": "Bantam",
-    "description": "The Bantam is a snub-nosed revolver that uses heavy ammo to punch a hole straight through your adversaries. Effective against ARC and Raiders, the Bantam comes with a unique hip-fire capability to help you live out the cowboy fantasy… even if you’ve got frozen fingers. ",
+    "name": "Bantam I",
+    "description": "Short-barrel revolver with varied fire rate, good handling and damage, but with low accuracy, control and range.",
     "icon": "icons/items/bantam.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Weapon",
-    "subcategory": "",
-    "value": 0,
+    "subcategory": "Hand Cannon",
+    "value": 3800,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "bantam-ii": {
+    "id": "bantam-ii",
+    "name": "Bantam II",
+    "description": "Short-barrel revolver with varied fire rate, good handling and damage, but with low accuracy, control and range.",
+    "icon": "icons/items/bantam-ii.webp",
+    "rarity": "Uncommon",
+    "item_type": "Weapon",
+    "subcategory": "Hand Cannon",
+    "value": 6000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bantam-iii": {
+    "id": "bantam-iii",
+    "name": "Bantam III",
+    "description": "Short-barrel revolver with varied fire rate, good handling and damage, but with low accuracy, control and range.",
+    "icon": "icons/items/bantam-ii.webp",
+    "rarity": "Uncommon",
+    "item_type": "Weapon",
+    "subcategory": "Hand Cannon",
+    "value": 8000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bantam-iv": {
+    "id": "bantam-iv",
+    "name": "Bantam IV",
+    "description": "Short-barrel revolver with varied fire rate, good handling and damage, but with low accuracy, control and range.",
+    "icon": "icons/items/bantam-ii.webp",
+    "rarity": "Uncommon",
+    "item_type": "Weapon",
+    "subcategory": "Hand Cannon",
+    "value": 11000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bar-table-design": {
+    "id": "bar-table-design",
+    "name": "Bar Table Design",
+    "description": "",
+    "icon": "icons/items/bar-table-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "barricade-kit": {
@@ -799,6 +1371,32 @@
       }
     }
   },
+  "barstool": {
+    "id": "barstool",
+    "name": "Barstool",
+    "description": "",
+    "icon": "icons/items/barstool.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "barstool-design": {
+    "id": "barstool-design",
+    "name": "Barstool Design",
+    "description": "",
+    "icon": "icons/items/barstool.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "bastion-part": {
     "id": "bastion-part",
     "name": "Bastion Cell",
@@ -818,6 +1416,292 @@
       }
     }
   },
+  "battered-aviary-table": {
+    "id": "battered-aviary-table",
+    "name": "Battered Aviary Table",
+    "description": "",
+    "icon": "icons/items/battered-aviary-table.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-aviary-table-design": {
+    "id": "battered-aviary-table-design",
+    "name": "Battered Aviary Table Design",
+    "description": "",
+    "icon": "icons/items/battered-aviary-table.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-bureau-chair-design": {
+    "id": "battered-bureau-chair-design",
+    "name": "Battered Bureau Chair Design",
+    "description": "",
+    "icon": "icons/items/battered-bureau-chair-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-bureau-sofa": {
+    "id": "battered-bureau-sofa",
+    "name": "Battered Bureau Sofa",
+    "description": "",
+    "icon": "icons/items/battered-bureau-sofa.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-bureau-sofa-design": {
+    "id": "battered-bureau-sofa-design",
+    "name": "Battered Bureau Sofa Design",
+    "description": "",
+    "icon": "icons/items/battered-bureau-sofa.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-den-bed-design": {
+    "id": "battered-den-bed-design",
+    "name": "Battered Den Bed Design",
+    "description": "",
+    "icon": "icons/items/battered-den-bed-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-den-shelf": {
+    "id": "battered-den-shelf",
+    "name": "Battered Den Shelf",
+    "description": "",
+    "icon": "icons/items/battered-den-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-den-shelf-design": {
+    "id": "battered-den-shelf-design",
+    "name": "Battered Den Shelf Design",
+    "description": "",
+    "icon": "icons/items/battered-den-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-diner-chair-design": {
+    "id": "battered-diner-chair-design",
+    "name": "Battered Diner Chair Design",
+    "description": "",
+    "icon": "icons/items/battered-diner-chair-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-faculty-table-design": {
+    "id": "battered-faculty-table-design",
+    "name": "Battered Faculty Table Design",
+    "description": "",
+    "icon": "icons/items/battered-faculty-table-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-lab-cabinet": {
+    "id": "battered-lab-cabinet",
+    "name": "Battered Lab Cabinet",
+    "description": "",
+    "icon": "icons/items/battered-lab-cabinet.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-lab-cabinet-design": {
+    "id": "battered-lab-cabinet-design",
+    "name": "Battered Lab Cabinet Design",
+    "description": "",
+    "icon": "icons/items/battered-lab-cabinet.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-lab-cabinet-wide": {
+    "id": "battered-lab-cabinet-wide",
+    "name": "Battered Lab Cabinet (Wide)",
+    "description": "",
+    "icon": "icons/items/battered-lab-cabinet-wide.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-lab-cabinet-wide-design": {
+    "id": "battered-lab-cabinet-wide-design",
+    "name": "Battered Lab Cabinet (Wide) Design",
+    "description": "",
+    "icon": "icons/items/battered-lab-cabinet-wide.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-lab-chair-design": {
+    "id": "battered-lab-chair-design",
+    "name": "Battered Lab Chair Design",
+    "description": "",
+    "icon": "icons/items/battered-lab-chair-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-paperback": {
+    "id": "battered-paperback",
+    "name": "Battered Paperback",
+    "description": "Filled with dog-eared pages and coffee stains, an inquisitive mind may find wisdom nonetheless.",
+    "icon": "icons/items/battered-paperback.webp",
+    "rarity": "Common",
+    "item_type": "Research Item",
+    "subcategory": null,
+    "value": 270,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-shelf": {
+    "id": "battered-shelf",
+    "name": "Battered Shelf",
+    "description": "",
+    "icon": "icons/items/battered-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-shelf-design": {
+    "id": "battered-shelf-design",
+    "name": "Battered Shelf Design",
+    "description": "",
+    "icon": "icons/items/battered-shelf.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-stash": {
+    "id": "battered-stash",
+    "name": "Battered Stash",
+    "description": "",
+    "icon": "icons/items/battered-stash.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-stash-design": {
+    "id": "battered-stash-design",
+    "name": "Battered Stash Design",
+    "description": "",
+    "icon": "icons/items/battered-stash.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-weapon-rack": {
+    "id": "battered-weapon-rack",
+    "name": "Battered Weapon Rack",
+    "description": "",
+    "icon": "icons/items/battered-weapon-rack.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "battered-weapon-rack-design": {
+    "id": "battered-weapon-rack-design",
+    "name": "Battered Weapon Rack Design",
+    "description": "",
+    "icon": "icons/items/battered-weapon-rack.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "battery": {
     "id": "battery",
     "name": "Battery",
@@ -836,6 +1720,32 @@
         "description": "Si usa per creare una vasta gamma di oggetti. Si può riciclare in componenti metallici. Si usa per creare: Clip energetica, Scudo medio, Mina a scossa"
       }
     }
+  },
+  "beam-resonance-tech": {
+    "id": "beam-resonance-tech",
+    "name": "Beam Resonance Tech",
+    "description": "The Equalizer is at its best when the beam stays exactly where the target would rather not have it. Maybe we can work with that.",
+    "icon": "icons/items/beam-resonance-tech.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bent-clothes-hanger": {
+    "id": "bent-clothes-hanger",
+    "name": "Bent Clothes Hanger",
+    "description": "If you encounter a matching set, consider yourself lucky.",
+    "icon": "icons/items/bent-clothes-hanger.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 15
   },
   "bettina-i": {
     "id": "bettina-i",
@@ -1028,6 +1938,19 @@
       }
     }
   },
+  "blindspot-outfit": {
+    "id": "blindspot-outfit",
+    "name": "Blindspot (Outfit)",
+    "description": "",
+    "icon": "icons/items/blindspot-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "bloated-tuna-can": {
     "id": "bloated-tuna-can",
     "name": "Bloated Tuna Can",
@@ -1046,6 +1969,19 @@
         "description": "Qualcosa ti dice che non vuoi aprire questo... Può (riluttantemente) essere consumato per ripristinare piccole quantità di stamina."
       }
     }
+  },
+  "blown-fuses": {
+    "id": "blown-fuses",
+    "name": "Blown Fuses",
+    "description": "Scorched and useless. The burnt metal smells faintly like Apollo's workshop.",
+    "icon": "icons/items/blown-fuses.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 10
   },
   "blue-gate-cellar-key": {
     "id": "blue-gate-cellar-key",
@@ -1122,6 +2058,32 @@
         "description": "Una chiave per le aree all'interno del villaggio del cancello blu."
       }
     }
+  },
+  "blue-lab-cabinet": {
+    "id": "blue-lab-cabinet",
+    "name": "Blue Lab Cabinet",
+    "description": "",
+    "icon": "icons/items/blue-lab-cabinet.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "blue-lab-cabinet-design": {
+    "id": "blue-lab-cabinet-design",
+    "name": "Blue Lab Cabinet Design",
+    "description": "",
+    "icon": "icons/items/blue-lab-cabinet.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "blue-light-stick": {
     "id": "blue-light-stick",
@@ -1244,6 +2206,19 @@
       }
     }
   },
+  "bog-walker-outfit": {
+    "id": "bog-walker-outfit",
+    "name": "Bog Walker (Outfit)",
+    "description": "",
+    "icon": "icons/items/bog-walker-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "bombardier-cell": {
     "id": "bombardier-cell",
     "name": "Bombardier Cell",
@@ -1262,6 +2237,32 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "bonecrown-outfit": {
+    "id": "bonecrown-outfit",
+    "name": "Bonecrown (Outfit)",
+    "description": "",
+    "icon": "icons/items/bonecrown-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "boonie-outfit": {
+    "id": "boonie-outfit",
+    "name": "Boonie (Outfit)",
+    "description": "",
+    "icon": "icons/items/boonie-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "bow-and-arrow-emote": {
     "id": "bow-and-arrow-emote",
@@ -1306,6 +2307,32 @@
     "value": null,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "brigade-outfit": {
+    "id": "brigade-outfit",
+    "name": "Brigade (Outfit)",
+    "description": "",
+    "icon": "icons/items/brigade-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "broken-compass": {
+    "id": "broken-compass",
+    "name": "Broken Compass",
+    "description": "A broken compass, its needle fixed stubbornly in one direction. An odd choice of gift.",
+    "icon": "icons/items/broken-compass.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "broken-flashlight": {
@@ -1409,6 +2436,71 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 25
+  },
+  "bully-fragmenter": {
+    "id": "bully-fragmenter",
+    "name": "Bully Fragmenter",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/bully-fragmenter.webp",
+    "rarity": "Epic",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 3000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bulwark-stencil": {
+    "id": "bulwark-stencil",
+    "name": "Bulwark Stencil",
+    "description": "",
+    "icon": "icons/items/bulwark-stencil.webp",
+    "rarity": "Legendary",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bureau-ceiling-lamp": {
+    "id": "bureau-ceiling-lamp",
+    "name": "Bureau Ceiling Lamp",
+    "description": "",
+    "icon": "icons/items/bureau-ceiling-lamp.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bureau-ceiling-lamp-design": {
+    "id": "bureau-ceiling-lamp-design",
+    "name": "Bureau Ceiling Lamp Design",
+    "description": "",
+    "icon": "icons/items/bureau-ceiling-lamp.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bureau-desk-lamp": {
+    "id": "bureau-desk-lamp",
+    "name": "Bureau Desk Lamp",
+    "description": "May be worth a few coins.",
+    "icon": "icons/items/bureau-desk-lamp.webp",
+    "rarity": "Uncommon",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "burgerboy-backpack-charm": {
     "id": "burgerboy-backpack-charm",
@@ -1613,15 +2705,67 @@
       }
     }
   },
+  "burst-assembly-recovery": {
+    "id": "burst-assembly-recovery",
+    "name": "Burst Assembly Recovery",
+    "description": "Shredders manage rapid volleys with little downtime. Careful dismantling with a Raider Tool might preserve the firing assembly long enough to figure out how.",
+    "icon": "icons/items/burst-assembly-recovery.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "cable-stripper": {
+    "id": "cable-stripper",
+    "name": "Cable Stripper",
+    "description": "Used in crafting.",
+    "icon": "icons/items/cable-stripper.webp",
+    "rarity": "Uncommon",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 270,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "cafeteria-table-design": {
+    "id": "cafeteria-table-design",
+    "name": "Cafeteria Table Design",
+    "description": "",
+    "icon": "icons/items/cafeteria-table-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "calculator": {
+    "id": "calculator",
+    "name": "Calculator",
+    "description": "Used in crafting.",
+    "icon": "icons/items/calculator.webp",
+    "rarity": "Rare",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 640,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "camera": {
     "id": "camera",
-    "name": "Camera",
-    "description": "Camera",
-    "icon": null,
-    "rarity": "Common",
-    "item_type": "Gadget",
+    "name": "Basic Camera",
+    "description": "A simple little camera that gets the job done.",
+    "icon": "icons/items/camera.webp",
+    "rarity": "Uncommon",
+    "item_type": "Quick Use",
     "subcategory": "",
-    "value": null,
+    "value": 640,
     "workbench": null,
     "loot_area": "",
     "stack_size": null
@@ -1791,6 +2935,58 @@
       }
     }
   },
+  "caposta-outfit": {
+    "id": "caposta-outfit",
+    "name": "Caposta (Outfit)",
+    "description": "Mask",
+    "icon": "icons/items/caposta-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "carriga-outfit": {
+    "id": "carriga-outfit",
+    "name": "Carriga (Outfit)",
+    "description": "",
+    "icon": "icons/items/carriga-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "carrion-outfit": {
+    "id": "carrion-outfit",
+    "name": "Carrion (Outfit)",
+    "description": "",
+    "icon": "icons/items/carrion-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "castaway-outfit": {
+    "id": "castaway-outfit",
+    "name": "Castaway (Outfit)",
+    "description": "",
+    "icon": "icons/items/castaway-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "cat-bed": {
     "id": "cat-bed",
     "name": "Cat Bed",
@@ -1809,6 +3005,168 @@
         "description": "Almeno un po' più comodo della tua faccia."
       }
     }
+  },
+  "cavalier-outfit": {
+    "id": "cavalier-outfit",
+    "name": "Cavalier (Outfit)",
+    "description": "",
+    "icon": "icons/items/cavalier-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "celeste-s-journal": {
+    "id": "celeste-s-journal",
+    "name": "Celeste's Journal",
+    "description": "Battered and torn, you can see the faint outline of doodles along the edges.",
+    "icon": "icons/items/celeste-s-journal.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Diario di Celeste",
+        "description": "Malconcio e strappato, puoi vedere il debole contorno di scarabocchi lungo i bordi."
+      }
+    }
+  },
+  "cerulean-stencil": {
+    "id": "cerulean-stencil",
+    "name": "Cerulean Stencil",
+    "description": "",
+    "icon": "icons/items/cerulean-stencil.webp",
+    "rarity": "Rare",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chambers-lamp": {
+    "id": "chambers-lamp",
+    "name": "Chambers Lamp",
+    "description": "",
+    "icon": "icons/items/chambers-lamp.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chambers-lamp-design": {
+    "id": "chambers-lamp-design",
+    "name": "Chambers Lamp Design",
+    "description": "",
+    "icon": "icons/items/chambers-lamp.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chambers-nightstand": {
+    "id": "chambers-nightstand",
+    "name": "Chambers Nightstand",
+    "description": "",
+    "icon": "icons/items/chambers-nightstand.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chambers-nightstand-design": {
+    "id": "chambers-nightstand-design",
+    "name": "Chambers Nightstand Design",
+    "description": "",
+    "icon": "icons/items/chambers-nightstand.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chambers-shelf": {
+    "id": "chambers-shelf",
+    "name": "Chambers Shelf",
+    "description": "",
+    "icon": "icons/items/chambers-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chambers-shelf-design": {
+    "id": "chambers-shelf-design",
+    "name": "Chambers Shelf Design",
+    "description": "",
+    "icon": "icons/items/chambers-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chandelier": {
+    "id": "chandelier",
+    "name": "Chandelier",
+    "description": "",
+    "icon": "icons/items/chandelier.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chandelier-design": {
+    "id": "chandelier-design",
+    "name": "Chandelier Design",
+    "description": "",
+    "icon": "icons/items/chandelier.webp",
+    "rarity": "Legendary",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "chap-outfit": {
+    "id": "chap-outfit",
+    "name": "Chap (Outfit)",
+    "description": "",
+    "icon": "icons/items/chap-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "cheer-emote": {
     "id": "cheer-emote",
@@ -1841,6 +3199,32 @@
         "description": "Usato per fabbricare forniture mediche, esplosivi e oggetti di utilità. Si usa per creare: Munizioni pesanti, Munizioni medie, Munizioni da fucile a pompa, Munizioni leggere, Granata a impatto leggera"
       }
     }
+  },
+  "clinic-medical-cabinet": {
+    "id": "clinic-medical-cabinet",
+    "name": "Clinic Medical Cabinet",
+    "description": "",
+    "icon": "icons/items/clinic-medical-cabinet.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "clinic-medical-cabinet-design": {
+    "id": "clinic-medical-cabinet-design",
+    "name": "Clinic Medical Cabinet Design",
+    "description": "",
+    "icon": "icons/items/clinic-medical-cabinet.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "coffee-pot": {
     "id": "coffee-pot",
@@ -2026,6 +3410,19 @@
       }
     }
   },
+  "compact-combustion-charges": {
+    "id": "compact-combustion-charges",
+    "name": "Compact Combustion Charges",
+    "description": "Most explosives end with the detonation. Blaze Grenades have the good sense to keep causing trouble afterward. There may be something worth borrowing in that.",
+    "icon": "icons/items/compact-combustion-charges.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "compensator-i": {
     "id": "compensator-i",
     "name": "Compensator I",
@@ -2102,6 +3499,32 @@
       }
     }
   },
+  "console-chest": {
+    "id": "console-chest",
+    "name": "Console Chest",
+    "description": "",
+    "icon": "icons/items/console-chest.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "console-chest-design": {
+    "id": "console-chest-design",
+    "name": "Console Chest Design",
+    "description": "",
+    "icon": "icons/items/console-chest.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "coolant": {
     "id": "coolant",
     "name": "Coolant",
@@ -2159,6 +3582,32 @@
       }
     }
   },
+  "corsaro-outfit": {
+    "id": "corsaro-outfit",
+    "name": "Corsaro (Outfit)",
+    "description": "",
+    "icon": "icons/items/corsaro-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "cosmo-outfit": {
+    "id": "cosmo-outfit",
+    "name": "Cosmo (Outfit)",
+    "description": "",
+    "icon": "icons/items/cosmo-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "cracked-bioscanner": {
     "id": "cracked-bioscanner",
     "name": "Cracked Bioscanner",
@@ -2196,6 +3645,19 @@
         "description": "Un dispositivo di atterraggio d'emergenza lanciabile, per attutire gli atterraggi più pesanti"
       }
     }
+  },
+  "cresta-outfit": {
+    "id": "cresta-outfit",
+    "name": "Cresta (Outfit)",
+    "description": "",
+    "icon": "icons/items/cresta-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "crimson-racer-aviator-colour": {
     "id": "crimson-racer-aviator-colour",
@@ -2464,6 +3926,25 @@
       }
     }
   },
+  "damaged-snitch-scanner": {
+    "id": "damaged-snitch-scanner",
+    "name": "Damaged Snitch Scanner",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/damaged-snitch-scanner.webp",
+    "rarity": "Common",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 3,
+    "translations": {
+      "it": {
+        "name": "Scanner Snitch danneggiato",
+        "description": "Si può riciclare in materiali da creazione."
+      }
+    }
+  },
   "damaged-tick-pod": {
     "id": "damaged-tick-pod",
     "name": "Damaged Tick Pod",
@@ -2559,6 +4040,19 @@
       }
     }
   },
+  "deadwire-outfit": {
+    "id": "deadwire-outfit",
+    "name": "Deadwire (Outfit)",
+    "description": "",
+    "icon": "icons/items/deadwire-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "defibrillator": {
     "id": "defibrillator",
     "name": "Defibrillator",
@@ -2616,6 +4110,188 @@
       }
     }
   },
+  "desk-lamp": {
+    "id": "desk-lamp",
+    "name": "Desk Lamp",
+    "description": "May be worth a few coins.",
+    "icon": "icons/items/desk-lamp.webp",
+    "rarity": "Rare",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 2000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "devotee-outfit": {
+    "id": "devotee-outfit",
+    "name": "Devotee (Outfit)",
+    "description": "",
+    "icon": "icons/items/devotee-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "differential-microphone": {
+    "id": "differential-microphone",
+    "name": "Differential Microphone",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/differential-microphone.webp",
+    "rarity": "Rare",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-ceiling-lamp": {
+    "id": "diner-ceiling-lamp",
+    "name": "Diner Ceiling Lamp",
+    "description": "",
+    "icon": "icons/items/diner-ceiling-lamp.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-ceiling-lamp-design": {
+    "id": "diner-ceiling-lamp-design",
+    "name": "Diner Ceiling Lamp Design",
+    "description": "",
+    "icon": "icons/items/diner-ceiling-lamp.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-cupboard": {
+    "id": "diner-cupboard",
+    "name": "Diner Cupboard",
+    "description": "",
+    "icon": "icons/items/diner-cupboard.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-cupboard-design": {
+    "id": "diner-cupboard-design",
+    "name": "Diner Cupboard Design",
+    "description": "",
+    "icon": "icons/items/diner-cupboard.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-shelf": {
+    "id": "diner-shelf",
+    "name": "Diner Shelf",
+    "description": "",
+    "icon": "icons/items/diner-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-shelf-design": {
+    "id": "diner-shelf-design",
+    "name": "Diner Shelf Design",
+    "description": "",
+    "icon": "icons/items/diner-shelf.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-sofa": {
+    "id": "diner-sofa",
+    "name": "Diner Sofa",
+    "description": "",
+    "icon": "icons/items/diner-sofa.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-sofa-design": {
+    "id": "diner-sofa-design",
+    "name": "Diner Sofa Design",
+    "description": "",
+    "icon": "icons/items/diner-sofa.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-stool": {
+    "id": "diner-stool",
+    "name": "Diner Stool",
+    "description": "",
+    "icon": "icons/items/diner-stool.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-stool-design": {
+    "id": "diner-stool-design",
+    "name": "Diner Stool Design",
+    "description": "",
+    "icon": "icons/items/diner-stool.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "diner-table-design": {
+    "id": "diner-table-design",
+    "name": "Diner Table Design",
+    "description": "",
+    "icon": "icons/items/diner-table-design.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "diving-googles": {
     "id": "diving-googles",
     "name": "Diving Goggles",
@@ -2651,6 +4327,25 @@
       "it": {
         "name": "Rilevatore del capitano di porto",
         "description": "Questi rilevatori sembrano in grado di localizzare oggetti estranei sepolti nelle sabbie intorno a Riven Tides, anche se il loro esatto modo di funzionare è sconosciuto."
+      }
+    }
+  },
+  "dodger-s-note": {
+    "id": "dodger-s-note",
+    "name": "Dodger's Note",
+    "description": "A hurriedly scribbled note, all crumpled up.",
+    "icon": "icons/items/dodger-s-note.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Nota di Dodger",
+        "description": ""
       }
     }
   },
@@ -2730,6 +4425,175 @@
       }
     }
   },
+  "dragons-breath-stencil": {
+    "id": "dragons-breath-stencil",
+    "name": "Dragon's Breath Stencil",
+    "description": "",
+    "icon": "icons/items/bulwark-stencil.webp",
+    "rarity": "Legendary",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-a": {
+    "id": "draped-debris-a",
+    "name": "Draped Debris A",
+    "description": "",
+    "icon": "icons/items/draped-debris-a.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-a-design": {
+    "id": "draped-debris-a-design",
+    "name": "Draped Debris A Design",
+    "description": "",
+    "icon": "icons/items/draped-debris-a.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-b": {
+    "id": "draped-debris-b",
+    "name": "Draped Debris B",
+    "description": "",
+    "icon": "icons/items/draped-debris-b.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-b-design": {
+    "id": "draped-debris-b-design",
+    "name": "Draped Debris B Design",
+    "description": "",
+    "icon": "icons/items/draped-debris-b.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-c": {
+    "id": "draped-debris-c",
+    "name": "Draped Debris C",
+    "description": "",
+    "icon": "icons/items/draped-debris-c.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-c-design": {
+    "id": "draped-debris-c-design",
+    "name": "Draped Debris C Design",
+    "description": "",
+    "icon": "icons/items/draped-debris-c.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-e": {
+    "id": "draped-debris-e",
+    "name": "Draped Debris E",
+    "description": "",
+    "icon": "icons/items/draped-debris-e.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-e-design": {
+    "id": "draped-debris-e-design",
+    "name": "Draped Debris E Design",
+    "description": "",
+    "icon": "icons/items/draped-debris-e.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-f": {
+    "id": "draped-debris-f",
+    "name": "Draped Debris F",
+    "description": "",
+    "icon": "icons/items/draped-debris-f.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-f-design": {
+    "id": "draped-debris-f-design",
+    "name": "Draped Debris F Design",
+    "description": "",
+    "icon": "icons/items/draped-debris-f.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-g": {
+    "id": "draped-debris-g",
+    "name": "Draped Debris G",
+    "description": "",
+    "icon": "icons/items/draped-debris-g.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "draped-debris-g-design": {
+    "id": "draped-debris-g-design",
+    "name": "Draped Debris G Design",
+    "description": "",
+    "icon": "icons/items/draped-debris-g.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "dried-out-arc-resin": {
     "id": "dried-out-arc-resin",
     "name": "Dried-Out ARC Resin",
@@ -2748,6 +4612,19 @@
         "description": "Ottenuto da nemici o attività ARC. Si può riciclare in plastica."
       }
     }
+  },
+  "driftcoat-outfit": {
+    "id": "driftcoat-outfit",
+    "name": "Driftcoat (Outfit)",
+    "description": "",
+    "icon": "icons/items/driftcoat-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "duct-tape": {
     "id": "duct-tape",
@@ -2787,6 +4664,51 @@
       }
     }
   },
+  "dusty-camo-stencil": {
+    "id": "dusty-camo-stencil",
+    "name": "Dusty Camo Stencil",
+    "description": "",
+    "icon": "icons/items/dusty-camo-stencil.webp",
+    "rarity": "Rare",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "dusty-film-reel": {
+    "id": "dusty-film-reel",
+    "name": "Dusty Film Reel",
+    "description": "A dusty recording of a solemn corporate announcement.",
+    "icon": "icons/items/dusty-film-reel.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Bobina di pellicola impolverata",
+        "description": "Una vecchia bobina di pellicola coperta di polvere. Poteva essere qualcosa che valeva la pena guardare."
+      }
+    }
+  },
+  "dweller-outfit": {
+    "id": "dweller-outfit",
+    "name": "Dweller (Outfit)",
+    "description": "",
+    "icon": "icons/items/dweller-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "electrical-components": {
     "id": "electrical-components",
     "name": "Electrical Components",
@@ -2825,6 +4747,58 @@
       }
     }
   },
+  "embedded-blast-engineering": {
+    "id": "embedded-blast-engineering",
+    "name": "Embedded Blast Engineering",
+    "description": "Armor does a good job against bullets. Small explosions are less respectful of the arrangement. Combining the two might be worth exploring.",
+    "icon": "icons/items/embedded-blast-engineering.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "emperor-beacon": {
+    "id": "emperor-beacon",
+    "name": "Emperor Beacon",
+    "description": "A beacon with a copy of the Emperor's identifier signal. Deploy in an open area to call in Harvester Payloads.",
+    "icon": "icons/items/emperor-beacon.webp",
+    "rarity": "Epic",
+    "item_type": "Quick Use",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "emperor-gateway-conduit": {
+    "id": "emperor-gateway-conduit",
+    "name": "Emperor Gateway Conduit",
+    "description": "Combining three distinct couplers, this conduit seems to fit into the Fallen Emperor at Pendola Pass.",
+    "icon": "icons/items/emperor-gateway-conduit.webp",
+    "rarity": "Legendary",
+    "item_type": "Key",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "emperor-modulator": {
+    "id": "emperor-modulator",
+    "name": "Emperor Modulator",
+    "description": "Can be used to upgrade the Gunsmith.",
+    "icon": "icons/items/emperor-modulator.webp",
+    "rarity": "Legendary",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "empty-wine-bottle": {
     "id": "empty-wine-bottle",
     "name": "Empty Wine Bottle",
@@ -2844,6 +4818,19 @@
       }
     }
   },
+  "empyrean-stencil": {
+    "id": "empyrean-stencil",
+    "name": "Empyrean Stencil",
+    "description": "",
+    "icon": "icons/items/bulwark-stencil.webp",
+    "rarity": "Epic",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "energy-ammo": {
     "id": "energy-ammo",
     "name": "Energy Clip",
@@ -2862,6 +4849,19 @@
         "description": "Compatibile con: Equalizer, Jupiter"
       }
     }
+  },
+  "epoxy-bucket": {
+    "id": "epoxy-bucket",
+    "name": "Epoxy Bucket",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/epoxy-bucket.webp",
+    "rarity": "Rare",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "equalizer-i": {
     "id": "equalizer-i",
@@ -2898,6 +4898,25 @@
       "it": {
         "name": "Meridiana equatoriale",
         "description": "Una meraviglia dell'ingegno antico: chi ha un debole per l'osservazione delle stelle potrebbe trovare questi motivi ipnotici stranamente familiari."
+      }
+    }
+  },
+  "espresso-machine-parts": {
+    "id": "espresso-machine-parts",
+    "name": "Espresso Machine Parts",
+    "description": "Replacement parts salvaged from an espresso machine.",
+    "icon": "icons/items/espresso-machine-parts.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Parti di macchina per espresso",
+        "description": "Replacement parts salvaged from an espresso machine."
       }
     }
   },
@@ -2939,6 +4958,38 @@
       }
     }
   },
+  "exodus-technical-handbook": {
+    "id": "exodus-technical-handbook",
+    "name": "Exodus Technical Handbook",
+    "description": "Filled with equal parts obscure jargon and complex diagrams.",
+    "icon": "icons/items/exodus-technical-handbook.webp",
+    "rarity": "Rare",
+    "item_type": "Research Item",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "experimental-seed-sample": {
+    "id": "experimental-seed-sample",
+    "name": "Experimental Seed Sample",
+    "description": "A cryogenically frozen research sample of an experimental crop.",
+    "icon": "icons/items/experimental-seed-sample.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Campione di semi sperimentale",
+        "description": "Un campione di ricerca criogenicamente congelato di una coltura sperimentale."
+      }
+    }
+  },
   "expired-pasta": {
     "id": "expired-pasta",
     "name": "Expired Pasta",
@@ -2974,6 +5025,25 @@
       "it": {
         "name": "Respiratore scaduto",
         "description": "I filtri sono intasati di sabbia e fumi nocivi. Molto oltre la sua durata."
+      }
+    }
+  },
+  "expired-security-code": {
+    "id": "expired-security-code",
+    "name": "Expired Security Code",
+    "description": "An expired security code. Has no more practical use.",
+    "icon": "icons/items/expired-security-code.webp",
+    "rarity": "Common",
+    "item_type": "Key",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Codice di sicurezza scaduto",
+        "description": "Un codice di sicurezza scaduto. Non ha più alcuna utilità pratica."
       }
     }
   },
@@ -3071,6 +5141,19 @@
         "description": "Aumenta moderatamente la velocità dei proiettili e la distanza prima del calo dei danni. Compatibile con: Tempest, Arpeggio, Ferro, Renegade, Anvil"
       }
     }
+  },
+  "extended-burst-cycles": {
+    "id": "extended-burst-cycles",
+    "name": "Extended Burst Cycles",
+    "description": "A burst has a beginning, a middle, and an end. The middle could probably use more bullets. Let's investigate.",
+    "icon": "icons/items/extended-burst-cycles.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "extended-light-mag-i": {
     "id": "extended-light-mag-i",
@@ -3262,6 +5345,58 @@
       }
     }
   },
+  "faculty-closet": {
+    "id": "faculty-closet",
+    "name": "Faculty Closet",
+    "description": "",
+    "icon": "icons/items/faculty-closet.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "faculty-closet-design": {
+    "id": "faculty-closet-design",
+    "name": "Faculty Closet Design",
+    "description": "",
+    "icon": "icons/items/faculty-closet.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "faculty-dresser": {
+    "id": "faculty-dresser",
+    "name": "Faculty Dresser",
+    "description": "",
+    "icon": "icons/items/faculty-dresser.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "faculty-dresser-design": {
+    "id": "faculty-dresser-design",
+    "name": "Faculty Dresser Design",
+    "description": "",
+    "icon": "icons/items/faculty-dresser.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "faded-flush-aviator-color": {
     "id": "faded-flush-aviator-color",
     "name": "Faded Flush (Aviator Color)",
@@ -3408,6 +5543,19 @@
       }
     }
   },
+  "fiero-outfit": {
+    "id": "fiero-outfit",
+    "name": "Fiero (Outfit)",
+    "description": "",
+    "icon": "icons/items/fiero-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "film-reel": {
     "id": "film-reel",
     "name": "Film Reel",
@@ -3535,6 +5683,63 @@
       }
     }
   },
+  "first-wave-compass": {
+    "id": "first-wave-compass",
+    "name": "First Wave Compass",
+    "description": "Dusty but functional, these helped chart a course when when all seemed lost.",
+    "icon": "icons/items/first-wave-compass.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Bussola della Prima Ondata",
+        "description": "Impolverata ma funzionale, questa ha aiutato a tracciare una rotta quando tutto sembrava perduto."
+      }
+    }
+  },
+  "first-wave-rations": {
+    "id": "first-wave-rations",
+    "name": "First Wave Rations",
+    "description": "Often heated above discreet fires, these meager provisions are said to have fueled a resistance.",
+    "icon": "icons/items/first-wave-rations.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Razioni della Prima Ondata",
+        "description": "Spesso riscaldate su fuochi discreti, si dice che queste magre provviste abbiano alimentato una resistenza."
+      }
+    }
+  },
+  "first-wave-tape": {
+    "id": "first-wave-tape",
+    "name": "First Wave Tape",
+    "description": "An old tape found inside a battered old camcorder.",
+    "icon": "icons/items/first-wave-tape.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Nastro della Prima Ondata",
+        "description": "Un vecchio nastro trovato all'interno di una vecchia videocamera malconcia."
+      }
+    }
+  },
   "flame-spray": {
     "id": "flame-spray",
     "name": "Flame Spray",
@@ -3573,6 +5778,32 @@
       }
     }
   },
+  "floor-lamp": {
+    "id": "floor-lamp",
+    "name": "Floor Lamp",
+    "description": "",
+    "icon": "icons/items/floor-lamp.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "floor-lamp-design": {
+    "id": "floor-lamp-design",
+    "name": "Floor Lamp Design",
+    "description": "",
+    "icon": "icons/items/floor-lamp.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "flow-controller": {
     "id": "flow-controller",
     "name": "Flow Controller",
@@ -3610,6 +5841,45 @@
         "description": "Questa chiave viene usata nella missione \"The Stench of Corruption\" per attivare il Terminale Flushing"
       }
     }
+  },
+  "fluted-rotor-core": {
+    "id": "fluted-rotor-core",
+    "name": "Fluted Rotor Core",
+    "description": "Used to craft amplified weapons.",
+    "icon": "icons/items/fluted-rotor-core.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 1,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "food-wrapper": {
+    "id": "food-wrapper",
+    "name": "Food Wrapper",
+    "description": "The vibrant colors and natural stickiness have made them a favorite among the more artistic Speranzans.",
+    "icon": "icons/items/food-wrapper.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 15
+  },
+  "fortuna-stencil": {
+    "id": "fortuna-stencil",
+    "name": "Fortuna Stencil",
+    "description": "",
+    "icon": "icons/items/bulwark-stencil.webp",
+    "rarity": "Epic",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "fossilized-lightning": {
     "id": "fossilized-lightning",
@@ -3687,6 +5957,32 @@
       }
     }
   },
+  "frigate-diagnostic-node": {
+    "id": "frigate-diagnostic-node",
+    "name": "Frigate Diagnostic Node",
+    "description": "Found in the trail of ARC Frigates, the electromagnetic signatures of these nodes turn out to be partially decipherable.",
+    "icon": "icons/items/frigate-diagnostic-node.webp",
+    "rarity": "Legendary",
+    "item_type": "Research Item",
+    "subcategory": null,
+    "value": 3000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "frigate-inductor": {
+    "id": "frigate-inductor",
+    "name": "Frigate Inductor",
+    "description": "Can be used to upgrade the Research Station.",
+    "icon": "icons/items/frigate-inductor.webp",
+    "rarity": "Legendary",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "frosty-duck": {
     "id": "frosty-duck",
     "name": "Frosty Duck",
@@ -3738,6 +6034,19 @@
       }
     }
   },
+  "g-suit-outfit": {
+    "id": "g-suit-outfit",
+    "name": "G-Suit (Outfit)",
+    "description": "",
+    "icon": "icons/items/g-suit-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "garlic-press": {
     "id": "garlic-press",
     "name": "Garlic Press",
@@ -3756,6 +6065,19 @@
         "description": "Sprema aglio, olive e probabilmente molte altre cose."
       }
     }
+  },
+  "garnet-stencil": {
+    "id": "garnet-stencil",
+    "name": "Garnet Stencil",
+    "description": "",
+    "icon": "icons/items/garnet-stencil.webp",
+    "rarity": "Uncommon",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "gas-grenade": {
     "id": "gas-grenade",
@@ -3814,6 +6136,19 @@
       }
     }
   },
+  "gearshifter-outfit": {
+    "id": "gearshifter-outfit",
+    "name": "Gearshifter (Outfit)",
+    "description": "",
+    "icon": "icons/items/gearshifter-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "geiger-counter": {
     "id": "geiger-counter",
     "name": "Geiger Counter",
@@ -3851,6 +6186,45 @@
         "description": "Incredibilmente adorabile. Può essere lanciata per creare rumore."
       }
     }
+  },
+  "geometric-fabric-chair-design": {
+    "id": "geometric-fabric-chair-design",
+    "name": "Geometric Fabric Chair Design",
+    "description": "",
+    "icon": "icons/items/geometric-fabric-chair-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "glass-ceiling-lamp": {
+    "id": "glass-ceiling-lamp",
+    "name": "Glass Ceiling Lamp",
+    "description": "",
+    "icon": "icons/items/glass-ceiling-lamp.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "glass-ceiling-lamp-design": {
+    "id": "glass-ceiling-lamp-design",
+    "name": "Glass Ceiling Lamp Design",
+    "description": "",
+    "icon": "icons/items/glass-ceiling-lamp.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "glitched-arc-circuitry": {
     "id": "glitched-arc-circuitry",
@@ -3947,6 +6321,19 @@
       }
     }
   },
+  "goalie-outfit": {
+    "id": "goalie-outfit",
+    "name": "Goalie (Outfit)",
+    "description": "",
+    "icon": "icons/items/goalie-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "goggles-radio-renegade-variant": {
     "id": "goggles-radio-renegade-variant",
     "name": "Goggles (Radio Renegade Variant)",
@@ -3976,12 +6363,12 @@
   "grappling-hook": {
     "id": "grappling-hook",
     "name": "Grappling Hook",
-    "description": "It’s important for us to focus on gadgets and items that offer new ways to play and fresh modes of traversal. That’s where the Grapple Hook comes in, letting you climb hard to reach spots, abseil off buildings, and swing over large gaps. Raiders who get creative will find themselves able to navigate the terrain in totally new ways. ",
+    "description": "A simple gadget that anchors to most surfaces, allowing users to navigate hard-to-reach places.",
     "icon": "icons/items/grappling-hook.webp",
-    "rarity": "Common",
-    "item_type": "Gadget",
+    "rarity": "Uncommon",
+    "item_type": "Quick Use",
     "subcategory": "",
-    "value": 0,
+    "value": 1200,
     "workbench": null,
     "loot_area": "",
     "stack_size": null
@@ -4004,6 +6391,45 @@
         "description": "Si usa per creare forniture mediche. Si usa per creare: Benda alle Erbe, Antisettico"
       }
     }
+  },
+  "green-geometric-chair-design": {
+    "id": "green-geometric-chair-design",
+    "name": "Green Geometric Chair Design",
+    "description": "",
+    "icon": "icons/items/green-geometric-chair-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "green-geometric-sofa-design": {
+    "id": "green-geometric-sofa-design",
+    "name": "Green Geometric Sofa Design",
+    "description": "",
+    "icon": "icons/items/green-geometric-sofa-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "green-lab-sofa-design": {
+    "id": "green-lab-sofa-design",
+    "name": "Green Lab Sofa Design",
+    "description": "",
+    "icon": "icons/items/green-lab-sofa-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "green-light-stick": {
     "id": "green-light-stick",
@@ -4100,6 +6526,19 @@
       }
     }
   },
+  "hand-drill": {
+    "id": "hand-drill",
+    "name": "Hand Drill",
+    "description": "Used in crafting.",
+    "icon": "icons/items/hand-drill.webp",
+    "rarity": "Rare",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 640,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "happy-jig-emote": {
     "id": "happy-jig-emote",
     "name": "Happy Jig (Emote)",
@@ -4116,14 +6555,27 @@
   "harmonica": {
     "id": "harmonica",
     "name": "Harmonica",
-    "description": "Two new instruments can be heard Topside this October, the Harmonica, and the Banjo (Blueprint offered in the Collector Set DLC). Bring the sounds of southern swamps to the Rust Belt this fall - It’s time to get the band back together!",
+    "description": "A playable harmonica used to attract ARC's attention, and impress other Raiders.",
     "icon": "icons/items/harmonica.webp",
-    "rarity": "Common",
-    "item_type": "Gadget",
+    "rarity": "Uncommon",
+    "item_type": "Quick Use",
     "subcategory": "",
-    "value": 0,
+    "value": 1000,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "hawker-outfit": {
+    "id": "hawker-outfit",
+    "name": "Hawker (Outfit)",
+    "description": "",
+    "icon": "icons/items/hawker-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "headphones": {
@@ -4253,6 +6705,77 @@
       }
     }
   },
+  "hi-tech-hiker-outfit": {
+    "id": "hi-tech-hiker-outfit",
+    "name": "Hi-Tech Hiker (Outfit)",
+    "description": "",
+    "icon": "icons/items/hi-tech-hiker-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "hidden-bunker-key": {
+    "id": "hidden-bunker-key",
+    "name": "Hidden Bunker Key",
+    "description": "A makeshift key that lets you open a bunker in Spaceport",
+    "icon": "icons/items/hidden-bunker-key.webp",
+    "rarity": "Epic",
+    "item_type": "Key",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Chiave del bunker nascosto",
+        "description": "Una chiave improvvisata che ti permette di aprire un bunker nello spazioporto."
+      }
+    }
+  },
+  "high-voltage-exposure": {
+    "id": "high-voltage-exposure",
+    "name": "High-Voltage Exposure",
+    "description": "Some ARC machines appear capable of absorbing energy before putting it back to use. The same principle might be worth testing on something a little less insulated.",
+    "icon": "icons/items/high-voltage-exposure.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "holly-bush": {
+    "id": "holly-bush",
+    "name": "Holly Bush",
+    "description": "",
+    "icon": "icons/items/holly-bush.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "holly-bush-design": {
+    "id": "holly-bush-design",
+    "name": "Holly Bush Design",
+    "description": "",
+    "icon": "icons/items/holly-bush.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "horizontal-grip": {
     "id": "horizontal-grip",
     "name": "Horizontal Grip",
@@ -4290,6 +6813,32 @@
         "description": "Si può riciclare in leghe ARC. Si può lanciare: per un breve lasso di tempo stordirà i bersagli vicini"
       }
     }
+  },
+  "hornet-hunter-outfit": {
+    "id": "hornet-hunter-outfit",
+    "name": "Hornet Hunter (Outfit)",
+    "description": "",
+    "icon": "icons/items/hornet-hunter-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "hotel-chair-design": {
+    "id": "hotel-chair-design",
+    "name": "Hotel Chair Design",
+    "description": "",
+    "icon": "icons/items/hotel-chair-design.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "household-cleaner": {
     "id": "household-cleaner",
@@ -4405,6 +6954,32 @@
       }
     }
   },
+  "huntsman-outfit": {
+    "id": "huntsman-outfit",
+    "name": "Huntsman (Outfit)",
+    "description": "",
+    "icon": "icons/items/huntsman-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "husk-lily": {
+    "id": "husk-lily",
+    "name": "Husk Lily",
+    "description": "These beautiful, but toxic flowers only grow around Baron husks. As for why, your guess is as good as anyone's.",
+    "icon": "icons/items/husk-lily.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 3
+  },
   "ice-cream-scooper": {
     "id": "ice-cream-scooper",
     "name": "Ice Cream Scooper",
@@ -4423,6 +6998,19 @@
         "description": "Si teorizza che raccogliere cose fosse un passatempo preferito nel mondo di prima."
       }
     }
+  },
+  "ice-giant-outfit": {
+    "id": "ice-giant-outfit",
+    "name": "Ice Giant (Outfit)",
+    "description": "",
+    "icon": "icons/items/ice-giant-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "il-toro-i": {
     "id": "il-toro-i",
@@ -4576,6 +7164,58 @@
       }
     }
   },
+  "insulation-roll": {
+    "id": "insulation-roll",
+    "name": "Insulation Roll",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/insulation-roll.webp",
+    "rarity": "Epic",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 3000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "integrated-binoculars": {
+    "id": "integrated-binoculars",
+    "name": "Integrated Binoculars",
+    "description": "Can be equipped and used like regular binoculars, but cannot be dropped or removed from their slot.",
+    "icon": "icons/items/integrated-binoculars.webp",
+    "rarity": "Common",
+    "item_type": "Quick Use",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "integrated-defibrillator": {
+    "id": "integrated-defibrillator",
+    "name": "Integrated Defibrillator",
+    "description": "Reusable Defibrillator on a fixed cooldown. Can be used like a normal Defibrillator, but cannot be dropped or removed from its slot.",
+    "icon": "icons/items/integrated-defibrillator.webp",
+    "rarity": "Rare",
+    "item_type": "Quick Use",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "integrated-shield-recharger": {
+    "id": "integrated-shield-recharger",
+    "name": "Integrated Shield Recharger",
+    "description": "Reusable Shield Recharger on a fixed cooldown. Can be used like a normal Shield Recharger, but cannot be dropped or removed from its slot.",
+    "icon": "icons/items/integrated-shield-recharger.webp",
+    "rarity": "Common",
+    "item_type": "Quick Use",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "ion-sputter": {
     "id": "ion-sputter",
     "name": "Ion Sputter",
@@ -4625,6 +7265,19 @@
     "value": null,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "junkyard-astronaut-outfit": {
+    "id": "junkyard-astronaut-outfit",
+    "name": "Junkyard Astronaut (Outfit)",
+    "description": "",
+    "icon": "icons/items/junkyard-astronaut-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "jupiter-i": {
@@ -4741,6 +7394,58 @@
       }
     }
   },
+  "lab-ceiling-light": {
+    "id": "lab-ceiling-light",
+    "name": "Lab Ceiling Light",
+    "description": "",
+    "icon": "icons/items/lab-ceiling-light.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "lab-ceiling-light-design": {
+    "id": "lab-ceiling-light-design",
+    "name": "Lab Ceiling Light Design",
+    "description": "",
+    "icon": "icons/items/lab-ceiling-light.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "lab-stool": {
+    "id": "lab-stool",
+    "name": "Lab Stool",
+    "description": "",
+    "icon": "icons/items/lab-stool.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "lab-stool-design": {
+    "id": "lab-stool-design",
+    "name": "Lab Stool Design",
+    "description": "",
+    "icon": "icons/items/lab-stool.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "laboratory-reagents": {
     "id": "laboratory-reagents",
     "name": "Laboratory Reagents",
@@ -4778,6 +7483,19 @@
         "description": "Lance ne ha piantati personalmente diversi in giro per la Rust Belt, per qualche motivo."
       }
     }
+  },
+  "laser-level": {
+    "id": "laser-level",
+    "name": "Laser Level",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/laser-level.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 2000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "laser-trap-lure": {
     "id": "laser-trap-lure",
@@ -4868,6 +7586,19 @@
       }
     }
   },
+  "leviathan-outfit": {
+    "id": "leviathan-outfit",
+    "name": "Leviathan (Outfit)",
+    "description": "",
+    "icon": "icons/items/leviathan-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "leviathans-crown-ship-model": {
     "id": "leviathans-crown-ship-model",
     "name": "“Leviathan's Crown” Ship Model",
@@ -4884,6 +7615,25 @@
       "it": {
         "name": "Modellino di nave \"Leviathan's Crown\"",
         "description": "Spettacolo maestoso in ogni epoca, questa fiera nave mercantile è indifferente ai vantaggi aerodinamici della tecnologia in fibra di vetro."
+      }
+    }
+  },
+  "library-book": {
+    "id": "library-book",
+    "name": "Library Book",
+    "description": "A literary masterpiece filled with fantastical worlds, callously earmarked by some uncultured oaf.",
+    "icon": "icons/items/library-book.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Libro",
+        "description": "A literary masterpiece filled with fantastical worlds, callously earmarked by some uncultured oaf."
       }
     }
   },
@@ -5134,6 +7884,19 @@
       }
     }
   },
+  "luna-outfit": {
+    "id": "luna-outfit",
+    "name": "Luna (Outfit)",
+    "description": "",
+    "icon": "icons/items/luna-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "lure-grenade": {
     "id": "lure-grenade",
     "name": "Lure Grenade",
@@ -5171,6 +7934,45 @@
         "description": "Un filo laser che fa detonare una granata esca."
       }
     }
+  },
+  "macrame-outfit": {
+    "id": "macrame-outfit",
+    "name": "Macrame (Outfit)",
+    "description": "",
+    "icon": "icons/items/macrame-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "maestro-outfit": {
+    "id": "maestro-outfit",
+    "name": "Maestro (Outfit)",
+    "description": "",
+    "icon": "icons/items/maestro-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "magazine-geometry-101": {
+    "id": "magazine-geometry-101",
+    "name": "Magazine Geometry 101",
+    "description": "A standard magazine does its job, but it can only hold so much. Getting familiar with a drum-fed design could reveal how that extra room is put to use, and where the same idea might fit elsewhere.",
+    "icon": "icons/items/magazine-geometry-101.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "magnet": {
     "id": "magnet",
@@ -5229,6 +8031,44 @@
       }
     }
   },
+  "major-aiva-s-mementos": {
+    "id": "major-aiva-s-mementos",
+    "name": "Major Aiva's Mementos",
+    "description": "A closely-shut box, covered in many years worth of dust.",
+    "icon": "icons/items/major-aiva-s-mementos.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Ricordi del Maggiore Aiva",
+        "description": "A closely-shut box, covered in many years worth of dust."
+      }
+    }
+  },
+  "major-aiva-s-patch": {
+    "id": "major-aiva-s-patch",
+    "name": "Major Aiva's Patch",
+    "description": "A torn patch, found amidst rubble and ruin.",
+    "icon": "icons/items/major-aiva-s-patch.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Toppa del Maggiore Aiva",
+        "description": "Una toppa strappata, trovata tra macerie e rovine."
+      }
+    }
+  },
   "marano-market-buisness-card": {
     "id": "marano-market-buisness-card",
     "name": "Marano Market Business Card",
@@ -5248,6 +8088,19 @@
       }
     }
   },
+  "marco-outfit": {
+    "id": "marco-outfit",
+    "name": "Marco (Outfit)",
+    "description": "",
+    "icon": "icons/items/marco-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "mastery-medal-backpack-charm": {
     "id": "mastery-medal-backpack-charm",
     "name": "Mastery Medal (Backpack Charm)",
@@ -5259,6 +8112,19 @@
     "value": null,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "matador-outfit": {
+    "id": "matador-outfit",
+    "name": "Matador (Outfit)",
+    "description": "",
+    "icon": "icons/items/matador-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "matriarch-reactor": {
@@ -5413,6 +8279,19 @@
       }
     }
   },
+  "milky-terraccota-stencil": {
+    "id": "milky-terraccota-stencil",
+    "name": "Milky Terraccota Stencil",
+    "description": "",
+    "icon": "icons/items/milky-terraccota-stencil.webp",
+    "rarity": "Rare",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "mini-centrifuge": {
     "id": "mini-centrifuge",
     "name": "Mini Centrifuge",
@@ -5432,6 +8311,58 @@
       }
     }
   },
+  "mini-pump": {
+    "id": "mini-pump",
+    "name": "Mini Pump",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/mini-pump.webp",
+    "rarity": "Uncommon",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 640,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "mirage-outfit": {
+    "id": "mirage-outfit",
+    "name": "Mirage (Outfit)",
+    "description": "",
+    "icon": "icons/items/mirage-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "misthorn-outfit": {
+    "id": "misthorn-outfit",
+    "name": "Misthorn (Outfit)",
+    "description": "",
+    "icon": "icons/items/misthorn-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "mobile-fire-grip-fittings": {
+    "id": "mobile-fire-grip-fittings",
+    "name": "Mobile-Fire Grip Fittings",
+    "description": "Fast movement is useful right up until a weapon needs to come into play. A weapon that keeps up with the pace would be useful.",
+    "icon": "icons/items/mobile-fire-grip-fittings.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "mod-components": {
     "id": "mod-components",
     "name": "Mod Components",
@@ -5448,6 +8379,25 @@
       "it": {
         "name": "Componenti mod",
         "description": "Si usa per creare mod per armi. Si può riciclare in materiali da creazione. Si usa per creare: Calcio leggero, Strozzatore fucile III, Caricatore fucile esteso III, Calcio imbottito, Compensatore III"
+      }
+    }
+  },
+  "moisture-meter": {
+    "id": "moisture-meter",
+    "name": "Moisture Meter",
+    "description": "Measures soil moisture levels for precise irrigation control.",
+    "icon": "icons/items/moisture-meter.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Misuratore di umidità",
+        "description": "Un oggetto missione che deve essere consegnato a Tian Wen per completare la missione Iniziativa inaspettata."
       }
     }
   },
@@ -5489,6 +8439,19 @@
       }
     }
   },
+  "mountaineers-detector": {
+    "id": "mountaineers-detector",
+    "name": "Mountaineer's Detector",
+    "description": "Useful for finding foreign objects hidden in the snow. As an added bonus, it works just as well on sand.",
+    "icon": "icons/items/mountaineers-detector.webp",
+    "rarity": "Rare",
+    "item_type": "Quick Use",
+    "subcategory": null,
+    "value": 2000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "mri-duck": {
     "id": "mri-duck",
     "name": "MRI Duck",
@@ -5501,6 +8464,19 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 15
+  },
+  "multicolored-geometric-sofa-design": {
+    "id": "multicolored-geometric-sofa-design",
+    "name": "Multicolored Geometric Sofa Design",
+    "description": "",
+    "icon": "icons/items/multicolored-geometric-sofa-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "mushroom": {
     "id": "mushroom",
@@ -5616,6 +8592,19 @@
       }
     }
   },
+  "nascosto-outfit": {
+    "id": "nascosto-outfit",
+    "name": "Nascosto (Outfit)",
+    "description": "",
+    "icon": "icons/items/nascosto-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "noisemaker": {
     "id": "noisemaker",
     "name": "Noisemaker",
@@ -5654,6 +8643,57 @@
       }
     }
   },
+  "nutrient-meter": {
+    "id": "nutrient-meter",
+    "name": "Nutrient Meter",
+    "description": "Ideal for monitoring soil and water nutrient levels in greenhouses or fields.",
+    "icon": "icons/items/nutrient-meter.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Misuratore di nutrienti",
+        "description": "Un oggetto missione che deve essere consegnato a Tian Wen per completare la missione Iniziativa inaspettata."
+      }
+    }
+  },
+  "ochre-stencil": {
+    "id": "ochre-stencil",
+    "name": "Ochre Stencil",
+    "description": "",
+    "icon": "icons/items/ochre-stencil.webp",
+    "rarity": "Uncommon",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "official-shutdown-documentation": {
+    "id": "official-shutdown-documentation",
+    "name": "Official Shutdown Documentation",
+    "description": "Top-secret protocols outlining the shutdown of Project Heartwood.",
+    "icon": "icons/items/official-shutdown-documentation.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Documentazione ufficiale di spegnimento",
+        "description": ""
+      }
+    }
+  },
   "oil": {
     "id": "oil",
     "name": "Oil",
@@ -5670,6 +8710,25 @@
       "it": {
         "name": "Olio",
         "description": "Usato per fabbricare armi ed esplosivi. Si può riciclare in sostanze chimiche. Si usa per creare: Renegade, Composto esplosivo, Granata incendiaria"
+      }
+    }
+  },
+  "old-world-books": {
+    "id": "old-world-books",
+    "name": "Old World Books",
+    "description": "The past survives in fragments, often dull or ordinary, yet priceless to the right person.",
+    "icon": "icons/items/old-world-books.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Libri del Vecchio Mondo",
+        "description": "Il passato sopravvive in frammenti, spesso banali o ordinari, eppure inestimabili per la persona giusta."
       }
     }
   },
@@ -5692,6 +8751,19 @@
       }
     }
   },
+  "ombra-outfit": {
+    "id": "ombra-outfit",
+    "name": "Ombra (Outfit)",
+    "description": "",
+    "icon": "icons/items/ombra-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "orange-camo-origin-outfit": {
     "id": "orange-camo-origin-outfit",
     "name": "Orange Camo (Origin Outfit)",
@@ -5703,6 +8775,110 @@
     "value": null,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "origin-outfit": {
+    "id": "origin-outfit",
+    "name": "Origin (Outfit)",
+    "description": "",
+    "icon": "icons/items/origin-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "ornate-den-bed-design": {
+    "id": "ornate-den-bed-design",
+    "name": "Ornate Den Bed Design",
+    "description": "",
+    "icon": "icons/items/ornate-den-bed-design.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "ornate-den-shelf": {
+    "id": "ornate-den-shelf",
+    "name": "Ornate Den Shelf",
+    "description": "",
+    "icon": "icons/items/ornate-den-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "ornate-den-shelf-design": {
+    "id": "ornate-den-shelf-design",
+    "name": "Ornate Den Shelf Design",
+    "description": "",
+    "icon": "icons/items/ornate-den-shelf.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "ornate-stash": {
+    "id": "ornate-stash",
+    "name": "Ornate Stash",
+    "description": "",
+    "icon": "icons/items/ornate-stash.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "ornate-stash-design": {
+    "id": "ornate-stash-design",
+    "name": "Ornate Stash Design",
+    "description": "",
+    "icon": "icons/items/ornate-stash.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "ornate-wardrobe": {
+    "id": "ornate-wardrobe",
+    "name": "Ornate Wardrobe",
+    "description": "",
+    "icon": "icons/items/ornate-wardrobe.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "ornate-wardrobe-design": {
+    "id": "ornate-wardrobe-design",
+    "name": "Ornate Wardrobe Design",
+    "description": "",
+    "icon": "icons/items/ornate-wardrobe.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "osprey-i": {
@@ -5819,6 +8995,19 @@
       }
     }
   },
+  "patchwork-outfit": {
+    "id": "patchwork-outfit",
+    "name": "Patchwork (Outfit)",
+    "description": "",
+    "icon": "icons/items/patchwork-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "patchwork-warden-color": {
     "id": "patchwork-warden-color",
     "name": "Patchwork (Warden Color)",
@@ -5864,6 +9053,58 @@
     "loot_area": "",
     "stack_size": null
   },
+  "pendola-pass-observatory-key": {
+    "id": "pendola-pass-observatory-key",
+    "name": "Pendola Pass Observatory Key",
+    "description": "Unlocks a door in the Cielo Sereno Observatory main building on Pendola Pass.",
+    "icon": "icons/items/pendola-pass-observatory-key.webp",
+    "rarity": "Epic",
+    "item_type": "Key",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "pendola-pass-old-town-key": {
+    "id": "pendola-pass-old-town-key",
+    "name": "Pendola Pass Old Town Key",
+    "description": "Unlocks a door to an apartment in the Old Town on Pendola Pass.",
+    "icon": "icons/items/pendola-pass-old-town-key.webp",
+    "rarity": "Uncommon",
+    "item_type": "Key",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "pendola-pass-railyard-key": {
+    "id": "pendola-pass-railyard-key",
+    "name": "Pendola Pass Railyard Key",
+    "description": "Unlocks a door in the Controlled Receiving Facility on Pendola Pass.",
+    "icon": "icons/items/pendola-pass-railyard-key.webp",
+    "rarity": "Rare",
+    "item_type": "Key",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "pendola-pass-train-station-key": {
+    "id": "pendola-pass-train-station-key",
+    "name": "Pendola Pass Train Station Key",
+    "description": "Unlocks a door in the Almatera Station on Pendola Pass.",
+    "icon": "icons/items/pendola-pass-train-station-key.webp",
+    "rarity": "Rare",
+    "item_type": "Key",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "photoelectric-cloak": {
     "id": "photoelectric-cloak",
     "name": "Photoelectric Cloak",
@@ -5902,6 +9143,25 @@
       }
     }
   },
+  "planks": {
+    "id": "planks",
+    "name": "Planks",
+    "description": "Used in crafting.",
+    "icon": "icons/items/planks.webp",
+    "rarity": "Common",
+    "item_type": "Basic Material",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Tavole",
+        "description": "Utile per le creazioni."
+      }
+    }
+  },
   "plastic-parts": {
     "id": "plastic-parts",
     "name": "Plastic Parts",
@@ -5921,6 +9181,19 @@
       }
     }
   },
+  "plastic-trash": {
+    "id": "plastic-trash",
+    "name": "Plastic Trash",
+    "description": "Can be recycled into plastic parts.",
+    "icon": "icons/items/plastic-trash.webp",
+    "rarity": "Uncommon",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 5
+  },
   "playing-cards": {
     "id": "playing-cards",
     "name": "Playing Cards",
@@ -5939,6 +9212,227 @@
         "description": "Gli speranzani amano vedere chi riesce a costruire la torre più alta - prima che i tremori le facciano crollare."
       }
     }
+  },
+  "pneumatic-actuator": {
+    "id": "pneumatic-actuator",
+    "name": "Pneumatic Actuator",
+    "description": "Used to craft amplified weapons.",
+    "icon": "icons/items/pneumatic-actuator.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 1,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-den-bed-design": {
+    "id": "polished-den-bed-design",
+    "name": "Polished Den Bed Design",
+    "description": "",
+    "icon": "icons/items/polished-den-bed-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-den-shelf": {
+    "id": "polished-den-shelf",
+    "name": "Polished Den Shelf",
+    "description": "",
+    "icon": "icons/items/polished-den-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-den-shelf-design": {
+    "id": "polished-den-shelf-design",
+    "name": "Polished Den Shelf Design",
+    "description": "",
+    "icon": "icons/items/polished-den-shelf.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-diner-chair-design": {
+    "id": "polished-diner-chair-design",
+    "name": "Polished Diner Chair Design",
+    "description": "",
+    "icon": "icons/items/polished-diner-chair-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-faculty-chair-design": {
+    "id": "polished-faculty-chair-design",
+    "name": "Polished Faculty Chair Design",
+    "description": "",
+    "icon": "icons/items/polished-faculty-chair-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-faculty-table-design": {
+    "id": "polished-faculty-table-design",
+    "name": "Polished Faculty Table Design",
+    "description": "",
+    "icon": "icons/items/polished-faculty-table-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-round-sofa": {
+    "id": "polished-round-sofa",
+    "name": "Polished Round Sofa",
+    "description": "",
+    "icon": "icons/items/polished-round-sofa.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-round-sofa-design": {
+    "id": "polished-round-sofa-design",
+    "name": "Polished Round Sofa Design",
+    "description": "",
+    "icon": "icons/items/polished-round-sofa.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-stash": {
+    "id": "polished-stash",
+    "name": "Polished Stash",
+    "description": "",
+    "icon": "icons/items/polished-stash.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-stash-design": {
+    "id": "polished-stash-design",
+    "name": "Polished Stash Design",
+    "description": "",
+    "icon": "icons/items/polished-stash.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-study-sofa": {
+    "id": "polished-study-sofa",
+    "name": "Polished Study Sofa",
+    "description": "",
+    "icon": "icons/items/polished-study-sofa.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-study-sofa-design": {
+    "id": "polished-study-sofa-design",
+    "name": "Polished Study Sofa Design",
+    "description": "",
+    "icon": "icons/items/polished-study-sofa.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-wardrobe": {
+    "id": "polished-wardrobe",
+    "name": "Polished Wardrobe",
+    "description": "",
+    "icon": "icons/items/polished-wardrobe.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-wardrobe-design": {
+    "id": "polished-wardrobe-design",
+    "name": "Polished Wardrobe Design",
+    "description": "",
+    "icon": "icons/items/polished-wardrobe.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-weapon-rack": {
+    "id": "polished-weapon-rack",
+    "name": "Polished Weapon Rack",
+    "description": "",
+    "icon": "icons/items/polished-weapon-rack.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": 150,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "polished-weapon-rack-design": {
+    "id": "polished-weapon-rack-design",
+    "name": "Polished Weapon Rack Design",
+    "description": "",
+    "icon": "icons/items/polished-weapon-rack.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "polluted-air-filter": {
     "id": "polluted-air-filter",
@@ -5973,7 +9467,7 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Detonatore di Pop",
+        "name": "Detonatore Pop",
         "description": "Si può riciclare in materiali da costruzione."
       }
     }
@@ -5997,6 +9491,25 @@
       }
     }
   },
+  "possibly-toxic-plant": {
+    "id": "possibly-toxic-plant",
+    "name": "Possibly Toxic Plant",
+    "description": "A speculated source of miraculous healing, and/or particularly nasty rashes.",
+    "icon": "icons/items/possibly-toxic-plant.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Pianta forse tossica",
+        "description": "A speculated source of miraculous healing, and/or particularly nasty rashes."
+      }
+    }
+  },
   "poster-natural-wonder": {
     "id": "poster-natural-wonder",
     "name": "Poster of Natural Wonders",
@@ -6015,6 +9528,19 @@
         "description": "Se ti avvicini e socchiudi gli occhi, è come se il mondo non fosse mai crollato."
       }
     }
+  },
+  "potted-plant": {
+    "id": "potted-plant",
+    "name": "Potted Plant",
+    "description": "A small but tenacious plant, growing happily in a pot",
+    "icon": "icons/items/potted-plant.webp",
+    "rarity": "Uncommon",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "pottery": {
     "id": "pottery",
@@ -6111,6 +9637,38 @@
       }
     }
   },
+  "precision-gimbal": {
+    "id": "precision-gimbal",
+    "name": "Precision Gimbal",
+    "description": "A particularly mesmerizing part, supposedly crucial to the construction of Exodus spaceships.",
+    "icon": "icons/items/precision-gimbal.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Gimbal di precisione",
+        "description": ""
+      }
+    }
+  },
+  "pressure-regulator": {
+    "id": "pressure-regulator",
+    "name": "Pressure Regulator",
+    "description": "Used to craft amplified weapons.",
+    "icon": "icons/items/pressure-regulator.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 1,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "prickly-pear": {
     "id": "prickly-pear",
     "name": "Prickly Pear",
@@ -6129,6 +9687,32 @@
         "description": "Può essere consumato per una piccola quantità di stamina."
       }
     }
+  },
+  "printed-fabric-chair-design": {
+    "id": "printed-fabric-chair-design",
+    "name": "Printed Fabric Chair Design",
+    "description": "",
+    "icon": "icons/items/printed-fabric-chair-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "printed-lab-sofa-design": {
+    "id": "printed-lab-sofa-design",
+    "name": "Printed Lab Sofa Design",
+    "description": "",
+    "icon": "icons/items/printed-lab-sofa-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "processor": {
     "id": "processor",
@@ -6149,6 +9733,19 @@
       }
     }
   },
+  "project-pathos-empathy-core": {
+    "id": "project-pathos-empathy-core",
+    "name": "Project Pathos Empathy Core",
+    "description": "A prototype android core said to instill empathy and self-determination in androids.",
+    "icon": "icons/items/project-pathos-empathy-core.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "projector": {
     "id": "projector",
     "name": "Projector",
@@ -6167,6 +9764,19 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "propellant-valve-assembly": {
+    "id": "propellant-valve-assembly",
+    "name": "Propellant Valve Assembly",
+    "description": "Used to craft amplified weapons.",
+    "icon": "icons/items/propellant-valve-assembly.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 1,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "pulse-mine": {
     "id": "pulse-mine",
@@ -6205,6 +9815,32 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "rachetta-outfit": {
+    "id": "rachetta-outfit",
+    "name": "Rachetta (Outfit)",
+    "description": "",
+    "icon": "icons/items/rachetta-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "radial-press": {
+    "id": "radial-press",
+    "name": "Radial Press",
+    "description": "Used in crafting.",
+    "icon": "icons/items/radial-press.webp",
+    "rarity": "Epic",
+    "item_type": "Topside Material",
+    "subcategory": null,
+    "value": 3000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "radio": {
     "id": "radio",
@@ -6257,6 +9893,25 @@
     "loot_area": "",
     "stack_size": null
   },
+  "raider-flag": {
+    "id": "raider-flag",
+    "name": "Raider Flag",
+    "description": "Sun-bleached and wrinkled, yet dignified all the same.",
+    "icon": "icons/items/raider-flag.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Bandiera Raider",
+        "description": "Scolorita dal sole e stropicciata, ma comunque dignitosa."
+      }
+    }
+  },
   "raider-hatch-key": {
     "id": "raider-hatch-key",
     "name": "Raider Hatch Key",
@@ -6275,6 +9930,19 @@
         "description": "Sblocca un portello del predone."
       }
     }
+  },
+  "raider-logbook": {
+    "id": "raider-logbook",
+    "name": "Raider Logbook",
+    "description": "Surprisingly dilligent notetaking, in surprisingly legible handwriting.",
+    "icon": "icons/items/raider-logbook.webp",
+    "rarity": "Uncommon",
+    "item_type": "Research Item",
+    "subcategory": null,
+    "value": 640,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "raider-tokens": {
     "id": "raider-tokens",
@@ -6454,6 +10122,32 @@
       }
     }
   },
+  "rawhide-outfit": {
+    "id": "rawhide-outfit",
+    "name": "Rawhide (Outfit)",
+    "description": "",
+    "icon": "icons/items/rawhide-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "reaver-outfit": {
+    "id": "reaver-outfit",
+    "name": "Reaver (Outfit)",
+    "description": "",
+    "icon": "icons/items/reaver-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "recorder": {
     "id": "recorder",
     "name": "Recorder",
@@ -6522,6 +10216,32 @@
     "value": null,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "red-study-sofa": {
+    "id": "red-study-sofa",
+    "name": "Red Study Sofa",
+    "description": "",
+    "icon": "icons/items/red-study-sofa.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "red-study-sofa-design": {
+    "id": "red-study-sofa-design",
+    "name": "Red Study Sofa Design",
+    "description": "",
+    "icon": "icons/items/red-study-sofa.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "reinforced-reception-security-code": {
@@ -6657,6 +10377,19 @@
       }
     }
   },
+  "renzo-outfit": {
+    "id": "renzo-outfit",
+    "name": "Renzo (Outfit)",
+    "description": "",
+    "icon": "icons/items/renzo-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "resin": {
     "id": "resin",
     "name": "Resin",
@@ -6675,6 +10408,45 @@
         "description": "Può essere usato per ripristinare gradualmente una piccola quantità di salute nel tempo."
       }
     }
+  },
+  "restaurant-table-design": {
+    "id": "restaurant-table-design",
+    "name": "Restaurant Table Design",
+    "description": "",
+    "icon": "icons/items/restaurant-table-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "riot-outfit": {
+    "id": "riot-outfit",
+    "name": "Riot (Outfit)",
+    "description": "",
+    "icon": "icons/items/riot-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "riposta-outfit": {
+    "id": "riposta-outfit",
+    "name": "Riposta (Outfit)",
+    "description": "",
+    "icon": "icons/items/riposta-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "ripped-safety-vest": {
     "id": "ripped-safety-vest",
@@ -6885,6 +10657,19 @@
       }
     }
   },
+  "roamer-outfit": {
+    "id": "roamer-outfit",
+    "name": "Roamer (Outfit)",
+    "description": "",
+    "icon": "icons/items/roamer-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "rocket-thruster": {
     "id": "rocket-thruster",
     "name": "Rocket Thruster",
@@ -6999,6 +10784,19 @@
       }
     }
   },
+  "rubber-bands": {
+    "id": "rubber-bands",
+    "name": "Rubber Bands",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/rubber-bands.webp",
+    "rarity": "Rare",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 3
+  },
   "rubber-duck": {
     "id": "rubber-duck",
     "name": "Rubber Duck",
@@ -7112,6 +10910,19 @@
         "description": "Si può riciclare in materiali da creazione"
       }
     }
+  },
+  "ruined-emperor-beacon": {
+    "id": "ruined-emperor-beacon",
+    "name": "Ruined Emperor Beacon",
+    "description": "This beacon no longer has any power to send a signal.",
+    "icon": "icons/items/emperor-beacon.webp",
+    "rarity": "Common",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "ruined-handcuffs": {
     "id": "ruined-handcuffs",
@@ -7284,6 +11095,45 @@
       }
     }
   },
+  "ryder-outfit": {
+    "id": "ryder-outfit",
+    "name": "Ryder (Outfit)",
+    "description": "",
+    "icon": "icons/items/ryder-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sacrifice-stencil": {
+    "id": "sacrifice-stencil",
+    "name": "Sacrifice Stencil",
+    "description": "",
+    "icon": "icons/items/bulwark-stencil.webp",
+    "rarity": "Epic",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "saltwalker-outfit": {
+    "id": "saltwalker-outfit",
+    "name": "Saltwalker (Outfit)",
+    "description": "",
+    "icon": "icons/items/saltwalker-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "sample-cleaner": {
     "id": "sample-cleaner",
     "name": "Sample Cleaner",
@@ -7300,6 +11150,115 @@
       "it": {
         "name": "Pulitore di campioni",
         "description": "Si può riciclare in materiali da creazione."
+      }
+    }
+  },
+  "sandveil-outfit": {
+    "id": "sandveil-outfit",
+    "name": "Sandveil (Outfit)",
+    "description": "",
+    "icon": "icons/items/sandveil-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sandwalker-outfit": {
+    "id": "sandwalker-outfit",
+    "name": "Sandwalker (Outfit)",
+    "description": "",
+    "icon": "icons/items/sandwalker-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "scorta-outfit": {
+    "id": "scorta-outfit",
+    "name": "Scorta (Outfit)",
+    "description": "",
+    "icon": "icons/items/scorta-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "scout-patrol-note": {
+    "id": "scout-patrol-note",
+    "name": "Scout Patrol Note",
+    "description": "A note seemingly documenting patrol schedules and access codes.",
+    "icon": "icons/items/scout-patrol-note.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Nota di pattuglia scout",
+        "description": ""
+      }
+    }
+  },
+  "secret-meeting-info": {
+    "id": "secret-meeting-info",
+    "name": "Secret Meeting Info",
+    "description": "Thorough documentation of secret meetings held by researchers around the Stella Montis facility.",
+    "icon": "icons/items/secret-meeting-info.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Informazioni sulla riunione segreta",
+        "description": ""
+      }
+    }
+  },
+  "security-chair-design": {
+    "id": "security-chair-design",
+    "name": "Security Chair Design",
+    "description": "",
+    "icon": "icons/items/security-chair-design.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "seed-vault-box-key": {
+    "id": "seed-vault-box-key",
+    "name": "Seed Vault Box Key",
+    "description": "A key opening a specific box in Stella Montis' Seed Vault.",
+    "icon": "icons/items/seed-vault-box-key.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Chiave della cassetta del caveau dei semi",
+        "description": "Una chiave che apre una specifica cassetta nel caveau dei semi di Stella Montis."
       }
     }
   },
@@ -7360,6 +11319,19 @@
       }
     }
   },
+  "serac-stencil": {
+    "id": "serac-stencil",
+    "name": "Serac Stencil",
+    "description": "",
+    "icon": "icons/items/bulwark-stencil.webp",
+    "rarity": "Legendary",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "sextant": {
     "id": "sextant",
     "name": "Sextant",
@@ -7378,6 +11350,19 @@
         "description": "Un tempo ritenuto un rudimentale prototipo di astronave, secondo i Nomadi è invece un metodo sofisticato per documentare i propri viaggi."
       }
     }
+  },
+  "sforza-outfit": {
+    "id": "sforza-outfit",
+    "name": "Sforza (Outfit)",
+    "description": "",
+    "icon": "icons/items/sforza-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "shaker": {
     "id": "shaker",
@@ -7398,6 +11383,32 @@
       }
     }
   },
+  "sheath-outfit": {
+    "id": "sheath-outfit",
+    "name": "Sheath (Outfit)",
+    "description": "",
+    "icon": "icons/items/sheath-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sheet-metal": {
+    "id": "sheet-metal",
+    "name": "Sheet Metal",
+    "description": "Used in crafting.",
+    "icon": "icons/items/sheet-metal.webp",
+    "rarity": "Common",
+    "item_type": "Basic Material",
+    "subcategory": null,
+    "value": 100,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "shield-recharger": {
     "id": "shield-recharger",
     "name": "Shield Recharger",
@@ -7416,6 +11427,19 @@
         "description": "Un kit portatile che ricarica gradualmente lo scudo nel tempo."
       }
     }
+  },
+  "shield-stress-testing": {
+    "id": "shield-stress-testing",
+    "name": "Shield Stress Testing",
+    "description": "Sustained damage could reveal exactly what makes a shield give out—and how to make that happen faster. For science, naturally.",
+    "icon": "icons/items/shield-stress-testing.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "shotgun-ammo": {
     "id": "shotgun-ammo",
@@ -7702,6 +11726,84 @@
       }
     }
   },
+  "skulker-driver": {
+    "id": "skulker-driver",
+    "name": "Skulker Driver",
+    "description": "Drops from Meerkat.",
+    "icon": "icons/items/skulker-driver.webp",
+    "rarity": "Rare",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "skulker-targeter": {
+    "id": "skulker-targeter",
+    "name": "Skulker Targeter",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/skulker-targeter.webp",
+    "rarity": "Uncommon",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 1000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "slipstream-stencil": {
+    "id": "slipstream-stencil",
+    "name": "Slipstream Stencil",
+    "description": "",
+    "icon": "icons/items/slipstream-stencil.webp",
+    "rarity": "Epic",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "slugger-outfit": {
+    "id": "slugger-outfit",
+    "name": "Slugger (Outfit)",
+    "description": "",
+    "icon": "icons/items/slugger-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "small-lab-cabinet": {
+    "id": "small-lab-cabinet",
+    "name": "Small Lab Cabinet",
+    "description": "",
+    "icon": "icons/items/small-lab-cabinet.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "small-lab-cabinet-design": {
+    "id": "small-lab-cabinet-design",
+    "name": "Small Lab Cabinet Design",
+    "description": "",
+    "icon": "icons/items/small-lab-cabinet.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "smoke-grenade": {
     "id": "smoke-grenade",
     "name": "Smoke Grenade",
@@ -7796,6 +11898,45 @@
         "description": "Una palla di neve compatta."
       }
     }
+  },
+  "solare-outfit": {
+    "id": "solare-outfit",
+    "name": "Solare (Outfit)",
+    "description": "",
+    "icon": "icons/items/solare-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "solid-core-casting-tech": {
+    "id": "solid-core-casting-tech",
+    "name": "Solid-Core Casting Tech",
+    "description": "Shotgun engagements against drones offer a useful test of stopping power. Concentrating the full charge into a single projectile could produce far more decisive results.",
+    "icon": "icons/items/solid-core-casting-tech.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "solid-green-chair-design": {
+    "id": "solid-green-chair-design",
+    "name": "Solid Green Chair Design",
+    "description": "",
+    "icon": "icons/items/solid-green-chair-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "spaceport-container-storage-key": {
     "id": "spaceport-container-storage-key",
@@ -8063,6 +12204,19 @@
       }
     }
   },
+  "static-outfit": {
+    "id": "static-outfit",
+    "name": "Static (Outfit)",
+    "description": "",
+    "icon": "icons/items/static-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "statuette": {
     "id": "statuette",
     "name": "Statuette",
@@ -8081,6 +12235,19 @@
         "description": "Vale una piccola fortuna."
       }
     }
+  },
+  "steel-cable": {
+    "id": "steel-cable",
+    "name": "Steel Cable",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/steel-cable.webp",
+    "rarity": "Rare",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 270,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "stella-montis-archives-key": {
     "id": "stella-montis-archives-key",
@@ -8158,6 +12325,19 @@
       }
     }
   },
+  "stencil-parts": {
+    "id": "stencil-parts",
+    "name": "Stencil Parts",
+    "description": "Used to apply stencils to weapons.",
+    "icon": "icons/items/stencil-parts.webp",
+    "rarity": "Epic",
+    "item_type": "Basic Material",
+    "subcategory": null,
+    "value": 1,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "sterilized-bandage": {
     "id": "sterilized-bandage",
     "name": "Sterilized Bandage",
@@ -8179,15 +12359,54 @@
   },
   "stiletto": {
     "id": "stiletto",
-    "name": "Stiletto",
-    "description": "The Stiletto is a light-ammo battle rifle that fits in as an early-game alternative to the Renegade. Cheap to craft and easy to wield, it’s the perfect choice for Raiders with a steady shot looking to attack from distance. Fire rate can be fast, but button mashing will sacrifice accuracy - keep a cool head and hit your shots. ",
+    "name": "Stiletto I",
+    "description": "Semi-automatic rifle with high accuracy, good handling and low initial recoil, but becomes harder to handle with sustained fire.",
     "icon": "icons/items/stiletto.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Weapon",
-    "subcategory": "",
-    "value": 0,
+    "subcategory": "Battle Rifle",
+    "value": 3800,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "stiletto-ii": {
+    "id": "stiletto-ii",
+    "name": "Stiletto II",
+    "description": "Semi-automatic rifle with high accuracy, good handling and low initial recoil, but becomes harder to handle with sustained fire.",
+    "icon": "icons/items/stiletto-ii.webp",
+    "rarity": "Uncommon",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 6000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "stiletto-iii": {
+    "id": "stiletto-iii",
+    "name": "Stiletto III",
+    "description": "Semi-automatic rifle with high accuracy, good handling and low initial recoil, but becomes harder to handle with sustained fire.",
+    "icon": "icons/items/stiletto-ii.webp",
+    "rarity": "Uncommon",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 8000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "stiletto-iv": {
+    "id": "stiletto-iv",
+    "name": "Stiletto IV",
+    "description": "Semi-automatic rifle with high accuracy, good handling and low initial recoil, but becomes harder to handle with sustained fire.",
+    "icon": "icons/items/stiletto-ii.webp",
+    "rarity": "Uncommon",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 11000,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "stitcher-i": {
@@ -8266,6 +12485,448 @@
       }
     }
   },
+  "striker-outfit": {
+    "id": "striker-outfit",
+    "name": "Striker (Outfit)",
+    "description": "",
+    "icon": "icons/items/striker-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-armchair": {
+    "id": "study-armchair",
+    "name": "Study Armchair",
+    "description": "",
+    "icon": "icons/items/study-armchair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-armchair-design-res-armchair-01-a": {
+    "id": "study-armchair-design-res-armchair-01-a",
+    "name": "Study Armchair Design",
+    "description": "",
+    "icon": "icons/items/study-armchair-design-res-armchair-01-a.webp",
+    "rarity": "Legendary",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-armchair-design-res-sofa-01-y150-a": {
+    "id": "study-armchair-design-res-sofa-01-y150-a",
+    "name": "Study Armchair Design",
+    "description": "",
+    "icon": "icons/items/study-armchair.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-ceiling-lamp": {
+    "id": "study-ceiling-lamp",
+    "name": "Study Ceiling Lamp",
+    "description": "",
+    "icon": "icons/items/study-ceiling-lamp.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-ceiling-lamp-design": {
+    "id": "study-ceiling-lamp-design",
+    "name": "Study Ceiling Lamp Design",
+    "description": "",
+    "icon": "icons/items/study-ceiling-lamp.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-piano": {
+    "id": "study-piano",
+    "name": "Study Piano",
+    "description": "",
+    "icon": "icons/items/study-piano.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-piano-design": {
+    "id": "study-piano-design",
+    "name": "Study Piano Design",
+    "description": "",
+    "icon": "icons/items/study-piano.webp",
+    "rarity": "Legendary",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-tv-stand": {
+    "id": "study-tv-stand",
+    "name": "Study TV Stand",
+    "description": "",
+    "icon": "icons/items/study-tv-stand.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "study-tv-stand-design": {
+    "id": "study-tv-stand-design",
+    "name": "Study TV Stand Design",
+    "description": "",
+    "icon": "icons/items/study-tv-stand.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-aviary-table": {
+    "id": "sturdy-aviary-table",
+    "name": "Sturdy Aviary Table",
+    "description": "",
+    "icon": "icons/items/sturdy-aviary-table.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-aviary-table-design": {
+    "id": "sturdy-aviary-table-design",
+    "name": "Sturdy Aviary Table Design",
+    "description": "",
+    "icon": "icons/items/sturdy-aviary-table.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-bureau-chair-design": {
+    "id": "sturdy-bureau-chair-design",
+    "name": "Sturdy Bureau Chair Design",
+    "description": "",
+    "icon": "icons/items/sturdy-bureau-chair-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-bureau-sofa": {
+    "id": "sturdy-bureau-sofa",
+    "name": "Sturdy Bureau Sofa",
+    "description": "",
+    "icon": "icons/items/sturdy-bureau-sofa.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-bureau-sofa-design": {
+    "id": "sturdy-bureau-sofa-design",
+    "name": "Sturdy Bureau Sofa Design",
+    "description": "",
+    "icon": "icons/items/sturdy-bureau-sofa.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-den-bed-design": {
+    "id": "sturdy-den-bed-design",
+    "name": "Sturdy Den Bed Design",
+    "description": "",
+    "icon": "icons/items/sturdy-den-bed-design.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-den-shelf": {
+    "id": "sturdy-den-shelf",
+    "name": "Sturdy Den Shelf",
+    "description": "",
+    "icon": "icons/items/sturdy-den-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-den-shelf-design": {
+    "id": "sturdy-den-shelf-design",
+    "name": "Sturdy Den Shelf Design",
+    "description": "",
+    "icon": "icons/items/sturdy-den-shelf.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-faculty-chair-design": {
+    "id": "sturdy-faculty-chair-design",
+    "name": "Sturdy Faculty Chair Design",
+    "description": "",
+    "icon": "icons/items/sturdy-faculty-chair-design.webp",
+    "rarity": "Rare",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-faculty-table-design": {
+    "id": "sturdy-faculty-table-design",
+    "name": "Sturdy Faculty Table Design",
+    "description": "",
+    "icon": "icons/items/sturdy-faculty-table-design.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-lab-cabinet": {
+    "id": "sturdy-lab-cabinet",
+    "name": "Sturdy Lab Cabinet",
+    "description": "",
+    "icon": "icons/items/sturdy-lab-cabinet.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-lab-cabinet-design": {
+    "id": "sturdy-lab-cabinet-design",
+    "name": "Sturdy Lab Cabinet Design",
+    "description": "",
+    "icon": "icons/items/sturdy-lab-cabinet.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-lab-cabinet-wide": {
+    "id": "sturdy-lab-cabinet-wide",
+    "name": "Sturdy Lab Cabinet (Wide)",
+    "description": "",
+    "icon": "icons/items/sturdy-lab-cabinet-wide.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-lab-cabinet-wide-design": {
+    "id": "sturdy-lab-cabinet-wide-design",
+    "name": "Sturdy Lab Cabinet (Wide) Design",
+    "description": "",
+    "icon": "icons/items/sturdy-lab-cabinet-wide.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-lab-chair-design": {
+    "id": "sturdy-lab-chair-design",
+    "name": "Sturdy Lab Chair Design",
+    "description": "",
+    "icon": "icons/items/sturdy-lab-chair-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-shelf": {
+    "id": "sturdy-shelf",
+    "name": "Sturdy Shelf",
+    "description": "",
+    "icon": "icons/items/sturdy-shelf.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-shelf-design": {
+    "id": "sturdy-shelf-design",
+    "name": "Sturdy Shelf Design",
+    "description": "",
+    "icon": "icons/items/sturdy-shelf.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-stash": {
+    "id": "sturdy-stash",
+    "name": "Sturdy Stash",
+    "description": "",
+    "icon": "icons/items/sturdy-stash.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-stash-design": {
+    "id": "sturdy-stash-design",
+    "name": "Sturdy Stash Design",
+    "description": "",
+    "icon": "icons/items/sturdy-stash.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-wardrobe": {
+    "id": "sturdy-wardrobe",
+    "name": "Sturdy Wardrobe",
+    "description": "",
+    "icon": "icons/items/sturdy-wardrobe.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-wardrobe-design": {
+    "id": "sturdy-wardrobe-design",
+    "name": "Sturdy Wardrobe Design",
+    "description": "",
+    "icon": "icons/items/sturdy-wardrobe.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-weapon-rack": {
+    "id": "sturdy-weapon-rack",
+    "name": "Sturdy Weapon Rack",
+    "description": "",
+    "icon": "icons/items/sturdy-weapon-rack.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "sturdy-weapon-rack-design": {
+    "id": "sturdy-weapon-rack-design",
+    "name": "Sturdy Weapon Rack Design",
+    "description": "",
+    "icon": "icons/items/sturdy-weapon-rack.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "subterranean-outfit": {
+    "id": "subterranean-outfit",
+    "name": "Subterranean (Outfit)",
+    "description": "",
+    "icon": "icons/items/subterranean-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "succulent-backpack-charm": {
     "id": "succulent-backpack-charm",
     "name": "Succulent (Backpack Charm)",
@@ -8316,6 +12977,19 @@
         "description": "Un kit di riparazione portatile che ricarica uno scudo durante l'uso."
       }
     }
+  },
+  "surgeon-outfit": {
+    "id": "surgeon-outfit",
+    "name": "Surgeon (Outfit)",
+    "description": "",
+    "icon": "icons/items/surgeon-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "surveyor-vault": {
     "id": "surveyor-vault",
@@ -8520,6 +13194,19 @@
     "loot_area": "",
     "stack_size": null
   },
+  "targeted-component-trial": {
+    "id": "targeted-component-trial",
+    "name": "Targeted Component Trial",
+    "description": "Even the toughest machines have their weak spots. Consistent strikes against vulnerable components could reveal a way to develop rounds that hit them where it hurts most. Metaphorically speaking.",
+    "icon": "icons/items/targeted-component-trial.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "tattered-arc-lining": {
     "id": "tattered-arc-lining",
     "name": "Tattered ARC Lining",
@@ -8675,14 +13362,40 @@
   "tether-launcher": {
     "id": "tether-launcher",
     "name": "Tether Launcher",
-    "description": "The Tether Launcher allows you to connect two separate points with a wire, rooting them in place for easy pickings or even attaching Raiders to ARC and watching as they’re dragged away.",
+    "description": "A two-shot tether launcher that anchors a line to whatever it hits, linking both points together.",
     "icon": "icons/items/tether-launcher.webp",
-    "rarity": "Common",
-    "item_type": "Gadget",
+    "rarity": "Rare",
+    "item_type": "Quick Use",
     "subcategory": "",
-    "value": 0,
+    "value": 3000,
     "workbench": null,
     "loot_area": "",
+    "stack_size": null
+  },
+  "thermal-shaker": {
+    "id": "thermal-shaker",
+    "name": "Thermal Shaker",
+    "description": "Can be recycled into crafting materials.",
+    "icon": "icons/items/thermal-shaker.webp",
+    "rarity": "Epic",
+    "item_type": "Recyclable",
+    "subcategory": null,
+    "value": 3000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "thermite-tipped-rounds": {
+    "id": "thermite-tipped-rounds",
+    "name": "Thermite-Tipped Rounds",
+    "description": "Impact damage is useful. Setting the problem on fire afterward feels like a reasonable improvement.",
+    "icon": "icons/items/thermite-tipped-rounds.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "thermostat": {
@@ -8703,6 +13416,19 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "tick-hunter-outfit": {
+    "id": "tick-hunter-outfit",
+    "name": "Tick Hunter (Outfit)",
+    "description": "",
+    "icon": "icons/items/tick-hunter-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "tick-pod": {
     "id": "tick-pod",
@@ -8741,6 +13467,19 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "top-mounted-optics-retrofittings": {
+    "id": "top-mounted-optics-retrofittings",
+    "name": "Top Mounted Optics Retrofittings",
+    "description": "Elevated firing positions provide clear sightlines. Osprey field data under those conditions could support development of improved magnification.",
+    "icon": "icons/items/top-mounted-optics-retrofittings.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "torch-ginger": {
     "id": "torch-ginger",
@@ -8798,6 +13537,32 @@
         "description": "Le pagine rimaste parlano di eroi, vampiri e molti sguardi."
       }
     }
+  },
+  "torpedo-outfit": {
+    "id": "torpedo-outfit",
+    "name": "Torpedo (Outfit)",
+    "description": "",
+    "icon": "icons/items/torpedo-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "torque-outfit": {
+    "id": "torque-outfit",
+    "name": "Torque (Outfit)",
+    "description": "",
+    "icon": "icons/items/torque-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "torrente-i": {
     "id": "torrente-i",
@@ -8875,6 +13640,19 @@
       }
     }
   },
+  "tortoise-stencil": {
+    "id": "tortoise-stencil",
+    "name": "Tortoise Stencil",
+    "description": "",
+    "icon": "icons/items/tortoise-stencil.webp",
+    "rarity": "Epic",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "trailblazer-grenade": {
     "id": "trailblazer-grenade",
     "name": "Trailblazer",
@@ -8932,6 +13710,32 @@
       }
     }
   },
+  "trigger-reset-systems": {
+    "id": "trigger-reset-systems",
+    "name": "Trigger Reset Systems",
+    "description": "Fast-moving threats leave little margin for hesitation. Close encounters with Skulkers could reveal ways to improve paced combat effectiveness.",
+    "icon": "icons/items/trigger-reset-systems.webp",
+    "rarity": "Common",
+    "item_type": "Research",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "triumph-outfit": {
+    "id": "triumph-outfit",
+    "name": "Triumph (Outfit)",
+    "description": "",
+    "icon": "icons/items/triumph-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "tropical-duck": {
     "id": "tropical-duck",
     "name": "Tropical Duck",
@@ -8950,6 +13754,32 @@
         "description": "Sogna in silenzio di volare in cielo con i suoi simili. Può essere lanciata per creare rumore."
       }
     }
+  },
+  "tufted-sofa": {
+    "id": "tufted-sofa",
+    "name": "Tufted Sofa",
+    "description": "",
+    "icon": "icons/items/tufted-sofa.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "tufted-sofa-design": {
+    "id": "tufted-sofa-design",
+    "name": "Tufted Sofa Design",
+    "description": "",
+    "icon": "icons/items/tufted-sofa.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "turbine-compressor": {
     "id": "turbine-compressor",
@@ -9008,6 +13838,19 @@
       }
     }
   },
+  "unknown-arc-circuitry": {
+    "id": "unknown-arc-circuitry",
+    "name": "Unknown ARC Circuitry",
+    "description": "A bundle of ARC circuitry, unfamiliar in both layout and design.",
+    "icon": "icons/items/unknown-arc-circuitry.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "unusable-weapon": {
     "id": "unusable-weapon",
     "name": "Unusable Weapon",
@@ -9026,6 +13869,32 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "valente-outfit": {
+    "id": "valente-outfit",
+    "name": "Valente (Outfit)",
+    "description": "",
+    "icon": "icons/items/valente-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "vanguard-outfit": {
+    "id": "vanguard-outfit",
+    "name": "Vanguard (Outfit)",
+    "description": "",
+    "icon": "icons/items/vanguard-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "vaporizer-regulator": {
     "id": "vaporizer-regulator",
@@ -9064,6 +13933,19 @@
         "description": "Vale una piccola fortuna."
       }
     }
+  },
+  "velati-outfit": {
+    "id": "velati-outfit",
+    "name": "Velati (Outfit)",
+    "description": "",
+    "icon": "icons/items/velati-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "velocity-ship-model": {
     "id": "velocity-ship-model",
@@ -9159,6 +14041,45 @@
         "description": "Pistola semiautomatica. Spara due colpi alla volta."
       }
     }
+  },
+  "venetian-dresser": {
+    "id": "venetian-dresser",
+    "name": "Venetian Dresser",
+    "description": "",
+    "icon": "icons/items/venetian-dresser.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "venetian-dresser-design": {
+    "id": "venetian-dresser-design",
+    "name": "Venetian Dresser Design",
+    "description": "",
+    "icon": "icons/items/venetian-dresser.webp",
+    "rarity": "Epic",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "verdigris-stencil": {
+    "id": "verdigris-stencil",
+    "name": "Verdigris Stencil",
+    "description": "",
+    "icon": "icons/items/verdigris-stencil.webp",
+    "rarity": "Uncommon",
+    "item_type": "Stencil",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "vertical-grip-i": {
     "id": "vertical-grip-i",
@@ -9293,6 +14214,19 @@
       }
     }
   },
+  "volare-outfit": {
+    "id": "volare-outfit",
+    "name": "Volare (Outfit)",
+    "description": "",
+    "icon": "icons/items/volare-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "volcanic-rock": {
     "id": "volcanic-rock",
     "name": "Volcanic Rock",
@@ -9330,6 +14264,32 @@
         "description": "Utile per le creazioni. Si usa per creare: Scudo pesante, Granata stordente"
       }
     }
+  },
+  "voltedge-outfit": {
+    "id": "voltedge-outfit",
+    "name": "Voltedge (Outfit)",
+    "description": "",
+    "icon": "icons/items/voltedge-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "voyager-outfit": {
+    "id": "voyager-outfit",
+    "name": "Voyager (Outfit)",
+    "description": "",
+    "icon": "icons/items/voyager-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "vulcano-i": {
     "id": "vulcano-i",
@@ -9420,6 +14380,71 @@
     "loot_area": "",
     "stack_size": null
   },
+  "warehouse-chair-design": {
+    "id": "warehouse-chair-design",
+    "name": "Warehouse Chair Design",
+    "description": "",
+    "icon": "icons/items/warehouse-chair-design.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "warehouse-desk": {
+    "id": "warehouse-desk",
+    "name": "Warehouse Desk",
+    "description": "",
+    "icon": "icons/items/warehouse-desk.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "warehouse-desk-design": {
+    "id": "warehouse-desk-design",
+    "name": "Warehouse Desk Design",
+    "description": "",
+    "icon": "icons/items/warehouse-desk.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "warehouse-dresser": {
+    "id": "warehouse-dresser",
+    "name": "Warehouse Dresser",
+    "description": "",
+    "icon": "icons/items/warehouse-dresser.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "warehouse-dresser-design": {
+    "id": "warehouse-dresser-design",
+    "name": "Warehouse Dresser Design",
+    "description": "",
+    "icon": "icons/items/warehouse-dresser.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "wasp-driver": {
     "id": "wasp-driver",
     "name": "Wasp Driver",
@@ -9438,6 +14463,19 @@
         "description": "Si può riciclare in leghe ARC. Si può lanciare ed esplode se gli si spara."
       }
     }
+  },
+  "wasp-hunter-outfit": {
+    "id": "wasp-hunter-outfit",
+    "name": "Wasp Hunter (Outfit)",
+    "description": "",
+    "icon": "icons/items/wasp-hunter-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "water-filter": {
     "id": "water-filter",
@@ -9476,6 +14514,58 @@
         "description": "Si può riciclare in materiali da creazione."
       }
     }
+  },
+  "weather-station-chair": {
+    "id": "weather-station-chair",
+    "name": "Weather Station Chair",
+    "description": "",
+    "icon": "icons/items/weather-station-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "weather-station-chair-design": {
+    "id": "weather-station-chair-design",
+    "name": "Weather Station Chair Design",
+    "description": "",
+    "icon": "icons/items/weather-station-chair.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "weather-station-table": {
+    "id": "weather-station-table",
+    "name": "Weather Station Table",
+    "description": "",
+    "icon": "icons/items/weather-station-table.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "weather-station-table-design": {
+    "id": "weather-station-table-design",
+    "name": "Weather Station Table Design",
+    "description": "",
+    "icon": "icons/items/weather-station-table.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "white-flag": {
     "id": "white-flag",
@@ -9528,6 +14618,32 @@
       }
     }
   },
+  "winter-table": {
+    "id": "winter-table",
+    "name": "Winter Table",
+    "description": "",
+    "icon": "icons/items/winter-table.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "winter-table-design": {
+    "id": "winter-table-design",
+    "name": "Winter Table Design",
+    "description": "",
+    "icon": "icons/items/winter-table.webp",
+    "rarity": "Uncommon",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "wires": {
     "id": "wires",
     "name": "Wires",
@@ -9566,15 +14682,54 @@
       }
     }
   },
+  "work-light": {
+    "id": "work-light",
+    "name": "Work Light",
+    "description": "",
+    "icon": "icons/items/work-light.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "work-light-design": {
+    "id": "work-light-design",
+    "name": "Work Light Design",
+    "description": "",
+    "icon": "icons/items/work-light.webp",
+    "rarity": "Common",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "wreck-outfit": {
+    "id": "wreck-outfit",
+    "name": "Wreck (Outfit)",
+    "description": "",
+    "icon": "icons/items/wreck-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "yank-grenade": {
     "id": "yank-grenade",
     "name": "Yank Grenade",
-    "description": "The Yank Grenade works on the same principle, but when it explodes, it pulls a nearby target with a violent force. This is perfect for smashing flying ARC to the ground or pulling other Raiders out of cover. ",
+    "description": "A grenade that anchors a line to whatever it hits, pulling the target toward the point of impact.",
     "icon": "icons/items/yank-grenade.webp",
-    "rarity": "Common",
-    "item_type": "Gadget",
+    "rarity": "Uncommon",
+    "item_type": "Quick Use",
     "subcategory": "",
-    "value": 0,
+    "value": 550,
     "workbench": null,
     "loot_area": "",
     "stack_size": null
@@ -9611,6 +14766,19 @@
     "loot_area": "",
     "stack_size": null
   },
+  "zenith-outfit": {
+    "id": "zenith-outfit",
+    "name": "Zenith (Outfit)",
+    "description": "",
+    "icon": "icons/items/zenith-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "zipline": {
     "id": "zipline",
     "name": "Zipline",
@@ -9629,6 +14797,19 @@
         "description": "Una zipline dispiegabile che ti consente di muoverti rapidamente tra due posizioni."
       }
     }
+  },
+  "advanced-camera-blueprint": {
+    "id": "advanced-camera-blueprint",
+    "name": "Advanced Camera Blueprint",
+    "description": "Lets you craft an Advanced Camera",
+    "icon": "icons/items/advanced-camera.webp",
+    "rarity": "Common",
+    "item_type": "Blueprint",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "angled-grip-ii-recipe": {
     "id": "angled-grip-ii-recipe",
@@ -9705,6 +14886,32 @@
         "description": "Spara proiettili energetici ad alta velocità."
       }
     }
+  },
+  "banjo-blueprint": {
+    "id": "banjo-blueprint",
+    "name": "Banjo Blueprint",
+    "description": "",
+    "icon": "icons/items/banjo.webp",
+    "rarity": "Common",
+    "item_type": "Blueprint",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "bantam-blueprint": {
+    "id": "bantam-blueprint",
+    "name": "Bantam Blueprint",
+    "description": "Lets you craft a Bantam",
+    "icon": "icons/items/bantam.webp",
+    "rarity": "Common",
+    "item_type": "Blueprint",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "barricade-kit-recipe": {
     "id": "barricade-kit-recipe",
@@ -10010,6 +15217,19 @@
       }
     }
   },
+  "emperor-gateway-conduit-blueprint": {
+    "id": "emperor-gateway-conduit-blueprint",
+    "name": "Emperor Gateway Conduit Blueprint",
+    "description": "CollectorKey Blueprint Description",
+    "icon": "icons/items/emperor-gateway-conduit.webp",
+    "rarity": "Common",
+    "item_type": "Blueprint",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "equalizer-recipe": {
     "id": "equalizer-recipe",
     "name": "Equalizer Blueprint",
@@ -10237,6 +15457,19 @@
         "description": "Una mina attivata dalla prossimità che emerge e rilascia una nube di gas che drena rapidamente la resistenza."
       }
     }
+  },
+  "grappling-hook-blueprint": {
+    "id": "grappling-hook-blueprint",
+    "name": "Grappling Hook Blueprint",
+    "description": "Lets you craft a Grappling Hook",
+    "icon": "icons/items/grappling-hook.webp",
+    "rarity": "Common",
+    "item_type": "Blueprint",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "green-light-stick-blueprint": {
     "id": "green-light-stick-blueprint",
@@ -10561,6 +15794,25 @@
       }
     }
   },
+  "project-heartwood-blueprints": {
+    "id": "project-heartwood-blueprints",
+    "name": "Project Heartwood Blueprints",
+    "description": "A mix of complex-looking blueprints and reports, labeled Project Heartwood.",
+    "icon": "icons/items/project-heartwood-blueprints.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Schemi del Progetto Heartwood",
+        "description": "Schemi sbiaditi per qualcosa chiamato Progetto Heartwood. Qualsiasi cosa fosse, non è mai stata costruita."
+      }
+    }
+  },
   "pulse-mine-blueprint": {
     "id": "pulse-mine-blueprint",
     "name": "Pulse Mine Blueprint",
@@ -10579,6 +15831,19 @@
         "description": "Una mina attivata dalla prossimità che salta fuori e respinge tutto nel suo raggio."
       }
     }
+  },
+  "purification-system-blueprint": {
+    "id": "purification-system-blueprint",
+    "name": "Purification System Blueprint",
+    "description": "Detailed plans for assembling a functional purification system.",
+    "icon": "icons/items/purification-system.webp",
+    "rarity": "Common",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "rascal-blueprint": {
     "id": "rascal-blueprint",
@@ -10846,6 +16111,19 @@
       }
     }
   },
+  "stiletto-blueprint": {
+    "id": "stiletto-blueprint",
+    "name": "Stiletto Blueprint",
+    "description": "Lets you craft a Stiletto",
+    "icon": "icons/items/stiletto.webp",
+    "rarity": "Common",
+    "item_type": "Blueprint",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "surge-coil-blueprint": {
     "id": "surge-coil-blueprint",
     "name": "Surge Coil Blueprint",
@@ -10959,6 +16237,19 @@
         "description": "Fucile d'assalto completamente automatico con cadenza di fuoco e precisione moderate."
       }
     }
+  },
+  "tether-launcher-blueprint": {
+    "id": "tether-launcher-blueprint",
+    "name": "Tether Launcher Blueprint",
+    "description": "Lets you craft a Tether Launcher",
+    "icon": "icons/items/tether-launcher.webp",
+    "rarity": "Common",
+    "item_type": "Blueprint",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
   },
   "torrent-i-recipe": {
     "id": "torrent-i-recipe",
@@ -11188,6 +16479,19 @@
       }
     }
   },
+  "yank-grenade-blueprint": {
+    "id": "yank-grenade-blueprint",
+    "name": "Yank Grenade Blueprint",
+    "description": "Lets you craft a Yank Grenade",
+    "icon": "icons/items/yank-grenade.webp",
+    "rarity": "Common",
+    "item_type": "Blueprint",
+    "subcategory": null,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "yellow-light-stick-blueprint": {
     "id": "yellow-light-stick-blueprint",
     "name": "Yellow Light Stick Blueprint",
@@ -11204,6 +16508,44 @@
       "it": {
         "name": "Bastoncino luminoso giallo",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
+      }
+    }
+  },
+  "reward-points": {
+    "id": "reward-points",
+    "name": "Reward Points",
+    "description": "Currency earned by completing Feats. It is applied automatically to the progress of the active Reward Pass.",
+    "icon": "icons/items/reward-points.webp",
+    "rarity": "Common",
+    "item_type": "Currency",
+    "subcategory": "",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Punti Ricompensa",
+        "description": "Valuta ottenuta completando le Imprese. Viene applicata automaticamente all'avanzamento del Reward Pass attivo."
+      }
+    }
+  },
+  "xp-points": {
+    "id": "xp-points",
+    "name": "XP Points",
+    "description": "Experience points granted as a reward, for example for completing quests.",
+    "icon": "icons/items/xp-points.webp",
+    "rarity": "Common",
+    "item_type": "Currency",
+    "subcategory": "",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Punti XP",
+        "description": "Punti esperienza ottenuti come ricompensa, ad esempio completando le quest."
       }
     }
   }

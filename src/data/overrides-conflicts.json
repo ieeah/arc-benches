@@ -1,31 +1,3 @@
 {
-  "conflicts": [
-    {
-      "id": "acoustic-guitar",
-      "key": "item_type",
-      "kind": "redundant",
-      "oldUpstream": null,
-      "newUpstream": "Quick Use",
-      "overrideVal": "Quick Use",
-      "detectedAt": "2026-10-08"
-    },
-    {
-      "id": "advanced-arc-powercell",
-      "key": "item_type",
-      "kind": "redundant",
-      "oldUpstream": null,
-      "newUpstream": "Topside Material",
-      "overrideVal": "Topside Material",
-      "detectedAt": "2026-10-08"
-    },
-    {
-      "id": "advanced-arc-powercell",
-      "key": "subcategory",
-      "kind": "redundant",
-      "oldUpstream": null,
-      "newUpstream": "Topside Material",
-      "overrideVal": "Topside Material",
-      "detectedAt": "2026-10-08"
-    }
-  ]
+  "conflicts": []
 }
