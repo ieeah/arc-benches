@@ -22,6 +22,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 
 ## Versione 0.5.0 "Segnale Radio"
 - [ ] #26 [Vista Aggregata per Banco (Fase 3)](https://github.com/ieeah/arc-benches/issues/26)
+- [ ] #84 [Pagina Dev: Custom Items Studio per gestire gli oggetti non presenti su MetaForge (alta priorità)](https://github.com/ieeah/arc-benches/issues/84)
 - [ ] #29 [Supporto PWA (Progressive Web App & Offline Manifest)](https://github.com/ieeah/arc-benches/issues/29)
 - [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
 - [ ] #27 [View Transitions](https://github.com/ieeah/arc-benches/issues/27)
@@ -40,6 +41,7 @@ Roadmap delle funzionalità e dei sistemi non ancora presenti nel codice di **AR
 - [ ] #57 [Bestiario ARC & Drop Tables: Consultazione nemici ARC e componenti con icone SVG (ARDB)](https://github.com/ieeah/arc-benches/issues/57)
 - [ ] #58 [Quest Tracker Informativo: Consultazione contratti e ricompense commercianti con ipotesi visualizzazione albero canvas (ARDB)](https://github.com/ieeah/arc-benches/issues/58)
 - [ ] #59 [Spawn Tips "Dove trovo questo oggetto": Schede visive con screenshot in-game/mappa dei punti noti](https://github.com/ieeah/arc-benches/issues/59)
+- [ ] #81 [Stash: raggruppamento "per mappa"](https://github.com/ieeah/arc-benches/issues/81) — richiede di indicare per ogni oggetto le mappe in cui è più probabile trovarlo (dato condiviso con #59, da definire una sola volta)
 
 ---
 
