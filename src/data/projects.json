@@ -613,6 +613,96 @@
       ],
       "startDate": "2026-09-08T00:00:00.000Z",
       "expirationDate": "2026-10-05T00:00:00.000Z"
+    },
+    {
+      "id": "outpost",
+      "name": "Outpost",
+      "translations": {
+        "it": {
+          "name": "Avamposto"
+        }
+      },
+      "maxLevel": 3,
+      "listType": "project",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "281a520e-b282-4b34-877d-4a68d12ebe77",
+              "label": "Take a photo of any country house near the Ruined Homestead.",
+              "translations": {
+                "it": {
+                  "label": "Scatta una foto di una qualsiasi casa di campagna nei pressi della Proprietà Fatiscente."
+                }
+              }
+            }
+          ],
+          "rewards": [
+            {
+              "itemId": "advanced-camera-blueprint",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "sheet-metal",
+              "quantity": 5
+            },
+            {
+              "itemId": "planks",
+              "quantity": 3
+            },
+            {
+              "itemId": "arc-alloy",
+              "quantity": 10
+            },
+            {
+              "itemId": "advanced-electrical-components",
+              "quantity": 3
+            }
+          ],
+          "rewards": [
+            {
+              "itemId": "red-light-stick-blueprint",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "5e2f356d-a72c-4789-8e02-4cdb6dddb8c7",
+              "label": "Distract and destroy the ARC machines to allow construction work to proceed without hindrance.",
+              "translations": {
+                "it": {
+                  "label": "Distrai e distruggi le macchine ARC per consentire ai lavori di costruzione di procedere senza intralci."
+                }
+              }
+            }
+          ],
+          "rewards": [
+            {
+              "itemId": "hotel-chair-design",
+              "quantity": 1
+            },
+            {
+              "itemId": "durable-cloth",
+              "quantity": 5
+            },
+            {
+              "itemId": "planks",
+              "quantity": 15
+            }
+          ]
+        }
+      ]
     }
   ]
 }
