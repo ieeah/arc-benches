@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+*.local.*
 
 # Raw MetaForge catalog cache & translations cache (not committed, regenerable via scripts)
 scripts/metaforge-raw.json
