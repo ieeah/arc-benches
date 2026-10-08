@@ -21,63 +21,80 @@ const SUBCATEGORY_ICON_MAP: Record<string, string> = {
   key: 'key.webp',
 };
 
-export function getCategoryIconPath(itemType?: string | null, subcategory?: string | null): string | null {
-  const base = import.meta.env.BASE_URL || '/';
-  const prefix = base.endsWith('/') ? base : `${base}/`;
+const ICONS_DIR = 'icons/categories';
+const FALLBACK_ICON_FILE = 'misc.webp';
 
+/** File name (in public/icons/categories) for a subcategory/type, or null when there is no signal at all. */
+function resolveCategoryIconFile(itemType?: string | null, subcategory?: string | null): string | null {
   const s = subcategory?.toLowerCase().trim();
   if (s && SUBCATEGORY_ICON_MAP[s]) {
-    return `${prefix}icons/categories/${SUBCATEGORY_ICON_MAP[s]}`;
+    return SUBCATEGORY_ICON_MAP[s];
   }
 
   if (!itemType) return null;
   const t = itemType.toLowerCase().trim();
 
   if (t.includes('material') || t === 'recyclable') {
-    return `${prefix}icons/categories/material.webp`;
+    return 'material.webp';
   }
   if (t.includes('weapon') && !t.includes('mod')) {
-    return `${prefix}icons/categories/weapon.webp`;
+    return 'weapon.webp';
   }
   if (t.includes('mod') || t.includes('attachment')) {
-    return `${prefix}icons/categories/weapon-mod.webp`;
+    return 'weapon-mod.webp';
   }
   if (t.includes('blueprint')) {
-    return `${prefix}icons/categories/blueprint.webp`;
+    return 'blueprint.webp';
   }
   if (t.includes('gadget') || t.includes('deployable')) {
-    return `${prefix}icons/categories/gadget.webp`;
+    return 'gadget.webp';
   }
   if (t.includes('throwable') || t.includes('grenade') || t.includes('explosive')) {
-    return `${prefix}icons/categories/grenade.webp`;
+    return 'grenade.webp';
   }
   if (t.includes('key')) {
-    return `${prefix}icons/categories/key.webp`;
+    return 'key.webp';
   }
   if (t.includes('quick use') || t.includes('consumable') || t.includes('medical') || t.includes('regenerative')) {
-    return `${prefix}icons/categories/regenerative.webp`;
+    return 'regenerative.webp';
   }
   if (t.includes('augment')) {
-    return `${prefix}icons/categories/augment.webp`;
+    return 'augment.webp';
   }
   if (t.includes('shield')) {
-    return `${prefix}icons/categories/shield.webp`;
+    return 'shield.webp';
   }
   if (t.includes('trinket') || t.includes('valuable')) {
-    return `${prefix}icons/categories/trinket.webp`;
+    return 'trinket.webp';
   }
   if (t.includes('nature') || t.includes('flora')) {
-    return `${prefix}icons/categories/nature.webp`;
+    return 'nature.webp';
   }
   if (t.includes('trap')) {
-    return `${prefix}icons/categories/trap.webp`;
+    return 'trap.webp';
   }
   if (t.includes('utility')) {
-    return `${prefix}icons/categories/utility.webp`;
+    return 'utility.webp';
   }
   if (t.includes('gift')) {
-    return `${prefix}icons/categories/gift.webp`;
+    return 'gift.webp';
   }
 
-  return `${prefix}icons/categories/misc.webp`;
+  return 'misc.webp';
+}
+
+export function getCategoryIconPath(itemType?: string | null, subcategory?: string | null): string | null {
+  const file = resolveCategoryIconFile(itemType, subcategory);
+  if (!file) return null;
+  const base = import.meta.env.BASE_URL || '/';
+  const prefix = base.endsWith('/') ? base : `${base}/`;
+  return `${prefix}${ICONS_DIR}/${file}`;
+}
+
+/**
+ * Icon for an item that has none of its own (e.g. a custom item not yet drawn), relative to BASE_URL
+ * like items.json icons: subcategory icon > category icon > generic fallback.
+ */
+export function getFallbackItemIcon(itemType?: string | null, subcategory?: string | null): string {
+  return `${ICONS_DIR}/${resolveCategoryIconFile(itemType, subcategory) ?? FALLBACK_ICON_FILE}`;
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getCategoryIconPath } from './categoryIcons';
+import { getCategoryIconPath, getFallbackItemIcon } from './categoryIcons';
 
 describe('categoryIcons', () => {
   it('returns null for empty or null itemType', () => {
@@ -66,5 +66,12 @@ describe('categoryIcons', () => {
     expect(getCategoryIconPath('Weapon', 'Assault Rifle')).toContain('weapon.webp');
     expect(getCategoryIconPath('Basic Material', 'Basic Material')).toContain('material.webp');
     expect(getCategoryIconPath('Weapon', null)).toContain('weapon.webp');
+  });
+
+  it('falls back from subcategory to category to the generic icon for items without an icon', () => {
+    expect(getFallbackItemIcon('Quick Use', 'Trap')).toBe('icons/categories/trap.webp');
+    expect(getFallbackItemIcon('Weapon', null)).toBe('icons/categories/weapon.webp');
+    expect(getFallbackItemIcon('Unknown Type', null)).toBe('icons/categories/misc.webp');
+    expect(getFallbackItemIcon(null, null)).toBe('icons/categories/misc.webp');
   });
 });
