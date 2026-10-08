@@ -13,6 +13,9 @@
  * data later without re-fetching. Re-runs reuse this cache and skip already-downloaded icons.
  * Pass --refresh to force a network re-fetch; delete public/icons/items to re-download icons.
  *
+ * Items that don't exist upstream (reward currencies such as Reward Points / XP Points) live in
+ * scripts/data/custom-items/ (items.json + source icons) and are appended to the catalog.
+ *
  * Every run also writes src/data/overrides-conflicts.json: the list of local overrides that need
  * a manual review (upstream changed, override now redundant, item gone upstream). The Overrides
  * Studio (DevOverridesPage) reads it to let you resolve them one by one or in bulk.
@@ -316,6 +319,28 @@ async function main() {
     }
     if (itemOverride) overriddenCount++;
     results[item.id] = trimItem(item, icon, itemOverride || {});
+  }
+
+  // Oggetti custom, assenti da MetaForge (valute di ricompensa): definizione + icona sorgente
+  // in scripts/data/custom-items/. L'icona viene normalizzata come le altre e protetta dalla pulizia.
+  const customDir = join(__dirname, 'data', 'custom-items');
+  const customItems = JSON.parse(readFileSync(join(customDir, 'items.json'), 'utf-8'));
+  for (const [id, def] of Object.entries(customItems)) {
+    if (results[id]) {
+      console.warn(`⚠ Custom item "${id}" ignored: the id already exists in the MetaForge catalog`);
+      continue;
+    }
+    // Senza icona sorgente l'icona resta null: l'app ripiega su sottocategoria > categoria > fallback
+    let localPath = null;
+    const sourceIcon = def.icon ? join(customDir, def.icon) : null;
+    if (sourceIcon && existsSync(sourceIcon)) {
+      localPath = `icons/items/${id}.webp`;
+      writeFileSync(join(iconsDir, `${id}.webp`), await processIconBuffer(readFileSync(sourceIcon)));
+      usedIconPaths.add(localPath);
+    } else if (def.icon) {
+      console.warn(`⚠ Custom item "${id}": icon source "${def.icon}" not found, falling back to the category icon`);
+    }
+    results[id] = { ...def, ...(overrides[id] ?? {}), id, icon: localPath };
   }
 
   // Pulizia automatica dei file duplicati/orfani su disco in public/icons/items/ (inclusi i vecchi *-recipe.webp)

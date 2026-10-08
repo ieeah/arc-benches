@@ -1,0 +1,40 @@
+{
+  "reward-points": {
+    "id": "reward-points",
+    "name": "Reward Points",
+    "description": "Currency earned by completing Feats. It is applied automatically to the progress of the active Reward Pass.",
+    "icon": "reward-points.png",
+    "rarity": "Common",
+    "item_type": "Currency",
+    "subcategory": "",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Punti Ricompensa",
+        "description": "Valuta ottenuta completando le Imprese. Viene applicata automaticamente all'avanzamento del Reward Pass attivo."
+      }
+    }
+  },
+  "xp-points": {
+    "id": "xp-points",
+    "name": "XP Points",
+    "description": "Experience points granted as a reward, for example for completing quests.",
+    "icon": "xp-points.svg",
+    "rarity": "Common",
+    "item_type": "Currency",
+    "subcategory": "",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Punti XP",
+        "description": "Punti esperienza ottenuti come ricompensa, ad esempio completando le quest."
+      }
+    }
+  }
+}
