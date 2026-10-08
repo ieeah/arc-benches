@@ -13,9 +13,12 @@ interface ActionSliderProps {
   disabled?: boolean;
 }
 
+const THUMB_WIDTH = 44;
+const ACTIVATION_THRESHOLD = 0.85;
+
 /**
- * ActionSlider with asymmetric resistance, initial deadzone, and elastic drag to complete.
- * Prevents accidental taps while providing tactile swipe feedback.
+ * Swipe-to-complete slider: the thumb follows the finger 1:1 (linear, no deadzone or damping)
+ * and the action completes when released past the activation threshold.
  */
 export const ActionSlider = ({
   label,
@@ -34,21 +37,6 @@ export const ActionSlider = ({
   const startXRef = useRef<number>(0);
   const currentDragProgressRef = useRef<number>(0);
 
-  // Compute visual progress from raw gesture delta ratio (r from 0 to >1)
-  const computeVisualProgress = (r: number): number => {
-    if (r <= 0.15) {
-      return 0; // 0 - 15% Deadzone
-    }
-    if (r <= 0.75) {
-      // 15% - 75% Linear 1:1 feel
-      return ((r - 0.15) / 0.6) * 0.75;
-    }
-    // 75% - 100% Elastic resistance damping
-    const overflow = r - 0.75;
-    const damped = 0.75 + 0.25 * (1 - Math.exp(-overflow / 0.35));
-    return Math.min(1, damped);
-  };
-
   const showCompletedState = isCompleted || justCompleted;
 
   const handleStart = (clientX: number) => {
@@ -62,12 +50,10 @@ export const ActionSlider = ({
   const handleMove = useCallback((clientX: number) => {
     if (!isDragging || !trackRef.current) return;
     const trackWidth = trackRef.current.clientWidth;
-    const thumbWidth = 44;
-    const maxTravel = Math.max(1, trackWidth - thumbWidth);
+    const maxTravel = Math.max(1, trackWidth - THUMB_WIDTH);
 
     const deltaX = clientX - startXRef.current;
-    const rawRatio = Math.max(0, deltaX / maxTravel);
-    const visualP = computeVisualProgress(rawRatio);
+    const visualP = Math.min(1, Math.max(0, deltaX / maxTravel));
 
     currentDragProgressRef.current = visualP;
     setProgress(visualP);
@@ -77,8 +63,7 @@ export const ActionSlider = ({
     if (!isDragging) return;
     setIsDragging(false);
 
-    // 85% activation threshold
-    if (currentDragProgressRef.current >= 0.85) {
+    if (currentDragProgressRef.current >= ACTIVATION_THRESHOLD) {
       setProgress(1);
       setJustCompleted(true);
       if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
@@ -176,7 +161,7 @@ export const ActionSlider = ({
   }
 
   const thumbTranslateX = trackRef.current
-    ? progress * Math.max(0, trackRef.current.clientWidth - 44)
+    ? progress * Math.max(0, trackRef.current.clientWidth - THUMB_WIDTH)
     : progress * 200;
 
   return (
@@ -227,13 +212,14 @@ export const ActionSlider = ({
         {/* Fill background following progress */}
         <div
           className={cn(
-            'absolute inset-y-0 left-0 transition-colors',
-            showCompletedState || progress >= 0.85
+            'absolute inset-y-0 left-0 rounded-xl transition-colors',
+            showCompletedState || progress >= ACTIVATION_THRESHOLD
               ? 'bg-green-500/20 dark:bg-green-500/30'
               : 'bg-blue-500/15 dark:bg-blue-500/20',
           )}
           style={{
-            width: `${Math.max(44, thumbTranslateX + 44)}px`,
+            // fino al centro del pollice: il bordo destro resta nascosto sotto di esso
+            width: `${thumbTranslateX + THUMB_WIDTH / 2}px`,
             transition: isDragging ? 'none' : 'width 260ms cubic-bezier(0.2, 0.9, 0.3, 1)',
           }}
         />
@@ -256,12 +242,12 @@ export const ActionSlider = ({
           }}
           className={cn(
             'absolute left-0 top-0 bottom-0 w-11 h-11 rounded-xl flex items-center justify-center transition-colors shadow-sm',
-            showCompletedState || progress >= 0.85
+            showCompletedState || progress >= ACTIVATION_THRESHOLD
               ? 'bg-green-500 text-white'
               : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600',
           )}
         >
-          {showCompletedState || progress >= 0.85 ? (
+          {showCompletedState || progress >= ACTIVATION_THRESHOLD ? (
             <Check size={18} strokeWidth={3} className="animate-in zoom-in-75 duration-150" />
           ) : (
             <ChevronRight size={18} className="text-blue-500 dark:text-blue-400" />
