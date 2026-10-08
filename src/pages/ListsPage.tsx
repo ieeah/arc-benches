@@ -156,8 +156,8 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
     [orderedLists, currentLevels],
   );
   const availableUpgrades = useMemo(
-    () => getAvailableUpgradesPure(allLists, activeModules, currentLevels, inventory),
-    [allLists, activeModules, currentLevels, inventory],
+    () => getAvailableUpgradesPure(allLists, activeModules, currentLevels, inventory, undefined, checkedActions),
+    [allLists, activeModules, currentLevels, inventory, checkedActions],
   );
   const refinerLevel = useMemo(
     () => getRefinerLevelPure(currentLevels, REFINER_ID),

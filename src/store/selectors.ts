@@ -100,12 +100,18 @@ export function getMissingMaterialsPure(
   });
 }
 
+/**
+ * A level is ready to complete only when its materials are in the inventory AND every checkbox
+ * action of that level is ticked (checkedActions keys: `${listId}|${level}|${actionId}`), and every
+ * step of every tiered action too (keys: `${listId}|${level}|${tieredId}:${stepId}`).
+ */
 export function getAvailableUpgradesPure(
   allLists: List[],
   activeModules: Record<string, boolean>,
   currentLevels: Record<string, number>,
   inventory: Record<string, number>,
   now: number = Date.now(),
+  checkedActions: Record<string, boolean> = {},
 ): string[] {
   return allLists
     .filter(list => {
@@ -114,9 +120,16 @@ export function getAvailableUpgradesPure(
       if (current >= list.maxLevel) return false;
       const nextLevel = list.levels.find(l => l.level === current + 1);
       if (!nextLevel) return false;
-      return nextLevel.requirementItemIds.every(
+      const materialsReady = nextLevel.requirementItemIds.every(
         req => (inventory[req.itemId] ?? 0) >= req.quantity,
       );
+      const actionsDone = (nextLevel.actions ?? []).every(
+        action => checkedActions[`${list.id}|${nextLevel.level}|${action.id}`],
+      );
+      const tieredDone = (nextLevel.tieredActions ?? []).every(tiered =>
+        tiered.steps.every(step => checkedActions[`${list.id}|${nextLevel.level}|${tiered.id}:${step.id}`]),
+      );
+      return materialsReady && actionsDone && tieredDone;
     })
     .map(list => list.id);
 }

@@ -240,6 +240,8 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
       s.activeModules,
       effectiveCurrentLevels,
       s.inventory,
+      Date.now(),
+      s.checkedActions,
     );
   },
 });

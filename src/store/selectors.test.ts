@@ -334,6 +334,44 @@ describe('getAvailableUpgradesPure', () => {
     expect(ids).toContain('custom:free');
   });
 
+  it('requires every checkbox action of the next level to be ticked', () => {
+    const withActions: List = {
+      id: 'project:x',
+      name: 'Project X',
+      maxLevel: 1,
+      levels: [{
+        level: 1,
+        requirementItemIds: [{ itemId: 'metal-parts', quantity: 1 }],
+        actions: [{ id: 'a1', label: 'Do A' }, { id: 'a2', label: 'Do B' }],
+      }],
+    };
+    const call = (checked: Record<string, boolean>) =>
+      getAvailableUpgradesPure([withActions], { 'project:x': true }, { 'project:x': 0 }, { 'metal-parts': 1 }, Date.now(), checked);
+
+    expect(call({})).toEqual([]);
+    expect(call({ 'project:x|1|a1': true })).toEqual([]);
+    expect(call({ 'project:x|1|a1': true, 'project:x|1|a2': true })).toEqual(['project:x']);
+  });
+
+  it('requires every step of every tiered action of the next level to be ticked', () => {
+    const withTiered: List = {
+      id: 'project:y',
+      name: 'Project Y',
+      maxLevel: 1,
+      levels: [{
+        level: 1,
+        requirementItemIds: [],
+        tieredActions: [{ id: 't1', label: 'Deal damage', steps: [{ id: 's1', label: '1000' }, { id: 's2', label: '5000' }] }],
+      }],
+    };
+    const call = (checked: Record<string, boolean>) =>
+      getAvailableUpgradesPure([withTiered], { 'project:y': true }, { 'project:y': 0 }, {}, Date.now(), checked);
+
+    expect(call({})).toEqual([]);
+    expect(call({ 'project:y|1|t1:s1': true })).toEqual([]);
+    expect(call({ 'project:y|1|t1:s1': true, 'project:y|1|t1:s2': true })).toEqual(['project:y']);
+  });
+
   it('excludes lists where next level does not exist in levels array', () => {
     // bench2 maxLevel=2 but only has levels [1,2] — at level 1, next is level 2 (exists)
     // at level 2, next would be level 3 which does not exist
