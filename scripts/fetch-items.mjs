@@ -12,6 +12,10 @@
  * every field MetaForge returns (full stat_block, sources, locations, …) so we can surface more
  * data later without re-fetching. Re-runs reuse this cache and skip already-downloaded icons.
  * Pass --refresh to force a network re-fetch; delete public/icons/items to re-download icons.
+ *
+ * Every run also writes src/data/overrides-conflicts.json: the list of local overrides that need
+ * a manual review (upstream changed, override now redundant, item gone upstream). The Overrides
+ * Studio (DevOverridesPage) reads it to let you resolve them one by one or in bulk.
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlinkSync } from 'fs';
@@ -77,6 +81,79 @@ async function processIconBuffer(originalBuffer) {
   return normalized;
 }
 
+function deriveStackSize(item) {
+  return typeof item.stat_block?.stackSize === 'number' && item.stat_block.stackSize > 0
+    ? item.stat_block.stackSize : null;
+}
+
+// MetaForge marks some non-blueprint items with a '-recipe' suffix (rubber-parts-recipe, wires-recipe…)
+function normalizeItemId(item) {
+  const isBp = item.item_type === 'Blueprint' || item.subcategory === 'Blueprint';
+  return !isBp && item.id.endsWith('-recipe') ? item.id.replace(/-recipe$/, '') : item.id;
+}
+
+const CONFLICTS_PATH = join(ROOT, 'src', 'data', 'overrides-conflicts.json');
+// Override fields that mirror an upstream (MetaForge) value and can therefore be compared with it
+const COMPARABLE_KEYS = ['name', 'description', 'rarity', 'item_type', 'subcategory', 'value', 'workbench', 'loot_area', 'stack_size'];
+
+function upstreamValue(item, key) {
+  return key === 'stack_size' ? deriveStackSize(item) : (item[key] ?? null);
+}
+
+// null / undefined / '' are the same "no value" for comparison purposes
+function comparable(v) {
+  return v === undefined || v === null || v === '' ? null : String(v);
+}
+
+/**
+ * Classifies the overrides that need a manual review:
+ *  - changed:   upstream changed since the previous --refresh and differs from the override
+ *  - redundant: the override now equals the upstream value (safe to drop)
+ *  - orphan:    the overridden item no longer exists upstream
+ * `changed` needs the previous raw catalog, so it is persisted across runs (until the upstream
+ * value moves again or the override is removed); redundant/orphan are recomputed every time.
+ */
+function detectOverrideConflicts({ overrides, catalog, previousById, previousConflicts }) {
+  const today = new Date().toISOString().slice(0, 10);
+  const byId = new Map(catalog.map(i => [i.id, i]));
+  const conflicts = [];
+  const seenSince = (c) => previousConflicts.find(p =>
+    p.id === c.id && p.key === c.key && p.kind === c.kind &&
+    comparable(p.newUpstream) === comparable(c.newUpstream))?.detectedAt;
+
+  for (const [id, ovr] of Object.entries(overrides)) {
+    const item = byId.get(id);
+    if (!item) {
+      conflicts.push({ id, key: '*', kind: 'orphan', oldUpstream: null, newUpstream: null, overrideVal: Object.keys(ovr) });
+      continue;
+    }
+    for (const key of COMPARABLE_KEYS) {
+      if (!(key in ovr)) continue;
+      const current = upstreamValue(item, key);
+      if (comparable(current) === comparable(ovr[key])) {
+        conflicts.push({ id, key, kind: 'redundant', oldUpstream: null, newUpstream: current, overrideVal: ovr[key] });
+        continue;
+      }
+      const prev = previousById?.get(id);
+      if (prev && comparable(upstreamValue(prev, key)) !== comparable(current)) {
+        conflicts.push({ id, key, kind: 'changed', oldUpstream: upstreamValue(prev, key), newUpstream: current, overrideVal: ovr[key] });
+      }
+    }
+  }
+
+  // Keep unresolved `changed` entries from earlier runs while the upstream value hasn't moved
+  for (const p of previousConflicts) {
+    if (p.kind !== 'changed' || conflicts.some(c => c.id === p.id && c.key === p.key)) continue;
+    const item = byId.get(p.id);
+    if (!item || !(p.key in (overrides[p.id] ?? {}))) continue;
+    if (comparable(upstreamValue(item, p.key)) === comparable(p.newUpstream)) conflicts.push(p);
+  }
+
+  return conflicts
+    .map(c => ({ ...c, detectedAt: seenSince(c) ?? c.detectedAt ?? today }))
+    .sort((a, b) => a.id.localeCompare(b.id) || a.key.localeCompare(b.key));
+}
+
 function trimItem(item, icon, itemOverride = {}) {
   const base = {
     id: item.id,
@@ -89,8 +166,7 @@ function trimItem(item, icon, itemOverride = {}) {
     value: item.value,
     workbench: item.workbench,
     loot_area: item.loot_area,
-    stack_size: typeof item.stat_block?.stackSize === 'number' && item.stat_block.stackSize > 0
-      ? item.stat_block.stackSize : null,
+    stack_size: deriveStackSize(item),
   };
 
   return {
@@ -129,7 +205,7 @@ async function main() {
   if (existsSync(RAW_CACHE)) {
     try {
       const prev = JSON.parse(readFileSync(RAW_CACHE, 'utf-8'));
-      previousCatalogById = new Map(prev.map(i => [i.id, i]));
+      previousCatalogById = new Map(prev.map(i => [normalizeItemId(i), i]));
     } catch { /* ignore */ }
   }
 
@@ -141,52 +217,29 @@ async function main() {
     console.log('Fetching full MetaForge catalog…');
     catalog = await fetchAllItems();
 
-    // Detect upstream changes on items that have local overrides
-    if (previousCatalogById && Object.keys(overrides).length > 0) {
-      const diffs = [];
-      for (const [id, ovr] of Object.entries(overrides)) {
-        const oldItem = previousCatalogById.get(id);
-        const newItem = catalog.find(i => i.id === id);
-        if (!oldItem || !newItem) continue;
-
-        for (const [key, ovrVal] of Object.entries(ovr)) {
-          const oldVal = oldItem[key];
-          const newVal = newItem[key];
-          if (oldVal !== undefined && newVal !== undefined && String(oldVal) !== String(newVal)) {
-            diffs.push({
-              id,
-              key,
-              oldUpstream: oldVal,
-              newUpstream: newVal,
-              overrideVal: ovrVal,
-            });
-          }
-        }
-      }
-
-      if (diffs.length > 0) {
-        console.log('\n┌─────────────────────────────────────────────────────────────┐');
-        console.log('│ ⚠️  UPSTREAM CHANGES DETECTED ON OVERRIDDEN FIELDS           │');
-        console.log('└─────────────────────────────────────────────────────────────┘');
-        for (const d of diffs) {
-          console.log(` • [${d.id}] "${d.key}":`);
-          console.log(`     Upstream changed: "${d.oldUpstream}" -> "${d.newUpstream}"`);
-          console.log(`     Local override:   "${d.overrideVal}"`);
-        }
-        console.log('───────────────────────────────────────────────────────────────\n');
-      }
-    }
-
     writeFileSync(RAW_CACHE, JSON.stringify(catalog, null, 2), 'utf-8');
     console.log(`\nFetched ${catalog.length} items. Cached raw source to ${RAW_CACHE}`);
   }
   // Normalizza gli ID per quegli oggetti che MetaForge marca erroneamente con suffisso '-recipe'
   // pur non essendo blueprint (es. rubber-parts-recipe, wires-recipe, sensors-recipe, duct-tape-recipe)
-  for (const item of catalog) {
-    const isBp = item.item_type === 'Blueprint' || item.subcategory === 'Blueprint';
-    if (!isBp && item.id.endsWith('-recipe')) {
-      item.id = item.id.replace(/-recipe$/, '');
-    }
+  for (const item of catalog) item.id = normalizeItemId(item);
+
+  // Overrides da rivedere (upstream cambiato / ridondanti / orfani) -> letti dalla DevOverridesPage
+  let previousConflicts = [];
+  try {
+    if (existsSync(CONFLICTS_PATH)) previousConflicts = JSON.parse(readFileSync(CONFLICTS_PATH, 'utf-8')).conflicts ?? [];
+  } catch { /* ignore */ }
+  const conflicts = detectOverrideConflicts({
+    overrides,
+    catalog,
+    previousById: refresh ? previousCatalogById : null,
+    previousConflicts,
+  });
+  writeFileSync(CONFLICTS_PATH, JSON.stringify({ conflicts }, null, 2) + '\n', 'utf-8');
+  if (conflicts.length > 0) {
+    const count = kind => conflicts.filter(c => c.kind === kind).length;
+    console.log(`\n⚠️  Overrides da rivedere: ${count('changed')} upstream cambiato, ${count('redundant')} ridondanti, ${count('orphan')} orfani`);
+    console.log('   Risolvili dal filtro "Conflitti upstream" in DevOverridesPage (src/data/overrides-conflicts.json)\n');
   }
 
   // Ordiniamo il catalogo processando prima gli oggetti base e poi i blueprint/ricette
