@@ -53,11 +53,8 @@ export interface ListTranslation {
   description?: string;
 }
 
-/**
- * A tracked list of materials by level — the generic engine. The game's hideout workbenches are
- * the read-only seed (`listType: 'workbench'`); custom lists are user-created instances.
- */
-export interface List {
+/** Fields shared by every kind of list. */
+export interface ListBase {
   id: string;
   name: string;
   description?: string;
@@ -66,23 +63,53 @@ export interface List {
   levels: ListLevel[];
   /** true = user-created (persisted); absent/false = game seed (read-only). */
   custom?: boolean;
-  /** Category for labels/icons/grouping; defaults to 'workbench' for game seed. */
-  listType?: ListType;
-  /** Index for sequential progression (e.g. Expeditions 1, 2, 3...) */
-  expeditionIndex?: number;
   /** true = shared across all profiles; false/absent = profile-specific. Immutable after creation. */
   shared?: boolean;
-  /** Data e ora di inizio/apertura finestra ISO 8601 (es. "2026-09-10T18:00:00+02:00"). Opzionale. */
+  /** Data e ora di inizio/apertura finestra ISO 8601 (es. "2026-09-10T18:00:00+02:00"). Opzionale; non usata dai banchi. */
   startDate?: string;
-  /** Data e ora di scadenza/partenza ISO 8601 (es. "2026-09-30T20:00:00+02:00"). Opzionale. */
+  /** Data e ora di scadenza/partenza ISO 8601 (es. "2026-09-30T20:00:00+02:00"). Opzionale; non usata dai banchi. */
   expirationDate?: string;
-  /** Custom damage challenge thresholds specific to this expedition. */
-  damageChallenge?: TieredAction;
-  /** Trader that gives this quest (quest only). Matches ARDB trader id (e.g. "shani", "apollo"). */
-  trader?: string;
-  /** ARDB quest IDs that must be completed before this quest unlocks (quest only). */
+  /** IDs (es. ARDB) delle liste/quest/azioni da completare prima che questa si sblocchi. Opzionale su ogni tipo di lista. */
   prerequisites?: string[];
 }
+
+/** Game hideout bench (read-only seed). */
+export interface WorkbenchList extends ListBase {
+  listType: 'workbench';
+}
+
+/** Sequential caravan (Expeditions 1, 2, 3...). */
+export interface ExpeditionList extends ListBase {
+  listType: 'expedition';
+  /** Index for sequential progression (Expeditions 1, 2, 3...). */
+  expeditionIndex: number;
+  /** Custom damage challenge thresholds specific to this expedition. */
+  damageChallenge?: TieredAction;
+}
+
+/** Game project (read-only seed). */
+export interface ProjectList extends ListBase {
+  listType: 'project';
+}
+
+/** Trader quest. */
+export interface QuestList extends ListBase {
+  listType: 'quest';
+  /** Trader that gives this quest. Matches ARDB trader id (e.g. "shani", "apollo"). */
+  trader?: string;
+}
+
+/** User-created list (persisted). */
+export interface CustomList extends ListBase {
+  listType: 'custom';
+  custom: true;
+}
+
+/**
+ * A tracked list of materials by level — the generic engine, as a discriminated union on `listType`:
+ * the game's hideout workbenches are the read-only seed; custom lists are user-created instances.
+ */
+export type List = WorkbenchList | ExpeditionList | ProjectList | QuestList | CustomList;
 
 export interface Profile {
   id: string;
@@ -245,7 +272,7 @@ export interface AppState {
   setTieredActionStep: (listId: string, level: number, tieredActionId: string, steps: ActionStep[], stepIndex: number) => void;
 
   /** Expeditions & Prestige State for active profile */
-  expeditions: List[];
+  expeditions: ExpeditionList[];
   completedExpeditionsCount: number;
   earnedPermanentSkillPoints: number;
   consecutiveStreak: number;

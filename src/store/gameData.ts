@@ -1,4 +1,4 @@
-import type { ItemInfo, List, TieredAction } from '@/types';
+import type { ExpeditionList, ItemInfo, List, TieredAction } from '@/types';
 import workbenchesData from '@/data/workbenches.json';
 import expeditionsData from '@/data/expeditions.json';
 import projectsData from '@/data/projects.json';
@@ -41,8 +41,8 @@ export function computeEffectiveWorkbenches(): List[] {
   return list.filter(w => w.maxLevel > 0);
 }
 
-export function computeEffectiveExpeditions(): List[] {
-  let list = (((expeditionsData as any).lists || (expeditionsData as any).items || []) as List[]);
+export function computeEffectiveExpeditions(): ExpeditionList[] {
+  let list = (((expeditionsData as any).lists || (expeditionsData as any).items || []) as ExpeditionList[]);
   if (import.meta.env.DEV) {
     try {
       const draft = localStorage.getItem('arc_benches_dev_lists_draft_v1');

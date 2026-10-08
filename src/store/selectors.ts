@@ -1,4 +1,4 @@
-import type { List, CheckboxAction, TieredAction } from '@/types';
+import type { ExpeditionList, List, CheckboxAction, TieredAction } from '@/types';
 import { isListExpired } from '@/lib/expiration';
 
 export { isListExpired };
@@ -360,9 +360,9 @@ export function getExpeditionCompletedPhasePure(
  * Returns the active expedition based on completedExpeditionsCount (1-indexed progression).
  */
 export function getActiveExpeditionPure(
-  expeditions: List[],
+  expeditions: ExpeditionList[],
   completedExpeditionsCount: number,
-): List | undefined {
+): ExpeditionList | undefined {
   if (!expeditions.length) return undefined;
   const targetIndex = completedExpeditionsCount + 1;
   const found = expeditions.find(e => e.expeditionIndex === targetIndex);

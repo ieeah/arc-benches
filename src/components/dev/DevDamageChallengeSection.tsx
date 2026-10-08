@@ -1,11 +1,12 @@
 import { Languages, Plus, RotateCcw, Swords, Trash2 } from 'lucide-react';
-import type { List, TieredAction, ActionStep } from '@/types';
+import type { ExpeditionList, List, TieredAction, ActionStep } from '@/types';
+import { isExpedition } from '@/lib/lists';
 import { TieredActionTimeline } from '@/components/TieredActionTimeline';
 import { generateUUID } from '@/lib/uuid';
 import { DEFAULT_EXPEDITION_DAMAGE } from '@/store/gameData';
 
 interface DevDamageChallengeSectionProps {
-  selectedList: List;
+  selectedList: ExpeditionList;
   updateSelectedList: (updater: (prev: List) => List) => void;
 }
 
@@ -19,7 +20,11 @@ export const DevDamageChallengeSection = ({
 }: DevDamageChallengeSectionProps) => {
   const currentSteps = selectedList.damageChallenge?.steps ?? DEFAULT_EXPEDITION_DAMAGE.steps;
 
-  const getOrCloneDefault = (prev: List): TieredAction =>
+  // L'editor parla solo di spedizioni: l'updater generico della pagina lavora su List, qui si restringe.
+  const updateExpedition = (fn: (prev: ExpeditionList) => ExpeditionList) =>
+    updateSelectedList((prev) => (isExpedition(prev) ? fn(prev) : prev));
+
+  const getOrCloneDefault = (prev: ExpeditionList): TieredAction =>
     prev.damageChallenge ?? JSON.parse(JSON.stringify(DEFAULT_EXPEDITION_DAMAGE));
 
   return (
@@ -46,7 +51,7 @@ export const DevDamageChallengeSection = ({
         <button
           type="button"
           onClick={() =>
-            updateSelectedList((prev) => ({
+            updateExpedition((prev) => ({
               ...prev,
               damageChallenge: JSON.parse(JSON.stringify(DEFAULT_EXPEDITION_DAMAGE)),
             }))
@@ -70,7 +75,7 @@ export const DevDamageChallengeSection = ({
             value={selectedList.damageChallenge?.label ?? DEFAULT_EXPEDITION_DAMAGE.label}
             onChange={(e) => {
               const val = e.target.value;
-              updateSelectedList((prev) => {
+              updateExpedition((prev) => {
                 const current = getOrCloneDefault(prev);
                 return { ...prev, damageChallenge: { ...current, label: val } };
               });
@@ -93,7 +98,7 @@ export const DevDamageChallengeSection = ({
             }
             onChange={(e) => {
               const val = e.target.value;
-              updateSelectedList((prev) => {
+              updateExpedition((prev) => {
                 const current = getOrCloneDefault(prev);
                 return {
                   ...prev,
@@ -122,7 +127,7 @@ export const DevDamageChallengeSection = ({
           <button
             type="button"
             onClick={() => {
-              updateSelectedList((prev) => {
+              updateExpedition((prev) => {
                 const current = getOrCloneDefault(prev);
                 const steps = [...(current.steps || [])];
                 const newStepIdx = steps.length + 1;
@@ -158,7 +163,7 @@ export const DevDamageChallengeSection = ({
                     value={step.label}
                     onChange={(e) => {
                       const val = e.target.value;
-                      updateSelectedList((prev) => {
+                      updateExpedition((prev) => {
                         const current = getOrCloneDefault(prev);
                         const nextSteps = [...(current.steps || [])];
                         nextSteps[sIdx] = { ...nextSteps[sIdx], label: val };
@@ -175,7 +180,7 @@ export const DevDamageChallengeSection = ({
                     value={step.translations?.it?.label ?? ''}
                     onChange={(e) => {
                       const val = e.target.value;
-                      updateSelectedList((prev) => {
+                      updateExpedition((prev) => {
                         const current = getOrCloneDefault(prev);
                         const nextSteps = [...(current.steps || [])];
                         nextSteps[sIdx] = {
@@ -197,7 +202,7 @@ export const DevDamageChallengeSection = ({
               <button
                 type="button"
                 onClick={() => {
-                  updateSelectedList((prev) => {
+                  updateExpedition((prev) => {
                     const current = getOrCloneDefault(prev);
                     const nextSteps = (current.steps || []).filter(
                       (_: ActionStep, i: number) => i !== sIdx,

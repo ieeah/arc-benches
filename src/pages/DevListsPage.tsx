@@ -43,6 +43,7 @@ import { TieredActionTimeline } from "@/components/TieredActionTimeline";
 import { useTranslation, getItemName, getListName, getListSearchFields } from "@/i18n";
 import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
+import { withListType } from "@/lib/lists";
 import itemsDatabase from "@/data/items.json";
 import { generateUUID } from "@/lib/uuid";
 import { cn } from "@/lib/cn";
@@ -191,7 +192,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     const list: List[] = [];
     (Object.keys(listsData) as ListType[]).forEach((type) => {
       listsData[type].forEach((item) => {
-        list.push({ ...item, listType: (item.listType || type) as ListType });
+        list.push({ ...item, listType: (item.listType || type) as ListType } as List);
       });
     });
     return list;
@@ -275,7 +276,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     if (!selectedList || selectedList.listType !== "expedition")
       return null;
     return validateExpeditionIndex(
-      selectedList.expeditionIndex ?? 0,
+      selectedList.expeditionIndex,
       selectedList.id,
       listsData.expedition || [],
     );
@@ -1007,10 +1008,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                   value={selectedList.listType}
                   onChange={(e) => {
                     const newType = e.target.value as ListType;
-                    updateSelectedList((prev) => ({
-                      ...prev,
-                      listType: newType,
-                    }));
+                    updateSelectedList((prev) => withListType(prev, newType));
                   }}
                   className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-bold"
                 >

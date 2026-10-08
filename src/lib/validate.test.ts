@@ -112,7 +112,7 @@ describe('validateList', () => {
 
     const expOut = validateList({ ...valid, listType: 'expedition', expeditionIndex: 2 });
     expect(expOut!.listType).toBe('expedition');
-    expect(expOut!.expeditionIndex).toBe(2);
+    expect(expOut!.listType === 'expedition' && expOut!.expeditionIndex).toBe(2);
   });
 
   it('validates and preserves rewards and valid expirationDate', () => {
@@ -178,9 +178,29 @@ describe('validateList', () => {
     expect(out!.expirationDate).toBeUndefined();
   });
 
-  it('ignores an unknown listType', () => {
-    const out = validateList({ ...valid, listType: 'bogus' });
-    expect(out!.listType).toBeUndefined();
+  it('keeps prerequisites on every list type', () => {
+    for (const listType of ['workbench', 'project', 'quest', 'expedition'] as const) {
+      const out = validateList({ ...valid, listType, prerequisites: ['a', 'b', 3] });
+      expect(out!.prerequisites).toEqual(['a', 'b']);
+    }
+  });
+
+  it('falls back to workbench for an unknown or missing listType', () => {
+    expect(validateList({ ...valid, listType: 'bogus' })!.listType).toBe('workbench');
+    expect(validateList({ ...valid })!.listType).toBe('workbench');
+  });
+
+  it('keeps the type-specific fields only on the matching list type', () => {
+    const quest = validateList({ ...valid, listType: 'quest', trader: 'shani' });
+    expect(quest!.listType === 'quest' && quest!.trader).toBe('shani');
+
+    const project = validateList({ ...valid, listType: 'project', trader: 'shani', expeditionIndex: 4 });
+    expect(project).not.toHaveProperty('trader');
+    expect(project).not.toHaveProperty('expeditionIndex');
+
+    // una spedizione senza indice valido riceve 1 (come il fallback della UI)
+    const exp = validateList({ ...valid, listType: 'expedition', expeditionIndex: 'x' });
+    expect(exp!.listType === 'expedition' && exp!.expeditionIndex).toBe(1);
   });
 
 });
@@ -362,8 +382,8 @@ describe('v — never throws', () => {
 
 describe('validateExpeditionIndex', () => {
   const existingExpeditions = [
-    { id: 'expedition-1', name: 'Exp 1', maxLevel: 3, levels: [{ level: 1, requirementItemIds: [] }], expeditionIndex: 1 },
-    { id: 'expedition-2', name: 'Exp 2', maxLevel: 3, levels: [{ level: 1, requirementItemIds: [] }], expeditionIndex: 2 },
+    { id: 'expedition-1', name: 'Exp 1', maxLevel: 3, levels: [{ level: 1, requirementItemIds: [] }], listType: 'expedition' as const, expeditionIndex: 1 },
+    { id: 'expedition-2', name: 'Exp 2', maxLevel: 3, levels: [{ level: 1, requirementItemIds: [] }], listType: 'expedition' as const, expeditionIndex: 2 },
   ];
 
   it('accepts next sequential index (3)', () => {

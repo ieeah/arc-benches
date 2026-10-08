@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import type { List, ListType, ListLevel } from '@/types';
 import { generateUUID } from '@/lib/uuid';
+import { isExpedition } from '@/lib/lists';
 import type { ListsDataMap } from './useDevListDrafts';
 
 interface UseDevListEditorOptions {
@@ -42,12 +43,12 @@ export function useDevListEditor({
 }: UseDevListEditorOptions) {
   // Derivato: lista selezionata (listType sempre garantito)
   const allLists = Object.entries(listsData).flatMap(([type, lists]) =>
-    (lists as List[]).map((l) => ({ ...l, listType: l.listType || (type as ListType) }))
+    (lists as List[]).map((l) => ({ ...l, listType: l.listType || (type as ListType) }) as List)
   );
   const selectedList = allLists.find((l) => l.id === selectedListId) ?? null;
 
   // Il bucket è determinato da listType
-  const getBucket = (list: List): ListType => (list.listType || 'workbench') as ListType;
+  const getBucket = (list: List): ListType => list.listType;
 
   // Aggiornamento generico della lista selezionata
   const updateSelectedList = useCallback(
@@ -78,6 +79,7 @@ export function useDevListEditor({
 
     if (type === 'expedition') {
       const existingIndices = (listsData.expedition || [])
+        .filter(isExpedition)
         .map((e) => e.expeditionIndex)
         .filter((n): n is number => typeof n === 'number' && Number.isInteger(n) && n > 0);
       let nextIndex = 1;
@@ -86,7 +88,7 @@ export function useDevListEditor({
       newId = `expedition-${nextIndex}`;
     }
 
-    const newList: List = {
+    const newList = {
       id: newId,
       name: type === 'expedition' ? `Expedition #${expIndex}` : `New ${type.toUpperCase()} List #${count}`,
       translations: {
@@ -102,7 +104,8 @@ export function useDevListEditor({
         { level: 2, requirementItemIds: [] },
         { level: 3, requirementItemIds: [] },
       ],
-    };
+      // il tipo è scelto a runtime: i campi specifici (expeditionIndex) sono aggiunti sopra solo per le spedizioni
+    } as List;
     setListsData((prev) => ({ ...prev, [type]: [...(prev[type] || []), newList] }));
     setSelectedListId(newId);
     setActiveLevelNumber(1);
@@ -129,8 +132,9 @@ export function useDevListEditor({
       clonedList.translations.it.name = `${clonedList.translations.it.name} (Copia)`;
     }
 
-    if (bucket === 'expedition') {
+    if (bucket === 'expedition' && isExpedition(clonedList)) {
       const existingIndices = (listsData.expedition || [])
+        .filter(isExpedition)
         .map((e) => e.expeditionIndex)
         .filter((n): n is number => typeof n === 'number' && Number.isInteger(n) && n > 0);
       let nextIndex = 1;

@@ -1,3 +1,4 @@
+import { isExpedition } from '@/lib/lists';
 import type { ActionStep, ActionTranslation, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
 
 /**
@@ -211,22 +212,41 @@ export const validateList = (v: unknown): List | null => {
   const maxFromLevels = Math.max(...levels.map(l => l.level));
   const maxLevel = asNonNegInt(v.maxLevel, 1) ?? maxFromLevels;
 
-  const out: List = { id, name, maxLevel, levels };
-  if (v.custom === true) {
-    out.custom = true;
-    out.listType = 'custom';
-  } else if (typeof v.listType === 'string' && LIST_TYPES.includes(v.listType as ListType)) {
-    out.listType = v.listType as ListType;
+  const base = { id, name, maxLevel, levels };
+  // `listType` è obbligatorio: senza un tipo valido (e non custom) la lista è un banco ('workbench').
+  const listType: ListType =
+    v.custom === true
+      ? 'custom'
+      : typeof v.listType === 'string' && LIST_TYPES.includes(v.listType as ListType)
+        ? (v.listType as ListType)
+        : 'workbench';
+
+  let out: List;
+  switch (listType) {
+    case 'custom':
+      out = { ...base, listType, custom: true };
+      break;
+    case 'expedition': {
+      out = { ...base, listType, expeditionIndex: asNonNegInt(v.expeditionIndex, 1) ?? 1 };
+      if (isObject(v.damageChallenge)) {
+        const validatedDamage = validateTieredAction(v.damageChallenge);
+        if (validatedDamage) out.damageChallenge = validatedDamage;
+      }
+      break;
+    }
+    case 'quest': {
+      out = { ...base, listType };
+      const trader = asNonEmptyString(v.trader);
+      if (trader !== null) out.trader = trader;
+      break;
+    }
+    default:
+      out = { ...base, listType };
   }
   if (v.shared === true) out.shared = true;
-  const expeditionIndex = asNonNegInt(v.expeditionIndex, 1);
-  if (expeditionIndex !== null) out.expeditionIndex = expeditionIndex;
+  if (Array.isArray(v.prerequisites)) out.prerequisites = sanitizeStringArray(v.prerequisites);
   const expirationDate = asIsoDateString(v.expirationDate);
   if (expirationDate) out.expirationDate = expirationDate;
-  if (isObject(v.damageChallenge)) {
-    const validatedDamage = validateTieredAction(v.damageChallenge);
-    if (validatedDamage) out.damageChallenge = validatedDamage;
-  }
   return out;
 };
 
@@ -249,7 +269,7 @@ export function validateExpeditionIndex(
     };
   }
 
-  const otherExpeditions = allExpeditions.filter(e => e.id !== currentExpeditionId);
+  const otherExpeditions = allExpeditions.filter(isExpedition).filter(e => e.id !== currentExpeditionId);
   const otherIndices = new Set(
     otherExpeditions
       .map(e => e.expeditionIndex)

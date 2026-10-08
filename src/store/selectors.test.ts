@@ -21,7 +21,7 @@ import {
   calculateExpeditionRewardPure,
   getExpeditionCompletedPhasePure,
 } from '@/store/selectors';
-import type { List } from '@/types';
+import type { ExpeditionList, List } from '@/types';
 
 
 // ---------------------------------------------------------------------------
@@ -29,6 +29,7 @@ import type { List } from '@/types';
 // ---------------------------------------------------------------------------
 
 const bench1: List = {
+  listType: 'workbench',
   id: 'wb:1',
   name: 'Weapon Bench',
   maxLevel: 3,
@@ -40,6 +41,7 @@ const bench1: List = {
 };
 
 const bench2: List = {
+  listType: 'workbench',
   id: 'wb:2',
   name: 'Armor Bench',
   maxLevel: 2,
@@ -50,6 +52,7 @@ const bench2: List = {
 };
 
 const sharedList: List = {
+  listType: 'custom',
   id: 'custom:shared',
   name: 'Shared',
   maxLevel: 1,
@@ -59,6 +62,7 @@ const sharedList: List = {
 };
 
 const customList: List = {
+  listType: 'custom',
   id: 'custom:abc',
   name: 'My List',
   maxLevel: 2,
@@ -324,6 +328,7 @@ describe('getAvailableUpgradesPure', () => {
 
   it('includes a list with no requirements for next level (free upgrade)', () => {
     const freeList: List = {
+      listType: 'custom',
       id: 'custom:free',
       name: 'Free',
       maxLevel: 2,
@@ -336,6 +341,7 @@ describe('getAvailableUpgradesPure', () => {
 
   it('requires every checkbox action of the next level to be ticked', () => {
     const withActions: List = {
+      listType: 'workbench',
       id: 'project:x',
       name: 'Project X',
       maxLevel: 1,
@@ -355,6 +361,7 @@ describe('getAvailableUpgradesPure', () => {
 
   it('requires every step of every tiered action of the next level to be ticked', () => {
     const withTiered: List = {
+      listType: 'workbench',
       id: 'project:y',
       name: 'Project Y',
       maxLevel: 1,
@@ -556,6 +563,7 @@ describe('isListExpired and expiration selectors', () => {
 
   it('excludes expired lists from getTotalRequiredMaterialsPure', () => {
     const expiredList: List = {
+      listType: 'workbench',
       id: 'exp:1',
       name: 'Expired Event',
       maxLevel: 1,
@@ -579,6 +587,7 @@ describe('isListExpired and expiration selectors', () => {
 
 describe('getMissingActionsPure', () => {
   const actionList: List = {
+    listType: 'custom',
     id: 'quest:1',
     name: 'Intro Quest',
     maxLevel: 2,
@@ -695,7 +704,7 @@ describe('getMissingActionsPure', () => {
 });
 
 describe('Expedition Pure Selectors', () => {
-  const sampleExpeditions: List[] = [
+  const sampleExpeditions: ExpeditionList[] = [
     {
       id: 'expedition-1',
       name: 'Carovana #1',
@@ -788,6 +797,7 @@ describe('Expedition Pure Selectors', () => {
 
   it('getExpeditionCompletedPhasePure sequentially computes completed phases', () => {
     const caravan: List = {
+      listType: 'workbench',
       id: 'expedition-1',
       name: 'Carovana #1',
       maxLevel: 3,
@@ -841,6 +851,7 @@ describe('Expedition Pure Selectors', () => {
 
   it('getTotalRequiredMaterialsPure excludes items marked completed in checkedActions', () => {
     const listWithItems: List = {
+      listType: 'workbench',
       id: 'expedition-1',
       name: 'Carovana #1',
       maxLevel: 1,

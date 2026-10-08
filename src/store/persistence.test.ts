@@ -155,6 +155,7 @@ describe('persistence.ts', () => {
   describe('Shared Lists', () => {
     it('saves and loads shared lists', () => {
       const sampleList: List = {
+        listType: 'custom',
         id: 'custom:123',
         name: 'Shared Goal',
         maxLevel: 1,
