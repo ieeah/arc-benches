@@ -278,6 +278,7 @@ export const ItemsPage = ({
                           className="w-12 h-12 shrink-0"
                           imgClassName="max-w-[85%] max-h-[85%] object-contain"
                           compact
+                          thumb
                         />
                         <div className="flex-1 min-w-0">
                           <p className="font-bold text-sm truncate">
@@ -318,6 +319,7 @@ export const ItemsPage = ({
                     className="w-12 h-12 shrink-0"
                     imgClassName="max-w-[85%] max-h-[85%] object-contain"
                     compact
+                    thumb
                   />
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-sm truncate">{displayName}</p>

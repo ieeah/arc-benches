@@ -6,6 +6,8 @@ interface ItemIconProps {
   fallbackText?: string;
   className?: string;
   imgClassName?: string;
+  /** Variante 128px per righe di lista piccole. */
+  thumb?: boolean;
 }
 
 export const ItemIcon = ({
@@ -14,6 +16,7 @@ export const ItemIcon = ({
   fallbackText,
   className = 'w-full h-full flex items-center justify-center',
   imgClassName = 'max-w-full max-h-full object-contain',
+  thumb = false,
 }: ItemIconProps) => {
   if (!icon) {
     return (
@@ -28,7 +31,7 @@ export const ItemIcon = ({
   return (
     <div className={className}>
       <img
-        src={iconUrl(icon)}
+        src={iconUrl(icon, thumb)}
         alt={alt}
         loading="lazy"
         decoding="async"

@@ -20,6 +20,8 @@ export interface ItemCardFrameV2Props {
   overlay?: React.ReactNode;
   /** Per rendering molto piccoli: nasconde la barra categoria inferiore (badge + spazio riservato). */
   compact?: boolean;
+  /** Usa la miniatura 128px dell'icona (righe di lista piccole). */
+  thumb?: boolean;
   onClick?: () => void;
   children?: React.ReactNode;
 }
@@ -53,6 +55,7 @@ export const ItemCardFrameV2 = ({
   bottomRightSlot,
   overlay,
   compact = false,
+  thumb = false,
   onClick,
   children,
 }: ItemCardFrameV2Props) => {
@@ -106,6 +109,7 @@ export const ItemCardFrameV2 = ({
             alt={alt}
             fallbackText={fallbackText}
             imgClassName={imgClassName}
+            thumb={thumb}
           />
         </div>
 

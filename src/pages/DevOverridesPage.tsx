@@ -179,6 +179,7 @@ const SidebarItemRow = React.memo(({
         className={`w-11 h-11 shrink-0 rounded-xl shadow-2xs ${isHidden ? 'opacity-40 grayscale' : ''}`}
         imgClassName="max-w-[88%] max-h-[88%] object-contain"
         compact
+        thumb
       />
       <div className="flex-1 min-w-0">
         <p className={`text-xs font-bold truncate ${

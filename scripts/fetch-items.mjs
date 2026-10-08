@@ -30,6 +30,7 @@ import sharp from 'sharp';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const PAGE_SIZE = 100; // MetaForge caps limit at 100
+const THUMB_SIZE = 128; // miniature per righe di lista (<= ~56px a schermo); le card grandi usano l'originale 256px
 const RAW_CACHE = join(__dirname, 'metaforge-raw.json'); // full untrimmed source (gitignored)
 
 // Collect every itemId used in workbench level requirements (for a coverage sanity check)
@@ -341,6 +342,26 @@ async function main() {
       console.warn(`⚠ Custom item "${id}": icon source "${def.icon}" not found, falling back to the category icon`);
     }
     results[id] = { ...def, ...(overrides[id] ?? {}), id, icon: localPath };
+  }
+
+  // Miniature 128px in public/icons/items/sm/ (stesso nome file dell'originale): rigenerate solo se mancano
+  const thumbsDir = join(iconsDir, 'sm');
+  mkdirSync(thumbsDir, { recursive: true });
+  const usedThumbs = new Set();
+  for (const rel of usedIconPaths) {
+    const file = rel.split('/').pop();
+    usedThumbs.add(file);
+    const thumbPath = join(thumbsDir, file);
+    if (!existsSync(thumbPath)) {
+      const thumb = await sharp(readFileSync(join(iconsDir, file)))
+        .resize(THUMB_SIZE, THUMB_SIZE, { fit: 'inside' })
+        .webp({ quality: 80, effort: 4, smartSubsample: true })
+        .toBuffer();
+      writeFileSync(thumbPath, thumb);
+    }
+  }
+  for (const file of readdirSync(thumbsDir)) {
+    if (!usedThumbs.has(file)) unlinkSync(join(thumbsDir, file));
   }
 
   // Pulizia automatica dei file duplicati/orfani su disco in public/icons/items/ (inclusi i vecchi *-recipe.webp)

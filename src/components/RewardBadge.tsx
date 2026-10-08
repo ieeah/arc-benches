@@ -39,7 +39,7 @@ export const RewardBadge: React.FC<RewardBadgeProps> = ({
         <div className="relative w-7 h-7 rounded-lg overflow-hidden bg-white dark:bg-gray-800 flex items-center justify-center shrink-0 border border-violet-200 dark:border-violet-800/40">
           {info?.icon ? (
             <img
-              src={iconUrl(info.icon)}
+              src={iconUrl(info.icon, true)}
               alt={name}
               loading="lazy"
               decoding="async"
@@ -90,7 +90,7 @@ export const RewardBadge: React.FC<RewardBadgeProps> = ({
         {info?.icon ? (
           <span className="w-3.5 h-3.5 relative flex items-center justify-center">
             <img
-              src={iconUrl(info.icon)}
+              src={iconUrl(info.icon, true)}
               alt={name}
               loading="lazy"
               decoding="async"
