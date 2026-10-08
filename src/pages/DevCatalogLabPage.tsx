@@ -9,6 +9,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { ItemDetailSheet } from '@/components/ItemDetailSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
+import { StickyHeader } from '@/components/StickyHeader';
 
 const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] as const;
 const RARITY_WEIGHTS: Record<string, number> = {
@@ -209,7 +210,7 @@ export const DevCatalogLabPage = ({
   return (
     <div className="pb-28">
       {/* Sticky Header */}
-      <div className="p-4 sticky top-0 bg-white/90 dark:bg-black/90 backdrop-blur-md z-20 border-b border-gray-200 dark:border-gray-800 space-y-3">
+      <StickyHeader elevated className="space-y-3">
         <SectionHeader
           title="🧪 Dev Catalog Lab"
           leading={
@@ -259,7 +260,7 @@ export const DevCatalogLabPage = ({
             className="w-full pl-9 pr-3 py-1.5 text-xs bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-400"
           />
         </div>
-      </div>
+      </StickyHeader>
 
       {/* Pannello Controlli di Filtro Espandibile */}
       {showFiltersPanel && (

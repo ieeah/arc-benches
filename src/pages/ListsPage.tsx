@@ -32,6 +32,7 @@ import { downloadExport, parseImport } from '@/lib/listIO';
 import { v } from '@/lib/validate';
 import { safeLS } from '@/lib/safeStorage';
 import type { List, ListExportFile, MultiProfileExportFile } from '@/types';
+import { StickyHeader } from '@/components/StickyHeader';
 
 type SectionKey = 'workbench' | 'project' | 'custom' | 'completati';
 type SectionsOpen = Record<SectionKey, boolean>;
@@ -308,9 +309,9 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   return (
     <div className="pb-28 w-full min-w-0">
       {/* Sticky header */}
-      <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
+      <StickyHeader compact>
         <SectionHeader title={t('lists.title')} />
-      </div>
+      </StickyHeader>
 
       <input ref={fileInputRef} type="file" accept=".json,application/json" className="hidden" onChange={handleImportFile} />
 

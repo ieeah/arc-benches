@@ -9,6 +9,7 @@ import type { SortOption } from '@/hooks/useListManager';
 import { getAllBlueprintsPure, getBlueprintProgressPure } from '@/store/selectors';
 import type { ItemInfo } from '@/types';
 import { useTranslation, getItemName, getItemSearchFields } from '@/i18n';
+import { StickyHeader } from '@/components/StickyHeader';
 
 export const BlueprintsPage = () => {
   const itemsInfo = useAppStore(s => s.itemsInfo);
@@ -110,7 +111,7 @@ export const BlueprintsPage = () => {
   return (
     <div className="pb-36 w-full min-w-0">
       {/* ── HEADER STICKY CON TITOLO, PROGRESSO COMPATTO E CONTROLLI ── */}
-      <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800 space-y-2.5">
+      <StickyHeader className="space-y-2.5">
         <SectionHeader
           title={t('blueprints.title')}
           actions={
@@ -169,7 +170,7 @@ export const BlueprintsPage = () => {
           items={displayedBlueprints}
           sortType="pills"
         />
-      </div>
+      </StickyHeader>
 
       <div className="p-4 w-full">
         {/* ── GRIGLIA BLUEPRINTS (Con Content-Visibility Ottimizzata #39) ── */}

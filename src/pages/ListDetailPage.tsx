@@ -12,6 +12,7 @@ import { getRarityStyles } from '@/lib/rarity';
 import { getBaseLevel } from '@/lib/lists';
 import { isListExpired } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
+import { StickyHeader } from '@/components/StickyHeader';
 
 /** Full-screen overview of one list: every level, its items and actions. */
 export const ListDetailPage = ({ listId, onBack }: {
@@ -41,7 +42,7 @@ export const ListDetailPage = ({ listId, onBack }: {
 
   return (
     <div className="pb-28">
-      <div className="px-4 pt-4 pb-3 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
+      <StickyHeader compact>
         <SectionHeader title={getListName(list, language)}
           leading={<IconButton onClick={onBack} title={t('common.back')}><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
         <div className="mt-3">
@@ -51,7 +52,7 @@ export const ListDetailPage = ({ listId, onBack }: {
             ariaLabel={lvl => `${t('benches.current')} ${lvl}`}
             onChange={setCurrent} />
         </div>
-      </div>
+      </StickyHeader>
 
       {expired && (
         <div className="mx-4 mt-4 p-3.5 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-2xl flex items-start gap-2.5">

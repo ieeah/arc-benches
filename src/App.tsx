@@ -124,7 +124,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-hidden w-full">
+      <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-clip w-full">
         {isDev && activeTab === 'dev-overrides' ? (
           <DevOverridesPage
             onBack={() => router.back()}

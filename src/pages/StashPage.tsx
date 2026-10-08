@@ -30,6 +30,7 @@ import type { FilterCategory, SortOption } from '@/hooks/useListManager';
 import { ListControls } from '@/components/ListControls';
 import { useTranslation, getItemName, getItemSearchFields, getActionLabel, getListName } from '@/i18n';
 import { useFeatureFlags } from '@/lib/featureFlags';
+import { StickyHeader } from '@/components/StickyHeader';
 
 const STASH_SORT_IDS = [
   'priority_asc', 'priority_desc',
@@ -353,7 +354,7 @@ export const StashPage = ({
 
   return (
     <div className="pb-28">
-      <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
+      <StickyHeader>
         <div className="mb-3">
           <SectionHeader
             title="Stash"
@@ -402,7 +403,7 @@ export const StashPage = ({
           sortType="pills" // Utilizza le pillole per l'ordinamento
           items={missingMaterials} // Calcola i badge sul totale reale dei materiali tracciati
         />
-      </div>
+      </StickyHeader>
 
       {visibleActions.length > 0 && (
         <div className="mx-3 mt-3 mb-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-2xl space-y-2.5">

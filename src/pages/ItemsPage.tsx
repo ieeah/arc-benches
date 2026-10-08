@@ -11,6 +11,7 @@ import type { FilterCategory, SortOption } from "@/hooks/useListManager";
 import { ListControls } from "@/components/ListControls";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
 import { useTranslation, getItemName, getItemSearchFields, getRarityLabel } from "@/i18n";
+import { StickyHeader } from '@/components/StickyHeader';
 
 const RARITY_WEIGHTS: Record<string, number> = {
   legendary: 5,
@@ -222,7 +223,7 @@ export const ItemsPage = ({
 
   return (
     <div className="pb-28">
-      <div className="p-4 sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-gray-800">
+      <StickyHeader>
         <div className="mb-3">
           <SectionHeader
             title={t('nav.catalog')}
@@ -249,7 +250,7 @@ export const ItemsPage = ({
           sortType="pills"
           items={allItems}
         />
-      </div>
+      </StickyHeader>
 
       <div data-list-container="compact" className="p-3">
         {groupByEnabled
