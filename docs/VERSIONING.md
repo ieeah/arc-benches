@@ -106,13 +106,14 @@ Già fatte: #63, #77, #78, #80. Ordine di lavoro (le dipendenze sono a destra di
 - [ ] #86 [Dati banchi al Lvl 3 (Frozen Trail)](https://github.com/ieeah/arc-benches/issues/86)
 - [ ] #79 [Opzione "ripristinabile" per progetti e liste](https://github.com/ieeah/arc-benches/issues/79)
 - [ ] #74 [Export/import completo del profilo](https://github.com/ieeah/arc-benches/issues/74)
+- [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102) — dopo #74
 - [ ] #88 [Filtri per tipo selezionabili nell'ItemPicker](https://github.com/ieeah/arc-benches/issues/88)
 
 ---
 
 ## 0.6.0 "Archivio del Rifugio" — Tracker e Collezioni — Non ancora raggiunta
 Obiettivo: tracciare la progressione di gioco (pass, collezioni, armi) sulle basi della 0.5.0.
-- [ ] #90 [Reward Pass & Feats Tracker](https://github.com/ieeah/arc-benches/issues/90) — dopo #85, #83, #84
+- [ ] #90 [Reward Pass Tracker (solo livelli e ricompense, dati inseriti a mano; niente Feats)](https://github.com/ieeah/arc-benches/issues/90) — dopo #85, #83, #84
 - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
 - [ ] #92 [Armi amplificate (Weapon Amplification)](https://github.com/ieeah/arc-benches/issues/92) — dopo #73, #83
 - [ ] #26 [Vista Aggregata per Banco](https://github.com/ieeah/arc-benches/issues/26)

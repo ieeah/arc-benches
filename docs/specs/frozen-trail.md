@@ -77,7 +77,7 @@ Di seguito le opzioni per la roadmap da prendere in considerazione dopo l'uscita
 - **v0.5.0 "Segnale Radio"**: Sincronizzazione dei dati dei banchi e dei nuovi blueprint.
 - **v0.6.0 "Centro Operativo"**: 
   - Aggiunta allerta meteo *Flash Freeze* su *Pendola Pass* in **#55 (Condizioni Mappe & Eventi Live)**.
-  - Inserimento del **Reward Pass Tracker & Feats** (come evoluzione o sostituzione della gestione Raider Decks).
+  - Inserimento del **Reward Pass Tracker** (le Feats non si tracciano: cambiano ogni settimana e per giocatore) (come evoluzione o sostituzione della gestione Raider Decks).
 - **v0.7.0 "Guida di Speranza"**: 
   - Inserimento dei nuovi nemici ARC (*Bully*, *Hydra*, *Skulker*, *Frigate*, *Emperor*) nel **#57 Bestiario ARC & Drop Tables**.
 - **v1.x "Orizzonte Tattico"**: 
