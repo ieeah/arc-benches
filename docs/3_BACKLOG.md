@@ -18,12 +18,13 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #69 [UX Stash: Ordinamento per priorità multi-criterio (Banco + Livello)](https://github.com/ieeah/arc-benches/issues/69) — oltre all'ordine dei banchi/liste, dare precedenza ai requisiti di livello inferiore (es. Lvl 2 prima di Lvl 3); per materiali aggregati su più livelli o banchi, assegnare la priorità più alta (livello minimo / primo banco nell'ordinamento).
 - [ ] #93 [UX Stash: filtri per fonte lista nel menu contestuale (...)](https://github.com/ieeah/arc-benches/issues/93) — toggle nelle opzioni secondarie del floating nav per attivare/disattivare gli oggetti provenienti da specifiche tipologie di lista (banchi di lavoro, progetti, liste personalizzate, spedizioni, quest).
 
+- [ ] #11 [Performance: virtualizzazione delle liste lunghe (Catalogo e Stash)](https://github.com/ieeah/arc-benches/issues/11) — anticipata da 0.9.0: scroll a scatti su dispositivi di fascia media; prima si misura l'effetto di header opachi, `overflow-clip`, miniature 128px e icone per tema.
+
 ## 0.7.0 "Guida di Speranza"
 - [ ] #75 [UX: badge di craftabilità sulle card degli oggetti](https://github.com/ieeah/arc-benches/issues/75) — include l'estensione dell'icona craft a tutti i banchi (non solo Refiner), con stato verde (livello banco raggiunto / producibile) e ambra (livello banco non ancora sufficiente).
 
 ## 0.9.0 "Rifinitura Tattica"
 - [ ] #60 [Refactor UI/UX Globale: Consolidamento componenti, modali, drawer e densità visiva](https://github.com/ieeah/arc-benches/issues/60)
-- [ ] #11 [Performance: Strategie di Ottimizzazione Rendering per Liste Lunghe](https://github.com/ieeah/arc-benches/issues/11) (virtualizzazione)
 - [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
 
 ## Completati di recente

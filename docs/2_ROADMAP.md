@@ -45,7 +45,7 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 ---
 
 ## Versione 0.9.0 "Rifinitura Tattica"
-Solo voci di refactor e performance: vedi [3_BACKLOG.md](3_BACKLOG.md) (#60, #11, #4).
+Solo voci di refactor e performance: vedi [3_BACKLOG.md](3_BACKLOG.md) (#60, #4).
 
 ---
 
@@ -80,6 +80,7 @@ Deve già contenere Skill Tree, tracker e collezioni, armi amplificate (0.6.0–
 - [ ] #33 [Role Maker — Riorganizzazione UI e Miglioramenti](https://github.com/ieeah/arc-benches/issues/33)
 - [ ] #37 [Role Maker — Arricchimento, coerenza gameplay e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)
 - [ ] #38 [Role Maker: Creazione della pagina / micro-app autonoma su sottodominio dedicato](https://github.com/ieeah/arc-benches/issues/38)
+- [ ] #101 [Role Maker: pagina Dev per la revisione manuale di ruoli e lore (contenuti scritti da AI)](https://github.com/ieeah/arc-benches/issues/101) — la feature resta dietro il flag `role-maker` (false) finché i contenuti non sono rivisti
 
 ---
 

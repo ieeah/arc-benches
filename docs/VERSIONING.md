@@ -118,6 +118,7 @@ Obiettivo: tracciare la progressione di gioco (pass, collezioni, armi) sulle bas
 - [ ] #26 [Vista Aggregata per Banco](https://github.com/ieeah/arc-benches/issues/26)
 - [ ] #69 [Ordinamento Stash per priorità multi-criterio](https://github.com/ieeah/arc-benches/issues/69)
 - [ ] #93 [Filtri per fonte lista nel menu dello Stash](https://github.com/ieeah/arc-benches/issues/93)
+- [ ] #11 [Performance: virtualizzazione delle liste lunghe (Catalogo e Stash)](https://github.com/ieeah/arc-benches/issues/11) — anticipata da 0.9.0 per il lag di scroll su dispositivi di fascia media; si verifica prima l'effetto delle ottimizzazioni CSS e delle miniature
 
 ---
 
@@ -147,7 +148,6 @@ Obiettivo: sintesi operativa che riassume tracker e progetti delle versioni prec
 
 ## 0.9.0 "Rifinitura Tattica" — Consolidamento UI/UX e Performance prima della migrazione — Non ancora raggiunta
 - [ ] #60 [Refactor UI/UX Globale](https://github.com/ieeah/arc-benches/issues/60)
-- [ ] #11 [Performance: rendering delle liste lunghe](https://github.com/ieeah/arc-benches/issues/11)
 - [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
 
 ---
@@ -181,6 +181,7 @@ Deve già contenere: Skill Tree (0.7.0), tracker e collezioni (0.6.0), armi ampl
 - [ ] #33 [Role Maker — Riorganizzazione UI](https://github.com/ieeah/arc-benches/issues/33)
 - [ ] #37 [Role Maker — Arricchimento e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)
 - [ ] #38 [Role Maker — micro-app autonoma](https://github.com/ieeah/arc-benches/issues/38)
+- [ ] #101 [Role Maker — pagina Dev per la revisione manuale di ruoli e lore](https://github.com/ieeah/arc-benches/issues/101) — la feature resta dietro il flag `role-maker` (false) finché i contenuti non sono rivisti
 
 ---
 
