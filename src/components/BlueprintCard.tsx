@@ -2,6 +2,7 @@ import { CheckCircle2, ShieldAlert } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { ItemIcon } from '@/components/ItemIcon';
 import { iconUrl } from '@/lib/icons';
+import { getCategoryIconPath } from '@/lib/categoryIcons';
 import { useTranslation, getItemName } from '@/i18n';
 
 interface BlueprintCardProps {
@@ -40,7 +41,7 @@ export const BlueprintCard = ({
       }`}
     >
       {/* Container Icona con Background Blueprint di gioco */}
-      <div className="relative mb-2 aspect-square rounded-[10px] overflow-hidden bg-gray-950 flex items-center justify-center">
+      <div className="relative mb-2 aspect-square min-h-0 rounded-[10px] overflow-clip bg-gray-950 flex flex-col">
         {/* Background Blueprint originale */}
         <img
           src={iconUrl('blueprint-bg.jpg')}
@@ -51,13 +52,31 @@ export const BlueprintCard = ({
           className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
         />
 
-        {/* Icona dell'oggetto centrata sulla griglia */}
-        <div className="relative z-1 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center drop-shadow-md">
-          <ItemIcon
-            icon={blueprint.icon}
-            alt={displayName}
-            fallbackText={blueprint.id.replace(/-/g, ' ')}
-            imgClassName="max-w-full max-h-full object-contain scale-[1.25]"
+        {/* Icona dell'oggetto centrata sulla griglia (sopra la barra) */}
+        <div className="relative z-1 flex-1 min-h-0 flex items-center justify-center">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center drop-shadow-md">
+            <ItemIcon
+              icon={blueprint.icon}
+              alt={displayName}
+              fallbackText={blueprint.id.replace(/-/g, ' ')}
+              imgClassName="max-w-full max-h-full object-contain scale-[1.25]"
+            />
+          </div>
+        </div>
+
+        {/* Barra scura opaca con l'icona dei progetti, come nell'inventario di gioco.
+            Sempre scura (anche in tema chiaro): serve la serie di icone chiare. */}
+        <div
+          className="relative z-1 shrink-0 px-2.5 flex items-center bg-[#0a0f1e]"
+          style={{ height: 'clamp(30px, 17%, 40px)' }}
+        >
+          <img
+            src={getCategoryIconPath('Blueprint')!}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className="h-[65%] w-auto object-contain select-none pointer-events-none"
           />
         </div>
 
