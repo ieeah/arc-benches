@@ -145,17 +145,9 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     labelEn: string;
     labelIt: string;
   } | null>(null);
-  const [editingReward, setEditingReward] = useState<{
-    index: number;
-    labelEn: string;
-    labelIt: string;
-  } | null>(null);
   const [isAddingAction, setIsAddingAction] = useState(false);
   const [newActionEn, setNewActionEn] = useState("");
   const [newActionIt, setNewActionIt] = useState("");
-  const [isAddingReward, setIsAddingReward] = useState(false);
-  const [newRewardEn, setNewRewardEn] = useState("");
-  const [newRewardIt, setNewRewardIt] = useState("");
 
   // Tiered Actions state
   const [editingTieredAction, setEditingTieredAction] = useState<{
@@ -173,7 +165,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
 
   // Granular Reward Editor Modal State
   const [rewardModalTarget, setRewardModalTarget] = useState<{
-    type: "requirement" | "action" | "tieredStep" | "newTieredStep" | "editingTieredStep";
+    type: "level" | "requirement" | "action" | "tieredStep" | "newTieredStep" | "editingTieredStep";
     title: string;
     subtitle?: string;
     itemId?: string;
@@ -427,95 +419,6 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     setEditingAction(null);
   };
 
-  // Add / Remove / Edit Reward
-  const handleStartAddReward = () => {
-    setIsAddingReward(true);
-    setNewRewardEn("");
-    setNewRewardIt("");
-  };
-
-  const handleSaveNewReward = () => {
-    if (!selectedList || !activeLevel) return;
-    const cleanEn = newRewardEn.trim();
-    const cleanIt = newRewardIt.trim();
-    if (!cleanEn) {
-      setIsAddingReward(false);
-      setNewRewardEn("");
-      setNewRewardIt("");
-      return;
-    }
-    const newReward: Reward = {
-      label: cleanEn,
-      ...(cleanIt ? { translations: { it: { label: cleanIt } } } : {}),
-    };
-    updateSelectedList((prev) => {
-      const levels = prev.levels.map((lvl) => {
-        if (lvl.level !== activeLevel.level) return lvl;
-        return {
-          ...lvl,
-          rewards: [...(lvl.rewards || []), newReward],
-        };
-      });
-      return { ...prev, levels };
-    });
-    setNewRewardEn("");
-    setNewRewardIt("");
-    setIsAddingReward(false);
-  };
-
-  const handleRemoveReward = (rewardIndex: number) => {
-    if (!selectedList || !activeLevel) return;
-    updateSelectedList((prev) => {
-      const levels = prev.levels.map((lvl) => {
-        if (lvl.level !== activeLevel.level) return lvl;
-        return {
-          ...lvl,
-          rewards: (lvl.rewards || []).filter((_, i) => i !== rewardIndex),
-        };
-      });
-      return { ...prev, levels };
-    });
-    if (editingReward?.index === rewardIndex) {
-      setEditingReward(null);
-    }
-  };
-
-  const handleSaveEditedReward = () => {
-    if (!selectedList || !activeLevel || !editingReward) return;
-    const cleanEn = editingReward.labelEn.trim();
-    const cleanIt = editingReward.labelIt.trim();
-    if (!cleanEn) {
-      setEditingReward(null);
-      return;
-    }
-    updateSelectedList((prev) => {
-      const levels = prev.levels.map((lvl) => {
-        if (lvl.level !== activeLevel.level) return lvl;
-        return {
-          ...lvl,
-          rewards: (lvl.rewards || []).map((r, i) => {
-            if (i !== editingReward.index) return r;
-            const updatedTr = { ...(r.translations || {}) };
-            if (cleanIt) {
-              updatedTr.it = { ...(updatedTr.it || {}), label: cleanIt };
-            } else {
-              delete updatedTr.it;
-            }
-            return {
-              ...r,
-              label: cleanEn,
-              ...(Object.keys(updatedTr).length > 0
-                ? { translations: updatedTr }
-                : { translations: undefined }),
-            };
-          }),
-        };
-      });
-      return { ...prev, levels };
-    });
-    setEditingReward(null);
-  };
-
   // Add / Remove / Edit Tiered Action
   const handleStartAddTieredAction = () => {
     setIsAddingTieredAction(true);
@@ -662,7 +565,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     setEditingTieredAction(null);
   };
 
-  // Granular Rewards Save Handler (for ItemRequirement, Action, Step)
+  // Granular Rewards Save Handler (for Level, ItemRequirement, Action, Step)
   const handleSaveGranularRewards = (newRewards: Reward[]) => {
     if (!rewardModalTarget) return;
     const target = rewardModalTarget;
@@ -704,6 +607,13 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     updateSelectedList((prev) => {
       const levels = prev.levels.map((lvl) => {
         if (lvl.level !== activeLevel.level) return lvl;
+
+        if (target.type === "level") {
+          return {
+            ...lvl,
+            rewards: newRewards.length > 0 ? newRewards : undefined,
+          };
+        }
 
         if (target.type === "requirement" && target.itemId) {
           const reqs = lvl.requirementItemIds.map((r) => {
@@ -2302,249 +2212,32 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                       <Gift size={14} className="text-emerald-500" />
                       Ricompense di Livello ({activeLevel.rewards?.length || 0})
                     </h3>
-                    {!isAddingReward && (
-                      <button
-                        type="button"
-                        onClick={handleStartAddReward}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-xl transition-colors cursor-pointer"
-                      >
-                        <Plus size={13} />
-                        <span>Aggiungi Ricompensa</span>
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setRewardModalTarget({
+                          type: "level",
+                          title: `Ricompense Lvl ${activeLevel.level}`,
+                          subtitle: selectedList.name,
+                          rewards: activeLevel.rewards || [],
+                        })
+                      }
+                      className="flex items-center gap-1 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                    >
+                      <Pencil size={13} />
+                      <span>Modifica Ricompense</span>
+                    </button>
                   </div>
 
-                  {/* Inline Add Reward Form */}
-                  {isAddingReward && (
-                    <div className="p-3 bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-400 dark:border-emerald-600 rounded-2xl space-y-2.5 shadow-xs">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
-                          <Plus size={13} />
-                          Nuova Ricompensa
-                        </span>
-                        <div className="flex items-center gap-1">
-                          <button
-                            type="button"
-                            onClick={handleSaveNewReward}
-                            disabled={!newRewardEn.trim()}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer shadow-2xs"
-                            title="Aggiungi"
-                          >
-                            <Check size={13} />
-                            <span>Aggiungi</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setIsAddingReward(false);
-                              setNewRewardEn("");
-                              setNewRewardIt("");
-                            }}
-                            className="w-7 h-7 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex items-center justify-center cursor-pointer"
-                            title="Annulla"
-                          >
-                            <X size={13} />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 gap-2">
-                        <div>
-                          <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
-                            Descrizione EN (Default)
-                          </label>
-                          <input
-                            type="text"
-                            autoFocus
-                            value={newRewardEn}
-                            onChange={(e) => setNewRewardEn(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") handleSaveNewReward();
-                              if (e.key === "Escape") {
-                                setIsAddingReward(false);
-                                setNewRewardEn("");
-                                setNewRewardIt("");
-                              }
-                            }}
-                            className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-emerald-300 dark:border-emerald-700 rounded-xl text-xs text-gray-800 dark:text-gray-100 font-medium focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
-                            placeholder="e.g. +1 Skill Point, +150 Coins"
-                          />
-                        </div>
-                        <div>
-                          <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 flex items-center gap-1 mb-0.5">
-                            <Languages size={11} className="text-emerald-500" />
-                            Traduzione Italiano (IT)
-                          </label>
-                          <input
-                            type="text"
-                            value={newRewardIt}
-                            onChange={(e) => setNewRewardIt(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") handleSaveNewReward();
-                              if (e.key === "Escape") {
-                                setIsAddingReward(false);
-                                setNewRewardEn("");
-                                setNewRewardIt("");
-                              }
-                            }}
-                            className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-emerald-300 dark:border-emerald-700 rounded-xl text-xs text-gray-800 dark:text-gray-100 font-medium focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
-                            placeholder="es. +1 Punto Abilità, +150 Monete"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {(!activeLevel.rewards || activeLevel.rewards.length === 0) &&
-                  !isAddingReward ? (
+                  {(activeLevel.rewards?.length ?? 0) === 0 ? (
                     <div className="p-3 bg-gray-50 dark:bg-gray-800/40 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
                       Nessuna ricompensa associata a questo livello.
                     </div>
                   ) : (
-                    <div className="space-y-2">
-                      {activeLevel.rewards?.map((reward, rIndex) => {
-                        const isEditing = editingReward?.index === rIndex;
-                        if (isEditing) {
-                          return (
-                            <div
-                              key={rIndex}
-                              className="p-3 bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-700 rounded-2xl space-y-2.5 shadow-xs"
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
-                                  <Pencil size={12} />
-                                  Modifica Ricompensa #{rIndex + 1}
-                                </span>
-                                <div className="flex items-center gap-1">
-                                  <button
-                                    type="button"
-                                    onClick={handleSaveEditedReward}
-                                    disabled={!editingReward.labelEn.trim()}
-                                    className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer shadow-2xs"
-                                    title="Salva"
-                                  >
-                                    <Check size={13} />
-                                    <span>Salva</span>
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => setEditingReward(null)}
-                                    className="w-7 h-7 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex items-center justify-center cursor-pointer"
-                                    title="Annulla"
-                                  >
-                                    <X size={13} />
-                                  </button>
-                                </div>
-                              </div>
-                              <div className="grid grid-cols-1 gap-2">
-                                <div>
-                                  <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
-                                    Descrizione EN (Default)
-                                  </label>
-                                  <input
-                                    type="text"
-                                    autoFocus
-                                    value={editingReward.labelEn}
-                                    onChange={(e) =>
-                                      setEditingReward({
-                                        ...editingReward,
-                                        labelEn: e.target.value,
-                                      })
-                                    }
-                                    onKeyDown={(e) => {
-                                      if (e.key === "Enter")
-                                        handleSaveEditedReward();
-                                      if (e.key === "Escape")
-                                        setEditingReward(null);
-                                    }}
-                                    className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-emerald-300 dark:border-emerald-700 rounded-xl text-xs text-gray-800 dark:text-gray-100 font-medium focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
-                                  />
-                                </div>
-                                <div>
-                                  <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 flex items-center gap-1 mb-0.5">
-                                    <Languages
-                                      size={11}
-                                      className="text-emerald-500"
-                                    />
-                                    Traduzione Italiano (IT)
-                                  </label>
-                                  <input
-                                    type="text"
-                                    value={editingReward.labelIt}
-                                    placeholder={editingReward.labelEn}
-                                    onChange={(e) =>
-                                      setEditingReward({
-                                        ...editingReward,
-                                        labelIt: e.target.value,
-                                      })
-                                    }
-                                    onKeyDown={(e) => {
-                                      if (e.key === "Enter")
-                                        handleSaveEditedReward();
-                                      if (e.key === "Escape")
-                                        setEditingReward(null);
-                                    }}
-                                    className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-emerald-300 dark:border-emerald-700 rounded-xl text-xs text-gray-800 dark:text-gray-100 font-medium focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        }
-
-                        return (
-                          <div
-                            key={rIndex}
-                            className="p-2.5 bg-gray-50 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl flex items-center justify-between gap-3"
-                          >
-                            <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                              <Gift
-                                size={14}
-                                className="text-emerald-500 shrink-0"
-                              />
-                              <div className="min-w-0 flex-1">
-                                <p className="text-xs text-gray-800 dark:text-gray-200 font-bold truncate">
-                                  {reward.label}
-                                </p>
-                                {reward.translations?.it?.label && (
-                                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1 mt-0.5">
-                                    <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300">
-                                      IT
-                                    </span>
-                                    <span className="truncate">
-                                      {reward.translations.it.label}
-                                    </span>
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-1.5 shrink-0">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setEditingReward({
-                                    index: rIndex,
-                                    labelEn: reward.label,
-                                    labelIt:
-                                      reward.translations?.it?.label || "",
-                                  })
-                                }
-                                className="w-7 h-7 rounded-full bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
-                                title="Modifica ricompensa"
-                              >
-                                <Pencil size={12} />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveReward(rIndex)}
-                                className="w-7 h-7 rounded-full bg-red-50/80 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
-                                title="Rimuovi ricompensa"
-                              >
-                                <Trash2 size={12} />
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      })}
+                    <div className="flex flex-wrap gap-2">
+                      {activeLevel.rewards!.map((reward, rIndex) => (
+                        <RewardBadge key={rIndex} reward={reward} size="md" />
+                      ))}
                     </div>
                   )}
                 </div>

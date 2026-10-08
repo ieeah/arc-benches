@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Reward } from '@/types';
 import { useAppStore } from '@/store';
-import { useTranslation, getItemName, getRewardLabel } from '@/i18n';
+import { useTranslation, getItemName } from '@/i18n';
 import { getRarityStyles } from '@/lib/rarity';
 import { iconUrl } from '@/lib/icons';
 import { cn } from '@/lib/cn';
@@ -23,10 +23,8 @@ export const RewardBadge: React.FC<RewardBadgeProps> = ({
   const { language } = useTranslation();
   const itemsInfo = useAppStore((s) => s.itemsInfo);
 
-  const info = reward.itemId ? itemsInfo[reward.itemId] : undefined;
-  const name = info
-    ? getItemName(info, language) || reward.itemId
-    : getRewardLabel(reward, language);
+  const info = itemsInfo[reward.itemId];
+  const name = info ? getItemName(info, language) || reward.itemId : reward.itemId;
   const { color } = getRarityStyles(info?.rarity ?? '');
 
   if (size === 'md') {

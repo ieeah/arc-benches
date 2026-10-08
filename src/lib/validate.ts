@@ -1,4 +1,4 @@
-import type { ActionStep, ActionTranslation, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, RewardTranslation, TieredAction } from '@/types';
+import type { ActionStep, ActionTranslation, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -64,30 +64,14 @@ export const sanitizeStringArray = (v: unknown): string[] =>
 
 // ── domain shapes ────────────────────────────────────────────────────────────
 
+// Legacy rewards were free text ({ label }): without an itemId they can't be represented
+// anymore and are dropped on import/load.
 const validateReward = (v: unknown): Reward | null => {
   if (!isObject(v)) return null;
-  const label = asNonEmptyString(v.label);
-  if (label === null) return null;
-  const out: Reward = { label };
   const itemId = asNonEmptyString(v.itemId);
-  if (itemId !== null) out.itemId = itemId;
+  if (itemId === null) return null;
   const quantity = asNonNegInt(v.quantity, 1);
-  if (quantity !== null) out.quantity = quantity;
-  if (isObject(v.translations)) {
-    const translations: Record<string, RewardTranslation> = {};
-    for (const [lang, tr] of Object.entries(v.translations)) {
-      if (isObject(tr)) {
-        const trLabel = asNonEmptyString(tr.label);
-        if (trLabel !== null) {
-          translations[lang] = { label: trLabel };
-        }
-      }
-    }
-    if (Object.keys(translations).length > 0) {
-      out.translations = translations;
-    }
-  }
-  return out;
+  return { itemId, quantity: quantity !== null && quantity > 0 ? quantity : 1 };
 };
 
 const validateRewardsArray = (v: unknown): Reward[] | undefined => {

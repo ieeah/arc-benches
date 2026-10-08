@@ -1,14 +1,9 @@
 import type { AppLanguage } from '@/i18n/types';
 
-export interface RewardTranslation {
-  label?: string;
-}
-
+/** A reward is always a catalog item (currencies such as coins, XP and Reward Points are items too). */
 export interface Reward {
-  itemId?: string;
-  quantity?: number;
-  label: string;
-  translations?: Record<string, RewardTranslation>;
+  itemId: string;
+  quantity: number;
 }
 
 export interface ItemRequirement {

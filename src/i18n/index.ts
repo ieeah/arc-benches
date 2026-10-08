@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { ItemInfo, List, CheckboxAction, Reward, ActionTranslation } from '@/types';
+import type { ItemInfo, List, CheckboxAction, ActionTranslation } from '@/types';
 import { fuzzyMatch } from '@/lib/fuzzy';
 import { useAppStore } from '@/store';
 import { it } from './locales/it';
@@ -187,17 +187,6 @@ export function getActionLabel(
     return translated;
   }
   return action.label;
-}
-
-/**
- * Returns localized reward label with fallback to default label.
- */
-export function getRewardLabel(reward?: Reward | null, lang: AppLanguage = 'en'): string {
-  if (!reward) return '';
-  if (lang !== 'en' && reward.translations?.[lang]?.label) {
-    return reward.translations[lang].label!;
-  }
-  return reward.label;
 }
 
 /**

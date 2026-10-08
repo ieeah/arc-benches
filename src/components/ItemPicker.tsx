@@ -9,28 +9,31 @@ import { useListManager } from '@/hooks/useListManager';
 import { useTranslation, getItemName, getItemSearchFields, getRarityLabel, getItemSearchMatch } from '@/i18n';
 
 // Item types that can't be found or carried in a raid, so they are never a delivery requirement
-const NON_PICKABLE_ITEM_TYPES = new Set(['Blueprint', 'Cosmetic', 'Outfits']);
+const NON_PICKABLE_ITEM_TYPES = new Set(['Blueprint', 'Cosmetic', 'Outfits', 'Furniture', 'Research', 'Currency']);
 
 interface ItemPickerProps {
   excludeIds?: string[];
+  /** Rewards can be any catalog item (blueprints, cosmetics, currencies…); deliveries can't. */
+  includeAll?: boolean;
   onPick: (item: ItemInfo) => void;
   onClose: () => void;
 }
 
-export const ItemPicker = ({ excludeIds, onPick, onClose }: ItemPickerProps) => {
+export const ItemPicker = ({ excludeIds, includeAll = false, onPick, onClose }: ItemPickerProps) => {
   const itemsInfo = useAppStore(s => s.itemsInfo);
   const exclude = useMemo(() => new Set(excludeIds ?? []), [excludeIds]);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t, language } = useTranslation();
 
-  // Exclude hidden items (unless picked already), blueprints and non-gameplay items (cosmetics, outfits)
+  // Exclude hidden items (unless picked already) and, unless includeAll, blueprints and non-gameplay items
+  // (cosmetics, outfits, reward currencies)
   const pickableItems = useMemo(() => {
     return Object.values(itemsInfo).filter(item => {
       if (item.hidden && !exclude.has(item.id)) return false;
-      if (NON_PICKABLE_ITEM_TYPES.has(item.item_type)) return false;
+      if (!includeAll && NON_PICKABLE_ITEM_TYPES.has(item.item_type)) return false;
       return !exclude.has(item.id);
     });
-  }, [itemsInfo, exclude]);
+  }, [itemsInfo, exclude, includeAll]);
 
   const {
     query,

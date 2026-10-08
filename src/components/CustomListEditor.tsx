@@ -172,10 +172,7 @@ export const CustomListEditor = ({ listId, onClose }: {
           rewards: s.rewards ? JSON.parse(JSON.stringify(s.rewards)) : undefined,
         })),
       })),
-      rewards: lvl.rewards?.map(rew => ({
-        ...rew,
-        translations: rew.translations ? JSON.parse(JSON.stringify(rew.translations)) : undefined,
-      })),
+      rewards: lvl.rewards?.map(rew => ({ ...rew })),
     }));
 
     setLevels(clonedLevels.length > 0 ? clonedLevels : [{ level: 1, requirementItemIds: [] }]);

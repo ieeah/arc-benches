@@ -39,17 +39,17 @@ I **Progetti** rappresentano liste temporanee o permanenti che il Raider può co
 * Ciascuna ricompensa ha la seguente forma:
   ```typescript
   export interface Reward {
-    itemId?: string;    // ID dell'oggetto nel database MetaForge (opzionale)
-    quantity?: number;  // Quantità (opzionale, es. 2 se itemId è "metal-parts")
-    label: string;      // Descrizione generica (es. "Sblocco Blueprint Refiner Lvl 3" o "+150 Raider Tokens")
-    translations?: Record<string, RewardTranslation>;
+    itemId: string;    // ID dell'oggetto nel catalogo (items.json): qualsiasi oggetto, blueprint e cosmetici inclusi
+    quantity: number;  // Quantità (>= 1)
   }
   ```
+* **Valute di ricompensa**: coins, XP e Reward Points sono oggetti del catalogo come gli altri (`coins`, `xp-points`, `reward-points`). Gli ultimi due non esistono su MetaForge e sono definiti in `scripts/data/custom-items/` (`item_type: "Currency"`), aggiunti al catalogo da `fetch-items.mjs`. Non sono selezionabili come requisiti di consegna.
+* **Nessuna ricompensa testuale**: le ricompense testuali (`label` + traduzioni) sono state rimosse; in import/lettura quelle senza `itemId` vengono scartate da `validate.ts`.
 * **Integrazione con lo Stash**: Almeno inizialmente, le ricompense **non** vengono caricate o accreditate in automatico all'inventario/stash del tracker per evitare complicanze di allineamento. L'indicatore è puramente informativo per supportare la pianificazione del giocatore.
 * **Caricamento e Rendering a Runtime**:
   * Gestito dal componente riusabile `RewardBadge` (`size="xs" | "sm" | "md"`).
-  * Se `itemId` è definito, il tracker recupera le informazioni relative all'oggetto (nome, descrizione, rarità e icona di MetaForge) dinamicamente da `itemsInfo` per visualizzarle graficamente.
-  * Altrimenti (o se l'oggetto non esiste), viene mostrata un'icona regalo standard `🎁` con la `label` fornita.
+  * Il tracker recupera le informazioni dell'oggetto (nome localizzato, rarità e icona) dinamicamente da `itemsInfo`.
+  * Se l'oggetto non esiste nel catalogo, vengono mostrati l'`itemId` e un'icona regalo standard `🎁`.
 * Nella UI:
   * Requisito / Azione completata $\rightarrow$ Mostra la ricompensa come `Ottenuta` (evidenziata in verde tenue o con check).
   * Progetto scaduto $\rightarrow$ Mostra la ricompensa come `Persa / Bloccata` (grigia).
@@ -63,10 +63,8 @@ Estensione delle interfacce per supportare ricompense granulari:
 
 ```typescript
 export interface Reward {
-  itemId?: string;
-  quantity?: number;
-  label: string;
-  translations?: Record<string, RewardTranslation>;
+  itemId: string;
+  quantity: number;
 }
 
 export interface ItemRequirement {
