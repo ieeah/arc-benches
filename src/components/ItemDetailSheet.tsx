@@ -110,7 +110,7 @@ export const ItemDetailSheet = ({
             {t("itemDetail.value")}
           </span>
           <span className="font-semibold font-mono">
-            {item.value.toLocaleString(language === "en" ? "en-US" : "it-IT")}
+            {(item.value ?? 0).toLocaleString(language === "en" ? "en-US" : "it-IT")}
           </span>
         </div>
         {item.stack_size != null && item.stack_size > 1 && (

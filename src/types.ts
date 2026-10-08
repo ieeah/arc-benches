@@ -108,7 +108,7 @@ export interface ItemInfo {
   rarity: 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | string;
   item_type: string;
   subcategory: string | null;
-  value: number;
+  value: number | null;
   workbench: string | null;
   loot_area: string | null;
   stack_size: number | null;

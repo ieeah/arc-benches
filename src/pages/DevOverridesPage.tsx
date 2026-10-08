@@ -1230,7 +1230,7 @@ export const DevOverridesPage = ({
                   <div className="col-span-9 flex items-center gap-2">
                     <input
                       type="number"
-                      value={currentItemOverride.value !== undefined ? currentItemOverride.value : selectedItemBase.value}
+                      value={currentItemOverride.value !== undefined ? currentItemOverride.value : (selectedItemBase.value ?? "")}
                       onChange={e => handleFieldChange('value', e.target.value === '' ? 0 : parseInt(e.target.value, 10))}
                       placeholder={String(selectedItemBase.value)}
                       className={`flex-1 px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium ${

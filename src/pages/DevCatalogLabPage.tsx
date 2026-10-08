@@ -135,8 +135,8 @@ export const DevCatalogLabPage = ({
       }
 
       // 6. Range Valore
-      if (minValue !== '' && item.value < Number(minValue)) return false;
-      if (maxValue !== '' && item.value > Number(maxValue)) return false;
+      if (minValue !== '' && (item.value ?? 0) < Number(minValue)) return false;
+      if (maxValue !== '' && (item.value ?? 0) > Number(maxValue)) return false;
 
       // 7. Ricerca Testuale
       if (q.length > 0) {
@@ -171,9 +171,9 @@ export const DevCatalogLabPage = ({
         case 'rarity_asc':
           return (RARITY_WEIGHTS[a.rarity.toLowerCase()] ?? 0) - (RARITY_WEIGHTS[b.rarity.toLowerCase()] ?? 0) || a.name.localeCompare(b.name);
         case 'value_desc':
-          return b.value - a.value || a.name.localeCompare(b.name);
+          return (b.value ?? 0) - (a.value ?? 0) || a.name.localeCompare(b.name);
         case 'value_asc':
-          return a.value - b.value || a.name.localeCompare(b.name);
+          return (a.value ?? 0) - (b.value ?? 0) || a.name.localeCompare(b.name);
         case 'type_asc':
           return (a.item_type || '').localeCompare(b.item_type || '') || a.name.localeCompare(b.name);
         case 'stack_desc':
