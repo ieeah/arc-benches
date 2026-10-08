@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
   Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages,
-  Code2, FileJson, FlaskConical, Zap, ZapOff, Layers, Route, Flag
+  Zap, ZapOff
 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -18,10 +18,9 @@ const NON_FAVORITE_IDS = new Set(['vault', 'role-maker']);
 
 interface SettingsPageProps {
   onBack: () => void;
-  onNavigate?: (tab: string) => void;
 }
 
-export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
+export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const { dark: isDark, toggle: toggleTheme } = useTheme();
   const store = useAppStore();
   const { t, language, setLanguage, languages } = useTranslation();
@@ -565,89 +564,7 @@ export const SettingsPage = ({ onBack, onNavigate }: SettingsPageProps) => {
         </div>
       </section>
 
-      {/* 4. STRUMENTI SVILUPPATORE (Solo in DEV) */}
-      {import.meta.env.DEV && onNavigate && (
-        <section className="bg-white dark:bg-gray-900 border border-blue-200 dark:border-blue-900/50 rounded-[28px] p-5 shadow-sm space-y-3">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xs font-bold text-blue-500 uppercase tracking-wider flex items-center gap-2">
-              <Code2 size={14} /> {t('settings.devTools')}
-            </h2>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
-              {t('settings.devOnly')}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-1">
-            <button
-              onClick={() => onNavigate('dev-lists')}
-              className="p-3 bg-emerald-50 dark:bg-emerald-950/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl text-xs font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
-            >
-              <Layers size={18} className="shrink-0 text-emerald-500" />
-              <div>
-                <p className="font-bold">{t('settings.devListsTitle')}</p>
-                <p className="text-[10px] font-normal text-emerald-600/70 dark:text-emerald-400/70">{t('settings.devListsDesc')}</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => onNavigate('dev-translations')}
-              className="p-3 bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 border border-blue-200 dark:border-blue-800/60 rounded-2xl text-xs font-bold text-blue-700 dark:text-blue-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
-            >
-              <Languages size={18} className="shrink-0 text-blue-500" />
-              <div>
-                <p className="font-bold">{t('settings.devTranslationsTitle')}</p>
-                <p className="text-[10px] font-normal text-blue-600/70 dark:text-blue-400/70">{t('settings.devTranslationsDesc')}</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => onNavigate('dev-overrides')}
-              className="p-3 bg-purple-50 dark:bg-purple-950/30 hover:bg-purple-100 dark:hover:bg-purple-900/40 border border-purple-200 dark:border-purple-800/60 rounded-2xl text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
-            >
-              <FileJson size={18} className="shrink-0 text-purple-500" />
-              <div>
-                <p className="font-bold">{t('settings.devOverridesTitle')}</p>
-                <p className="text-[10px] font-normal text-purple-600/70 dark:text-purple-400/70">{t('settings.devOverridesDesc')}</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => onNavigate('dev-lab')}
-              className="p-3 bg-amber-50 dark:bg-amber-950/30 hover:bg-amber-100 dark:hover:bg-amber-900/40 border border-amber-200 dark:border-amber-800/60 rounded-2xl text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
-            >
-              <FlaskConical size={18} className="shrink-0 text-amber-500" />
-              <div>
-                <p className="font-bold">{t('settings.devLabTitle')}</p>
-                <p className="text-[10px] font-normal text-amber-600/70 dark:text-amber-400/70">{t('settings.devLabDesc')}</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => onNavigate('dev-nav')}
-              className="p-3 bg-gray-50 dark:bg-gray-800/40 hover:bg-gray-100 dark:hover:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-2xl text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
-            >
-              <Route size={18} className="shrink-0 text-gray-500" />
-              <div>
-                <p className="font-bold">{t('settings.devNavTitle')}</p>
-                <p className="text-[10px] font-normal text-gray-600/70 dark:text-gray-400/70">{t('settings.devNavDesc')}</p>
-              </div>
-            </button>
-
-            <button
-              onClick={() => onNavigate('dev-flags')}
-              className="p-3 bg-purple-50/70 dark:bg-purple-950/30 hover:bg-purple-100 dark:hover:bg-purple-900/40 border border-purple-200 dark:border-purple-800/60 rounded-2xl text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-2.5 transition-colors cursor-pointer text-left"
-            >
-              <Flag size={18} className="shrink-0 text-purple-500" />
-              <div>
-                <p className="font-bold">{t('settings.devFlagsTitle')}</p>
-                <p className="text-[10px] font-normal text-purple-600/70 dark:text-purple-400/70">{t('settings.devFlagsDesc')}</p>
-              </div>
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* 5. INFORMAZIONI APP */}
+      {/* 4. INFORMAZIONI APP */}
       <section className="p-4 bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-800 rounded-[24px] text-center space-y-1">
         <p className="text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center justify-center gap-1.5">
           <Info size={14} className="text-blue-500" /> {t('settings.appInfo')}

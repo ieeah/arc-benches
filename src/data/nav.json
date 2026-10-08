@@ -14,12 +14,7 @@
         { "id": "items", "labelKey": "nav.catalog", "icon": "database" },
         { "id": "role-maker", "label": "Role Maker 🎲", "icon": "dice-5" },
         { "id": "maps", "label": "Mappe Tattiche 🗺️", "icon": "map", "visibility": "dev" },
-        { "id": "dev-lists", "label": "Dev Liste 📋", "icon": "layers", "visibility": "dev" },
-        { "id": "dev-lab", "label": "Dev Catalog Lab 🧪", "icon": "flask-conical", "visibility": "dev" },
-        { "id": "dev-overrides", "label": "Dev Overrides 🛠️", "icon": "file-json", "visibility": "dev" },
-        { "id": "dev-translations", "label": "Dev i18n Studio 🌐", "icon": "languages", "visibility": "dev" },
-        { "id": "dev-nav", "label": "Dev Nav Editor 🧭", "icon": "route", "visibility": "dev" },
-        { "id": "dev-flags", "label": "Feature Flags 🚩", "icon": "flag", "visibility": "dev" }
+        { "id": "dev", "label": "Dev Studio 🛠️", "icon": "code-2", "visibility": "dev" }
       ]
     },
     { "id": "settings", "labelKey": "nav.settings", "icon": "settings" }

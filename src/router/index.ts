@@ -14,6 +14,7 @@ export type AppRoute =
   | 'list-detail'
   | 'maps'
   | 'role-maker'
+  | 'dev'
   | 'dev-lists'
   | 'dev-overrides'
   | 'dev-translations'
@@ -31,6 +32,7 @@ export const VALID_ROUTES: readonly AppRoute[] = [
   'list-detail',
   'maps',
   'role-maker',
+  'dev',
   'dev-lists',
   'dev-overrides',
   'dev-translations',
@@ -40,6 +42,7 @@ export const VALID_ROUTES: readonly AppRoute[] = [
 ] as const;
 
 export const DEV_ROUTES: readonly AppRoute[] = [
+  'dev',
   'dev-lists',
   'dev-overrides',
   'dev-translations',

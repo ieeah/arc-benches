@@ -17,6 +17,7 @@ import { DevTranslationsPage } from '@/pages/DevTranslationsPage';
 import { DevListsPage } from '@/pages/DevListsPage';
 import { DevNavPage } from '@/pages/DevNavPage';
 import { DevFlagsPage } from '@/pages/DevFlagsPage';
+import { DevDashboardPage } from '@/pages/DevDashboardPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
 import { ExpeditionPage } from '@/pages/ExpeditionPage';
@@ -125,7 +126,9 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-clip w-full">
-        {isDev && activeTab === 'dev-overrides' ? (
+        {isDev && activeTab === 'dev' ? (
+          <DevDashboardPage onBack={() => router.back()} onNavigate={handleNavigate} />
+        ) : isDev && activeTab === 'dev-overrides' ? (
           <DevOverridesPage
             onBack={() => router.back()}
             initialSelectedItemId={devOverrideItemId}
@@ -167,10 +170,7 @@ export default function App() {
                 />
               )}
               {activeTab === 'settings' && (
-                <SettingsPage
-                  onBack={() => router.back()}
-                  onNavigate={handleNavigate}
-                />
+                <SettingsPage onBack={() => router.back()} />
               )}
               {activeTab === 'list-detail' && detailListId && (
                 <ListDetailPage listId={detailListId} onBack={() => router.back()} />
