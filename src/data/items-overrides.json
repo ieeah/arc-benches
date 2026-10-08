@@ -14,7 +14,6 @@
         "name": "Chitarra Acustica"
       }
     },
-    "item_type": "Quick Use",
     "subcategory": "Gadget"
   },
   "adrenaline-shot": {
@@ -203,9 +202,7 @@
         "name": "Cellula ARC Avanzata",
         "description": "Risorsa molto preziosa rilasciata da alcuni nemici ARC"
       }
-    },
-    "item_type": "Topside Material",
-    "subcategory": "Topside Material"
+    }
   },
   "advanced-electrical-components": {
     "translations": {
@@ -387,7 +384,30 @@
   "pop-trigger": {
     "translations": {
       "it": {
-        "name": "Detonatore di Pop"
+        "name": "Detonatore Pop"
+      }
+    }
+  },
+  "planks": {
+    "translations": {
+      "it": {
+        "name": "Tavole",
+        "description": "Utile per le creazioni."
+      }
+    }
+  },
+  "advanced-camera": {
+    "translations": {
+      "it": {
+        "name": "Fotocamera Avanzata",
+        "description": "Una fotocamera avanzata con alcune funzionalità in più."
+      }
+    }
+  },
+  "abyss-outfit": {
+    "translations": {
+      "it": {
+        "name": "Abisso (outfit)"
       }
     }
   }
