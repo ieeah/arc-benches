@@ -1,12 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
+import { devApplyPlugin } from "./vite-plugins/dev-apply";
 
 // https://vite.dev/config/
 export default defineConfig({
   // Served from https://ieeah.github.io/arc-benches/
   base: "/arc-benches/",
-  plugins: [react()],
+  plugins: [react(), devApplyPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
