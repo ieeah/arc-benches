@@ -43,7 +43,7 @@ import { TieredActionTimeline } from "@/components/TieredActionTimeline";
 import { useTranslation, getItemName, getListName, getListSearchFields } from "@/i18n";
 import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
-import { isExpedition, withListType } from "@/lib/lists";
+import { isExpedition, isProject, withListType } from "@/lib/lists";
 import itemsDatabase from "@/data/items.json";
 import { generateUUID } from "@/lib/uuid";
 import { cn } from "@/lib/cn";
@@ -663,6 +663,11 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
 
   // JSON Preview Generator
   const currentCategory = (selectedList?.listType || "workbench") as ListType;
+  const showDateFields =
+    !!selectedList &&
+    (isExpedition(selectedList) ||
+      isProject(selectedList) ||
+      Boolean(selectedList.startDate || selectedList.expirationDate));
   const fileJsonContent = useMemo(() => {
     const items = listsData[currentCategory] || [];
     return JSON.stringify({ lists: items }, null, 2);
@@ -1174,7 +1179,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
               )}
             </div>
 
-            {/* Date Fields */}
+            {/* Date: servono a spedizioni e progetti (finestre temporali); per banchi e quest solo se già valorizzate */}
+            {showDateFields && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2 border-t border-gray-100 dark:border-gray-800">
               <IsoDateTimeField
                 label="Data Inizio Finestra (Apertura)"
@@ -1194,6 +1200,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                 }
               />
             </div>
+            )}
           </div>
 
           {/* Level Tabs & Level Content */}
