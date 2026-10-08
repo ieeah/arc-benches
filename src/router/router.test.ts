@@ -1,6 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { parseHash, buildHash, VALID_ROUTES } from './index';
 import { setFeatureFlag, resetFeatureFlags } from '@/lib/featureFlags';
+
+// Il seed reale (src/data/feature-flags.json) cambia con le release: i test non devono dipenderne.
+vi.mock('@/data/feature-flags.json', () => ({
+  default: { expeditions: true, vault: true, 'role-maker': true, blueprints: true },
+}));
 
 describe('Router hash parsing & building', () => {
   beforeEach(() => {

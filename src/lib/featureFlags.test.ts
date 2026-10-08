@@ -12,6 +12,11 @@ import {
   subscribeFeatureFlags,
 } from './featureFlags';
 
+// Il seed reale (src/data/feature-flags.json) cambia con le release: i test non devono dipenderne.
+vi.mock('@/data/feature-flags.json', () => ({
+  default: { expeditions: true, vault: true, 'role-maker': true, blueprints: true },
+}));
+
 class MockStorage implements Storage {
   private store: Record<string, string> = {};
   get length() { return Object.keys(this.store).length; }
@@ -31,7 +36,7 @@ describe('featureFlags module', () => {
     resetFeatureFlags();
   });
 
-  it('provides all default flags as true', () => {
+  it('provides the seed values as defaults', () => {
     const defaults = getDefaultFeatureFlags();
     expect(defaults.expeditions).toBe(true);
     expect(defaults.vault).toBe(true);
