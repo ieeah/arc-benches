@@ -10,7 +10,13 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Abisso (outfit)",
+        "description": ""
+      }
+    }
   },
   "acoustic-guitar": {
     "id": "acoustic-guitar",
@@ -93,7 +99,13 @@
     "value": 1000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Fotocamera Avanzata",
+        "description": "Una fotocamera avanzata con alcune funzionalità in più."
+      }
+    }
   },
   "advanced-electrical-components": {
     "id": "advanced-electrical-components",
