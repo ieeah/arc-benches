@@ -71,7 +71,7 @@ export const ItemCardFrameV2 = ({
         borderColor: hex,
         borderRadius: radiusValue,
       }}
-      className={`relative overflow-hidden border-2 squircle flex flex-col select-none transition-all ${
+      className={`relative overflow-clip min-h-0 min-w-0 border-2 squircle flex flex-col select-none transition-all ${
         aspectSquare ? "aspect-square" : ""
       } ${onClick ? "cursor-pointer active:scale-95" : ""} ${className}`}
     >
@@ -81,7 +81,7 @@ export const ItemCardFrameV2 = ({
         style={{
           background: `radial-gradient(circle at 0% 100%, ${hex}40 0%, transparent 85%)`,
         }}
-        className="relative flex-1 min-h-0 overflow-hidden flex items-center justify-center"
+        className="relative flex-1 min-h-0 overflow-clip flex items-center justify-center"
       >
         {/* Badge angolare solido della rarità, dentro il box del contenuto */}
         {showCategoryBar && (
