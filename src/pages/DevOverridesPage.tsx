@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import {
   Search, Download, Copy, Check, Sparkles,
   Trash2, RotateCcw, FileJson, Edit3, Globe,
-  EyeOff, ChevronDown
+  EyeOff, ChevronDown, AlertTriangle
 } from 'lucide-react';
 import type { ItemInfo, ItemTranslation } from '@/types';
 import { useAppStore } from '@/store';
@@ -12,9 +12,22 @@ import { CategoryBadge } from '@/components/CategoryBadge';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import itemsDataBase from '@/data/items.json';
 import initialOverrides from '@/data/items-overrides.json';
+import conflictsData from '@/data/overrides-conflicts.json';
 import { getRarityText } from '@/lib/rarity';
 import { SUPPORTED_LANGUAGES, getItemSearchFields, getItemSearchMatch } from '@/i18n';
 import { fuzzyMatch } from '@/lib/fuzzy';
+import {
+  CONFLICT_KIND_LABELS,
+  adoptUpstream,
+  formatConflictValue,
+  getActiveConflicts,
+  loadResolvedConflicts,
+  markConflictsResolved,
+  saveResolvedConflicts,
+  type ConflictKind,
+  type OverrideConflict,
+  type ResolvedConflicts,
+} from '@/lib/overrideConflicts';
 
 type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
 const RARITIES: ItemRarity[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
@@ -109,6 +122,14 @@ export interface ItemOverrideData {
 
 type ItemOverrideMap = Record<string, ItemOverrideData>;
 
+const ALL_CONFLICTS = (conflictsData as { conflicts: OverrideConflict[] }).conflicts;
+
+const CONFLICT_KIND_STYLES: Record<ConflictKind, string> = {
+  changed: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300',
+  redundant: 'bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300',
+  orphan: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
+};
+
 interface SidebarItemRowProps {
   item: ItemInfo;
   isSelected: boolean;
@@ -118,6 +139,10 @@ interface SidebarItemRowProps {
   overrideRarity?: string;
   onSelect: (id: string) => void;
   query?: string;
+  /** Presenti solo nella vista conflitti: checkbox per le azioni di massa. */
+  conflictCount?: number;
+  checked?: boolean;
+  onToggleChecked?: (id: string) => void;
 }
 
 const SidebarItemRow = React.memo(({
@@ -129,12 +154,15 @@ const SidebarItemRow = React.memo(({
   overrideRarity,
   onSelect,
   query,
+  conflictCount,
+  checked,
+  onToggleChecked,
 }: SidebarItemRowProps) => {
   const displayedName = overrideName || item.name;
   const match = getItemSearchMatch(item, query ?? '', displayedName);
   // ID is already shown below the name, so skip the 'id' badge
   const showMatch = match && match.kind === 'translation';
-  return (
+  const button = (
     <button
       onClick={() => onSelect(item.id)}
       className={`w-full flex items-center gap-3 p-2 rounded-2xl text-left transition-all cursor-pointer ${
@@ -175,7 +203,27 @@ const SidebarItemRow = React.memo(({
       ) : hasOverride ? (
         <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" title="Override attivo" />
       ) : null}
+      {conflictCount ? (
+        <span title={`${conflictCount} conflitt${conflictCount === 1 ? 'o' : 'i'} upstream`} className="shrink-0 flex items-center gap-0.5 text-[10px] font-black text-amber-600 dark:text-amber-400">
+          <AlertTriangle size={12} />
+          {conflictCount}
+        </span>
+      ) : null}
     </button>
+  );
+
+  if (!onToggleChecked) return button;
+  return (
+    <div className="flex items-center gap-1">
+      <input
+        type="checkbox"
+        checked={Boolean(checked)}
+        onChange={() => onToggleChecked(item.id)}
+        aria-label={`Seleziona ${displayedName}`}
+        className="ml-1 w-4 h-4 shrink-0 rounded text-amber-500 cursor-pointer"
+      />
+      <div className="flex-1 min-w-0">{button}</div>
+    </div>
   );
 });
 
@@ -205,6 +253,10 @@ export const DevOverridesPage = ({
   const [filterMissingDesc, setFilterMissingDesc] = useState(false);
   const [filterMissingBoth, setFilterMissingBoth] = useState(false);
   const [filterTranslationLang, setFilterTranslationLang] = useState<string>('it');
+  const [filterConflicts, setFilterConflicts] = useState(false);
+  const [conflictKindFilter, setConflictKindFilter] = useState<ConflictKind | 'all'>('all');
+  const [resolvedConflicts, setResolvedConflicts] = useState<ResolvedConflicts>(loadResolvedConflicts);
+  const [checkedConflictIds, setCheckedConflictIds] = useState<Set<string>>(() => new Set());
   const [selectedItemId, setSelectedItemId] = useState<string>(
     initialSelectedItemId && (itemsDataBase as Record<string, ItemInfo>)[initialSelectedItemId]
       ? initialSelectedItemId
@@ -319,9 +371,47 @@ export const DevOverridesPage = ({
     };
   }, [overrides]);
 
+  // Conflitti con upstream ancora da rivedere (l'override esiste ancora e non è stato "mantenuto")
+  const activeConflicts = useMemo(
+    () => getActiveConflicts(ALL_CONFLICTS, overrides as Record<string, Record<string, unknown>>, resolvedConflicts),
+    [overrides, resolvedConflicts]
+  );
+
+  const conflictKindCounts = useMemo(() => {
+    const counts: Record<ConflictKind, number> = { changed: 0, redundant: 0, orphan: 0 };
+    for (const c of activeConflicts) counts[c.kind]++;
+    return counts;
+  }, [activeConflicts]);
+
+  // Conflitti visibili con il filtro per tipo attivo, raggruppati per oggetto
+  const visibleConflictsByItem = useMemo(() => {
+    const map = new Map<string, OverrideConflict[]>();
+    for (const c of activeConflicts) {
+      if (conflictKindFilter !== 'all' && c.kind !== conflictKindFilter) continue;
+      const list = map.get(c.id);
+      if (list) list.push(c);
+      else map.set(c.id, [c]);
+    }
+    return map;
+  }, [activeConflicts, conflictKindFilter]);
+
+  // Gli orfani non hanno più una riga nel catalogo: si gestiscono in una sezione a parte
+  const orphanIds = useMemo(
+    () => Array.from(visibleConflictsByItem.entries()).filter(([, list]) => list.some(c => c.kind === 'orphan')).map(([id]) => id),
+    [visibleConflictsByItem]
+  );
+
+  const selectedItemConflicts = useMemo(
+    () => activeConflicts.filter(c => c.id === selectedItemId),
+    [activeConflicts, selectedItemId]
+  );
+
   // Lista oggetti filtrata per la sidebar sinistra
   const filteredItems = useMemo(() => {
     let list = allItems;
+    if (filterConflicts) {
+      list = list.filter(item => visibleConflictsByItem.has(item.id));
+    }
     if (filterOnlyOverridden) {
       list = list.filter(item => Boolean(overrides[item.id] && Object.keys(overrides[item.id]).length > 0));
     }
@@ -344,7 +434,13 @@ export const DevOverridesPage = ({
       );
     }
     return list;
-  }, [allItems, searchQuery, filterOnlyOverridden, filterOnlyHidden, filterMissingName, filterMissingDesc, filterMissingBoth, filterTranslationLang, overrides, getItemTranslationStatus]);
+  }, [allItems, searchQuery, filterConflicts, visibleConflictsByItem, filterOnlyOverridden, filterOnlyHidden, filterMissingName, filterMissingDesc, filterMissingBoth, filterTranslationLang, overrides, getItemTranslationStatus]);
+
+  // Selezione per le azioni di massa: solo oggetti ancora visibili con conflitti da rivedere
+  const checkedConflictItems = useMemo(
+    () => [...filteredItems.map(i => i.id), ...orphanIds].filter(id => checkedConflictIds.has(id) && visibleConflictsByItem.has(id)),
+    [filteredItems, orphanIds, checkedConflictIds, visibleConflictsByItem]
+  );
 
   const totalOverriddenItems = useMemo(() => {
     return Object.values(overrides).filter(o => o && Object.keys(o).length > 0).length;
@@ -455,6 +551,55 @@ export const DevOverridesPage = ({
       const updated = { ...prev };
       delete updated[itemId];
       return updated;
+    });
+  };
+
+  const handleToggleConflictChecked = useCallback((id: string) => {
+    setCheckedConflictIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const handleToggleAllConflictChecked = () => {
+    const visibleIds = [...filteredItems.map(i => i.id), ...orphanIds];
+    const allChecked = visibleIds.length > 0 && visibleIds.every(id => checkedConflictIds.has(id));
+    setCheckedConflictIds(allChecked ? new Set() : new Set(visibleIds));
+  };
+
+  const applyKeepOverride = (conflicts: OverrideConflict[]) => {
+    setResolvedConflicts(prev => {
+      const next = markConflictsResolved(prev, conflicts);
+      saveResolvedConflicts(next);
+      return next;
+    });
+  };
+
+  const applyAdoptUpstream = (conflicts: OverrideConflict[]) => {
+    setOverrides(prev => adoptUpstream(prev as Record<string, Record<string, unknown>>, conflicts) as ItemOverrideMap);
+  };
+
+  const handleBulkConflictAction = (action: 'keep' | 'adopt') => {
+    const conflicts = checkedConflictItems.flatMap(id => visibleConflictsByItem.get(id) ?? []);
+    if (conflicts.length === 0) return;
+    const items = checkedConflictItems.length;
+    const subject = `${conflicts.length} conflitt${conflicts.length === 1 ? 'o' : 'i'} su ${items} oggett${items === 1 ? 'o' : 'i'}`;
+    setConfirmModalConfig(action === 'keep' ? {
+      title: 'Mantieni override',
+      message: `Mantenere gli override per ${subject}?`,
+      description: 'I conflitti vengono segnati come rivisti e non riappariranno finché il valore upstream non cambia di nuovo.',
+      confirmText: 'Mantieni',
+      variant: 'primary',
+      onConfirm: () => { applyKeepOverride(conflicts); setCheckedConflictIds(new Set()); },
+    } : {
+      title: 'Adotta upstream',
+      message: `Rimuovere gli override per ${subject}?`,
+      description: 'I campi in conflitto tornano al valore MetaForge (gli override orfani vengono eliminati per intero). Il catalogo si aggiorna al prossimo fetch-items.',
+      confirmText: 'Adotta upstream',
+      variant: 'warning',
+      onConfirm: () => { applyAdoptUpstream(conflicts); setCheckedConflictIds(new Set()); },
     });
   };
 
@@ -592,6 +737,66 @@ export const DevOverridesPage = ({
                 <span>Solo nascosti ({totalHiddenItems})</span>
               </label>
             </div>
+            <label className="flex items-center gap-1.5 cursor-pointer select-none text-xs font-bold text-amber-600 dark:text-amber-400">
+              <input
+                type="checkbox"
+                checked={filterConflicts}
+                onChange={e => setFilterConflicts(e.target.checked)}
+                className="rounded text-amber-500"
+              />
+              <AlertTriangle size={12} />
+              <span>Conflitti upstream ({activeConflicts.length})</span>
+            </label>
+            {filterConflicts && (
+              <div className="space-y-2 p-2 rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/40">
+                <div className="flex flex-wrap gap-1">
+                  {(['all', 'changed', 'redundant', 'orphan'] as const).map(kind => {
+                    const count = kind === 'all' ? activeConflicts.length : conflictKindCounts[kind];
+                    return (
+                      <button
+                        key={kind}
+                        onClick={() => setConflictKindFilter(kind)}
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold cursor-pointer border ${
+                          conflictKindFilter === kind
+                            ? 'bg-amber-500 border-amber-500 text-white'
+                            : 'border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300'
+                        }`}
+                      >
+                        {kind === 'all' ? 'Tutti' : CONFLICT_KIND_LABELS[kind]} ({count})
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-amber-800 dark:text-amber-200">
+                  <label className="flex items-center gap-1.5 cursor-pointer select-none font-bold">
+                    <input
+                      type="checkbox"
+                      checked={filteredItems.length + orphanIds.length > 0 && filteredItems.length + orphanIds.length === checkedConflictItems.length}
+                      onChange={handleToggleAllConflictChecked}
+                      className="rounded text-amber-500"
+                    />
+                    <span>Seleziona tutti</span>
+                  </label>
+                  <span>{checkedConflictItems.length} selezionati</span>
+                </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    onClick={() => handleBulkConflictAction('keep')}
+                    disabled={checkedConflictItems.length === 0}
+                    className="px-2 py-1.5 rounded-xl text-[11px] font-bold border border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/30 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    Mantieni override
+                  </button>
+                  <button
+                    onClick={() => handleBulkConflictAction('adopt')}
+                    disabled={checkedConflictItems.length === 0}
+                    className="px-2 py-1.5 rounded-xl text-[11px] font-bold bg-amber-500 hover:bg-amber-600 text-white disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    Adotta upstream
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-1.5">
               <div className="flex items-center justify-between text-[11px] font-bold text-purple-900 dark:text-purple-300">
                 <span className="flex items-center gap-1">
@@ -672,9 +877,28 @@ export const DevOverridesPage = ({
                 overrideRarity={overrides[item.id]?.rarity}
                 onSelect={handleSelect}
                 query={searchQuery}
+                conflictCount={visibleConflictsByItem.get(item.id)?.length}
+                checked={filterConflicts ? checkedConflictIds.has(item.id) : undefined}
+                onToggleChecked={filterConflicts ? handleToggleConflictChecked : undefined}
               />
             ))}
-            {filteredItems.length === 0 && (
+            {filterConflicts && orphanIds.length > 0 && (
+              <div className="pt-2 space-y-1">
+                <p className="px-2 text-[10px] font-bold uppercase tracking-wider text-red-500">Non più presenti upstream</p>
+                {orphanIds.map(id => (
+                  <label key={id} className="flex items-center gap-2 p-2 rounded-2xl border border-red-200/60 dark:border-red-900/40 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={checkedConflictIds.has(id)}
+                      onChange={() => handleToggleConflictChecked(id)}
+                      className="w-4 h-4 rounded text-amber-500"
+                    />
+                    <span className="text-[11px] font-mono truncate text-gray-600 dark:text-gray-300">{id}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+            {filteredItems.length === 0 && orphanIds.length === 0 && (
               <div className="p-8 text-center text-xs text-gray-400">
                 Nessun oggetto trovato
               </div>
@@ -735,6 +959,52 @@ export const DevOverridesPage = ({
                   </button>
                 )}
               </div>
+
+              {/* Conflitti con upstream sull'oggetto selezionato */}
+              {selectedItemConflicts.length > 0 && (
+                <div className="bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 rounded-3xl p-5 shadow-xs space-y-3">
+                  <h3 className="text-xs font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider flex items-center gap-2">
+                    <AlertTriangle size={14} /> Conflitti upstream
+                  </h3>
+                  {selectedItemConflicts.map(c => (
+                    <div key={`${c.id}::${c.key}`} className="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-gray-900 border border-amber-200/60 dark:border-amber-900/40">
+                      <div className="flex-1 min-w-0 text-xs space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${CONFLICT_KIND_STYLES[c.kind]}`}>
+                            {CONFLICT_KIND_LABELS[c.kind]}
+                          </span>
+                          <span className="font-mono font-bold text-gray-800 dark:text-gray-200">{c.key === '*' ? 'intero override' : c.key}</span>
+                          <span className="text-[10px] text-gray-400">rilevato il {c.detectedAt}</span>
+                        </div>
+                        {c.kind === 'changed' && (
+                          <p className="text-gray-500">Upstream: <span className="font-mono">{formatConflictValue(c.oldUpstream)}</span> → <span className="font-mono font-bold">{formatConflictValue(c.newUpstream)}</span></p>
+                        )}
+                        {c.kind === 'redundant' && (
+                          <p className="text-gray-500">Upstream ora vale già <span className="font-mono font-bold">{formatConflictValue(c.newUpstream)}</span>, come l'override.</p>
+                        )}
+                        {c.kind === 'orphan' && (
+                          <p className="text-gray-500">L'oggetto non esiste più nel catalogo MetaForge.</p>
+                        )}
+                        {c.kind !== 'orphan' && (
+                          <p className="text-gray-500">Override: <span className="font-mono font-bold text-amber-600 dark:text-amber-400">{formatConflictValue(c.overrideVal)}</span></p>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => applyKeepOverride([c])}
+                        className="px-2.5 py-1.5 rounded-xl text-[11px] font-bold border border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/30 cursor-pointer"
+                      >
+                        Mantieni
+                      </button>
+                      <button
+                        onClick={() => applyAdoptUpstream([c])}
+                        className="px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-amber-500 hover:bg-amber-600 text-white cursor-pointer"
+                      >
+                        Adotta upstream
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Form di Modifica Campi Generali (Inglese / Base) */}
               <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-6 shadow-xs space-y-4">
