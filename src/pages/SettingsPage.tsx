@@ -570,7 +570,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
           <Info size={14} className="text-blue-500" /> {t('settings.appInfo')}
         </p>
         <p className="text-[11px] text-gray-500">
-          {t('settings.versionInfo', { version: '0.3.0' })}
+          {t('settings.versionInfo', { version: __APP_VERSION__ })}
         </p>
       </section>
     </div>
