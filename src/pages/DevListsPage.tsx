@@ -45,6 +45,7 @@ import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
 import { isExpedition, isProject, withListType } from "@/lib/lists";
 import { buildListsFileContent } from "@/lib/devArtifacts";
+import { ApplyToProjectButton } from "@/components/dev/ApplyToProjectButton";
 import itemsDatabase from "@/data/items.json";
 import { generateUUID } from "@/lib/uuid";
 import { cn } from "@/lib/cn";
@@ -743,6 +744,12 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             <Download size={14} />
             <span>Scarica {LIST_TYPE_CONFIG[currentCategory].filename}</span>
           </button>
+          {currentCategory !== "custom" && (
+            <ApplyToProjectButton
+              artifactIds={[`lists-${currentCategory}`]}
+              label={`Applica ${LIST_TYPE_CONFIG[currentCategory].filename}`}
+            />
+          )}
         </>
       }
       sidebar={

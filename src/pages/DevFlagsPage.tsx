@@ -11,6 +11,7 @@ import {
   type FeatureFlagId,
   type FeatureFlagsState,
 } from '@/lib/featureFlags';
+import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
 interface DevFlagsPageProps {
   onBack: () => void;
@@ -143,6 +144,8 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
           >
             <Download size={14} /> feature-flags.json
           </button>
+
+          <ApplyToProjectButton artifactIds={['feature-flags']} label="Applica al file" />
         </>
       }
       sidebar={

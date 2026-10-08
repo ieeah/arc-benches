@@ -11,6 +11,7 @@ import {
   DEFAULT_FLAT, readI18nDraft, writeI18nDraft, clearI18nDraft,
   buildLocaleFileSource, buildCombinedLocalesJson, downloadTextFile,
 } from '@/lib/devI18n';
+import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
 interface DevTranslationsPageProps {
   onBack: () => void;
@@ -204,6 +205,8 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
             <Download size={13} />
             <span>{language === 'en' ? 'Download' : 'Scarica'} {previewTab.toUpperCase()}</span>
           </button>
+
+          <ApplyToProjectButton artifactIds={['locale-it', 'locale-en']} label="Applica it.ts e en.ts" />
 
           <button
             onClick={handleResetAll}

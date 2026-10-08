@@ -23,6 +23,7 @@ import {
   getTranslationValue, getDefaultTranslationValue, hasTranslationOverride, setTranslationValue,
   countModifiedKeys, downloadLocaleFile,
 } from '@/lib/devI18n';
+import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
 const I18N_LANGS = ['it', 'en'] as const;
 
@@ -332,6 +333,7 @@ export function DevNavPage({ onBack }: DevNavPageProps) {
           >
             <Download size={14} /> nav.json
           </button>
+          <ApplyToProjectButton artifactIds={['nav', 'locale-it', 'locale-en']} label="Applica menu e traduzioni" />
         </>
       }
       sidebar={

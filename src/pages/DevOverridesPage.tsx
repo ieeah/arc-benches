@@ -28,6 +28,7 @@ import {
   type OverrideConflict,
   type ResolvedConflicts,
 } from '@/lib/overrideConflicts';
+import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
 type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
 const RARITIES: ItemRarity[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
@@ -695,6 +696,8 @@ export const DevOverridesPage = ({
             <Download size={13} />
             <span>Scarica JSON</span>
           </button>
+
+          <ApplyToProjectButton artifactIds={['items-overrides']} label="Applica al file" />
 
           <button
             onClick={handleResetAllOverrides}
