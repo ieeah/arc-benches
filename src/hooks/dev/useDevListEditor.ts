@@ -63,6 +63,15 @@ export function useDevListEditor({
         if (updated.id !== selectedList.id) {
           setSelectedListId(updated.id);
         }
+        // Cambio di tipo: la lista passa al gruppo (e quindi al file) del nuovo tipo, altrimenti
+        // resterebbe in quello vecchio e le modifiche successive non la troverebbero più.
+        if (updated.listType !== bucket) {
+          return {
+            ...prev,
+            [bucket]: bucketLists.filter((l) => l.id !== selectedList.id),
+            [updated.listType]: [...(prev[updated.listType] || []), updated],
+          };
+        }
         const nextBucketLists = [...bucketLists];
         nextBucketLists[index] = updated;
         return { ...prev, [bucket]: nextBucketLists };

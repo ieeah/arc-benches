@@ -43,7 +43,7 @@ import { TieredActionTimeline } from "@/components/TieredActionTimeline";
 import { useTranslation, getItemName, getListName, getListSearchFields } from "@/i18n";
 import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
-import { withListType } from "@/lib/lists";
+import { isExpedition, withListType } from "@/lib/lists";
 import itemsDatabase from "@/data/items.json";
 import { generateUUID } from "@/lib/uuid";
 import { cn } from "@/lib/cn";
@@ -1008,7 +1008,15 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                   value={selectedList.listType}
                   onChange={(e) => {
                     const newType = e.target.value as ListType;
-                    updateSelectedList((prev) => withListType(prev, newType));
+                    // verso 'expedition' si parte dal primo indice libero, non da 1
+                    const usedIndices = (listsData.expedition || [])
+                      .filter(isExpedition)
+                      .map((e) => e.expeditionIndex);
+                    let nextIndex = 1;
+                    while (usedIndices.includes(nextIndex)) nextIndex++;
+                    updateSelectedList((prev) =>
+                      withListType(prev, newType, nextIndex),
+                    );
                   }}
                   className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-bold"
                 >
