@@ -1,3 +1,79 @@
 {
-  "entries": []
+  "entries": [
+    {
+      "id": "e34c0a10-afe5-4b08-9c1e-d25c2ab0db11",
+      "kind": "list",
+      "label": "New PROJECT List #7 (project)",
+      "deletedAt": "2026-10-09T21:15:39.073Z",
+      "payload": {
+        "list": {
+          "id": "test",
+          "name": "New PROJECT List #7",
+          "translations": {
+            "it": {
+              "name": "Nuova Lista PROJECT #7"
+            }
+          },
+          "maxLevel": 1,
+          "listType": "project",
+          "levels": [
+            {
+              "level": 1,
+              "requirementItemIds": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "22a5aae3-983b-478e-ac64-327ba2511cdf",
+      "kind": "list",
+      "label": "New PROJECT List #7 (project)",
+      "deletedAt": "2026-10-09T21:15:05.768Z",
+      "payload": {
+        "list": {
+          "id": "test",
+          "name": "New PROJECT List #7",
+          "translations": {
+            "it": {
+              "name": "Nuova Lista PROJECT #7"
+            }
+          },
+          "maxLevel": 1,
+          "listType": "project",
+          "levels": [
+            {
+              "level": 1,
+              "requirementItemIds": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e07ba150-8bca-48a3-9d74-454e3bb15f85",
+      "kind": "list",
+      "label": "New PROJECT List #7 (project)",
+      "deletedAt": "2026-10-09T21:14:28.394Z",
+      "payload": {
+        "list": {
+          "id": "test",
+          "name": "New PROJECT List #7",
+          "translations": {
+            "it": {
+              "name": "Nuova Lista PROJECT #7"
+            }
+          },
+          "maxLevel": 1,
+          "listType": "project",
+          "levels": [
+            {
+              "level": 1,
+              "requirementItemIds": []
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
