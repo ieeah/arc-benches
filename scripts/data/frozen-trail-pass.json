@@ -1,0 +1,370 @@
+{
+  "_meta": {
+    "id": "frozen-trail",
+    "source": "Tabella completa delle ricompense del Frozen Trail Reward Pass pubblicata da Polygon (copiata a mano il 2026-10-09), con nomi inglesi come nel gioco. 'points' = Reward Points per raggiungere il livello (150 per livello), non modellati nell'app (D10 della spec).",
+    "crossCheck": "I livelli con cosmetici coincidono con le fonti del pass sulla pagina /cosmetics di ARC Tracker (verificato il 2026-10-09).",
+    "notes": "Non distribuito: sta in scripts/, fuori dalla build. Premium null = nessuna ricompensa premium a quel livello (N/A nella tabella)."
+  },
+  "levels": [
+    {
+      "level": 1,
+      "points": 150,
+      "free": "Caposta outfit",
+      "premium": "Caposta outfit accessories"
+    },
+    {
+      "level": 2,
+      "points": 300,
+      "free": "Basic camera",
+      "premium": "Caposta outfit colors"
+    },
+    {
+      "level": 3,
+      "points": 450,
+      "free": "Train whistle backpack attachment",
+      "premium": "Steamwright backpack"
+    },
+    {
+      "level": 4,
+      "points": 600,
+      "free": "Bantam I hand cannon",
+      "premium": "200 raider tokens"
+    },
+    {
+      "level": 5,
+      "points": 750,
+      "free": "Harmonica",
+      "premium": "Conductor hat (Scrappy)"
+    },
+    {
+      "level": 6,
+      "points": 900,
+      "free": "2 grappling hooks",
+      "premium": null
+    },
+    {
+      "level": 7,
+      "points": 1050,
+      "free": "Whistle bundle backpack charm",
+      "premium": "Caposta outfit accessories"
+    },
+    {
+      "level": 8,
+      "points": 1200,
+      "free": "Stiletto I battle rifle",
+      "premium": "Caposta outfit colors"
+    },
+    {
+      "level": 9,
+      "points": 1350,
+      "free": "Choo-Choo emote",
+      "premium": "Caposta outfit helmet"
+    },
+    {
+      "level": 10,
+      "points": 1500,
+      "free": "Anvil IV hand cannon",
+      "premium": "Caposta outfit colors"
+    },
+    {
+      "level": 11,
+      "points": 1650,
+      "free": "3 stencil parts",
+      "premium": "Fortuna stencil"
+    },
+    {
+      "level": 12,
+      "points": 1800,
+      "free": "Grappling hook blueprint",
+      "premium": null
+    },
+    {
+      "level": 13,
+      "points": 1950,
+      "free": "Carriga outfit",
+      "premium": "Carriga outfit accessories"
+    },
+    {
+      "level": 14,
+      "points": 2100,
+      "free": "Tactical Mk. 2 augment",
+      "premium": "Carriga outfit colors"
+    },
+    {
+      "level": 15,
+      "points": 2250,
+      "free": "Cowbell backpack charm",
+      "premium": "Hearthkeeper backpack"
+    },
+    {
+      "level": 16,
+      "points": 2400,
+      "free": "2 medium shields",
+      "premium": "200 raider tokens"
+    },
+    {
+      "level": 17,
+      "points": 2550,
+      "free": "Canto II SMG",
+      "premium": "Tribal Sheep face style"
+    },
+    {
+      "level": 18,
+      "points": 2700,
+      "free": "3 yank grenades",
+      "premium": null
+    },
+    {
+      "level": 19,
+      "points": 2850,
+      "free": "Carbide lamp backpack attachment",
+      "premium": "Carriga outfit accessories"
+    },
+    {
+      "level": 20,
+      "points": 3000,
+      "free": "3 sterilized bandages",
+      "premium": "Carriga outfit colors"
+    },
+    {
+      "level": 21,
+      "points": 3150,
+      "free": "Smelly emote",
+      "premium": "Carriga outfit mask"
+    },
+    {
+      "level": 22,
+      "points": 3300,
+      "free": "Renegade IV battle rifle",
+      "premium": "Carriga outfit colors"
+    },
+    {
+      "level": 23,
+      "points": 3450,
+      "free": "3 stencil parts",
+      "premium": "Sacrifice stencil"
+    },
+    {
+      "level": 24,
+      "points": 3600,
+      "free": "Tether launcher",
+      "premium": null
+    },
+    {
+      "level": 25,
+      "points": 3750,
+      "free": "Deadwire outfit",
+      "premium": "Deadwire outfit accessories"
+    },
+    {
+      "level": 26,
+      "points": 3900,
+      "free": "Combat Mk. 2 augment",
+      "premium": "Deadwire outfit colors"
+    },
+    {
+      "level": 27,
+      "points": 4050,
+      "free": "Gear string backpack charm",
+      "premium": "Short dreads hairstyle"
+    },
+    {
+      "level": 28,
+      "points": 4200,
+      "free": "2 medium shields",
+      "premium": "200 raider tokens"
+    },
+    {
+      "level": 29,
+      "points": 4350,
+      "free": "Welded pickaxe raider tool",
+      "premium": "Deadwire helmet (Scrappy)"
+    },
+    {
+      "level": 30,
+      "points": 4500,
+      "free": "2 advanced cameras",
+      "premium": null
+    },
+    {
+      "level": 31,
+      "points": 4650,
+      "free": "Deadwire outfit mask",
+      "premium": "Deadwire outfit helmet"
+    },
+    {
+      "level": 32,
+      "points": 4800,
+      "free": "Bar table furniture",
+      "premium": "Deadwire outfit colors"
+    },
+    {
+      "level": 33,
+      "points": 4950,
+      "free": "Mock Scared emote",
+      "premium": "Deadwire outfit accessories"
+    },
+    {
+      "level": 34,
+      "points": 5100,
+      "free": "Hullcracker IV",
+      "premium": "Deadwire outfit colors"
+    },
+    {
+      "level": 35,
+      "points": 5250,
+      "free": "Stencil parts",
+      "premium": "Bulwark stencil"
+    },
+    {
+      "level": 36,
+      "points": 5400,
+      "free": "Pendola Pass Old Town key",
+      "premium": null
+    },
+    {
+      "level": 37,
+      "points": 5550,
+      "free": "Ice Giant outfit",
+      "premium": "Ice Giant outfit accessories"
+    },
+    {
+      "level": 38,
+      "points": 5700,
+      "free": "Warehouse desk furniture",
+      "premium": "Ice Giant outfit colors"
+    },
+    {
+      "level": 39,
+      "points": 5850,
+      "free": "Ice Screws backpack charm",
+      "premium": "Slickback neat hairstyle"
+    },
+    {
+      "level": 40,
+      "points": 6000,
+      "free": "50 raider tokens",
+      "premium": "200 raider tokens"
+    },
+    {
+      "level": 41,
+      "points": 6150,
+      "free": "Bettina II assault rifle",
+      "premium": "Eyebrow bandaid face style"
+    },
+    {
+      "level": 42,
+      "points": 6300,
+      "free": "Pendola Pass Train Station key",
+      "premium": null
+    },
+    {
+      "level": 43,
+      "points": 6450,
+      "free": "Ice Giant outfit balaclava",
+      "premium": "Glacier smasher raider tool"
+    },
+    {
+      "level": 44,
+      "points": 6600,
+      "free": "Printed fabric chair furniture",
+      "premium": "Ice Giant outfit colors"
+    },
+    {
+      "level": 45,
+      "points": 6750,
+      "free": "Ice Giant helmet (Scrappy)",
+      "premium": "Ice Giant outfit helmet"
+    },
+    {
+      "level": 46,
+      "points": 6900,
+      "free": "Bobcat IV SMG",
+      "premium": "Ice Giant outfit colors"
+    },
+    {
+      "level": 47,
+      "points": 7050,
+      "free": "5 stencil parts",
+      "premium": "Serac stencil"
+    },
+    {
+      "level": 48,
+      "points": 7200,
+      "free": "Pendola Pass Railyard key",
+      "premium": null
+    },
+    {
+      "level": 49,
+      "points": 7350,
+      "free": "Banshee outfit",
+      "premium": "Banshee outfit accessories"
+    },
+    {
+      "level": 50,
+      "points": 7500,
+      "free": "50 raider tokens",
+      "premium": "Banshee outfit colors"
+    },
+    {
+      "level": 51,
+      "points": 7650,
+      "free": "Counter backpack charm",
+      "premium": "High ponytail hairstyle"
+    },
+    {
+      "level": 52,
+      "points": 7800,
+      "free": "Powered descender",
+      "premium": "Banshee outfit jacket"
+    },
+    {
+      "level": 53,
+      "points": 7950,
+      "free": "Pendola Pass Observatory key",
+      "premium": "Purple glam face style"
+    },
+    {
+      "level": 54,
+      "points": 8100,
+      "free": "Alpine wardrobe furniture",
+      "premium": null
+    },
+    {
+      "level": 55,
+      "points": 8250,
+      "free": "100 raider tokens",
+      "premium": "300 raider tokens"
+    },
+    {
+      "level": 56,
+      "points": 8400,
+      "free": "Spacecraft module backpack attachment",
+      "premium": "Banshee outfit colors"
+    },
+    {
+      "level": 57,
+      "points": 8550,
+      "free": "5 stencil parts",
+      "premium": "Empyrean stencil"
+    },
+    {
+      "level": 58,
+      "points": 8700,
+      "free": "Banshee helmet (Scrappy)",
+      "premium": "Banshee outfit gas mask"
+    },
+    {
+      "level": 59,
+      "points": 8850,
+      "free": "Banshee outfit accessories",
+      "premium": "Banshee outfit colors"
+    },
+    {
+      "level": 60,
+      "points": 9000,
+      "free": "Emperor gateway conduit",
+      "premium": null
+    }
+  ]
+}

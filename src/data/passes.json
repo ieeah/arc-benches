@@ -1,3 +1,949 @@
 {
-  "lists": []
+  "lists": [
+    {
+      "id": "frozen-trail",
+      "name": "Frozen Trail Reward Pass",
+      "translations": {
+        "it": {
+          "name": "Pass Ricompense Sentiero Gelido"
+        }
+      },
+      "listType": "pass",
+      "maxLevel": 60,
+      "premiumCostTokens": 1150,
+      "tracks": [
+        {
+          "id": "free",
+          "name": "Free",
+          "translations": {
+            "it": {
+              "name": "Gratuita"
+            }
+          }
+        },
+        {
+          "id": "premium",
+          "name": "Premium",
+          "translations": {
+            "it": {
+              "name": "Premium"
+            }
+          },
+          "locked": true
+        }
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "caposta-outfit",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "accessories-caposta-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "camera",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-caposta-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "train-whistle-backpack-attachment",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "steamwright-backpack",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "bantam",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "raider-tokens",
+              "quantity": 200,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 5,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "harmonica",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "conductor-hat-scrappy-outfit",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 6,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "grappling-hook",
+              "quantity": 2,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 7,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "whistle-bundle-backpack-charm",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "accessories-caposta-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 8,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "stiletto",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-caposta-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 9,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "choo-choo-emote",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "helmet-caposta-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 10,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "anvil-iv",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-caposta-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 11,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "stencil-parts",
+              "quantity": 3,
+              "track": "free"
+            },
+            {
+              "itemId": "fortuna-stencil",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 12,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "grappling-hook-blueprint",
+              "quantity": 1,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 13,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "carriga-outfit",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "accessories-carriga-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 14,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "tactical-mk-2",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-carriga-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 15,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "cowbell-backpack-charm",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "hearthkeeper-backpack",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 16,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "medium-shield",
+              "quantity": 2,
+              "track": "free"
+            },
+            {
+              "itemId": "raider-tokens",
+              "quantity": 200,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 17,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "canto-ii",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "tribal-sheep-face-face-style",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 18,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "yank-grenade",
+              "quantity": 3,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 19,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "carbide-lamp-backpack-attachment",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "accessories-carriga-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 20,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "sterilized-bandage",
+              "quantity": 3,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-carriga-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 21,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "smelly-emote",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "mask-carriga-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 22,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "renegade-iv",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-carriga-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 23,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "stencil-parts",
+              "quantity": 3,
+              "track": "free"
+            },
+            {
+              "itemId": "sacrifice-stencil",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 24,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "tether-launcher",
+              "quantity": 1,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 25,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "deadwire-outfit",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "accessories-deadwire-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 26,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "combat-mk-2",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-deadwire-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 27,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "gear-string-backpack-charm",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "short-dreads-hairstyle",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 28,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "medium-shield",
+              "quantity": 2,
+              "track": "free"
+            },
+            {
+              "itemId": "raider-tokens",
+              "quantity": 200,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 29,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "welded-pickaxe-raider-tool",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "deadwire-helmet-scrappy-outfit",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 30,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "advanced-camera",
+              "quantity": 2,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 31,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "mask-deadwire-variant",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "helmet-deadwire-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 32,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "bar-table",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-deadwire-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 33,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "mock-scared-emote",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "accessories-deadwire-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 34,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "hullcracker-iv",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-deadwire-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 35,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "stencil-parts",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "bulwark-stencil",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 36,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "pendola-pass-old-town-key",
+              "quantity": 1,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 37,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "ice-giant-outfit",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "accessories-ice-giant-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 38,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "warehouse-desk",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-ice-giant-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 39,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "ice-screws-backpack-charm",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "slickback-neat-hairstyle",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 40,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "raider-tokens",
+              "quantity": 50,
+              "track": "free"
+            },
+            {
+              "itemId": "raider-tokens",
+              "quantity": 200,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 41,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "bettina-ii",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "eyebrow-bandaid-face-style",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 42,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "pendola-pass-train-station-key",
+              "quantity": 1,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 43,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "balaclava-ice-giant-variant",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "glacier-smasher-raider-tool",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 44,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "printed-fabric-chair",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-ice-giant-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 45,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "ice-giant-helmet-scrappy-outfit",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "helmet-ice-giant-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 46,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "bobcat-iv",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-ice-giant-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 47,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "stencil-parts",
+              "quantity": 5,
+              "track": "free"
+            },
+            {
+              "itemId": "serac-stencil",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 48,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "pendola-pass-railyard-key",
+              "quantity": 1,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 49,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "banshee-outfit",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "accessories-banshee-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 50,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "raider-tokens",
+              "quantity": 50,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-banshee-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 51,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "counter-backpack-charm",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "high-ponytail-hairstyle",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 52,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "powered-descender",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "jacket-banshee-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 53,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "pendola-pass-observatory-key",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "purple-glam-face-style",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 54,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "alpine-wardrobe",
+              "quantity": 1,
+              "track": "free"
+            }
+          ]
+        },
+        {
+          "level": 55,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "raider-tokens",
+              "quantity": 100,
+              "track": "free"
+            },
+            {
+              "itemId": "raider-tokens",
+              "quantity": 300,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 56,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "spacecraft-module-backpack-attachment",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-banshee-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 57,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "stencil-parts",
+              "quantity": 5,
+              "track": "free"
+            },
+            {
+              "itemId": "empyrean-stencil",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 58,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "banshee-helmet-scrappy-outfit",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "gas-mask-banshee-variant",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 59,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "accessories-banshee-variant",
+              "quantity": 1,
+              "track": "free"
+            },
+            {
+              "itemId": "colors-banshee-color",
+              "quantity": 1,
+              "track": "premium"
+            }
+          ]
+        },
+        {
+          "level": 60,
+          "requirementItemIds": [],
+          "rewards": [
+            {
+              "itemId": "emperor-gateway-conduit",
+              "quantity": 1,
+              "track": "free"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
