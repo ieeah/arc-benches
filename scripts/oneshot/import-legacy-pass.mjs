@@ -7,9 +7,10 @@
  * non tocca src/ né i custom-items; il Legacy entrerà nei dati dell'app quando lo si deciderà.
  *
  * Con --apply-custom-items crea gli oggetti custom necessari (scripts/data/custom-items/items.json e src/data/items.json,
- * come li produrrebbe fetch-items); il pass resta comunque fuori da src/data/passes.json.
+ * come li produrrebbe fetch-items). Con --apply-pass scrive il pass «legacy-pass» in src/data/passes.json
+ * (dietro il feature flag reward-pass, quindi visibile nell'editor Dev e non agli utenti).
  *
- * Run: cd scripts && node oneshot/import-legacy-pass.mjs [--dry-run] [--apply-custom-items]
+ * Run: cd scripts && node oneshot/import-legacy-pass.mjs [--dry-run] [--apply-custom-items] [--apply-pass]
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
@@ -29,6 +30,7 @@ const PATHS = {
   cosmeticsRaw: join(SCRIPTS, 'arctracker-cosmetics-raw.json'),
   atRaw: join(SCRIPTS, 'arctracker-raw.json'),
   items: join(ROOT, 'src', 'data', 'items.json'),
+  passes: join(ROOT, 'src', 'data', 'passes.json'),
   customItems: join(SCRIPTS, 'data', 'custom-items', 'items.json'),
   report: join(SCRIPTS, 'reports', 'legacy-pass-import.json'),
 };
@@ -201,6 +203,26 @@ async function main() {
     writeFileSync(PATHS.customItems, JSON.stringify(nextCustom, null, 2) + '\n', 'utf-8');
     writeFileSync(PATHS.items, JSON.stringify(nextItems, null, 2) + '\n', 'utf-8');
     console.log(`Oggetti custom creati: ${Object.keys(customItemsNeeded).length} (pezzi con l'icona dell'outfit di base: ${inherited.length})`);
+  }
+
+  if (!dry && process.argv.includes('--apply-pass')) {
+    const pass = {
+      id: 'legacy-pass',
+      name: 'Legacy Pass',
+      translations: { it: { name: 'Pass Legacy' } },
+      listType: 'pass',
+      maxLevel: rows.length,
+      tracks: [{ id: 'free', name: 'Free', translations: { it: { name: 'Gratuita' } } }],
+      levels: levels.map((l) => {
+        const rewards = l.rewards
+          .filter((r) => r.itemId)
+          .map((r) => ({ itemId: r.itemId, quantity: r.quantity ?? 1, track: 'free' }));
+        return { level: l.level, requirementItemIds: [], ...(rewards.length ? { rewards } : {}) };
+      }),
+    };
+    const existing = readJson(PATHS.passes);
+    writeFileSync(PATHS.passes, JSON.stringify({ lists: [...(existing.lists ?? []).filter((p) => p.id !== pass.id), pass] }, null, 2) + '\n', 'utf-8');
+    console.log(`Pass «${pass.id}» scritto in src/data/passes.json (${pass.levels.length} livelli)`);
   }
 
   if (!dry) {
