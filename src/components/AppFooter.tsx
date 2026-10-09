@@ -2,6 +2,7 @@ import { useTranslation } from '@/i18n';
 
 const SOURCES = [
   { label: 'MetaForge', href: 'https://metaforgehq.com/' },
+  { label: 'ARC Tracker', href: 'https://arctracker.io/' },
   { label: 'ARDB', href: 'https://ardb.cc/' },
   { label: 'RaidTheory', href: 'https://raidtheory.com/' },
   { label: 'ARC Raiders Wiki', href: 'https://arc-raiders.fandom.com/' },

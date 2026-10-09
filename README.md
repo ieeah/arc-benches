@@ -44,7 +44,7 @@ I dati sono file JSON statici nel bundle — nessuna chiamata API a runtime:
 
 - `src/data/workbenches.json` — banchi, livelli e requisiti (curato a mano)
 - `src/data/items.json` + `public/icons/items/` — nome, icona, rarità e metadati degli oggetti,
-  generati da [MetaForge](https://metaforge.app/) con `cd scripts && npm install && node fetch-items.mjs`
+  generati da [MetaForge](https://metaforge.app/) (traduzioni e quest consultate anche da [ARC Tracker](https://arctracker.io/), che ha API pubbliche) con `cd scripts && npm install && node fetch-items.mjs`
 
 I dati cambiano solo a patch del gioco: l'aggiornamento è manuale via script, non automatico.
 
