@@ -8,7 +8,7 @@ import passesData from '@/data/passes.json';
 import itemsData from '@/data/items.json';
 import itemsOverridesData from '@/data/items-overrides.json';
 import type { PersistedState } from '@/store/persistence';
-import { getFallbackItemIcon } from '@/lib/categoryIcons';
+import { applyIconFallbacks } from '@/lib/itemIcons';
 
 // The Refiner bench gates item crafting (see refinerCraftLevel + the craftable-now badges).
 export const REFINER_ID = 'refiner';
@@ -124,12 +124,8 @@ export function computeEffectiveItemsInfo(): Record<string, ItemInfo> {
     }
   }
 
-  // Icona: propria (custom/MetaForge) > sottocategoria > categoria > fallback generico
-  for (const [id, item] of Object.entries(result)) {
-    if (!item.icon) {
-      result[id] = { ...item, icon: getFallbackItemIcon(item.item_type, item.subcategory) };
-    }
-  }
+  // Icona: propria (custom/MetaForge) > ereditata (`iconFromItem`) > sottocategoria > categoria > generica
+  applyIconFallbacks(result);
 
   return result;
 }

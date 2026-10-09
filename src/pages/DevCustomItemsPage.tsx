@@ -44,6 +44,8 @@ const distinct = (values: (string | null | undefined)[]) =>
   Array.from(new Set(values.map((v) => v?.trim()).filter((v): v is string => Boolean(v)))).sort((a, b) => a.localeCompare(b));
 
 const ITEM_TYPES = distinct(Object.values(catalog).map((i) => i.item_type));
+/** Oggetti del catalogo con un'icona propria: candidati per «Usa l'icona di». */
+const ICON_SOURCE_IDS = Object.values(catalog).filter((i) => i.icon).map((i) => i.id).sort();
 const WORKBENCHES = distinct(Object.values(catalog).map((i) => i.workbench));
 const LOOT_AREAS = distinct(Object.values(catalog).map((i) => i.loot_area));
 const SUBCATEGORIES_BY_TYPE: Record<string, string[]> = {};
@@ -184,9 +186,10 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
     window.location.reload();
   };
 
-  // Anteprima: icona caricata > icona già nel catalogo > catena di fallback dell'app
+  // Anteprima: icona caricata > icona già nel catalogo > icona dell'oggetto indicato in «Usa l'icona di» > catena di fallback dell'app
+  const inheritedIcon = selected?.iconFromItem ? catalog[selected.iconFromItem]?.icon : null;
   const previewIcon = selected
-    ? (selected.icon && icons[selected.icon]) || (selected.icon && catalog[selected.id]?.icon) || getFallbackItemIcon(selected.item_type, selected.subcategory)
+    ? (selected.icon && icons[selected.icon]) || (selected.icon && catalog[selected.id]?.icon) || inheritedIcon || getFallbackItemIcon(selected.item_type, selected.subcategory)
     : null;
   const hasOwnIcon = Boolean(selected?.icon && (icons[selected.icon] || catalog[selected.id]?.icon));
   const collision = selected ? isMetaForgeCollision(selected.id, CATALOG_IDS, BASELINE_IDS) : false;
@@ -279,6 +282,7 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
                       <span className="block text-[10px] font-mono text-gray-400 truncate">{id}</span>
                     </span>
                     {!BASELINE_IDS.has(id) && <span className="text-[9px] font-black uppercase text-emerald-600">nuovo</span>}
+                    {def.review && def.review.length > 0 && <span className="text-[9px] font-black uppercase text-amber-600" title={def.review.join(' · ')}>da rivedere</span>}
                     {(hasError || hasWarning) && (
                       <AlertTriangle size={13} className={hasError ? 'text-red-500' : 'text-amber-500'} />
                     )}
@@ -317,7 +321,9 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
               <p className="text-[11px] text-gray-500 dark:text-gray-400">
                 {hasOwnIcon
                   ? 'Icona propria'
-                  : `Nessuna icona propria: l'app userà l'${fallbackLevel(selected.item_type, selected.subcategory)}`}
+                  : inheritedIcon
+                    ? `Icona ereditata da «${selected.iconFromItem}»`
+                    : `Nessuna icona propria: l'app userà l'${fallbackLevel(selected.item_type, selected.subcategory)}`}
               </p>
             </div>
             <button
@@ -330,6 +336,22 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
               <Trash2 size={16} />
             </button>
           </div>
+
+          {selected.review && selected.review.length > 0 && (
+            <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 space-y-1.5">
+              <p className="text-xs font-bold text-amber-800 dark:text-amber-300">Da rivedere</p>
+              <ul className="list-disc pl-4 text-xs text-amber-800 dark:text-amber-300 space-y-0.5">
+                {selected.review.map((note) => <li key={note}>{note}</li>)}
+              </ul>
+              <button
+                type="button"
+                onClick={() => update(selected.id, { review: undefined })}
+                className="px-3 py-1 rounded-xl text-[11px] font-bold text-amber-900 dark:text-amber-200 bg-amber-100 dark:bg-amber-900/40 hover:bg-amber-200 cursor-pointer"
+              >
+                Segna come rivisto
+              </button>
+            </div>
+          )}
 
           {(collision || (selectedIssues && (selectedIssues.errors.length > 0 || selectedIssues.warnings.length > 0))) && (
             <div className="space-y-2">
@@ -414,6 +436,16 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
               PNG, SVG o WebP fino a 512 KB. Senza icona propria l'app usa quella della sottocategoria, poi della categoria, poi quella generica.
               Con «Applica al file» l'icona viene scritta in <code className="font-mono">scripts/data/custom-items/</code>.
             </p>
+            <Field label="Usa l'icona di" hint="Se non c'è un'icona propria, l'oggetto usa quella di questo altro oggetto del catalogo (es. i pezzi di un outfit usano l'immagine dell'outfit di base).">
+              <input
+                list="custom-item-icon-sources"
+                value={selected.iconFromItem ?? ''}
+                onChange={(e) => update(selected.id, { iconFromItem: e.target.value.trim() || undefined })}
+                placeholder="id-oggetto"
+                className={cn(inputClass, 'font-mono')}
+              />
+              <datalist id="custom-item-icon-sources">{ICON_SOURCE_IDS.map((id) => <option key={id} value={id} />)}</datalist>
+            </Field>
             <div className="flex items-center gap-2 flex-wrap">
               <label className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold cursor-pointer">
                 <Upload size={13} /> Carica icona

@@ -59,6 +59,7 @@ import { DevDamageChallengeSection } from "@/components/dev/DevDamageChallengeSe
 import { RewardBadge } from "@/components/RewardBadge";
 import { DevRewardEditorModal } from "@/components/dev/DevRewardEditorModal";
 import { DevListsTrash } from "@/components/dev/DevListsTrash";
+import { DevListIssues } from "@/components/dev/DevListIssues";
 import { DevPassSection } from "@/components/dev/DevPassSection";
 import { DevActionContextModal } from "@/components/dev/DevActionContextModal";
 import { ActionContextChips } from "@/components/ActionContextChips";
@@ -1201,6 +1202,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                 </div>
               )}
             </div>
+
+            <DevListIssues list={selectedList} />
 
             {/* Date: servono a spedizioni e progetti (finestre temporali); per banchi e quest solo se già valorizzate */}
             {showDateFields && (
