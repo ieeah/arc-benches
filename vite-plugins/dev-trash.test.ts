@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { TRASH_FILE, addTrashEntry, readTrash, removeTrashEntry } from './dev-trash';
+import { TRASH_FILE, addTrashEntry, clearTrash, readTrash, removeTrashEntry } from './dev-trash';
 
 let root: string;
 
@@ -43,5 +43,12 @@ describe('dev trash', () => {
     const result = removeTrashEntry(root, 'a');
     expect(result.ok && result.entries.map((e) => e.id)).toEqual(['b']);
     expect(removeTrashEntry(root, 42).ok).toBe(false);
+  });
+
+  it('empties the whole trash', () => {
+    addTrashEntry(root, entry('a'));
+    addTrashEntry(root, entry('b'));
+    expect(clearTrash(root)).toEqual({ ok: true, entries: [] });
+    expect(readTrash(root)).toEqual([]);
   });
 });

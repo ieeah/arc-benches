@@ -58,6 +58,12 @@ export function addTrashEntry(root: string, entry: unknown): { ok: true; entries
   return { ok: true, entries };
 }
 
+/** Svuota il cestino (eliminazione definitiva di tutte le voci). */
+export function clearTrash(root: string): { ok: true; entries: TrashEntry[] } {
+  writeTrash(root, []);
+  return { ok: true, entries: [] };
+}
+
 export function removeTrashEntry(root: string, id: unknown): { ok: true; entries: TrashEntry[] } | { ok: false; message: string } {
   if (typeof id !== 'string' || !id) return { ok: false, message: 'Id non valido.' };
   const entries = readTrash(root).filter((e) => e.id !== id);

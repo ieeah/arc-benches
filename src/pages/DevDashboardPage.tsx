@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
-  ArrowLeft, Archive, Code2, Download, FileJson, FlaskConical, Flag, Languages, PackagePlus, Layers, RotateCcw, Route,
+  ArrowLeft, Archive, Code2, Download, FileJson, FlaskConical, Flag, Languages, PackagePlus, Trash2, Layers, RotateCcw, Route,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { AppRoute } from '@/router';
@@ -30,6 +30,7 @@ const DEV_TOOLS: DevTool[] = [
   { route: 'dev-lists', title: 'Gestione Liste', description: 'Editor di banchi, spedizioni, progetti e quest', icon: <Layers size={20} className="text-emerald-500" /> },
   { route: 'dev-overrides', title: 'Override Oggetti', description: 'Correzioni ai dati MetaForge, traduzioni e visibilità', icon: <FileJson size={20} className="text-purple-500" /> },
   { route: 'dev-custom-items', title: 'Oggetti Custom', description: 'Oggetti di gioco assenti da MetaForge, con icone e traduzioni', icon: <PackagePlus size={20} className="text-rose-500" /> },
+  { route: 'dev-trash', title: 'Cestino', description: 'Liste e tracce eliminate: ripristino o eliminazione definitiva', icon: <Trash2 size={20} className="text-gray-500" /> },
   { route: 'dev-translations', title: 'Traduzioni UI', description: 'Stringhe dell\'interfaccia in italiano e inglese', icon: <Languages size={20} className="text-blue-500" /> },
   { route: 'dev-nav', title: 'Menu di Navigazione', description: 'Editor drag & drop del menu', icon: <Route size={20} className="text-gray-500" /> },
   { route: 'dev-flags', title: 'Feature Flags', description: 'Moduli, rotte e sottomenu attivi', icon: <Flag size={20} className="text-purple-500" /> },
