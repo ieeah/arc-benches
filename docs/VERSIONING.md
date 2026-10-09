@@ -94,11 +94,11 @@ Changelog: [changelog/0.4.0.md](../changelog/0.4.0.md)
 
 ## 0.5.0 "Segnale Radio" — Fondamenta Dev e Dati: liste, pass, progetti, database — Parziale
 Obiettivo: mettere le basi perché lo sviluppatore possa gestire liste, pass, progetti e dati senza toccare il codice.
-Già fatte: #63, #72, #73, #77, #78, #80, #84. Ordine di lavoro (le dipendenze sono a destra di ogni voce):
+Già fatte: #63, #72, #73, #77, #78, #80, #83, #84. Ordine di lavoro (le dipendenze sono a destra di ogni voce):
 - [x] #72 [Tipi liste: `listType` required e type guard](https://github.com/ieeah/arc-benches/issues/72)
 - [x] #73 [Tipi liste: discriminated union (Opzione A)](https://github.com/ieeah/arc-benches/issues/73) — dopo #72
 - [x] #84 [Custom Items Studio (alta priorità)](https://github.com/ieeah/arc-benches/issues/84)
-- [ ] #83 [Ricompense di livello da catalogo completo](https://github.com/ieeah/arc-benches/issues/83) — dopo #84
+- [x] #83 [Ricompense di livello da catalogo completo](https://github.com/ieeah/arc-benches/issues/83) — dopo #84
 - [ ] #82 [Azioni vincolate a mappe e oggetti da portare (definisce il catalogo globale delle mappe)](https://github.com/ieeah/arc-benches/issues/82)
 - [ ] #85 [Modello Reward Pass come tipo di lista + editor Dev dei pass](https://github.com/ieeah/arc-benches/issues/85) — dopo #73, #83
 - [ ] #76 [Pagina Dev per la gestione delle quest](https://github.com/ieeah/arc-benches/issues/76) — dopo #72

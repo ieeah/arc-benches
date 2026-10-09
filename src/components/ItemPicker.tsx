@@ -8,8 +8,7 @@ import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { useListManager } from '@/hooks/useListManager';
 import { useTranslation, getItemName, getItemSearchFields, getRarityLabel, getItemSearchMatch } from '@/i18n';
 
-// Item types that can't be found or carried in a raid, so they are never a delivery requirement
-const NON_PICKABLE_ITEM_TYPES = new Set(['Blueprint', 'Cosmetic', 'Outfits', 'Furniture', 'Research', 'Currency']);
+import { isPickableItem } from '@/lib/pickableItems';
 
 interface ItemPickerProps {
   excludeIds?: string[];
@@ -28,11 +27,7 @@ export const ItemPicker = ({ excludeIds, includeAll = false, onPick, onClose }: 
   // Exclude hidden items (unless picked already) and, unless includeAll, blueprints and non-gameplay items
   // (cosmetics, outfits, reward currencies)
   const pickableItems = useMemo(() => {
-    return Object.values(itemsInfo).filter(item => {
-      if (item.hidden && !exclude.has(item.id)) return false;
-      if (!includeAll && NON_PICKABLE_ITEM_TYPES.has(item.item_type)) return false;
-      return !exclude.has(item.id);
-    });
+    return Object.values(itemsInfo).filter(item => isPickableItem(item, { includeAll, excludedIds: exclude }));
   }, [itemsInfo, exclude, includeAll]);
 
   const {
