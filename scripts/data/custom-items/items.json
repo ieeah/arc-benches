@@ -36,5 +36,1685 @@
         "description": "Punti esperienza ottenuti come ricompensa, ad esempio completando le quest."
       }
     }
+  },
+  "accessories-caposta-variant": {
+    "id": "accessories-caposta-variant",
+    "name": "Accessories (Caposta Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "caposta-outfit"
+  },
+  "colors-caposta-color": {
+    "id": "colors-caposta-color",
+    "name": "Colors (Caposta Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 2, 8, 10: potrebbero essere pacchetti diversi da distinguere"
+    ],
+    "iconFromItem": "caposta-outfit"
+  },
+  "train-whistle-backpack-attachment": {
+    "id": "train-whistle-backpack-attachment",
+    "name": "Train Whistle (Backpack Attachment)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Attachment",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Fischio del treno"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "steamwright-backpack": {
+    "id": "steamwright-backpack",
+    "name": "Steamwright (Backpack)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Vapo-artigiano"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "conductor-hat-scrappy-outfit": {
+    "id": "conductor-hat-scrappy-outfit",
+    "name": "Conductor Hat (Scrappy Outfit)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Scrappy Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Cappello da capitano"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "whistle-bundle-backpack-charm": {
+    "id": "whistle-bundle-backpack-charm",
+    "name": "Whistle Bundle (Backpack Charm)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Charm",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Fascio di fischietti"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "choo-choo-emote": {
+    "id": "choo-choo-emote",
+    "name": "Choo-Choo (Emote)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Emote",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Ciuf-ciuf"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "helmet-caposta-variant": {
+    "id": "helmet-caposta-variant",
+    "name": "Helmet (Caposta Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "caposta-outfit"
+  },
+  "accessories-carriga-variant": {
+    "id": "accessories-carriga-variant",
+    "name": "Accessories (Carriga Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "carriga-outfit"
+  },
+  "colors-carriga-color": {
+    "id": "colors-carriga-color",
+    "name": "Colors (Carriga Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 14, 20, 22: potrebbero essere pacchetti diversi da distinguere"
+    ],
+    "iconFromItem": "carriga-outfit"
+  },
+  "cowbell-backpack-charm": {
+    "id": "cowbell-backpack-charm",
+    "name": "Cowbell (Backpack Charm)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Charm",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Campanaccio"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "hearthkeeper-backpack": {
+    "id": "hearthkeeper-backpack",
+    "name": "Hearthkeeper (Backpack)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Guardiano del focolare"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "tribal-sheep-face-face-style": {
+    "id": "tribal-sheep-face-face-style",
+    "name": "Tribal Sheep Face (Face Style)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Face Style",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Volto tribale di pecora"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "carbide-lamp-backpack-attachment": {
+    "id": "carbide-lamp-backpack-attachment",
+    "name": "Carbide Lamp (Backpack Attachment)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Attachment",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Lampada a carburo"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "smelly-emote": {
+    "id": "smelly-emote",
+    "name": "Smelly (Emote)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Emote",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Puzzolente"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "mask-carriga-variant": {
+    "id": "mask-carriga-variant",
+    "name": "Mask (Carriga Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "carriga-outfit"
+  },
+  "accessories-deadwire-variant": {
+    "id": "accessories-deadwire-variant",
+    "name": "Accessories (Deadwire Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "deadwire-outfit"
+  },
+  "colors-deadwire-color": {
+    "id": "colors-deadwire-color",
+    "name": "Colors (Deadwire Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 26, 32, 34: potrebbero essere pacchetti diversi da distinguere"
+    ],
+    "iconFromItem": "deadwire-outfit"
+  },
+  "gear-string-backpack-charm": {
+    "id": "gear-string-backpack-charm",
+    "name": "Gear String (Backpack Charm)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Charm",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Corda per ingranaggi"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "short-dreads-hairstyle": {
+    "id": "short-dreads-hairstyle",
+    "name": "Short Dreads (Hairstyle)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Hairstyle",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Dread corti"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "welded-pickaxe-raider-tool": {
+    "id": "welded-pickaxe-raider-tool",
+    "name": "Welded Pickaxe (Raider Tool)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Raider Tool",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Piccone saldato"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "deadwire-helmet-scrappy-outfit": {
+    "id": "deadwire-helmet-scrappy-outfit",
+    "name": "Deadwire Helmet (Scrappy Outfit)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Scrappy Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Casco Deadwire"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "mask-deadwire-variant": {
+    "id": "mask-deadwire-variant",
+    "name": "Mask (Deadwire Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "deadwire-outfit"
+  },
+  "helmet-deadwire-variant": {
+    "id": "helmet-deadwire-variant",
+    "name": "Helmet (Deadwire Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "deadwire-outfit"
+  },
+  "bar-table": {
+    "id": "bar-table",
+    "name": "Bar Table",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "",
+    "value": 100,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": 1,
+    "translations": {
+      "it": {
+        "name": "Tavolo da bar"
+      }
+    },
+    "review": [
+      "Icona assente: l'immagine è sul CDN di ARC Tracker e non viene importata",
+      "Descrizione mancante"
+    ]
+  },
+  "mock-scared-emote": {
+    "id": "mock-scared-emote",
+    "name": "Mock Scared (Emote)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Emote",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Finta paura"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "accessories-ice-giant-variant": {
+    "id": "accessories-ice-giant-variant",
+    "name": "Accessories (Ice Giant Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "ice-giant-outfit"
+  },
+  "colors-ice-giant-color": {
+    "id": "colors-ice-giant-color",
+    "name": "Colors (Ice Giant Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 38, 44, 46: potrebbero essere pacchetti diversi da distinguere"
+    ],
+    "iconFromItem": "ice-giant-outfit"
+  },
+  "ice-screws-backpack-charm": {
+    "id": "ice-screws-backpack-charm",
+    "name": "Ice Screws (Backpack Charm)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Charm",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Viti da ghiaccio"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "slickback-neat-hairstyle": {
+    "id": "slickback-neat-hairstyle",
+    "name": "Slickback Neat (Hairstyle)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Hairstyle",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Pettinatura all'indietro ordinata"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "eyebrow-bandaid-face-style": {
+    "id": "eyebrow-bandaid-face-style",
+    "name": "Eyebrow Bandaid (Face Style)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Face Style",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Cerotto per sopracciglio"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "balaclava-ice-giant-variant": {
+    "id": "balaclava-ice-giant-variant",
+    "name": "Balaclava (Ice Giant Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "ice-giant-outfit"
+  },
+  "glacier-smasher-raider-tool": {
+    "id": "glacier-smasher-raider-tool",
+    "name": "Glacier Smasher (Raider Tool)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Raider Tool",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Frantuma-ghiacciai"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "printed-fabric-chair": {
+    "id": "printed-fabric-chair",
+    "name": "Printed Fabric Chair",
+    "description": "",
+    "icon": "",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": 1,
+    "translations": {
+      "it": {
+        "name": "Sedia in stoffa stampata"
+      }
+    },
+    "review": [
+      "Icona assente: l'immagine è sul CDN di ARC Tracker e non viene importata",
+      "Descrizione mancante"
+    ]
+  },
+  "ice-giant-helmet-scrappy-outfit": {
+    "id": "ice-giant-helmet-scrappy-outfit",
+    "name": "Ice Giant Helmet (Scrappy Outfit)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Scrappy Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Casco del gigante di ghiaccio"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "helmet-ice-giant-variant": {
+    "id": "helmet-ice-giant-variant",
+    "name": "Helmet (Ice Giant Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "ice-giant-outfit"
+  },
+  "accessories-banshee-variant": {
+    "id": "accessories-banshee-variant",
+    "name": "Accessories (Banshee Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "banshee-outfit"
+  },
+  "colors-banshee-color": {
+    "id": "colors-banshee-color",
+    "name": "Colors (Banshee Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 50, 56, 59: potrebbero essere pacchetti diversi da distinguere"
+    ],
+    "iconFromItem": "banshee-outfit"
+  },
+  "counter-backpack-charm": {
+    "id": "counter-backpack-charm",
+    "name": "Counter (Backpack Charm)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Charm",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Contrattacco"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "high-ponytail-hairstyle": {
+    "id": "high-ponytail-hairstyle",
+    "name": "High Ponytail (Hairstyle)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Hairstyle",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Coda alta"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "jacket-banshee-variant": {
+    "id": "jacket-banshee-variant",
+    "name": "Jacket (Banshee Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "banshee-outfit"
+  },
+  "purple-glam-face-style": {
+    "id": "purple-glam-face-style",
+    "name": "Purple Glam (Face Style)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Face Style",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Glam viola"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "spacecraft-module-backpack-attachment": {
+    "id": "spacecraft-module-backpack-attachment",
+    "name": "Spacecraft Module (Backpack Attachment)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Attachment",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Modulo astronave"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "banshee-helmet-scrappy-outfit": {
+    "id": "banshee-helmet-scrappy-outfit",
+    "name": "Banshee Helmet (Scrappy Outfit)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Scrappy Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Casco Banshee"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "gas-mask-banshee-variant": {
+    "id": "gas-mask-banshee-variant",
+    "name": "Gas Mask (Banshee Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ],
+    "iconFromItem": "banshee-outfit"
+  },
+  "fuel-canister-backpack-attachment": {
+    "id": "fuel-canister-backpack-attachment",
+    "name": "Fuel Canister (Backpack Attachment)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Attachment",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Tanica di carburante"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "toggles-ryder-variant": {
+    "id": "toggles-ryder-variant",
+    "name": "Toggles (Ryder Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "iconFromItem": "ryder-outfit",
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ]
+  },
+  "colors-ryder-color": {
+    "id": "colors-ryder-color",
+    "name": "Colors (Ryder Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "iconFromItem": "ryder-outfit",
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 5, 11, 24: potrebbero essere pacchetti diversi da distinguere"
+    ]
+  },
+  "dirt-spray-face-style": {
+    "id": "dirt-spray-face-style",
+    "name": "Dirt Spray (Face Style)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Face Style",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Spruzzate di sporco"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "toggles-voyager-variant": {
+    "id": "toggles-voyager-variant",
+    "name": "Toggles (Voyager Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "iconFromItem": "voyager-outfit",
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ]
+  },
+  "colors-voyager-color": {
+    "id": "colors-voyager-color",
+    "name": "Colors (Voyager Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "iconFromItem": "voyager-outfit",
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 10, 17, 22: potrebbero essere pacchetti diversi da distinguere"
+    ]
+  },
+  "bandaid-cheek-face-style": {
+    "id": "bandaid-cheek-face-style",
+    "name": "Bandaid Cheek (Face Style)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Face Style",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Cerotto sulla guancia"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "scout-ahead-emote": {
+    "id": "scout-ahead-emote",
+    "name": "Scout Ahead (Emote)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Emote",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Avanscoperta"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "hiker-backpack": {
+    "id": "hiker-backpack",
+    "name": "Hiker (Backpack)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Escursionista"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "receding-hairstyle": {
+    "id": "receding-hairstyle",
+    "name": "Receding (Hairstyle)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Hairstyle",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Stempiatura"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "squat-emote": {
+    "id": "squat-emote",
+    "name": "Squat (Emote)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Emote",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Accovacciati"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "archeologist-backpack": {
+    "id": "archeologist-backpack",
+    "name": "Archeologist (Backpack)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Specialista di archeologia"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "gas-canister-backpack-attachment": {
+    "id": "gas-canister-backpack-attachment",
+    "name": "Gas Canister (Backpack Attachment)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Attachment",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Tanica di gas"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "mullet-hairstyle": {
+    "id": "mullet-hairstyle",
+    "name": "Mullet (Hairstyle)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Hairstyle",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Mullet"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "bowl-cut-hairstyle": {
+    "id": "bowl-cut-hairstyle",
+    "name": "Bowl Cut (Hairstyle)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Hairstyle",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Taglio a scodella"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "lizzy-backpack-charm": {
+    "id": "lizzy-backpack-charm",
+    "name": "Lizzy (Backpack Charm)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Charm",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Lizzy"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "fist-shakes-emote": {
+    "id": "fist-shakes-emote",
+    "name": "Fist Shakes (Emote)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Emote",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Agita pugni"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "colors-goalie-color": {
+    "id": "colors-goalie-color",
+    "name": "Colors (Goalie Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "iconFromItem": "goalie-outfit",
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 35, 41, 44: potrebbero essere pacchetti diversi da distinguere"
+    ]
+  },
+  "toggles-goalie-variant": {
+    "id": "toggles-goalie-variant",
+    "name": "Toggles (Goalie Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "iconFromItem": "goalie-outfit",
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ]
+  },
+  "bruiser-backpack": {
+    "id": "bruiser-backpack",
+    "name": "Bruiser (Backpack)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Picchiatore"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "sport-face-paint-face-style": {
+    "id": "sport-face-paint-face-style",
+    "name": "Sport Face Paint (Face Style)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Face Style",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Pittura facciale sportiva"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "icebreaker-raider-tool": {
+    "id": "icebreaker-raider-tool",
+    "name": "Icebreaker (Raider Tool)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Raider Tool",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Rompighiaccio"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "first-aid-kit-backpack-attachment": {
+    "id": "first-aid-kit-backpack-attachment",
+    "name": "First Aid Kit (Backpack Attachment)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Attachment",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Kit di primo soccorso"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "bone-saw-backpack-charm": {
+    "id": "bone-saw-backpack-charm",
+    "name": "Bone Saw (Backpack Charm)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack Charm",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Segaossa"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "paramedic-backpack": {
+    "id": "paramedic-backpack",
+    "name": "Paramedic (Backpack)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Paramedico"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "face-18-face": {
+    "id": "face-18-face",
+    "name": "Face 18 (Face)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Face",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Volto 18"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "toggles-surgeon-variant": {
+    "id": "toggles-surgeon-variant",
+    "name": "Toggles (Surgeon Variant)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Variant",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "iconFromItem": "surgeon-outfit",
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante"
+    ]
+  },
+  "colors-surgeon-color": {
+    "id": "colors-surgeon-color",
+    "name": "Colors (Surgeon Color)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "iconFromItem": "surgeon-outfit",
+    "review": [
+      "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Usa l'immagine dell'outfit di base (icona vera da procurare)",
+      "Nome italiano mancante",
+      "Compare ai livelli 55, 60: potrebbero essere pacchetti diversi da distinguere"
+    ]
+  },
+  "surgeon-hat-scrappy-outfit": {
+    "id": "surgeon-hat-scrappy-outfit",
+    "name": "Surgeon Hat (Scrappy Outfit)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Scrappy Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Cuffietta chirurgica"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
+  },
+  "full-beard-facial-hair": {
+    "id": "full-beard-facial-hair",
+    "name": "Full Beard (Facial Hair)",
+    "description": "",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Facial Hair",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Barba"
+      }
+    },
+    "review": [
+      "Rarità provvisoria (Common): da verificare in gioco",
+      "Descrizione mancante",
+      "Icona assente: usa il fallback della sottocategoria"
+    ]
   }
 }
