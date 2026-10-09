@@ -16,6 +16,10 @@ dist-ssr
 # Raw MetaForge catalog cache & translations cache (not committed, regenerable via scripts)
 scripts/metaforge-raw.json
 scripts/translations-raw.json
+# Cache e rapporti locali di ARC Tracker (dati non distribuiti, regenerabili con scripts/fetch-arctracker.mjs)
+scripts/arctracker-raw.json
+scripts/arctracker-cosmetics-raw.json
+scripts/reports/
 
 # Editor directories and files
 .vscode/*
