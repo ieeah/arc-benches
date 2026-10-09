@@ -676,17 +676,7 @@
         {
           "level": 3,
           "requirementItemIds": [],
-          "actions": [
-            {
-              "id": "5e2f356d-a72c-4789-8e02-4cdb6dddb8c7",
-              "label": "Distract and destroy the ARC machines to allow construction work to proceed without hindrance.",
-              "translations": {
-                "it": {
-                  "label": "Distrai e distruggi le macchine ARC per consentire ai lavori di costruzione di procedere senza intralci."
-                }
-              }
-            }
-          ],
+          "actions": [],
           "rewards": [
             {
               "itemId": "hotel-chair-design",
@@ -699,6 +689,48 @@
             {
               "itemId": "planks",
               "quantity": 15
+            }
+          ],
+          "tieredActions": [
+            {
+              "id": "350267eb-4a3c-4ffe-b561-2537b53629d1",
+              "label": "Damage flyng ARC enemies",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni ai nemici ARC volanti"
+                }
+              },
+              "steps": [
+                {
+                  "id": "24127b2a-2742-41ab-bc28-e7edb240be66",
+                  "label": "800",
+                  "translations": {
+                    "it": {
+                      "label": "800"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "922ef95d-3daa-40e9-835c-3edfa7112c96",
+              "label": "Damage Bully ARC",
+              "translations": {
+                "it": {
+                  "label": "Infliggi danni ai Bully"
+                }
+              },
+              "steps": [
+                {
+                  "id": "8edd3830-252a-4ad4-9d9c-ee75fd63b438",
+                  "label": "300",
+                  "translations": {
+                    "it": {
+                      "label": "300"
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
