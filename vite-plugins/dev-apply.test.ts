@@ -71,6 +71,20 @@ describe('applyFiles', () => {
   });
 });
 
+describe('icon files', () => {
+  it('writes custom-item icons from base64 and rejects other binary targets', () => {
+    fs.mkdirSync(path.join(root, 'scripts/data/custom-items'), { recursive: true });
+    const base64 = Buffer.from([1, 2, 3]).toString('base64');
+    const ok = applyFiles(root, [{ path: 'scripts/data/custom-items/xp-points.png', content: base64, encoding: 'base64' }]);
+    expect(ok.status).toBe('ok');
+    expect([...fs.readFileSync(path.join(root, 'scripts/data/custom-items/xp-points.png'))]).toEqual([1, 2, 3]);
+
+    for (const bad of ['scripts/data/custom-items/Bad_Name.png', 'scripts/data/custom-items/x.exe', 'src/data/nav.json', 'scripts/data/custom-items/../x.png']) {
+      expect(applyFiles(root, [{ path: bad, content: base64, encoding: 'base64' }]).status).toBe('error');
+    }
+  });
+});
+
 describe('allow-list', () => {
   it('covers every repo path declared in devArtifacts', () => {
     const source = fs.readFileSync(path.resolve(__dirname, '../src/lib/devArtifacts.ts'), 'utf-8');

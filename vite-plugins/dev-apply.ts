@@ -20,9 +20,13 @@ export const APPLY_ALLOWED_FILES = [
   'src/data/items-overrides.json',
   'src/data/nav.json',
   'src/data/feature-flags.json',
+  'scripts/data/custom-items/items.json',
   'src/i18n/locales/it.ts',
   'src/i18n/locales/en.ts',
 ] as const;
+
+/** Icone sorgente degli oggetti custom: file binari accanto a items.json, in base64. */
+const ICON_FILE_PATTERN = /^scripts\/data\/custom-items\/[a-z0-9]+(-[a-z0-9]+)*\.(png|svg|webp)$/;
 
 const MAX_BODY_BYTES = 10 * 1024 * 1024;
 
@@ -34,6 +38,8 @@ export interface ApplyFile {
    * (`JSON.stringify` del contenuto letto), per i `.ts` il testo. Senza, nessun controllo.
    */
   baseline?: string;
+  /** `base64`: `content` è un file binario (solo icone custom), senza controllo di conflitto. */
+  encoding?: 'base64';
 }
 
 export type ApplyResult =
@@ -58,12 +64,14 @@ function isCurrentOnDisk(diskText: string, filePath: string, baseline: string): 
 export function applyFiles(root: string, files: ApplyFile[], force = false): ApplyResult {
   if (!Array.isArray(files) || files.length === 0) return { status: 'error', message: 'Nessun file da applicare.' };
 
-  const targets: { rel: string; abs: string; content: string }[] = [];
+  const targets: { rel: string; abs: string; content: string; binary: boolean }[] = [];
   const conflicts: string[] = [];
 
   for (const file of files) {
     const rel = typeof file?.path === 'string' ? path.posix.normalize(file.path) : '';
-    if (!(APPLY_ALLOWED_FILES as readonly string[]).includes(rel)) {
+    const binary = file?.encoding === 'base64';
+    const allowed = binary ? ICON_FILE_PATTERN.test(rel) : (APPLY_ALLOWED_FILES as readonly string[]).includes(rel);
+    if (!allowed) {
       return { status: 'error', message: `Percorso non consentito: ${String(file?.path)}` };
     }
     if (typeof file.content !== 'string') return { status: 'error', message: `Contenuto non valido per ${rel}` };
@@ -72,18 +80,19 @@ export function applyFiles(root: string, files: ApplyFile[], force = false): App
       return { status: 'error', message: `Percorso fuori dal progetto: ${rel}` };
     }
 
-    if (!force && typeof file.baseline === 'string' && fs.existsSync(abs)) {
+    if (!binary && !force && typeof file.baseline === 'string' && fs.existsSync(abs)) {
       if (!isCurrentOnDisk(fs.readFileSync(abs, 'utf-8'), rel, file.baseline)) conflicts.push(rel);
     }
-    targets.push({ rel, abs, content: file.content });
+    targets.push({ rel, abs, content: file.content, binary });
   }
 
   if (conflicts.length > 0) return { status: 'conflict', conflicts };
 
   // Scrittura atomica per file: temporaneo nella stessa cartella, poi rename.
-  for (const { abs, content } of targets) {
+  for (const { abs, content, binary } of targets) {
     const tmp = `${abs}.tmp-${process.pid}`;
-    fs.writeFileSync(tmp, content, 'utf-8');
+    if (binary) fs.writeFileSync(tmp, Buffer.from(content, 'base64'));
+    else fs.writeFileSync(tmp, content, 'utf-8');
     fs.renameSync(tmp, abs);
   }
   return { status: 'ok', written: targets.map(t => t.rel) };

@@ -6,7 +6,6 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 ---
 
 ## Versione 0.5.0 "Segnale Radio" — Fondamenta Dev e dati
-- [ ] #84 [Pagina Dev: Custom Items Studio per gestire gli oggetti non presenti su MetaForge (alta priorità)](https://github.com/ieeah/arc-benches/issues/84)
 - [ ] #85 [Modello Reward Pass come tipo di lista + editor Dev dei pass](https://github.com/ieeah/arc-benches/issues/85)
 - [ ] #76 [Pagina Dev per la gestione delle quest e albero delle dipendenze](https://github.com/ieeah/arc-benches/issues/76)
 - [ ] #87 [Progetto Outpost completo (moduli, Research Bench, arredi)](https://github.com/ieeah/arc-benches/issues/87)

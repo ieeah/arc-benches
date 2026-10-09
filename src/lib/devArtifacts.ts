@@ -13,6 +13,16 @@ import { DRAFT_STORAGE_KEY, getInitialData } from '@/hooks/dev/useDevListDrafts'
 import { clearNavDraft, getSeedNavConfig, readNavDraft } from '@/lib/navTree';
 import { getFeatureFlags, hasCustomFeatureFlags, resetFeatureFlags } from '@/lib/featureFlags';
 import {
+  CUSTOM_ITEMS_FILE,
+  CUSTOM_ITEMS_ICONS_DIR,
+  baselineCustomItems,
+  buildCustomItemsFileContent,
+  clearCustomItemsDraft,
+  getEffectiveCustomItems,
+  getPendingIcons,
+  isCustomItemsModified,
+} from '@/lib/customItems';
+import {
   DEFAULT_FLAT,
   buildLocaleFileSource,
   clearI18nDraft,
@@ -38,6 +48,10 @@ export interface DevArtifact {
   baseline: () => string;
   /** Scarta la bozza e torna al file incluso nell'app. */
   reset: () => void;
+  /** File binari (data URL base64) da scrivere accanto al file principale, es. le icone caricate. */
+  binaryFiles?: () => { path: string; base64: string }[];
+  /** Eseguito dopo una scrittura riuscita nel progetto (es. per svuotare i dati che hanno solo valore di bozza). */
+  afterApply?: () => void;
 }
 
 const json = (value: unknown) => JSON.stringify(value, null, 2) + '\n';
@@ -116,6 +130,23 @@ const overridesArtifact: DevArtifact = {
   },
 };
 
+const customItemsArtifact: DevArtifact = {
+  id: 'custom-items',
+  file: CUSTOM_ITEMS_FILE,
+  label: 'Oggetti custom',
+  route: 'dev-custom-items',
+  isModified: isCustomItemsModified,
+  build: () => buildCustomItemsFileContent(getEffectiveCustomItems()),
+  baseline: () => JSON.stringify(baselineCustomItems),
+  reset: clearCustomItemsDraft,
+  binaryFiles: () =>
+    Object.entries(getPendingIcons()).flatMap(([name, dataUrl]) => {
+      const base64 = dataUrl.split(',')[1];
+      return base64 ? [{ path: `${CUSTOM_ITEMS_ICONS_DIR}/${name}`, base64 }] : [];
+    }),
+  afterApply: clearCustomItemsDraft,
+};
+
 const navArtifact: DevArtifact = {
   id: 'nav',
   file: 'src/data/nav.json',
@@ -158,6 +189,7 @@ export function getDevArtifacts(): DevArtifact[] {
   return [
     ...LIST_FILES.map(listsArtifact),
     overridesArtifact,
+    customItemsArtifact,
     navArtifact,
     flagsArtifact,
     localeArtifact('it'),

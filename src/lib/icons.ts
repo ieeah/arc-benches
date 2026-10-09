@@ -5,6 +5,7 @@
  */
 export const iconUrl = (icon: string | null | undefined, thumb = false): string | undefined => {
   if (!icon) return undefined;
+  if (icon.startsWith('data:')) return icon; // anteprima di un'icona caricata nel Custom Items Studio
   const path = thumb && icon.startsWith('icons/items/') ? icon.replace('icons/items/', 'icons/items/sm/') : icon;
   return `${import.meta.env.BASE_URL}${path}`;
 };

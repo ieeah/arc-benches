@@ -1,4 +1,5 @@
 import type { ExpeditionList, ItemInfo, List, TieredAction } from '@/types';
+import { applyCustomItemsDraft } from '@/lib/customItems';
 import workbenchesData from '@/data/workbenches.json';
 import expeditionsData from '@/data/expeditions.json';
 import projectsData from '@/data/projects.json';
@@ -79,6 +80,7 @@ export const projects = computeEffectiveProjects();
 
 export function computeEffectiveItemsInfo(): Record<string, ItemInfo> {
   const result: Record<string, ItemInfo> = { ...(itemsData as Record<string, ItemInfo>) };
+  if (import.meta.env.DEV) applyCustomItemsDraft(result);
   let activeOverrides: Record<string, any> = (itemsOverridesData as Record<string, any>) || {};
 
   if (import.meta.env.DEV) {

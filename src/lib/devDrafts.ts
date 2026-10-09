@@ -5,6 +5,7 @@ import { it as defaultIt } from '@/i18n/locales/it';
 import { en as defaultEn } from '@/i18n/locales/en';
 import { hasNavDraftChanges } from '@/lib/navTree';
 import { hasCustomFeatureFlags } from '@/lib/featureFlags';
+import { isCustomItemsModified } from '@/lib/customItems';
 
 function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, string> {
   const result: Record<string, string> = {};
@@ -28,6 +29,7 @@ export function hasUnsavedDevChanges(): boolean {
   try {
     if (hasNavDraftChanges()) return true;
     if (hasCustomFeatureFlags()) return true;
+    if (isCustomItemsModified()) return true;
 
     // 1. Check Lists Draft
     const listsDraft = localStorage.getItem('arc_benches_dev_lists_draft_v1');

@@ -21,10 +21,14 @@ export async function applyArtifacts(artifacts: DevArtifact[], force = false): P
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         force,
-        files: modified.map((a) => ({ path: a.file, content: a.build(), baseline: a.baseline() })),
+        files: modified.flatMap((a) => [
+          { path: a.file, content: a.build(), baseline: a.baseline() },
+          ...(a.binaryFiles?.() ?? []).map((f) => ({ path: f.path, content: f.base64, encoding: 'base64' as const })),
+        ]),
       }),
     });
     const body = (await res.json()) as ApplyOutcome;
+    if (body.status === 'ok') modified.forEach((a) => a.afterApply?.());
     return body;
   } catch {
     return { status: 'error', message: 'Il server di sviluppo non risponde.' };
