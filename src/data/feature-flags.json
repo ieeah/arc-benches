@@ -2,5 +2,6 @@
   "expeditions": false,
   "vault": false,
   "role-maker": false,
-  "blueprints": true
+  "blueprints": true,
+  "maps": false
 }

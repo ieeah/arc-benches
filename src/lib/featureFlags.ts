@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import { safeLS } from '@/lib/safeStorage';
 import defaultFeatureFlagsSeed from '@/data/feature-flags.json';
 
-export type FeatureFlagId = 'expeditions' | 'vault' | 'role-maker' | 'blueprints';
+export type FeatureFlagId = 'expeditions' | 'vault' | 'role-maker' | 'blueprints' | 'maps';
 
 export interface FeatureFlagDefinition {
   id: FeatureFlagId;
@@ -52,6 +52,15 @@ export const FEATURE_FLAGS_DEFINITIONS: readonly FeatureFlagDefinition[] = [
     defaultValue: SEED_FLAGS.blueprints ?? true,
     navIds: ['blueprints'],
     routes: ['blueprints'],
+  },
+  {
+    id: 'maps',
+    name: 'Mappe Tattiche',
+    description: 'Mappe interattive (in sviluppo, disponibili solo in dev)',
+    category: 'tools',
+    defaultValue: SEED_FLAGS.maps ?? false,
+    navIds: ['maps'],
+    routes: ['maps'],
   },
 ] as const;
 

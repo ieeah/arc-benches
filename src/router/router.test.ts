@@ -4,7 +4,7 @@ import { setFeatureFlag, resetFeatureFlags } from '@/lib/featureFlags';
 
 // Il seed reale (src/data/feature-flags.json) cambia con le release: i test non devono dipenderne.
 vi.mock('@/data/feature-flags.json', () => ({
-  default: { expeditions: true, vault: true, 'role-maker': true, blueprints: true },
+  default: { expeditions: true, vault: true, 'role-maker': true, blueprints: true, maps: true },
 }));
 
 describe('Router hash parsing & building', () => {

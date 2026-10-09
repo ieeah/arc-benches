@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   Flag, RotateCcw, Download, Copy, Check, Sparkles,
   CheckCircle2, XCircle, Search, Compass, ShieldAlert,
-  Dice5, ScrollText, AlertTriangle, ShieldCheck, Filter,
+  Dice5, Map as MapIcon, ScrollText, AlertTriangle, ShieldCheck, Filter,
 } from 'lucide-react';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import {
@@ -31,6 +31,8 @@ function getFlagIcon(id: FeatureFlagId) {
       return <ShieldAlert size={22} className="text-rose-500" />;
     case 'role-maker':
       return <Dice5 size={22} className="text-purple-500" />;
+    case 'maps':
+      return <MapIcon size={22} className="text-emerald-500" />;
     case 'blueprints':
       return <ScrollText size={22} className="text-blue-500" />;
     default:
