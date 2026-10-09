@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import type { List, ListType, ListLevel } from '@/types';
 import { generateUUID } from '@/lib/uuid';
+import { addToTrash } from '@/lib/devTrash';
 import { DEFAULT_PASS_TRACKS, isExpedition } from '@/lib/lists';
 import type { ListsDataMap } from './useDevListDrafts';
 
@@ -11,6 +12,8 @@ interface UseDevListEditorOptions {
   selectedListId: string | null;
   setSelectedListId: (id: string | null) => void;
   setActiveLevelNumber: (n: number) => void;
+  /** Chiamata quando il cestino Dev cambia (lista eliminata), per aggiornare chi lo mostra. */
+  onTrashChanged?: () => void;
   setConfirmModalConfig: (cfg: {
     title?: string;
     message: string;
@@ -39,6 +42,7 @@ export function useDevListEditor({
   selectedListId,
   setSelectedListId,
   setActiveLevelNumber,
+  onTrashChanged,
   setConfirmModalConfig,
 }: UseDevListEditorOptions) {
   // Derivato: lista selezionata (listType sempre garantito)
@@ -178,20 +182,57 @@ export function useDevListEditor({
 
   // Elimina lista
   const handleDeleteList = (id: string, bucket: ListType) => {
+    const removeFromData = () => {
+      setListsData((prev) => ({
+        ...prev,
+        [bucket]: (prev[bucket] || []).filter((l) => l.id !== id),
+      }));
+      if (selectedListId === id) setSelectedListId(null);
+    };
+
     setConfirmModalConfig({
       title: 'Elimina Lista',
       message: `Sei sicuro di voler eliminare la lista "${id}"?`,
-      description: 'Questa operazione rimuoverà la lista dai dati di lavoro locali.',
+      description: 'La lista finisce nel cestino (dev-trash/trash.json) e si può recuperare da lì.',
       confirmText: 'Elimina',
       variant: 'danger',
       onConfirm: () => {
-        setListsData((prev) => ({
-          ...prev,
-          [bucket]: (prev[bucket] || []).filter((l) => l.id !== id),
-        }));
-        if (selectedListId === id) setSelectedListId(null);
+        const list = (listsData[bucket] || []).find((l) => l.id === id);
+        if (!list) return;
+        void addToTrash({
+          id: generateUUID(),
+          kind: 'list',
+          label: `${list.name} (${list.listType})`,
+          deletedAt: new Date().toISOString(),
+          payload: { list },
+        }).then((saved) => {
+          if (saved.ok) {
+            onTrashChanged?.();
+            removeFromData();
+            return;
+          }
+          // Senza dev server il cestino non è disponibile: si elimina solo se l'utente lo conferma.
+          setConfirmModalConfig({
+            title: 'Cestino non raggiungibile',
+            message: `${saved.message} Eliminare comunque "${id}" senza poterla recuperare?`,
+            confirmText: 'Elimina comunque',
+            variant: 'danger',
+            onConfirm: removeFromData,
+          });
+        });
       },
     });
+  };
+
+  // Ripristina dal cestino una lista eliminata; restituisce un errore se l'id è già in uso
+  const handleRestoreFromTrash = (list: List): string | null => {
+    const taken = Object.values(listsData).some((lists) => (lists || []).some((l) => l.id === list.id));
+    if (taken) return `Esiste già una lista con id "${list.id}": rinominala o eliminala prima di ripristinare.`;
+    const bucket = getBucket(list);
+    setListsData((prev) => ({ ...prev, [bucket]: [...(prev[bucket] || []), list] }));
+    setSelectedListId(list.id);
+    setActiveLevelNumber(1);
+    return null;
   };
 
   // Ripristina lista selezionata
@@ -281,6 +322,7 @@ export function useDevListEditor({
     handleCreateList,
     handleDuplicateList,
     handleDeleteList,
+    handleRestoreFromTrash,
     handleResetCurrentList,
     handleResetCurrentLevel,
     handleAddLevel,

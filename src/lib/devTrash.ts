@@ -2,7 +2,7 @@
  * Client del cestino Dev (`GET/POST <base>__dev/trash`, vedi vite-plugins/dev-trash.ts): tiene ciò che
  * l'editor elimina in `dev-trash/trash.json`, file versionato ma mai incluso nella build.
  */
-import type { PassTrackDef, Reward } from '@/types';
+import type { List, PassTrackDef, Reward } from '@/types';
 
 export interface DevTrashEntry {
   id: string;
@@ -18,6 +18,10 @@ export interface PassTrackTrashPayload {
   /** Posizione che la traccia aveva nell'elenco, per rimetterla al suo posto. */
   trackIndex: number;
   rewards: { level: number; reward: Reward }[];
+}
+
+export interface ListTrashPayload {
+  list: List;
 }
 
 export type TrashResult = { ok: true; entries: DevTrashEntry[] } | { ok: false; message: string };
@@ -44,3 +48,6 @@ export const removeFromTrash = (id: string) => post({ action: 'remove', id });
 
 export const isPassTrackEntry = (e: DevTrashEntry): e is DevTrashEntry & { payload: PassTrackTrashPayload } =>
   e.kind === 'pass-track' && typeof e.payload === 'object' && e.payload !== null && 'track' in e.payload && 'listId' in e.payload;
+
+export const isListEntry = (e: DevTrashEntry): e is DevTrashEntry & { payload: ListTrashPayload } =>
+  e.kind === 'list' && typeof e.payload === 'object' && e.payload !== null && 'list' in e.payload;
