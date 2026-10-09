@@ -13,6 +13,18 @@ Poiché Embark Studios non fornisce attualmente un'API pubblica ufficiale per i 
     1. **Sorgente di verità catalogo oggetti:** `items.json` e icone via `scripts/fetch-items.mjs`.
     2. **Sorgente di verità eventi live & condizioni mappe:** `GET /api/arc-raiders/events-schedule?region={region}` (orizzonte 41h, suddiviso per i 5 server regionali: `europe`, `north-america`, `south-america`, `asia`, `oceania`).
 
+### ARC Tracker (arctracker.io)
+*   **Cos'è:** Tracker di progressi della community, con dati di gioco molto aggiornati e **traduzioni in italiano** (oltre a una ventina di altre lingue). Il suo «Progetto Dati ARC» rimanda al repository RaidTheory/arcraiders-data.
+*   **Affidabilità:** **Alta e molto aggiornata** (verificata il 2026-10-09 con Frozen Trail già presente).
+*   **API pubbliche, senza autenticazione** (documentazione: `https://arctracker.io/developers/docs`). Le risposte contengono tutte le lingue come oggetti (`name: { en, it, … }`) e sono pensate per richieste frequenti (cache lunga):
+    * `GET /api/items`: ~985 oggetti con nomi, descrizioni ed effetti multilingua (id in snake_case, es. `acoustic_guitar`; i nostri sono in hyphen-case).
+    * `GET /api/quests`: ~137 quest con trader, mappa, oggetti richiesti e ricompense.
+    * `GET /api/hideout`: moduli del rifugio con livelli e requisiti.
+    * `GET /api/projects`: progetti e fasi, filtrabili per spedizione (`?season=1,2`).
+    * Gli endpoint con i dati dell'utente (`/api/v2/user/*`) richiedono una doppia chiave (app + utente) e restano fuori dallo scope.
+*   **Ruolo nel progetto:** oggi **consultazione manuale**: da lì abbiamo preso gli archi di dipendenza delle quest e i loro nomi italiani (`src/data/quests-source.json`, 2026-09-10). Poiché le API sono pubbliche, è **automatizzabile**: candidata come seconda fonte per le traduzioni italiane (affiancando RaidTheory), come riscontro dei requisiti dei banchi (#86) e come sorgente delle quest (#76), al posto dell'estrazione a mano.
+*   **Attribuzione:** compare tra le fonti nel footer dell'app.
+
 ### ARDB.app (ARC Raiders Database — ardb.app/api)
 *   **Cos'è:** Database strutturato e documentato della community con endpoint JSON REST dedicati.
 *   **Affidabilità:** **Molto Alta**. Espone dati dettagliati su nemici ARC, drop rate e contratti delle quest.
