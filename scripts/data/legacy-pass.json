@@ -16,9 +16,9 @@
   "summary": {
     "levels": 62,
     "rewards": 63,
-    "inCatalog": 21,
-    "toCreate": 42,
-    "customItemsNeeded": 30,
+    "inCatalog": 63,
+    "toCreate": 0,
+    "customItemsNeeded": 0,
     "unresolved": 0,
     "problems": 1
   },
@@ -62,17 +62,9 @@
           "nameEn": "Fuel Canister backpack attachment",
           "cosmeticId": "backpack-attachment-fuel-canister",
           "nameItSite": "Tanica di carburante",
-          "status": "create",
+          "status": "catalog",
           "itemId": "fuel-canister-backpack-attachment",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack-attachment",
-            "cosmetic": "backpack-attachment-fuel-canister",
-            "id": "fuel-canister-backpack-attachment",
-            "name": "Fuel Canister (Backpack Attachment)",
-            "subcategory": "Backpack Attachment"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -95,21 +87,9 @@
           "nameEn": "Ryder outfit toggles",
           "cosmeticId": "outfit-ryder",
           "nameItSite": "Pilota",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-ryder-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-ryder-variant",
-            "name": "Toggles (Ryder Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Ryder",
-            "outfitId": "outfit-ryder",
-            "outfitNameIt": "Pilota",
-            "baseItemId": "ryder-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "headgear",
@@ -169,21 +149,9 @@
           "nameEn": "Ryder outfit colors",
           "cosmeticId": "outfit-ryder",
           "nameItSite": "Pilota",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-ryder-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-ryder-color",
-            "name": "Colors (Ryder Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Ryder",
-            "outfitId": "outfit-ryder",
-            "outfitNameIt": "Pilota",
-            "baseItemId": "ryder-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -241,17 +209,9 @@
           "nameEn": "Dirt Spray face style",
           "cosmeticId": "face-style-dirt-spray",
           "nameItSite": "Spruzzate di sporco",
-          "status": "create",
+          "status": "catalog",
           "itemId": "dirt-spray-face-style",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "face-style",
-            "cosmetic": "face-style-dirt-spray",
-            "id": "dirt-spray-face-style",
-            "name": "Dirt Spray (Face Style)",
-            "subcategory": "Face Style"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -274,21 +234,9 @@
           "nameEn": "Voyager outfit toggles",
           "cosmeticId": "outfit-voyager",
           "nameItSite": "Esploratore",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-voyager-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-voyager-variant",
-            "name": "Toggles (Voyager Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Voyager",
-            "outfitId": "outfit-voyager",
-            "outfitNameIt": "Esploratore",
-            "baseItemId": "voyager-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "attachment",
@@ -348,21 +296,9 @@
           "nameEn": "Voyager outfit colors",
           "cosmeticId": "outfit-voyager",
           "nameItSite": "Esploratore",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-voyager-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-voyager-color",
-            "name": "Colors (Voyager Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Voyager",
-            "outfitId": "outfit-voyager",
-            "outfitNameIt": "Esploratore",
-            "baseItemId": "voyager-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -395,21 +331,9 @@
           "nameEn": "Ryder outfit colors",
           "cosmeticId": "outfit-ryder",
           "nameItSite": "Pilota",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-ryder-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-ryder-color",
-            "name": "Colors (Ryder Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Ryder",
-            "outfitId": "outfit-ryder",
-            "outfitNameIt": "Pilota",
-            "baseItemId": "ryder-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -450,17 +374,9 @@
           "nameEn": "Bandaid Cheek face style",
           "cosmeticId": "face-style-bandaid-cheek",
           "nameItSite": "Cerotto sulla guancia",
-          "status": "create",
+          "status": "catalog",
           "itemId": "bandaid-cheek-face-style",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "face-style",
-            "cosmetic": "face-style-bandaid-cheek",
-            "id": "bandaid-cheek-face-style",
-            "name": "Bandaid Cheek (Face Style)",
-            "subcategory": "Face Style"
-          },
           "match": {
             "method": "name+level",
             "score": 0.75
@@ -483,17 +399,9 @@
           "nameEn": "Scout Ahead emote",
           "cosmeticId": "emote-scout-ahead",
           "nameItSite": "Avanscoperta",
-          "status": "create",
+          "status": "catalog",
           "itemId": "scout-ahead-emote",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "emote",
-            "cosmetic": "emote-scout-ahead",
-            "id": "scout-ahead-emote",
-            "name": "Scout Ahead (Emote)",
-            "subcategory": "Emote"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -535,17 +443,9 @@
           "nameEn": "Hiker backpack",
           "cosmeticId": "backpack-hiker",
           "nameItSite": "Escursionista",
-          "status": "create",
+          "status": "catalog",
           "itemId": "hiker-backpack",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack",
-            "cosmetic": "backpack-hiker",
-            "id": "hiker-backpack",
-            "name": "Hiker (Backpack)",
-            "subcategory": "Backpack"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -568,17 +468,9 @@
           "nameEn": "Receding hairstyle",
           "cosmeticId": "hair-receding",
           "nameItSite": "Stempiatura",
-          "status": "create",
+          "status": "catalog",
           "itemId": "receding-hairstyle",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "hair",
-            "cosmetic": "hair-receding",
-            "id": "receding-hairstyle",
-            "name": "Receding (Hairstyle)",
-            "subcategory": "Hairstyle"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -601,21 +493,9 @@
           "nameEn": "Voyager outfit colors",
           "cosmeticId": "outfit-voyager",
           "nameItSite": "Esploratore",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-voyager-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-voyager-color",
-            "name": "Colors (Voyager Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Voyager",
-            "outfitId": "outfit-voyager",
-            "outfitNameIt": "Esploratore",
-            "baseItemId": "voyager-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -656,21 +536,9 @@
           "nameEn": "Voyager outfit toggles",
           "cosmeticId": "outfit-voyager",
           "nameItSite": "Esploratore",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-voyager-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-voyager-variant",
-            "name": "Toggles (Voyager Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Voyager",
-            "outfitId": "outfit-voyager",
-            "outfitNameIt": "Esploratore",
-            "baseItemId": "voyager-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "headgear",
@@ -703,17 +571,9 @@
           "nameEn": "Squat emote",
           "cosmeticId": "emote-squat",
           "nameItSite": "Accovacciati",
-          "status": "create",
+          "status": "catalog",
           "itemId": "squat-emote",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "emote",
-            "cosmetic": "emote-squat",
-            "id": "squat-emote",
-            "name": "Squat (Emote)",
-            "subcategory": "Emote"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -736,21 +596,9 @@
           "nameEn": "Voyager outfit toggles",
           "cosmeticId": "outfit-voyager",
           "nameItSite": "Esploratore",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-voyager-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-voyager-variant",
-            "name": "Toggles (Voyager Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Voyager",
-            "outfitId": "outfit-voyager",
-            "outfitNameIt": "Esploratore",
-            "baseItemId": "voyager-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "headgear",
@@ -810,21 +658,9 @@
           "nameEn": "Voyager outfit colors",
           "cosmeticId": "outfit-voyager",
           "nameItSite": "Esploratore",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-voyager-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-voyager-color",
-            "name": "Colors (Voyager Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Voyager",
-            "outfitId": "outfit-voyager",
-            "outfitNameIt": "Esploratore",
-            "baseItemId": "voyager-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -873,17 +709,9 @@
           "nameEn": "Archeologist backpack",
           "cosmeticId": "backpack-archeologist",
           "nameItSite": "Specialista di archeologia",
-          "status": "create",
+          "status": "catalog",
           "itemId": "archeologist-backpack",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack",
-            "cosmetic": "backpack-archeologist",
-            "id": "archeologist-backpack",
-            "name": "Archeologist (Backpack)",
-            "subcategory": "Backpack"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -906,21 +734,9 @@
           "nameEn": "Ryder outfit colors",
           "cosmeticId": "outfit-ryder",
           "nameItSite": "Pilota",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-ryder-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-ryder-color",
-            "name": "Colors (Ryder Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Ryder",
-            "outfitId": "outfit-ryder",
-            "outfitNameIt": "Pilota",
-            "baseItemId": "ryder-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -969,17 +785,9 @@
           "nameEn": "Gas Canister backpack attachment",
           "cosmeticId": "backpack-attachment-gas-canister",
           "nameItSite": "Tanica di gas",
-          "status": "create",
+          "status": "catalog",
           "itemId": "gas-canister-backpack-attachment",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack-attachment",
-            "cosmetic": "backpack-attachment-gas-canister",
-            "id": "gas-canister-backpack-attachment",
-            "name": "Gas Canister (Backpack Attachment)",
-            "subcategory": "Backpack Attachment"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1002,17 +810,9 @@
           "nameEn": "Mullet hairstyle",
           "cosmeticId": "hair-mullet",
           "nameItSite": "Mullet",
-          "status": "create",
+          "status": "catalog",
           "itemId": "mullet-hairstyle",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "hair",
-            "cosmetic": "hair-mullet",
-            "id": "mullet-hairstyle",
-            "name": "Mullet (Hairstyle)",
-            "subcategory": "Hairstyle"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1054,21 +854,9 @@
           "nameEn": "Ryder outfit toggles",
           "cosmeticId": "outfit-ryder",
           "nameItSite": "Pilota",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-ryder-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-ryder-variant",
-            "name": "Toggles (Ryder Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Ryder",
-            "outfitId": "outfit-ryder",
-            "outfitNameIt": "Pilota",
-            "baseItemId": "ryder-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "gas-mask",
@@ -1134,17 +922,9 @@
           "nameEn": "Bowl Cut hairstyle",
           "cosmeticId": "hair-bowl-cut",
           "nameItSite": "Taglio a scodella",
-          "status": "create",
+          "status": "catalog",
           "itemId": "bowl-cut-hairstyle",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "hair",
-            "cosmetic": "hair-bowl-cut",
-            "id": "bowl-cut-hairstyle",
-            "name": "Bowl Cut (Hairstyle)",
-            "subcategory": "Hairstyle"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1167,17 +947,9 @@
           "nameEn": "Lizzy backpack charm",
           "cosmeticId": "backpack-charm-lizzy",
           "nameItSite": "Lizzy",
-          "status": "create",
+          "status": "catalog",
           "itemId": "lizzy-backpack-charm",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack-charm",
-            "cosmetic": "backpack-charm-lizzy",
-            "id": "lizzy-backpack-charm",
-            "name": "Lizzy (Backpack Charm)",
-            "subcategory": "Backpack Charm"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1219,17 +991,9 @@
           "nameEn": "Fist Shakes emote",
           "cosmeticId": "emote-fist-shakes",
           "nameItSite": "Agita pugni",
-          "status": "create",
+          "status": "catalog",
           "itemId": "fist-shakes-emote",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "emote",
-            "cosmetic": "emote-fist-shakes",
-            "id": "fist-shakes-emote",
-            "name": "Fist Shakes (Emote)",
-            "subcategory": "Emote"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1271,21 +1035,9 @@
           "nameEn": "Goalie outfit colors",
           "cosmeticId": "outfit-goalie",
           "nameItSite": "Portiere",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-goalie-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-goalie-color",
-            "name": "Colors (Goalie Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Goalie",
-            "outfitId": "outfit-goalie",
-            "outfitNameIt": "Portiere",
-            "baseItemId": "goalie-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -1318,21 +1070,9 @@
           "nameEn": "Goalie outfit toggles",
           "cosmeticId": "outfit-goalie",
           "nameItSite": "Portiere",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-goalie-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-goalie-variant",
-            "name": "Toggles (Goalie Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Goalie",
-            "outfitId": "outfit-goalie",
-            "outfitNameIt": "Portiere",
-            "baseItemId": "goalie-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "waist-bag",
@@ -1392,17 +1132,9 @@
           "nameEn": "Bruiser backpack",
           "cosmeticId": "backpack-bruiser",
           "nameItSite": "Picchiatore",
-          "status": "create",
+          "status": "catalog",
           "itemId": "bruiser-backpack",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack",
-            "cosmetic": "backpack-bruiser",
-            "id": "bruiser-backpack",
-            "name": "Bruiser (Backpack)",
-            "subcategory": "Backpack"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1444,17 +1176,9 @@
           "nameEn": "Sport Face Paint face style",
           "cosmeticId": "face-style-sport-face-paint",
           "nameItSite": "Pittura facciale sportiva",
-          "status": "create",
+          "status": "catalog",
           "itemId": "sport-face-paint-face-style",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "face-style",
-            "cosmetic": "face-style-sport-face-paint",
-            "id": "sport-face-paint-face-style",
-            "name": "Sport Face Paint (Face Style)",
-            "subcategory": "Face Style"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1477,21 +1201,9 @@
           "nameEn": "Goalie outfit colors",
           "cosmeticId": "outfit-goalie",
           "nameItSite": "Portiere",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-goalie-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-goalie-color",
-            "name": "Colors (Goalie Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Goalie",
-            "outfitId": "outfit-goalie",
-            "outfitNameIt": "Portiere",
-            "baseItemId": "goalie-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -1532,17 +1244,9 @@
           "nameEn": "Icebreaker raider tool",
           "cosmeticId": "raider-tool-icebreaker",
           "nameItSite": "Rompighiaccio",
-          "status": "create",
+          "status": "catalog",
           "itemId": "icebreaker-raider-tool",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "raider-tool",
-            "cosmetic": "raider-tool-icebreaker",
-            "id": "icebreaker-raider-tool",
-            "name": "Icebreaker (Raider Tool)",
-            "subcategory": "Raider Tool"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1584,21 +1288,9 @@
           "nameEn": "Goalie outfit toggles",
           "cosmeticId": "outfit-goalie",
           "nameItSite": "Portiere",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-goalie-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-goalie-variant",
-            "name": "Toggles (Goalie Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Goalie",
-            "outfitId": "outfit-goalie",
-            "outfitNameIt": "Portiere",
-            "baseItemId": "goalie-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -1648,21 +1340,9 @@
           "nameEn": "Goalie outfit colors",
           "cosmeticId": "outfit-goalie",
           "nameItSite": "Portiere",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-goalie-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-goalie-color",
-            "name": "Colors (Goalie Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Goalie",
-            "outfitId": "outfit-goalie",
-            "outfitNameIt": "Portiere",
-            "baseItemId": "goalie-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -1765,17 +1445,9 @@
           "nameEn": "First Aid Kit backpack attachment",
           "cosmeticId": "backpack-attachment-first-aid-kit",
           "nameItSite": "Kit di primo soccorso",
-          "status": "create",
+          "status": "catalog",
           "itemId": "first-aid-kit-backpack-attachment",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack-attachment",
-            "cosmetic": "backpack-attachment-first-aid-kit",
-            "id": "first-aid-kit-backpack-attachment",
-            "name": "First Aid Kit (Backpack Attachment)",
-            "subcategory": "Backpack Attachment"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1798,17 +1470,9 @@
           "nameEn": "Bone Saw backpack charm",
           "cosmeticId": "backpack-charm-bone-saw",
           "nameItSite": "Segaossa",
-          "status": "create",
+          "status": "catalog",
           "itemId": "bone-saw-backpack-charm",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack-charm",
-            "cosmetic": "backpack-charm-bone-saw",
-            "id": "bone-saw-backpack-charm",
-            "name": "Bone Saw (Backpack Charm)",
-            "subcategory": "Backpack Charm"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1850,17 +1514,9 @@
           "nameEn": "Paramedic backpack",
           "cosmeticId": "backpack-paramedic",
           "nameItSite": "Paramedico",
-          "status": "create",
+          "status": "catalog",
           "itemId": "paramedic-backpack",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "backpack",
-            "cosmetic": "backpack-paramedic",
-            "id": "paramedic-backpack",
-            "name": "Paramedic (Backpack)",
-            "subcategory": "Backpack"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1883,17 +1539,9 @@
           "nameEn": "Face 18 face",
           "cosmeticId": "face-face-18",
           "nameItSite": "Volto 18",
-          "status": "create",
+          "status": "catalog",
           "itemId": "face-18-face",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "face",
-            "cosmetic": "face-face-18",
-            "id": "face-18-face",
-            "name": "Face 18 (Face)",
-            "subcategory": "Face"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -1935,21 +1583,9 @@
           "nameEn": "Surgeon outfit toggles",
           "cosmeticId": "outfit-surgeon",
           "nameItSite": "Chirurgia",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-surgeon-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-surgeon-variant",
-            "name": "Toggles (Surgeon Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Surgeon",
-            "outfitId": "outfit-surgeon",
-            "outfitNameIt": "Chirurgia",
-            "baseItemId": "surgeon-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "headgear",
@@ -1998,21 +1634,9 @@
           "nameEn": "Surgeon outfit toggles",
           "cosmeticId": "outfit-surgeon",
           "nameItSite": "Chirurgia",
-          "status": "create",
+          "status": "catalog",
           "itemId": "toggles-surgeon-variant",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "toggles-surgeon-variant",
-            "name": "Toggles (Surgeon Variant)",
-            "subcategory": "Outfit Variant",
-            "outfit": "Surgeon",
-            "outfitId": "outfit-surgeon",
-            "outfitNameIt": "Chirurgia",
-            "baseItemId": "surgeon-outfit",
-            "piece": "toggles"
-          },
           "siteOptions": [
             {
               "setting": "calibration-device",
@@ -2045,21 +1669,9 @@
           "nameEn": "Surgeon outfit colors",
           "cosmeticId": "outfit-surgeon",
           "nameItSite": "Chirurgia",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-surgeon-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-surgeon-color",
-            "name": "Colors (Surgeon Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Surgeon",
-            "outfitId": "outfit-surgeon",
-            "outfitNameIt": "Chirurgia",
-            "baseItemId": "surgeon-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -2130,17 +1742,9 @@
           "nameEn": "Surgeon Hat (Scrappy)",
           "cosmeticId": "scrappy-outfit-surgeon-hat",
           "nameItSite": "Cuffietta chirurgica",
-          "status": "create",
+          "status": "catalog",
           "itemId": "surgeon-hat-scrappy-outfit",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "scrappy-outfit",
-            "cosmetic": "scrappy-outfit-surgeon-hat",
-            "id": "surgeon-hat-scrappy-outfit",
-            "name": "Surgeon Hat (Scrappy Outfit)",
-            "subcategory": "Scrappy Outfit"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -2182,21 +1786,9 @@
           "nameEn": "Surgeon outfit colors",
           "cosmeticId": "outfit-surgeon",
           "nameItSite": "Chirurgia",
-          "status": "create",
+          "status": "catalog",
           "itemId": "colors-surgeon-color",
           "quantity": 1,
-          "create": {
-            "source": "synthetic",
-            "kind": "outfit-piece",
-            "id": "colors-surgeon-color",
-            "name": "Colors (Surgeon Color)",
-            "subcategory": "Outfit Color",
-            "outfit": "Surgeon",
-            "outfitId": "outfit-surgeon",
-            "outfitNameIt": "Chirurgia",
-            "baseItemId": "surgeon-outfit",
-            "piece": "colors"
-          },
           "siteOptions": [
             {
               "setting": "color",
@@ -2256,17 +1848,9 @@
           "nameEn": "Full Beard facial hair",
           "cosmeticId": "facial-hair-full-beard",
           "nameItSite": "Barba",
-          "status": "create",
+          "status": "catalog",
           "itemId": "full-beard-facial-hair",
           "quantity": 1,
-          "create": {
-            "source": "cosmetic",
-            "kind": "facial-hair",
-            "cosmetic": "facial-hair-full-beard",
-            "id": "full-beard-facial-hair",
-            "name": "Full Beard (Facial Hair)",
-            "subcategory": "Facial Hair"
-          },
           "match": {
             "method": "name+level",
             "score": 1
@@ -2276,686 +1860,7 @@
       ]
     }
   ],
-  "customItemsNeeded": {
-    "fuel-canister-backpack-attachment": {
-      "id": "fuel-canister-backpack-attachment",
-      "name": "Fuel Canister (Backpack Attachment)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack Attachment",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Tanica di carburante"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "toggles-ryder-variant": {
-      "id": "toggles-ryder-variant",
-      "name": "Toggles (Ryder Variant)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Outfit Variant",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "iconFromItem": "ryder-outfit",
-      "review": [
-        "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Usa l'immagine dell'outfit di base (icona vera da procurare)",
-        "Nome italiano mancante"
-      ]
-    },
-    "colors-ryder-color": {
-      "id": "colors-ryder-color",
-      "name": "Colors (Ryder Color)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Outfit Color",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "iconFromItem": "ryder-outfit",
-      "review": [
-        "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Usa l'immagine dell'outfit di base (icona vera da procurare)",
-        "Nome italiano mancante",
-        "Compare ai livelli 5, 11, 24: potrebbero essere pacchetti diversi da distinguere"
-      ]
-    },
-    "dirt-spray-face-style": {
-      "id": "dirt-spray-face-style",
-      "name": "Dirt Spray (Face Style)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Face Style",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Spruzzate di sporco"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "toggles-voyager-variant": {
-      "id": "toggles-voyager-variant",
-      "name": "Toggles (Voyager Variant)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Outfit Variant",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "iconFromItem": "voyager-outfit",
-      "review": [
-        "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Usa l'immagine dell'outfit di base (icona vera da procurare)",
-        "Nome italiano mancante"
-      ]
-    },
-    "colors-voyager-color": {
-      "id": "colors-voyager-color",
-      "name": "Colors (Voyager Color)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Outfit Color",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "iconFromItem": "voyager-outfit",
-      "review": [
-        "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Usa l'immagine dell'outfit di base (icona vera da procurare)",
-        "Nome italiano mancante",
-        "Compare ai livelli 10, 17, 22: potrebbero essere pacchetti diversi da distinguere"
-      ]
-    },
-    "bandaid-cheek-face-style": {
-      "id": "bandaid-cheek-face-style",
-      "name": "Bandaid Cheek (Face Style)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Face Style",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Cerotto sulla guancia"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "scout-ahead-emote": {
-      "id": "scout-ahead-emote",
-      "name": "Scout Ahead (Emote)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Emote",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Avanscoperta"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "hiker-backpack": {
-      "id": "hiker-backpack",
-      "name": "Hiker (Backpack)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Escursionista"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "receding-hairstyle": {
-      "id": "receding-hairstyle",
-      "name": "Receding (Hairstyle)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Hairstyle",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Stempiatura"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "squat-emote": {
-      "id": "squat-emote",
-      "name": "Squat (Emote)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Emote",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Accovacciati"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "archeologist-backpack": {
-      "id": "archeologist-backpack",
-      "name": "Archeologist (Backpack)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Specialista di archeologia"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "gas-canister-backpack-attachment": {
-      "id": "gas-canister-backpack-attachment",
-      "name": "Gas Canister (Backpack Attachment)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack Attachment",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Tanica di gas"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "mullet-hairstyle": {
-      "id": "mullet-hairstyle",
-      "name": "Mullet (Hairstyle)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Hairstyle",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Mullet"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "bowl-cut-hairstyle": {
-      "id": "bowl-cut-hairstyle",
-      "name": "Bowl Cut (Hairstyle)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Hairstyle",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Taglio a scodella"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "lizzy-backpack-charm": {
-      "id": "lizzy-backpack-charm",
-      "name": "Lizzy (Backpack Charm)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack Charm",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Lizzy"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "fist-shakes-emote": {
-      "id": "fist-shakes-emote",
-      "name": "Fist Shakes (Emote)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Emote",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Agita pugni"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "colors-goalie-color": {
-      "id": "colors-goalie-color",
-      "name": "Colors (Goalie Color)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Outfit Color",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "iconFromItem": "goalie-outfit",
-      "review": [
-        "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Usa l'immagine dell'outfit di base (icona vera da procurare)",
-        "Nome italiano mancante",
-        "Compare ai livelli 35, 41, 44: potrebbero essere pacchetti diversi da distinguere"
-      ]
-    },
-    "toggles-goalie-variant": {
-      "id": "toggles-goalie-variant",
-      "name": "Toggles (Goalie Variant)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Outfit Variant",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "iconFromItem": "goalie-outfit",
-      "review": [
-        "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Usa l'immagine dell'outfit di base (icona vera da procurare)",
-        "Nome italiano mancante"
-      ]
-    },
-    "bruiser-backpack": {
-      "id": "bruiser-backpack",
-      "name": "Bruiser (Backpack)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Picchiatore"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "sport-face-paint-face-style": {
-      "id": "sport-face-paint-face-style",
-      "name": "Sport Face Paint (Face Style)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Face Style",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Pittura facciale sportiva"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "icebreaker-raider-tool": {
-      "id": "icebreaker-raider-tool",
-      "name": "Icebreaker (Raider Tool)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Raider Tool",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Rompighiaccio"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "first-aid-kit-backpack-attachment": {
-      "id": "first-aid-kit-backpack-attachment",
-      "name": "First Aid Kit (Backpack Attachment)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack Attachment",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Kit di primo soccorso"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "bone-saw-backpack-charm": {
-      "id": "bone-saw-backpack-charm",
-      "name": "Bone Saw (Backpack Charm)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack Charm",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Segaossa"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "paramedic-backpack": {
-      "id": "paramedic-backpack",
-      "name": "Paramedic (Backpack)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Backpack",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Paramedico"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "face-18-face": {
-      "id": "face-18-face",
-      "name": "Face 18 (Face)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Face",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Volto 18"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "toggles-surgeon-variant": {
-      "id": "toggles-surgeon-variant",
-      "name": "Toggles (Surgeon Variant)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Outfit Variant",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "iconFromItem": "surgeon-outfit",
-      "review": [
-        "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Usa l'immagine dell'outfit di base (icona vera da procurare)",
-        "Nome italiano mancante"
-      ]
-    },
-    "colors-surgeon-color": {
-      "id": "colors-surgeon-color",
-      "name": "Colors (Surgeon Color)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Outfit Color",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "iconFromItem": "surgeon-outfit",
-      "review": [
-        "Pezzo di outfit creato dalla tabella del pass: non esiste come oggetto in nessuna fonte",
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Usa l'immagine dell'outfit di base (icona vera da procurare)",
-        "Nome italiano mancante",
-        "Compare ai livelli 55, 60: potrebbero essere pacchetti diversi da distinguere"
-      ]
-    },
-    "surgeon-hat-scrappy-outfit": {
-      "id": "surgeon-hat-scrappy-outfit",
-      "name": "Surgeon Hat (Scrappy Outfit)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Scrappy Outfit",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Cuffietta chirurgica"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    },
-    "full-beard-facial-hair": {
-      "id": "full-beard-facial-hair",
-      "name": "Full Beard (Facial Hair)",
-      "description": "",
-      "icon": "",
-      "rarity": "Common",
-      "item_type": "Cosmetic",
-      "subcategory": "Facial Hair",
-      "value": null,
-      "workbench": null,
-      "loot_area": "",
-      "stack_size": null,
-      "translations": {
-        "it": {
-          "name": "Barba"
-        }
-      },
-      "review": [
-        "Rarità provvisoria (Common): da verificare in gioco",
-        "Descrizione mancante",
-        "Icona assente: usa il fallback della sottocategoria"
-      ]
-    }
-  },
+  "customItemsNeeded": {},
   "problems": [
     {
       "level": 44,
