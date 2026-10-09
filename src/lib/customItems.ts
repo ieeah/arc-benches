@@ -69,13 +69,56 @@ export function emptyCustomItem(id = ''): CustomItemDef {
 
 // ── bozza ────────────────────────────────────────────────────────────────────
 
+/**
+ * Forma salvata della bozza: solo le **differenze** dal file (voci aggiunte o modificate, ed eliminazioni
+ * esplicite), mai una copia completa. Così una bozza non può cancellare né oscurare gli oggetti aggiunti al
+ * file dopo che è stata creata (es. da un import o da un altro strumento).
+ */
+interface StoredCustomItemsDraft {
+  version: 2;
+  upserts: CustomItemsMap;
+  removed: string[];
+  icons: Record<string, string>;
+}
+
+const entryJson = (id: string, def: CustomItemDef) => JSON.stringify(serializeCustomItems({ [id]: def })[id]);
+
+/** Bozza completa → differenze dal file. */
+export function toStoredDraft(draft: CustomItemsDraft, baseline: CustomItemsMap = baselineCustomItems): StoredCustomItemsDraft {
+  const upserts: CustomItemsMap = {};
+  for (const [id, def] of Object.entries(draft.items)) {
+    if (!baseline[id] || entryJson(id, def) !== entryJson(id, baseline[id])) upserts[id] = def;
+  }
+  const removed = Object.keys(baseline).filter((id) => !draft.items[id]);
+  return { version: 2, upserts, removed, icons: draft.icons };
+}
+
+/**
+ * Differenze salvate → bozza completa sopra il file **attuale**. Il vecchio formato (copia completa
+ * `{ items, icons }`) si legge come sole aggiunte e modifiche: non può eliminare nulla.
+ */
+export function fromStoredDraft(stored: unknown, baseline: CustomItemsMap = baselineCustomItems): CustomItemsDraft | null {
+  if (typeof stored !== 'object' || stored === null) return null;
+  const parsed = stored as Partial<StoredCustomItemsDraft> & { items?: CustomItemsMap };
+  const items: CustomItemsMap = { ...baseline };
+
+  if (parsed.version === 2) {
+    for (const id of parsed.removed ?? []) delete items[id];
+    Object.assign(items, parsed.upserts ?? {});
+  } else if (parsed.items && typeof parsed.items === 'object') {
+    for (const [id, def] of Object.entries(parsed.items)) {
+      if (!baseline[id] || entryJson(id, def) !== entryJson(id, baseline[id])) items[id] = def;
+    }
+  } else {
+    return null;
+  }
+  return { items, icons: parsed.icons ?? {} };
+}
+
 export function readCustomItemsDraft(): CustomItemsDraft | null {
   try {
     const raw = localStorage.getItem(DRAFT_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as Partial<CustomItemsDraft>;
-    if (!parsed.items || typeof parsed.items !== 'object') return null;
-    return { items: parsed.items, icons: parsed.icons ?? {} };
+    return raw ? fromStoredDraft(JSON.parse(raw)) : null;
   } catch {
     return null;
   }
@@ -83,7 +126,7 @@ export function readCustomItemsDraft(): CustomItemsDraft | null {
 
 export function writeCustomItemsDraft(draft: CustomItemsDraft): void {
   try {
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(toStoredDraft(draft)));
   } catch { /* quota esaurita o storage non disponibile */ }
 }
 
