@@ -42,6 +42,7 @@ Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROF
 - **Autonomia dei Commit**: Non effettuare MAI commit in autonomia senza esplicita autorizzazione o richiesta diretta dell'utente. Quando si lavora a un task o una issue, le modifiche devono rimanere nel working tree come modifiche non committate per permettere la revisione manuale dell'utente.
 - **Esecuzione di Lint e Build**: Non lanciare i comandi di linting (`npm run lint`) e build (`npm run build`) ad ogni singola modifica intermedia o di piccolo conto. Ha senso eseguirli solo in presenza di errori espliciti da indagare, oppure come validazione finale al completamento del task prima che l'utente effettui il commit.
 - **Commit**: Segui lo standard Conventional Commits (`type: descrizione` o `type(scope): descrizione`), con eventuale riferimento all'issue o fase (es. `feat: aggiunge pill livello attuale (#7 Fase 2)`). Nessun riferimento a strumenti AI nei commit.
+- **Release notes**: ogni `feat`/`fix`/`perf` che entra aggiunge o aggiorna una riga nella bozza `changelog/<prossima versione>.md` (sezione giusta; il lavoro non previsto in `docs/VERSIONING.md` va in «Aggiunte non pianificate»), così alla release le note sono complete. Non basta il commit: la riga si scrive nello stesso intervento.
 - **ID Oggetti**: Gli ID degli oggetti usano sempre la notazione hyphen-case (`metal-parts`), mai underscore.
 - **Interfaccia Utente (UI)**:
   - Lingua della UI in italiano.
@@ -66,6 +67,7 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Mappa statica di architettura e flusso dati.
 - [docs/INCEPTION_BRIEF.md](docs/INCEPTION_BRIEF.md) — Documento d'insieme di fondazione (problema, persone, MVP, pre-mortem e decisioni tecniche).
 - [docs/VERSIONING.md](docs/VERSIONING.md) — Piano previsionale delle versioni e della roadmap SemVer fino all'MVP (1.0.0).
+- [changelog/](changelog/) — Note di rilascio per versione; la prossima versione ha una bozza sempre aggiornata (es. `changelog/0.5.0.md`).
 
 ### Specifiche di Dettaglio (`docs/specs/`)
 - [docs/specs/progetti.md](docs/specs/progetti.md) — Specifica sistema progetti.
