@@ -490,6 +490,11 @@ describe('validateList: Reward Pass', () => {
     expect(none?.listType === 'pass' && none.tracks.map(t => t.id)).toEqual(['free', 'premium']);
   });
 
+  it('keeps the locked flag of a track only when it is true', () => {
+    const out = validateList(pass({ tracks: [{ id: 'free', name: 'Free', locked: false }, { id: 'premium', name: 'Premium', locked: true }] }));
+    expect(out?.listType === 'pass' && out.tracks.map(t => t.locked)).toEqual([undefined, true]);
+  });
+
   it('reads the premium cost only when it is a valid number', () => {
     expect((validateList(pass({ premiumCostTokens: 1150 })) as { premiumCostTokens?: number }).premiumCostTokens).toBe(1150);
     expect('premiumCostTokens' in (validateList(pass({ premiumCostTokens: -5 })) as object)).toBe(false);

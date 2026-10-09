@@ -121,6 +121,8 @@ export interface PassTrackDef {
   id: string;
   name: string;
   translations?: Record<string, { name?: string }>;
+  /** Traccia a pagamento: come nel gioco, le sue ricompense mostrano il lucchetto finché non è sbloccata. */
+  locked?: boolean;
 }
 
 /** Reward Pass: i livelli sono i tier e le ricompense di ogni livello appartengono a una traccia. */
@@ -143,6 +145,15 @@ export interface CustomList extends ListBase {
  * the game's hideout workbenches are the read-only seed; custom lists are user-created instances.
  */
 export type List = WorkbenchList | ExpeditionList | ProjectList | QuestList | PassList | CustomList;
+
+/** Un Reward Pass concluso dal profilo: resta nello storico (e nella futura pagina dei trofei) anche se sparisce dal seed. */
+export interface CompletedRewardPass {
+  id: string;
+  /** Nome del pass al momento della conclusione (il seed potrebbe non averlo più). */
+  name: string;
+  /** Data di conclusione, ISO 8601. */
+  completedAt: string;
+}
 
 export interface Profile {
   id: string;
@@ -314,6 +325,22 @@ export interface AppState {
   setDepartureWindowActive: (active: boolean) => void;
   confirmDeparture: (gainOverride?: number) => void;
   closeWindowWithoutDeparture: (clearInventory?: boolean) => void;
+
+  /** Reward Pass (seed read-only, `listType: 'pass'`) */
+  passes: PassList[];
+  /** Id del pass attivo del profilo: al massimo uno alla volta, cambia solo concludendolo (o dalle Impostazioni). */
+  activeRewardPass: string | null;
+  completedRewardPasses: CompletedRewardPass[];
+  /** Attiva un pass; rifiutato (false) se ce n'è già uno attivo, se non esiste o se è già concluso. */
+  setActiveRewardPass: (passId: string) => boolean;
+  /** Imposta il tier raggiunto del pass attivo (limitato a 0..maxLevel). */
+  setRewardPassLevel: (level: number) => void;
+  /** Conclude il pass attivo: tier all'ultimo livello, voce nello storico, nessun pass attivo. */
+  concludeRewardPass: () => void;
+  /** Via d'uscita: scarta il pass attivo ed elimina il suo progresso. */
+  resetActiveRewardPass: () => void;
+  /** Il pass attivo non esiste più nel seed: lo si segna concluso (storico) o non completato (progresso perso). */
+  resolveOrphanRewardPass: (outcome: 'completed' | 'abandoned') => void;
 
   /** Blueprint Tracker state for the active profile */
   ownedBlueprints: Record<string, boolean>;

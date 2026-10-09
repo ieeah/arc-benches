@@ -22,6 +22,7 @@ import { DevDashboardPage } from '@/pages/DevDashboardPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
 import { ExpeditionPage } from '@/pages/ExpeditionPage';
+import { RewardPassPage } from '@/pages/RewardPassPage';
 import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
 import { useFeatureFlags } from '@/lib/featureFlags';
@@ -157,6 +158,13 @@ export default function App() {
               )}
               {activeTab === 'blueprints' && isFeatureEnabled('blueprints') && <BlueprintsPage />}
               {activeTab === 'expeditions' && isFeatureEnabled('expeditions') && <ExpeditionPage />}
+              {activeTab === 'reward-pass' && isFeatureEnabled('reward-pass') && (
+                <RewardPassPage
+                  passId={router.params.pass}
+                  view={router.params.view}
+                  onNavigate={(params) => router.push('reward-pass', params)}
+                />
+              )}
               {activeTab === 'items' && (
                 <ItemsPage
                   onBack={() => router.back()}

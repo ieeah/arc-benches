@@ -7,6 +7,7 @@ import { createProfileSlice } from '@/store/profileSlice';
 import { createPersonalitySlice } from '@/store/personalitySlice';
 import { createSettingsSlice } from '@/store/settingsSlice';
 import { createExpeditionsSlice } from '@/store/expeditionsSlice';
+import { createRewardPassSlice } from '@/store/rewardPassSlice';
 import { saveProfileState, saveProfilesMeta, saveSharedLists, saveSettings } from '@/store/persistence';
 
 // Domain slices (inventory / progress / lists / profile / personality / settings / expeditions) combined into one store.
@@ -20,6 +21,7 @@ export const useAppStore = create<AppState>()((...a) => ({
   ...createPersonalitySlice(...a),
   ...createSettingsSlice(...a),
   ...createExpeditionsSlice(...a),
+  ...createRewardPassSlice(...a),
 }));
 
 // ---------------------------------------------------------------------------
@@ -86,7 +88,9 @@ useAppStore.subscribe((state, prev) => {
     state.completedExpeditionsCount !== prev.completedExpeditionsCount ||
     state.earnedPermanentSkillPoints !== prev.earnedPermanentSkillPoints ||
     state.consecutiveStreak !== prev.consecutiveStreak ||
-    state.departureWindowActive !== prev.departureWindowActive;
+    state.departureWindowActive !== prev.departureWindowActive ||
+    state.activeRewardPass !== prev.activeRewardPass ||
+    state.completedRewardPasses !== prev.completedRewardPasses;
   // On a profile switch the active id changes together with all the slice refs:
   // we write the (new) active profile's state to its own key, never the old one.
   if (profileStateChanged || state.activeProfileId !== prev.activeProfileId) {

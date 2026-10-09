@@ -150,6 +150,8 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         earnedPermanentSkillPoints: 0,
         consecutiveStreak: 0,
         departureWindowActive: false,
+        activeRewardPass: null,
+        completedRewardPasses: [],
       };
 
       if (!profiles.some(p => p.id === entry.profile.id)) profiles = [...profiles, entry.profile];

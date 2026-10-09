@@ -4,6 +4,7 @@ import {
   Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages,
   Zap, ZapOff
 } from 'lucide-react';
+import { ChangeActivePassSection } from '@/components/pass/ChangeActivePassSection';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { useTheme } from '@/context/ThemeContext';
@@ -539,6 +540,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
           })}
         </div>
       </section>
+
+      <ChangeActivePassSection />
 
       {/* 3. BACKUP & DATI */}
       <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] p-5 shadow-sm space-y-4">

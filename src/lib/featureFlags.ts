@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import { safeLS } from '@/lib/safeStorage';
 import defaultFeatureFlagsSeed from '@/data/feature-flags.json';
 
-export type FeatureFlagId = 'expeditions' | 'vault' | 'role-maker' | 'blueprints' | 'maps';
+export type FeatureFlagId = 'expeditions' | 'vault' | 'role-maker' | 'blueprints' | 'maps' | 'reward-pass';
 
 export interface FeatureFlagDefinition {
   id: FeatureFlagId;
@@ -52,6 +52,15 @@ export const FEATURE_FLAGS_DEFINITIONS: readonly FeatureFlagDefinition[] = [
     defaultValue: SEED_FLAGS.blueprints ?? true,
     navIds: ['blueprints'],
     routes: ['blueprints'],
+  },
+  {
+    id: 'reward-pass',
+    name: 'Reward Pass',
+    description: 'Selezione del pass attivo, anteprima dei pass e tracciamento del tier raggiunto',
+    category: 'core',
+    defaultValue: SEED_FLAGS['reward-pass'] ?? false,
+    navIds: ['reward-pass'],
+    routes: ['reward-pass'],
   },
   {
     id: 'maps',

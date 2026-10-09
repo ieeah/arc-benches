@@ -38,6 +38,7 @@ describe('withListType', () => {
   it('gives a converted pass the default free and premium tracks, and keeps them when it is already a pass', () => {
     const pass = withListType({ ...base, listType: 'project' }, 'pass');
     expect(isPass(pass) && pass.tracks.map(t => t.id)).toEqual(['free', 'premium']);
+    expect(isPass(pass) && pass.tracks.map(t => t.locked)).toEqual([undefined, true]);
     const custom: List = { ...base, listType: 'pass', tracks: [{ id: 'legacy', name: 'Legacy' }] };
     expect(withListType(custom, 'pass')).toMatchObject({ tracks: [{ id: 'legacy' }] });
   });
