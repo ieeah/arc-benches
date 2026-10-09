@@ -45,6 +45,7 @@ const post = (body: unknown) =>
 export const listTrash = () => request();
 export const addToTrash = (entry: DevTrashEntry) => post({ action: 'add', entry });
 export const removeFromTrash = (id: string) => post({ action: 'remove', id });
+export const clearAllTrash = () => post({ action: 'clear' });
 
 export const isPassTrackEntry = (e: DevTrashEntry): e is DevTrashEntry & { payload: PassTrackTrashPayload } =>
   e.kind === 'pass-track' && typeof e.payload === 'object' && e.payload !== null && 'track' in e.payload && 'listId' in e.payload;

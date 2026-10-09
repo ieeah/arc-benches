@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
-import { addTrashEntry, readTrash, removeTrashEntry } from './dev-trash';
+import { addTrashEntry, clearTrash, readTrash, removeTrashEntry } from './dev-trash';
 
 /** Gli unici file scrivibili (percorsi relativi alla radice, in formato POSIX). */
 export const APPLY_ALLOWED_FILES = [
@@ -146,7 +146,7 @@ export function devApplyPlugin(): Plugin {
       root = config.root;
     },
     configureServer(server) {
-      // Cestino Dev: GET = elenco, POST { action: 'add', entry } | { action: 'remove', id }
+      // Cestino Dev: GET = elenco, POST { action: 'add', entry } | { action: 'remove', id } | { action: 'clear' }
       server.middlewares.use(async (req, res, next) => {
         const pathname = (req.url ?? '').split('?')[0];
         if (!pathname.endsWith('/__dev/trash')) return next();
@@ -160,6 +160,7 @@ export function devApplyPlugin(): Plugin {
           const result =
             body.action === 'add' ? addTrashEntry(root, body.entry)
             : body.action === 'remove' ? removeTrashEntry(root, body.id)
+            : body.action === 'clear' ? clearTrash(root)
             : ({ ok: false, message: 'Azione non valida.' } as const);
           if (result.ok) send(res, 200, { status: 'ok', entries: result.entries });
           else send(res, 400, { status: 'error', message: result.message });
