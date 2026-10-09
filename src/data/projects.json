@@ -676,7 +676,26 @@
         {
           "level": 3,
           "requirementItemIds": [],
-          "actions": [],
+          "actions": [
+            {
+              "id": "bd4d2f34-911b-468a-9cb4-f521f1caaa75",
+              "label": "Damage Flying ARC enemies (800)",
+              "translations": {
+                "it": {
+                  "label": "Danneggia nemici ARC volanti (800)"
+                }
+              }
+            },
+            {
+              "id": "419e675f-389a-4b53-9425-be6ec7e99127",
+              "label": "Damage Bully ARC (300)",
+              "translations": {
+                "it": {
+                  "label": "Danneggia ARC Bully (300)"
+                }
+              }
+            }
+          ],
           "rewards": [
             {
               "itemId": "hotel-chair-design",
@@ -691,44 +710,60 @@
               "quantity": 15
             }
           ],
-          "tieredActions": [
+          "tieredActions": []
+        }
+      ]
+    },
+    {
+      "id": "test",
+      "name": "New PROJECT List #7",
+      "translations": {
+        "it": {
+          "name": "Nuova Lista PROJECT #7"
+        }
+      },
+      "maxLevel": 1,
+      "listType": "project",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [],
+          "actions": [
             {
-              "id": "350267eb-4a3c-4ffe-b561-2537b53629d1",
-              "label": "Damage flyng ARC enemies",
+              "id": "ae0f11e8-7f7a-4d4d-9cdc-ba54cd1e1f5d",
+              "label": "sss",
               "translations": {
                 "it": {
-                  "label": "Infliggi danni ai nemici ARC volanti"
+                  "label": "sss"
+                }
+              }
+            },
+            {
+              "id": "c9f5cbde-088f-47ae-9818-b5daac8ff8c8",
+              "label": "aaa",
+              "translations": {
+                "it": {
+                  "label": "aaa"
                 }
               },
-              "steps": [
-                {
-                  "id": "24127b2a-2742-41ab-bc28-e7edb240be66",
-                  "label": "800",
-                  "translations": {
-                    "it": {
-                      "label": "800"
-                    }
-                  }
-                }
+              "maps": [
+                "blue-gate",
+                "stella-montis",
+                "pendola-pass"
               ]
             },
             {
-              "id": "922ef95d-3daa-40e9-835c-3edfa7112c96",
-              "label": "Damage Bully ARC",
+              "id": "8a3d0db7-8ba3-4b65-a4ae-059fb27d6606",
+              "label": "ddd",
               "translations": {
                 "it": {
-                  "label": "Infliggi danni ai Bully"
+                  "label": "ddd"
                 }
               },
-              "steps": [
+              "carryItems": [
                 {
-                  "id": "8edd3830-252a-4ad4-9d9c-ee75fd63b438",
-                  "label": "300",
-                  "translations": {
-                    "it": {
-                      "label": "300"
-                    }
-                  }
+                  "itemId": "wires",
+                  "quantity": 1
                 }
               ]
             }
