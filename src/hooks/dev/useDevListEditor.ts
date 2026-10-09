@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import type { List, ListType, ListLevel } from '@/types';
 import { generateUUID } from '@/lib/uuid';
-import { isExpedition } from '@/lib/lists';
+import { DEFAULT_PASS_TRACKS, isExpedition } from '@/lib/lists';
 import type { ListsDataMap } from './useDevListDrafts';
 
 interface UseDevListEditorOptions {
@@ -97,6 +97,7 @@ export function useDevListEditor({
       newId = `expedition-${nextIndex}`;
     }
 
+    const levelCount = type === 'pass' ? 60 : 3;
     const newList = {
       id: newId,
       name: type === 'expedition' ? `Expedition #${expIndex}` : `New ${type.toUpperCase()} List #${count}`,
@@ -105,14 +106,11 @@ export function useDevListEditor({
           name: type === 'expedition' ? `Spedizione #${expIndex}` : `Nuova Lista ${type.toUpperCase()} #${count}`,
         },
       },
-      maxLevel: 3,
+      maxLevel: levelCount,
       listType: type,
+      ...(type === 'pass' ? { tracks: DEFAULT_PASS_TRACKS.map((t) => ({ ...t })) } : {}),
       ...(expIndex !== undefined ? { expeditionIndex: expIndex } : {}),
-      levels: [
-        { level: 1, requirementItemIds: [] },
-        { level: 2, requirementItemIds: [] },
-        { level: 3, requirementItemIds: [] },
-      ],
+      levels: Array.from({ length: levelCount }, (_, i) => ({ level: i + 1, requirementItemIds: [] })),
       // il tipo è scelto a runtime: i campi specifici (expeditionIndex) sono aggiunti sopra solo per le spedizioni
     } as List;
     setListsData((prev) => ({ ...prev, [type]: [...(prev[type] || []), newList] }));

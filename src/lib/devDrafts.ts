@@ -41,6 +41,7 @@ export function hasUnsavedDevChanges(): boolean {
       if (parsed.expedition && JSON.stringify(parsed.expedition) !== initialExp) return true;
       if (parsed.project && Array.isArray(parsed.project) && parsed.project.length > 0) return true;
       if (parsed.quest && Array.isArray(parsed.quest) && parsed.quest.length > 0) return true;
+      if (parsed.pass && Array.isArray(parsed.pass) && parsed.pass.length > 0) return true;
     }
 
     // 2. Check Overrides Draft

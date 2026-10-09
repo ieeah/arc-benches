@@ -1,5 +1,5 @@
-import { isExpedition } from '@/lib/lists';
-import type { ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
+import { DEFAULT_PASS_TRACKS, isExpedition } from '@/lib/lists';
+import type { PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -72,7 +72,33 @@ const validateReward = (v: unknown): Reward | null => {
   const itemId = asNonEmptyString(v.itemId);
   if (itemId === null) return null;
   const quantity = asNonNegInt(v.quantity, 1);
-  return { itemId, quantity: quantity !== null && quantity > 0 ? quantity : 1 };
+  const track = asNonEmptyString(v.track);
+  return { itemId, quantity: quantity !== null && quantity > 0 ? quantity : 1, ...(track !== null ? { track } : {}) };
+};
+
+/** Tracce di un pass: id e nome obbligatori, id univoci; senza tracce valide il pass non è utilizzabile. */
+const validatePassTracks = (v: unknown): PassTrackDef[] => {
+  if (!Array.isArray(v)) return [];
+  const seen = new Set<string>();
+  const tracks: PassTrackDef[] = [];
+  for (const raw of v) {
+    if (!isObject(raw)) continue;
+    const id = asNonEmptyString(raw.id);
+    const name = asNonEmptyString(raw.name);
+    if (id === null || name === null || seen.has(id)) continue;
+    seen.add(id);
+    const track: PassTrackDef = { id, name };
+    if (isObject(raw.translations)) {
+      const translations: Record<string, { name?: string }> = {};
+      for (const [lang, tr] of Object.entries(raw.translations)) {
+        const trName = isObject(tr) ? asNonEmptyString(tr.name) : null;
+        if (trName !== null) translations[lang] = { name: trName };
+      }
+      if (Object.keys(translations).length > 0) track.translations = translations;
+    }
+    tracks.push(track);
+  }
+  return tracks;
 };
 
 const validateRewardsArray = (v: unknown): Reward[] | undefined => {
@@ -210,7 +236,7 @@ const validateLevel = (v: unknown): ListLevel | null => {
   return out;
 };
 
-const LIST_TYPES: ListType[] = ['workbench', 'project', 'quest', 'custom', 'expedition'];
+const LIST_TYPES: ListType[] = ['workbench', 'project', 'quest', 'custom', 'expedition', 'pass'];
 
 const asIsoDateString = (v: unknown): string | undefined => {
   if (typeof v !== 'string' || !v) return undefined;
@@ -259,6 +285,28 @@ export const validateList = (v: unknown): List | null => {
       out = { ...base, listType };
       const trader = asNonEmptyString(v.trader);
       if (trader !== null) out.trader = trader;
+      break;
+    }
+    case 'pass': {
+      const tracks = validatePassTracks(v.tracks);
+      // Un pass senza tracce valide non ha senso: ripiega sulle due tracce di partenza.
+      out = { ...base, listType, tracks: tracks.length > 0 ? tracks : DEFAULT_PASS_TRACKS.map((t) => ({ ...t })) };
+      const cost = asNonNegInt(v.premiumCostTokens);
+      if (cost !== null) out.premiumCostTokens = cost;
+      // Le ricompense di una traccia non dichiarata non hanno una colonna dove comparire: si scartano.
+      // Quelle senza traccia (file scritti a mano) vanno alla prima, resa esplicita: riordinare le
+      // tracce in seguito non ne cambia il significato.
+      const trackIds = new Set(out.tracks.map((t) => t.id));
+      const firstTrackId = out.tracks[0].id;
+      out.levels = out.levels.map((lvl) => {
+        if (!lvl.rewards) return lvl;
+        const rewards = lvl.rewards
+          .filter((r) => !r.track || trackIds.has(r.track))
+          .map((r) => (r.track ? r : { ...r, track: firstTrackId }));
+        const { rewards: _dropped, ...rest } = lvl;
+        void _dropped;
+        return rewards.length > 0 ? { ...rest, rewards } : rest;
+      });
       break;
     }
     default:

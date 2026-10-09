@@ -10,6 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
+import { addTrashEntry, readTrash, removeTrashEntry } from './dev-trash';
 
 /** Gli unici file scrivibili (percorsi relativi alla radice, in formato POSIX). */
 export const APPLY_ALLOWED_FILES = [
@@ -17,6 +18,7 @@ export const APPLY_ALLOWED_FILES = [
   'src/data/expeditions.json',
   'src/data/projects.json',
   'src/data/quests.json',
+  'src/data/passes.json',
   'src/data/items-overrides.json',
   'src/data/nav.json',
   'src/data/feature-flags.json',
@@ -144,6 +146,28 @@ export function devApplyPlugin(): Plugin {
       root = config.root;
     },
     configureServer(server) {
+      // Cestino Dev: GET = elenco, POST { action: 'add', entry } | { action: 'remove', id }
+      server.middlewares.use(async (req, res, next) => {
+        const pathname = (req.url ?? '').split('?')[0];
+        if (!pathname.endsWith('/__dev/trash')) return next();
+        if (!isSameOriginLocal(req)) return send(res, 403, { status: 'error', message: 'Richiesta non consentita.' });
+
+        if (req.method === 'GET') return send(res, 200, { status: 'ok', entries: readTrash(root) });
+        if (req.method !== 'POST') return send(res, 405, { status: 'error', message: 'Metodo non consentito.' });
+
+        try {
+          const body = JSON.parse(await readBody(req)) as { action?: string; entry?: unknown; id?: unknown };
+          const result =
+            body.action === 'add' ? addTrashEntry(root, body.entry)
+            : body.action === 'remove' ? removeTrashEntry(root, body.id)
+            : ({ ok: false, message: 'Azione non valida.' } as const);
+          if (result.ok) send(res, 200, { status: 'ok', entries: result.entries });
+          else send(res, 400, { status: 'error', message: result.message });
+        } catch (err) {
+          send(res, 400, { status: 'error', message: err instanceof Error ? err.message : 'Richiesta non valida.' });
+        }
+      });
+
       server.middlewares.use(async (req, res, next) => {
         const pathname = (req.url ?? '').split('?')[0];
         if (!pathname.endsWith('/__dev/apply')) return next();

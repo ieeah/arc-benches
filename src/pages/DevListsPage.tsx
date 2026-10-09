@@ -23,6 +23,7 @@ import {
   AlertCircle,
   ChevronDown,
   MapPin,
+  Ticket,
 } from "lucide-react";
 import type {
   List,
@@ -45,7 +46,7 @@ import { TieredActionTimeline } from "@/components/TieredActionTimeline";
 import { useTranslation, getItemName, getListName, getListSearchFields } from "@/i18n";
 import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
-import { isExpedition, isProject, withListType } from "@/lib/lists";
+import { isExpedition, isPass, isProject, withListType } from "@/lib/lists";
 import { buildListsFileContent } from "@/lib/devArtifacts";
 import { ApplyToProjectButton } from "@/components/dev/ApplyToProjectButton";
 import itemsDatabase from "@/data/items.json";
@@ -57,6 +58,7 @@ import { DevListCard } from "@/components/dev/DevListCard";
 import { DevDamageChallengeSection } from "@/components/dev/DevDamageChallengeSection";
 import { RewardBadge } from "@/components/RewardBadge";
 import { DevRewardEditorModal } from "@/components/dev/DevRewardEditorModal";
+import { DevPassSection } from "@/components/dev/DevPassSection";
 import { DevActionContextModal } from "@/components/dev/DevActionContextModal";
 import { ActionContextChips } from "@/components/ActionContextChips";
 
@@ -87,6 +89,7 @@ const LIST_TYPES_ORDER: ListType[] = [
   "expedition",
   "project",
   "quest",
+  "pass",
   "custom",
 ];
 
@@ -111,6 +114,12 @@ const LIST_TYPE_CONFIG: Record<
     icon: <FolderKanban size={14} className="text-purple-500" />,
     color: "purple",
     filename: "projects.json",
+  },
+  pass: {
+    label: "Reward Pass",
+    icon: <Ticket size={14} className="text-rose-500" />,
+    color: "rose",
+    filename: "passes.json",
   },
   quest: {
     label: "Quest",
@@ -755,6 +764,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                   "expedition",
                   "project",
                   "quest",
+                  "pass",
                 ] as FilterType[]
               ).map((f) => (
                 <button
@@ -1029,6 +1039,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                   </option>
                   <option value="project">Project (Progetti)</option>
                   <option value="quest">Quest (Missioni / Contratti)</option>
+                  <option value="pass">Pass (Reward Pass)</option>
                 </select>
               </div>
 
@@ -1131,6 +1142,13 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                   className="w-full px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium resize-none"
                 />
               </div>
+
+              {selectedList.listType === "pass" && (
+                <DevPassSection
+                  selectedList={selectedList}
+                  updateSelectedList={updateSelectedList}
+                />
+              )}
 
               {selectedList.listType === "expedition" && (
                 <div className="sm:col-span-2 space-y-1.5">
@@ -1256,6 +1274,9 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             {/* Level Content Editor */}
             {activeLevel && (
               <div className="space-y-6">
+                {/* Un Reward Pass è solo un tracker di tier e ricompense: niente materiali, azioni o scaglioni */}
+                {selectedList.listType !== "pass" && (
+                  <>
                 {/* 1. Requirement Materials */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -2286,6 +2307,9 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                   )}
                 </div>
 
+                  </>
+                )}
+
                 {/* 4. Level Rewards */}
                 <div className="space-y-3 pt-2">
                   <div className="flex items-center justify-between">
@@ -2415,6 +2439,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           title={rewardModalTarget.title}
           subtitle={rewardModalTarget.subtitle}
           rewards={rewardModalTarget.rewards}
+          tracks={rewardModalTarget.type === "level" && selectedList && isPass(selectedList) ? selectedList.tracks : undefined}
           onSave={handleSaveGranularRewards}
           onClose={() => setRewardModalTarget(null)}
         />

@@ -71,6 +71,7 @@ const LIST_FILES: { type: Exclude<ListType, 'custom'>; file: string; label: stri
   { type: 'expedition', file: 'src/data/expeditions.json', label: 'Spedizioni' },
   { type: 'project', file: 'src/data/projects.json', label: 'Progetti' },
   { type: 'quest', file: 'src/data/quests.json', label: 'Quest' },
+  { type: 'pass', file: 'src/data/passes.json', label: 'Reward Pass' },
 ];
 
 /**

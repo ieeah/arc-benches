@@ -2,7 +2,7 @@
 
 Valutazione di come rappresentare il Reward Pass di *ARC Raiders* (Frozen Trail, disponibile dall'8 ottobre 2026) in ARC Benches: riuso del meccanismo **liste** già esistente oppure meccanismo dedicato.
 
-Stato: **modello approvato (2026-10-09)** — i pass si gestiscono come liste (D1); le decisioni D1, D7 e D8 sono fissate, le altre restano da confermare. Nessun file sorgente è stato ancora modificato per i pass.
+Stato: **modello implementato in #85 (2026-10-09)** (senza `seasonId`: l'id della lista identifica il pass; seed `src/data/passes.json` vuoto) — i pass si gestiscono come liste (D1); le decisioni D1, D7 e D8 sono fissate, le altre restano da confermare.
 
 Issue di riferimento: [#85 Modello Reward Pass come tipo di lista + editor Dev dei pass](https://github.com/ieeah/arc-benches/issues/85), [#90 Reward Pass Tracker (solo livelli e ricompense, dati inseriti a mano; niente Feats)](https://github.com/ieeah/arc-benches/issues/90). Contesto già analizzato in [frozen-trail.md](frozen-trail.md).
 
@@ -25,7 +25,7 @@ Osservazioni:
 
 - **Le fonti non concordano sui Token.** Beebom attribuisce al premium 1.150 Token e ai tier gratuiti 150 Token totali; UrGameTips parla di fino a 200 gratuiti e di un totale di 1.350 (free + premium). Il dato va verificato in gioco prima di essere inserito nei dati.
 - **Polygon fornisce la tabella completa** (fornita come HTML incollato dall'utente): 60 righe, tier 1–60 senza buchi, con ricompensa free e premium per ogni tier. Il tracciato premium è vuoto (`N/A`) in 10 tier: 6, 12, 18, 24, 30, 36, 42, 48, 54, 60.
-- **Le soglie di Polygon non coincidono con Beebom**: Polygon ha 150 × tier (150 → 9.000), Beebom 135 + 150 × (tier − 1) (135 → 8.985). Le soglie vanno confermate in gioco prima di usarle.
+- **Soglie punti (confermate)**: Frozen Trail a 150 punti per tier, quindi Polygon (150 × tier, tier 60 = 9.000) è corretta e la stima di Beebom (135 di partenza, 8.985) è errata. Legacy Pass: 100 punti per livello. Le soglie restano fuori dallo scope del tracker (vedi D10).
 - **Token dalla tabella Polygon**: gratuiti 200 (tier 40, 50, 55: 50 + 50 + 100); premium 1.100 (tier 4, 16, 28, 40: 200 ciascuno; tier 55: 300). Totale 1.300, non 1.350 come indicato da UrGameTips. Il prezzo di 1.150 Token resta quello dichiarato da Beebom e UrGameTips.
 - **Legacy Pass non coperto** da nessuna fonte: va inserito a mano (D4).
 - **Le ricompense sono in gran parte cosmetiche** (tute, accessori, colorazioni, stencil, emote). Non tutte sono probabilmente presenti nel catalogo `items.json`. Vedi decisione D3.
@@ -94,8 +94,6 @@ export type ListType = 'workbench' | 'project' | 'quest' | 'custom' | 'expeditio
 /** Reward Pass di una stagione (seed read-only, come i banchi). */
 export interface PassList extends ListBase {
   listType: 'pass';
-  /** Stagione/pass di riferimento, es. "frozen-trail". */
-  seasonId: string;
   /** Tracce del pass, nell'ordine di visualizzazione (D7). */
   tracks: PassTrackDef[];
   /** Costo del tracciato premium in Raider Token (solo informativo). */
@@ -156,8 +154,8 @@ Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass`
 - **D1 — Modello**: ✅ **deciso** — Opzione B: i pass sono liste (`listType: 'pass'`); cambia solo la visualizzazione in UI (D8).
 - **D2 — Stato premium**: campo per profilo in `passPremiumUnlocked`, non nel seed e non nel `List`. Va incluso in import/export. *Raccomandato.*
 - **D3 — Ricompense cosmetiche non presenti nel catalogo**: oggi `Reward` richiede `itemId`. Opzioni: (a) aggiungere un `label` opzionale e `itemId` opzionale, con migrazione di validate e UI (come già previsto in `17-18-42-tech-spec.md`); (b) aggiungere gli oggetti cosmetici a `scripts/data/custom-items/`. *Raccomando (b) per i cosmetici che hanno un nome stabile, (a) per il resto, da confermare dopo aver verificato quali ricompense mancano nel catalogo.*
-- **D4 — Legacy Pass**: una lista `pass` separata con `seasonId: 'legacy'` (ricompense dei vecchi Raider Deck), oppure un tracciato `legacy` della stessa lista. Il Legacy si attiva scegliendo a quale collezione dirigere i punti, quindi la separazione in lista propria è più fedele. *Raccomando lista separata; da confermare.*
-- **D5 — Fine stagione**: nessuna fonte indica la data di fine. `expirationDate` resta non valorizzato finché non è nota.
+- **D4 — Legacy Pass**: una lista `pass` separata (ricompense dei vecchi Raider Deck), oppure un tracciato `legacy` della stessa lista. Il Legacy si attiva scegliendo a quale collezione dirigere i punti, quindi la separazione in lista propria è più fedele. *Raccomando lista separata; da confermare.*
+- **D5 — Fine stagione**: ✅ **deciso** — nessuna scadenza. `expirationDate` resta non valorizzato. Non è annunciata la cadenza dei futuri pass; se arriverà una scadenza, il campo esiste già su `List`.
 - **D6 — Verifica dei dati**: i tier vanno compilati a mano dal gioco o da una fonte completa. Le tre fonti sono secondarie e in disaccordo sui Token. *Da confermare con l'utente su quale fonte fidarsi.*
 
 - **D7 — Tracce generiche**: ✅ **deciso** — le tracce non sono un'enumerazione fissa. Ogni pass dichiara le proprie (`tracks: PassTrackDef[]`: `free`, `premium`, `legacy` o altre che Embark introdurrà) e ogni ricompensa porta l'id della sua traccia. Aggiungere una traccia è un dato, non una modifica al codice.
@@ -168,12 +166,15 @@ Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass`
   - la configurazione sta nell'header della pagina: quali tracce nascondere e «la mia traccia», che nasconde i `RewardBadge` non pertinenti; le preferenze sono per profilo/dispositivo e sostituiscono `passPremiumUnlocked` come filtro di visualizzazione (D2 resta per il conteggio delle ricompense).
   - Solo il livello raggiunto viene tracciato (niente Feats).
 
+- **D10 — Ambito dei dati economici e dei bug**: ✅ **deciso** — il tracker non gestisce il costo del pass (prezzo in Raider Token e rimborso fuori scope; `premiumCostTokens` può restare informativo o essere rimosso). Le soglie punti non sono modellate: il tracker registra solo il tier, e per il calcolo servirebbe solo `pointsRequired` per livello, da aggiungere in futuro. Il Legacy Pass usa 100 punti per livello, il Frozen Trail 150. I bug di lancio dello sblocco premium non vengono tracciati come problemi del modello.
+- **D9 — Traccia sempre esplicita e cestino**: ✅ **deciso** — ogni ricompensa di un pass porta il proprio `track` (la validazione assegna la prima traccia alle ricompense che ne sono prive, così riordinare le tracce non cambia il significato). Rimuovere una traccia la sposta, con le sue ricompense, nel cestino Dev (`dev-trash/trash.json`): file versionato, fuori da `src/` e `public/`, letto e scritto solo dal dev server, quindi non distribuito. Il cestino accoglie anche le liste eliminate da Gestione Liste. Un pass non ha requisiti di oggetti né azioni: è un tracker di tier e ricompense.
+
 ## 8. Rischi
 
 - **R1 — Visibilità nelle viste di lista.** Una lista `pass` potrebbe comparire in "liste attive" o in "mancanti" con `currentLevel` a 0 e `targetLevels` di default (`levelsAbove(0, maxLevel)`), creando attività fittizia. Va verificato come `getActiveListsPure` e l'inizializzazione di `targetLevels` trattano il nuovo `listType`. Mitigazione: default `activeModules[id] = false` per i pass e filtro esplicito nelle viste di fabbisogno.
 - **R2 — Import di profili esistenti.** `importLists` deve accettare `listType: 'pass'` senza rompere i file già esportati.
 - **R3 — Dati incompleti.** Il seed Free/Premium dei 60 tier è ora disponibile da Polygon; resta da inserire il Legacy Pass a mano.
-- **R4 — Fonti in disaccordo.** Soglie punti e totale Token differiscono tra le fonti. Vanno confermati prima del rilascio del seed.
+- **R4 — Fonti in disaccordo.** Risolto per le soglie (150 per tier, D10) e per il costo (non gestito, D10). Resta la differenza sul totale Token (1.300 da tabella contro 1.350 di UrGameTips), che non incide sul tracker.
 
 ## 9. Piano di test
 
@@ -194,6 +195,6 @@ Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass`
 2. Fonte da considerare autorevole per i Token e le ricompense tier per tier (D6).
 3. Conferma se il Legacy Pass va modellato come lista separata (D4).
 
-_Aggiornamento 2026-10-09: D1, D7 e D8 sono stati decisi (vedi sezione 7)._
+_Aggiornamento 2026-10-09: D1, D5, D7, D8, D9 e D10 sono stati decisi (vedi sezione 7). Restano aperti D2, D3, D4 e D6._
 
 Nessuna modifica al codice è stata fatta. Il documento non è stato committato.

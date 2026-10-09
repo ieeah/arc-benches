@@ -448,3 +448,50 @@ describe('validateList: action context (maps and carry items)', () => {
     expect(level.tieredActions![0].steps[0].maps).toEqual(['spaceport']);
   });
 });
+
+describe('validateList: Reward Pass', () => {
+  const pass = (patch: Record<string, unknown> = {}) => ({
+    id: 'frozen-trail',
+    name: 'Frozen Trail',
+    listType: 'pass',
+    maxLevel: 2,
+    tracks: [{ id: 'free', name: 'Free' }, { id: 'premium', name: 'Premium', translations: { it: { name: 'Premium IT' } } }],
+    levels: [
+      {
+        level: 1,
+        requirementItemIds: [],
+        rewards: [
+          { itemId: 'metal-parts', quantity: 2 },
+          { itemId: 'xp-points', quantity: 100, track: 'premium' },
+          { itemId: 'ghost', quantity: 1, track: 'unknown-track' },
+        ],
+      },
+      { level: 2, requirementItemIds: [] },
+    ],
+    ...patch,
+  });
+
+  it('makes the track explicit (first one when missing) and drops rewards of undeclared tracks', () => {
+    const out = validateList(pass());
+    expect(out?.listType).toBe('pass');
+    if (out?.listType !== 'pass') return;
+    expect(out.tracks.map(t => t.id)).toEqual(['free', 'premium']);
+    expect(out.tracks[1].translations?.it?.name).toBe('Premium IT');
+    expect(out.levels[0].rewards).toEqual([
+      { itemId: 'metal-parts', quantity: 2, track: 'free' },
+      { itemId: 'xp-points', quantity: 100, track: 'premium' },
+    ]);
+  });
+
+  it('drops duplicate or malformed tracks and falls back to the default ones when none is valid', () => {
+    const dup = validateList(pass({ tracks: [{ id: 'free', name: 'A' }, { id: 'free', name: 'B' }, { name: 'no id' }] }));
+    expect(dup?.listType === 'pass' && dup.tracks).toEqual([{ id: 'free', name: 'A' }]);
+    const none = validateList(pass({ tracks: 'nope' }));
+    expect(none?.listType === 'pass' && none.tracks.map(t => t.id)).toEqual(['free', 'premium']);
+  });
+
+  it('reads the premium cost only when it is a valid number', () => {
+    expect((validateList(pass({ premiumCostTokens: 1150 })) as { premiumCostTokens?: number }).premiumCostTokens).toBe(1150);
+    expect('premiumCostTokens' in (validateList(pass({ premiumCostTokens: -5 })) as object)).toBe(false);
+  });
+});

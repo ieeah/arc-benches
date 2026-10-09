@@ -4,6 +4,8 @@ import type { AppLanguage } from '@/i18n/types';
 export interface Reward {
   itemId: string;
   quantity: number;
+  /** Solo nei livelli di un Reward Pass: id della traccia (vedi `PassList.tracks`). La validazione rende esplicita la prima traccia quando manca. */
+  track?: string;
 }
 
 export interface ItemRequirement {
@@ -60,7 +62,7 @@ export interface ListLevel {
 }
 
 /** Semantic category of a list, orthogonal to `custom` (a custom list may also be a project, etc.). */
-export type ListType = 'workbench' | 'project' | 'quest' | 'custom' | 'expedition';
+export type ListType = 'workbench' | 'project' | 'quest' | 'custom' | 'expedition' | 'pass';
 
 export interface ListTranslation {
   name?: string;
@@ -113,6 +115,23 @@ export interface QuestList extends ListBase {
   trader?: string;
 }
 
+/** Una traccia di un Reward Pass (es. free, premium, legacy): è un dato, non un'enumerazione fissa. */
+export interface PassTrackDef {
+  /** Id in hyphen-case, referenziato da `Reward.track`. */
+  id: string;
+  name: string;
+  translations?: Record<string, { name?: string }>;
+}
+
+/** Reward Pass: i livelli sono i tier e le ricompense di ogni livello appartengono a una traccia. */
+export interface PassList extends ListBase {
+  listType: 'pass';
+  /** Tracce del pass, nell'ordine di visualizzazione. */
+  tracks: PassTrackDef[];
+  /** Costo della traccia premium in Raider Token (solo informativo). */
+  premiumCostTokens?: number;
+}
+
 /** User-created list (persisted). */
 export interface CustomList extends ListBase {
   listType: 'custom';
@@ -123,7 +142,7 @@ export interface CustomList extends ListBase {
  * A tracked list of materials by level — the generic engine, as a discriminated union on `listType`:
  * the game's hideout workbenches are the read-only seed; custom lists are user-created instances.
  */
-export type List = WorkbenchList | ExpeditionList | ProjectList | QuestList | CustomList;
+export type List = WorkbenchList | ExpeditionList | ProjectList | QuestList | PassList | CustomList;
 
 export interface Profile {
   id: string;
