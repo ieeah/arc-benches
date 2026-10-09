@@ -58,6 +58,7 @@ import { DevListCard } from "@/components/dev/DevListCard";
 import { DevDamageChallengeSection } from "@/components/dev/DevDamageChallengeSection";
 import { RewardBadge } from "@/components/RewardBadge";
 import { DevRewardEditorModal } from "@/components/dev/DevRewardEditorModal";
+import { DevListsTrash } from "@/components/dev/DevListsTrash";
 import { DevPassSection } from "@/components/dev/DevPassSection";
 import { DevActionContextModal } from "@/components/dev/DevActionContextModal";
 import { ActionContextChips } from "@/components/ActionContextChips";
@@ -264,12 +265,16 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     });
   }, [groupedLists]);
 
+  // Cambia quando una lista finisce nel cestino, per aggiornarne il contatore
+  const [trashVersion, setTrashVersion] = useState(0);
+
   const {
     selectedList,
     updateSelectedList,
     handleCreateList,
     handleDuplicateList,
     handleDeleteList,
+    handleRestoreFromTrash,
     handleResetCurrentList,
     handleResetCurrentLevel,
     handleAddLevel,
@@ -281,6 +286,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     selectedListId,
     setSelectedListId,
     setActiveLevelNumber,
+    onTrashChanged: () => setTrashVersion((v) => v + 1),
     setConfirmModalConfig,
   });
 
@@ -719,6 +725,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       onBack={onBack}
       headerActions={
         <>
+          <DevListsTrash refreshKey={trashVersion} onRestore={handleRestoreFromTrash} />
           <button
             type="button"
             onClick={handleResetDraft}
