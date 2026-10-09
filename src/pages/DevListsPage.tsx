@@ -22,6 +22,7 @@ import {
   Milestone,
   AlertCircle,
   ChevronDown,
+  MapPin,
 } from "lucide-react";
 import type {
   List,
@@ -31,6 +32,7 @@ import type {
   ItemInfo,
   TieredAction,
   ActionStep,
+  ActionContext,
 } from "@/types";
 import { DevStudioLayout } from "@/components/DevStudioLayout";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
@@ -55,6 +57,24 @@ import { DevListCard } from "@/components/dev/DevListCard";
 import { DevDamageChallengeSection } from "@/components/dev/DevDamageChallengeSection";
 import { RewardBadge } from "@/components/RewardBadge";
 import { DevRewardEditorModal } from "@/components/dev/DevRewardEditorModal";
+import { DevActionContextModal } from "@/components/dev/DevActionContextModal";
+import { ActionContextChips } from "@/components/ActionContextChips";
+
+/** Step in modifica: etichette separate per lingua, più ricompense e vincoli di contesto. */
+type DevStepDraft = { id: string; labelEn: string; labelIt: string; rewards?: Reward[] } & ActionContext;
+
+type GranularTargetType = "level" | "requirement" | "action" | "tieredStep" | "newTieredStep" | "editingTieredStep";
+
+interface GranularTarget {
+  type: GranularTargetType;
+  title: string;
+  subtitle?: string;
+  itemId?: string;
+  actionId?: string;
+  tieredId?: string;
+  stepId?: string;
+  stepIndex?: number;
+}
 
 interface DevListsPageProps {
   onBack: () => void;
@@ -157,27 +177,19 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     id: string;
     labelEn: string;
     labelIt: string;
-    steps: Array<{ id: string; labelEn: string; labelIt: string; rewards?: Reward[] }>;
+    steps: Array<DevStepDraft>;
   } | null>(null);
   const [isAddingTieredAction, setIsAddingTieredAction] = useState(false);
   const [newTieredEn, setNewTieredEn] = useState("");
   const [newTieredIt, setNewTieredIt] = useState("");
   const [newTieredSteps, setNewTieredSteps] = useState<
-    Array<{ id: string; labelEn: string; labelIt: string; rewards?: Reward[] }>
+    Array<DevStepDraft>
   >([]);
 
   // Granular Reward Editor Modal State
-  const [rewardModalTarget, setRewardModalTarget] = useState<{
-    type: "level" | "requirement" | "action" | "tieredStep" | "newTieredStep" | "editingTieredStep";
-    title: string;
-    subtitle?: string;
-    itemId?: string;
-    actionId?: string;
-    tieredId?: string;
-    stepId?: string;
-    stepIndex?: number;
-    rewards: Reward[];
-  } | null>(null);
+  const [rewardModalTarget, setRewardModalTarget] = useState<(GranularTarget & { rewards: Reward[] }) | null>(null);
+  // Mappe richieste e oggetti da portare (azioni e step)
+  const [contextModalTarget, setContextModalTarget] = useState<(GranularTarget & ActionContext) | null>(null);
 
   const [confirmModalConfig, setConfirmModalConfig] = useState<{
     title?: string;
@@ -455,6 +467,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           label: stepEn,
           ...(stepIt ? { translations: { it: { label: stepIt } } } : {}),
           ...(s.rewards && s.rewards.length > 0 ? { rewards: s.rewards } : {}),
+          ...(s.maps && s.maps.length > 0 ? { maps: s.maps } : {}),
+          ...(s.carryItems && s.carryItems.length > 0 ? { carryItems: s.carryItems } : {}),
         };
       });
 
@@ -528,6 +542,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           label: stepEn,
           ...(stepIt ? { translations: { it: { label: stepIt } } } : {}),
           ...(s.rewards && s.rewards.length > 0 ? { rewards: s.rewards } : {}),
+          ...(s.maps && s.maps.length > 0 ? { maps: s.maps } : {}),
+          ...(s.carryItems && s.carryItems.length > 0 ? { carryItems: s.carryItems } : {}),
         };
       });
 
@@ -568,99 +584,74 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     setEditingTieredAction(null);
   };
 
-  // Granular Rewards Save Handler (for Level, ItemRequirement, Action, Step)
-  const handleSaveGranularRewards = (newRewards: Reward[]) => {
-    if (!rewardModalTarget) return;
-    const target = rewardModalTarget;
+  // Applica una modifica (ricompense e/o vincoli di contesto) all'elemento indicato da `target`
+  // (livello, requisito, azione, scaglione salvato o in modifica).
+  const applyGranularPatch = (target: GranularTarget, patch: Partial<Pick<ActionStep, "rewards" | "maps" | "carryItems">>) => {
+    // Le chiavi con valore undefined vanno tolte, non lasciate nulle nel JSON
+    const merge = <T extends object>(obj: T): T => {
+      const next = { ...obj, ...patch } as Record<string, unknown>;
+      for (const key of Object.keys(patch)) if (next[key] === undefined) delete next[key];
+      return next as T;
+    };
 
     if (target.type === "newTieredStep" && target.stepIndex !== undefined) {
-      setNewTieredSteps((prev) =>
-        prev.map((s, i) =>
-          i === target.stepIndex
-            ? { ...s, rewards: newRewards.length > 0 ? newRewards : undefined }
-            : s,
-        ),
-      );
-      setRewardModalTarget(null);
+      setNewTieredSteps((prev) => prev.map((s, i) => (i === target.stepIndex ? merge(s) : s)));
       return;
     }
 
     if (target.type === "editingTieredStep" && target.stepIndex !== undefined) {
       setEditingTieredAction((prev) =>
-        prev
-          ? {
-              ...prev,
-              steps: prev.steps.map((s, i) =>
-                i === target.stepIndex
-                  ? { ...s, rewards: newRewards.length > 0 ? newRewards : undefined }
-                  : s,
-              ),
-            }
-          : null,
+        prev ? { ...prev, steps: prev.steps.map((s, i) => (i === target.stepIndex ? merge(s) : s)) } : null,
       );
-      setRewardModalTarget(null);
       return;
     }
 
-    if (!selectedList || !activeLevel) {
-      setRewardModalTarget(null);
-      return;
-    }
+    if (!selectedList || !activeLevel) return;
 
     updateSelectedList((prev) => {
       const levels = prev.levels.map((lvl) => {
         if (lvl.level !== activeLevel.level) return lvl;
 
-        if (target.type === "level") {
+        if (target.type === "level") return merge(lvl);
+
+        if (target.type === "requirement" && target.itemId) {
           return {
             ...lvl,
-            rewards: newRewards.length > 0 ? newRewards : undefined,
+            requirementItemIds: lvl.requirementItemIds.map((r) => (r.itemId === target.itemId ? merge(r) : r)),
           };
         }
 
-        if (target.type === "requirement" && target.itemId) {
-          const reqs = lvl.requirementItemIds.map((r) => {
-            if (r.itemId !== target.itemId) return r;
-            return {
-              ...r,
-              rewards: newRewards.length > 0 ? newRewards : undefined,
-            };
-          });
-          return { ...lvl, requirementItemIds: reqs };
-        }
-
         if (target.type === "action" && target.actionId) {
-          const acts = (lvl.actions || []).map((a) => {
-            if (a.id !== target.actionId) return a;
-            return {
-              ...a,
-              rewards: newRewards.length > 0 ? newRewards : undefined,
-            };
-          });
-          return { ...lvl, actions: acts };
+          return { ...lvl, actions: (lvl.actions || []).map((a) => (a.id === target.actionId ? merge(a) : a)) };
         }
 
         if (target.type === "tieredStep" && target.tieredId && target.stepId) {
-          const tiereds = (lvl.tieredActions || []).map((t) => {
-            if (t.id !== target.tieredId) return t;
-            const steps = t.steps.map((s) => {
-              if (s.id !== target.stepId) return s;
-              return {
-                ...s,
-                rewards: newRewards.length > 0 ? newRewards : undefined,
-              };
-            });
-            return { ...t, steps };
-          });
-          return { ...lvl, tieredActions: tiereds };
+          return {
+            ...lvl,
+            tieredActions: (lvl.tieredActions || []).map((t) =>
+              t.id !== target.tieredId
+                ? t
+                : { ...t, steps: t.steps.map((s) => (s.id === target.stepId ? merge(s) : s)) },
+            ),
+          };
         }
 
         return lvl;
       });
       return { ...prev, levels };
     });
+  };
 
+  const handleSaveGranularRewards = (newRewards: Reward[]) => {
+    if (!rewardModalTarget) return;
+    applyGranularPatch(rewardModalTarget, { rewards: newRewards.length > 0 ? newRewards : undefined });
     setRewardModalTarget(null);
+  };
+
+  const handleSaveActionContext = (context: ActionContext) => {
+    if (!contextModalTarget) return;
+    applyGranularPatch(contextModalTarget, { maps: context.maps, carryItems: context.carryItems });
+    setContextModalTarget(null);
   };
 
   // JSON Preview Generator
@@ -1666,6 +1657,28 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                 <button
                                   type="button"
                                   onClick={() =>
+                                    setContextModalTarget({
+                                      type: "action",
+                                      title: `Contesto Azione: ${action.label}`,
+                                      subtitle: `Mappe richieste e oggetti da portare — Livello ${activeLevel.level}`,
+                                      actionId: action.id,
+                                      maps: action.maps,
+                                      carryItems: action.carryItems,
+                                    })
+                                  }
+                                  className={cn(
+                                    "w-7 h-7 rounded-full border transition-colors flex items-center justify-center cursor-pointer shadow-2xs",
+                                    (action.maps?.length ?? 0) > 0 || (action.carryItems?.length ?? 0) > 0
+                                      ? "bg-sky-600 text-white border-sky-600 hover:bg-sky-700"
+                                      : "bg-sky-50/80 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800 hover:bg-sky-100 dark:hover:bg-sky-900/60",
+                                  )}
+                                  title="Mappe richieste e oggetti da portare"
+                                >
+                                  <MapPin size={12} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() =>
                                     setEditingAction({
                                       id: action.id,
                                       labelEn: action.label,
@@ -1688,6 +1701,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                 </button>
                               </div>
                             </div>
+
+                            <ActionContextChips maps={action.maps} carryItems={action.carryItems} />
 
                             {/* Rewards Preview Badges */}
                             {action.rewards && action.rewards.length > 0 && (
@@ -1856,6 +1871,28 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                   className="w-full px-2 py-1 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-xs"
                                 />
                               </div>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setContextModalTarget({
+                                    type: "newTieredStep",
+                                    title: `Contesto Scaglione ${sIdx + 1}`,
+                                    subtitle: `Scaglione: ${step.labelEn || `Tier ${sIdx + 1}`}`,
+                                    stepIndex: sIdx,
+                                    maps: step.maps,
+                                    carryItems: step.carryItems,
+                                  })
+                                }
+                                className={cn(
+                                  "w-6 h-6 rounded-lg border flex items-center justify-center cursor-pointer shrink-0 transition-colors",
+                                  (step.maps?.length ?? 0) > 0 || (step.carryItems?.length ?? 0) > 0
+                                    ? "bg-sky-600 text-white border-sky-600 hover:bg-sky-700"
+                                    : "bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800 hover:bg-sky-100",
+                                )}
+                                title="Mappe richieste e oggetti da portare"
+                              >
+                                <MapPin size={11} />
+                              </button>
                               <button
                                 type="button"
                                 onClick={() => {
@@ -2086,6 +2123,28 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                         </div>
                                         <button
                                           type="button"
+                                          onClick={() =>
+                                            setContextModalTarget({
+                                              type: "editingTieredStep",
+                                              title: `Contesto Scaglione ${sIdx + 1}`,
+                                              subtitle: `Scaglione: ${step.labelEn || `Tier ${sIdx + 1}`}`,
+                                              stepIndex: sIdx,
+                                              maps: step.maps,
+                                              carryItems: step.carryItems,
+                                            })
+                                          }
+                                          className={cn(
+                                            "w-6 h-6 rounded-lg border flex items-center justify-center cursor-pointer shrink-0 transition-colors",
+                                            (step.maps?.length ?? 0) > 0 || (step.carryItems?.length ?? 0) > 0
+                                              ? "bg-sky-600 text-white border-sky-600 hover:bg-sky-700"
+                                              : "bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800 hover:bg-sky-100",
+                                          )}
+                                          title="Mappe richieste e oggetti da portare"
+                                        >
+                                          <MapPin size={11} />
+                                        </button>
+                                        <button
+                                          type="button"
                                           onClick={() => {
                                             setRewardModalTarget({
                                               type: "editingTieredStep",
@@ -2189,6 +2248,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                         labelIt:
                                           s.translations?.it?.label || "",
                                         rewards: s.rewards ? [...s.rewards] : undefined,
+                                        maps: s.maps ? [...s.maps] : undefined,
+                                        carryItems: s.carryItems ? s.carryItems.map((c) => ({ ...c })) : undefined,
                                       })),
                                     })
                                   }
@@ -2356,6 +2417,18 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           rewards={rewardModalTarget.rewards}
           onSave={handleSaveGranularRewards}
           onClose={() => setRewardModalTarget(null)}
+        />
+      )}
+
+      {/* Mappe richieste e oggetti da portare */}
+      {contextModalTarget !== null && (
+        <DevActionContextModal
+          title={contextModalTarget.title}
+          subtitle={contextModalTarget.subtitle}
+          maps={contextModalTarget.maps}
+          carryItems={contextModalTarget.carryItems}
+          onSave={handleSaveActionContext}
+          onClose={() => setContextModalTarget(null)}
         />
       )}
     </DevStudioLayout>

@@ -434,6 +434,8 @@ export const StashPage = ({
                   label={getActionLabel(action.action, language) || action.label}
                   listName={getListName(action.list, language) || action.listName}
                   level={action.level}
+                  maps={action.action?.maps}
+                  carryItems={action.action?.carryItems}
                   isCompleted={action.isCompleted}
                   onComplete={() => toggleAction(action.listId, action.level, action.actionId)}
                   onToggle={() => toggleAction(action.listId, action.level, action.actionId)}

@@ -12,18 +12,18 @@ interface MapViewerProps {
 
 const MAP_CENTERS: Record<string, [number, number]> = {
   'buried-city': [0.7158, -0.8273],
-  'dam-battlegrounds': [0.55, -0.65],
+  'dam-battleground': [0.55, -0.65],
   'spaceport': [0.68, -0.75],
-  'the-blue-gate': [0.65, -0.70],
+  'blue-gate': [0.65, -0.70],
   'stella-montis': [0.70, -0.72],
   'riven-tides': [0.60, -0.68],
 };
 
 const MAP_TILE_PATHS: Record<string, string> = {
   'buried-city': 'arc-raiders/buried-city/default-v4',
-  'dam-battlegrounds': 'arc-raiders/dam-battlegrounds/default-v2',
+  'dam-battleground': 'arc-raiders/dam-battlegrounds/default-v2',
   'spaceport': 'arc-raiders/spaceport/default-v2',
-  'the-blue-gate': 'arc-raiders/the-blue-gate/default-v5',
+  'blue-gate': 'arc-raiders/the-blue-gate/default-v5',
   'stella-montis': 'arc-raiders/stella-montis/default-v1',
   'riven-tides': 'arc-raiders/riven-tides/default-v1',
 };

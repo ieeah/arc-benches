@@ -7,7 +7,6 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 ## 0.5.0 "Segnale Radio"
 - [ ] #72 [Tipi liste: `listType` required e type guard per narrowing](https://github.com/ieeah/arc-benches/issues/72)
 - [ ] #73 [Tipi liste: discriminated union completa (Opzione A)](https://github.com/ieeah/arc-benches/issues/73) — dopo #72
-- [ ] #82 [Liste: azioni vincolate a mappe specifiche e oggetti da portare](https://github.com/ieeah/arc-benches/issues/82) — alcune azioni vanno completate in mappe precise e/o richiedono di avere con sé certi oggetti al momento del compimento (distinti dai requisiti di consegna, non incidono sul fabbisogno dello Stash). Catalogo mappe globale condiviso con #81 e #59 (ogni azione/tip/gruppo referenzia comunque il proprio sottoinsieme). Checklist pre-raid degli oggetti nello Stash: possibile sviluppo futuro, fuori scope.
 - [ ] #79 [UX Liste & Progetti: opzione "ripristinabile"](https://github.com/ieeah/arc-benches/issues/79) — in fase di creazione di un progetto/lista — il pulsante "Ripristina" (reset progresso) deve agire solo sulle liste/progetti marcati come ripristinabili, non su tutti indistintamente.
 - [ ] #74 [Export/import completo: tutti i campi del profilo inclusi nel backup](https://github.com/ieeah/arc-benches/issues/74)
 - [ ] #86 [Dati banchi al Lvl 3 (Frozen Trail)](https://github.com/ieeah/arc-benches/issues/86) — rigenerare `workbenches.json` con i nuovi requisiti.

@@ -415,6 +415,8 @@ export const ExpeditionPage = () => {
                           label={getActionLabel(action, language)}
                           checked={Boolean(checkedActions[`${activeCaravan.id}|${level.level}|${action.id}`])}
                           onToggle={() => isUnlocked && toggleAction(activeCaravan.id, level.level, action.id)}
+                          maps={action.maps}
+                          carryItems={action.carryItems}
                         />
                       ))}
                     </div>

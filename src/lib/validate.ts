@@ -1,5 +1,5 @@
 import { isExpedition } from '@/lib/lists';
-import type { ActionStep, ActionTranslation, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
+import type { ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -81,6 +81,25 @@ const validateRewardsArray = (v: unknown): Reward[] | undefined => {
   return rewards.length > 0 ? rewards : undefined;
 };
 
+/** Mappe richieste e oggetti da portare (campi opzionali di azioni e step): copia solo quelli validi. */
+const applyActionContext = (v: Record<string, unknown>, out: ActionContext): void => {
+  if (Array.isArray(v.maps)) {
+    const maps = [...new Set(v.maps.filter((m): m is string => typeof m === 'string' && m.length > 0))];
+    if (maps.length > 0) out.maps = maps;
+  }
+  if (Array.isArray(v.carryItems)) {
+    const carryItems: CarryItem[] = [];
+    for (const raw of v.carryItems) {
+      if (!isObject(raw)) continue;
+      const itemId = asNonEmptyString(raw.itemId);
+      if (itemId === null) continue;
+      const quantity = asNonNegInt(raw.quantity, 1);
+      carryItems.push({ itemId, quantity: quantity ?? 1 });
+    }
+    if (carryItems.length > 0) out.carryItems = carryItems;
+  }
+};
+
 const validateRequirement = (v: unknown): ItemRequirement | null => {
   if (!isObject(v)) return null;
   const itemId = asNonEmptyString(v.itemId);
@@ -114,6 +133,7 @@ const validateAction = (v: unknown): CheckboxAction | null => {
   }
   const rewards = validateRewardsArray(v.rewards);
   if (rewards) out.rewards = rewards;
+  applyActionContext(v, out);
   return out;
 };
 
@@ -139,6 +159,7 @@ const validateActionStep = (v: unknown): ActionStep | null => {
   }
   const rewards = validateRewardsArray(v.rewards);
   if (rewards) out.rewards = rewards;
+  applyActionContext(v, out);
   return out;
 };
 

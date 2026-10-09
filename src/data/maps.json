@@ -1,0 +1,11 @@
+{
+  "maps": [
+    { "id": "dam-battleground", "name": "Dam Battlegrounds", "badge": "Swamp & Dam" },
+    { "id": "spaceport", "name": "The Spaceport", "badge": "Acerra" },
+    { "id": "buried-city", "name": "Buried City", "badge": "Wasteland" },
+    { "id": "blue-gate", "name": "The Blue Gate", "badge": "Valley" },
+    { "id": "stella-montis", "name": "Stella Montis", "badge": "Mountain Lab" },
+    { "id": "riven-tides", "name": "Riven Tides", "badge": "Coastal Harbor" },
+    { "id": "pendola-pass", "name": "Pendola Pass" }
+  ]
+}

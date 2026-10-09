@@ -143,6 +143,8 @@ export const ListDetailPage = ({ listId, onBack }: {
                       checked={store.checkedActions[`${list.id}|${lvl.level}|${action.id}`] ?? false}
                       onToggle={() => store.toggleAction(list.id, lvl.level, action.id)}
                       rewards={action.rewards}
+                      maps={action.maps}
+                      carryItems={action.carryItems}
                     />
                   ))}
                 </div>

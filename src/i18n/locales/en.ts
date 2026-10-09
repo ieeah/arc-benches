@@ -115,6 +115,8 @@ export const en: LocaleSchema = {
     expiresIn: 'Expires in {time}',
     expiredNotice: 'This list has expired. Its requirements are not included in the Stash count.',
     rewards: 'Rewards',
+    requiredMaps: 'To be done on this map',
+    carryItems: 'Items to bring',
   },
   listDetail: {
     backToLists: 'Back to lists',

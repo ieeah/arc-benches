@@ -416,3 +416,35 @@ describe('validateExpeditionIndex', () => {
     expect(validateExpeditionIndex(1.5, 'exp-x', existingExpeditions).isValid).toBe(false);
   });
 });
+
+describe('validateList: action context (maps and carry items)', () => {
+  const withActions = (actions: unknown[], tieredActions?: unknown[]) => ({
+    id: 'quest-1',
+    name: 'Quest',
+    maxLevel: 1,
+    levels: [{ level: 1, requirementItemIds: [], actions, ...(tieredActions ? { tieredActions } : {}) }],
+  });
+
+  it('keeps valid maps (deduplicated) and carry items on actions', () => {
+    const out = validateList(withActions([{
+      id: 'a1',
+      label: 'Do it',
+      maps: ['buried-city', 'buried-city', '', 3],
+      carryItems: [{ itemId: 'metal-parts', quantity: 2 }, { itemId: 'x' }, { quantity: 4 }, 'nope'],
+    }]));
+    const action = out!.levels[0].actions![0];
+    expect(action.maps).toEqual(['buried-city']);
+    expect(action.carryItems).toEqual([{ itemId: 'metal-parts', quantity: 2 }, { itemId: 'x', quantity: 1 }]);
+  });
+
+  it('omits empty context and keeps it on tiered steps', () => {
+    const out = validateList(withActions(
+      [{ id: 'a1', label: 'Do it', maps: [], carryItems: [] }],
+      [{ id: 't1', label: 'Tiered', steps: [{ id: 's1', label: 'Step', maps: ['spaceport'] }] }],
+    ));
+    const level = out!.levels[0];
+    expect('maps' in level.actions![0]).toBe(false);
+    expect('carryItems' in level.actions![0]).toBe(false);
+    expect(level.tieredActions![0].steps[0].maps).toEqual(['spaceport']);
+  });
+});

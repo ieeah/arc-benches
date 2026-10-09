@@ -4,6 +4,7 @@ import type { TieredAction, ActionStep } from '@/types';
 import { useAppStore } from '@/store';
 import { useTranslation, getActionLabel } from '@/i18n';
 import { RewardBadge } from '@/components/RewardBadge';
+import { ActionContextChips } from '@/components/ActionContextChips';
 import { cn } from '@/lib/cn';
 
 interface TieredActionTimelineProps {
@@ -162,6 +163,14 @@ export const TieredActionTimeline: React.FC<TieredActionTimelineProps> = ({
                       />
                     </button>
                   </div>
+
+                  {/* Mappe richieste e oggetti da portare */}
+                  <ActionContextChips
+                    maps={step.maps}
+                    carryItems={step.carryItems}
+                    compact
+                    className="mt-1.5 justify-center max-w-full"
+                  />
 
                   {/* Optional Step Rewards */}
                   {step.rewards && step.rewards.length > 0 && (

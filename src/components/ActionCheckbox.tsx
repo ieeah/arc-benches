@@ -1,6 +1,7 @@
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import type { Reward } from '@/types';
+import type { ActionContext, Reward } from '@/types';
+import { ActionContextChips } from '@/components/ActionContextChips';
 import { RewardBadge } from '@/components/RewardBadge';
 
 /** Large, obvious checkbox + label row. Shared by the goal card, editor and detail page. */
@@ -10,7 +11,9 @@ export const ActionCheckbox = ({
   onToggle,
   disabled,
   rewards,
-}: {
+  maps,
+  carryItems,
+}: ActionContext & {
   label: string;
   checked: boolean;
   onToggle?: () => void;
@@ -54,6 +57,7 @@ export const ActionCheckbox = ({
             ))}
           </span>
         )}
+        <ActionContextChips maps={maps} carryItems={carryItems} className={cn(checked && 'opacity-50')} />
       </div>
     </button>
   );

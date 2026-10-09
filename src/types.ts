@@ -16,14 +16,28 @@ export interface ActionTranslation {
   label?: string;
 }
 
-export interface CheckboxAction {
+/** Oggetto da avere con sé quando si compie l'azione: non è un requisito di consegna e non entra nel fabbisogno. */
+export interface CarryItem {
+  itemId: string;
+  quantity: number;
+}
+
+/** Vincoli di contesto di un'azione o di uno step. */
+export interface ActionContext {
+  /** Id delle mappe (catalogo in `src/data/maps.json`) in cui va compiuta; assente = ovunque. */
+  maps?: string[];
+  /** Oggetti da portare in mappa al momento del compimento. */
+  carryItems?: CarryItem[];
+}
+
+export interface CheckboxAction extends ActionContext {
   id: string;   // crypto.randomUUID() — stable key, never changes after creation
   label: string;
   translations?: Record<string, ActionTranslation>;
   rewards?: Reward[];
 }
 
-export interface ActionStep {
+export interface ActionStep extends ActionContext {
   id: string;   // stable step identifier
   label: string;
   translations?: Record<string, ActionTranslation>;

@@ -415,6 +415,8 @@ export const UnifiedListCard = ({
                           label={getActionLabel(action, language)}
                           checked={checkedActions?.[`${list.id}|${lvl.level}|${action.id}`] ?? false}
                           onToggle={() => onToggleAction(lvl.level, action.id)}
+                          maps={action.maps}
+                          carryItems={action.carryItems}
                         />
                       ))}
                     </div>

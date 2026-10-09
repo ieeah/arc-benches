@@ -56,6 +56,17 @@ I **Progetti** rappresentano liste temporanee o permanenti che il Raider può co
 
 ---
 
+### 4. Contesto delle azioni: mappe e oggetti da portare (#82)
+
+Azioni (`CheckboxAction`) e step di azioni a scaglioni (`ActionStep`) possono dichiarare:
+
+- `maps?: string[]`: id delle mappe in cui l'azione va compiuta. **Selezione multipla; se assente o vuota l'azione vale in tutte le mappe.**
+- `carryItems?: { itemId, quantity }[]`: oggetti da avere con sé al momento del compimento. Sono solo informativi: non sono requisiti di consegna e non entrano nel fabbisogno né nei mancanti dello Stash.
+
+Il catalogo delle mappe è unico e globale: `src/data/maps.json` (letto da `src/lib/maps.ts`): `dam-battleground`, `spaceport`, `buried-city`, `blue-gate`, `stella-montis`, `riven-tides`, `pendola-pass`. Azioni, spawn tip (#59) e raggruppamento Stash (#81) ne usano ciascuno un sottoinsieme proprio, non condiviso. Un id non più nel catalogo resta nel dato e viene mostrato com'è.
+
+La validazione (`validateList`) tiene solo mappe non vuote e senza duplicati e oggetti con `itemId` valido (quantità minima 1); i campi vuoti vengono omessi, quindi i file esistenti restano validi. In UI i vincoli compaiono come chip (`ActionContextChips`) su ogni riga azione e sugli step delle timeline; l'editor Dev ha un pulsante «Mappe richieste e oggetti da portare» su azioni e scaglioni.
+
 ## 🛠 Modifiche al Modello Dati e Tipi
 
 #### [`src/types.ts`](file:///c:/Users/ieeah/dev/Projects/arc-benches/src/types.ts)

@@ -112,7 +112,9 @@ export const it = {
     "expired": "Scaduto",
     "expiresIn": "Scade tra {time}",
     "expiredNotice": "Questa lista è scaduta. I suoi requisiti non sono inclusi nel conteggio dello Stash.",
-    "rewards": "Ricompense"
+    "rewards": "Ricompense",
+    "requiredMaps": "Da compiere in questa mappa",
+    "carryItems": "Oggetti da portare"
   },
   "listDetail": {
     "backToLists": "Torna alle liste",

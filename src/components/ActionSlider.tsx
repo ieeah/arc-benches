@@ -2,8 +2,10 @@ import { useState, useRef, type PointerEvent } from 'react';
 import { Check, ChevronRight, RotateCcw } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useTranslation } from '@/i18n';
+import type { ActionContext } from '@/types';
+import { ActionContextChips } from '@/components/ActionContextChips';
 
-interface ActionSliderProps {
+interface ActionSliderProps extends ActionContext {
   label: string;
   listName?: string;
   level?: number;
@@ -28,6 +30,8 @@ export const ActionSlider = ({
   onComplete,
   onToggle,
   disabled = false,
+  maps,
+  carryItems,
 }: ActionSliderProps) => {
   const { t } = useTranslation();
   const trackRef = useRef<HTMLDivElement>(null);
@@ -174,6 +178,7 @@ export const ActionSlider = ({
       <p className="text-xs text-gray-600 dark:text-gray-300 font-medium leading-tight">
         {label}
       </p>
+      <ActionContextChips maps={maps} carryItems={carryItems} />
 
       {/* Swipe Track */}
       <div

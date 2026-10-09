@@ -1,19 +1,13 @@
 import { useState } from 'react';
 import { Map, ArrowLeft, Layers, Compass } from 'lucide-react';
 import { MapViewer } from '@/components/MapViewer';
+import { GAME_MAPS } from '@/lib/maps';
 
 interface MapsPageProps {
   onBack?: () => void;
 }
 
-const MAP_LIST = [
-  { id: 'buried-city', name: 'Buried City', badge: 'Wasteland' },
-  { id: 'dam-battlegrounds', name: 'Dam Battlegrounds', badge: 'Swamp & Dam' },
-  { id: 'spaceport', name: 'The Spaceport', badge: 'Acerra' },
-  { id: 'the-blue-gate', name: 'The Blue Gate', badge: 'Valley' },
-  { id: 'stella-montis', name: 'Stella Montis', badge: 'Mountain Lab' },
-  { id: 'riven-tides', name: 'Riven Tides', badge: 'Coastal Harbor' },
-];
+const MAP_LIST = GAME_MAPS;
 
 export const MapsPage = ({ onBack }: MapsPageProps) => {
   const [selectedMapId, setSelectedMapId] = useState<string>('buried-city');
@@ -76,7 +70,7 @@ export const MapsPage = ({ onBack }: MapsPageProps) => {
       <section className="flex flex-col gap-2">
         <div className="flex items-center justify-between text-xs text-gray-500 px-1">
           <span className="font-semibold text-gray-700 dark:text-gray-300">
-            {currentMap.name} ({currentMap.badge})
+            {currentMap.name}{currentMap.badge ? ` (${currentMap.badge})` : ""}
           </span>
           <span>Zoom e pan con tocco o rotellina</span>
         </div>
