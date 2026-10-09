@@ -341,7 +341,9 @@ async function main() {
     } else if (def.icon) {
       console.warn(`⚠ Custom item "${id}": icon source "${def.icon}" not found, falling back to the category icon`);
     }
-    results[id] = { ...def, ...(overrides[id] ?? {}), id, icon: localPath };
+    // `review` (note per le pagine Dev) non va nel catalogo distribuito
+    const { review: _review, ...catalogDef } = def;
+    results[id] = { ...catalogDef, ...(overrides[id] ?? {}), id, icon: localPath };
   }
 
   // Miniature 128px in public/icons/items/sm/ (stesso nome file dell'originale): rigenerate solo se mancano

@@ -18,9 +18,9 @@ const normalize = (value: string) => value.normalize('NFD').replace(/\p{M}/gu, '
  *           fuzzyMatch("Battered Paperback", "battered paper") → true
  */
 export function fuzzyMatch(text: string, query: string): boolean {
-  const tokens = normalize(query).split(/[\s\-]+/).filter(Boolean);
+  const tokens = normalize(query).split(/[\s-]+/).filter(Boolean);
   if (tokens.length === 0) return true;
-  const words = normalize(text).split(/[\s\-]+/);
+  const words = normalize(text).split(/[\s-]+/);
   return tokens.every(token =>
     words.some(word => {
       let qi = 0;

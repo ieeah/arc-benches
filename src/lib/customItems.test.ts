@@ -42,6 +42,11 @@ describe('validateCustomItem', () => {
     expect(validateCustomItem(valid({ id: 'reward-points' }), catalog, baseline).warnings).toEqual([]);
   });
 
+  it('warns when the item whose icon is inherited is not in the catalog', () => {
+    expect(validateCustomItem(valid({ iconFromItem: 'caposta-outfit' }), new Set(['metal-parts']), baseline).warnings.join(' ')).toMatch(/non è nel catalogo/);
+    expect(validateCustomItem(valid({ iconFromItem: 'metal-parts' }), catalog, baseline).warnings).toEqual([]);
+  });
+
   it('warns about a missing Italian name', () => {
     expect(validateCustomItem(valid({ translations: undefined }), catalog, baseline).warnings).toHaveLength(1);
   });

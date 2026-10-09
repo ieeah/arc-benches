@@ -28,6 +28,13 @@ export interface CustomItemDef {
   loot_area: string;
   stack_size: number | null;
   translations?: Record<string, ItemTranslation>;
+  /** Icona ereditata da un altro oggetto del catalogo quando non ne ha una propria (vedi `ItemInfo.iconFromItem`). */
+  iconFromItem?: string;
+  /**
+   * Note «da rivedere» (rarità provvisoria, descrizione o icona mancanti…). Servono solo agli strumenti Dev:
+   * `fetch-items` le scarta, quindi non finiscono nel catalogo distribuito.
+   */
+  review?: string[];
 }
 
 export type CustomItemsMap = Record<string, CustomItemDef>;
@@ -140,6 +147,8 @@ export function serializeCustomItems(items: CustomItemsMap): CustomItemsMap {
       loot_area: def.loot_area.trim(),
       stack_size: def.stack_size,
       ...(translations ? { translations } : {}),
+      ...(def.iconFromItem ? { iconFromItem: def.iconFromItem } : {}),
+      ...(def.review && def.review.length > 0 ? { review: def.review } : {}),
     };
   }
   return out;
@@ -180,6 +189,9 @@ export function validateCustomItem(
     warnings.push('Questo id esiste già nel catalogo MetaForge: lo script ignora la voce custom. Rimuovila o scegli un altro id.');
   }
   if (!def.translations?.it?.name?.trim()) warnings.push('Manca il nome in italiano.');
+  if (def.iconFromItem && !catalogIds.has(def.iconFromItem)) {
+    warnings.push(`«Usa l'icona di» punta a «${def.iconFromItem}», che non è nel catalogo.`);
+  }
 
   return { errors, warnings };
 }
@@ -207,8 +219,9 @@ export function applyCustomItemsDraft(catalog: Record<string, ItemInfo>): void {
   for (const [id, def] of Object.entries(draft.items)) {
     if (isMetaForgeCollision(id, catalogIds, baselineIds)) continue;
     const icon = def.icon && draft.icons[def.icon] ? draft.icons[def.icon] : catalog[id]?.icon ?? null;
-    const { icon: _file, ...rest } = def;
+    const { icon: _file, review: _review, ...rest } = def;
     void _file;
+    void _review;
     catalog[id] = { ...(catalog[id] ?? {}), ...rest, icon } as ItemInfo;
   }
 }

@@ -179,6 +179,8 @@ export interface ItemInfo {
   loot_area: string | null;
   stack_size: number | null;
   hidden?: boolean;
+  /** Se l'oggetto non ha un'icona propria, usa quella di questo altro oggetto (es. i pezzi di un outfit usano l'immagine dell'outfit di base). */
+  iconFromItem?: string;
 }
 
 export interface ListExportEntry {
