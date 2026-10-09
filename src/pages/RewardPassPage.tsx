@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, LayoutGrid, Minus, Plus, SlidersHorizontal, Ticket } from 'lucide-react';
 import type { PassList } from '@/types';
 import { useAppStore } from '@/store';
-import { useTranslation, getListDescription, getListName } from '@/i18n';
+import { useTranslation, getListName } from '@/i18n';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { StickyHeader } from '@/components/StickyHeader';
@@ -10,7 +10,7 @@ import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { Drawer } from '@/components/Drawer';
 import { PassCard } from '@/components/pass/PassCard';
 import { PassLevelsGrid } from '@/components/pass/PassLevelsGrid';
-import { PassRewardsSummary } from '@/components/pass/PassRewardsSummary';
+import { PassDetailSummary } from '@/components/pass/PassDetailSummary';
 import { OrphanPassModal } from '@/components/pass/OrphanPassModal';
 import { usePassViewPrefs } from '@/lib/passViewPrefs';
 import { getTrackName, splitPassesByCompletion } from '@/lib/rewardPass';
@@ -169,7 +169,6 @@ const PassPreview = ({ pass, onBack, onViewLevels }: { pass: PassList; onBack: (
 
   const isCompleted = completed.some((c) => c.id === pass.id);
   const blockedByOther = activeRewardPass !== null && activeRewardPass !== pass.id;
-  const description = getListDescription(pass, language);
   const isActive = activeRewardPass === pass.id;
   const disabledReason = isCompleted ? t('rewardPass.alreadyCompleted') : isActive ? t('rewardPass.active') : blockedByOther ? t('rewardPass.anotherActive') : '';
 
@@ -180,34 +179,7 @@ const PassPreview = ({ pass, onBack, onViewLevels }: { pass: PassList; onBack: (
       </StickyHeader>
 
       <div className="p-4 space-y-4">
-        <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] p-5 space-y-4">
-          <div className="flex items-start justify-between gap-3">
-            <h2 className="text-lg font-black">{getListName(pass, language)}</h2>
-            {pass.premiumCostTokens !== undefined && (
-              <span className="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300">
-                {t('rewardPass.premiumCost', { cost: pass.premiumCostTokens.toLocaleString(language) })}
-              </span>
-            )}
-          </div>
-
-          {description && <p className="text-sm text-gray-600 dark:text-gray-300">{description}</p>}
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 rounded-2xl bg-gray-50 dark:bg-gray-800/60">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{t('rewardPass.levels')}</p>
-              <p className="text-xl font-black">{pass.maxLevel}</p>
-            </div>
-            <div className="p-3 rounded-2xl bg-gray-50 dark:bg-gray-800/60">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{t('rewardPass.tracks')}</p>
-              <p className="text-sm font-black leading-tight pt-1">{pass.tracks.map((tr) => getTrackName(tr, language)).join(' · ')}</p>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{t('rewardPass.totalRewards')}</p>
-            <PassRewardsSummary pass={pass} />
-          </div>
-        </section>
+        <PassDetailSummary pass={pass} />
 
         <button
           type="button"

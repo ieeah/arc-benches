@@ -60,6 +60,7 @@ import { RewardBadge } from "@/components/RewardBadge";
 import { DevRewardEditorModal } from "@/components/dev/DevRewardEditorModal";
 import { DevListsTrash } from "@/components/dev/DevListsTrash";
 import { DevListIssues } from "@/components/dev/DevListIssues";
+import { DevPassPreview } from "@/components/dev/DevPassPreview";
 import { DevPassSection } from "@/components/dev/DevPassSection";
 import { DevActionContextModal } from "@/components/dev/DevActionContextModal";
 import { ActionContextChips } from "@/components/ActionContextChips";
@@ -155,7 +156,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   });
   const [activeLevelNumber, setActiveLevelNumber] = useState<number>(1);
   const [copied, setCopied] = useState(false);
-  const [previewTab, setPreviewTab] = useState<"single" | "file">("file");
+  const [previewTab, setPreviewTab] = useState<"single" | "file" | "pass">("file");
 
   // Item Picker & Modal States (Reusing Custom List Modals)
   const [isPickerOpen, setIsPickerOpen] = useState(false);
@@ -688,6 +689,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
 
   const activeJsonToDisplay =
     previewTab === "file" ? fileJsonContent : singleJsonContent;
+  // La scheda «Anteprima pass» esiste solo per un pass; altrimenti si ripiega sul JSON della lista
+  const effectivePreviewTab = previewTab === "pass" && !(selectedList && isPass(selectedList)) ? "single" : previewTab;
 
   const handleCopyJson = () => {
     navigator.clipboard.writeText(activeJsonToDisplay);
@@ -884,6 +887,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                             onSelect={() => {
                               setSelectedListId(list.id);
                               setActiveLevelNumber(1);
+                              // un pass si apre direttamente sull'anteprima della sua pagina
+                              if (isPass(list)) setPreviewTab("pass");
                             }}
                             onDuplicate={(e) => {
                               e.stopPropagation();
@@ -909,7 +914,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             onClick={() => setPreviewTab("file")}
             className={cn(
               "px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors cursor-pointer",
-              previewTab === "file"
+              effectivePreviewTab === "file"
                 ? "bg-blue-600 text-white"
                 : "bg-gray-800 text-gray-400 hover:text-gray-200",
             )}
@@ -921,21 +926,39 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             onClick={() => setPreviewTab("single")}
             className={cn(
               "px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors cursor-pointer",
-              previewTab === "single"
+              effectivePreviewTab === "single"
                 ? "bg-blue-600 text-white"
                 : "bg-gray-800 text-gray-400 hover:text-gray-200",
             )}
           >
             Singola
           </button>
+          {selectedList && isPass(selectedList) && (
+            <button
+              type="button"
+              onClick={() => setPreviewTab("pass")}
+              className={cn(
+                "px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors cursor-pointer",
+                effectivePreviewTab === "pass"
+                  ? "bg-purple-600 text-white"
+                  : "bg-gray-800 text-gray-400 hover:text-gray-200",
+              )}
+            >
+              Anteprima pass
+            </button>
+          )}
         </div>
       }
       previewContent={
+        effectivePreviewTab === "pass" && selectedList && isPass(selectedList) ? (
+          <DevPassPreview key={selectedList.id} pass={selectedList} />
+        ) : (
         <div className="h-full flex flex-col">
           <pre className="flex-1 p-4 text-[11px] font-mono leading-relaxed overflow-auto bg-gray-950 text-gray-300 select-all">
             {activeJsonToDisplay}
           </pre>
         </div>
+        )
       }
     >
       {/* Central Editor Area */}
