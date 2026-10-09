@@ -381,7 +381,7 @@
     {
       "id": "weapon-bench",
       "name": "Gunsmith",
-      "maxLevel": 3,
+      "maxLevel": 4,
       "levels": [
         {
           "level": 1,
@@ -429,6 +429,34 @@
               "quantity": 4
             }
           ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "radial-press",
+              "quantity": 3
+            },
+            {
+              "itemId": "magnetic-accelerator",
+              "quantity": 3
+            },
+            {
+              "itemId": "emperor-modulator",
+              "quantity": 1
+            }
+          ],
+          "actions": [
+            {
+              "id": "85e1ee0b-c1c2-481b-b190-cdb3dbcca3ee",
+              "label": "4 Outpost rooms installed.",
+              "translations": {
+                "it": {
+                  "label": "Installazione di 4 moduli avamposto."
+                }
+              }
+            }
+          ]
         }
       ],
       "translations": {
@@ -459,7 +487,7 @@
           "description": "Trasforma Punti Ricerca e materiali in progetti, disegni, oggetti e potenziamenti per armi."
         }
       },
-      "maxLevel": 1,
+      "maxLevel": 4,
       "listType": "workbench",
       "levels": [
         {
@@ -476,6 +504,101 @@
             {
               "itemId": "mini-pump",
               "quantity": 3
+            }
+          ],
+          "actions": [
+            {
+              "id": "8408b454-a36b-4d1a-9565-2773206594e7",
+              "label": "1 Outpost room installed.",
+              "translations": {
+                "it": {
+                  "label": "Installazione di 1 modulo avamposto."
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "calculator",
+              "quantity": 3
+            },
+            {
+              "itemId": "raider-logbook",
+              "quantity": 3
+            },
+            {
+              "itemId": "skulker-targeter",
+              "quantity": 5
+            }
+          ],
+          "actions": [
+            {
+              "id": "3c150a04-9ffe-4437-bf55-94918d54a226",
+              "label": "2 Outpost rooms installed.",
+              "translations": {
+                "it": {
+                  "label": "Installazione di 2 moduli avamposto."
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "differential-microphone",
+              "quantity": 3
+            },
+            {
+              "itemId": "exodus-technical-handbook",
+              "quantity": 3
+            },
+            {
+              "itemId": "bully-fragmenter",
+              "quantity": 6
+            }
+          ],
+          "actions": [
+            {
+              "id": "476d6270-e2d8-4ab9-ac1d-e0411f5b4c74",
+              "label": "3 Outpost rooms installed.",
+              "translations": {
+                "it": {
+                  "label": "Installazione di 3 moduli avamposto."
+                }
+              }
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "thermal-shaker",
+              "quantity": 3
+            },
+            {
+              "itemId": "arc-data-module",
+              "quantity": 3
+            },
+            {
+              "itemId": "frigate-inductor",
+              "quantity": 1
+            }
+          ],
+          "actions": [
+            {
+              "id": "b241ec63-d527-4289-9433-b8664f4e0cfd",
+              "label": "4 Outpost rooms installed.",
+              "translations": {
+                "it": {
+                  "label": "Installazione di 4 moduli avamposto."
+                }
+              }
             }
           ]
         }
