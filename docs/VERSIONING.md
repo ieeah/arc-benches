@@ -94,7 +94,7 @@ Changelog: [changelog/0.4.0.md](../changelog/0.4.0.md)
 
 ## 0.5.0 "Segnale Radio" — Fondamenta Dev e Dati: liste, pass, progetti, database — Parziale
 Obiettivo: mettere le basi perché lo sviluppatore possa gestire liste, pass, progetti e dati senza toccare il codice.
-Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85. Ordine di lavoro (le dipendenze sono a destra di ogni voce):
+Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #108. Ordine di lavoro (le dipendenze sono a destra di ogni voce):
 - [x] #72 [Tipi liste: `listType` required e type guard](https://github.com/ieeah/arc-benches/issues/72)
 - [x] #73 [Tipi liste: discriminated union (Opzione A)](https://github.com/ieeah/arc-benches/issues/73) — dopo #72
 - [x] #84 [Custom Items Studio (alta priorità)](https://github.com/ieeah/arc-benches/issues/84)
@@ -108,6 +108,9 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85. Ordine di lavoro (
 - [ ] #74 [Export/import completo del profilo](https://github.com/ieeah/arc-benches/issues/74)
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102) — dopo #74
 - [ ] #88 [Filtri per tipo selezionabili nell'ItemPicker](https://github.com/ieeah/arc-benches/issues/88)
+- [x] #108 [Cestino Dev per liste e tracce eliminate, con pagina di gestione](https://github.com/ieeah/arc-benches/issues/108)
+- [ ] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
+- [ ] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego (RaidTheory vince)](https://github.com/ieeah/arc-benches/issues/104) — dopo #103
 
 ---
 
@@ -116,6 +119,10 @@ Obiettivo: tracciare la progressione di gioco (pass, collezioni, armi) sulle bas
 - [ ] #90 [Reward Pass Tracker (solo livelli e ricompense, dati inseriti a mano; niente Feats)](https://github.com/ieeah/arc-benches/issues/90) — dopo #85, #83, #84
 - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
 - [ ] #92 [Armi amplificate (Weapon Amplification)](https://github.com/ieeah/arc-benches/issues/92) — dopo #73, #83
+- [ ] #105 [Rapporto completo degli oggetti di ARC Tracker assenti dal catalogo (dati solo in locale)](https://github.com/ieeah/arc-benches/issues/105) — dopo #103
+- [ ] #106 [Generatore delle quest da ARC Tracker con ripiego MetaForge](https://github.com/ieeah/arc-benches/issues/106) — dopo #103, #76, #82
+- [ ] #109 [Outfit sbloccati a pezzi: icone di sottocategoria e badge per completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109) — dopo #90
+- [ ] #107 [Rifugio/avamposto: moduli e livelli con ARC Tracker come riscontro](https://github.com/ieeah/arc-benches/issues/107) — dopo #103; correlata a #86 e #87
 - [ ] #26 [Vista Aggregata per Banco](https://github.com/ieeah/arc-benches/issues/26)
 - [ ] #69 [Ordinamento Stash per priorità multi-criterio](https://github.com/ieeah/arc-benches/issues/69)
 - [ ] #93 [Filtri per fonte lista nel menu dello Stash](https://github.com/ieeah/arc-benches/issues/93)
