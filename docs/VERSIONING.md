@@ -110,6 +110,7 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #108. Ordine di la
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102) — dopo #74
 - [ ] #88 [Filtri per tipo selezionabili nell'ItemPicker](https://github.com/ieeah/arc-benches/issues/88)
 - [x] #108 [Cestino Dev per liste e tracce eliminate, con pagina di gestione](https://github.com/ieeah/arc-benches/issues/108)
+- [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110) — dopo #85, #90
 - [ ] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
 - [ ] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego (RaidTheory vince)](https://github.com/ieeah/arc-benches/issues/104) — dopo #103
 
