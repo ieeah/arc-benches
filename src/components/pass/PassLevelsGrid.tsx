@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Check, Lock } from 'lucide-react';
 import type { ItemInfo, PassList } from '@/types';
 import { useAppStore } from '@/store';
@@ -6,7 +6,8 @@ import { useTranslation, getItemName } from '@/i18n';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
 import { OutfitPartBadge } from '@/components/pass/OutfitPartBadge';
-import { getOutfitPart, outfitPartLabelKey, outfitPartRingClass } from '@/lib/outfitParts';
+import { CornerBadge } from '@/components/pass/CornerBadge';
+import { getOutfitPart, outfitPartLabelKey, outfitPartFrameClass } from '@/lib/outfitParts';
 import { ItemDetailSheet } from '@/components/ItemDetailSheet';
 import { getTrackName } from '@/lib/rewardPass';
 import { cn } from '@/lib/cn';
@@ -22,9 +23,11 @@ interface PassLevelsGridProps {
   scrollToNext?: boolean;
 }
 
-/** Sfondo «spaziale» del pass del gioco, adattato al mobile: notte profonda, alone e poche stelle. */
-const SPACE_BACKGROUND: CSSProperties = {
-  backgroundColor: '#04050d',
+/**
+ * Sfondo «spaziale» del pass del gioco, adattato al mobile: notte profonda, alone e poche stelle. Sta in un
+ * livello `sticky` alto quanto la finestra: scorrono solo i livelli, lo sfondo resta fermo nel riquadro.
+ */
+const SPACE_LAYER: CSSProperties = {
   backgroundImage: [
     'radial-gradient(ellipse 80% 38% at 78% 6%, rgba(80, 96, 230, 0.22), transparent 70%)',
     'radial-gradient(ellipse 70% 30% at 8% 96%, rgba(120, 70, 200, 0.14), transparent 70%)',
@@ -60,9 +63,16 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
   }
 
   return (
-    <div style={SPACE_BACKGROUND} className="relative rounded-[24px] border border-white/10 overflow-hidden text-white">
-      {/* Anello decorativo dello sfondo del gioco e binario verticale dei livelli */}
-      <div aria-hidden className="pointer-events-none absolute -right-1/3 top-[12%] aspect-square w-[110%] rounded-full border border-white/10" />
+    // `overflow-clip` (non `hidden`) per tenere il bordo arrotondato senza rompere lo `sticky` dello sfondo
+    <div style={{ backgroundColor: '#04050d' }} className="relative rounded-[24px] border border-white/10 overflow-clip pb-1.5 text-white">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div style={SPACE_LAYER} className="sticky top-0 h-dvh overflow-hidden">
+          {/* Anello decorativo dello sfondo del gioco */}
+          <div className="absolute -right-1/3 top-[10%] aspect-square w-[110%] rounded-full border border-white/15" />
+        </div>
+      </div>
+
+      {/* Binario verticale dei livelli */}
       <div aria-hidden className="pointer-events-none absolute left-[34px] top-0 bottom-0 w-0.5 bg-white/15" />
 
       <div className="relative flex items-center gap-2 px-3 py-2.5 bg-black/40 text-[10px] font-black uppercase tracking-wider text-white/60">
@@ -75,16 +85,19 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
         ))}
       </div>
 
-      {levels.map((lvl) => {
+      {levels.map((lvl, idx) => {
         const done = lvl.level <= reached;
         const isNext = onSetTier !== undefined && lvl.level === nextLevel && reached < pass.maxLevel;
         return (
+          <Fragment key={lvl.level}>
+          {/* Divisore fra i livelli, inset come le righe */}
+          {idx > 0 && <div aria-hidden className="relative mx-4 h-px bg-white/5" />}
           <div
-            key={lvl.level}
             ref={isNext ? nextRef : undefined}
+            // raggio concentrico a quello del riquadro: 24px − 1px di bordo − 6px di margine
             className={cn(
-              'relative flex items-center gap-2 px-3 py-2 border-t border-white/5 transition-colors',
-              isNext && 'bg-purple-500/15 ring-2 ring-inset ring-purple-400',
+              'relative mx-1.5 flex items-center gap-2 rounded-[17px] px-1.5 py-2 transition-colors',
+              isNext && 'bg-purple-500/15 ring-2 ring-purple-400',
             )}
           >
             <div className="w-11 shrink-0 flex justify-center">
@@ -126,7 +139,7 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
                         onClick={() => info && setDetail(info)}
                         aria-label={`${name}${partLabel ? `, ${partLabel}` : ''}${reward.quantity > 1 ? ` ×${reward.quantity}` : ''}${track.locked ? ` (${getTrackName(track, language)})` : ''}`}
                         title={partLabel ? `${name} · ${partLabel}` : name}
-                        className={cn('relative w-16 h-16 shrink-0 cursor-pointer disabled:cursor-default rounded-[14px]', outfitPartRingClass(part))}
+                        className={cn('relative w-16 h-16 shrink-0 cursor-pointer disabled:cursor-default rounded-[14px]')}
                       >
                         <ItemCardFrameV2
                           icon={info?.icon}
@@ -134,14 +147,17 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
                           rarity={info?.rarity}
                           fallbackText={reward.itemId}
                           thumb
-                          className="w-full h-full"
-                          topLeftSlot={part ? <OutfitPartBadge part={part} /> : undefined}
+                          borderRadius={14}
+                          className="w-full h-full bg-[#080a18]"
                           categoryBadge={<CategoryBadge itemType={info?.item_type} subcategory={info?.subcategory} bare />}
                           barRightSlot={reward.quantity > 1 ? `×${reward.quantity}` : undefined}
                         />
+                        {part && <span aria-hidden className={cn('pointer-events-none absolute -inset-1 rounded-[18px] squircle', outfitPartFrameClass(part))} />}
+                        {/* Spille agli angoli, a cavallo del bordo: non coprono l'icona */}
+                        {part && <span className="absolute -top-1.5 -left-1.5 z-10"><OutfitPartBadge part={part} /></span>}
                         {track.locked && (
-                          <span className="absolute top-0 right-0 w-5 h-5 rounded-bl-lg rounded-tr-[10px] bg-sky-500 flex items-center justify-center">
-                            <Lock size={10} className="text-white" strokeWidth={3} />
+                          <span className="absolute -top-1.5 -right-1.5 z-10">
+                            <CornerBadge className="bg-sky-500"><Lock size={11} className="text-white" strokeWidth={2.75} aria-hidden /></CornerBadge>
                           </span>
                         )}
                       </button>
@@ -151,6 +167,7 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
               );
             })}
           </div>
+          </Fragment>
         );
       })}
 

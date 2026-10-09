@@ -22,10 +22,10 @@ export function getOutfitPart(item: OutfitPartSource | undefined | null): Outfit
 export const outfitPartLabelKey = (part: OutfitPart) =>
   part === 'set' ? 'rewardPass.outfitSet' : part === 'toggle' ? 'rewardPass.outfitToggle' : 'rewardPass.outfitColor';
 
-/** Tratto che distingue il completo dai suoi componenti (toggle e colori) attorno alla card. */
-export const outfitPartRingClass = (part: OutfitPart | null): string =>
-  part === 'set'
-    ? 'outline outline-2 outline-offset-1 outline-amber-300/80'
-    : part
-      ? 'outline outline-1 outline-dashed outline-offset-1 outline-white/50'
-      : '';
+/**
+ * Cornice che distingue il completo (piena, ambra) dai suoi componenti (tratteggiata) attorno alla card.
+ * È un bordo vero, non un `outline`: ne segue gli angoli. Va su un elemento `absolute` più grande della
+ * card di 4px per lato, con raggio del bordo della card + 4px.
+ */
+export const outfitPartFrameClass = (part: OutfitPart | null): string =>
+  part === 'set' ? 'border-[3px] border-amber-300/80' : part ? 'border-[3px] border-dashed border-white/50' : '';
