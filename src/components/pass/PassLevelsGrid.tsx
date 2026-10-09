@@ -4,6 +4,7 @@ import type { ItemInfo, PassList } from '@/types';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
+import { CategoryBadge } from '@/components/CategoryBadge';
 import { ItemDetailSheet } from '@/components/ItemDetailSheet';
 import { getTrackName } from '@/lib/rewardPass';
 import { cn } from '@/lib/cn';
@@ -121,7 +122,7 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
                         onClick={() => info && setDetail(info)}
                         aria-label={`${name}${reward.quantity > 1 ? ` ×${reward.quantity}` : ''}${track.locked ? ` (${getTrackName(track, language)})` : ''}`}
                         title={name}
-                        className="relative w-14 h-14 shrink-0 cursor-pointer disabled:cursor-default"
+                        className="relative w-16 h-16 shrink-0 cursor-pointer disabled:cursor-default"
                       >
                         <ItemCardFrameV2
                           icon={info?.icon}
@@ -129,11 +130,9 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
                           rarity={info?.rarity}
                           fallbackText={reward.itemId}
                           thumb
-                          compact
                           className="w-full h-full"
-                          bottomRightSlot={reward.quantity > 1 ? (
-                            <span className="text-[10px] font-black text-white drop-shadow">×{reward.quantity}</span>
-                          ) : undefined}
+                          categoryBadge={<CategoryBadge itemType={info?.item_type} subcategory={info?.subcategory} bare />}
+                          barRightSlot={reward.quantity > 1 ? `×${reward.quantity}` : undefined}
                         />
                         {track.locked && (
                           <span className="absolute top-0 right-0 w-5 h-5 rounded-bl-lg rounded-tr-[10px] bg-sky-500 flex items-center justify-center">

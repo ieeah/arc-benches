@@ -17,6 +17,8 @@ export interface ItemCardFrameV2Props {
   /** Icona categoria/sottocategoria, mostrata nella barra inferiore. Ignorata se `compact`. */
   categoryBadge?: React.ReactNode;
   bottomRightSlot?: React.ReactNode;
+  /** Testo a destra nella barra inferiore, accanto all'icona categoria (es. «×3» come nel gioco). Ignorato se `compact`. */
+  barRightSlot?: React.ReactNode;
   overlay?: React.ReactNode;
   /** Per rendering molto piccoli: nasconde la barra categoria inferiore (badge + spazio riservato). */
   compact?: boolean;
@@ -53,6 +55,7 @@ export const ItemCardFrameV2 = ({
   topRightSlot,
   categoryBadge,
   bottomRightSlot,
+  barRightSlot,
   overlay,
   compact = false,
   thumb = false,
@@ -60,7 +63,7 @@ export const ItemCardFrameV2 = ({
   children,
 }: ItemCardFrameV2Props) => {
   const hex = getRarityHex(rarity);
-  const showCategoryBar = !compact && Boolean(categoryBadge);
+  const showCategoryBar = !compact && Boolean(categoryBadge || barRightSlot);
 
   const radiusValue =
     typeof borderRadius === "number"
@@ -138,7 +141,7 @@ export const ItemCardFrameV2 = ({
           minuscolo su una larga, esattamente il problema segnalato più volte. */}
       {showCategoryBar && (
         <div
-          className="shrink-0 flex items-center"
+          className="shrink-0 flex items-center justify-between gap-1"
           style={{
             height: 'clamp(18px, 24%, 34px)',
             paddingLeft: 'clamp(4px, 6%, 10px)',
@@ -152,6 +155,11 @@ export const ItemCardFrameV2 = ({
           <div className="h-[65%] flex items-center">
             {categoryBadge}
           </div>
+          {barRightSlot && (
+            <div className="ml-auto flex items-center text-[10px] font-black leading-none text-white tabular-nums">
+              {barRightSlot}
+            </div>
+          )}
         </div>
       )}
     </div>
