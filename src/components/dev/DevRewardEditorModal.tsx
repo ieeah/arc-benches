@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, Gift, Package, Check, Layers } from 'lucide-react';
-import type { Reward } from '@/types';
+import type { PassTrackDef, Reward } from '@/types';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
 import { Drawer } from '@/components/Drawer';
@@ -16,6 +16,8 @@ export interface DevRewardEditorModalProps {
   title: string;
   subtitle?: string;
   rewards?: Reward[];
+  /** Tracce del Reward Pass: se presenti, ogni ricompensa appartiene a una traccia. */
+  tracks?: PassTrackDef[];
   onSave: (rewards: Reward[]) => void;
 }
 
@@ -25,6 +27,7 @@ export const DevRewardEditorModal: React.FC<DevRewardEditorModalProps> = ({
   title,
   subtitle,
   rewards = [],
+  tracks,
   onSave,
 }) => {
   const { language } = useTranslation();
@@ -35,6 +38,7 @@ export const DevRewardEditorModal: React.FC<DevRewardEditorModalProps> = ({
   // Item Reward state
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [itemQuantity, setItemQuantity] = useState<number>(1);
+  const [selectedTrack, setSelectedTrack] = useState<string | undefined>(tracks?.[0]?.id);
   const [itemPickerOpen, setItemPickerOpen] = useState<boolean>(false);
 
   if (!isOpen) return null;
@@ -48,6 +52,7 @@ export const DevRewardEditorModal: React.FC<DevRewardEditorModalProps> = ({
     const newReward: Reward = {
       itemId: selectedItemId,
       quantity: itemQuantity > 0 ? itemQuantity : 1,
+      ...(tracks && selectedTrack ? { track: selectedTrack } : {}),
     };
 
     setCurrentRewards((prev) => [...prev, newReward]);
@@ -58,6 +63,11 @@ export const DevRewardEditorModal: React.FC<DevRewardEditorModalProps> = ({
   const handleSaveAll = () => {
     onSave(currentRewards);
     onClose();
+  };
+
+  const trackName = (id?: string) => {
+    const track = tracks?.find((t) => t.id === (id ?? tracks[0]?.id));
+    return track ? track.translations?.[language]?.name || track.name : id ?? '';
   };
 
   const selectedItemInfo = selectedItemId ? itemsInfo[selectedItemId] : undefined;
@@ -98,6 +108,11 @@ export const DevRewardEditorModal: React.FC<DevRewardEditorModalProps> = ({
                   >
                     <div className="flex items-center gap-2 min-w-0 flex-1">
                       <RewardBadge reward={reward} size="sm" />
+                      {tracks && (
+                        <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 shrink-0">
+                          {trackName(reward.track)}
+                        </span>
+                      )}
                     </div>
                     <button
                       type="button"
@@ -177,6 +192,21 @@ export const DevRewardEditorModal: React.FC<DevRewardEditorModalProps> = ({
                   />
                 </div>
               </div>
+
+              {tracks && (
+                <label className="flex items-center gap-2 text-xs font-bold text-violet-800 dark:text-violet-300">
+                  <span className="shrink-0">Traccia</span>
+                  <select
+                    value={selectedTrack}
+                    onChange={(e) => setSelectedTrack(e.target.value)}
+                    className="flex-1 px-2 py-1.5 bg-white dark:bg-gray-800 border border-violet-300 dark:border-violet-700 rounded-xl text-xs font-bold"
+                  >
+                    {tracks.map((t) => (
+                      <option key={t.id} value={t.id}>{trackName(t.id)}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
 
               <button
                 type="button"

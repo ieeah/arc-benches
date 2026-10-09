@@ -4,6 +4,7 @@ import defaultWorkbenchesData from '@/data/workbenches.json';
 import defaultExpeditionsData from '@/data/expeditions.json';
 import defaultProjectsData from '@/data/projects.json';
 import defaultQuestsData from '@/data/quests.json';
+import defaultPassesData from '@/data/passes.json';
 
 export const DRAFT_STORAGE_KEY = 'arc_benches_dev_lists_draft_v1';
 
@@ -15,6 +16,7 @@ export function getInitialData(): ListsDataMap {
     expedition: ((defaultExpeditionsData as unknown as { lists?: List[] }).lists || []) as List[],
     project: ((defaultProjectsData as unknown as { lists?: List[] }).lists || []) as List[],
     quest: ((defaultQuestsData as unknown as { lists?: List[] }).lists || []) as List[],
+    pass: ((defaultPassesData as unknown as { lists?: List[] }).lists || []) as List[],
     custom: [],
   };
 }
@@ -36,6 +38,7 @@ export function useDevListDrafts() {
           expedition: parsed.expedition || initialData.expedition,
           project: parsed.project || initialData.project,
           quest: parsed.quest || initialData.quest,
+          pass: parsed.pass || initialData.pass,
           custom: parsed.custom || [],
         };
       }

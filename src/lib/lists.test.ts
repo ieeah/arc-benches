@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import type { List } from '@/types';
-import { isCustom, isExpedition, isProject, isQuest, isWorkbench, withListType } from './lists';
+import { isCustom, isExpedition, isPass, isProject, isQuest, isWorkbench, withListType } from './lists';
 
 const levels = [{ level: 1, requirementItemIds: [] }];
 const base = { id: 'x', name: 'X', maxLevel: 1, levels };
@@ -33,6 +33,13 @@ describe('withListType', () => {
   it('keeps the expedition index and damage challenge when the type does not change', () => {
     const exp: List = { ...base, listType: 'expedition', expeditionIndex: 5 };
     expect(withListType(exp, 'expedition', 9)).toMatchObject({ expeditionIndex: 5 });
+  });
+
+  it('gives a converted pass the default free and premium tracks, and keeps them when it is already a pass', () => {
+    const pass = withListType({ ...base, listType: 'project' }, 'pass');
+    expect(isPass(pass) && pass.tracks.map(t => t.id)).toEqual(['free', 'premium']);
+    const custom: List = { ...base, listType: 'pass', tracks: [{ id: 'legacy', name: 'Legacy' }] };
+    expect(withListType(custom, 'pass')).toMatchObject({ tracks: [{ id: 'legacy' }] });
   });
 
   it('sets custom: true when converting to a custom list', () => {
