@@ -1,5 +1,5 @@
 import { DEFAULT_PASS_TRACKS, isExpedition } from '@/lib/lists';
-import type { PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
+import type { CompletedRewardPass, PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -88,6 +88,7 @@ const validatePassTracks = (v: unknown): PassTrackDef[] => {
     if (id === null || name === null || seen.has(id)) continue;
     seen.add(id);
     const track: PassTrackDef = { id, name };
+    if (raw.locked === true) track.locked = true;
     if (isObject(raw.translations)) {
       const translations: Record<string, { name?: string }> = {};
       for (const [lang, tr] of Object.entries(raw.translations)) {
@@ -584,3 +585,12 @@ export const v = {
   /** Helper di tipo: `v.infer<typeof mySchema>` → tipo TypeScript corrispondente. */
   infer: undefined as unknown as <S>(schema: S) => S extends Schema<infer T> ? T : never,
 } as const;
+
+/** Voce dello storico dei pass conclusi: id e data obbligatori, il nome ripiega sull'id. */
+export const validateCompletedRewardPass = (v: unknown): CompletedRewardPass | null => {
+  if (!isObject(v)) return null;
+  const id = asNonEmptyString(v.id);
+  const completedAt = asIsoDateString(v.completedAt);
+  if (id === null || completedAt === undefined) return null;
+  return { id, name: asNonEmptyString(v.name) ?? id, completedAt };
+};

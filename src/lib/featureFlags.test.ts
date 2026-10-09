@@ -14,7 +14,7 @@ import {
 
 // Il seed reale (src/data/feature-flags.json) cambia con le release: i test non devono dipenderne.
 vi.mock('@/data/feature-flags.json', () => ({
-  default: { expeditions: true, vault: true, 'role-maker': true, blueprints: true, maps: true },
+  default: { expeditions: true, vault: true, 'role-maker': true, blueprints: true, maps: true, 'reward-pass': true },
 }));
 
 class MockStorage implements Storage {

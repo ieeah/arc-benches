@@ -1,8 +1,8 @@
-import type { AppState, List, Profile } from '@/types';
+import type { AppState, CompletedRewardPass, List, Profile } from '@/types';
 import type { AppLanguage } from '@/i18n/types';
 import { safeLS } from '@/lib/safeStorage';
 import {
-  isObject, sanitizeBoolRecord, sanitizeNumberRecord, sanitizeStringArray, validateList, validateProfile,
+  isObject, sanitizeBoolRecord, sanitizeNumberRecord, sanitizeStringArray, validateCompletedRewardPass, validateList, validateProfile,
 } from '@/lib/validate';
 
 // Per-profile state: each profile has its own key in localStorage.
@@ -12,7 +12,7 @@ export const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
-/** The 16 keys persisted per profile.
+/** The 18 keys persisted per profile.
  *  `language` is optional on purpose: a profile that never set one explicitly leaves it
  *  absent, so boot/profile-switch fall back to the global `language` setting instead of
  *  a hard-coded 'en'. */
@@ -21,7 +21,7 @@ export type PersistedState = Pick<AppState,
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
   'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
-  'consecutiveStreak' | 'departureWindowActive'
+  'consecutiveStreak' | 'departureWindowActive' | 'activeRewardPass' | 'completedRewardPasses'
 > & { language?: AppLanguage };
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
@@ -91,6 +91,14 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
   if (typeof raw.departureWindowActive === 'boolean') {
     out.departureWindowActive = raw.departureWindowActive;
   }
+  if (typeof raw.activeRewardPass === 'string' || raw.activeRewardPass === null) {
+    out.activeRewardPass = raw.activeRewardPass;
+  }
+  if (Array.isArray(raw.completedRewardPasses)) {
+    out.completedRewardPasses = raw.completedRewardPasses
+      .map(validateCompletedRewardPass)
+      .filter((c): c is CompletedRewardPass => c !== null);
+  }
   return out;
 }
 
@@ -127,6 +135,8 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     earnedPermanentSkillPoints: s.earnedPermanentSkillPoints ?? 0,
     consecutiveStreak: s.consecutiveStreak ?? 0,
     departureWindowActive: s.departureWindowActive ?? false,
+    activeRewardPass: s.activeRewardPass ?? null,
+    completedRewardPasses: s.completedRewardPasses ?? [],
   };
   safeLS(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }

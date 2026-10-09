@@ -4,6 +4,7 @@
     { "id": "liste", "labelKey": "nav.benches", "icon": "layout-list" },
     { "id": "blueprints", "labelKey": "nav.blueprints", "icon": "scroll-text" },
     { "id": "expeditions", "labelKey": "nav.expeditions", "icon": "compass" },
+    { "id": "reward-pass", "labelKey": "nav.rewardPass", "icon": "ticket" },
     {
       "id": "tools",
       "labelKey": "nav.tools",

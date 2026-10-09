@@ -18,7 +18,7 @@ export const isCustom = (l: List): l is CustomList => l.listType === 'custom';
 /** Tracce di partenza di un nuovo Reward Pass. */
 export const DEFAULT_PASS_TRACKS: readonly PassTrackDef[] = [
   { id: 'free', name: 'Free', translations: { it: { name: 'Gratuita' } } },
-  { id: 'premium', name: 'Premium', translations: { it: { name: 'Premium' } } },
+  { id: 'premium', name: 'Premium', translations: { it: { name: 'Premium' } }, locked: true },
 ];
 
 /**

@@ -51,13 +51,17 @@ export const DevPassSection = ({ selectedList, updateSelectedList }: DevPassSect
         ? 'Esiste già una traccia con questo id.'
         : '';
 
-  const patchTrack = (id: string, patch: { name?: string; nameIt?: string }) =>
+  const patchTrack = (id: string, patch: { name?: string; nameIt?: string; locked?: boolean }) =>
     updatePass((prev) => ({
       ...prev,
       tracks: prev.tracks.map((t) => {
         if (t.id !== id) return t;
         const next = { ...t };
         if (patch.name !== undefined) next.name = patch.name;
+        if (patch.locked !== undefined) {
+          if (patch.locked) next.locked = true;
+          else delete next.locked;
+        }
         if (patch.nameIt !== undefined) {
           if (patch.nameIt) next.translations = { ...t.translations, it: { name: patch.nameIt } };
           else delete next.translations;
@@ -206,6 +210,14 @@ export const DevPassSection = ({ selectedList, updateSelectedList }: DevPassSect
                 placeholder={track.name}
                 className={inputClass}
               />
+            </label>
+            <label className="col-span-2 flex items-center gap-2 text-[11px] font-medium text-gray-600 dark:text-gray-300 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={track.locked === true}
+                onChange={(e) => patchTrack(track.id, { locked: e.target.checked })}
+              />
+              A pagamento: le ricompense mostrano il lucchetto
             </label>
             <button
               type="button"

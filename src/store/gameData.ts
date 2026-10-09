@@ -1,8 +1,10 @@
-import type { ExpeditionList, ItemInfo, List, TieredAction } from '@/types';
+import type { ExpeditionList, ItemInfo, List, PassList, TieredAction } from '@/types';
+import { isPass } from '@/lib/lists';
 import { applyCustomItemsDraft } from '@/lib/customItems';
 import workbenchesData from '@/data/workbenches.json';
 import expeditionsData from '@/data/expeditions.json';
 import projectsData from '@/data/projects.json';
+import passesData from '@/data/passes.json';
 import itemsData from '@/data/items.json';
 import itemsOverridesData from '@/data/items-overrides.json';
 import type { PersistedState } from '@/store/persistence';
@@ -74,9 +76,25 @@ export function computeEffectiveProjects(): List[] {
   return list.filter(p => p.maxLevel > 0);
 }
 
+/** Reward Pass del seed (`src/data/passes.json`); in dev le bozze di Gestione Liste li sostituiscono. */
+export function computeEffectivePasses(): PassList[] {
+  let list = ((passesData as unknown as { lists?: List[] }).lists ?? []) as List[];
+  if (import.meta.env.DEV) {
+    try {
+      const draft = localStorage.getItem('arc_benches_dev_lists_draft_v1');
+      if (draft) {
+        const parsed = JSON.parse(draft);
+        if (Array.isArray(parsed.pass)) list = parsed.pass;
+      }
+    } catch { /* ignore */ }
+  }
+  return list.filter(isPass).filter(p => p.maxLevel > 0);
+}
+
 export const workbenches = computeEffectiveWorkbenches();
 export const expeditions = computeEffectiveExpeditions();
 export const projects = computeEffectiveProjects();
+export const passes = computeEffectivePasses();
 
 export function computeEffectiveItemsInfo(): Record<string, ItemInfo> {
   const result: Record<string, ItemInfo> = { ...(itemsData as Record<string, ItemInfo>) };
@@ -180,6 +198,8 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   earnedPermanentSkillPoints: loaded.earnedPermanentSkillPoints ?? 0,
   consecutiveStreak: loaded.consecutiveStreak ?? 0,
   departureWindowActive: loaded.departureWindowActive ?? false,
+  activeRewardPass: loaded.activeRewardPass ?? null,
+  completedRewardPasses: loaded.completedRewardPasses ?? [],
 });
 
 /** Fresh (empty) progress for a brand-new profile. */
@@ -200,4 +220,6 @@ export const freshProfile = (): PersistedState => ({
   earnedPermanentSkillPoints: 0,
   consecutiveStreak: 0,
   departureWindowActive: false,
+  activeRewardPass: null,
+  completedRewardPasses: [],
 });
