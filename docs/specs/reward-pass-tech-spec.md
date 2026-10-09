@@ -2,7 +2,7 @@
 
 Valutazione di come rappresentare il Reward Pass di *ARC Raiders* (Frozen Trail, disponibile dall'8 ottobre 2026) in ARC Benches: riuso del meccanismo **liste** già esistente oppure meccanismo dedicato.
 
-Stato: **modello implementato in #85 (2026-10-09)** (senza `seasonId`: l'id della lista identifica il pass; seed `src/data/passes.json` vuoto) — i pass si gestiscono come liste (D1); le decisioni D1, D7 e D8 sono fissate, le altre restano da confermare.
+Stato: **decisioni principali prese e implementate (2026-10-09)**. Il modello `listType: 'pass'` e l'editor Dev sono in #85; la pagina utente (selezione, anteprima, vista a livelli, pass attivo e completati) e lo stato per profilo sono implementati dietro il feature flag `reward-pass`, spento di default, perché il seed è ancora vuoto. Restano aperte D2 (dettaglio), D3 e D6; import/export dei nuovi campi è nella #74.
 
 Issue di riferimento: [#85 Modello Reward Pass come tipo di lista + editor Dev dei pass](https://github.com/ieeah/arc-benches/issues/85), [#90 Reward Pass Tracker (solo livelli e ricompense, dati inseriti a mano; niente Feats)](https://github.com/ieeah/arc-benches/issues/90). Contesto già analizzato in [frozen-trail.md](frozen-trail.md).
 
@@ -32,17 +32,18 @@ Osservazioni:
 
 ## 2. Stato attuale del progetto
 
-Elementi già presenti e rilevanti (verificati nel codice):
+Dopo #85 (verificato nel codice):
 
-- **Modello `List` generico** in `src/types.ts` (ADR-002): `ListBase` con `maxLevel`, `levels: ListLevel[]`, `startDate?`, `expirationDate?`, `prerequisites?`. Unione discriminata su `listType`: `'workbench' | 'expedition' | 'project' | 'quest' | 'custom'`.
-- **`ListLevel`** ha già `rewards?: Reward[]`. Il tipo `Reward` attuale è `{ itemId: string; quantity: number }` (sempre un oggetto del catalogo, `src/types.ts:4`).
-- **Il motore calcola i materiali mancanti** da `requirementItemIds` dei livelli compresi tra `currentLevel` e `targetLevel` (`src/store/selectors.ts`, `listsSlice.ts`). Una lista senza requisiti non contribuisce al fabbisogno.
-- **`expirationDate`** esiste già sulle liste ed è usato da `src/lib/expiration.ts` (`isListExpired`, `formatTimeRemaining`).
-- **Valuta "Reward Points"** è già nel catalogo (`items.json`, definita in `scripts/data/custom-items/`), ma secondo `progetti.md` non è selezionabile come requisito di consegna.
-- **Editor Dev delle liste** (`DevListsPage`, `useDevListEditor`) e file dati per tipo (`LIST_FILES` in `src/lib/devArtifacts.ts`: workbench, expedition, project, quest).
-- **Non esiste** alcun `listType` per i pass, nessun campo per il tracciato (free/premium/legacy), nessuna persistenza dello stato premium.
+- **Modello `List` generico** in `src/types.ts` (ADR-002): `ListBase` con `maxLevel`, `levels: ListLevel[]`, `startDate?`, `expirationDate?`, `prerequisites?`. Unione discriminata su `listType`: `'workbench' | 'expedition' | 'project' | 'quest' | 'pass' | 'custom'`.
+- **`PassList`** (`listType: 'pass'`): `tracks: PassTrackDef[]` e `premiumCostTokens?` (lasciato opzionale, vedi D10). `Reward` ha `track?`; la validazione rende esplicita la traccia (D9) e scarta le ricompense di tracce non dichiarate.
+- **`ListLevel`** ha `rewards?: Reward[]`; `Reward` è `{ itemId, quantity, track? }` (sempre un oggetto del catalogo).
+- **Seed e editor Dev**: `src/data/passes.json` (vuoto), gruppo «Reward Pass» in Gestione Liste (nuovo pass con tracce free/premium; come ogni nuova lista parte da un solo livello), pannello tracce, selettore di traccia nelle ricompense di livello. Requisiti, azioni e scaglioni sono nascosti per i pass.
+- **Cestino Dev** (`dev-trash/trash.json`): accoglie le tracce rimosse e le liste eliminate (D9).
+- **Il pass non è caricato nell'app utente** (come le quest): non entra in Stash, fabbisogno o liste attive. `expirationDate` esiste su `List` ma non è usato dai pass (D5).
+- **Valuta "Reward Points"** è nel catalogo (`items.json`, da `scripts/data/custom-items/`), ma non è selezionabile come requisito di consegna.
+- **Non esiste ancora** lo stato per profilo (pass attivo, pass completati, tier raggiunto di un pass) né alcuna pagina utente del pass: sono #90.
 
-Vincolo di prodotto già deciso in roadmap (#90): **niente Feats** nella 0.6.0. Il tracker traccia solo il tier raggiunto e le ricompense sbloccate.
+Vincolo di prodotto già deciso (#90): **niente Feats**. Il tracker traccia solo il tier raggiunto e le ricompense.
 
 ## 3. Opzioni valutate
 
@@ -69,7 +70,7 @@ Un nuovo slice `passSlice`, una pagina `PassPage`, un modello di dati dedicato c
 
 **Raccomandazione: Opzione B.** Se in futuro si vorranno i Feats o un calcolo a punti, si aggiunge un campo opzionale sul livello (`pointsRequired`) senza cambiare il modello. Passare a C in quel momento è più economico che costruire C ora.
 
-## 4. Proposta di modello dati (solo firme, nessuna implementazione)
+## 4. Modello dati
 
 ```ts
 // src/types.ts
@@ -80,38 +81,41 @@ export type PassTrack = string;
 export interface Reward {
   itemId: string;          // invariato: ricompensa da catalogo
   quantity: number;
-  track?: PassTrack;       // nuovo, solo per i livelli di un pass; assente = traccia 'free'
+  track?: PassTrack;       // solo per i livelli di un pass; la validazione assegna la prima traccia se manca (D9)
 }
 
 export interface PassTrackDef {
   id: PassTrack;
   name: string;
-  translations?: Record<string, { name: string }>;
+  translations?: Record<string, { name?: string }>;
+  /** Traccia a pagamento: le sue ricompense mostrano il lucchetto, come nel gioco. */
+  locked?: boolean;
 }
 
 export type ListType = 'workbench' | 'project' | 'quest' | 'custom' | 'expedition' | 'pass';
 
-/** Reward Pass di una stagione (seed read-only, come i banchi). */
+/** Reward Pass (seed read-only, come i banchi). La stagione e il Legacy sono pass distinti (D4). */
 export interface PassList extends ListBase {
   listType: 'pass';
   /** Tracce del pass, nell'ordine di visualizzazione (D7). */
   tracks: PassTrackDef[];
-  /** Costo del tracciato premium in Raider Token (solo informativo). */
+  /** Costo del tracciato premium in Raider Token (solo informativo, opzionale: D10). */
   premiumCostTokens?: number;
 }
 
 export type List = WorkbenchList | ExpeditionList | ProjectList | QuestList | CustomList | PassList;
 ```
 
-Stato per profilo (non nel seed):
+Stato per profilo (non nel seed, da implementare in #90):
 
 ```ts
-// src/store/... (slice da decidere, vedi D2)
-passPremiumUnlocked: Record<string, boolean>;  // chiave = id della lista pass
+activeRewardPass: string | null;      // id del pass attivo; al massimo uno alla volta (D11)
+completedRewardPasses: { id: string; name: string; completedAt: string }[];  // storico dei pass conclusi: resta visibile e alimenterà la futura pagina dei trofei (il nome è una copia, il seed potrebbe non averlo più)
 // currentLevels[passId] = tier raggiunto (riuso del meccanismo esistente)
+// passPremiumUnlocked: Record<string, boolean>  — vedi D2
 ```
 
-Helper puri proposti (in `src/store/selectors.ts` o file dedicato):
+Helper puri previsti per #90 (in `src/store/selectors.ts` o file dedicato):
 
 ```ts
 export function getPassRewardsForTier(list: PassList, tier: number, unlockedPremium: boolean): Reward[];
@@ -120,81 +124,96 @@ export function getPassClaimableRewards(list: PassList, currentTier: number, unl
 
 Regole di filtro proposte:
 
-- `track` assente o `'free'` → sempre visibile quando `tier <= currentTier`.
-- `track === 'premium'` → visibile solo se `unlockedPremium`.
-- Altre tracce (es. `'legacy'`) → regola dichiarata dal pass stesso (D7, D4); un `track` non dichiarato in `tracks` è un errore di validazione.
+- Ogni ricompensa ha una traccia dichiarata (D9). `free` → visibile quando `tier <= currentTier`; `premium` → solo se `unlockedPremium`.
+- Altre tracce: regola dichiarata dal pass stesso (D7). Un `track` non dichiarato in `tracks` viene scartato in validazione.
 
-Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass` senza `requirementItemIds` non produce fabbisogno. Va però esclusa esplicitamente dalle viste "liste attive/mancanti" se non deve comparire (vedi R1).
+Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass` senza `requirementItemIds` non produce fabbisogno. Finché il pass non è caricato nell'app utente non può comparire nelle viste di fabbisogno (vedi R1).
 
 ## 5. Interfaccia
 
-- **Editor Dev**: il bucket `pass` in `DevListsPage` con griglia tier 1–60 e editor delle ricompense per tracciato (riuso di `DevRewardEditorModal`, con selettore del tracciato).
-- **Pagina utente**: la card pass usa `UnifiedListCard` con un controllo tier (riuso di `LevelPills`/`LevelBadge`) e un toggle "Premium sbloccato" per profilo.
-- Il tracciato premium non cambia l'avanzamento: è solo un filtro di visualizzazione e di conteggio ricompense.
-- UI in italiano, abbreviazione "Lvl" (AGENTS.md).
+- **Editor Dev** (fatto in #85): gruppo `pass` in `DevListsPage` con pannello tracce (nome EN/IT, flag «a pagamento»), selettore di traccia nelle ricompense e cestino.
+- **Pagina utente** `#/reward-pass` (feature flag `reward-pass`), a seconda dello stato del profilo:
+  - **Nessun pass attivo**: le card dei pass non conclusi, ben visibili, e in fondo la sezione dei pass conclusi (con data). Ogni card porta alla pagina di anteprima.
+  - **Pagina di anteprima** di un pass: nome e costo del premium (se presente); descrizione; livelli e tracce; ricompense totali (valute per oggetto, il resto per tipo: blueprint, outfit…); pulsante «Dettaglio livelli e tracce»; pulsante «Imposta come pass attivo» con modale di conferma (disabilitato, con il motivo, se c'è già un pass attivo o se è già concluso).
+  - **Pass attivo**: la pagina è direttamente la vista a livelli (sotto), con il tier raggiunto (− / + o tocco sul livello) e «Concludi pass» (conferma). Un pulsante nell'header porta comunque all'elenco dei pass (`view=all`), con il pass attivo segnato, per dare solo un'occhiata agli altri; le anteprime restano in sola lettura e «Imposta come pass attivo» è disabilitato.
+- **Vista a livelli** (copia del gioco, adattata al mobile): scorrimento verticale con il binario dei livelli a sinistra (il più alto in cima, come nel gioco), le tracce affiancate, ogni ricompensa come icona dell'oggetto con la quantità; le tracce `locked` mostrano il badge del lucchetto sulle icone, e anche nell'intestazione della colonna. Sfondo scuro «spaziale» (alone e stelle, senza l'anello e la scena 3D del gioco). Si scorre al prossimo livello da raggiungere, evidenziato; i livelli raggiunti e le loro ricompense sono disabilitati. Un tocco sull'icona apre il dettaglio dell'oggetto.
+- **Opzioni di visualizzazione** nell'header (drawer dall'alto): tracce visibili, per dispositivo. «La mia traccia» si ottiene nascondendo le altre.
+- **Impostazioni**: «Cambia pass attivo» (D11), con doppia conferma e avviso che il progresso viene eliminato.
+- **Pass attivo non più nel seed** (R5): alla visita della pagina si chiede se segnarlo come **completato** (finisce nello storico/trofei) o **non completato** (il progresso viene eliminato), oppure di decidere dopo. Vale finché non esiste un archivio dei vecchi pass (probabile con il passaggio a un DB vero).
+- Il tracciato premium non cambia l'avanzamento: è solo un filtro di visualizzazione.
+- UI in italiano, abbreviazione "Lvl" (AGENTS.md); i drawer si aprono dal lato del pulsante che li apre (ADR-003).
 
-## 6. File coinvolti (previsione)
+## 6. File coinvolti
 
-| File | Ruolo | Tipo modifica |
+| File | Ruolo | Stato |
 | :--- | :--- | :--- |
-| `src/types.ts` | `PassTrack`, `PassList`, `Reward.track`, `ListType` | estensione |
-| `src/lib/validate.ts` | validazione di `PassList` e `track` | estensione |
-| `src/data/passes.json` | seed dei pass (tier, ricompense) | nuovo |
-| `src/store/gameData.ts` | caricamento seed `pass` | estensione |
-| `src/store/selectors.ts` | helper `getPassRewardsForTier`, esclusione dal fabbisogno | estensione |
-| `src/store/listsSlice.ts` / `progressSlice.ts` | stato `passPremiumUnlocked` | estensione |
-| `src/lib/devArtifacts.ts` | voce `LIST_FILES` per `pass` | estensione |
-| `src/hooks/dev/useDevListEditor.ts`, `src/pages/DevListsPage.tsx` | bucket `pass` | estensione |
-| `src/components/UnifiedListCard.tsx` | controllo tier e toggle premium | estensione |
-| `src/i18n/locales/it.ts`, `en.ts` | etichette tracciati | estensione |
-| test: `validate.test.ts`, `selectors.test.ts` | copertura nuovi helper e filtri | nuovo/estensione |
+| `src/types.ts` | `PassTrackDef`, `PassList`, `Reward.track`, `ListType` | fatto (#85) |
+| `src/lib/lists.ts`, `src/lib/validate.ts` | `isPass`, `DEFAULT_PASS_TRACKS`, validazione di tracce e `track` | fatto (#85) |
+| `src/data/passes.json` | seed dei pass (tier, ricompense) | creato vuoto (#85) |
+| `src/lib/devArtifacts.ts`, `src/hooks/dev/*`, `src/pages/DevListsPage.tsx`, `src/components/dev/DevPassSection.tsx` | gruppo `pass` e pannello tracce nell'editor Dev | fatto (#85) |
+| `vite-plugins/dev-trash.ts`, `src/lib/devTrash.ts` | cestino Dev | fatto |
+| `src/store/gameData.ts`, `src/store/rewardPassSlice.ts` | caricamento del seed, `activeRewardPass`, `completedRewardPasses`, azioni di selezione/conclusione/orfano | fatto (#90) |
+| `src/store/persistence.ts`, `src/lib/validate.ts` | persistenza per profilo dei nuovi campi | fatto (#90) |
+| import/export dei profili (`profileSlice`, `listIO`) | includere `activeRewardPass` e `completedRewardPasses` | #74 |
+| `passPremiumUnlocked` | conteggio delle ricompense ottenibili | da decidere (D2) |
+| `src/lib/rewardPass.ts`, `src/lib/passViewPrefs.ts` | totali delle ricompense, nomi delle tracce, preferenze di vista | fatto (#90) |
+| `src/pages/RewardPassPage.tsx`, `src/components/pass/*`, `ChangeActivePassSection` | selezione, anteprima, vista a livelli, orfano, Impostazioni | fatto (#90) |
+| `src/lib/featureFlags.ts`, `src/data/nav.json` | flag `reward-pass` (spento) e voce di menu | fatto (#90) |
+| `src/i18n/locales/it.ts`, `en.ts` | etichette del flusso | fatto (#90) |
 
-## 7. Decisioni da prendere (con raccomandazione)
+## 7. Decisioni
 
 - **D1 — Modello**: ✅ **deciso** — Opzione B: i pass sono liste (`listType: 'pass'`); cambia solo la visualizzazione in UI (D8).
-- **D2 — Stato premium**: campo per profilo in `passPremiumUnlocked`, non nel seed e non nel `List`. Va incluso in import/export. *Raccomandato.*
-- **D3 — Ricompense cosmetiche non presenti nel catalogo**: oggi `Reward` richiede `itemId`. Opzioni: (a) aggiungere un `label` opzionale e `itemId` opzionale, con migrazione di validate e UI (come già previsto in `17-18-42-tech-spec.md`); (b) aggiungere gli oggetti cosmetici a `scripts/data/custom-items/`. *Raccomando (b) per i cosmetici che hanno un nome stabile, (a) per il resto, da confermare dopo aver verificato quali ricompense mancano nel catalogo.*
-- **D4 — Legacy Pass**: una lista `pass` separata (ricompense dei vecchi Raider Deck), oppure un tracciato `legacy` della stessa lista. Il Legacy si attiva scegliendo a quale collezione dirigere i punti, quindi la separazione in lista propria è più fedele. *Raccomando lista separata; da confermare.*
-- **D5 — Fine stagione**: ✅ **deciso** — nessuna scadenza. `expirationDate` resta non valorizzato. Non è annunciata la cadenza dei futuri pass; se arriverà una scadenza, il campo esiste già su `List`.
-- **D6 — Verifica dei dati**: i tier vanno compilati a mano dal gioco o da una fonte completa. Le tre fonti sono secondarie e in disaccordo sui Token. *Da confermare con l'utente su quale fonte fidarsi.*
-
-- **D7 — Tracce generiche**: ✅ **deciso** — le tracce non sono un'enumerazione fissa. Ogni pass dichiara le proprie (`tracks: PassTrackDef[]`: `free`, `premium`, `legacy` o altre che Embark introdurrà) e ogni ricompensa porta l'id della sua traccia. Aggiungere una traccia è un dato, non una modifica al codice.
-- **D8 — Visualizzazione dedicata del pass**: ✅ **deciso** (si implementa dopo #85, in #90) — vista a griglia, un livello per riga e una colonna per traccia, con le ricompense come `RewardBadge`. Comportamento:
-  - alla apertura scorre al livello corrente, che è evidenziato;
-  - i livelli passati (e le loro ricompense) sono mostrati disabilitati;
+- **D2 — Stato premium**: *aperta.* Campo per profilo `passPremiumUnlocked`, non nel seed e non nel `List`, incluso in import/export. Con D8 le preferenze di visualizzazione (tracce nascoste, «la mia traccia») fanno da filtro di visibilità; D2 resta per il solo conteggio delle ricompense. Da riprendere in #90.
+- **D3 — Ricompense cosmetiche non presenti nel catalogo**: *aperta.* `Reward` richiede `itemId`. Opzioni: (a) `label` e `itemId` opzionali, con migrazione di validate e UI; (b) aggiungere gli oggetti a `scripts/data/custom-items/` (oggi gestibili dal Custom Items Studio). *Raccomando (b) per i cosmetici con nome stabile, da confermare dopo aver verificato quali ricompense mancano.*
+- **D4 — Legacy Pass**: ✅ **deciso** — il Legacy è una lista `pass` separata (ricompense dei vecchi Raider Deck), non una traccia del pass di stagione. Anche il Legacy è un pass selezionabile come attivo (D11).
+- **D5 — Fine stagione**: ✅ **deciso** — nessuna scadenza. `expirationDate` resta non valorizzato. Se arriverà una scadenza, il campo esiste già su `List`.
+- **D6 — Verifica dei dati**: *aperta.* Le ricompense dei 60 tier si compilano dall'editor Dev (a mano, oppure con uno script una tantum dalla tabella Polygon, vincolato a D3). Le fonti secondarie sono in disaccordo solo sui Token.
+- **D7 — Tracce generiche**: ✅ **deciso** — non sono un'enumerazione fissa. Ogni pass dichiara le proprie (`tracks: PassTrackDef[]`: `free`, `premium` o altre che Embark introdurrà) e ogni ricompensa porta l'id della sua traccia. Aggiungere una traccia è un dato, non una modifica al codice.
+- **D8 — Visualizzazione del pass attivo**: ✅ **deciso e implementato** — come nel gioco (screenshot di riferimento), non una griglia di testo: un livello per riga con le tracce affiancate e le ricompense come icone:
+  - all'apertura scorre al livello corrente, evidenziato;
+  - i livelli passati (e le loro ricompense) sono disabilitati;
+  - il livello più alto è in cima, come nel gioco; le tracce `locked` mostrano il lucchetto; sfondo scuro adattato al mobile (D12);
   - su telefono le colonne diventano schede a scorrimento orizzontale o un selettore di traccia;
-  - la configurazione sta nell'header della pagina: quali tracce nascondere e «la mia traccia», che nasconde i `RewardBadge` non pertinenti; le preferenze sono per profilo/dispositivo e sostituiscono `passPremiumUnlocked` come filtro di visualizzazione (D2 resta per il conteggio delle ricompense).
-  - Solo il livello raggiunto viene tracciato (niente Feats).
-
-- **D10 — Ambito dei dati economici e dei bug**: ✅ **deciso** — il tracker non gestisce il costo del pass (prezzo in Raider Token e rimborso fuori scope; `premiumCostTokens` può restare informativo o essere rimosso). Le soglie punti non sono modellate: il tracker registra solo il tier, e per il calcolo servirebbe solo `pointsRequired` per livello, da aggiungere in futuro. Il Legacy Pass usa 100 punti per livello, il Frozen Trail 150. I bug di lancio dello sblocco premium non vengono tracciati come problemi del modello.
-- **D9 — Traccia sempre esplicita e cestino**: ✅ **deciso** — ogni ricompensa di un pass porta il proprio `track` (la validazione assegna la prima traccia alle ricompense che ne sono prive, così riordinare le tracce non cambia il significato). Rimuovere una traccia la sposta, con le sue ricompense, nel cestino Dev (`dev-trash/trash.json`): file versionato, fuori da `src/` e `public/`, letto e scritto solo dal dev server, quindi non distribuito. Il cestino accoglie anche le liste eliminate da Gestione Liste. Un pass non ha requisiti di oggetti né azioni: è un tracker di tier e ricompense.
+  - la configurazione sta nell'header: quali tracce nascondere (per dispositivo); «la mia traccia» coincide con il nascondere le altre;
+  - si traccia solo il livello raggiunto (niente Feats).
+- **D9 — Traccia sempre esplicita e cestino**: ✅ **deciso** (fatto) — ogni ricompensa di un pass porta il proprio `track` (la validazione assegna la prima traccia a quelle che ne sono prive, così riordinare le tracce non cambia il significato). Rimuovere una traccia la sposta, con le sue ricompense, nel cestino Dev (`dev-trash/trash.json`): file versionato, fuori da `src/` e `public/`, letto e scritto solo dal dev server, quindi non distribuito. Il cestino accoglie anche le liste eliminate da Gestione Liste. Un pass non ha requisiti di oggetti né azioni: è un tracker di tier e ricompense.
+- **D10 — Ambito dei dati economici**: ✅ **deciso** — il tracker non gestisce il costo del pass (prezzo in Raider Token e rimborso fuori scope); `premiumCostTokens` resta nel modello come campo **opzionale e informativo**. Le soglie punti non sono modellate: il tracker registra solo il tier; se servisse il calcolo basterebbe `pointsRequired` opzionale per livello (Frozen Trail 150 punti per tier, Legacy 100). I bug di lancio dello sblocco premium non sono problemi del modello.
+- **D11 — Un solo pass attivo per profilo**: ✅ **deciso e implementato** — come nel gioco, un profilo ha al massimo un pass attivo (`activeRewardPass`) e non può cambiarlo finché non lo conclude. Vale anche per il Legacy.
+  - **Selezione**: senza pass attivo la pagina mostra le card dei pass non completati, ciascuna verso una pagina di anteprima con il pulsante «Imposta come pass attivo» e una modale di conferma. I pass completati stanno in una sezione dedicata in fondo alla pagina e saranno visibili anche nella futura pagina dei trofei.
+  - **Completamento**: pulsante «Concludi pass», che porta il tier raggiunto all'ultimo livello, aggiunge il pass a `completedRewardPasses` e libera la selezione. Serve perché l'app non si sincronizza col gioco: il giocatore può averlo finito da giorni e aggiornarla solo ogni tanto.
+  - **Via d'uscita**: in Impostazioni, «Cambia pass attivo» per correggere un errore di selezione; il progresso su quel pass viene eliminato (doppia conferma).
+  - **Stato**: `activeRewardPass` e `completedRewardPasses` sono per profilo (persistiti; l'import/export è nella #74); il tier raggiunto riusa `currentLevels[passId]`.
+  - **Pass scomparso dal seed**: finché non c'è un archivio dei vecchi pass, alla visita si chiede se segnarlo completato (storico/trofei, con il solo id come nome) o non completato (progresso eliminato).
+- **D12 — Cosa si copia dal gioco**: ✅ **deciso** — non si ricrea l'intera schermata (impensabile su mobile): si copia la visualizzazione di livelli e tracce (icone, lucchetto sulle tracce a pagamento, binario dei livelli) e lo sfondo, adattato al mobile. Restano fuori la scena 3D centrale, la scheda dettaglio laterale (sostituita dal dettaglio oggetto al tocco) e il riquadro «Migliora pass premium».
 
 ## 8. Rischi
 
-- **R1 — Visibilità nelle viste di lista.** Una lista `pass` potrebbe comparire in "liste attive" o in "mancanti" con `currentLevel` a 0 e `targetLevels` di default (`levelsAbove(0, maxLevel)`), creando attività fittizia. Va verificato come `getActiveListsPure` e l'inizializzazione di `targetLevels` trattano il nuovo `listType`. Mitigazione: default `activeModules[id] = false` per i pass e filtro esplicito nelle viste di fabbisogno.
-- **R2 — Import di profili esistenti.** `importLists` deve accettare `listType: 'pass'` senza rompere i file già esportati.
-- **R3 — Dati incompleti.** Il seed Free/Premium dei 60 tier è ora disponibile da Polygon; resta da inserire il Legacy Pass a mano.
-- **R4 — Fonti in disaccordo.** Risolto per le soglie (150 per tier, D10) e per il costo (non gestito, D10). Resta la differenza sul totale Token (1.300 da tabella contro 1.350 di UrGameTips), che non incide sul tracker.
+- **R1 — Visibilità nelle viste di lista.** Oggi il pass non è caricato nell'app utente, quindi non può generare attività fittizie. Quando lo sarà (#90) va escluso dal fabbisogno, dalle liste attive e da `targetLevels` di default (`levelsAbove(0, maxLevel)`), e i quattro metodi di `listsSlice` vanno verificati con un pass presente.
+- **R2 — Import di profili esistenti.** `importLists` deve accettare `listType: 'pass'` e i nuovi campi del profilo (`activeRewardPass`, `completedRewardPasses`) senza rompere i file già esportati.
+- **R3 — Dati incompleti.** Il Legacy Pass non ha una fonte con le ricompense per livello: va inserito dall'editor Dev. Per il Frozen Trail esiste la tabella Polygon (D6).
+- **R4 — Fonti in disaccordo.** Risolto per le soglie (150 per tier) e per il costo (non gestito, D10). Resta la differenza sul totale Token (1.300 da tabella contro 1.350 di UrGameTips), che non incide sul tracker.
+- **R5 — Stato incoerente del pass attivo.** Gestito: un `activeRewardPass` che punta a un pass non più nel seed viene risolto dall'utente (completato nello storico o non completato), senza decisioni automatiche e senza perdere il progresso finché non sceglie.
 
 ## 9. Piano di test
 
-- Unit: `validatePassList` (tier mancanti, tier fuori range 1–60, `track` sconosciuto), `getPassRewardsForTier` (filtro free/premium, tier al limite).
-- Unit: import/export di un profilo con un pass e `passPremiumUnlocked`.
-- Regressione: `getTotalRequiredMaterialsPure` e `getMissingMaterialsPure` invariati con e senza pass presenti (`store.test.ts`, `selectors.test.ts`).
-- Manuale: editor Dev (creazione tier, ricompense per tracciato), pagina utente (avanzamento tier, toggle premium), mobile a 375px.
+- Fatto (#85): `validateList` per i pass (tracce duplicate o assenti, `track` sconosciuto o mancante, costo opzionale), `withListType` verso `pass`, cestino Dev (`dev-trash.test.ts`).
+- Fatto (#90): slice (un solo pass attivo, tier limitato a 0..maxLevel, conclusione, via d'uscita, orfano completato/non completato, persistenza per profilo), totali delle ricompense, validazione della storia dei pass completati e del flag `locked`.
+- Da fare: import/export con `activeRewardPass` e `completedRewardPasses` (#74); `passPremiumUnlocked` se confermato (D2).
+- Regressione: `getTotalRequiredMaterialsPure` e `getMissingMaterialsPure` invariati con e senza pass presenti.
+- Manuale: card di selezione, pagina di anteprima, conferma, vista a griglia con scroll al livello corrente, «Concludi pass», via d'uscita in Impostazioni, mobile a 375px.
 
-## 10. Milestone proposte (coerenti con VERSIONING)
+## 10. Milestone (coerenti con VERSIONING)
 
-- **0.5.0 — #85**: `listType: 'pass'`, seed vuoto, editor Dev del bucket. Nessun dato utente.
-- **0.6.0 — #90**: seed Frozen Trail compilato (dopo verifica D6), tracker utente, toggle premium, Legacy se confermato in D4.
-- **Fuori scope ora**: Feats, soglie punti per tier, calcolo settimanale. Da riaprire solo con una nuova decisione.
+- **0.5.0 — #85** (fatta): `listType: 'pass'`, tracce generiche, seed vuoto, editor Dev, cestino.
+- **0.5.0 — #90 (anticipata, dietro flag)**: pagina del pass con selezione, anteprima, pass attivo e completati (D11), vista a livelli (D8, D12), stato per profilo, gestione del pass orfano. Il flag `reward-pass` resta spento finché non ci sono dati.
+- **0.6.0**: dati reali del Frozen Trail e del Legacy (D3, D6), import/export (#74), eventuale pagina dei trofei.
+- **Fuori scope ora**: Feats, soglie punti per tier, calcolo settimanale, costo del pass. Da riaprire solo con una nuova decisione.
 
-## 11. Cosa serve dall'utente
+## 11. Cosa resta da decidere
 
-1. Approvazione dell'Opzione B e delle decisioni D1–D6, oppure indicazione di alternative.
-2. Fonte da considerare autorevole per i Token e le ricompense tier per tier (D6).
-3. Conferma se il Legacy Pass va modellato come lista separata (D4).
+1. D3 — come rappresentare le ricompense senza oggetto nel catalogo.
+2. D6 — come compilare i 60 tier del Frozen Trail (a mano o con uno script dalla tabella) e il Legacy.
+3. D2 — il dettaglio dello stato «premium sbloccato» rispetto alle preferenze di visualizzazione (D8).
 
-_Aggiornamento 2026-10-09: D1, D5, D7, D8, D9 e D10 sono stati decisi (vedi sezione 7). Restano aperti D2, D3, D4 e D6._
-
-Nessuna modifica al codice è stata fatta. Il documento non è stato committato.
+_Ultimo aggiornamento: 2026-10-09. Decisioni prese: D1, D4, D5, D7, D8, D9, D10, D11._
