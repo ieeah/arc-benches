@@ -388,6 +388,8 @@ async function main() {
   console.log(`Icons: ${hashToCanonicalPath.size} unique saved, ${deduplicatedCount} deduplicated/shared, ${prunedCount} duplicates/orphans pruned from disk.`);
   console.log(`Workbench coverage: ${workbenchIds.size - missing.length}/${workbenchIds.size} found.`);
   console.log(`Saved to ${outPath}`);
+  // Rigenerare items.json cancella le traduzioni: vanno riapplicate con lo script dedicato.
+  console.log('\nSuggerimento: rilancia `node fetch-translations.mjs` per riapplicare le traduzioni agli oggetti appena rigenerati.');
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
