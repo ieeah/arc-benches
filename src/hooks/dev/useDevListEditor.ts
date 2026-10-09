@@ -101,7 +101,6 @@ export function useDevListEditor({
       newId = `expedition-${nextIndex}`;
     }
 
-    const levelCount = type === 'pass' ? 60 : 3;
     const newList = {
       id: newId,
       name: type === 'expedition' ? `Expedition #${expIndex}` : `New ${type.toUpperCase()} List #${count}`,
@@ -110,11 +109,12 @@ export function useDevListEditor({
           name: type === 'expedition' ? `Spedizione #${expIndex}` : `Nuova Lista ${type.toUpperCase()} #${count}`,
         },
       },
-      maxLevel: levelCount,
+      maxLevel: 1,
       listType: type,
       ...(type === 'pass' ? { tracks: DEFAULT_PASS_TRACKS.map((t) => ({ ...t })) } : {}),
       ...(expIndex !== undefined ? { expeditionIndex: expIndex } : {}),
-      levels: Array.from({ length: levelCount }, (_, i) => ({ level: i + 1, requirementItemIds: [] })),
+      // ogni nuova lista parte da un solo livello: gli altri si aggiungono dall'editor
+      levels: [{ level: 1, requirementItemIds: [] }],
       // il tipo è scelto a runtime: i campi specifici (expeditionIndex) sono aggiunti sopra solo per le spedizioni
     } as List;
     setListsData((prev) => ({ ...prev, [type]: [...(prev[type] || []), newList] }));
