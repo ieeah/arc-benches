@@ -1,7 +1,7 @@
 {
   "type": "workbench",
-  "total": 8,
-  "count": 8,
+  "total": 9,
+  "count": 9,
   "offset": 0,
   "limit": 45,
   "items": [
@@ -449,6 +449,38 @@
         }
       },
       "listType": "workbench"
+    },
+    {
+      "id": "research-station",
+      "name": "Research Station",
+      "translations": {
+        "it": {
+          "name": "Stazione di Ricerca",
+          "description": "Trasforma Punti Ricerca e materiali in progetti, disegni, oggetti e potenziamenti per armi."
+        }
+      },
+      "maxLevel": 1,
+      "listType": "workbench",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "planks",
+              "quantity": 35
+            },
+            {
+              "itemId": "battered-paperback",
+              "quantity": 5
+            },
+            {
+              "itemId": "mini-pump",
+              "quantity": 3
+            }
+          ]
+        }
+      ],
+      "description": "Turns Research Points and materials into blueprints, designs, items and weapon perks"
     }
   ]
 }
