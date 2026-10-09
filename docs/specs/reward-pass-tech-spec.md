@@ -187,6 +187,9 @@ Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass`
   - **Pass scomparso dal seed**: finché non c'è un archivio dei vecchi pass, alla visita si chiede se segnarlo completato (storico/trofei, con il solo id come nome) o non completato (progresso eliminato).
 - **D12 — Cosa si copia dal gioco**: ✅ **deciso** — non si ricrea l'intera schermata (impensabile su mobile): si copia la visualizzazione di livelli e tracce (icone, lucchetto sulle tracce a pagamento, binario dei livelli) e lo sfondo, adattato al mobile. Restano fuori la scena 3D centrale, la scheda dettaglio laterale (sostituita dal dettaglio oggetto al tocco) e il riquadro «Migliora pass premium».
 
+- **D13 — Outfit sbloccati a pezzi**: ✅ **deciso** (issue #109) — completo di base (`Outfits`/`Outfit`), toggle (`Cosmetic`/`Outfit Variant`) e colori (`Cosmetic`/`Outfit Color`) si sbloccano in livelli diversi e vanno distinguibili. Si fanno: icone di sottocategoria (provvisorie, da sostituire con quelle del gioco) nella barra della card accanto al `×N` e nella catena di fallback, e un badge ad angolo dal simbolo diverso per tipo. Ripiego: etichetta testuale nella barra. **Non si fa il raggruppamento per outfit** nello stesso livello: non è mai successo che più pezzi di uno stesso outfit si sbloccassero insieme; si rivaluta solo se i dati dei livelli lo richiederanno (servirebbe un campo che leghi i pezzi all'outfit di base).
+- **D14 — Quantità nella barra**: ✅ **fatto** — come nel gioco, `×N` a destra nella stessa barra dell'icona di categoria (`barRightSlot` di `ItemCardFrameV2`), per ogni ricompensa con quantità maggiore di 1.
+
 ## 8. Rischi
 
 - **R1 — Visibilità nelle viste di lista.** Oggi il pass non è caricato nell'app utente, quindi non può generare attività fittizie. Quando lo sarà (#90) va escluso dal fabbisogno, dalle liste attive e da `targetLevels` di default (`levelsAbove(0, maxLevel)`), e i quattro metodi di `listsSlice` vanno verificati con un pass presente.
@@ -216,4 +219,4 @@ Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass`
 2. D6 — come compilare i 60 tier del Frozen Trail (a mano o con uno script dalla tabella) e il Legacy.
 3. D2 — il dettaglio dello stato «premium sbloccato» rispetto alle preferenze di visualizzazione (D8).
 
-_Ultimo aggiornamento: 2026-10-09. Decisioni prese: D1, D4, D5, D7, D8, D9, D10, D11._
+_Ultimo aggiornamento: 2026-10-09. Decisioni prese: D1, D4, D5, D7, D8, D9, D10, D11, D12, D13, D14._

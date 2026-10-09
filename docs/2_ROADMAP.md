@@ -9,6 +9,8 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 - [ ] #76 [Pagina Dev per la gestione delle quest e albero delle dipendenze](https://github.com/ieeah/arc-benches/issues/76)
 - [ ] #87 [Progetto Outpost completo (moduli, Research Bench, arredi)](https://github.com/ieeah/arc-benches/issues/87)
 - [ ] #102 [Moduli attivabili per profilo: l'utente spegne le sezioni che non usa (feature flags utente)](https://github.com/ieeah/arc-benches/issues/102)
+- [ ] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
+- [ ] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego](https://github.com/ieeah/arc-benches/issues/104)
 
 ---
 
@@ -17,6 +19,10 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
 - [ ] #92 [Armi amplificate (Weapon Amplification)](https://github.com/ieeah/arc-benches/issues/92)
 - [ ] #26 [Vista Aggregata per Banco (Fase 3)](https://github.com/ieeah/arc-benches/issues/26)
+- [ ] #105 [Rapporto completo degli oggetti di ARC Tracker assenti dal catalogo](https://github.com/ieeah/arc-benches/issues/105)
+- [ ] #106 [Generatore delle quest da ARC Tracker con ripiego MetaForge](https://github.com/ieeah/arc-benches/issues/106)
+- [ ] #109 [Outfit sbloccati a pezzi: icone di sottocategoria e badge per completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109)
+- [ ] #107 [Rifugio/avamposto: moduli e livelli con ARC Tracker come riscontro](https://github.com/ieeah/arc-benches/issues/107)
 
 ---
 
