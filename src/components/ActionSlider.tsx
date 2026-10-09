@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect, type TouchEvent, type MouseEvent } from 'react';
+import { useState, useRef, type PointerEvent } from 'react';
 import { Check, ChevronRight, RotateCcw } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useTranslation } from '@/i18n';
@@ -34,6 +34,7 @@ export const ActionSlider = ({
   const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0); // 0 to 1
   const [justCompleted, setJustCompleted] = useState(false);
+  const draggingRef = useRef(false);
   const startXRef = useRef<number>(0);
   const currentDragProgressRef = useRef<number>(0);
 
@@ -41,26 +42,24 @@ export const ActionSlider = ({
 
   const handleStart = (clientX: number) => {
     if (disabled || showCompletedState) return;
+    draggingRef.current = true;
     setIsDragging(true);
     startXRef.current = clientX;
     currentDragProgressRef.current = 0;
     setProgress(0);
   };
 
-  const handleMove = useCallback((clientX: number) => {
-    if (!isDragging || !trackRef.current) return;
-    const trackWidth = trackRef.current.clientWidth;
-    const maxTravel = Math.max(1, trackWidth - THUMB_WIDTH);
-
-    const deltaX = clientX - startXRef.current;
-    const visualP = Math.min(1, Math.max(0, deltaX / maxTravel));
-
+  const handleMove = (clientX: number) => {
+    if (!draggingRef.current || !trackRef.current) return;
+    const maxTravel = Math.max(1, trackRef.current.clientWidth - THUMB_WIDTH);
+    const visualP = Math.min(1, Math.max(0, (clientX - startXRef.current) / maxTravel));
     currentDragProgressRef.current = visualP;
     setProgress(visualP);
-  }, [isDragging]);
+  };
 
-  const handleEnd = useCallback(() => {
-    if (!isDragging) return;
+  const handleEnd = () => {
+    if (!draggingRef.current) return;
+    draggingRef.current = false;
     setIsDragging(false);
 
     if (currentDragProgressRef.current >= ACTIVATION_THRESHOLD) {
@@ -81,26 +80,15 @@ export const ActionSlider = ({
       setProgress(0);
       currentDragProgressRef.current = 0;
     }
-  }, [isDragging, onComplete]);
+  };
 
-  // Touch handlers
-  const onTouchStart = (e: TouchEvent) => handleStart(e.touches[0].clientX);
-  const onTouchMove = (e: TouchEvent) => handleMove(e.touches[0].clientX);
-  const onTouchEnd = () => handleEnd();
-
-  // Global mouse handlers when dragging
-  useEffect(() => {
-    if (!isDragging) return;
-    const onMouseMove = (e: globalThis.MouseEvent) => handleMove(e.clientX);
-    const onMouseUp = () => handleEnd();
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
-  }, [isDragging, handleMove, handleEnd]);
+  // Pointer events con cattura: il gesto resta del pollice anche se il dito esce dalla traccia o
+  // devia in verticale (con i touch events il browser lo annullava e lo scorrimento si bloccava).
+  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    handleStart(e.clientX);
+  };
 
   // Keyboard accessibility
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -160,9 +148,8 @@ export const ActionSlider = ({
     );
   }
 
-  const thumbTranslateX = trackRef.current
-    ? progress * Math.max(0, trackRef.current.clientWidth - THUMB_WIDTH)
-    : progress * 200;
+  // Posizione del pollice in CSS (percentuale della traccia): nessuna misura letta durante il render
+  const thumbOffset = `calc((100% - ${THUMB_WIDTH}px) * ${progress})`;
 
   return (
     <div className="w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-3 shadow-xs space-y-2">
@@ -198,13 +185,12 @@ export const ActionSlider = ({
         aria-label={`${label} (${listName ?? ''})`}
         tabIndex={disabled ? -1 : 0}
         onKeyDown={handleKeyDown}
-        onMouseDown={(e: MouseEvent) => handleStart(e.clientX)}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-        onTouchCancel={onTouchEnd}
+        onPointerDown={onPointerDown}
+        onPointerMove={(e) => handleMove(e.clientX)}
+        onPointerUp={handleEnd}
+        onPointerCancel={handleEnd}
         className={cn(
-          'relative h-11 w-full rounded-xl select-none overflow-hidden touch-pan-y flex items-center',
+          'relative h-11 w-full rounded-xl select-none overflow-hidden touch-none flex items-center',
           'bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 cursor-grab active:cursor-grabbing',
           disabled && 'opacity-50 pointer-events-none',
         )}
@@ -219,7 +205,7 @@ export const ActionSlider = ({
           )}
           style={{
             // fino al centro del pollice: il bordo destro resta nascosto sotto di esso
-            width: `${thumbTranslateX + THUMB_WIDTH / 2}px`,
+            width: `calc((100% - ${THUMB_WIDTH}px) * ${progress} + ${THUMB_WIDTH / 2}px)`,
             transition: isDragging ? 'none' : 'width 260ms cubic-bezier(0.2, 0.9, 0.3, 1)',
           }}
         />
@@ -237,11 +223,11 @@ export const ActionSlider = ({
         {/* Thumb */}
         <div
           style={{
-            transform: `translateX(${thumbTranslateX}px)`,
-            transition: isDragging ? 'none' : 'transform 260ms cubic-bezier(0.2, 0.9, 0.3, 1)',
+            left: thumbOffset,
+            transition: isDragging ? 'none' : 'left 260ms cubic-bezier(0.2, 0.9, 0.3, 1)',
           }}
           className={cn(
-            'absolute left-0 top-0 bottom-0 w-11 h-11 rounded-xl flex items-center justify-center transition-colors shadow-sm',
+            'absolute top-0 bottom-0 w-11 h-11 rounded-xl flex items-center justify-center transition-colors shadow-sm',
             showCompletedState || progress >= ACTIVATION_THRESHOLD
               ? 'bg-green-500 text-white'
               : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600',
