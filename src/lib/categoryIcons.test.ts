@@ -36,6 +36,14 @@ describe('categoryIcons', () => {
     expect(getCategoryIconPath('Throwable')).toContain('grenade.webp');
   });
 
+  it('maps the pieces of an outfit to their own subcategory icons', () => {
+    expect(getCategoryIconPath('Outfits', 'Outfit')).toContain('outfit.webp');
+    expect(getCategoryIconPath('Outfits')).toContain('outfit.webp');
+    expect(getCategoryIconPath('Cosmetic', 'Outfit Variant')).toContain('outfit-variant.webp');
+    expect(getCategoryIconPath('Cosmetic', 'Outfit Color')).toContain('outfit-color.webp');
+    expect(getCategoryIconPath('Cosmetic', 'Outfit Color', 'light')).toContain('light/outfit-color.webp');
+  });
+
   it('falls back to misc.webp for other types', () => {
     expect(getCategoryIconPath('Cosmetic')).toContain('misc.webp');
     expect(getCategoryIconPath('Quest Item')).toContain('misc.webp');

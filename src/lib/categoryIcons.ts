@@ -19,6 +19,10 @@ const SUBCATEGORY_ICON_MAP: Record<string, string> = {
   grenade: 'grenade.webp',
   trap: 'trap.webp',
   key: 'key.webp',
+  // Outfit sbloccati a pezzi (#109): completo, toggle e colore, icone provvisorie
+  outfit: 'outfit.webp',
+  'outfit variant': 'outfit-variant.webp',
+  'outfit color': 'outfit-color.webp',
 };
 
 const ICONS_DIR = 'icons/categories';
@@ -75,6 +79,9 @@ function resolveCategoryIconFile(itemType?: string | null, subcategory?: string 
   }
   if (t.includes('utility')) {
     return 'utility.webp';
+  }
+  if (t.includes('outfit')) {
+    return 'outfit.webp';
   }
   if (t.includes('gift')) {
     return 'gift.webp';

@@ -5,6 +5,8 @@ import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
+import { OutfitPartBadge } from '@/components/pass/OutfitPartBadge';
+import { getOutfitPart, outfitPartLabelKey, outfitPartRingClass } from '@/lib/outfitParts';
 import { ItemDetailSheet } from '@/components/ItemDetailSheet';
 import { getTrackName } from '@/lib/rewardPass';
 import { cn } from '@/lib/cn';
@@ -114,15 +116,17 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
                   {rewards.map((reward, i) => {
                     const info = itemsInfo[reward.itemId];
                     const name = info ? getItemName(info, language) || reward.itemId : reward.itemId;
+                    const part = getOutfitPart(info);
+                    const partLabel = part ? t(outfitPartLabelKey(part)) : '';
                     return (
                       <button
                         key={i}
                         type="button"
                         disabled={!info}
                         onClick={() => info && setDetail(info)}
-                        aria-label={`${name}${reward.quantity > 1 ? ` ×${reward.quantity}` : ''}${track.locked ? ` (${getTrackName(track, language)})` : ''}`}
-                        title={name}
-                        className="relative w-16 h-16 shrink-0 cursor-pointer disabled:cursor-default"
+                        aria-label={`${name}${partLabel ? `, ${partLabel}` : ''}${reward.quantity > 1 ? ` ×${reward.quantity}` : ''}${track.locked ? ` (${getTrackName(track, language)})` : ''}`}
+                        title={partLabel ? `${name} · ${partLabel}` : name}
+                        className={cn('relative w-16 h-16 shrink-0 cursor-pointer disabled:cursor-default rounded-[14px]', outfitPartRingClass(part))}
                       >
                         <ItemCardFrameV2
                           icon={info?.icon}
@@ -131,6 +135,7 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
                           fallbackText={reward.itemId}
                           thumb
                           className="w-full h-full"
+                          topLeftSlot={part ? <OutfitPartBadge part={part} /> : undefined}
                           categoryBadge={<CategoryBadge itemType={info?.item_type} subcategory={info?.subcategory} bare />}
                           barRightSlot={reward.quantity > 1 ? `×${reward.quantity}` : undefined}
                         />
