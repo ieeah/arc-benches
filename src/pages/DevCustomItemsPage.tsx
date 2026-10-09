@@ -102,7 +102,9 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
 
   // La bozza entra nel catalogo dello store (ItemPicker, Catalog Lab…) senza ricaricare la pagina
   useEffect(() => {
-    writeCustomItemsDraft({ items, icons });
+    // Nessuna bozza se non c'è niente di diverso dal file: una copia lasciata indietro oscurerebbe i dati nuovi
+    if (differsFromBaseline({ items, icons })) writeCustomItemsDraft({ items, icons });
+    else clearCustomItemsDraft();
     syncItemsOverrides?.();
   }, [items, icons, syncItemsOverrides]);
 

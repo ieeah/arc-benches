@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { persistDraftOrClear, pickChangedBuckets } from '@/lib/draftStorage';
 import type { List, ListType } from '@/types';
 import defaultWorkbenchesData from '@/data/workbenches.json';
 import defaultExpeditionsData from '@/data/expeditions.json';
@@ -48,12 +49,10 @@ export function useDevListDrafts() {
     return initialData;
   });
 
+  // Solo i gruppi che differiscono dai file: una copia completa a ogni visita resterebbe indietro
+  // rispetto ai file e li sovrascriverebbe con dati vecchi (vedi lib/draftStorage)
   useEffect(() => {
-    try {
-      localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(listsData));
-    } catch {
-      // ignore
-    }
+    persistDraftOrClear(DRAFT_STORAGE_KEY, pickChangedBuckets(listsData, getInitialData()));
   }, [listsData]);
 
   const resetAllDrafts = () => {

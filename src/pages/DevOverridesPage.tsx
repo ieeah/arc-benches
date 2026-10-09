@@ -290,7 +290,9 @@ export const DevOverridesPage = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
-        localStorage.setItem('dev_items_overrides_draft', JSON.stringify(overrides));
+        // Nessuna bozza se coincide con il file: una copia lasciata indietro oscurerebbe le modifiche successive al file
+        if (JSON.stringify(overrides) === JSON.stringify(initialOverrides)) localStorage.removeItem('dev_items_overrides_draft');
+        else localStorage.setItem('dev_items_overrides_draft', JSON.stringify(overrides));
       } catch (err) {
         console.warn('Errore salvataggio bozza overrides:', err);
       }
