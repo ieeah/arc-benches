@@ -45,6 +45,8 @@ Lo stato aggiuntivo nel profilo è il seguente:
 * `consecutiveStreak: number` (default `0`)
 * `departureWindowActive: boolean` (default `false`)
 
+La **fase attiva della carovana** è salvata in `currentLevels[idSpedizione]` (fasi completate, 0–6; attiva = corrente + 1), con avanzamento esplicito e solo la fase attiva interagibile: vedi [azioni-di-livello.md](azioni-di-livello.md) §5 (#111).
+
 Le checkbox temporanee per la finestra corrente vengono salvate nel record globale esistente `checkedActions` del profilo usando chiavi dedicate:
 * Chiavi Danno: `expedition-damage|0|tier_{1..5}`
 * Chiavi Catch-up: `expedition-catchup|0|sp_{1..5}`

@@ -101,6 +101,8 @@ export interface PassList extends ListBase {
   tracks: PassTrackDef[];
   /** Costo del tracciato premium in Raider Token (solo informativo, opzionale: D10). */
   premiumCostTokens?: number;
+  /** Pass nel gioco; `false` = tolto dal gioco: nascosto all'app, resta nel file come archivio (D11). Default `true`. */
+  active?: boolean;
 }
 
 export type List = WorkbenchList | ExpeditionList | ProjectList | QuestList | CustomList | PassList;
@@ -109,8 +111,8 @@ export type List = WorkbenchList | ExpeditionList | ProjectList | QuestList | Cu
 Stato per profilo (non nel seed, da implementare in #90):
 
 ```ts
-activeRewardPass: string | null;      // id del pass attivo; al massimo uno alla volta (D11)
-completedRewardPasses: { id: string; name: string; completedAt: string }[];  // storico dei pass conclusi: resta visibile e alimenterà la futura pagina dei trofei (il nome è una copia, il seed potrebbe non averlo più)
+activeRewardPass: string | null;      // id del pass attivo; al massimo uno alla volta, cambiabile sempre (D11)
+completedRewardPasses: { id: string; completedAt: string }[];  // id dei pass completati: archivio per profilo e pagina dei trofei; il nome si legge da passes.json
 // currentLevels[passId] = tier raggiunto (riuso del meccanismo esistente)
 // passPremiumUnlocked: Record<string, boolean>  — vedi D2
 ```
@@ -133,13 +135,13 @@ Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass`
 
 - **Editor Dev** (fatto in #85): gruppo `pass` in `DevListsPage` con pannello tracce (nome EN/IT, flag «a pagamento»), selettore di traccia nelle ricompense e cestino.
 - **Pagina utente** `#/reward-pass` (feature flag `reward-pass`), a seconda dello stato del profilo:
-  - **Nessun pass attivo**: le card dei pass non conclusi, ben visibili, e in fondo la sezione dei pass conclusi (con data). Ogni card porta alla pagina di anteprima.
-  - **Pagina di anteprima** di un pass: nome e costo del premium (se presente); descrizione; livelli e tracce; ricompense totali (valute per oggetto, il resto per tipo: blueprint, outfit…); pulsante «Dettaglio livelli e tracce»; pulsante «Imposta come pass attivo» con modale di conferma (disabilitato, con il motivo, se c'è già un pass attivo o se è già concluso).
-  - **Pass attivo**: la pagina è direttamente la vista a livelli (sotto), con il tier raggiunto (− / + o tocco sul livello) e «Concludi pass» (conferma). Un pulsante nell'header porta comunque all'elenco dei pass (`view=all`), con il pass attivo segnato, per dare solo un'occhiata agli altri; le anteprime restano in sola lettura e «Imposta come pass attivo» è disabilitato.
+  - **Nessun pass attivo**: le card dei pass non completati (solo quelli con `active`), ben visibili, e in fondo la sezione dei pass completati (con data). Ogni card porta alla pagina di anteprima.
+  - **Pagina di anteprima** di un pass: nome e costo del premium (se presente); descrizione; livelli e tracce; ricompense totali (valute per oggetto, il resto per tipo: blueprint, outfit…); pulsante «Dettaglio livelli e tracce»; pulsante «Imposta come pass attivo» con modale di conferma (disabilitato solo se è già il pass attivo; su un pass completato la conferma avverte che torna attivo a `maxLevel − 1`).
+  - **Pass attivo**: la pagina è direttamente la vista a livelli (sotto), con il tier raggiunto (− / + o tocco sul livello) e «Concludi pass» (conferma). Un pulsante nell'header porta comunque all'elenco dei pass (`view=all`), con il pass attivo segnato e il livello di ciascuno; dalle anteprime si può cambiare il pass attivo (D11).
 - **Vista a livelli** (copia del gioco, adattata al mobile): scorrimento verticale con il binario dei livelli a sinistra (il più alto in cima, come nel gioco), le tracce affiancate, ogni ricompensa come icona dell'oggetto con la quantità; le tracce `locked` mostrano il badge del lucchetto sulle icone, e anche nell'intestazione della colonna. Sfondo scuro «spaziale» (alone e stelle, senza l'anello e la scena 3D del gioco). Si scorre al prossimo livello da raggiungere, evidenziato; i livelli raggiunti e le loro ricompense sono disabilitati. Un tocco sull'icona apre il dettaglio dell'oggetto.
 - **Opzioni di visualizzazione** nell'header (drawer dall'alto): tracce visibili, per dispositivo. «La mia traccia» si ottiene nascondendo le altre.
-- **Impostazioni**: «Cambia pass attivo» (D11), con doppia conferma e avviso che il progresso viene eliminato. *(Da sostituire con #112: «Configurazione Reward Pass», cambio libero e livello conservato.)*
-- **Pass attivo non più nel seed** (R5): alla visita della pagina si chiede se segnarlo come **completato** (finisce nello storico/trofei) o **non completato** (il progresso viene eliminato), oppure di decidere dopo. Vale finché non esiste un archivio dei vecchi pass (probabile con il passaggio a un DB vero).
+- **Impostazioni**: «Configurazione Reward Pass» (D11): scelta del pass attivo (con «Nessuno»), livello di partenza, azzeramento dei progressi di un pass.
+- **Pass attivo con `active: false`**: modale informativa all'avvio (D11); non c'è più la risoluzione del pass orfano.
 - Il tracciato premium non cambia l'avanzamento: è solo un filtro di visualizzazione.
 - UI in italiano, abbreviazione "Lvl" (AGENTS.md); i drawer si aprono dal lato del pulsante che li apre (ADR-003).
 
@@ -179,14 +181,16 @@ Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass`
   - si traccia solo il livello raggiunto (niente Feats).
 - **D9 — Traccia sempre esplicita e cestino**: ✅ **deciso** (fatto) — ogni ricompensa di un pass porta il proprio `track` (la validazione assegna la prima traccia a quelle che ne sono prive, così riordinare le tracce non cambia il significato). Rimuovere una traccia la sposta, con le sue ricompense, nel cestino Dev (`dev-trash/trash.json`): file versionato, fuori da `src/` e `public/`, letto e scritto solo dal dev server, quindi non distribuito. Il cestino accoglie anche le liste eliminate da Gestione Liste. Un pass non ha requisiti di oggetti né azioni: è un tracker di tier e ricompense.
 - **D10 — Ambito dei dati economici**: ✅ **deciso** — il tracker non gestisce il costo del pass (prezzo in Raider Token e rimborso fuori scope); `premiumCostTokens` resta nel modello come campo **opzionale e informativo**. Le soglie punti non sono modellate: il tracker registra solo il tier; se servisse il calcolo basterebbe `pointsRequired` opzionale per livello (Frozen Trail 150 punti per tier, Legacy 100). I bug di lancio dello sblocco premium non sono problemi del modello.
-- **D11 — Un solo pass attivo per profilo**: ⚠️ **da correggere (#112)** — un profilo ha al massimo un pass attivo (`activeRewardPass`), ma **può cambiarlo in qualsiasi momento**: i progressi delle azioni vanno nel pass attivo, e cambiare pass lascia sul vecchio il suo livello, mentre le nuove progressioni vanno sul nuovo. Per ogni pass che è stato attivo si conserva quindi il livello corrente (`currentLevels[passId]`, già per pass). Vale anche per il Legacy.
-  - **Decisioni del 2026-10-10 (#112)**: un pass concluso si può riattivare (torna a livello massimo − 1 e lascia i conclusi); un pass è completato quando il suo livello corrente è il massimo (proprietà derivata, nessun campo `completed`); quando il pass attivo lo raggiunge non resta attivo, con attivazione automatica se resta un solo altro pass non completato e scelta guidata se sono di più; «Nessuno» è valido; il livello di partenza si imposta solo per il pass che si attiva, con «azzera progressi» per ogni pass; un pass sparito dal seed va comunque tracciato (id, nome, ultimo livello, esito) per la pagina dei trofei; coriandoli al completamento con i colori di rarità e `prefers-reduced-motion` rispettato.
-  - **Errore nei requisiti originali**: la prima stesura (e l'implementazione di #90) assumeva che il pass si potesse cambiare *solo concludendolo*, e che la «via d'uscita» azzerasse il progresso. Le righe seguenti (selezione, via d'uscita, impostazioni, pagina di anteprima, pass attivo) descrivono lo stato implementato e vanno riscritte con #112: cambio libero senza perdita di progresso, «Nessuno» come voce possibile, riattivazione dei pass conclusi da decidere.
-  - **Selezione**: senza pass attivo la pagina mostra le card dei pass non completati, ciascuna verso una pagina di anteprima con il pulsante «Imposta come pass attivo» e una modale di conferma. I pass completati stanno in una sezione dedicata in fondo alla pagina e saranno visibili anche nella futura pagina dei trofei.
-  - **Completamento**: pulsante «Concludi pass», che porta il tier raggiunto all'ultimo livello, aggiunge il pass a `completedRewardPasses` e libera la selezione. Serve perché l'app non si sincronizza col gioco: il giocatore può averlo finito da giorni e aggiornarla solo ogni tanto.
-  - **Via d'uscita**: in Impostazioni, «Cambia pass attivo» per correggere un errore di selezione; il progresso su quel pass viene eliminato (doppia conferma).
-  - **Stato**: `activeRewardPass` e `completedRewardPasses` sono per profilo (persistiti; l'import/export è nella #74); il tier raggiunto riusa `currentLevels[passId]`.
-  - **Pass scomparso dal seed**: finché non c'è un archivio dei vecchi pass, alla visita si chiede se segnarlo completato (storico/trofei, con il solo id come nome) o non completato (progresso eliminato).
+- **D11 — Un solo pass attivo per profilo, cambiabile in qualsiasi momento**: ✅ **deciso e implementato (2026-10-10, #112)** — un profilo ha al massimo un pass attivo (`activeRewardPass`), ma può cambiarlo quando vuole: i progressi vanno nel pass attivo; cambiare pass lascia sul vecchio il suo livello e le nuove progressioni vanno sul nuovo. Vale anche per il Legacy. *La prima stesura (e #90) assumeva che si potesse cambiare solo concludendolo: era un errore nei requisiti.*
+  - **Livello per pass**: `currentLevels[passId]` (già per pass). Un pass è **completato** quando `livello >= maxLevel`: proprietà derivata, nessun campo `completed`.
+  - **Archivio**: `passes.json` resta l'archivio di **tutti** i pass, per sempre. Ogni pass ha un campo **`active`** (default `true`), modificabile solo in Gestione Liste (Dev): un pass tolto dal gioco passa a `active: false`, sparisce dall'app e resta nel file come archivio e per le pagine trofei. Per profilo si tengono solo gli **id dei pass completati**, con la data: `completedRewardPasses: { id, completedAt }[]` (il nome si legge da `passes.json`, non si copia più). Scompaiono lo snapshot e la risoluzione del pass orfano (R5): un pass non esce mai dal seed.
+  - **Pass attivo con `active: false`**: all'avvio diventa «nessuno», il suo livello resta conservato e una modale informa l'utente («il pass X non è più disponibile, quindi non è più il tuo pass attivo»), una volta sola.
+  - **Raggiungere l'ultimo livello** (pulsante «Concludi pass», −/+, tocco sull'ultimo livello): il pass si completa e non resta attivo. Se esiste un solo altro pass non completato (e `active`) si attiva da solo; se sono di più si chiede quale attivare; se nessuno si torna alla selezione. Il completamento aggiunge `{ id, completedAt }` a `completedRewardPasses`; abbassare il livello sotto il massimo lo toglie.
+  - **Riattivare un pass completato**: prima si chiede conferma, poi torna attivo al livello `maxLevel − 1` e sparisce dai completati.
+  - **«Nessuno»** è una scelta valida: toglie il pass attivo senza perdere i livelli degli altri.
+  - **Configurazione Reward Pass** (Impostazioni, al posto di «Cambia pass attivo»): modale con l'elenco dei pass disponibili più «Nessuno»; per il pass che si attiva si imposta il livello di partenza (`0..maxLevel−1`); «azzera i progressi» esplicito per ogni pass.
+  - **Selezione**: senza pass attivo la pagina mostra le card dei pass non completati; con un pass attivo `view=all` li elenca con il livello di ciascuno, e «Imposta come pass attivo» è sempre abilitato (tranne sul pass già attivo), con modale di conferma. I completati stanno in una sezione in fondo, con la data.
+  - **Stato per profilo**: `activeRewardPass`, `completedRewardPasses` (persistiti; import/export in #74).
 - **D12 — Cosa si copia dal gioco**: ✅ **deciso** — non si ricrea l'intera schermata (impensabile su mobile): si copia la visualizzazione di livelli e tracce (icone, lucchetto sulle tracce a pagamento, binario dei livelli) e lo sfondo, adattato al mobile. Restano fuori la scena 3D centrale, la scheda dettaglio laterale (sostituita dal dettaglio oggetto al tocco) e il riquadro «Migliora pass premium».
 
 - **D13 — Outfit sbloccati a pezzi**: ✅ **deciso** (issue #109) — completo di base (`Outfits`/`Outfit`), toggle (`Cosmetic`/`Outfit Variant`) e colori (`Cosmetic`/`Outfit Color`) si sbloccano in livelli diversi e vanno distinguibili. Si fanno: icone di sottocategoria (provvisorie, da sostituire con quelle del gioco) nella barra della card accanto al `×N` e nella catena di fallback, e un badge ad angolo dal simbolo diverso per tipo. Ripiego: etichetta testuale nella barra. **Non si fa il raggruppamento per outfit** nello stesso livello: non è mai successo che più pezzi di uno stesso outfit si sbloccassero insieme; si rivaluta solo se i dati dei livelli lo richiederanno (servirebbe un campo che leghi i pezzi all'outfit di base).
@@ -202,15 +206,15 @@ Il selettore `getTotalRequiredMaterialsPure` non deve cambiare: una lista `pass`
 - **R2 — Import di profili esistenti.** `importLists` deve accettare `listType: 'pass'` e i nuovi campi del profilo (`activeRewardPass`, `completedRewardPasses`) senza rompere i file già esportati.
 - **R3 — Dati incompleti.** Il Legacy Pass non ha una fonte con le ricompense per livello: va inserito dall'editor Dev. Per il Frozen Trail esiste la tabella Polygon (D6).
 - **R4 — Fonti in disaccordo.** Risolto per le soglie (150 per tier) e per il costo (non gestito, D10). Resta la differenza sul totale Token (1.300 da tabella contro 1.350 di UrGameTips), che non incide sul tracker.
-- **R5 — Stato incoerente del pass attivo.** Gestito: un `activeRewardPass` che punta a un pass non più nel seed viene risolto dall'utente (completato nello storico o non completato), senza decisioni automatiche e senza perdere il progresso finché non sceglie.
+- **R5 — Pass attivo non più disponibile.** Superato da D11 (#112): i pass non escono dal seed, si disattivano (`active: false`); un pass attivo disattivato diventa «nessuno» con avviso e livello conservato. Un `activeRewardPass` con livello al massimo è incoerente e si risolve come un completamento.
 
 ## 9. Piano di test
 
 - Fatto (#85): `validateList` per i pass (tracce duplicate o assenti, `track` sconosciuto o mancante, costo opzionale), `withListType` verso `pass`, cestino Dev (`dev-trash.test.ts`).
-- Fatto (#90): slice (un solo pass attivo, tier limitato a 0..maxLevel, conclusione, via d'uscita, orfano completato/non completato, persistenza per profilo), totali delle ricompense, validazione della storia dei pass completati e del flag `locked`.
+- Fatto (#90): slice, totali delle ricompense, validazione della storia dei pass completati e del flag `locked`. *Da riscrivere con #112:* cambio libero con livelli conservati, riattivazione a `maxLevel − 1`, completamento con candidato unico / più candidati / nessuno, azzeramento, `active: false`, incoerenza al caricamento.
 - Da fare: import/export con `activeRewardPass` e `completedRewardPasses` (#74); `passPremiumUnlocked` se confermato (D2).
 - Regressione: `getTotalRequiredMaterialsPure` e `getMissingMaterialsPure` invariati con e senza pass presenti.
-- Manuale: card di selezione, pagina di anteprima, conferma, vista a griglia con scroll al livello corrente, «Concludi pass», via d'uscita in Impostazioni, mobile a 375px.
+- Manuale: card di selezione, pagina di anteprima, conferma, vista a griglia con scroll al livello corrente, «Concludi pass», configurazione in Impostazioni, cambio del pass attivo, modale di pass non più disponibile, mobile a 375px.
 
 ## 10. Milestone (coerenti con VERSIONING)
 

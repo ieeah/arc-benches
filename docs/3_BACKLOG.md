@@ -11,7 +11,6 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #74 [Export/import completo: tutti i campi del profilo inclusi nel backup](https://github.com/ieeah/arc-benches/issues/74)
 - [ ] #86 [Dati banchi al Lvl 3 (Frozen Trail)](https://github.com/ieeah/arc-benches/issues/86) — rigenerare `workbenches.json` con i nuovi requisiti.
 - [ ] #88 [UX ItemPicker: filtri per tipo selezionabili in UI](https://github.com/ieeah/arc-benches/issues/88) — oggi i tipi non selezionabili come requisito di consegna (Blueprint, Cosmetic, Outfits, Furniture, Research, Currency) sono fissi in una costante; valutare un filtro attivabile dall'utente (Stencil e Design sono trovabili in raid).
-- [ ] #112 [Reward Pass: il pass attivo si può cambiare in qualsiasi momento, con il livello di ogni pass conservato](https://github.com/ieeah/arc-benches/issues/112) — corregge D11 di #90; vedi la spec del pass
 
 ## 0.6.0 "Archivio del Rifugio"
 - [ ] #69 [UX Stash: Ordinamento per priorità multi-criterio (Banco + Livello)](https://github.com/ieeah/arc-benches/issues/69) — oltre all'ordine dei banchi/liste, dare precedenza ai requisiti di livello inferiore (es. Lvl 2 prima di Lvl 3); per materiali aggregati su più livelli o banchi, assegnare la priorità più alta (livello minimo / primo banco nell'ordinamento).

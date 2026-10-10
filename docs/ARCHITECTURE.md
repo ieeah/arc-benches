@@ -28,6 +28,7 @@ Pipeline (`scripts/`, pacchetto separato):
 - `List` ([types.ts](../src/types.ts)) è una union discriminata su `listType`: `workbench`, `expedition`, `project`, `quest`, `pass`, `custom` ([ADR 002](adrs/002-astrazione-lista-generica.md)).
 - Ogni lista ha livelli con materiali (`requirementItemIds`), `actions`, `tieredActions` e, per i pass, `rewards` per traccia.
 - `getAllListsPure` unisce banchi, progetti, liste custom (condivise e proprie) e la spedizione attiva; fabbisogno e spesa operano sull'unione.
+- Le azioni di un livello valgono solo con livello corrente = N−1 («finestra»): predicato unico in `src/lib/lists.ts`, applicato da UI e store ([azioni-di-livello.md](specs/azioni-di-livello.md)).
 - Calcoli come funzioni pure in [selectors.ts](../src/store/selectors.ts).
 
 ## Store

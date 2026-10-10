@@ -12,7 +12,6 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 - [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110)
 - [ ] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
 - [ ] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego](https://github.com/ieeah/arc-benches/issues/104)
-- [ ] #111 [Le azioni di un livello contano solo dal livello precedente (Stash, banchi, progetti, spedizioni)](https://github.com/ieeah/arc-benches/issues/111)
 
 ---
 

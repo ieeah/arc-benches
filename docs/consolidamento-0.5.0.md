@@ -71,6 +71,10 @@ Dettaglio completo nei commenti di #111 e #112; qui il riepilogo.
 - Callout dei diritti a fondo pagina nel layout principale; pulsante Home a sinistra del titolo accanto al tasto indietro nelle pagine Dev.
 - **Ordine di lavoro**: bug degli strumenti Dev (override, eliminazione, guardia), poi #112, poi #111, poi layout e dati, poi redesign.
 
+### Decisioni finali del 2026-10-10 (#111 e #112)
+- **#112**: `passes.json` è l'archivio di tutti i pass, con campo `active` (default `true`, solo in Gestione Liste); per profilo si tengono gli id dei pass completati con la data; niente più pass orfano né snapshot; pass attivo con `active: false` → «nessuno» con modale informativa; riattivare un pass completato chiede conferma e lo porta a `maxLevel − 1`. Vedi D11 della spec del pass.
+- **#111**: finestra `corrente + 1`; Stash e card di «Banchi e Liste» mostrano solo il livello successivo; dettaglio e editor sono panoramiche con checkbox attenuate fuori finestra; salendo di livello azioni e passi a livelli si completano, scendendo si azzerano; spunte fuori finestra rifiutate e ripulite al caricamento. **Spedizioni**: fase attiva salvata, solo la fase attiva interagibile, avanzamento esplicito («Completa fase», −/+), salendo si sottraggono i materiali e si completa, scendendo si azzera il progresso (inventario intatto). Vedi [azioni-di-livello.md](specs/azioni-di-livello.md).
+
 ## 6. Da provare ancora (non testato)
 
 - [test] Card: quantità nella barra come nel gioco, barra scura con l'icona nei progetti, `overflow-clip`.
