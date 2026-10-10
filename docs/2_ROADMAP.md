@@ -12,6 +12,7 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 - [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110)
 - [ ] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
 - [ ] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego](https://github.com/ieeah/arc-benches/issues/104)
+- [ ] #111 [Le azioni di un livello contano solo dal livello precedente (Stash, banchi, progetti, spedizioni)](https://github.com/ieeah/arc-benches/issues/111)
 
 ---
 
@@ -38,6 +39,7 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 - [ ] #57 [Bestiario ARC & Drop Tables: Consultazione nemici ARC e componenti con icone SVG (ARDB)](https://github.com/ieeah/arc-benches/issues/57)
 - [ ] #59 [Spawn Tips "Dove trovo questo oggetto": Schede visive con screenshot in-game/mappa dei punti noti](https://github.com/ieeah/arc-benches/issues/59)
 - [ ] #81 [Stash: raggruppamento "per mappa"](https://github.com/ieeah/arc-benches/issues/81) — richiede il catalogo globale delle mappe definito in #82 (dato condiviso con #59)
+- [ ] #113 [Costruzione, miglioramento di livello e riparazione nel dettaglio degli oggetti (dati informativi)](https://github.com/ieeah/arc-benches/issues/113)
 
 ---
 

@@ -113,6 +113,8 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #108. Ordine di la
 - [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110) — dopo #85, #90
 - [ ] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
 - [ ] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego (RaidTheory vince)](https://github.com/ieeah/arc-benches/issues/104) — dopo #103
+- [ ] #111 [Le azioni di un livello contano solo dal livello precedente](https://github.com/ieeah/arc-benches/issues/111)
+- [ ] #112 [Reward Pass: pass attivo cambiabile in qualsiasi momento, livello di ogni pass conservato](https://github.com/ieeah/arc-benches/issues/112) — dopo #90
 
 ---
 
@@ -143,6 +145,7 @@ Obiettivo: conoscenza del gioco e pianificazione della progressione. Lo Skill Tr
 - [ ] #59 [Spawn Tips "Dove trovo questo oggetto"](https://github.com/ieeah/arc-benches/issues/59) — dopo #82
 - [ ] #81 [Raggruppamento Stash per mappa](https://github.com/ieeah/arc-benches/issues/81) — dopo #82
 - [ ] #75 [Badge di craftabilità sulle card (include l'estensione a tutti i banchi)](https://github.com/ieeah/arc-benches/issues/75)
+- [ ] #113 [Costruzione, miglioramento di livello e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
 
 ---
 
@@ -159,6 +162,7 @@ Obiettivo: sintesi operativa che riassume tracker e progetti delle versioni prec
 ## 0.9.0 "Rifinitura Tattica" — Consolidamento UI/UX e Performance prima della migrazione — Non ancora raggiunta
 - [ ] #60 [Refactor UI/UX Globale](https://github.com/ieeah/arc-benches/issues/60)
 - [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
+- [ ] #115 [Valutare un redesign dell'app («Tailwind generico»)](https://github.com/ieeah/arc-benches/issues/115) — insieme a #60
 
 ---
 
