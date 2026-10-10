@@ -68,6 +68,8 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Mappa statica di architettura e flusso dati.
 - [docs/INCEPTION_BRIEF.md](docs/INCEPTION_BRIEF.md) — Documento d'insieme di fondazione (problema, persone, MVP, pre-mortem e decisioni tecniche).
 - [docs/VERSIONING.md](docs/VERSIONING.md) — Piano previsionale delle versioni e della roadmap SemVer fino all'MVP (1.0.0).
+- [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md) — Convenzioni di codice osservate nella codebase.
+- [docs/consolidamento-0.5.0.md](docs/consolidamento-0.5.0.md) — Raccolta dei punti emersi dalla prova manuale della 0.5.0, da riorganizzare.
 - [changelog/](changelog/) — Note di rilascio per versione; la prossima versione ha una bozza sempre aggiornata (es. `changelog/0.5.0.md`).
 
 ### Specifiche di Dettaglio (`docs/specs/`)
@@ -85,4 +87,9 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/adrs/001-zustand-senza-middleware-persist.md](docs/adrs/001-zustand-senza-middleware-persist.md) — Rimoziome middleware persist nativo.
 - [docs/adrs/002-astrazione-lista-generica.md](docs/adrs/002-astrazione-lista-generica.md) — Generalizzazione modello `List`.
 - [docs/adrs/003-regola-direzione-drawer.md](docs/adrs/003-regola-direzione-drawer.md) — Regola direzione apertura `Drawer`.
+- [docs/adrs/004-rimozione-tieni-o-butta.md](docs/adrs/004-rimozione-tieni-o-butta.md) — Rimozione della feature «Tieni o Butta».
+- [docs/adrs/005-migrazione-nextjs-e-integrazione-supabase.md](docs/adrs/005-migrazione-nextjs-e-integrazione-supabase.md) — Migrazione a Next.js e integrazione Supabase.
+- [docs/adrs/006-feature-flags-da-seed-con-override-locale.md](docs/adrs/006-feature-flags-da-seed-con-override-locale.md) — Feature flag da seed con override locale (bozza).
+- [docs/adrs/007-strumenti-dev-bozze-a-differenze-e-applica.md](docs/adrs/007-strumenti-dev-bozze-a-differenze-e-applica.md) — Strumenti Dev: bozze a differenze e «Applica» (bozza).
+- [docs/adrs/008-reward-pass-come-lista-con-tracce-generiche.md](docs/adrs/008-reward-pass-come-lista-con-tracce-generiche.md) — Reward Pass come lista con tracce generiche (bozza).
 
