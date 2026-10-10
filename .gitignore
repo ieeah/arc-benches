@@ -32,3 +32,6 @@ scripts/reports/
 *.njsproj
 *.sln
 *.sw?
+
+# Cestino degli strumenti Dev: locale, non va nel repository
+dev-trash/
