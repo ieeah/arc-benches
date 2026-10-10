@@ -4,6 +4,7 @@ import { bootProfileState } from '@/store/boot';
 import {
   defaultActiveModules, defaultCurrentLevels, defaultTargetLevels, levelsAbove,
 } from '@/store/gameData';
+import { currentLevelOf, isActionWindowOpen, levelActionKeys } from '@/lib/lists';
 
 export type ProgressSlice = Pick<AppState,
   'currentLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
@@ -12,6 +13,15 @@ export type ProgressSlice = Pick<AppState,
   'setListOrder' | 'toggleAction' | 'setLevelActionsBatch' | 'setTieredActionStep' | 'upgradeModule' | 'resetProgress' |
   'toggleBlueprintOwned' | 'setBlueprintOwned' | 'setFilterHideOwnedBlueprints'
 >;
+
+/**
+ * `true` se l'azione di una lista nota è fuori finestra (livello diverso da corrente + 1): va rifiutata.
+ * Le chiavi che non appartengono a una lista (sfida danni e recupero PS delle spedizioni) non hanno finestra.
+ */
+const isOutOfActionWindow = (s: AppState, listId: string, level: number): boolean => {
+  const list = s.getAllLists().find(l => l.id === listId);
+  return list !== undefined && !isActionWindowOpen(level, currentLevelOf(list, s.currentLevels));
+};
 
 export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> = (set, get) => ({
   currentLevels: bootProfileState.currentLevels,
@@ -39,7 +49,9 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
           if (deductMaterials) l.requirementItemIds.forEach(req => {
             inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);
           });
+          // Salendo, le azioni e i passi delle azioni a livelli dei livelli superati risultano completati.
           (l.actions ?? []).forEach(a => { checkedActions[`${moduleId}|${l.level}|${a.id}`] = true; });
+          (l.tieredActions ?? []).forEach(t => (t.steps ?? []).forEach(st => { checkedActions[`${moduleId}|${l.level}|${t.id}:${st.id}`] = true; }));
         });
       const next = level + 1;
       const cur = targetLevels[moduleId] ?? [];
@@ -48,9 +60,8 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
       list.levels
         .filter(l => l.level > level && l.level <= prevLevel)
         .forEach(l => {
-          (l.actions ?? []).forEach(a => {
-            delete checkedActions[`${moduleId}|${l.level}|${a.id}`];
-          });
+          // Scendendo si azzera ogni progresso dei livelli lasciati: azioni, passi e consegne di oggetti.
+          levelActionKeys(list, l.level).forEach(key => { delete checkedActions[key]; });
         });
     }
 
@@ -82,12 +93,14 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
 
   toggleAction: (listId, level, actionId) => {
     const s = get();
+    if (isOutOfActionWindow(s, listId, level)) return;
     const key = `${listId}|${level}|${actionId}`;
     set({ checkedActions: { ...s.checkedActions, [key]: !s.checkedActions[key] } });
   },
 
   setLevelActionsBatch: (listId, level, actionIds, checked) => {
     const s = get();
+    if (isOutOfActionWindow(s, listId, level)) return;
     const checkedActions = { ...s.checkedActions };
     for (const actionId of actionIds) {
       const key = `${listId}|${level}|${actionId}`;
@@ -102,6 +115,7 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
 
   setTieredActionStep: (listId, level, tieredActionId, steps, stepIndex) => {
     const s = get();
+    if (isOutOfActionWindow(s, listId, level)) return;
     const checkedActions = { ...s.checkedActions };
     const stepKey = (stepId: string) => `${listId}|${level}|${tieredActionId}:${stepId}`;
 
@@ -147,6 +161,7 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
     const currentLevels = { ...s.currentLevels, [moduleId]: newLevel };
     const checkedActions = { ...s.checkedActions };
     (nextLevel.actions ?? []).forEach(a => { checkedActions[`${moduleId}|${newLevel}|${a.id}`] = true; });
+    (nextLevel.tieredActions ?? []).forEach(t => (t.steps ?? []).forEach(st => { checkedActions[`${moduleId}|${newLevel}|${t.id}:${st.id}`] = true; }));
     const targetLevels = { ...s.targetLevels };
     const next = newLevel + 1;
     const cur = targetLevels[moduleId] ?? [];

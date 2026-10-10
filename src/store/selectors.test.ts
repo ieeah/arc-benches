@@ -19,7 +19,7 @@ import {
   getExpeditionDamageTierPure,
   getExpeditionCatchupSPPure,
   calculateExpeditionRewardPure,
-  getExpeditionCompletedPhasePure,
+  isExpeditionPhaseReady,
 } from '@/store/selectors';
 import type { ExpeditionList, List } from '@/types';
 
@@ -795,60 +795,6 @@ describe('Expedition Pure Selectors', () => {
     expect(exp4.blueprintReward).toBe(4);
   });
 
-  it('getExpeditionCompletedPhasePure sequentially computes completed phases', () => {
-    const caravan: List = {
-      listType: 'workbench',
-      id: 'expedition-1',
-      name: 'Carovana #1',
-      maxLevel: 3,
-      levels: [
-        {
-          level: 1,
-          requirementItemIds: [{ itemId: 'metal-parts', quantity: 50 }],
-        },
-        {
-          level: 2,
-          requirementItemIds: [{ itemId: 'power-cable', quantity: 10 }],
-        },
-        {
-          level: 3,
-          requirementItemIds: [],
-          actions: [{ id: 'donations-combat', label: 'Donation Combat' }],
-        },
-      ],
-    };
-
-    // No items or checks -> phase 0
-    expect(getExpeditionCompletedPhasePure(caravan, {}, {})).toBe(0);
-
-    // Phase 1 item fulfilled via inventory
-    expect(getExpeditionCompletedPhasePure(caravan, { 'metal-parts': 50 }, {})).toBe(1);
-
-    // Phase 1 item fulfilled via checkedActions
-    expect(getExpeditionCompletedPhasePure(caravan, {}, { 'expedition-1|1|item_metal-parts': true })).toBe(1);
-
-    // Phase 2 fulfilled via inventory while phase 1 also fulfilled -> phase 2
-    expect(getExpeditionCompletedPhasePure(
-      caravan,
-      { 'metal-parts': 50, 'power-cable': 10 },
-      {},
-    )).toBe(2);
-
-    // Phase 2 fulfilled but Phase 1 incomplete -> remains 0 (strictly sequential)
-    expect(getExpeditionCompletedPhasePure(
-      caravan,
-      { 'power-cable': 10 },
-      {},
-    )).toBe(0);
-
-    // All phases fulfilled
-    expect(getExpeditionCompletedPhasePure(
-      caravan,
-      { 'metal-parts': 50, 'power-cable': 10 },
-      { 'expedition-1|3|donations-combat': true },
-    )).toBe(3);
-  });
-
   it('getTotalRequiredMaterialsPure excludes items marked completed in checkedActions', () => {
     const listWithItems: List = {
       listType: 'workbench',
@@ -895,3 +841,45 @@ describe('Expedition Pure Selectors', () => {
 });
 
 
+
+describe('getStashActionsPure window (#111)', () => {
+  const list: List = {
+    id: 'win',
+    name: 'Win',
+    listType: 'workbench',
+    maxLevel: 3,
+    levels: [1, 2, 3].map((level) => ({ level, requirementItemIds: [], actions: [{ id: `a${level}`, label: `A${level}` }] })),
+  };
+  const run = (current: number) =>
+    getStashActionsPure([list], { win: true }, { win: current }, { win: [1, 2, 3] }, { 'win|1|a1': true }).map((a) => a.level);
+
+  it('shows only the level after the current one, never the passed ones nor the further ones', () => {
+    expect(run(0)).toEqual([1]);
+    expect(run(1)).toEqual([2]);
+    expect(run(2)).toEqual([3]);
+    expect(run(3)).toEqual([]);
+  });
+});
+
+describe('isExpeditionPhaseReady', () => {
+  const caravan = {
+    id: 'exp',
+    name: 'Exp',
+    listType: 'expedition' as const,
+    expeditionIndex: 1,
+    maxLevel: 2,
+    levels: [
+      { level: 1, requirementItemIds: [{ itemId: 'x', quantity: 3 }] },
+      { level: 2, requirementItemIds: [], actions: [{ id: 'sign', label: 'Sign' }] },
+    ],
+  } as List;
+
+  it('needs every item delivered (ticked or owned) and every action done', () => {
+    expect(isExpeditionPhaseReady(caravan, 1, {}, {})).toBe(false);
+    expect(isExpeditionPhaseReady(caravan, 1, { x: 3 }, {})).toBe(true);
+    expect(isExpeditionPhaseReady(caravan, 1, {}, { 'exp|1|item_x': true })).toBe(true);
+    expect(isExpeditionPhaseReady(caravan, 2, {}, {})).toBe(false);
+    expect(isExpeditionPhaseReady(caravan, 2, {}, { 'exp|2|sign': true })).toBe(true);
+    expect(isExpeditionPhaseReady(caravan, 9, {}, {})).toBe(false);
+  });
+});

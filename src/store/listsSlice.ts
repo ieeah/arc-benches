@@ -15,8 +15,7 @@ import {
   getMissingActionsPure,
   getAvailableUpgradesPure,
   getActiveExpeditionPure,
-  getExpeditionCompletedPhasePure,
-} from '@/store/selectors';
+  } from '@/store/selectors';
 
 export type ListsSlice = Pick<AppState,
   'workbenches' | 'projects' | 'itemsInfo' | 'customLists' | 'sharedCustomLists' |
@@ -146,43 +145,28 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
   getActiveLists: () => {
     const s = get();
     const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
-    const expeditionPhase = activeExpedition ? getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions) : 0;
-    const effectiveCurrentLevels = activeExpedition
-      ? { ...s.currentLevels, [activeExpedition.id]: expeditionPhase }
-      : s.currentLevels;
-
     return getActiveListsPure(
       getOrderedListsPure(getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition), s.listOrder),
-      effectiveCurrentLevels,
+      s.currentLevels,
     );
   },
 
   getMaxedLists: () => {
     const s = get();
     const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
-    const expeditionPhase = activeExpedition ? getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions) : 0;
-    const effectiveCurrentLevels = activeExpedition
-      ? { ...s.currentLevels, [activeExpedition.id]: expeditionPhase }
-      : s.currentLevels;
-
     return getMaxedListsPure(
       getOrderedListsPure(getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition), s.listOrder),
-      effectiveCurrentLevels,
+      s.currentLevels,
     );
   },
 
   getTotalRequiredMaterials: (excludeModuleId) => {
     const s = get();
     const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
-    const expeditionPhase = activeExpedition ? getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions) : 0;
-    const effectiveCurrentLevels = activeExpedition
-      ? { ...s.currentLevels, [activeExpedition.id]: expeditionPhase }
-      : s.currentLevels;
-
     return getTotalRequiredMaterialsPure(
       getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
       s.activeModules,
-      effectiveCurrentLevels,
+      s.currentLevels,
       s.targetLevels,
       excludeModuleId,
       Date.now(),
@@ -193,15 +177,10 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
   getMissingMaterials: () => {
     const s = get();
     const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
-    const expeditionPhase = activeExpedition ? getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions) : 0;
-    const effectiveCurrentLevels = activeExpedition
-      ? { ...s.currentLevels, [activeExpedition.id]: expeditionPhase }
-      : s.currentLevels;
-
     const total = getTotalRequiredMaterialsPure(
       getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
       s.activeModules,
-      effectiveCurrentLevels,
+      s.currentLevels,
       s.targetLevels,
       undefined,
       Date.now(),
@@ -213,15 +192,10 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
   getMissingActions: () => {
     const s = get();
     const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
-    const expeditionPhase = activeExpedition ? getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions) : 0;
-    const effectiveCurrentLevels = activeExpedition
-      ? { ...s.currentLevels, [activeExpedition.id]: expeditionPhase }
-      : s.currentLevels;
-
     return getMissingActionsPure(
       getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
       s.activeModules,
-      effectiveCurrentLevels,
+      s.currentLevels,
       s.targetLevels,
       s.checkedActions,
     );
@@ -230,15 +204,10 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
   getAvailableUpgrades: () => {
     const s = get();
     const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
-    const expeditionPhase = activeExpedition ? getExpeditionCompletedPhasePure(activeExpedition, s.inventory, s.checkedActions) : 0;
-    const effectiveCurrentLevels = activeExpedition
-      ? { ...s.currentLevels, [activeExpedition.id]: expeditionPhase }
-      : s.currentLevels;
-
     return getAvailableUpgradesPure(
       getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
       s.activeModules,
-      effectiveCurrentLevels,
+      s.currentLevels,
       s.inventory,
       Date.now(),
       s.checkedActions,

@@ -12,6 +12,8 @@ import {
   Package,
   AlertTriangle,
   RotateCcw,
+  Minus,
+  Plus,
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import {
@@ -19,9 +21,11 @@ import {
   getExpeditionDamageTierPure,
   getExpeditionCatchupSPPure,
   calculateExpeditionRewardPure,
-  getExpeditionCompletedPhasePure,
+  getOtherNeedsPure,
   isDepartureWindowActivePure,
+  isExpeditionPhaseReady,
 } from '@/store/selectors';
+import { hasDeductionConflict } from '@/lib/lists';
 import { MAX_EXTRA_SKILL_POINTS, DEFAULT_EXPEDITION_DAMAGE } from '@/store/gameData';
 import { SectionHeader } from '@/components/SectionHeader';
 import { Drawer } from '@/components/Drawer';
@@ -44,9 +48,13 @@ export const ExpeditionPage = () => {
   const inventory = useAppStore(s => s.inventory);
   const itemsInfo = useAppStore(s => s.itemsInfo);
   const checkedActions = useAppStore(s => s.checkedActions);
+  const currentLevels = useAppStore(s => s.currentLevels);
+  const targetLevels = useAppStore(s => s.targetLevels);
+  const getTotalRequiredMaterials = useAppStore(s => s.getTotalRequiredMaterials);
 
   // Store actions
   const toggleAction = useAppStore(s => s.toggleAction);
+  const setModuleCurrentLevel = useAppStore(s => s.setModuleCurrentLevel);
   const setLevelActionsBatch = useAppStore(s => s.setLevelActionsBatch);
   const confirmDeparture = useAppStore(s => s.confirmDeparture);
   const closeWindowWithoutDeparture = useAppStore(s => s.closeWindowWithoutDeparture);
@@ -74,10 +82,31 @@ export const ExpeditionPage = () => {
     [activeCaravan],
   );
 
-  const completedPhase = useMemo(
-    () => getExpeditionCompletedPhasePure(activeCaravan, inventory, checkedActions),
-    [activeCaravan, inventory, checkedActions],
-  );
+  // Fase salvata (come il livello di un banco): fasi completate, 0-6; la fase attiva è la successiva.
+  const completedPhase = activeCaravan ? currentLevels[activeCaravan.id] ?? 0 : 0;
+  const [pendingPhase, setPendingPhase] = useState<number | null>(null);
+
+  /**
+   * Imposta le fasi completate. Scendendo si azzera il progresso delle fasi lasciate (l'inventario non si
+   * tocca); salendo le fasi superate si considerano consegnate e i materiali si sottraggono, con lo stesso
+   * avviso delle liste se servono anche ad altre.
+   */
+  const changePhase = (next: number) => {
+    if (!activeCaravan) return;
+    const target = Math.max(0, Math.min(activeCaravan.maxLevel, next));
+    setPendingPhase(null);
+    if (target <= completedPhase) {
+      setModuleCurrentLevel(activeCaravan.id, target, false);
+      return;
+    }
+    const otherNeeds = getOtherNeedsPure(getTotalRequiredMaterials(), activeCaravan, currentLevels, targetLevels);
+    if (hasDeductionConflict(activeCaravan, completedPhase, target, inventory, otherNeeds)) setPendingPhase(target);
+    else setModuleCurrentLevel(activeCaravan.id, target, true);
+  };
+  const resolvePendingPhase = (deduct: boolean) => {
+    if (activeCaravan && pendingPhase !== null) setModuleCurrentLevel(activeCaravan.id, pendingPhase, deduct);
+    setPendingPhase(null);
+  };
 
   // Challenge Tiers and Reward calculation
   const damageTier = useMemo(
@@ -258,39 +287,60 @@ export const ExpeditionPage = () => {
                 </span>
               </div>
             </div>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 shrink-0">
-              {completedPhase}/6 Fasi
-            </span>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => changePhase(completedPhase - 1)}
+                disabled={completedPhase <= 0}
+                aria-label={t('expeditions.caravan.phaseDown')}
+                className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300 disabled:opacity-40 cursor-pointer"
+              >
+                <Minus size={12} />
+              </button>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300">
+                {completedPhase}/6 Fasi
+              </span>
+              <button
+                type="button"
+                onClick={() => changePhase(completedPhase + 1)}
+                disabled={completedPhase >= activeCaravan.maxLevel}
+                aria-label={t('expeditions.caravan.phaseUp')}
+                className="w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-300 disabled:opacity-40 cursor-pointer"
+              >
+                <Plus size={12} />
+              </button>
+            </div>
           </div>
+
+          {pendingPhase !== null && (
+            <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 space-y-2">
+              <p className="text-xs text-amber-800 dark:text-amber-200">{t('benches.conflictMessage')}</p>
+              <div className="flex gap-2">
+                <button type="button" onClick={() => resolvePendingPhase(true)}
+                  className="px-3 py-1.5 bg-blue-500 text-white text-xs font-bold rounded-full cursor-pointer">{t('benches.conflictYes')}</button>
+                <button type="button" onClick={() => resolvePendingPhase(false)}
+                  className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-full cursor-pointer">{t('benches.conflictNo')}</button>
+              </div>
+            </div>
+          )}
 
           {/* Caravan Phases List */}
           <div className="space-y-3">
             {activeCaravan.levels.map(level => {
-              const isUnlocked = level.level === 1 || level.level <= completedPhase + 1;
+              // Solo la fase attiva (completate + 1) è interagibile; le completate sono bloccate, le future anche.
               const isPhaseCompleted = level.level <= completedPhase;
+              const isUnlocked = level.level === completedPhase + 1;
+              const isLocked = level.level > completedPhase + 1;
               const hasItems = level.requirementItemIds.length > 0;
               const hasActions = (level.actions?.length ?? 0) > 0;
-
-              // Collect all action keys for this level
-              const allActionIds: string[] = [
-                ...level.requirementItemIds.map(req => `item_${req.itemId}`),
-                ...(level.actions ?? []).map(a => a.id),
-                ...(level.tieredActions ?? []).flatMap(t => (t.steps ?? []).map(s => `${t.id}:${s.id}`)),
-              ];
-
-              const handleToggleAllPhaseItems = (e: React.MouseEvent) => {
-                e.stopPropagation();
-                if (!isUnlocked) return;
-                const shouldCheck = !isPhaseCompleted;
-                setLevelActionsBatch(activeCaravan.id, level.level, allActionIds, shouldCheck);
-              };
+              const isReady = isUnlocked && isExpeditionPhaseReady(activeCaravan, level.level, inventory, checkedActions);
 
               return (
                 <div
                   key={level.level}
                   className={cn(
                     'border rounded-2xl p-3.5 space-y-2.5 transition-all',
-                    !isUnlocked
+                    isLocked
                       ? 'bg-gray-50/50 dark:bg-gray-900/30 border-gray-200/50 dark:border-gray-800/50 opacity-60'
                       : isPhaseCompleted
                       ? 'bg-green-500/5 border-green-500/20'
@@ -299,7 +349,7 @@ export const ExpeditionPage = () => {
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      {!isUnlocked && <Lock size={12} className="text-gray-400 shrink-0" />}
+                      {isLocked && <Lock size={12} className="text-gray-400 shrink-0" />}
                       <span className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
                         {t('expeditions.caravan.phase', { current: level.level, total: 6 })}
                         {level.level <= 4 && ` — ${t('expeditions.caravan.assembly')}`}
@@ -309,24 +359,30 @@ export const ExpeditionPage = () => {
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
-                      {!isUnlocked ? (
+                      {isLocked ? (
                         <span className="text-[10px] font-medium text-gray-400 flex items-center gap-1">
                           {t('expeditions.caravan.lockedPhase', { prev: level.level - 1 })}
+                        </span>
+                      ) : isPhaseCompleted ? (
+                        <span className="flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full bg-green-500 text-white">
+                          <Check size={11} strokeWidth={3} />
+                          {t('stash.completed')}
                         </span>
                       ) : (
                         <button
                           type="button"
-                          onClick={handleToggleAllPhaseItems}
+                          onClick={() => changePhase(level.level)}
+                          disabled={!isReady}
                           className={cn(
-                            'flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full transition-all cursor-pointer shadow-2xs',
-                            isPhaseCompleted
-                              ? 'bg-green-500 text-white hover:bg-green-600'
-                              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-green-400',
+                            'flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full transition-all shadow-2xs',
+                            isReady
+                              ? 'bg-green-500 text-white hover:bg-green-600 cursor-pointer'
+                              : 'bg-white dark:bg-gray-800 text-gray-400 border border-gray-200 dark:border-gray-700 cursor-not-allowed',
                           )}
-                          title={isPhaseCompleted ? t('expeditions.caravan.uncompletePhase') : t('expeditions.caravan.completePhase')}
+                          title={t('expeditions.caravan.completePhase')}
                         >
                           <Check size={11} strokeWidth={3} />
-                          <span>{isPhaseCompleted ? t('stash.completed') : t('expeditions.caravan.completePhase')}</span>
+                          <span>{t('expeditions.caravan.completePhase')}</span>
                         </button>
                       )}
                     </div>
@@ -337,7 +393,7 @@ export const ExpeditionPage = () => {
                     <div className={cn('grid grid-cols-1 sm:grid-cols-2 gap-2', !isUnlocked && 'pointer-events-none')}>
                       {level.requirementItemIds.map(req => {
                         const item = itemsInfo[req.itemId];
-                        const isChecked = Boolean(checkedActions[`${activeCaravan.id}|${level.level}|item_${req.itemId}`]);
+                        const isChecked = isPhaseCompleted || Boolean(checkedActions[`${activeCaravan.id}|${level.level}|item_${req.itemId}`]);
                         const owned = inventory[req.itemId] ?? 0;
                         const isMet = isChecked || owned >= req.quantity;
 
@@ -369,7 +425,9 @@ export const ExpeditionPage = () => {
                                   {isChecked && <Check size={12} strokeWidth={3} />}
                                 </button>
                               ) : (
-                                <div className="w-5 h-5 rounded-md border border-gray-200 dark:border-gray-700 shrink-0" />
+                                <div className={cn('w-5 h-5 rounded-md border shrink-0 flex items-center justify-center', isChecked ? 'bg-green-500 border-green-500 text-white' : 'border-gray-200 dark:border-gray-700')}>
+                                  {isChecked && <Check size={12} strokeWidth={3} />}
+                                </div>
                               )}
 
                               <ItemCardFrameV2
@@ -413,8 +471,9 @@ export const ExpeditionPage = () => {
                         <ActionCheckbox
                           key={action.id}
                           label={getActionLabel(action, language)}
-                          checked={Boolean(checkedActions[`${activeCaravan.id}|${level.level}|${action.id}`])}
+                          checked={isPhaseCompleted || Boolean(checkedActions[`${activeCaravan.id}|${level.level}|${action.id}`])}
                           onToggle={() => isUnlocked && toggleAction(activeCaravan.id, level.level, action.id)}
+                          disabled={!isUnlocked}
                           maps={action.maps}
                           carryItems={action.carryItems}
                         />

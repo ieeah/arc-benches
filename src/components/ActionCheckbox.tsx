@@ -29,6 +29,7 @@ export const ActionCheckbox = ({
       className={cn(
         'w-full flex items-center gap-3 py-1 text-left transition-transform',
         interactive && 'active:scale-[0.98]',
+        disabled && !checked && 'opacity-45',
       )}
     >
       <span

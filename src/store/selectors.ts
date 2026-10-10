@@ -1,4 +1,5 @@
 import type { ExpeditionList, List, CheckboxAction, TieredAction } from '@/types';
+import { isActionWindowOpen } from '@/lib/lists';
 import { isListExpired } from '@/lib/expiration';
 
 export { isListExpired };
@@ -251,8 +252,9 @@ export interface StashAction {
 export type MissingAction = StashAction;
 
 /**
- * Returns actions only for levels that have been reached (up to currentLevel + 1),
- * preventing uncompletable future level actions from polluting the UI.
+ * Returns the actions that count right now: only the level after the current one (the "window",
+ * `current + 1`), and only if it is one of the selected target levels. Actions of levels already
+ * passed or of levels further ahead are not shown (#111).
  */
 export function getStashActionsPure(
   allLists: List[],
@@ -268,8 +270,7 @@ export function getStashActionsPure(
     const current = currentLevels[list.id] ?? 0;
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
-      // Actions are only displayed if the level has been reached (lvl.level <= current + 1)
-      if (lvl.level <= current + 1 && selected.includes(lvl.level)) {
+      if (isActionWindowOpen(lvl.level, current) && selected.includes(lvl.level)) {
         for (const action of lvl.actions ?? []) {
           const key = `${list.id}|${lvl.level}|${action.id}`;
           const isCompleted = Boolean(checkedActions[key]);
@@ -321,39 +322,31 @@ export function getMissingActionsPure(
 }
 
 /**
- * Computes how many phases of an expedition are completed sequentially (0 to 6).
- * Phase N is completed only if all its material requirements (checked or owned) and actions are met,
- * and all preceding phases 1..N-1 are completed.
+ * Whether the requirements of one expedition phase are met: every item delivered (ticked or owned),
+ * every action done and every tiered step done.
  */
-export function getExpeditionCompletedPhasePure(
-  caravan: List | undefined,
+export function isExpeditionPhaseReady(
+  caravan: List,
+  level: number,
   inventory: Record<string, number>,
   checkedActions: Record<string, boolean>,
-): number {
-  if (!caravan) return 0;
-  let completed = 0;
-  for (const lvl of caravan.levels) {
-    const hasItems = lvl.requirementItemIds.length > 0;
-    const hasActions = (lvl.actions?.length ?? 0) > 0;
-    const hasTiered = (lvl.tieredActions?.length ?? 0) > 0;
+): boolean {
+  const lvl = caravan.levels.find(l => l.level === level);
+  if (!lvl) return false;
+  const hasItems = lvl.requirementItemIds.length > 0;
+  const hasActions = (lvl.actions?.length ?? 0) > 0;
+  const hasTiered = (lvl.tieredActions?.length ?? 0) > 0;
 
-    const isItemsDone = !hasItems || lvl.requirementItemIds.every(
-      req => Boolean(checkedActions[`${caravan.id}|${lvl.level}|item_${req.itemId}`]) || (inventory[req.itemId] ?? 0) >= req.quantity,
-    );
-    const isActionsDone = !hasActions || (lvl.actions ?? []).every(
-      a => Boolean(checkedActions[`${caravan.id}|${lvl.level}|${a.id}`]),
-    );
-    const isTieredDone = !hasTiered || (lvl.tieredActions ?? []).every(
-      t => (t.steps ?? []).every(s => Boolean(checkedActions[`${caravan.id}|${lvl.level}|${t.id}:${s.id}`])),
-    );
-
-    if (isItemsDone && isActionsDone && isTieredDone) {
-      completed = lvl.level;
-    } else {
-      break; // Sequential: cannot complete level N if level N-1 is incomplete
-    }
-  }
-  return completed;
+  const isItemsDone = !hasItems || lvl.requirementItemIds.every(
+    req => Boolean(checkedActions[`${caravan.id}|${lvl.level}|item_${req.itemId}`]) || (inventory[req.itemId] ?? 0) >= req.quantity,
+  );
+  const isActionsDone = !hasActions || (lvl.actions ?? []).every(
+    a => Boolean(checkedActions[`${caravan.id}|${lvl.level}|${a.id}`]),
+  );
+  const isTieredDone = !hasTiered || (lvl.tieredActions ?? []).every(
+    t => (t.steps ?? []).every(s => Boolean(checkedActions[`${caravan.id}|${lvl.level}|${t.id}:${s.id}`])),
+  );
+  return isItemsDone && isActionsDone && isTieredDone;
 }
 
 /**

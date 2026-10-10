@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react'
 import { createPortal } from 'react-dom';
 import { CheckCircle2, ChevronDown, Clock, Hammer, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import type { ItemInfo, List } from '@/types';
-import { getBaseLevel } from '@/lib/lists';
+import { getBaseLevel, hasDeductionConflict, isActionWindowOpen } from '@/lib/lists';
 import { isListExpired, formatTimeRemaining } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
 import { refinerCraftLevel } from '@/lib/craft';
@@ -124,8 +124,9 @@ export const UnifiedListCard = ({
   const expired = isListExpired(list);
   const remaining = list.expirationDate ? formatTimeRemaining(list.expirationDate, language) : null;
 
+  // Solo le azioni del livello successivo (la finestra, #111): né quelle dei livelli superati né quelle più avanti.
   const actionLevels = list.levels.filter(
-    l => selectedTargets.includes(l.level) && ((l.actions?.length ?? 0) > 0 || (l.tieredActions?.length ?? 0) > 0)
+    l => isActionWindowOpen(l.level, current) && ((l.actions?.length ?? 0) > 0 || (l.tieredActions?.length ?? 0) > 0)
   );
 
   const closeMenu = useCallback(() => { setMenuOpen(false); setConfirmingDelete(false); }, []);
@@ -156,13 +157,7 @@ export const UnifiedListCard = ({
     };
   }, [menuOpen, updateMenuPosition]);
 
-  const hasConflict = (level: number) =>
-    list.levels.some(
-      l => l.level > current && l.level <= level &&
-        l.requirementItemIds.some(
-          req => (inventory[req.itemId] ?? 0) > 0 && (otherNeeds[req.itemId] ?? 0) > 0
-        )
-    );
+  const hasConflict = (level: number) => hasDeductionConflict(list, current, level, inventory, otherNeeds);
 
   const handleCurrentLevel = (level: number) => {
     setPendingLevel(null);

@@ -11,7 +11,6 @@ import {
   getStashActionsPure,
   getItemDependenciesPure,
   getActiveExpeditionPure,
-  getExpeditionCompletedPhasePure,
 } from '@/store/selectors';
 import { REFINER_ID } from '@/store/gameData';
 import { safeLS } from '@/lib/safeStorage';
@@ -100,16 +99,6 @@ export const StashPage = ({
     [workbenches, projects, sharedCustomLists, customLists, activeExpedition],
   );
 
-  const expeditionPhase = useMemo(
-    () => getExpeditionCompletedPhasePure(activeExpedition, inventory, checkedActions),
-    [activeExpedition, inventory, checkedActions],
-  );
-
-  const effectiveCurrentLevels = useMemo(() => {
-    if (!activeExpedition) return currentLevels;
-    return { ...currentLevels, [activeExpedition.id]: expeditionPhase };
-  }, [currentLevels, activeExpedition, expeditionPhase]);
-
   const orderedLists = useMemo(
     () => getOrderedListsPure(allLists, listOrder),
     [allLists, listOrder],
@@ -119,13 +108,13 @@ export const StashPage = ({
     () => getTotalRequiredMaterialsPure(
       allLists,
       activeModules,
-      effectiveCurrentLevels,
+      currentLevels,
       targetLevels,
       undefined,
       Date.now(),
       checkedActions,
     ),
-    [allLists, activeModules, effectiveCurrentLevels, targetLevels, checkedActions],
+    [allLists, activeModules, currentLevels, targetLevels, checkedActions],
   );
 
   const missingMaterials = useMemo(
@@ -134,13 +123,13 @@ export const StashPage = ({
   );
 
   const allStashActions = useMemo(
-    () => getStashActionsPure(allLists, activeModules, effectiveCurrentLevels, targetLevels, checkedActions),
-    [allLists, activeModules, effectiveCurrentLevels, targetLevels, checkedActions],
+    () => getStashActionsPure(allLists, activeModules, currentLevels, targetLevels, checkedActions),
+    [allLists, activeModules, currentLevels, targetLevels, checkedActions],
   );
 
   const refinerLevel = useMemo(
-    () => getRefinerLevelPure(effectiveCurrentLevels, REFINER_ID),
-    [effectiveCurrentLevels],
+    () => getRefinerLevelPure(currentLevels, REFINER_ID),
+    [currentLevels],
   );
 
   // Mappa delle dipendenze per ciascun materiale
@@ -149,18 +138,18 @@ export const StashPage = ({
     for (const mat of missingMaterials) {
       map.set(
         mat.itemId,
-        getItemDependenciesPure(mat.itemId, allLists, activeModules, effectiveCurrentLevels, targetLevels, Date.now(), checkedActions),
+        getItemDependenciesPure(mat.itemId, allLists, activeModules, currentLevels, targetLevels, Date.now(), checkedActions),
       );
     }
     return map;
-  }, [missingMaterials, allLists, activeModules, effectiveCurrentLevels, targetLevels, checkedActions]);
+  }, [missingMaterials, allLists, activeModules, currentLevels, targetLevels, checkedActions]);
 
   // Map pre-calcolata per priority sort: O(n) invece di O(n²) nel comparatore
   const priorityMap = useMemo(() => {
     const map = new Map<string, number>();
     orderedLists.forEach((list, i) => {
       if (activeModules[list.id] === false) return;
-      const current = effectiveCurrentLevels[list.id] ?? 0;
+      const current = currentLevels[list.id] ?? 0;
       const selected = targetLevels[list.id] ?? list.levels.map(l => l.level);
       list.levels.forEach(lvl => {
         if (lvl.level > current && selected.includes(lvl.level)) {
@@ -171,7 +160,7 @@ export const StashPage = ({
       });
     });
     return map;
-  }, [orderedLists, activeModules, effectiveCurrentLevels, targetLevels]);
+  }, [orderedLists, activeModules, currentLevels, targetLevels]);
 
   // Categorie di filtro statiche
   const filterCategories = useMemo<FilterCategory<StashMaterial>[]>(() => [

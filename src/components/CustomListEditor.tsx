@@ -9,6 +9,7 @@ import { ItemPicker } from '@/components/ItemPicker';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
+import { getBaseLevel, isActionWindowOpen } from '@/lib/lists';
 
 const toInputDateTime = (isoString?: string): string => {
   if (!isoString) return '';
@@ -536,8 +537,10 @@ export const CustomListEditor = ({ listId, onClose }: {
                 <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800 space-y-1">
                   <p className="text-[10px] font-bold uppercase text-gray-400 mb-1">{t('benches.actions')}</p>
                   {lvl.actions!.map(action => {
+                    const current = existing ? store.currentLevels[existing.id] ?? getBaseLevel(existing) : 0;
+                    const inWindow = existing ? isActionWindowOpen(lvl.level, current) : false;
                     const checked = existing
-                      ? store.checkedActions[`${existing.id}|${lvl.level}|${action.id}`] ?? false
+                      ? lvl.level <= current || (store.checkedActions[`${existing.id}|${lvl.level}|${action.id}`] ?? false)
                       : false;
                     return (
                       <div key={action.id} className="flex items-center gap-1">
@@ -545,7 +548,8 @@ export const CustomListEditor = ({ listId, onClose }: {
                           <ActionCheckbox
                             label={getActionLabel(action, language)}
                             checked={checked}
-                            onToggle={existing ? () => store.toggleAction(existing.id, lvl.level, action.id) : undefined}
+                            onToggle={existing && inWindow ? () => store.toggleAction(existing.id, lvl.level, action.id) : undefined}
+                            disabled={!inWindow}
                           />
                         </div>
                         <button onClick={() => removeAction(lvl.level, action.id)}

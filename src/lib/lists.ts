@@ -52,3 +52,75 @@ export function withListType(list: List, listType: ListType, expeditionIndex = 1
       return { ...base, listType };
   }
 }
+
+// ---------------------------------------------------------------------------------------------------------------
+// Finestra delle azioni (#111): l'azione del livello N si fa quando il livello corrente è N-1, né prima né dopo.
+// Chiave in `checkedActions`: `listId|livello|azione` (`azione` = id, `tieredId:stepId` o `item_<oggetto>`).
+// ---------------------------------------------------------------------------------------------------------------
+
+/** Livello le cui azioni valgono adesso: quello successivo al corrente. */
+export const actionWindowLevel = (current: number): number => current + 1;
+
+/** `true` se le azioni del livello indicato valgono con il livello corrente dato. */
+export const isActionWindowOpen = (level: number, current: number): boolean => level === actionWindowLevel(current);
+
+/** Livello corrente di una lista: quello salvato, o il livello di partenza della lista. */
+export const currentLevelOf = (list: List, currentLevels: Record<string, number>): number =>
+  currentLevels[list.id] ?? getBaseLevel(list);
+
+/** Livello e lista di una chiave di `checkedActions` (`listId|livello|azione`); `null` se la forma non è questa. */
+export function parseActionKey(key: string): { listId: string; level: number } | null {
+  const [listId, levelPart, ...rest] = key.split('|');
+  const level = Number(levelPart);
+  if (!listId || rest.length === 0 || !Number.isInteger(level)) return null;
+  return { listId, level };
+}
+
+/**
+ * Toglie le spunte di azioni di livelli oltre la finestra (fatte troppo presto: non valgono né si conservano).
+ * Restano quelle dei livelli già superati e quelle di chiavi che non appartengono a una lista nota
+ * (es. la sfida danni e il recupero PS delle spedizioni).
+ */
+export function pruneOutOfWindowChecks(
+  checked: Record<string, boolean>,
+  lists: List[],
+  currentLevels: Record<string, number>,
+): Record<string, boolean> {
+  const byId = new Map(lists.map((l) => [l.id, l]));
+  const out: Record<string, boolean> = {};
+  for (const [key, value] of Object.entries(checked)) {
+    const parsed = parseActionKey(key);
+    const list = parsed ? byId.get(parsed.listId) : undefined;
+    if (parsed && list && parsed.level > actionWindowLevel(currentLevelOf(list, currentLevels))) continue;
+    out[key] = value;
+  }
+  return out;
+}
+
+/** Tutte le chiavi di `checkedActions` di un livello di una lista: azioni, passi delle azioni a livelli e consegne di oggetti. */
+export function levelActionKeys(list: List, level: number): string[] {
+  const lvl = list.levels.find((l) => l.level === level);
+  if (!lvl) return [];
+  return [
+    ...(lvl.actions ?? []).map((a) => `${list.id}|${level}|${a.id}`),
+    ...(lvl.tieredActions ?? []).flatMap((t) => (t.steps ?? []).map((st) => `${list.id}|${level}|${t.id}:${st.id}`)),
+    ...lvl.requirementItemIds.map((r) => `${list.id}|${level}|item_${r.itemId}`),
+  ];
+}
+
+/**
+ * Salendo di livello i materiali dei livelli superati si considerano consegnati e si sottraggono dall'inventario;
+ * c'è un conflitto se uno di quegli oggetti, che l'utente possiede, serve anche ad altre liste (`otherNeeds`).
+ */
+export function hasDeductionConflict(
+  list: List,
+  current: number,
+  level: number,
+  inventory: Record<string, number>,
+  otherNeeds: Record<string, number>,
+): boolean {
+  return list.levels.some(
+    l => l.level > current && l.level <= level &&
+      l.requirementItemIds.some(req => (inventory[req.itemId] ?? 0) > 0 && (otherNeeds[req.itemId] ?? 0) > 0),
+  );
+}

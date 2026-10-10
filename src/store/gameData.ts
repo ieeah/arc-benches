@@ -1,5 +1,5 @@
 import type { ExpeditionList, ItemInfo, List, PassList, TieredAction } from '@/types';
-import { isPass } from '@/lib/lists';
+import { isPass, pruneOutOfWindowChecks } from '@/lib/lists';
 import { applyCustomItemsDraft } from '@/lib/customItems';
 import workbenchesData from '@/data/workbenches.json';
 import expeditionsData from '@/data/expeditions.json';
@@ -173,8 +173,16 @@ projects.forEach(p => {
 });
 
 /** Build the full in-memory state for a profile from its (partial) persisted slice. */
-export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState => ({
-  currentLevels: { ...defaultCurrentLevels, ...loaded.currentLevels },
+export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState => {
+  const currentLevels = { ...defaultCurrentLevels, ...loaded.currentLevels };
+  // Le spunte di azioni di livelli oltre la finestra (corrente + 1) non valgono e non si conservano.
+  const checkedActions = pruneOutOfWindowChecks(
+    loaded.checkedActions ?? {},
+    [...workbenches, ...projects, ...expeditions, ...(loaded.customLists ?? [])],
+    currentLevels,
+  );
+  return {
+  currentLevels,
   targetLevels: {
     ...defaultTargetLevels,
     ...migrateTargets(loaded.targetLevels as Record<string, number | number[]> | undefined, loaded.currentLevels),
@@ -184,7 +192,7 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   filterHideCompleted: loaded.filterHideCompleted ?? true,
   listOrder: loaded.listOrder ?? [...workbenches, ...projects].map(l => l.id),
   customLists: loaded.customLists ?? [],
-  checkedActions: loaded.checkedActions ?? {},
+  checkedActions,
   activePersonalityId: loaded.activePersonalityId ?? null,
   ownedBlueprints: loaded.ownedBlueprints ?? {},
   filterHideOwnedBlueprints: loaded.filterHideOwnedBlueprints ?? false,
@@ -196,7 +204,8 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   departureWindowActive: loaded.departureWindowActive ?? false,
   activeRewardPass: loaded.activeRewardPass ?? null,
   completedRewardPasses: loaded.completedRewardPasses ?? [],
-});
+  };
+};
 
 /** Fresh (empty) progress for a brand-new profile. */
 export const freshProfile = (): PersistedState => ({

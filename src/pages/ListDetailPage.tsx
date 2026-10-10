@@ -9,7 +9,7 @@ import { TieredActionTimeline } from '@/components/TieredActionTimeline';
 import { RewardBadge } from '@/components/RewardBadge';
 import { iconUrl } from '@/lib/icons';
 import { getRarityStyles } from '@/lib/rarity';
-import { getBaseLevel } from '@/lib/lists';
+import { getBaseLevel, isActionWindowOpen } from '@/lib/lists';
 import { isListExpired } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
 import { StickyHeader } from '@/components/StickyHeader';
@@ -69,6 +69,7 @@ export const ListDetailPage = ({ listId, onBack }: {
       <div className="p-4 space-y-3">
         {levels.map(lvl => {
           const done = lvl.level <= current;
+          const inWindow = isActionWindowOpen(lvl.level, current);
           const inObjectives = selected.includes(lvl.level);
           return (
             <div key={lvl.level}
@@ -140,8 +141,9 @@ export const ListDetailPage = ({ listId, onBack }: {
                   {lvl.actions!.map(action => (
                     <ActionCheckbox key={action.id}
                       label={getActionLabel(action, language)}
-                      checked={store.checkedActions[`${list.id}|${lvl.level}|${action.id}`] ?? false}
-                      onToggle={() => store.toggleAction(list.id, lvl.level, action.id)}
+                      checked={done || (store.checkedActions[`${list.id}|${lvl.level}|${action.id}`] ?? false)}
+                      onToggle={inWindow ? () => store.toggleAction(list.id, lvl.level, action.id) : undefined}
+                      disabled={!inWindow}
                       rewards={action.rewards}
                       maps={action.maps}
                       carryItems={action.carryItems}
@@ -158,6 +160,7 @@ export const ListDetailPage = ({ listId, onBack }: {
                       tieredAction={tiered}
                       listId={list.id}
                       levelNum={lvl.level}
+                      disabled={!inWindow}
                     />
                   ))}
                 </div>
