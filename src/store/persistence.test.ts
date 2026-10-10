@@ -99,7 +99,7 @@ describe('persistence.ts', () => {
       consecutiveStreak: 2,
       departureWindowActive: true,
       activeRewardPass: 'frozen-trail',
-      completedRewardPasses: [{ id: 'legacy', name: 'Legacy', completedAt: '2026-10-09T10:00:00.000Z' }],
+      completedRewardPasses: [{ id: 'legacy', completedAt: '2026-10-09T10:00:00.000Z' }],
     };
 
     it('saves and loads active profile state with per-profile language', () => {
@@ -121,11 +121,11 @@ describe('persistence.ts', () => {
     it('drops malformed completed reward pass entries and keeps a null active pass', () => {
       localStorage.setItem(profileKey('p1'), JSON.stringify({
         activeRewardPass: null,
-        completedRewardPasses: [{ id: 'ok', completedAt: '2026-10-09T10:00:00Z' }, { id: '', completedAt: 'x' }, { id: 'bad-date', completedAt: 'not a date' }, 'nope'],
+        completedRewardPasses: [{ id: 'ok', name: 'vecchio salvataggio', completedAt: '2026-10-09T10:00:00Z' }, { id: '', completedAt: 'x' }, { id: 'bad-date', completedAt: 'not a date' }, 'nope'],
       }));
       const loaded = loadProfileState('p1');
       expect(loaded.activeRewardPass).toBeNull();
-      expect(loaded.completedRewardPasses).toEqual([{ id: 'ok', name: 'ok', completedAt: '2026-10-09T10:00:00Z' }]);
+      expect(loaded.completedRewardPasses).toEqual([{ id: 'ok', completedAt: '2026-10-09T10:00:00Z' }]);
     });
 
     it('omits language from the persisted slice when the profile never set one', () => {

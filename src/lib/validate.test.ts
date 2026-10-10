@@ -499,4 +499,11 @@ describe('validateList: Reward Pass', () => {
     expect((validateList(pass({ premiumCostTokens: 1150 })) as { premiumCostTokens?: number }).premiumCostTokens).toBe(1150);
     expect('premiumCostTokens' in (validateList(pass({ premiumCostTokens: -5 })) as object)).toBe(false);
   });
+
+  it('keeps the active flag only when it is a boolean', () => {
+    expect((validateList(pass({ active: false })) as { active?: boolean }).active).toBe(false);
+    expect((validateList(pass({ active: true })) as { active?: boolean }).active).toBe(true);
+    expect('active' in (validateList(pass({ active: 'no' })) as object)).toBe(false);
+    expect('active' in (validateList(pass()) as object)).toBe(false);
+  });
 });

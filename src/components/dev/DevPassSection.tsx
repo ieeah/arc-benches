@@ -161,6 +161,29 @@ export const DevPassSection = ({ selectedList, updateSelectedList }: DevPassSect
         <Ticket size={14} /> Reward Pass
       </h3>
 
+      <label className="flex items-start gap-2.5 p-2.5 rounded-xl bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={selectedList.active !== false}
+          onChange={(e) =>
+            updatePass((prev) => {
+              const next = { ...prev };
+              if (e.target.checked) delete next.active;
+              else next.active = false;
+              return next;
+            })
+          }
+          className="mt-0.5 w-4 h-4 rounded border-gray-300 text-purple-600 cursor-pointer"
+        />
+        <span className="space-y-0.5">
+          <span className="block text-[11px] font-bold text-gray-700 dark:text-gray-300">Pass nel gioco (active)</span>
+          <span className="block text-[10px] text-gray-500 dark:text-gray-400">
+            Spegnilo quando il pass viene tolto dal gioco: sparisce dall'app ma resta nel file come archivio (e per i trofei).
+            Per un errore usa invece «Elimina» (finisce nel cestino).
+          </span>
+        </span>
+      </label>
+
       <label className="block space-y-1">
         <span className="text-[11px] font-bold text-gray-700 dark:text-gray-300">
           Costo traccia premium (Raider Token, informativo)

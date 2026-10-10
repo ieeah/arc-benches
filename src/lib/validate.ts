@@ -294,6 +294,7 @@ export const validateList = (v: unknown): List | null => {
       out = { ...base, listType, tracks: tracks.length > 0 ? tracks : DEFAULT_PASS_TRACKS.map((t) => ({ ...t })) };
       const cost = asNonNegInt(v.premiumCostTokens);
       if (cost !== null) out.premiumCostTokens = cost;
+      if (typeof v.active === 'boolean') out.active = v.active;
       // Le ricompense di una traccia non dichiarata non hanno una colonna dove comparire: si scartano.
       // Quelle senza traccia (file scritti a mano) vanno alla prima, resa esplicita: riordinare le
       // tracce in seguito non ne cambia il significato.
@@ -586,11 +587,11 @@ export const v = {
   infer: undefined as unknown as <S>(schema: S) => S extends Schema<infer T> ? T : never,
 } as const;
 
-/** Voce dello storico dei pass conclusi: id e data obbligatori, il nome ripiega sull'id. */
+/** Voce dell'archivio dei pass completati: id e data obbligatori (un eventuale `name` dei salvataggi precedenti si ignora). */
 export const validateCompletedRewardPass = (v: unknown): CompletedRewardPass | null => {
   if (!isObject(v)) return null;
   const id = asNonEmptyString(v.id);
   const completedAt = asIsoDateString(v.completedAt);
   if (id === null || completedAt === undefined) return null;
-  return { id, name: asNonEmptyString(v.name) ?? id, completedAt };
+  return { id, completedAt };
 };

@@ -29,6 +29,7 @@ import { useTranslation } from '@/i18n';
 import { useFeatureFlags } from '@/lib/featureFlags';
 import { hasUnsavedDevChanges } from '@/lib/devDrafts';
 import { AppFooter } from '@/components/AppFooter';
+import { InactivePassNotice } from '@/components/pass/InactivePassNotice';
 import { useRouter, type AppRoute } from '@/router';
 
 const isDev = import.meta.env.DEV;
@@ -209,6 +210,8 @@ export default function App() {
             )}
           </>
         )}
+
+        {isFeatureEnabled('reward-pass') && <InactivePassNotice />}
 
         {isFeatureEnabled('role-maker') && (
           <RoleMakerModal

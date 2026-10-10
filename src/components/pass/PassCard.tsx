@@ -11,10 +11,12 @@ interface PassCardProps {
   completedAt?: string;
   /** Pass attivo del profilo: mostra l'etichetta «Pass attivo». */
   active?: boolean;
+  /** Livello raggiunto sul pass (se ha progressi): es. «Lvl 12/60». */
+  levelLabel?: string;
 }
 
 /** Card di un pass nell'elenco di selezione: porta alla pagina di anteprima. */
-export const PassCard = ({ pass, onOpen, completedAt, active = false }: PassCardProps) => {
+export const PassCard = ({ pass, onOpen, completedAt, active = false, levelLabel }: PassCardProps) => {
   const { t, language } = useTranslation();
   const completed = completedAt !== undefined;
 
@@ -38,6 +40,7 @@ export const PassCard = ({ pass, onOpen, completedAt, active = false }: PassCard
           {t('rewardPass.levelsCount', { count: String(pass.maxLevel) })} · {pass.tracks.map((tr) => getTrackName(tr, language)).join(' / ')}
           {pass.premiumCostTokens !== undefined && ` · ${t('rewardPass.premiumCost', { cost: pass.premiumCostTokens.toLocaleString(language) })}`}
         </span>
+        {levelLabel && <span className="block text-[11px] font-bold text-purple-600 dark:text-purple-300">{levelLabel}</span>}
         {active && (
           <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-600 text-white">
             {t('rewardPass.active')}
@@ -45,7 +48,7 @@ export const PassCard = ({ pass, onOpen, completedAt, active = false }: PassCard
         )}
         {completed && (
           <span className="block text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-            {t('rewardPass.completedOn', { date: new Date(completedAt).toLocaleDateString(language) })}
+            {completedAt ? t('rewardPass.completedOn', { date: new Date(completedAt).toLocaleDateString(language) }) : t('rewardPass.configCompleted')}
           </span>
         )}
       </span>

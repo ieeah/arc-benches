@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ArrowLeft, LayoutGrid, Minus, Plus, SlidersHorizontal, Ticket } from 'lucide-react';
 import type { PassList } from '@/types';
 import { useAppStore } from '@/store';
@@ -11,9 +11,9 @@ import { Drawer } from '@/components/Drawer';
 import { PassCard } from '@/components/pass/PassCard';
 import { PassLevelsGrid } from '@/components/pass/PassLevelsGrid';
 import { PassDetailSummary } from '@/components/pass/PassDetailSummary';
-import { OrphanPassModal } from '@/components/pass/OrphanPassModal';
+import { ChoosePassModal } from '@/components/pass/ChoosePassModal';
 import { usePassViewPrefs } from '@/lib/passViewPrefs';
-import { getTrackName, splitPassesByCompletion } from '@/lib/rewardPass';
+import { getCompletedPassIds, getTrackName, isPassAvailable, resolveActivePass, splitPassesByCompletion } from '@/lib/rewardPass';
 import { cn } from '@/lib/cn';
 
 interface RewardPassPageProps {
@@ -62,7 +62,7 @@ const ViewOptions = ({ pass, onClose }: { pass: PassList; onClose: () => void })
 };
 
 /** Pagina del pass: vista a griglia con tier raggiunto e «Concludi pass». */
-const ActivePassView = ({ pass, onShowAll }: { pass: PassList; onShowAll: () => void }) => {
+const ActivePassView = ({ pass, onShowAll, onCompleted }: { pass: PassList; onShowAll: () => void; onCompleted: (pass: PassList, choices: string[]) => void }) => {
   const { t, language } = useTranslation();
   const reached = useAppStore((s) => s.currentLevels[pass.id] ?? 0);
   const setLevel = useAppStore((s) => s.setRewardPassLevel);
@@ -71,6 +71,12 @@ const ActivePassView = ({ pass, onShowAll }: { pass: PassList; onShowAll: () => 
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [confirmConclude, setConfirmConclude] = useState(false);
   const hidden = new Set(prefs.hiddenTracks);
+
+  // Raggiungere l'ultimo livello (anche toccandolo) completa il pass: chi sta sopra decide cosa attivare dopo.
+  const changeLevel = (level: number) => {
+    const result = setLevel(level);
+    if (result.completed) onCompleted(pass, result.choices);
+  };
 
   return (
     <div className="pb-28">
@@ -96,10 +102,10 @@ const ActivePassView = ({ pass, onShowAll }: { pass: PassList; onShowAll: () => 
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <IconButton onClick={() => setLevel(reached - 1)} title={t('rewardPass.decreaseTier')} disabled={reached <= 0}>
+            <IconButton onClick={() => changeLevel(reached - 1)} title={t('rewardPass.decreaseTier')} disabled={reached <= 0}>
               <Minus size={16} />
             </IconButton>
-            <IconButton onClick={() => setLevel(reached + 1)} title={t('rewardPass.increaseTier')} disabled={reached >= pass.maxLevel}>
+            <IconButton onClick={() => changeLevel(reached + 1)} title={t('rewardPass.increaseTier')} disabled={reached >= pass.maxLevel}>
               <Plus size={16} />
             </IconButton>
             <button
@@ -114,7 +120,7 @@ const ActivePassView = ({ pass, onShowAll }: { pass: PassList; onShowAll: () => 
       </StickyHeader>
 
       <div className="p-4">
-        <PassLevelsGrid pass={pass} reached={reached} hiddenTracks={hidden} onSetTier={setLevel} scrollToNext />
+        <PassLevelsGrid pass={pass} reached={reached} hiddenTracks={hidden} onSetTier={changeLevel} scrollToNext />
       </div>
 
       {optionsOpen && <ViewOptions pass={pass} onClose={() => setOptionsOpen(false)} />}
@@ -125,7 +131,10 @@ const ActivePassView = ({ pass, onShowAll }: { pass: PassList; onShowAll: () => 
           description={t('rewardPass.concludeDescription')}
           confirmText={t('rewardPass.concludePass')}
           variant="primary"
-          onConfirm={conclude}
+          onConfirm={() => {
+            const result = conclude();
+            if (result.completed) onCompleted(pass, result.choices);
+          }}
           onClose={() => setConfirmConclude(false)}
         />
       )}
@@ -163,14 +172,13 @@ const PassLevelsPreview = ({ pass, onBack }: { pass: PassList; onBack: () => voi
 const PassPreview = ({ pass, onBack, onViewLevels }: { pass: PassList; onBack: () => void; onViewLevels: () => void }) => {
   const { t, language } = useTranslation();
   const activeRewardPass = useAppStore((s) => s.activeRewardPass);
-  const completed = useAppStore((s) => s.completedRewardPasses);
+  const levels = useAppStore((s) => s.currentLevels);
   const setActive = useAppStore((s) => s.setActiveRewardPass);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const isCompleted = completed.some((c) => c.id === pass.id);
-  const blockedByOther = activeRewardPass !== null && activeRewardPass !== pass.id;
-  const isActive = activeRewardPass === pass.id;
-  const disabledReason = isCompleted ? t('rewardPass.alreadyCompleted') : isActive ? t('rewardPass.active') : blockedByOther ? t('rewardPass.anotherActive') : '';
+  const isCompleted = (levels[pass.id] ?? 0) >= pass.maxLevel;
+  const isActive = activeRewardPass === pass.id && !isCompleted;
+  const disabledReason = isActive ? t('rewardPass.active') : '';
 
   return (
     <div className="pb-28">
@@ -204,9 +212,13 @@ const PassPreview = ({ pass, onBack, onViewLevels }: { pass: PassList; onBack: (
 
       {confirmOpen && (
         <ConfirmActionModal
-          title={t('rewardPass.setActiveTitle')}
-          message={t('rewardPass.setActiveMessage', { name: getListName(pass, language) })}
-          description={t('rewardPass.setActiveDescription')}
+          title={isCompleted ? t('rewardPass.reactivateTitle') : t('rewardPass.setActiveTitle')}
+          message={isCompleted
+            ? t('rewardPass.reactivateMessage', { name: getListName(pass, language) })
+            : t('rewardPass.setActiveMessage', { name: getListName(pass, language) })}
+          description={isCompleted
+            ? t('rewardPass.reactivateDescription', { level: String(Math.max(0, pass.maxLevel - 1)) })
+            : t('rewardPass.setActiveDescription')}
           confirmText={t('rewardPass.setActive')}
           variant="primary"
           onConfirm={() => setActive(pass.id)}
@@ -217,14 +229,19 @@ const PassPreview = ({ pass, onBack, onViewLevels }: { pass: PassList; onBack: (
   );
 };
 
-/** Selezione: card dei pass non conclusi in evidenza, quelli conclusi in una sezione a fondo pagina. */
-const PassSelection = ({ onOpen, onBack }: { onOpen: (passId: string) => void; onBack?: () => void }) => {
+/** Selezione: card dei pass non completati in evidenza, quelli completati in una sezione a fondo pagina. */
+const PassSelection = ({ passes, onOpen, onBack }: { passes: PassList[]; onOpen: (passId: string) => void; onBack?: () => void }) => {
   const { t } = useTranslation();
-  const passes = useAppStore((s) => s.passes);
   const completedEntries = useAppStore((s) => s.completedRewardPasses);
   const activeRewardPass = useAppStore((s) => s.activeRewardPass);
-  const completedIds = new Set(completedEntries.map((c) => c.id));
+  const levels = useAppStore((s) => s.currentLevels);
+  const completedIds = useMemo(() => getCompletedPassIds(passes, levels), [passes, levels]);
   const { available, completed } = splitPassesByCompletion(passes, completedIds);
+
+  const levelLabel = (pass: PassList) => {
+    const level = levels[pass.id] ?? 0;
+    return level > 0 ? t('rewardPass.levelProgress', { level: String(level), max: String(pass.maxLevel) }) : undefined;
+  };
 
   return (
     <div className="pb-28">
@@ -249,7 +266,13 @@ const PassSelection = ({ onOpen, onBack }: { onOpen: (passId: string) => void; o
               <p className="text-xs text-gray-500 dark:text-gray-400">{t('rewardPass.chooseHint')}</p>
             </div>
             {available.map((pass) => (
-              <PassCard key={pass.id} pass={pass} active={pass.id === activeRewardPass} onOpen={() => onOpen(pass.id)} />
+              <PassCard
+                key={pass.id}
+                pass={pass}
+                active={pass.id === activeRewardPass}
+                levelLabel={levelLabel(pass)}
+                onOpen={() => onOpen(pass.id)}
+              />
             ))}
           </section>
         )}
@@ -261,7 +284,7 @@ const PassSelection = ({ onOpen, onBack }: { onOpen: (passId: string) => void; o
               <PassCard
                 key={pass.id}
                 pass={pass}
-                completedAt={completedEntries.find((c) => c.id === pass.id)?.completedAt}
+                completedAt={completedEntries.find((c) => c.id === pass.id)?.completedAt ?? ''}
                 onOpen={() => onOpen(pass.id)}
               />
             ))}
@@ -273,25 +296,23 @@ const PassSelection = ({ onOpen, onBack }: { onOpen: (passId: string) => void; o
 };
 
 export const RewardPassPage = ({ passId, view, onNavigate }: RewardPassPageProps) => {
-  const passes = useAppStore((s) => s.passes);
+  const allPasses = useAppStore((s) => s.passes);
+  const levels = useAppStore((s) => s.currentLevels);
   const activeRewardPass = useAppStore((s) => s.activeRewardPass);
-  const resolveOrphan = useAppStore((s) => s.resolveOrphanRewardPass);
-  const [orphanDeferred, setOrphanDeferred] = useState(false);
+  const setActive = useAppStore((s) => s.setActiveRewardPass);
+  // L'app mostra solo i pass presenti nel gioco: gli altri restano nel file come archivio.
+  const passes = useMemo(() => allPasses.filter(isPassAvailable), [allPasses]);
+  // Dopo aver completato il pass attivo con più pass da fare, si chiede quale attivare.
+  const [nextChoice, setNextChoice] = useState<{ completed: PassList; choices: string[] } | null>(null);
 
-  const activePass = passes.find((p) => p.id === activeRewardPass) ?? null;
-  const orphanId = activeRewardPass !== null && activePass === null ? activeRewardPass : null;
+  const activePass = resolveActivePass(passes, activeRewardPass, levels);
   const requested = passId ? passes.find((p) => p.id === passId) ?? null : null;
 
-  const orphanModal = orphanId !== null && !orphanDeferred && (
-    <OrphanPassModal
-      passId={orphanId}
-      onCompleted={() => resolveOrphan('completed')}
-      onAbandoned={() => resolveOrphan('abandoned')}
-      onLater={() => setOrphanDeferred(true)}
-    />
-  );
+  const handleCompleted = (pass: PassList, choices: string[]) => {
+    if (choices.length > 1) setNextChoice({ completed: pass, choices });
+  };
 
-  // Con un pass attivo l'elenco resta raggiungibile (`view=all`) per dare solo un'occhiata agli altri.
+  // Con un pass attivo l'elenco resta raggiungibile (`view=all`) per vedere gli altri e cambiare pass.
   const showList = () => onNavigate({ view: 'all' });
   const backFromPreview = () => (activePass ? showList() : onNavigate());
 
@@ -307,17 +328,27 @@ export const RewardPassPage = ({ passId, view, onNavigate }: RewardPassPageProps
       />
     );
   } else if (activePass && view === 'all') {
-    content = <PassSelection onOpen={(id) => onNavigate({ pass: id })} onBack={() => onNavigate()} />;
+    content = <PassSelection passes={passes} onOpen={(id) => onNavigate({ pass: id })} onBack={() => onNavigate()} />;
   } else if (activePass) {
-    content = <ActivePassView pass={activePass} onShowAll={showList} />;
+    content = <ActivePassView pass={activePass} onShowAll={showList} onCompleted={handleCompleted} />;
   } else {
-    content = <PassSelection onOpen={(id) => onNavigate({ pass: id })} />;
+    content = <PassSelection passes={passes} onOpen={(id) => onNavigate({ pass: id })} />;
   }
 
   return (
     <>
       {content}
-      {orphanModal}
+      {nextChoice && (
+        <ChoosePassModal
+          completed={nextChoice.completed}
+          choices={nextChoice.choices.map((id) => passes.find((p) => p.id === id)).filter((p): p is PassList => p !== undefined)}
+          onChoose={(id) => {
+            setActive(id);
+            setNextChoice(null);
+          }}
+          onSkip={() => setNextChoice(null)}
+        />
+      )}
     </>
   );
 };

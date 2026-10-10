@@ -44,6 +44,7 @@ export function withListType(list: List, listType: ListType, expeditionIndex = 1
         listType,
         tracks: isPass(list) ? list.tracks : DEFAULT_PASS_TRACKS.map((t) => ({ ...t })),
         premiumCostTokens: isPass(list) ? list.premiumCostTokens : undefined,
+        active: isPass(list) ? list.active : undefined,
       };
     case 'custom':
       return { ...base, listType, custom: true };

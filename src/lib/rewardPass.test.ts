@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import type { ItemInfo, PassList } from '@/types';
-import { getPassRewards, getTrackName, splitPassesByCompletion, summarizePassRewards } from './rewardPass';
+import {
+  getCompletedPassIds, getPassRewards, getTrackName, isPassAvailable, isPassCompleted, nextActiveAfterCompletion,
+  resolveActivePass, splitPassesByCompletion, summarizePassRewards,
+} from './rewardPass';
 
 const item = (id: string, item_type: string): ItemInfo => ({
   id, name: id, description: '', icon: null, rarity: 'Common', item_type,
@@ -66,5 +69,44 @@ describe('splitPassesByCompletion', () => {
     const { available, completed } = splitPassesByCompletion([pass, other], new Set(['q']));
     expect(available.map(p => p.id)).toEqual(['p']);
     expect(completed.map(p => p.id)).toEqual(['q']);
+  });
+});
+
+describe('derived completion and availability', () => {
+  const mk = (id: string, maxLevel: number, active?: boolean): PassList => ({ ...pass, id, maxLevel, ...(active === undefined ? {} : { active }) });
+
+  it('a pass is available unless active is false', () => {
+    expect(isPassAvailable(mk('a', 5))).toBe(true);
+    expect(isPassAvailable(mk('a', 5, true))).toBe(true);
+    expect(isPassAvailable(mk('a', 5, false))).toBe(false);
+  });
+
+  it('a pass is completed when its level reaches the maximum', () => {
+    expect(isPassCompleted(mk('a', 5), { a: 4 })).toBe(false);
+    expect(isPassCompleted(mk('a', 5), { a: 5 })).toBe(true);
+    expect(isPassCompleted(mk('a', 5), {})).toBe(false);
+    expect([...getCompletedPassIds([mk('a', 5), mk('b', 3)], { a: 5, b: 1 })]).toEqual(['a']);
+  });
+
+  it('splitPassesByCompletion hides the passes no longer in the game', () => {
+    const { available, completed } = splitPassesByCompletion([mk('a', 5), mk('b', 5, false), mk('c', 5)], new Set(['c']));
+    expect(available.map(p => p.id)).toEqual(['a']);
+    expect(completed.map(p => p.id)).toEqual(['c']);
+  });
+
+  it('the effective active pass must exist, be in the game and not be completed', () => {
+    const passes = [mk('a', 5), mk('b', 5, false), mk('c', 5)];
+    expect(resolveActivePass(passes, 'a', { a: 2 })?.id).toBe('a');
+    expect(resolveActivePass(passes, 'b', {})).toBeNull();
+    expect(resolveActivePass(passes, 'c', { c: 5 })).toBeNull();
+    expect(resolveActivePass(passes, 'zzz', {})).toBeNull();
+    expect(resolveActivePass(passes, null, {})).toBeNull();
+  });
+
+  it('after a completion: one candidate activates by itself, several ask, none returns to the selection', () => {
+    const passes = [mk('a', 5), mk('b', 5), mk('c', 5), mk('d', 5, false)];
+    expect(nextActiveAfterCompletion([mk('a', 5), mk('b', 5)], { a: 5 }, 'a')).toEqual({ auto: 'b', choices: [] });
+    expect(nextActiveAfterCompletion(passes, { a: 5 }, 'a')).toEqual({ auto: null, choices: ['b', 'c'] });
+    expect(nextActiveAfterCompletion(passes, { a: 5, b: 5, c: 5 }, 'a')).toEqual({ auto: null, choices: [] });
   });
 });

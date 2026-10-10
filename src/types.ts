@@ -132,6 +132,11 @@ export interface PassList extends ListBase {
   tracks: PassTrackDef[];
   /** Costo della traccia premium in Raider Token (solo informativo). */
   premiumCostTokens?: number;
+  /**
+   * Pass presente nel gioco. `false` = tolto dal gioco: nascosto all'app ma conservato nel file come archivio
+   * (e per le pagine trofei). Assente = `true`. Si cambia solo da Gestione Liste (Dev).
+   */
+  active?: boolean;
 }
 
 /** User-created list (persisted). */
@@ -146,13 +151,18 @@ export interface CustomList extends ListBase {
  */
 export type List = WorkbenchList | ExpeditionList | ProjectList | QuestList | PassList | CustomList;
 
-/** Un Reward Pass concluso dal profilo: resta nello storico (e nella futura pagina dei trofei) anche se sparisce dal seed. */
+/** Un Reward Pass completato dal profilo: l'archivio per profilo (e per la futura pagina dei trofei); il nome si legge da `passes.json`. */
 export interface CompletedRewardPass {
   id: string;
-  /** Nome del pass al momento della conclusione (il seed potrebbe non averlo più). */
-  name: string;
-  /** Data di conclusione, ISO 8601. */
+  /** Data di completamento, ISO 8601. */
   completedAt: string;
+}
+
+/** Esito di un cambio di livello di un pass: se l'ha completato e, se era il pass attivo, quali pass proporre al suo posto. */
+export interface RewardPassLevelResult {
+  completed: boolean;
+  /** Pass tra cui scegliere quello da attivare (più di uno); vuoto se se ne è attivato uno da solo o non ce ne sono. */
+  choices: string[];
 }
 
 export interface Profile {
@@ -330,19 +340,23 @@ export interface AppState {
 
   /** Reward Pass (seed read-only, `listType: 'pass'`) */
   passes: PassList[];
-  /** Id del pass attivo del profilo: al massimo uno alla volta, cambia solo concludendolo (o dalle Impostazioni). */
+  /** Id del pass attivo del profilo: al massimo uno alla volta, cambiabile in qualsiasi momento; il livello di ogni pass resta in `currentLevels`. */
   activeRewardPass: string | null;
+  /** Archivio per profilo dei pass completati (livello massimo raggiunto). */
   completedRewardPasses: CompletedRewardPass[];
-  /** Attiva un pass; rifiutato (false) se ce n'è già uno attivo, se non esiste o se è già concluso. */
-  setActiveRewardPass: (passId: string) => boolean;
-  /** Imposta il tier raggiunto del pass attivo (limitato a 0..maxLevel). */
-  setRewardPassLevel: (level: number) => void;
-  /** Conclude il pass attivo: tier all'ultimo livello, voce nello storico, nessun pass attivo. */
-  concludeRewardPass: () => void;
-  /** Via d'uscita: scarta il pass attivo ed elimina il suo progresso. */
-  resetActiveRewardPass: () => void;
-  /** Il pass attivo non esiste più nel seed: lo si segna concluso (storico) o non completato (progresso perso). */
-  resolveOrphanRewardPass: (outcome: 'completed' | 'abandoned') => void;
+  /**
+   * Rende attivo un pass (`null` = nessuno). Il livello del pass si conserva; `startLevel` lo imposta (0..maxLevel-1).
+   * Un pass completato riparte da maxLevel - 1 (chi chiama chiede prima conferma). Rifiutato (false) se il pass non esiste o non è attivo nel gioco.
+   */
+  setActiveRewardPass: (passId: string | null, startLevel?: number) => boolean;
+  /** Imposta il livello raggiunto di un pass (default: l'attivo), limitato a 0..maxLevel. Il livello massimo lo completa. */
+  setRewardPassLevel: (level: number, passId?: string) => RewardPassLevelResult;
+  /** Completa il pass attivo: livello massimo (stesso effetto di `setRewardPassLevel(maxLevel)`). */
+  concludeRewardPass: () => RewardPassLevelResult;
+  /** Azzera i progressi di un pass: livello e voce nell'archivio dei completati. */
+  resetRewardPassProgress: (passId: string) => void;
+  /** Il pass attivo non è più disponibile (tolto dal gioco): dopo l'avviso all'utente lo si toglie, il livello resta. */
+  acknowledgeInactiveRewardPass: () => void;
 
   /** Blueprint Tracker state for the active profile */
   ownedBlueprints: Record<string, boolean>;
