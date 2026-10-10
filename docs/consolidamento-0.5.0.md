@@ -17,7 +17,8 @@ Legenda: **[bug]** comportamento sbagliato · **[ux]** ritocco di interfaccia ·
 - [feat] **Animazione di coriandoli al completamento di un pass**, sia con il pulsante di completamento sia selezionando l'ultimo livello.
   - I colori devono essere quelli di ARC Raiders (da definire una palette dal gioco/dall'app).
   - Da decidere: rispettare `prefers-reduced-motion`; una libreria o un canvas proprio.
-- [ux] **Configurazione del pass** al posto di «Cambia pass attivo».
+- [bug] **Requisito errato sul cambio del pass** → issue [#112](https://github.com/ieeah/arc-benches/issues/112). Un solo pass attivo, ma cambiabile in qualsiasi momento, senza perdere il livello degli altri: il livello corrente va conservato per ogni pass. La spec D11 e l'implementazione di #90 assumono il contrario («solo concludendolo», progresso eliminato). Assorbe le due voci seguenti.
+- [ux] **Configurazione del pass** al posto di «Cambia pass attivo» (rientra in #112).
   - Rinominare in «Configurazione Reward Pass» perché ora gestisce tutto.
   - Oggi non permette di cambiare pass né di reimpostare il livello di partenza.
   - Al clic apre una modale con l'elenco dei pass disponibili, più una voce «Nessuno», e il livello a cui impostarlo.
@@ -57,6 +58,18 @@ Legenda: **[bug]** comportamento sbagliato · **[ux]** ritocco di interfaccia ·
   - Screenshot del Cestino: tre voci «New PROJECT List #7 (project)» con lo stesso id `test`, eliminate il 09/10/2026 alle 23:14, 23:15 e 23:15.
   - Da verificare anche per gli altri tipi di elemento eliminabili (spedizioni, banchi, progetti, tracce dei pass).
   - Da rivedere: cosa significa «elimina» quando le bozze vivono in `localStorage` e il file viene scritto solo con «Applica».
+
+## 5 bis. Decisioni prese il 2026-10-10
+
+Dettaglio completo nei commenti di #111 e #112; qui il riepilogo.
+
+- **#112 (pass)**: riattivazione di un pass concluso a livello massimo − 1; un pass è completato quando il livello è il massimo (derivato, senza campo `completed`); raggiunto il massimo non resta attivo, con attivazione automatica se resta un solo pass non completato, scelta guidata se più d'uno; «Nessuno» valido; livello di partenza solo per il pass che si attiva, «azzera progressi» per pass; un pass sparito dal seed va tracciato (per i trofei); coriandoli con i colori di rarità e `prefers-reduced-motion`.
+- **#111 (azioni)**: regola generale — gli oggetti si raccolgono in anticipo, le azioni a momento debito (fatte prima o dopo non contano). Oggi tutte le azioni di tutti i livelli sono visibili e spuntabili nella Stash: un'azione del livello N si vede e si spunta solo se il livello corrente è N−1. Vale anche per azioni a livelli, progetti e spedizioni.
+- **Nomi degli outfit**: «Goalie (nuovo colore)», «Goalie (completo)»; **toggle non si traduce** («Goalie (toggle)»). Solo in visualizzazione e ricerca, id e nome MetaForge invariati.
+- **Tracker dei progetti**: «Progetto»/«Blueprint» tolto solo in visualizzazione, i dati restano.
+- **Eliminazione di una lista**: la rimozione dal file avviene con «Applica» o con la sovrascrittura manuale del file; il cestino segna «in attesa di applicazione» finché non è scritto. **Nuovo**: prima di cambiare pagina o chiudere la scheda/finestra si verifica che file e bozza coincidano e si chiede conferma (guardia sulle modifiche non applicate, in tutte le pagine Dev).
+- Callout dei diritti a fondo pagina nel layout principale; pulsante Home a sinistra del titolo accanto al tasto indietro nelle pagine Dev.
+- **Ordine di lavoro**: bug degli strumenti Dev (override, eliminazione, guardia), poi #112, poi #111, poi layout e dati, poi redesign.
 
 ## 6. Da provare ancora (non testato)
 
