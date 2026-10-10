@@ -96,6 +96,8 @@ Changelog: [changelog/0.4.0.md](../changelog/0.4.0.md)
 Obiettivo: mettere le basi perché lo sviluppatore possa gestire liste, pass, progetti e dati senza toccare il codice.
 Changelog (bozza in lavorazione, comprende le aggiunte non pianificate): [changelog/0.5.0.md](../changelog/0.5.0.md)
 Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #108. Ordine di lavoro (le dipendenze sono a destra di ogni voce):
+- [ ] #112 [Reward Pass: pass attivo cambiabile in qualsiasi momento, livello di ogni pass conservato](https://github.com/ieeah/arc-benches/issues/112) — dopo #90
+- [ ] #111 [Le azioni di un livello contano solo dal livello precedente](https://github.com/ieeah/arc-benches/issues/111)
 - [x] #72 [Tipi liste: `listType` required e type guard](https://github.com/ieeah/arc-benches/issues/72)
 - [x] #73 [Tipi liste: discriminated union (Opzione A)](https://github.com/ieeah/arc-benches/issues/73) — dopo #72
 - [x] #84 [Custom Items Studio (alta priorità)](https://github.com/ieeah/arc-benches/issues/84)
@@ -113,8 +115,6 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #108. Ordine di la
 - [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110) — dopo #85, #90
 - [ ] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
 - [ ] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego (RaidTheory vince)](https://github.com/ieeah/arc-benches/issues/104) — dopo #103
-- [ ] #111 [Le azioni di un livello contano solo dal livello precedente](https://github.com/ieeah/arc-benches/issues/111)
-- [ ] #112 [Reward Pass: pass attivo cambiabile in qualsiasi momento, livello di ogni pass conservato](https://github.com/ieeah/arc-benches/issues/112) — dopo #90
 
 ---
 
