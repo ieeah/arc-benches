@@ -18,7 +18,7 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 ## Versione 0.6.0 "Archivio del Rifugio" — Tracker e collezioni
 - [ ] #90 [Reward Pass Tracker (solo livelli e ricompense, dati inseriti a mano; niente Feats)](https://github.com/ieeah/arc-benches/issues/90)
 - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
-- [ ] #92 [Armi amplificate (Weapon Amplification)](https://github.com/ieeah/arc-benches/issues/92)
+- [ ] #92 [Armi amplificate (Weapon Amplification): pagina informativa, nessun tracker](https://github.com/ieeah/arc-benches/issues/92)
 - [ ] #26 [Vista Aggregata per Banco (Fase 3)](https://github.com/ieeah/arc-benches/issues/26)
 - [ ] #105 [Rapporto completo degli oggetti di ARC Tracker assenti dal catalogo](https://github.com/ieeah/arc-benches/issues/105)
 - [ ] #106 [Generatore delle quest da ARC Tracker con ripiego MetaForge](https://github.com/ieeah/arc-benches/issues/106)

@@ -122,7 +122,7 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #108, #111, #112. 
 Obiettivo: tracciare la progressione di gioco (pass, collezioni, armi) sulle basi della 0.5.0.
 - [ ] #90 [Reward Pass Tracker (solo livelli e ricompense, dati inseriti a mano; niente Feats)](https://github.com/ieeah/arc-benches/issues/90) — dopo #85, #83, #84
 - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
-- [ ] #92 [Armi amplificate (Weapon Amplification)](https://github.com/ieeah/arc-benches/issues/92) — dopo #73, #83
+- [ ] #92 [Armi amplificate (Weapon Amplification): pagina informativa, nessun tracker](https://github.com/ieeah/arc-benches/issues/92) — dopo #73, #83
 - [ ] #105 [Rapporto completo degli oggetti di ARC Tracker assenti dal catalogo (dati solo in locale)](https://github.com/ieeah/arc-benches/issues/105) — dopo #103
 - [ ] #106 [Generatore delle quest da ARC Tracker con ripiego MetaForge](https://github.com/ieeah/arc-benches/issues/106) — dopo #103, #76, #82
 - [ ] #109 [Outfit sbloccati a pezzi: icone di sottocategoria e badge per completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109) — dopo #90
@@ -163,6 +163,7 @@ Obiettivo: sintesi operativa che riassume tracker e progetti delle versioni prec
 - [ ] #60 [Refactor UI/UX Globale](https://github.com/ieeah/arc-benches/issues/60)
 - [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
 - [ ] #115 [Valutare un redesign dell'app («Tailwind generico»)](https://github.com/ieeah/arc-benches/issues/115) — insieme a #60
+- [ ] #116 [Pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116) — dopo #115
 
 ---
 

@@ -11,7 +11,7 @@ Le dipendenze formano un grafo aciclico orientato, a senso unico: ciò che sta p
 | **Outpost** | 4 (0 = bloccato, 1 = stanza base, 2–4 = moduli) | Lvl 1 richiede Sheltered Retreat completato; Lvl 2–4 solo materiali |
 | **Research Station** | 4 | Lvl N richiede Outpost ≥ N (tetto infrastrutturale) |
 | **Gunsmith** | 4 | Lvl 1–3 indipendenti; Lvl 4 richiede Outpost ≥ 4, non la Research Station |
-| **Weapon Amplification** | per arma | Gunsmith 4 (innesto) e Research Station 4 (perk): fuori dalle liste, vedi #92 |
+| **Weapon Amplification** | per arma | Gunsmith 4 (innesto) e Research Station 4 (perk): fuori dalle liste, solo pagina informativa (#92) |
 
 L'Outpost può salire con la Research Station a 0: nessun vincolo in senso inverso.
 
@@ -35,8 +35,8 @@ L'Outpost può salire con la Research Station a 0: nessun vincolo in senso inver
 - **Dev**: editor «Requisiti su altre liste» per ogni livello in Gestione Liste.
 
 ## 5. Fuori scope
-- **Weapon Amplification** (WA1, WA2 e l'avviso «arma amplificata non modificabile»): stato per arma, in #92.
-- **Research Bench** (15 nodi `Research`) e **arredi** (69 `Furniture`, 100 `Design`): restano in #87 e nel tracker collezioni (#91).
+- **Weapon Amplification** (WA1, WA2): decisione del 2026-10-11, sarà una **pagina informativa** (come funzionano le armi, amplificazioni possibili e costi per arma, i due gate), **senza tracker** né stato per arma: niente `weapon_tier` né perk salvati. Vedi #92.
+- **Research Bench** (15 nodi `Research`) e **arredi** (69 `Furniture`, 100 `Design`): restano in #87. Gli arredi saranno solo informativi nella pagina dell'Outpost (#116). In Collezioni → Arredamento (#91) si terrà traccia dei **design trovati**, come per i blueprint; **non** degli arredi attivi nell'Outpost.
 
 ## 6. Correlate
 #87, #92, #91, [azioni-di-livello.md](azioni-di-livello.md).

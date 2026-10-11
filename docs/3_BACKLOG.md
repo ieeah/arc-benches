@@ -25,6 +25,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #60 [Refactor UI/UX Globale: Consolidamento componenti, modali, drawer e densità visiva](https://github.com/ieeah/arc-benches/issues/60)
 - [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
 - [ ] #115 [UX: valutare un redesign dell'app, oggi troppo «Tailwind generico»](https://github.com/ieeah/arc-benches/issues/115) — da valutare insieme a #60; deve essere completato prima del rilascio pubblico della 1.0.0
+- [ ] #116 [UX: pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116) — dopo il redesign del tema (#115)
 
 ## Da pianificare
 - [ ] #114 [UX Liste: elenco unico senza raggruppamento per tipo, card differenziate e più intuitive](https://github.com/ieeah/arc-benches/issues/114) — la priorità si esprime con la posizione; correlata a #69. Comprende la rinomina della pagina «Banchi e Liste» (es. «Obiettivi»).
