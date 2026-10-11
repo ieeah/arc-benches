@@ -695,7 +695,10 @@
                 "it": {
                   "label": "Danneggia ARC Bully (300)"
                 }
-              }
+              },
+              "maps": [
+                "pendola-pass"
+              ]
             }
           ],
           "rewards": [
@@ -713,63 +716,6 @@
             }
           ],
           "tieredActions": []
-        }
-      ]
-    },
-    {
-      "id": "test",
-      "name": "New PROJECT List #7",
-      "translations": {
-        "it": {
-          "name": "Nuova Lista PROJECT #7"
-        }
-      },
-      "maxLevel": 1,
-      "listType": "project",
-      "levels": [
-        {
-          "level": 1,
-          "requirementItemIds": [],
-          "actions": [
-            {
-              "id": "ae0f11e8-7f7a-4d4d-9cdc-ba54cd1e1f5d",
-              "label": "sss",
-              "translations": {
-                "it": {
-                  "label": "sss"
-                }
-              }
-            },
-            {
-              "id": "c9f5cbde-088f-47ae-9818-b5daac8ff8c8",
-              "label": "aaa",
-              "translations": {
-                "it": {
-                  "label": "aaa"
-                }
-              },
-              "maps": [
-                "blue-gate",
-                "stella-montis",
-                "pendola-pass"
-              ]
-            },
-            {
-              "id": "8a3d0db7-8ba3-4b65-a4ae-059fb27d6606",
-              "label": "ddd",
-              "translations": {
-                "it": {
-                  "label": "ddd"
-                }
-              },
-              "carryItems": [
-                {
-                  "itemId": "wires",
-                  "quantity": 1
-                }
-              ]
-            }
-          ]
         }
       ]
     }
