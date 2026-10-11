@@ -1,5 +1,5 @@
 import { DEFAULT_PASS_TRACKS, isExpedition } from '@/lib/lists';
-import type { CompletedRewardPass, PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
+import type { CompletedRewardPass, LevelRequirement, PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -216,6 +216,13 @@ const validateTieredAction = (v: unknown): TieredAction | null => {
   return out;
 };
 
+const validateLevelRequirement = (v: unknown): LevelRequirement | null => {
+  if (!isObject(v)) return null;
+  const listId = asNonEmptyString(v.listId);
+  const level = asNonNegInt(v.level, 1);
+  return listId === null || level === null ? null : { listId, level };
+};
+
 const validateLevel = (v: unknown): ListLevel | null => {
   if (!isObject(v)) return null;
   const level = asNonNegInt(v.level, 1);
@@ -229,8 +236,12 @@ const validateLevel = (v: unknown): ListLevel | null => {
   const tieredActions = Array.isArray(v.tieredActions)
     ? v.tieredActions.map(validateTieredAction).filter((a): a is TieredAction => a !== null)
     : undefined;
+  const requires = Array.isArray(v.requires)
+    ? v.requires.map(validateLevelRequirement).filter((r): r is LevelRequirement => r !== null)
+    : [];
   const rewards = validateRewardsArray(v.rewards);
   const out: ListLevel = { level, requirementItemIds };
+  if (requires.length > 0) out.requires = requires;
   if (actions && actions.length > 0) out.actions = actions;
   if (tieredActions && tieredActions.length > 0) out.tieredActions = tieredActions;
   if (rewards && rewards.length > 0) out.rewards = rewards;

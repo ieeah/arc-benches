@@ -433,6 +433,17 @@ export const en: LocaleSchema = {
     nonAffiliation: 'ARC Benches is an unofficial fan-made tool, not affiliated with or endorsed by Embark Studios AB. ARC Raiders® is a trademark of Embark Studios AB.',
     dataAttribution: 'Data aggregated from community sources:',
   },
+  requires: {
+    chip: 'Requires {name} Lvl {level}',
+    blockedTitle: 'Level not reachable',
+    blockedMessage: 'Lvl {blocked} requires {name} at Lvl {level}. Bring {name} to that level first.',
+    blockedOk: 'Got it',
+    cascadeTitle: 'Lower the linked lists too?',
+    cascadeMessage: 'This level is required by other lists, which will drop as well: {effects}.',
+    cascadeDescription: 'The progress of the levels they leave (actions and deliveries) is reset; materials already deducted do not go back to the inventory.',
+    cascadeConfirm: 'Lower',
+    effect: '{name} from Lvl {from} to Lvl {to}',
+  },
   rewardPass: {
     title: 'Reward Pass',
     emptyTitle: 'No pass available',

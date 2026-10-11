@@ -27,9 +27,10 @@ import { CustomListEditor } from '@/components/CustomListEditor';
 import { CollapsibleSection } from '@/components/CollapsibleSection';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { useScrollLock } from '@/hooks/useScrollLock';
-import { useTranslation } from '@/i18n';
+import { useTranslation, getListName } from '@/i18n';
 import { downloadExport, parseImport } from '@/lib/listIO';
 import { v } from '@/lib/validate';
+import { cascadeEffects, describeRequirements, levelBlocker } from '@/lib/levelRequirements';
 import { safeLS } from '@/lib/safeStorage';
 import type { List, ListExportFile, MultiProfileExportFile } from '@/types';
 import { StickyHeader } from '@/components/StickyHeader';
@@ -59,7 +60,7 @@ interface ListsPageProps {
 }
 
 export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPageProps) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   // Selettori mirati — re-render solo sulla slice pertinente
   const inventory = useAppStore(s => s.inventory);
   const currentLevels = useAppStore(s => s.currentLevels);
@@ -266,8 +267,20 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
     return () => clearTimeout(timer);
   }, [action, onActionHandled, profiles]);
 
+  const listNameOf = (listId: string) => {
+    const found = allLists.find(l => l.id === listId);
+    return found ? getListName(found, language) : listId;
+  };
+
   const sharedCardProps = (list: List) => ({
     list,
+    nextLevelRequirements: describeRequirements(
+      list.levels.find(l => l.level === (currentLevels[list.id] ?? 0) + 1)?.requires,
+      currentLevels,
+      listNameOf,
+    ),
+    levelBlocker: (level: number) => levelBlocker(list, currentLevels[list.id] ?? 0, level, currentLevels, listNameOf),
+    cascadeFor: (level: number) => cascadeEffects(allLists, currentLevels, list.id, level, listNameOf),
     current: currentLevels[list.id] ?? 0,
     isActive: activeModules[list.id],
     inventory,

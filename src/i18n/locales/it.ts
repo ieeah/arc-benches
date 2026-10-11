@@ -431,6 +431,17 @@ export const it = {
     "nonAffiliation": "ARC Benches è un fan-made tool non ufficiale, non affiliato né approvato da Embark Studios AB. ARC Raiders® è un marchio di Embark Studios AB.",
     "dataAttribution": "Dati aggregati da sorgenti della community:"
   },
+  "requires": {
+    "chip": "Richiede {name} Lvl {level}",
+    "blockedTitle": "Livello non raggiungibile",
+    "blockedMessage": "Il Lvl {blocked} richiede {name} al Lvl {level}. Porta prima {name} a quel livello.",
+    "blockedOk": "Ho capito",
+    "cascadeTitle": "Abbassare anche le liste collegate?",
+    "cascadeMessage": "Questo livello è richiesto da altre liste, che scenderanno a loro volta: {effects}.",
+    "cascadeDescription": "I progressi dei livelli che lasciano (azioni e consegne) verranno azzerati; i materiali già sottratti non tornano nell'inventario.",
+    "cascadeConfirm": "Abbassa",
+    "effect": "{name} da Lvl {from} a Lvl {to}"
+  },
   "rewardPass": {
     "title": "Reward Pass",
     "emptyTitle": "Nessun pass disponibile",

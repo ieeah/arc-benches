@@ -4,7 +4,7 @@ import { bootProfileState } from '@/store/boot';
 import {
   defaultActiveModules, defaultCurrentLevels, defaultTargetLevels, levelsAbove,
 } from '@/store/gameData';
-import { currentLevelOf, isActionWindowOpen, levelActionKeys } from '@/lib/lists';
+import { currentLevelOf, getCascadeLowering, isActionWindowOpen, levelActionKeys, maxReachableLevel, unmetRequirements } from '@/lib/lists';
 
 export type ProgressSlice = Pick<AppState,
   'currentLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
@@ -33,10 +33,17 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
   ownedBlueprints: bootProfileState.ownedBlueprints,
   filterHideOwnedBlueprints: bootProfileState.filterHideOwnedBlueprints,
 
-  setModuleCurrentLevel: (moduleId, level, deductMaterials = false) => {
+  setModuleCurrentLevel: (moduleId, requestedLevel, deductMaterials = false) => {
     const s = get();
-    const list = s.getAllLists().find(w => w.id === moduleId);
+    const allLists = s.getAllLists();
+    const list = allLists.find(w => w.id === moduleId);
     const prevLevel = s.currentLevels[moduleId] ?? 0;
+    // Un livello con un requisito su un'altra lista (es. Research Station Lvl 2 → Outpost Lvl 2) non si raggiunge
+    // finché non è soddisfatto: salendo si ferma al livello appena sotto (#87).
+    const level = list && requestedLevel > prevLevel
+      ? Math.min(requestedLevel, maxReachableLevel(list, s.currentLevels))
+      : requestedLevel;
+    if (level === prevLevel) return;
     const currentLevels = { ...s.currentLevels, [moduleId]: level };
 
     const inventory = { ...s.inventory };
@@ -63,6 +70,15 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
           // Scendendo si azzera ogni progresso dei livelli lasciati: azioni, passi e consegne di oggetti.
           levelActionKeys(list, l.level).forEach(key => { delete checkedActions[key]; });
         });
+      // Le liste che richiedono i livelli appena lasciati scendono a loro volta, azzerando i loro progressi (#87).
+      for (const step of getCascadeLowering(allLists, currentLevels, moduleId, level)) {
+        currentLevels[step.listId] = step.to;
+        const dependent = allLists.find(l => l.id === step.listId);
+        if (!dependent) continue;
+        dependent.levels
+          .filter(l => l.level > step.to && l.level <= step.from)
+          .forEach(l => levelActionKeys(dependent, l.level).forEach(key => { delete checkedActions[key]; }));
+      }
     }
 
     set({ currentLevels, inventory, checkedActions, targetLevels });
@@ -153,6 +169,7 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
     if (currentLevel >= list.maxLevel) return;
     const nextLevel = list.levels.find(l => l.level === currentLevel + 1);
     if (!nextLevel) return;
+    if (unmetRequirements(nextLevel, s.currentLevels).length > 0) return;
     const inventory = { ...s.inventory };
     nextLevel.requirementItemIds.forEach(req => {
       inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);

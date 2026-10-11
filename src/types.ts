@@ -53,9 +53,20 @@ export interface TieredAction {
   steps: ActionStep[];
 }
 
+/**
+ * Requisito di un livello su un'altra lista: per sbloccarlo, la lista indicata deve essere almeno a quel livello
+ * (es. Research Station Lvl 2 richiede Outpost Lvl 2). È una condizione derivata, non un'azione da spuntare.
+ */
+export interface LevelRequirement {
+  listId: string;
+  level: number;
+}
+
 export interface ListLevel {
   level: number;
   requirementItemIds: ItemRequirement[];
+  /** Requisiti di livello su altre liste: finché non sono soddisfatti il livello non si può raggiungere (#87). */
+  requires?: LevelRequirement[];
   actions?: CheckboxAction[];
   tieredActions?: TieredAction[];
   rewards?: Reward[];

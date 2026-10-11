@@ -1,5 +1,6 @@
 import { AlertTriangle, ArrowLeft, Check, Gift } from 'lucide-react';
 import { useAppStore } from '@/store';
+import type { List } from '@/types';
 import { useTranslation, getItemName, getListName, getActionLabel } from '@/i18n';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -10,6 +11,9 @@ import { RewardBadge } from '@/components/RewardBadge';
 import { iconUrl } from '@/lib/icons';
 import { getRarityStyles } from '@/lib/rarity';
 import { getBaseLevel, isActionWindowOpen } from '@/lib/lists';
+import { cascadeEffects, describeRequirements, levelBlocker } from '@/lib/levelRequirements';
+import { RequirementChips } from '@/components/RequirementChips';
+import { useLevelGuard } from '@/hooks/useLevelGuard';
 import { isListExpired } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
 import { StickyHeader } from '@/components/StickyHeader';
@@ -19,7 +23,7 @@ export const ListDetailPage = ({ listId, onBack }: {
   listId: string;
   onBack: () => void;
 }) => {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const store = useAppStore();
   const list = store.getAllLists().find(l => l.id === listId);
 
@@ -32,13 +36,33 @@ export const ListDetailPage = ({ listId, onBack }: {
     );
   }
 
+  return <ListDetailBody list={list} onBack={onBack} />;
+};
+
+const ListDetailBody = ({ list, onBack }: { list: List; onBack: () => void }) => {
+  const { t, language } = useTranslation();
+  const store = useAppStore();
   const expired = isListExpired(list);
   const current = store.currentLevels[list.id] ?? 0;
   const selected = store.targetLevels[list.id] ?? [];
   const baseLevel = getBaseLevel(list);
   const levels = [...list.levels].sort((a, b) => a.level - b.level);
 
-  const setCurrent = (v: number) => store.setModuleCurrentLevel(list.id, v, v > current);
+  const allLists = store.getAllLists();
+  const listNameOf = (listId: string) => {
+    const found = allLists.find(l => l.id === listId);
+    return found ? getListName(found, language) : listId;
+  };
+  const guard = useLevelGuard({
+    current,
+    levelBlocker: (level) => levelBlocker(list, current, level, store.currentLevels, listNameOf),
+    cascadeFor: (level) => cascadeEffects(allLists, store.currentLevels, list.id, level, listNameOf),
+    onCascadeConfirmed: (level) => store.setModuleCurrentLevel(list.id, level, false),
+  });
+  const setCurrent = (v: number) => {
+    if (!guard.check(v)) return;
+    store.setModuleCurrentLevel(list.id, v, v > current);
+  };
 
   return (
     <div className="pb-28">
@@ -95,6 +119,13 @@ export const ListDetailPage = ({ listId, onBack }: {
                   {inObjectives ? t('benches.target') : t('common.none')}
                 </button>
               </div>
+
+              {(lvl.requires?.length ?? 0) > 0 && (
+                <RequirementChips
+                  requirements={describeRequirements(lvl.requires, store.currentLevels, listNameOf)}
+                  className={cn(lvl.requirementItemIds.length > 0 && 'mb-2.5')}
+                />
+              )}
 
               {lvl.requirementItemIds.length > 0 && (
                 <div className="space-y-2">

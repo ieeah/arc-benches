@@ -1,5 +1,5 @@
 import type { ExpeditionList, List, CheckboxAction, TieredAction } from '@/types';
-import { isActionWindowOpen } from '@/lib/lists';
+import { isActionWindowOpen, unmetRequirements } from '@/lib/lists';
 import { isListExpired } from '@/lib/expiration';
 
 export { isListExpired };
@@ -130,7 +130,7 @@ export function getAvailableUpgradesPure(
       const tieredDone = (nextLevel.tieredActions ?? []).every(tiered =>
         tiered.steps.every(step => checkedActions[`${list.id}|${nextLevel.level}|${tiered.id}:${step.id}`]),
       );
-      return materialsReady && actionsDone && tieredDone;
+      return materialsReady && actionsDone && tieredDone && unmetRequirements(nextLevel, currentLevels).length === 0;
     })
     .map(list => list.id);
 }

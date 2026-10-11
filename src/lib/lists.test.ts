@@ -2,7 +2,8 @@ import { describe, it, expect } from 'vitest';
 import type { List } from '@/types';
 import {
   actionWindowLevel, currentLevelOf, hasDeductionConflict, isActionWindowOpen, isCustom, isExpedition, isPass, isProject,
-  isQuest, isWorkbench, levelActionKeys, parseActionKey, pruneOutOfWindowChecks, withListType,
+  getBaseLevel, getCascadeLowering, isQuest, isWorkbench, levelActionKeys, maxReachableLevel, parseActionKey,
+  pruneOutOfWindowChecks, unmetRequirements, withListType,
 } from './lists';
 
 const levels = [{ level: 1, requirementItemIds: [] }];
@@ -111,5 +112,64 @@ describe('action window', () => {
     expect(hasDeductionConflict(list, 0, 1, { a: 0 }, { a: 1 })).toBe(false);
     expect(hasDeductionConflict(list, 0, 1, { a: 3 }, {})).toBe(false);
     expect(hasDeductionConflict(list, 1, 3, { a: 3 }, { a: 1 })).toBe(false); // il livello 1 è già superato
+  });
+});
+
+describe('requirements between lists (#87)', () => {
+  const lvl = (level: number, requires?: { listId: string; level: number }[], items = 1) => ({
+    level,
+    requirementItemIds: Array.from({ length: items }, () => ({ itemId: 'x', quantity: 1 })),
+    ...(requires ? { requires } : {}),
+  });
+  // Sheltered Retreat → Outpost (Lvl 1 richiede il progetto al Lvl 2) → Research Station (Lvl N richiede Outpost N)
+  const retreat: List = { id: 'retreat', name: 'Retreat', listType: 'project', maxLevel: 2, levels: [lvl(1), lvl(2)] };
+  const outpost: List = {
+    id: 'outpost', name: 'Outpost', listType: 'workbench', maxLevel: 3,
+    levels: [lvl(1, [{ listId: 'retreat', level: 2 }], 0), lvl(2), lvl(3)],
+  };
+  const research: List = {
+    id: 'research', name: 'Research', listType: 'workbench', maxLevel: 3,
+    levels: [1, 2, 3].map(n => lvl(n, [{ listId: 'outpost', level: n }])),
+  };
+  const gun: List = {
+    id: 'gun', name: 'Gun', listType: 'workbench', maxLevel: 4,
+    levels: [lvl(1), lvl(2), lvl(3), lvl(4, [{ listId: 'outpost', level: 3 }])],
+  };
+  const all = [retreat, outpost, research, gun];
+
+  it('a first level with a requirement on another list is not unlocked from the start', () => {
+    expect(getBaseLevel(outpost)).toBe(0);
+    expect(getBaseLevel({ ...outpost, levels: [lvl(1, undefined, 0), lvl(2)] })).toBe(1);
+  });
+
+  it('lists the unmet requirements of a level', () => {
+    expect(unmetRequirements(research.levels[1], { outpost: 1 })).toEqual([{ listId: 'outpost', level: 2 }]);
+    expect(unmetRequirements(research.levels[1], { outpost: 2 })).toEqual([]);
+    expect(unmetRequirements(undefined, {})).toEqual([]);
+  });
+
+  it('the highest reachable level stops below the first level with an unmet requirement', () => {
+    expect(maxReachableLevel(research, { research: 0, outpost: 2 })).toBe(2);
+    expect(maxReachableLevel(research, { research: 0, outpost: 0 })).toBe(0);
+    expect(maxReachableLevel(research, { research: 0, outpost: 3 })).toBe(3);
+    expect(maxReachableLevel(gun, { gun: 1, outpost: 0 })).toBe(3);
+    expect(maxReachableLevel(gun, { gun: 1, outpost: 3 })).toBe(4);
+  });
+
+  it('lowering a list drops the dependents to just below the first level they can no longer hold, in chain', () => {
+    const levels = { retreat: 2, outpost: 3, research: 3, gun: 4 };
+    expect(getCascadeLowering(all, levels, 'outpost', 1)).toEqual([
+      { listId: 'research', from: 3, to: 1 },
+      { listId: 'gun', from: 4, to: 3 },
+    ]);
+    expect(getCascadeLowering(all, levels, 'retreat', 1).map(s => [s.listId, s.to]).sort()).toEqual([
+      ['gun', 3], ['outpost', 0], ['research', 0],
+    ]);
+  });
+
+  it('there is no cascade when the dependents are already within the new cap, nor in the reverse direction', () => {
+    expect(getCascadeLowering(all, { retreat: 2, outpost: 3, research: 1, gun: 2 }, 'outpost', 2)).toEqual([]);
+    // Outpost può scendere o salire con Research Station a 0: il vincolo è a senso unico
+    expect(getCascadeLowering(all, { retreat: 2, outpost: 3, research: 0, gun: 2 }, 'research', 0)).toEqual([]);
   });
 });

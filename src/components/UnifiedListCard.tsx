@@ -3,6 +3,9 @@ import { createPortal } from 'react-dom';
 import { CheckCircle2, ChevronDown, Clock, Hammer, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import type { ItemInfo, List } from '@/types';
 import { getBaseLevel, hasDeductionConflict, isActionWindowOpen } from '@/lib/lists';
+import type { LevelBlocker } from '@/lib/levelRequirements';
+import { RequirementChips } from '@/components/RequirementChips';
+import { useLevelGuard } from '@/hooks/useLevelGuard';
 import { isListExpired, formatTimeRemaining } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
 import { refinerCraftLevel } from '@/lib/craft';
@@ -85,6 +88,9 @@ export const UnifiedListCard = ({
   onOpenDetail,
   onEdit,
   onDelete,
+  nextLevelRequirements = [],
+  levelBlocker,
+  cascadeFor,
 }: {
   list: List;
   current: number;
@@ -106,6 +112,12 @@ export const UnifiedListCard = ({
   onOpenDetail?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  /** Requisiti su altre liste del livello successivo, con lo stato attuale (#87). */
+  nextLevelRequirements?: { name: string; level: number; met: boolean }[];
+  /** Cosa impedisce di salire a un livello (requisito su un'altra lista non soddisfatto). */
+  levelBlocker?: (level: number) => LevelBlocker | null;
+  /** Liste che scenderebbero a catena abbassando questa al livello indicato. */
+  cascadeFor?: (level: number) => { name: string; from: number; to: number }[];
 }) => {
   const { t, language } = useTranslation();
   const [expanded, setExpanded] = useState(false);
@@ -159,8 +171,16 @@ export const UnifiedListCard = ({
 
   const hasConflict = (level: number) => hasDeductionConflict(list, current, level, inventory, otherNeeds);
 
+  const guard = useLevelGuard({
+    current,
+    levelBlocker,
+    cascadeFor,
+    onCascadeConfirmed: (level) => onCurrentLevel(level, false),
+  });
+
   const handleCurrentLevel = (level: number) => {
     setPendingLevel(null);
+    if (!guard.check(level)) return;
     if (level <= current) {
       onCurrentLevel(level, false);
     } else if (hasConflict(level)) {
@@ -434,6 +454,9 @@ export const UnifiedListCard = ({
               ))}
             </div>
           )}
+          {!isMaxed && nextLevelRequirements.length > 0 && (
+            <RequirementChips requirements={nextLevelRequirements} className="pt-2 border-t border-gray-100 dark:border-gray-800" />
+          )}
           {!isMaxed && (nextLevelData?.requirementItemIds.length ?? 0) > 0 && (
             <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
               <RequirementsGrid
@@ -455,6 +478,7 @@ export const UnifiedListCard = ({
           )}
         </div>
       )}
+      {guard.dialogs}
     </div>
   );
 };

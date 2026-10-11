@@ -1,11 +1,14 @@
-import type { CustomList, ExpeditionList, List, ListType, PassList, PassTrackDef, ProjectList, QuestList, WorkbenchList } from '@/types';
+import type { CustomList, ExpeditionList, LevelRequirement, List, ListLevel, ListType, PassList, PassTrackDef, ProjectList, QuestList, WorkbenchList } from '@/types';
 
 /**
  * The "base" level a list starts from. A list whose level 1 has no requirements is already
  * unlocked from the start (e.g. Scrappy) → level 0 doesn't exist for it; otherwise it starts at 0.
  */
-export const getBaseLevel = (list: List): number =>
-  list.levels.find(l => l.level === 1)?.requirementItemIds.length === 0 ? 1 : 0;
+export const getBaseLevel = (list: List): number => {
+  const first = list.levels.find(l => l.level === 1);
+  // Con un requisito su un'altra lista (es. Outpost Lvl 1) il livello 1 non è «già sbloccato».
+  return first?.requirementItemIds.length === 0 && !first.requires?.length ? 1 : 0;
+};
 
 // Type guard per restringere la union `List` sul tipo di lista (`listType`).
 export const isWorkbench = (l: List): l is WorkbenchList => l.listType === 'workbench';
@@ -123,4 +126,66 @@ export function hasDeductionConflict(
     l => l.level > current && l.level <= level &&
       l.requirementItemIds.some(req => (inventory[req.itemId] ?? 0) > 0 && (otherNeeds[req.itemId] ?? 0) > 0),
   );
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// Requisiti tra liste (#87): un livello può richiedere che un'altra lista sia almeno a un certo livello.
+// Il vincolo è a senso unico: la lista richiesta (es. Outpost) può salire senza quella che la richiede.
+// ---------------------------------------------------------------------------------------------------------------
+
+/** Requisiti del livello non ancora soddisfatti dai livelli correnti. */
+export function unmetRequirements(level: ListLevel | undefined, currentLevels: Record<string, number>): LevelRequirement[] {
+  return (level?.requires ?? []).filter(req => (currentLevels[req.listId] ?? 0) < req.level);
+}
+
+/**
+ * Livello più alto raggiungibile adesso: sotto il primo livello (oltre al corrente) con un requisito non soddisfatto.
+ * Senza requisiti bloccanti è `maxLevel`.
+ */
+export function maxReachableLevel(list: List, currentLevels: Record<string, number>): number {
+  const current = currentLevelOf(list, currentLevels);
+  const blocked = [...list.levels]
+    .sort((a, b) => a.level - b.level)
+    .find(l => l.level > current && unmetRequirements(l, currentLevels).length > 0);
+  return blocked ? Math.max(current, blocked.level - 1) : list.maxLevel;
+}
+
+export interface CascadeStep {
+  listId: string;
+  /** Livello corrente della lista dipendente e quello a cui dovrebbe scendere. */
+  from: number;
+  to: number;
+}
+
+/**
+ * Portando `listId` a `newLevel` (più basso), le liste i cui livelli già raggiunti lo richiedono a un livello
+ * più alto scendono al livello appena sotto il primo violato; a catena (Sheltered Retreat → Outpost → Research
+ * Station). Il livello di `listId` non è incluso nel risultato.
+ */
+export function getCascadeLowering(
+  lists: List[],
+  currentLevels: Record<string, number>,
+  listId: string,
+  newLevel: number,
+): CascadeStep[] {
+  const levels = { ...currentLevels, [listId]: newLevel };
+  const steps = new Map<string, CascadeStep>();
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const list of lists) {
+      if (list.id === listId) continue;
+      const current = levels[list.id] ?? getBaseLevel(list);
+      const violated = list.levels
+        .filter(l => l.level <= current && unmetRequirements(l, levels).length > 0)
+        .map(l => l.level);
+      if (violated.length === 0) continue;
+      const to = Math.min(...violated) - 1;
+      levels[list.id] = to;
+      const from = steps.get(list.id)?.from ?? current;
+      steps.set(list.id, { listId: list.id, from, to });
+      changed = true;
+    }
+  }
+  return [...steps.values()];
 }

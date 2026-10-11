@@ -60,6 +60,7 @@ import { RewardBadge } from "@/components/RewardBadge";
 import { DevRewardEditorModal } from "@/components/dev/DevRewardEditorModal";
 import { DevListsTrash } from "@/components/dev/DevListsTrash";
 import { DevListIssues } from "@/components/dev/DevListIssues";
+import { DevLevelRequirements } from "@/components/dev/DevLevelRequirements";
 import { DevPassPreview } from "@/components/dev/DevPassPreview";
 import { DevPassSection } from "@/components/dev/DevPassSection";
 import { DevActionContextModal } from "@/components/dev/DevActionContextModal";
@@ -1456,6 +1457,24 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                     </div>
                   )}
                 </div>
+
+                {/* 1 bis. Requisiti su altre liste (#87) */}
+                <DevLevelRequirements
+                  requires={activeLevel.requires ?? []}
+                  lists={allLists}
+                  currentListId={selectedList.id}
+                  onChange={(next) =>
+                    updateSelectedList((prev) => ({
+                      ...prev,
+                      levels: prev.levels.map((lvl) => {
+                        if (lvl.level !== activeLevel.level) return lvl;
+                        const { requires: previous, ...rest } = lvl;
+                        void previous;
+                        return next.length > 0 ? { ...rest, requires: next } : rest;
+                      }),
+                    }))
+                  }
+                />
 
                 {/* 2. Requirement Actions (Checkbox Tasks) */}
                 <div className="space-y-3 pt-2">
