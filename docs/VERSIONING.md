@@ -105,7 +105,7 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #108, #111, #112. 
 - [x] #82 [Azioni vincolate a mappe e oggetti da portare (definisce il catalogo globale delle mappe)](https://github.com/ieeah/arc-benches/issues/82)
 - [x] #85 [Modello Reward Pass come tipo di lista + editor Dev dei pass](https://github.com/ieeah/arc-benches/issues/85) — dopo #73, #83
 - [ ] #76 [Pagina Dev per la gestione delle quest](https://github.com/ieeah/arc-benches/issues/76) — dopo #72
-- [ ] #87 [Progetto Outpost completo (moduli, Research Bench, arredi)](https://github.com/ieeah/arc-benches/issues/87) — dopo #82, #83
+- [ ] #87 [Progetto Outpost completo (moduli e requisiti tra liste fatti; restano Research Bench e arredi)](https://github.com/ieeah/arc-benches/issues/87) — dopo #82, #83
 - [ ] #86 [Dati banchi al Lvl 3 (Frozen Trail)](https://github.com/ieeah/arc-benches/issues/86)
 - [ ] #79 [Opzione "ripristinabile" per progetti e liste](https://github.com/ieeah/arc-benches/issues/79)
 - [ ] #74 [Export/import completo del profilo](https://github.com/ieeah/arc-benches/issues/74)

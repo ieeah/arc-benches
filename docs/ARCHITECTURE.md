@@ -29,6 +29,7 @@ Pipeline (`scripts/`, pacchetto separato):
 - Ogni lista ha livelli con materiali (`requirementItemIds`), `actions`, `tieredActions` e, per i pass, `rewards` per traccia.
 - `getAllListsPure` unisce banchi, progetti, liste custom (condivise e proprie) e la spedizione attiva; fabbisogno e spesa operano sull'unione.
 - Le azioni di un livello valgono solo con livello corrente = N−1 («finestra»): predicato unico in `src/lib/lists.ts`, applicato da UI e store ([azioni-di-livello.md](specs/azioni-di-livello.md)).
+- Un livello può richiedere che un'altra lista sia a un certo livello (`requires`, es. Research Station → Outpost): salire si ferma al requisito, scendere porta giù a catena le liste dipendenti ([outpost-e-requisiti-tra-liste.md](specs/outpost-e-requisiti-tra-liste.md)).
 - Calcoli come funzioni pure in [selectors.ts](../src/store/selectors.ts).
 
 ## Store
