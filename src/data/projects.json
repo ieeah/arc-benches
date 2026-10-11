@@ -615,15 +615,17 @@
       "expirationDate": "2026-10-05T00:00:00.000Z"
     },
     {
-      "id": "outpost",
-      "name": "Outpost",
+      "id": "sheltered-retreat",
+      "name": "Sheltered Retreat",
       "translations": {
         "it": {
-          "name": "Avamposto"
+          "name": "Rifugio protetto",
+          "description": "Conduci ricerche, raccogli provviste e proteggi il cantiere per ritagliarti il tuo piccolo angolo di Superficie. Richiede il livello giocatore 18 (informazione: l'app non lo verifica). Completarlo sblocca l'Avamposto."
         }
       },
       "maxLevel": 3,
       "listType": "project",
+      "description": "Conduct research, gather supplies, and safeguard the construction site to carve out your own small corner of Topside. Requires player level 18 (informational: the app does not check it). Completing it unlocks the Outpost.",
       "levels": [
         {
           "level": 1,

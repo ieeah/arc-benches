@@ -1,7 +1,7 @@
 {
   "type": "workbench",
-  "total": 9,
-  "count": 9,
+  "total": 10,
+  "count": 10,
   "offset": 0,
   "limit": 45,
   "items": [
@@ -446,15 +446,10 @@
               "quantity": 1
             }
           ],
-          "actions": [
+          "requires": [
             {
-              "id": "85e1ee0b-c1c2-481b-b190-cdb3dbcca3ee",
-              "label": "4 Outpost rooms installed.",
-              "translations": {
-                "it": {
-                  "label": "Installazione di 4 moduli avamposto."
-                }
-              }
+              "listId": "outpost",
+              "level": 4
             }
           ]
         }
@@ -477,6 +472,82 @@
         }
       },
       "listType": "workbench"
+    },
+    {
+      "id": "outpost",
+      "name": "Outpost",
+      "maxLevel": 4,
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [],
+          "requires": [
+            {
+              "listId": "sheltered-retreat",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "steel-cable",
+              "quantity": 3
+            },
+            {
+              "itemId": "sheet-metal",
+              "quantity": 20
+            },
+            {
+              "itemId": "cable-stripper",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "epoxy-bucket",
+              "quantity": 3
+            },
+            {
+              "itemId": "planks",
+              "quantity": 35
+            },
+            {
+              "itemId": "hand-drill",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [
+            {
+              "itemId": "sheet-metal",
+              "quantity": 40
+            },
+            {
+              "itemId": "laser-level",
+              "quantity": 3
+            },
+            {
+              "itemId": "insulation-roll",
+              "quantity": 3
+            }
+          ]
+        }
+      ],
+      "translations": {
+        "it": {
+          "name": "Avamposto",
+          "description": "La tua base in superficie. Ogni stanza installata alza il tetto di livello della Stazione di ricerca e, con quattro stanze, sblocca l'Armaiolo al Lvl 4. Il Lvl 1 richiede il progetto Rifugio protetto completato."
+        }
+      },
+      "listType": "workbench",
+      "description": "Your base on the surface. Each room installed raises the level cap of the Research Station and, with four rooms, unlocks Gunsmith Lvl 4. Lvl 1 requires the Sheltered Retreat project to be completed."
     },
     {
       "id": "research-station",
@@ -506,15 +577,10 @@
               "quantity": 3
             }
           ],
-          "actions": [
+          "requires": [
             {
-              "id": "8408b454-a36b-4d1a-9565-2773206594e7",
-              "label": "1 Outpost room installed.",
-              "translations": {
-                "it": {
-                  "label": "Installazione di 1 modulo avamposto."
-                }
-              }
+              "listId": "outpost",
+              "level": 1
             }
           ]
         },
@@ -534,15 +600,10 @@
               "quantity": 5
             }
           ],
-          "actions": [
+          "requires": [
             {
-              "id": "3c150a04-9ffe-4437-bf55-94918d54a226",
-              "label": "2 Outpost rooms installed.",
-              "translations": {
-                "it": {
-                  "label": "Installazione di 2 moduli avamposto."
-                }
-              }
+              "listId": "outpost",
+              "level": 2
             }
           ]
         },
@@ -562,15 +623,10 @@
               "quantity": 6
             }
           ],
-          "actions": [
+          "requires": [
             {
-              "id": "476d6270-e2d8-4ab9-ac1d-e0411f5b4c74",
-              "label": "3 Outpost rooms installed.",
-              "translations": {
-                "it": {
-                  "label": "Installazione di 3 moduli avamposto."
-                }
-              }
+              "listId": "outpost",
+              "level": 3
             }
           ]
         },
@@ -590,15 +646,10 @@
               "quantity": 1
             }
           ],
-          "actions": [
+          "requires": [
             {
-              "id": "b241ec63-d527-4289-9433-b8664f4e0cfd",
-              "label": "4 Outpost rooms installed.",
-              "translations": {
-                "it": {
-                  "label": "Installazione di 4 moduli avamposto."
-                }
-              }
+              "listId": "outpost",
+              "level": 4
             }
           ]
         }
