@@ -54,15 +54,7 @@ Legenda: **[bug]** comportamento sbagliato · **[ux]** ritocco di interfaccia ·
 - [bug] **«Applica» nella pagina degli override** non scrive il file e scrive «nessuna modifica».
   - Ipotesi: il confronto è fatto contro il file già aggiornato e non contro quello vecchio. Vale anche la nostra modifica odierna delle bozze a differenze (la bozza viene tolta se uguale al file).
   - **Verificare lo stesso difetto in tutte le altre pagine con «Applica»**: liste, oggetti custom, navigazione, flag, traduzioni, cestino.
-- [bug] **L'eliminazione di una lista non la rimuove dal file di origine.** Finisce nel cestino, ma al ricaricamento è ancora nel file, anche dopo aver scaricato la nuova versione.
-  - Screenshot del Cestino: tre voci «New PROJECT List #7 (project)» con lo stesso id `test`, eliminate il 09/10/2026 alle 23:14, 23:15 e 23:15.
-  - Da verificare anche per gli altri tipi di elemento eliminabili (spedizioni, banchi, progetti, tracce dei pass).
-  - Da rivedere: cosa significa «elimina» quando le bozze vivono in `localStorage` e il file viene scritto solo con «Applica».
-
-## 5 bis. Decisioni prese il 2026-10-10
-
-Dettaglio completo nei commenti di #111 e #112; qui il riepilogo.
-
+- [bug, **risolto**] **L'eliminazione di una lista non la rimuoveva dal file di origine.** Causa: dopo l'eliminazione la selezione cadeva su un'altra lista (di un altro tipo) e i pulsanti «Applica» e «Scarica» puntavano al file di *quella* (`workbenches.json`, «nessuna modifica»): `projects.json` non veniva mai scritto. Ora seguono i file con modifiche in bozza («Non applicato: projects.json»), il Cestino segna «in attesa di applicazione» le liste ancora presenti nel file e la chiusura della scheda con modifiche non applicate chiede conferma. Verificato con un'istanza separata del dev server (altra porta, storage separato).
 - **#112 (pass)**: riattivazione di un pass concluso a livello massimo − 1; un pass è completato quando il livello è il massimo (derivato, senza campo `completed`); raggiunto il massimo non resta attivo, con attivazione automatica se resta un solo pass non completato, scelta guidata se più d'uno; «Nessuno» valido; livello di partenza solo per il pass che si attiva, «azzera progressi» per pass; un pass sparito dal seed va tracciato (per i trofei); coriandoli con i colori di rarità e `prefers-reduced-motion`.
 - **#111 (azioni)**: regola generale — gli oggetti si raccolgono in anticipo, le azioni a momento debito (fatte prima o dopo non contano). Oggi tutte le azioni di tutti i livelli sono visibili e spuntabili nella Stash: un'azione del livello N si vede e si spunta solo se il livello corrente è N−1. Vale anche per azioni a livelli, progetti e spedizioni.
 - **Nomi degli outfit**: «Goalie (nuovo colore)», «Goalie (completo)»; **toggle non si traduce** («Goalie (toggle)»). Solo in visualizzazione e ricerca, id e nome MetaForge invariati.
