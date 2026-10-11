@@ -27,16 +27,28 @@ interface PassLevelsGridProps {
  * Sfondo «spaziale» del pass del gioco, adattato al mobile: notte profonda, alone e poche stelle. Sta in un
  * livello `sticky` alto quanto la finestra: scorrono solo i livelli, lo sfondo resta fermo nel riquadro.
  */
-const SPACE_LAYER: CSSProperties = {
+const STARS_LAYER: CSSProperties = {
   backgroundImage: [
-    'radial-gradient(ellipse 80% 38% at 78% 6%, rgba(80, 96, 230, 0.22), transparent 70%)',
-    'radial-gradient(ellipse 70% 30% at 8% 96%, rgba(120, 70, 200, 0.14), transparent 70%)',
     'radial-gradient(1px 1px at 12px 20px, rgba(255,255,255,0.55), transparent)',
     'radial-gradient(1px 1px at 74px 92px, rgba(255,255,255,0.4), transparent)',
     'radial-gradient(1.5px 1.5px at 124px 44px, rgba(255,255,255,0.5), transparent)',
   ].join(', '),
-  backgroundSize: 'auto, auto, 160px 130px, 160px 130px, 160px 130px',
+  backgroundSize: '160px 130px, 160px 130px, 160px 130px',
 };
+
+/** Tier del pass del gioco: ognuno tinge alone, anello e pillole dei livelli (il cerchio resta blu notte). */
+const TIER_COUNT = 5;
+const TIER_THEMES = [
+  { rgb: '80, 96, 230', pill: '#ffffff' }, // indaco
+  { rgb: '60, 150, 200', pill: '#38d0f0' }, // azzurro
+  { rgb: '80, 160, 50', pill: '#34e08a' }, // verde
+  { rgb: '235, 170, 20', pill: '#f5c518' }, // oro
+  { rgb: '200, 50, 25', pill: '#ef3b3b' }, // rosso
+] as const;
+
+/** I tier dividono i livelli del pass in parti uguali (nel gioco: 5 × 12 = 60). Restituisce 0..4. */
+const tierOf = (level: number, maxLevel: number) =>
+  Math.min(TIER_COUNT - 1, Math.max(0, Math.ceil(level / Math.ceil(maxLevel / TIER_COUNT)) - 1));
 
 /**
  * Vista del pass come nel gioco: scorrimento verticale con i livelli numerati sulla sinistra (il più
@@ -53,10 +65,28 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
   const nextLevel = Math.min(reached + 1, pass.maxLevel);
   const nextRef = useRef<HTMLDivElement | null>(null);
   const firstTrackId = pass.tracks[0]?.id;
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const [activeTier, setActiveTier] = useState(() => tierOf(pass.maxLevel, pass.maxLevel));
 
   useEffect(() => {
     if (scrollToNext) nextRef.current?.scrollIntoView({ block: 'center' });
   }, [scrollToNext, pass.id]);
+
+  // Il tier attivo è quello della riga che attraversa il centro della finestra (banda alta 0 px)
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActiveTier(Number((entry.target as HTMLElement).dataset.tier));
+        }
+      },
+      { rootMargin: '-50% 0px -50% 0px' },
+    );
+    root.querySelectorAll('[data-tier]').forEach((row) => observer.observe(row));
+    return () => observer.disconnect();
+  }, [levels, tracks.length]);
 
   if (tracks.length === 0) {
     return <p className="p-4 text-xs text-center text-gray-400">{t('rewardPass.noTrackVisible')}</p>;
@@ -64,11 +94,35 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
 
   return (
     // `overflow-clip` (non `hidden`) per tenere il bordo arrotondato senza rompere lo `sticky` dello sfondo
-    <div style={{ backgroundColor: '#04050d' }} className="relative rounded-[24px] border border-white/10 overflow-clip pb-1.5 text-white">
+    <div ref={rootRef} style={{ backgroundColor: '#04050d' }} className="relative rounded-[24px] border border-white/10 overflow-clip pb-1.5 text-white">
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div style={SPACE_LAYER} className="sticky top-0 h-dvh overflow-hidden">
-          {/* Anello decorativo dello sfondo del gioco */}
-          <div className="absolute -right-1/3 top-[10%] aspect-square w-[110%] rounded-full border border-white/15" />
+        <div style={STARS_LAYER} className="sticky top-0 h-dvh overflow-hidden">
+          {/* Un alone per tier, sovrapposti: cambiare tier è una dissolvenza di opacità */}
+          {TIER_THEMES.map((theme, i) => (
+            <div
+              key={i}
+              className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+              style={{
+                opacity: i === activeTier ? 1 : 0,
+                backgroundImage: [
+                  `radial-gradient(ellipse 80% 38% at 78% 6%, rgba(${theme.rgb}, 0.28), transparent 70%)`,
+                  `radial-gradient(ellipse 70% 30% at 8% 96%, rgba(${theme.rgb}, 0.18), transparent 70%)`,
+                ].join(', '),
+              }}
+            />
+          ))}
+          {/* Anello decorativo dello sfondo del gioco, con il bagliore del tier */}
+          {TIER_THEMES.map((theme, i) => (
+            <div
+              key={i}
+              className="absolute -right-1/3 top-[10%] aspect-square w-[110%] rounded-full border transition-opacity duration-700 ease-in-out"
+              style={{
+                opacity: i === activeTier ? 1 : 0,
+                borderColor: `rgba(${theme.rgb}, 0.6)`,
+                boxShadow: `0 0 70px 6px rgba(${theme.rgb}, 0.35), inset 0 0 40px rgba(${theme.rgb}, 0.2)`,
+              }}
+            />
+          ))}
         </div>
       </div>
 
@@ -88,12 +142,15 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
       {levels.map((lvl, idx) => {
         const done = lvl.level <= reached;
         const isNext = onSetTier !== undefined && lvl.level === nextLevel && reached < pass.maxLevel;
+        const tier = tierOf(lvl.level, pass.maxLevel);
         return (
           <Fragment key={lvl.level}>
           {/* Divisore fra i livelli, inset come le righe */}
           {idx > 0 && <div aria-hidden className="relative mx-4 h-px bg-white/5" />}
           <div
             ref={isNext ? nextRef : undefined}
+            data-tier={tier}
+            style={{ '--pill': TIER_THEMES[tier].pill } as CSSProperties}
             // raggio concentrico a quello del riquadro: 24px − 1px di bordo − 6px di margine
             className={cn(
               'relative mx-1.5 flex items-center gap-2 rounded-[17px] px-1.5 py-2 transition-colors',
@@ -111,13 +168,13 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
                     'h-8 min-w-9 px-2 rounded-full text-xs font-black flex items-center justify-center border-2 cursor-pointer',
                     done
                       ? 'bg-emerald-500 border-emerald-500 text-white'
-                      : 'bg-[#0b0d1c] border-white/70 text-white hover:border-purple-400',
+                      : 'bg-[#0b0d1c] border-[var(--pill)] text-white hover:border-purple-400',
                   )}
                 >
                   {done ? <Check size={14} strokeWidth={3} /> : lvl.level}
                 </button>
               ) : (
-                <span className="h-8 min-w-9 px-2 rounded-full bg-[#0b0d1c] border-2 border-white/70 text-xs font-black flex items-center justify-center">{lvl.level}</span>
+                <span className="h-8 min-w-9 px-2 rounded-full bg-[#0b0d1c] border-2 border-[var(--pill)] text-xs font-black flex items-center justify-center">{lvl.level}</span>
               )}
             </div>
 
