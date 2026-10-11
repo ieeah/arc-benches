@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { ArchiveRestore, X } from 'lucide-react';
 import type { List } from '@/types';
 import { Drawer } from '@/components/Drawer';
-import { isListEntry, listTrash, removeFromTrash, type DevTrashEntry } from '@/lib/devTrash';
+import { isListEntry, isListStillInFile, listTrash, removeFromTrash, type DevTrashEntry } from '@/lib/devTrash';
+import { getInitialData } from '@/hooks/dev/useDevListDrafts';
 
 interface DevListsTrashProps {
   /** Cambia quando il cestino viene modificato da fuori (es. una lista appena eliminata). */
@@ -75,6 +76,11 @@ export const DevListsTrash = ({ refreshKey, onRestore }: DevListsTrashProps) => 
                   <li key={entry.id} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-xl">
                     <span className="flex-1 min-w-0 text-xs font-medium truncate" title={entry.label}>
                       {entry.payload.list.name}
+                      {isListStillInFile(entry.payload.list, getInitialData()) && (
+                        <span className="ml-1.5 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300" title="Ancora nel file: usa «Applica»">
+                          da applicare
+                        </span>
+                      )}
                       <span className="text-gray-400">
                         {' '}· {entry.payload.list.listType} · {new Date(entry.deletedAt).toLocaleDateString('it-IT')}
                       </span>

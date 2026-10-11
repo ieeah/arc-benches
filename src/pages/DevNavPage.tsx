@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { suppressUnappliedWarning } from '@/lib/devUnapplied';
 import {
   DndContext, DragOverlay, PointerSensor, useSensor, useSensors, closestCenter,
   type DragStartEvent, type DragOverEvent, type DragEndEvent,
@@ -309,7 +310,7 @@ export function DevNavPage({ onBack }: DevNavPageProps) {
           {translationsDirty && (
             <button
               type="button"
-              onClick={() => window.location.reload()}
+              onClick={() => { suppressUnappliedWarning(); window.location.reload(); }}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/50 hover:bg-amber-200 dark:hover:bg-amber-900/60 rounded-xl transition-colors cursor-pointer"
               title="Ricarica per applicare le traduzioni modificate"
             >

@@ -193,7 +193,7 @@ export function useDevListEditor({
     setConfirmModalConfig({
       title: 'Elimina Lista',
       message: `Sei sicuro di voler eliminare la lista "${id}"?`,
-      description: 'La lista finisce nel cestino (dev-trash/trash.json) e si può recuperare da lì.',
+      description: 'La lista finisce nel cestino (dev-trash/trash.json) e si può recuperare da lì. Resta nel file finché non usi «Applica».',
       confirmText: 'Elimina',
       variant: 'danger',
       onConfirm: () => {

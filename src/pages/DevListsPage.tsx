@@ -48,6 +48,7 @@ import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
 import { isExpedition, isPass, isProject, withListType } from "@/lib/lists";
 import { buildListsFileContent } from "@/lib/devArtifacts";
+import { listFilesToApply } from "@/lib/devListFiles";
 import { ApplyToProjectButton } from "@/components/dev/ApplyToProjectButton";
 import itemsDatabase from "@/data/items.json";
 import { generateUUID } from "@/lib/uuid";
@@ -679,9 +680,15 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     (isExpedition(selectedList) ||
       isProject(selectedList) ||
       Boolean(selectedList.startDate || selectedList.expirationDate));
+  // File con modifiche in bozza (anche se la lista modificata o eliminata non è più selezionata): è quello che
+  // «Applica» deve scrivere. Con la selezione si sceglieva il file sbagliato dopo un'eliminazione.
+  const { modified: modifiedTypes, target: targetCategory } = useMemo(
+    () => listFilesToApply(listsData, initialData, currentCategory),
+    [listsData, initialData, currentCategory],
+  );
   const fileJsonContent = useMemo(() => {
-    return buildListsFileContent(currentCategory, listsData[currentCategory] || []);
-  }, [listsData, currentCategory]);
+    return buildListsFileContent(targetCategory, listsData[targetCategory] || []);
+  }, [listsData, targetCategory]);
 
   const singleJsonContent = useMemo(() => {
     if (!selectedList) return "{}";
@@ -700,7 +707,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   };
 
   const handleDownloadFile = () => {
-    const filename = LIST_TYPE_CONFIG[currentCategory].filename;
+    const filename = LIST_TYPE_CONFIG[targetCategory].filename;
     const blob = new Blob([fileJsonContent], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -754,12 +761,24 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors cursor-pointer shadow-xs"
           >
             <Download size={14} />
-            <span>Scarica {LIST_TYPE_CONFIG[currentCategory].filename}</span>
+            <span>Scarica {LIST_TYPE_CONFIG[targetCategory].filename}</span>
           </button>
-          {currentCategory !== "custom" && (
+          {modifiedTypes.length > 0 && (
+            <span
+              className="px-2 py-1 rounded-lg text-[11px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
+              title="Le modifiche restano in bozza nel browser finché non le applichi ai file"
+            >
+              Non applicato: {modifiedTypes.map((type) => LIST_TYPE_CONFIG[type].filename).join(", ")}
+            </span>
+          )}
+          {targetCategory !== "custom" && (
             <ApplyToProjectButton
-              artifactIds={[`lists-${currentCategory}`]}
-              label={`Applica ${LIST_TYPE_CONFIG[currentCategory].filename}`}
+              artifactIds={(modifiedTypes.length > 0 ? modifiedTypes : [targetCategory]).map((type) => `lists-${type}`)}
+              label={
+                modifiedTypes.length > 1
+                  ? `Applica ${modifiedTypes.length} file`
+                  : `Applica ${LIST_TYPE_CONFIG[targetCategory].filename}`
+              }
             />
           )}
         </>

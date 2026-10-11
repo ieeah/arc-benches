@@ -3,6 +3,7 @@ import { FileCheck2, Loader2 } from 'lucide-react';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { getDevArtifacts } from '@/lib/devArtifacts';
 import { applyArtifacts } from '@/lib/devApply';
+import { suppressUnappliedWarning } from '@/lib/devUnapplied';
 import { cn } from '@/lib/cn';
 
 interface ApplyToProjectButtonProps {
@@ -35,6 +36,7 @@ export function ApplyToProjectButton({ artifactIds, label = 'Applica al file', d
       case 'ok':
         setStatus('done');
         setMessage(`Scritto: ${outcome.written.join(', ')}`);
+        suppressUnappliedWarning();
         setTimeout(() => window.location.reload(), 700);
         break;
       case 'conflict':

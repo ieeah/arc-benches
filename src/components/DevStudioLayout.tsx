@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ArrowLeft, Monitor, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, GripVertical } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
+import { useUnappliedChangesWarning } from '@/hooks/useUnappliedChangesWarning';
 
 export interface DevStudioLayoutProps {
   title: string;
@@ -33,6 +34,7 @@ export function DevStudioLayout({
   previewBadge,
   previewContent,
 }: DevStudioLayoutProps) {
+  useUnappliedChangesWarning();
   // Load saved preferences
   const [layoutPrefs, setLayoutPrefs] = useState<{
     sidebarWidth: number;

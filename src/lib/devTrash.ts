@@ -1,8 +1,8 @@
 /**
  * Client del cestino Dev (`GET/POST <base>__dev/trash`, vedi vite-plugins/dev-trash.ts): tiene ciò che
- * l'editor elimina in `dev-trash/trash.json`, file versionato ma mai incluso nella build.
+ * l'editor elimina in `dev-trash/trash.json`, file locale (ignorato da git) e mai incluso nella build.
  */
-import type { List, PassTrackDef, Reward } from '@/types';
+import type { List, ListType, PassTrackDef, Reward } from '@/types';
 
 export interface DevTrashEntry {
   id: string;
@@ -22,6 +22,14 @@ export interface PassTrackTrashPayload {
 
 export interface ListTrashPayload {
   list: List;
+}
+
+/**
+ * `true` se la lista eliminata è ancora nel file del suo tipo: l'eliminazione è solo una bozza e il file cambierà
+ * quando si usa «Applica» (o lo si sovrascrive a mano).
+ */
+export function isListStillInFile(list: List, files: Partial<Record<ListType, List[]>>): boolean {
+  return (files[list.listType] ?? []).some((l) => l.id === list.id);
 }
 
 export type TrashResult = { ok: true; entries: DevTrashEntry[] } | { ok: false; message: string };

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { suppressUnappliedWarning } from '@/lib/devUnapplied';
 import { AlertTriangle, Copy, Check, Download, ImageOff, PackagePlus, Plus, RotateCcw, Search, Trash2, Upload } from 'lucide-react';
 import type { ItemInfo, ItemTranslation } from '@/types';
 import { useAppStore } from '@/store';
@@ -185,6 +186,7 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
 
   const reset = () => {
     clearCustomItemsDraft();
+    suppressUnappliedWarning();
     window.location.reload();
   };
 

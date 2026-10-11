@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { suppressUnappliedWarning } from '@/lib/devUnapplied';
 import {
   ArrowLeft, Archive, Code2, Download, FileJson, FlaskConical, Flag, Languages, PackagePlus, Trash2, Layers, RotateCcw, Route,
 } from 'lucide-react';
@@ -73,6 +74,7 @@ export function DevDashboardPage({ onBack, onNavigate }: DevDashboardPageProps) 
   // Le bozze alimentano i dati caricati all'avvio: dopo lo scarto si ricarica la pagina.
   const resetAndReload = (targets: DevArtifact[]) => {
     targets.forEach((a) => a.reset());
+    suppressUnappliedWarning();
     window.location.reload();
   };
 

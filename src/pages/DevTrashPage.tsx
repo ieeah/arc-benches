@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
+import { getInitialData } from '@/hooks/dev/useDevListDrafts';
+import { suppressUnappliedWarning } from '@/lib/devUnapplied';
 import { ArchiveRestore, ArrowLeft, Code2, Layers, Loader2, Ticket, Trash2 } from 'lucide-react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
@@ -11,6 +13,7 @@ import {
   isPassTrackEntry,
   listTrash,
   removeFromTrash,
+  isListStillInFile,
   type DevTrashEntry,
 } from '@/lib/devTrash';
 import { artifactIdForBucket, restoreEntryToDraft } from '@/lib/devTrashRestore';
@@ -97,6 +100,7 @@ export function DevTrashPage({ onBack }: DevTrashPageProps) {
     switch (outcome.status) {
       case 'ok':
         setMessage({ text: `Scritto: ${outcome.written.join(', ')}`, tone: 'info' });
+        suppressUnappliedWarning();
         setTimeout(() => window.location.reload(), 700);
         break;
       case 'conflict':
@@ -184,7 +188,17 @@ export function DevTrashPage({ onBack }: DevTrashPageProps) {
                 <li key={entry.id} className="p-3.5 flex items-center gap-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[24px]">
                   <span className="shrink-0">{info.icon}</span>
                   <span className="flex-1 min-w-0">
-                    <span className="block text-sm font-bold truncate" title={entry.label}>{entry.label}</span>
+                    <span className="block text-sm font-bold truncate" title={entry.label}>
+                      {entry.label}
+                      {isListEntry(entry) && isListStillInFile(entry.payload.list, getInitialData()) && (
+                        <span
+                          className="ml-2 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
+                          title="La lista è ancora nel file: l'eliminazione è una bozza finché non usi «Applica» in Gestione Liste"
+                        >
+                          in attesa di applicazione
+                        </span>
+                      )}
+                    </span>
                     <span className="block text-[11px] text-gray-500 dark:text-gray-400 truncate">
                       {info.type} · {info.detail} · eliminata il {new Date(entry.deletedAt).toLocaleString('it-IT')}
                     </span>
