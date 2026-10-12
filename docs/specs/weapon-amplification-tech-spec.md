@@ -239,6 +239,20 @@ Regole:
 - Le etichette usano "Lvl" (AGENTS.md).
 - `excludes` è simmetrico: il seed va validato in modo che se A esclude B, anche B esclude A.
 
+### 6.2.1 Rendering dell'albero (regola comune)
+
+Tutti gli alberi di amplificazione sono costruiti da una sola funzione, con un solo set di regole grafiche. Nessuna arma ha una propria grammatica.
+
+- **Funzione unica**: `renderAmplificationTree(weapon: WeaponDetail)`. Riceve solo i dati del seed (§6.1), non contiene dati specifici di un'arma.
+- **Componenti condivisi**: nodo, quadrato di ricerca collegato, badge "Ricerca", connettori (prerequisito ed esclusività), blocco obiettivi e costi. Sono definiti una volta sola e riutilizzati da tutte le armi.
+- **Regole grafiche fisse**:
+  - un nodo con ricerca mostra il quadrato di ricerca collegato sopra di sé (come in gioco);
+  - un nodo senza ricerca non mostra il quadrato;
+  - un prerequisito è un connettore dal nodo precedente, un'esclusività è un'etichetta "Esclude: …" tra due nodi;
+  - i rami sono solo un raggruppamento visivo (§2.4), non cambiano la disposizione dei nodi.
+- **Nessun layout per arma**: se un albero non si adatta alle regole, si cambia la funzione (e vale per tutte le armi), non il singolo albero.
+- **Test**: un test di snapshot per almeno tre armi di forme diverse (Burletta, Anvil, Hairpin) per verificare che la grammatica resti uguale.
+
 ### 6.3 Alternative scartate
 
 - **Lista per arma**: scartata. Non è interattiva e non ha stato per profilo.
@@ -274,6 +288,7 @@ Regole:
 - **Venator** (✅): non amplificabile (conferma utente). Esclusa dalla spec.
 - **Riquadri sopra i nodi** (✅): ricerca collegata al nodo (§2.4).
 - **D10 — Pagina dev per il seed** (✅): una pagina di sviluppo per definire armi, nodi, statistiche, rami e requisiti, con cosa blocca e cosa è bloccato. Si realizza insieme al sistema di amplificazione, non prima. Permette di aggiungere armi con gli aggiornamenti senza modifiche al codice.
+- **D11 — Rendering comune degli alberi** (✅): tutti gli alberi usano `renderAmplificationTree` e gli stessi componenti condivisi. Nessuna grammatica specifica per arma (§6.2.1).
 
 ## 9. Rischi
 
