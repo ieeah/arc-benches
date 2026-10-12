@@ -1,0 +1,1957 @@
+# Armi di ARC Raiders — esclude le Amplified (lavoro a parte).
+# Statistiche e valore per livello: MetaForge (cache scripts/metaforge-raw.json).
+# Ricetta, costo di potenziamento e riparazione: ARC Tracker (scripts/arctracker-raw.json, 2026-10-09).
+# Prezzi di vendita: MetaForge /traders (solo Tian Wen).
+# Generato da script, non modificare a mano senza aggiornare anche la sorgente.
+
+all_weapons:
+  common_weapons:
+    ferro:
+      can_be_amplified: false
+      ammo_type: "heavy_ammo"
+      firing_mode: "break_action"
+      ARC_armor_penetration: "strong"
+      stack_size: 1
+      weight_kgs: 8
+      critical_hit_multiplier: "2.5x"
+      damage_falloff_range: "180-200 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 475
+        stats:
+          range: 53.1
+          damage: 40
+          agility: 31.5
+          stealth: 8
+          fire_rate: 6.6
+          stability: 78.1
+          magazine_size: 1
+        tian_wen_price: 1425
+        upgrade_cost: {}
+        repairs:
+          cost:
+            metal_parts: 2
+            rubber_parts: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          metal_parts: 5
+          rubber_parts: 2
+      lvl_2:
+        coins_value: 1000
+        stats:
+          range: 53.1
+          damage: 40
+          agility: 31.5
+          stealth: 8
+          fire_rate: 6.6
+          stability: 78.1
+          magazine_size: 1
+          reduced_reload_time: 13
+        upgrade_cost:
+          metal_parts: 7
+        repairs:
+          cost:
+            metal_parts: 4
+            rubber_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 2000
+        stats:
+          range: 53.1
+          damage: 40
+          agility: 31.5
+          stealth: 8
+          fire_rate: 6.6
+          stability: 78.1
+          magazine_size: 1
+          reduced_reload_time: 26
+          reduced_durability_burn_rate: 51
+        upgrade_cost:
+          metal_parts: 9
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            metal_parts: 6
+            simple_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 2900
+        stats:
+          range: 53.1
+          damage: 40
+          agility: 31.5
+          stealth: 8
+          fire_rate: 6.6
+          stability: 78.1
+          magazine_size: 1
+          reduced_reload_time: 39
+        tian_wen_price: 8700
+        upgrade_cost:
+          mechanical_components: 1
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 1
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+    hairpin:
+      can_be_amplified: true
+      ammo_type: "light_ammo"
+      firing_mode: "slide_action"
+      ARC_armor_penetration: "very weak"
+      stack_size: 1
+      weight_kgs: 3
+      critical_hit_multiplier: "2.5x"
+      damage_falloff_range: "130-150 m"
+      vendors: []
+      lvl_1:
+        coins_value: 450
+        stats:
+          range: 38.6
+          damage: 20
+          agility: 78.3
+          stealth: 70
+          fire_rate: 9
+          stability: 90.9
+          magazine_size: 8
+        upgrade_cost: {}
+        repairs:
+          cost:
+            metal_parts: 2
+            rubber_parts: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          metal_parts: 2
+          plastic_parts: 5
+      lvl_2:
+        coins_value: 1000
+        stats:
+          range: 38.6
+          damage: 20
+          agility: 78.3
+          stealth: 70
+          fire_rate: 14
+          stability: 90.9
+          magazine_size: 8
+          increased_fire_rate: 10
+          reduced_reload_time: 13
+        upgrade_cost:
+          metal_parts: 8
+        repairs:
+          cost:
+            metal_parts: 4
+            rubber_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 2000
+        stats:
+          range: 38.6
+          damage: 20
+          agility: 78.3
+          stealth: 70
+          fire_rate: 9
+          stability: 90.9
+          magazine_size: 8
+          increased_fire_rate: 20
+          reduced_reload_time: 26
+        upgrade_cost:
+          metal_parts: 9
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            metal_parts: 6
+            simple_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 2900
+        stats:
+          range: 38.6
+          damage: 20
+          agility: 78.3
+          stealth: 70
+          fire_rate: 9
+          stability: 90.9
+          magazine_size: 8
+          increased_fire_rate: 30
+          reduced_reload_time: 40
+        upgrade_cost:
+          mechanical_components: 1
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 1
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+    kettle:
+      can_be_amplified: true
+      ammo_type: "light_ammo"
+      firing_mode: "semi_automatic"
+      ARC_armor_penetration: "very weak"
+      stack_size: 1
+      weight_kgs: 7
+      critical_hit_multiplier: "2.5x"
+      damage_falloff_range: "130-150 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 840
+        stats:
+          range: 42.8
+          damage: 8.5
+          agility: 58.5
+          stealth: 26
+          fire_rate: 28
+          stability: 69.8
+          magazine_size: 20
+        tian_wen_price: 2520
+        upgrade_cost: {}
+        repairs:
+          cost:
+            metal_parts: 3
+            rubber_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          metal_parts: 6
+          rubber_parts: 8
+      lvl_2:
+        coins_value: 2000
+        stats:
+          range: 42.8
+          damage: 8.5
+          agility: 58.5
+          stealth: 26
+          fire_rate: 28
+          stability: 69.8
+          magazine_size: 20
+          reduced_reload_time: 13
+          increased_bullet_velocity: 25
+        upgrade_cost:
+          metal_parts: 8
+          plastic_parts: 10
+        repairs:
+          cost:
+            metal_parts: 6
+            rubber_parts: 6
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 3000
+        stats:
+          range: 42.8
+          damage: 8.5
+          agility: 58.5
+          stealth: 26
+          fire_rate: 28
+          stability: 69.8
+          magazine_size: 20
+          reduced_reload_time: 26
+          increased_bullet_velocity: 50
+        upgrade_cost:
+          metal_parts: 10
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            metal_parts: 12
+            simple_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 5000
+        stats:
+          range: 42.8
+          damage: 8.5
+          agility: 58.5
+          stealth: 26
+          fire_rate: 28
+          stability: 69.8
+          magazine_size: 20
+          reduced_reload_time: 40
+          increased_bullet_velocity: 75
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 2
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+    rattler:
+      can_be_amplified: true
+      ammo_type: "medium_ammo"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "moderate"
+      stack_size: 1
+      weight_kgs: 6
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "150-170 m"
+      vendors: []
+      lvl_1:
+        coins_value: 1750
+        stats:
+          range: 56.2
+          damage: 9
+          agility: 54.8
+          stealth: 14
+          fire_rate: 33.3
+          stability: 72.2
+          magazine_size: 12
+        upgrade_cost: {}
+        repairs:
+          cost:
+            mechanical_components: 1
+            rubber_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          metal_parts: 16
+          rubber_parts: 12
+      lvl_2:
+        coins_value: 3000
+        stats:
+          range: 56.2
+          damage: 9
+          agility: 54.8
+          stealth: 14
+          fire_rate: 33.3
+          stability: 72.2
+          magazine_size: 16
+          reduced_durability_burn_rate: 23
+        upgrade_cost:
+          metal_parts: 10
+          rubber_parts: 10
+        repairs:
+          cost:
+            mechanical_components: 2
+            rubber_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 5000
+        stats:
+          range: 56.2
+          damage: 9
+          agility: 54.8
+          stealth: 14
+          fire_rate: 33.3
+          stability: 72.2
+          magazine_size: 20
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 2
+            simple_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 7000
+        stats:
+          range: 56.2
+          damage: 9
+          agility: 54.8
+          stealth: 14
+          fire_rate: 33.3
+          stability: 72.2
+          magazine_size: 24
+          reduced_durability_burn_rate: 70
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 3
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+    stitcher:
+      can_be_amplified: false
+      ammo_type: "light_ammo"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "very weak"
+      stack_size: 1
+      weight_kgs: 5
+      critical_hit_multiplier: "1.75x"
+      damage_falloff_range: "130-150 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 800
+        stats:
+          range: 42.1
+          damage: 6.5
+          agility: 73.8
+          stealth: 19
+          fire_rate: 45.3
+          stability: 45.3
+          magazine_size: 20
+          reduced_reload_time: 13
+        tian_wen_price: 2400
+        upgrade_cost: {}
+        repairs:
+          cost:
+            metal_parts: 3
+            rubber_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          metal_parts: 8
+          rubber_parts: 4
+      lvl_2:
+        coins_value: 2000
+        stats:
+          range: 42.1
+          damage: 6.5
+          agility: 73.8
+          stealth: 19
+          fire_rate: 45.3
+          stability: 45.3
+          magazine_size: 20
+          reduced_reload_time: 13
+        upgrade_cost:
+          metal_parts: 8
+          rubber_parts: 12
+        repairs:
+          cost:
+            metal_parts: 6
+            rubber_parts: 6
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 3000
+        stats:
+          range: 42.1
+          damage: 6.5
+          agility: 73.8
+          stealth: 19
+          fire_rate: 45.3
+          stability: 45.3
+          magazine_size: 20
+          reduced_reload_time: 26
+        upgrade_cost:
+          metal_parts: 10
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            metal_parts: 12
+            simple_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 5000
+        stats:
+          range: 42.1
+          damage: 6.5
+          agility: 73.8
+          stealth: 19
+          fire_rate: 45.3
+          stability: 45.3
+          magazine_size: 20
+          reduced_reload_time: 40
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 2
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+  uncommon_weapons:
+    anvil:
+      can_be_amplified: true
+      ammo_type: "heavy_ammo"
+      firing_mode: "single_action"
+      ARC_armor_penetration: "strong"
+      stack_size: 1
+      weight_kgs: 5
+      critical_hit_multiplier: "2.5x"
+      damage_falloff_range: "180-200 m"
+      vendors: []
+      lvl_1:
+        coins_value: 5000
+        stats:
+          range: 50.2
+          damage: 40
+          agility: 69.1
+          stealth: 10
+          fire_rate: 16.3
+          stability: 75.2
+          magazine_size: 6
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 1
+            heavy_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          advanced_mechanical_components: 2
+          hand_drill: 3
+          heavy_gun_parts: 3
+      lvl_2:
+        coins_value: 7000
+        stats:
+          range: 50.2
+          damage: 40
+          agility: 69.1
+          stealth: 10
+          fire_rate: 20.3
+          stability: 75.2
+          magazine_size: 6
+          increased_fire_rate: 25
+          reduced_dispersion_recovery_time: 6.5
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          heavy_gun_parts: 1
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 10000
+        stats:
+          range: 50.2
+          damage: 40
+          agility: 69.1
+          stealth: 10
+          fire_rate: 16.3
+          stability: 75.2
+          magazine_size: 6
+          increased_fire_rate: 50
+          reduced_dispersion_recovery_time: 12.5
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          heavy_gun_parts: 1
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 13000
+        stats:
+          range: 50.2
+          damage: 40
+          agility: 69.1
+          stealth: 10
+          fire_rate: 16.3
+          stability: 75.2
+          magazine_size: 6
+          increased_fire_rate: 75
+          reduced_dispersion_recovery_time: 18.75
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          heavy_gun_parts: 1
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            heavy_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+    arpeggio:
+      can_be_amplified: false
+      ammo_type: "medium_ammo"
+      firing_mode: "3_round_burst"
+      ARC_armor_penetration: "moderate"
+      stack_size: 1
+      weight_kgs: 6
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "150-170 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 5500
+        stats:
+          range: 55.9
+          damage: 9.5
+          agility: 57.3
+          stealth: 14
+          fire_rate: 8.7
+          stability: 78
+          magazine_size: 24
+        tian_wen_price: 16500
+        upgrade_cost: {}
+        repairs:
+          cost:
+            mechanical_components: 2
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          mechanical_components: 6
+          simple_gun_parts: 6
+      lvl_2:
+        coins_value: 8000
+        stats:
+          range: 55.9
+          damage: 9.5
+          agility: 57.3
+          stealth: 14
+          fire_rate: 18.3
+          stability: 78
+          magazine_size: 24
+          increased_fire_rate: 20
+          reduced_reload_time: 12.5
+        upgrade_cost:
+          mechanical_components: 4
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 3
+            simple_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 11500
+        stats:
+          range: 55.9
+          damage: 9.5
+          agility: 57.3
+          stealth: 14
+          fire_rate: 18.3
+          stability: 78
+          magazine_size: 24
+          increased_fire_rate: 40
+          reduced_reload_time: 25
+          reduced_durability_burn_rate: 46
+        upgrade_cost:
+          mechanical_components: 5
+          medium_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 4
+            simple_gun_parts: 4
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 15000
+        stats:
+          range: 55.9
+          damage: 9.5
+          agility: 57.3
+          stealth: 14
+          fire_rate: 23.3
+          stability: 78
+          magazine_size: 24
+          increased_fire_rate: 60
+          reduced_reload_time: 50
+          reduced_durability_burn_rate: 70
+        upgrade_cost:
+          mechanical_components: 5
+          medium_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 5
+            simple_gun_parts: 5
+          repaired_durability_multiplier: 0.5
+    bantam:
+      can_be_amplified: false
+      ammo_type: "heavy_ammo"
+      firing_mode: "double_action"
+      ARC_armor_penetration: "strong"
+      stack_size: 1
+      weight_kgs: 3
+      damage_falloff_range: "180-200 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 3800
+        stats:
+          damage: 1
+          magazine_size: 1
+        tian_wen_price: 11400
+        upgrade_cost: {}
+        repairs:
+          cost:
+            mechanical_components: 1
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.25
+        recipe_items:
+          mechanical_components: 4
+          simple_gun_parts: 4
+      lvl_2:
+        coins_value: 6000
+        stats: {}
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 2
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.25
+      lvl_3:
+        coins_value: 8000
+        stats: {}
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 3
+            simple_gun_parts: 3
+          repaired_durability_multiplier: 0.25
+      lvl_4:
+        coins_value: 11000
+        stats: {}
+        upgrade_cost:
+          heavy_gun_parts: 1
+          mechanical_components: 4
+        repairs:
+          cost:
+            mechanical_components: 4
+            simple_gun_parts: 4
+          repaired_durability_multiplier: 0.25
+    burletta:
+      can_be_amplified: true
+      ammo_type: "light_ammo"
+      firing_mode: "semi_automatic"
+      ARC_armor_penetration: "very weak"
+      stack_size: 1
+      weight_kgs: 4
+      critical_hit_multiplier: "2.5x"
+      damage_falloff_range: "130-150 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 2900
+        stats:
+          range: 41.7
+          damage: 10
+          agility: 84.4
+          stealth: 24
+          fire_rate: 28
+          stability: 74.5
+          magazine_size: 12
+        tian_wen_price: 8700
+        upgrade_cost: {}
+        repairs:
+          cost:
+            mechanical_components: 1
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          mechanical_components: 3
+          simple_gun_parts: 3
+      lvl_2:
+        coins_value: 5000
+        stats:
+          range: 41.7
+          damage: 10
+          agility: 84.4
+          stealth: 24
+          fire_rate: 28
+          stability: 74.5
+          magazine_size: 12
+          reduced_reload_time: 16.6
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 2
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 10000
+        stats:
+          range: 41.7
+          damage: 10
+          agility: 84.4
+          stealth: 24
+          fire_rate: 28
+          stability: 74.5
+          magazine_size: 12
+          reduced_reload_time: 50
+        upgrade_cost:
+          light_gun_parts: 1
+          mechanical_components: 4
+        repairs:
+          cost:
+            mechanical_components: 4
+            simple_gun_parts: 4
+          repaired_durability_multiplier: 0.5
+    "il-toro":
+      can_be_amplified: true
+      ammo_type: "shotgun_ammo"
+      firing_mode: "pump_action"
+      ARC_armor_penetration: "weak"
+      stack_size: 1
+      weight_kgs: 8
+      critical_hit_multiplier: "1x"
+      damage_falloff_range: "20-50 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 5000
+        stats:
+          range: 20
+          damage: 63
+          agility: 59.7
+          stealth: 18
+          fire_rate: 14.3
+          stability: 80.6
+          magazine_size: 5
+        tian_wen_price: 15000
+        upgrade_cost: {}
+        repairs:
+          cost:
+            mechanical_components: 2
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          mechanical_components: 5
+          simple_gun_parts: 6
+      lvl_2:
+        coins_value: 7000
+        stats:
+          range: 20
+          damage: 63
+          agility: 59.7
+          stealth: 18
+          fire_rate: 14.3
+          stability: 80.6
+          magazine_size: 6
+          increased_fire_rate: 14
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 3
+            simple_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 13000
+        stats:
+          range: 20
+          damage: 63
+          agility: 59.7
+          stealth: 18
+          fire_rate: 14.3
+          stability: 80.6
+          magazine_size: 8
+          increased_fire_rate: 50
+        upgrade_cost:
+          heavy_gun_parts: 1
+          mechanical_components: 4
+        repairs:
+          cost:
+            mechanical_components: 5
+            simple_gun_parts: 5
+          repaired_durability_multiplier: 0.5
+    stiletto:
+      can_be_amplified: false
+      ammo_type: "light_ammo"
+      firing_mode: "semi_automatic"
+      ARC_armor_penetration: "weak"
+      stack_size: 1
+      weight_kgs: 7
+      critical_hit_multiplier: "1.8x"
+      damage_falloff_range: "130-150 m"
+      vendors: []
+      lvl_1:
+        coins_value: 3800
+        stats:
+          damage: 1
+          magazine_size: 1
+        upgrade_cost: {}
+        repairs:
+          cost:
+            mechanical_components: 1
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.25
+        recipe_items:
+          mechanical_components: 4
+          simple_gun_parts: 4
+      lvl_2:
+        coins_value: 6000
+        stats: {}
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 2
+            simple_gun_parts: 2
+          repaired_durability_multiplier: 0.25
+      lvl_3:
+        coins_value: 8000
+        stats: {}
+        upgrade_cost:
+          mechanical_components: 3
+          simple_gun_parts: 1
+        repairs:
+          cost:
+            mechanical_components: 3
+            simple_gun_parts: 3
+          repaired_durability_multiplier: 0.25
+      lvl_4:
+        coins_value: 11000
+        stats: {}
+        upgrade_cost:
+          light_gun_parts: 1
+          mechanical_components: 4
+        repairs:
+          cost:
+            mechanical_components: 4
+            simple_gun_parts: 4
+          repaired_durability_multiplier: 0.25
+  rare_weapons:
+    canto:
+      can_be_amplified: true
+      ammo_type: "medium_ammo"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "moderate"
+      stack_size: 1
+      weight_kgs: 4
+      critical_hit_multiplier: "1.75x"
+      damage_falloff_range: "150-170 m"
+      vendors: []
+      lvl_1:
+        coins_value: 7000
+        stats:
+          damage: 6.5
+          agility: 78.3
+          stealth: 24
+          magazine_size: 18
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 1
+            medium_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          advanced_mechanical_components: 2
+          magnet: 5
+          medium_gun_parts: 3
+      lvl_2:
+        coins_value: 10000
+        stats:
+          damage: 6.5
+          agility: 78.3
+          stealth: 24
+          magazine_size: 20
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 13000
+        stats:
+          damage: 6.5
+          agility: 78.3
+          stealth: 24
+          magazine_size: 22
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 17000
+        stats:
+          damage: 6.5
+          agility: 78.3
+          stealth: 24
+          magazine_size: 24
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+    osprey:
+      can_be_amplified: true
+      ammo_type: "medium_ammo"
+      firing_mode: "bolt_action"
+      ARC_armor_penetration: "moderate"
+      stack_size: 1
+      weight_kgs: 7
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "150-170 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 7000
+        stats:
+          range: 80.3
+          damage: 45
+          agility: 45.9
+          stealth: 12
+          fire_rate: 17.7
+          stability: 85.4
+          magazine_size: 8
+        tian_wen_price: 21000
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 1
+            medium_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 3
+          wires: 7
+      lvl_2:
+        coins_value: 10000
+        stats:
+          range: 80.3
+          damage: 45
+          agility: 45.9
+          stealth: 12
+          fire_rate: 17.7
+          stability: 85.4
+          magazine_size: 8
+          reduced_reload_time: 12.5
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 13000
+        stats:
+          range: 80.3
+          damage: 45
+          agility: 45.9
+          stealth: 12
+          fire_rate: 17.7
+          stability: 85.4
+          magazine_size: 8
+          reduced_reload_time: 25
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 17000
+        stats:
+          range: 80.3
+          damage: 45
+          agility: 45.9
+          stealth: 12
+          fire_rate: 17.7
+          stability: 85.4
+          magazine_size: 8
+          reduced_reload_time: 37.5
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+    rascal:
+      can_be_amplified: true
+      ammo_type: "launcher_ammo"
+      firing_mode: "break_action"
+      ARC_armor_penetration: "very strong"
+      stack_size: 1
+      weight_kgs: 4
+      critical_hit_multiplier: "2x"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 7000
+        stats:
+          range: 28.3
+          damage: 75
+          agility: 78.1
+          stealth: 1
+          fire_rate: 13.7
+          stability: 87.8
+          magazine_size: 1
+        tian_wen_price: 21000
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 1
+            heavy_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          advanced_mechanical_components: 2
+          canister: 5
+          heavy_gun_parts: 3
+      lvl_2:
+        coins_value: 10000
+        stats:
+          range: 28.3
+          damage: 75
+          agility: 78.1
+          stealth: 1
+          fire_rate: 13.7
+          stability: 87.8
+          magazine_size: 1
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          heavy_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 13000
+        stats:
+          range: 28.3
+          damage: 75
+          agility: 78.1
+          stealth: 1
+          fire_rate: 13.7
+          stability: 87.8
+          magazine_size: 1
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          heavy_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 17000
+        stats:
+          range: 28.3
+          damage: 75
+          agility: 78.1
+          stealth: 1
+          fire_rate: 13.7
+          stability: 87.8
+          magazine_size: 1
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          heavy_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            heavy_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+    renegade:
+      can_be_amplified: true
+      ammo_type: "medium_ammo"
+      firing_mode: "lever_action"
+      ARC_armor_penetration: "moderate"
+      stack_size: 1
+      weight_kgs: 10
+      critical_hit_multiplier: "2.25x"
+      damage_falloff_range: "150-170 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 7000
+        stats:
+          range: 68.8
+          damage: 35
+          agility: 55.8
+          stealth: 16
+          fire_rate: 21
+          stability: 85.7
+          magazine_size: 8
+        tian_wen_price: 21000
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 1
+            medium_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 3
+          oil: 5
+      lvl_2:
+        coins_value: 10000
+        stats:
+          range: 68.8
+          damage: 35
+          agility: 55.8
+          stealth: 16
+          fire_rate: 21
+          stability: 85.7
+          magazine_size: 8
+          increased_fire_rate: 25
+          reduced_durability_burn_rate: 23
+          reduced_dispersion_recovery_time: 16.6
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 13000
+        stats:
+          range: 68.8
+          damage: 35
+          agility: 55.8
+          stealth: 16
+          fire_rate: 21
+          stability: 85.7
+          magazine_size: 8
+          increased_fire_rate: 50
+          reduced_durability_burn_rate: 46
+          reduced_dispersion_recovery_time: 33.3
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 17000
+        stats:
+          range: 68.8
+          damage: 35
+          agility: 55.8
+          stealth: 16
+          fire_rate: 21
+          stability: 85.7
+          magazine_size: 8
+          increased_fire_rate: 75
+          reduced_durability_burn_rate: 70
+          reduced_dispersion_recovery_time: 50
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+    torrente:
+      can_be_amplified: false
+      ammo_type: "medium_ammo"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "moderate"
+      stack_size: 1
+      weight_kgs: 12
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "150-170 m"
+      vendors: ["Tian Wen"]
+      lvl_1:
+        coins_value: 7000
+        stats:
+          range: 49.9
+          damage: 8
+          agility: 37.7
+          stealth: 1
+          fire_rate: 58.3
+          stability: 74.2
+          magazine_size: 60
+        tian_wen_price: 21000
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 1
+            medium_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 3
+          steel_spring: 6
+      lvl_2:
+        coins_value: 10000
+        stats:
+          range: 49.9
+          damage: 8
+          agility: 37.7
+          stealth: 1
+          fire_rate: 58.3
+          stability: 74.2
+          magazine_size: 70
+          reduced_reload_time: 15
+          reduced_durability_burn_rate: 23
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 13000
+        stats:
+          range: 49.9
+          damage: 8
+          agility: 37.7
+          stealth: 1
+          fire_rate: 58.3
+          stability: 74.2
+          magazine_size: 80
+          reduced_reload_time: 30
+          reduced_durability_burn_rate: 46
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 17000
+        stats:
+          range: 49.9
+          damage: 8
+          agility: 37.7
+          stealth: 1
+          fire_rate: 48.3
+          stability: 74.2
+          magazine_size: 90
+          reduced_reload_time: 45
+          reduced_durability_burn_rate: 70
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+    venator:
+      can_be_amplified: false
+      ammo_type: "medium_ammo"
+      firing_mode: "semi_automatic"
+      ARC_armor_penetration: "moderate"
+      stack_size: 1
+      weight_kgs: 5
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "150-170 m"
+      vendors: []
+      lvl_1:
+        coins_value: 7000
+        stats:
+          range: 48.4
+          damage: 16
+          agility: 76.4
+          stealth: 12
+          fire_rate: 36.7
+          stability: 61.3
+          magazine_size: 10
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 1
+            medium_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          advanced_mechanical_components: 2
+          magnet: 5
+          medium_gun_parts: 3
+      lvl_2:
+        coins_value: 10000
+        stats:
+          range: 48.4
+          damage: 16
+          agility: 76.4
+          stealth: 12
+          fire_rate: 36.7
+          stability: 61.3
+          magazine_size: 10
+          increased_fire_rate: 13
+          reduced_reload_time: 16
+          reduced_durability_burn_rate: 23
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 13000
+        stats:
+          range: 48.4
+          damage: 16
+          agility: 76.4
+          stealth: 12
+          fire_rate: 36.7
+          stability: 61.3
+          magazine_size: 10
+          increased_fire_rate: 26
+          reduced_reload_time: 33
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 17000
+        stats:
+          range: 48.4
+          damage: 16
+          agility: 76.4
+          stealth: 12
+          fire_rate: 36.7
+          stability: 61.3
+          magazine_size: 10
+          increased_fire_rate: 40
+          reduced_reload_time: 50
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+  epic_weapons:
+    bettina:
+      can_be_amplified: true
+      ammo_type: "heavy_ammo"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "strong"
+      stack_size: 1
+      weight_kgs: 11
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "180-200 m"
+      vendors: []
+      lvl_1:
+        coins_value: 8000
+        stats:
+          damage: 16
+          agility: 48.2
+          stealth: 14
+          fire_rate: 32
+          stability: 76.4
+          magazine_size: 22
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 1
+            heavy_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          advanced_mechanical_components: 3
+          canister: 3
+          heavy_gun_parts: 3
+      lvl_2:
+        coins_value: 11000
+        stats:
+          range: 51.3
+          damage: 16
+          agility: 48.2
+          stealth: 14
+          fire_rate: 32
+          stability: 76.4
+          magazine_size: 22
+          increased_fire_rate: 5
+          reduced_reload_time: 11.1
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          heavy_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 14000
+        stats:
+          range: 51.3
+          damage: 16
+          agility: 48.2
+          stealth: 14
+          fire_rate: 32
+          stability: 76.4
+          magazine_size: 22
+          increased_fire_rate: 10
+          reduced_reload_time: 22.2
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          heavy_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 18000
+        stats:
+          range: 51.3
+          damage: 16
+          agility: 48.2
+          stealth: 14
+          fire_rate: 32
+          stability: 76.4
+          magazine_size: 22
+          increased_fire_rate: 15
+          reduced_reload_time: 33.3
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          heavy_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            heavy_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+    bobcat:
+      can_be_amplified: false
+      ammo_type: "light_ammo"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "very weak"
+      stack_size: 1
+      weight_kgs: 7
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "130-150 m"
+      vendors: []
+      lvl_1:
+        coins_value: 13000
+        stats:
+          range: 44
+          damage: 6
+          agility: 73.1
+          stealth: 21
+          fire_rate: 66.7
+          stability: 45.9
+          magazine_size: 20
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            light_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          exodus_modules: 2
+          light_gun_parts: 3
+          magnetic_accelerator: 1
+      lvl_2:
+        coins_value: 17000
+        stats:
+          range: 44
+          damage: 6
+          agility: 73.1
+          stealth: 21
+          fire_rate: 66.7
+          stability: 44
+          magazine_size: 20
+          reduced_reload_time: 13
+          reduced_max_shot_dispersion: 15
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          light_gun_parts: 1
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            light_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 22000
+        stats:
+          range: 44
+          damage: 6
+          agility: 73.1
+          stealth: 21
+          fire_rate: 66.7
+          stability: 45.9
+          magazine_size: 20
+          reduced_reload_time: 26
+          reduced_max_shot_dispersion: 30
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          light_gun_parts: 3
+        repairs:
+          cost:
+            advanced_mechanical_components: 4
+            light_gun_parts: 4
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 27000
+        stats:
+          range: 44
+          damage: 6
+          agility: 73.1
+          stealth: 21
+          fire_rate: 66.7
+          stability: 45.9
+          magazine_size: 20
+          reduced_reload_time: 40
+          reduced_max_shot_dispersion: 45
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          light_gun_parts: 3
+        repairs:
+          cost:
+            advanced_mechanical_components: 5
+            light_gun_parts: 4
+          repaired_durability_multiplier: 0.5
+    hullcracker:
+      can_be_amplified: true
+      ammo_type: "launcher_ammo"
+      firing_mode: "pump_action"
+      ARC_armor_penetration: "very strong"
+      stack_size: 1
+      weight_kgs: 7
+      critical_hit_multiplier: "2x"
+      vendors: []
+      lvl_1:
+        coins_value: 10000
+        stats:
+          range: 38.9
+          damage: 100
+          agility: 67.9
+          stealth: 1
+          fire_rate: 20.3
+          stability: 97.2
+          magazine_size: 5
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          exodus_modules: 1
+          heavy_gun_parts: 3
+          magnetic_accelerator: 1
+      lvl_2:
+        coins_value: 13000
+        stats:
+          range: 38.9
+          damage: 100
+          agility: 67.9
+          stealth: 1
+          fire_rate: 20.3
+          stability: 97.2
+          magazine_size: 5
+          increased_fire_rate: 18
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          heavy_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 17000
+        stats:
+          range: 38.9
+          damage: 100
+          agility: 67.9
+          stealth: 1
+          fire_rate: 20.3
+          stability: 97.2
+          magazine_size: 5
+          increased_fire_rate: 35
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          heavy_gun_parts: 1
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            heavy_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 22000
+        stats:
+          range: 38.9
+          damage: 100
+          agility: 67.9
+          stealth: 1
+          fire_rate: 20.3
+          stability: 97.2
+          magazine_size: 5
+          increased_fire_rate: 53
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          heavy_gun_parts: 3
+        repairs:
+          cost:
+            advanced_mechanical_components: 4
+            heavy_gun_parts: 4
+          repaired_durability_multiplier: 0.5
+    tempest:
+      can_be_amplified: false
+      ammo_type: "medium_ammo"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "moderate"
+      stack_size: 1
+      weight_kgs: 11
+      critical_hit_multiplier: "1.5x"
+      damage_falloff_range: "150-170 m"
+      vendors: []
+      lvl_1:
+        coins_value: 13000
+        stats:
+          range: 55.9
+          damage: 10
+          agility: 50
+          stealth: 14
+          fire_rate: 36.7
+          stability: 78.9
+          magazine_size: 25
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            medium_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          exodus_modules: 2
+          magnetic_accelerator: 1
+          medium_gun_parts: 3
+      lvl_2:
+        coins_value: 17000
+        stats:
+          range: 55.9
+          damage: 10
+          agility: 50
+          stealth: 14
+          fire_rate: 36.7
+          stability: 78.9
+          magazine_size: 25
+          reduced_reload_time: 13
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 1
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            medium_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 22000
+        stats:
+          range: 55.9
+          damage: 10
+          agility: 50
+          stealth: 14
+          fire_rate: 36.7
+          stability: 78.9
+          magazine_size: 25
+          reduced_reload_time: 26
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 3
+        repairs:
+          cost:
+            advanced_mechanical_components: 4
+            medium_gun_parts: 4
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 27000
+        stats:
+          range: 55.9
+          damage: 10
+          agility: 50
+          stealth: 14
+          fire_rate: 36.7
+          stability: 78.9
+          magazine_size: 25
+          reduced_reload_time: 40
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          medium_gun_parts: 3
+        repairs:
+          cost:
+            advanced_mechanical_components: 5
+            medium_gun_parts: 4
+          repaired_durability_multiplier: 0.5
+    vulcano:
+      can_be_amplified: false
+      ammo_type: "shotgun_ammo"
+      firing_mode: "semi_automatic"
+      ARC_armor_penetration: "weak"
+      stack_size: 1
+      weight_kgs: 8
+      critical_hit_multiplier: "1x"
+      damage_falloff_range: "20-50 m"
+      vendors: []
+      lvl_1:
+        coins_value: 10000
+        stats:
+          range: 22
+          damage: 49.5
+          agility: 66.3
+          stealth: 15
+          fire_rate: 26.3
+          stability: 64.6
+          magazine_size: 6
+        upgrade_cost: {}
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          exodus_modules: 1
+          heavy_gun_parts: 3
+          magnetic_accelerator: 1
+      lvl_2:
+        coins_value: 13000
+        stats:
+          range: 22
+          damage: 49.5
+          agility: 66.3
+          stealth: 15
+          fire_rate: 26.3
+          stability: 64.6
+          magazine_size: 6
+          increased_fire_rate: 10
+          reduced_reload_time: 13
+          reduced_durability_burn_rate: 46
+        upgrade_cost:
+          advanced_mechanical_components: 1
+          heavy_gun_parts: 2
+        repairs:
+          cost:
+            advanced_mechanical_components: 2
+            heavy_gun_parts: 2
+          repaired_durability_multiplier: 0.5
+      lvl_3:
+        coins_value: 17000
+        stats:
+          range: 22
+          damage: 49.5
+          agility: 66.3
+          stealth: 15
+          fire_rate: 26.3
+          stability: 64.6
+          magazine_size: 6
+          increased_fire_rate: 20
+          reduced_reload_time: 26
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          heavy_gun_parts: 1
+        repairs:
+          cost:
+            advanced_mechanical_components: 3
+            heavy_gun_parts: 3
+          repaired_durability_multiplier: 0.5
+      lvl_4:
+        coins_value: 22000
+        stats:
+          range: 22
+          damage: 49.5
+          agility: 66.3
+          stealth: 15
+          fire_rate: 26.3
+          stability: 64.6
+          magazine_size: 6
+          increased_fire_rate: 30
+          reduced_reload_time: 40
+        upgrade_cost:
+          advanced_mechanical_components: 2
+          heavy_gun_parts: 3
+        repairs:
+          cost:
+            advanced_mechanical_components: 4
+            heavy_gun_parts: 4
+          repaired_durability_multiplier: 0.5
+  legendary_weapons:
+    "aphelion-rifle":
+      can_be_amplified: false
+      ammo_type: "energy_clip"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "very strong"
+      stack_size: 1
+      weight_kgs: 10
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "150-170 m"
+      vendors: []
+      lvl_1:
+        coins_value: 27500
+        stats:
+          damage: 25
+          agility: 45.8
+          stealth: 16
+          magazine_size: 10
+        upgrade_cost: {}
+        repairs:
+          cost:
+            complex_gun_parts: 1
+            magnetic_accelerator: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          complex_gun_parts: 3
+          magnetic_accelerator: 3
+          matriarch_reactor: 1
+    dolabra:
+      can_be_amplified: false
+      ammo_type: "energy_clip"
+      stack_size: 1
+      weight_kgs: 8
+      critical_hit_multiplier: "1x"
+      damage_falloff_range: "20-100 m"
+      vendors: []
+      lvl_1:
+        coins_value: 27500
+        stats:
+          damage: 50
+          agility: 29.3
+          stealth: 1
+          magazine_size: 8
+        upgrade_cost: {}
+        repairs:
+          cost:
+            magnetic_accelerator: 2
+            shredder_gyro: 1
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          magnetic_accelerator: 3
+          shredder_gyro: 3
+          vaporizer_regulator: 2
+    equalizer:
+      can_be_amplified: true
+      ammo_type: "energy_clip"
+      firing_mode: "fully_automatic"
+      ARC_armor_penetration: "very strong"
+      stack_size: 1
+      weight_kgs: 14
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "100-200 m"
+      vendors: []
+      lvl_1:
+        coins_value: 27500
+        stats:
+          damage: 8
+          agility: 44.6
+          stealth: 1
+          fire_rate: 33.33
+          stability: 84.6
+          magazine_size: 50
+        upgrade_cost: {}
+        repairs:
+          cost:
+            complex_gun_parts: 1
+            magnetic_accelerator: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          complex_gun_parts: 3
+          magnetic_accelerator: 3
+          queen_reactor: 1
+    jupiter:
+      can_be_amplified: true
+      ammo_type: "energy_clip"
+      firing_mode: "bolt_action"
+      ARC_armor_penetration: "very strong"
+      stack_size: 1
+      weight_kgs: 9
+      critical_hit_multiplier: "2x"
+      damage_falloff_range: "180-200 m"
+      vendors: []
+      lvl_1:
+        coins_value: 27500
+        stats:
+          range: 71.7
+          damage: 60
+          agility: 50.1
+          stealth: 1
+          fire_rate: 7.67
+          stability: 73.5
+          magazine_size: 5
+        upgrade_cost: {}
+        repairs:
+          cost:
+            complex_gun_parts: 1
+            magnetic_accelerator: 2
+          repaired_durability_multiplier: 0.5
+        recipe_items:
+          complex_gun_parts: 3
+          magnetic_accelerator: 3
+          queen_reactor: 1
