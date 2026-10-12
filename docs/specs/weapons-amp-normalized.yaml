@@ -1,0 +1,884 @@
+weapons:
+  anvil:
+    required_module: amplification-module-mk3
+    branches:
+      branch-anvil-x-rounds:
+        name: "X Rounds"
+        blocks: [branch-anvil-splitter]
+        nodes:
+          node-anvil-x-rounds:
+            name: "X Rounds"
+            desc: "Aumenta danno base e penetrazione contro armatura ARC a scapito di rinculo, velocità proiettile e moltiplicatore headshot."
+            reqs:
+              - type: quest
+                id: light-impact-grenade-task
+                state: completed
+                desc: "Infliggi 1.000 danni ciascuno con Light Impact Grenades a Hornet, Firefly, Surveyor e Fireball"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: rocketeer-part
+                qty: 5
+                desc: "Consegna 5x Rocketeer Driver"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              base_damage: +5
+              arc_armor_damage_pct: +33
+              arc_armor_penetration: "Very Strong"
+              headshot_multiplier_pct: -10
+              recoil: "Increased"
+              bullet_velocity_pct: -50
+      branch-anvil-splitter:
+        name: "Splitter"
+        blocks: [branch-anvil-x-rounds]
+        nodes:
+          node-anvil-splitter:
+            name: "Anvil Splitter"
+            desc: "Divide ogni colpo in 4 proiettili infliggendo complessivamente più danno se tutti i colpi vanno a segno, ma peggiora headshot e dispersione ADS."
+            # reqs non indicati: costo di montaggio non noto (non è gratuito, non è indicato)
+            effects:
+              projectiles_per_shot: 4
+              damage_per_projectile_pct: -70
+              headshot_multiplier_pct: -40
+              ads_spread: "Increased"
+
+  il-toro:
+    required_module: amplification-module-mk2
+    branches:
+      branch-il-toro-slug:
+        name: "Slug Rounds"
+        nodes:
+          node-il-toro-slug-rounds:
+            name: "Slug Rounds"
+            desc: "Spara un singolo proiettile slug invece di una rosata di pallettoni, incrementando notevolmente il danno ad armatura ARC."
+            reqs:
+              - type: quest
+                id: shotgun-flying-arc-task
+                state: completed
+                desc: "Distruggi 50 ARC volanti con shotgun"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: tick-pod
+                qty: 20
+                desc: "Consegna 20x Tick Pod"
+              - type: mat
+                id: turbine-compressor
+                qty: 4
+                desc: "Installa 4x Turbine Compressor"
+            effects:
+              firing_type: slug
+              damage_multiplier_vs_pellet: 10
+              arc_armor_damage_pct: +200
+              spread_pct: -40
+              bullet_velocity_pct: -50
+      branch-il-toro-reload:
+        name: "Reload"
+        nodes:
+          node-il-toro-more-reload:
+            name: "More Reload"
+            desc: "Carica una cartuccia aggiuntiva per ciclo di ricarica."
+            reqs:
+              - type: mat
+                id: propellant-valve-assembly
+                qty: 2
+                desc: "Installa 2x Propellant Valve Assembly"
+            effects:
+              shells_loaded_per_cycle: +1
+
+  rattler:
+    required_module: amplification-module-mk1
+    branches:
+      branch-rattler-reload:
+        name: "Reload"
+        nodes:
+          node-rattler-more-reload:
+            name: "More Reload"
+            desc: "Carica 4 colpi alla volta invece di 2."
+            reqs:
+              - type: mat
+                id: propellant-valve-assembly
+                qty: 2
+                desc: "Installa 2x Propellant Valve Assembly"
+            effects:
+              rounds_loaded_per_cycle: +2
+      branch-rattler-capacity:
+        name: "Drum Mag"
+        nodes:
+          node-rattler-drum-mag:
+            name: "Drum Mag"
+            desc: "Aumenta la capienza del caricatore a 64 colpi a scapito di rinculo, dispersione e velocità di mira."
+            reqs:
+              - type: quest
+                id: rattler-bastion-task
+                state: completed
+                desc: "Infliggi 15.000 danni ai Bastion con Rattler e uccidine 1"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: pressure-regulator
+                qty: 4
+                desc: "Installa 4x Pressure Regulator"
+            effects:
+              magazine_size: +40
+              recoil: "Increased"
+              spread: "Increased"
+              ads_speed_pct: -10
+      branch-rattler-incendiary:
+        name: "Incendiary Rounds"
+        nodes:
+          node-rattler-incendiary-rounds:
+            name: "Incendiary Rounds"
+            desc: "I colpi incendiano i bersagli provocando danno continuo da bruciatura."
+            reqs:
+              - type: quest
+                id: fireball-explosive-mines-task
+                state: completed
+                desc: "Uccidi 30 Fireball con mine esplosive"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              burn_damage_per_second: 5
+              burn_duration_seconds: +2
+
+  burletta:
+    required_module: amplification-module-mk2
+    branches:
+      branch-burletta-auto:
+        name: "Full Auto"
+        blocks: [branch-burletta-burst]
+        nodes:
+          node-burletta-full-auto:
+            name: "Full Auto"
+            desc: "Converte l'arma in completamente automatica incrementando la cadenza a spese di danno, stabilità e moltiplicatore headshot."
+            reqs:
+              - type: mat
+                id: pneumatic-actuator
+                qty: 3
+                desc: "Installa 3x Pneumatic Actuator"
+            effects:
+              firing_mode: full_auto
+              base_damage: -2
+              fire_rate: +20
+              stability: -30
+              headshot_multiplier_pct: -60
+      branch-burletta-burst:
+        name: "Burst"
+        blocks: [branch-burletta-auto]
+        nodes:
+          node-burletta-burst-fire:
+            name: "Burst Fire"
+            desc: "Imposta il tiro a raffica."
+            reqs:
+              - type: quest
+                id: shredders-raider-tool-task
+                state: completed
+                desc: "Distruggi 3 Shredder con il Raider Tool"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: queen-reactor
+                qty: 2
+                desc: "Installa 2x Queen Reactor"
+            effects:
+              firing_mode: burst
+          node-burletta-increased-burst:
+            name: "Increased Burst"
+            desc: "Incrementa la dimensione della raffica e la capienza del caricatore."
+            requires: [node-burletta-burst-fire]
+            reqs:
+              - type: quest
+                id: burst-damage-task
+                state: completed
+                desc: "Infliggi 10.000 danni con Burletta a raffica o Charged Burst"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: pressure-regulator
+                qty: 2
+                desc: "Installa 2x Pressure Regulator"
+            effects:
+              burst_count: +2
+              magazine_size: +3
+      branch-burletta-mobility:
+        name: "Sprint Shooting"
+        nodes:
+          node-burletta-sprint-shooting:
+            name: "Sprint Shooting"
+            desc: "Abilita la possibilità di fare fuoco durante lo scatto."
+            reqs:
+              - type: quest
+                id: pass-exploration-task
+                state: completed
+                desc: "Visita 7 luoghi su Pass in una singola incursione (inclusi Commissary, Supermarket e Altamera Station)"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fluted-rotor-core
+                qty: 4
+                desc: "Installa 4x Fluted Rotor Core"
+            effects:
+              allow_sprint_fire: true
+
+  kettle:
+    required_module: amplification-module-mk1
+    branches:
+      branch-kettle-upgrades:
+        name: "Kettle Upgrades"
+        nodes:
+          node-kettle-full-auto:
+            name: "Full Auto"
+            desc: "Converte l'arma in automatica incrementando leggermente la cadenza."
+            blocks: [node-kettle-x-rounds]
+            reqs:
+              - type: mat
+                id: pneumatic-actuator
+                qty: 3
+                desc: "Installa 3x Pneumatic Actuator"
+            effects:
+              firing_mode: full_auto
+              fire_rate_pct: +15
+          node-kettle-x-rounds:
+            name: "X Rounds"
+            desc: "Incrementa danno base e perforazione armatura ARC ma riduce moltiplicatore headshot e velocità del proiettile."
+            blocks: [node-kettle-full-auto, node-kettle-anti-shield]
+            reqs:
+              - type: quest
+                id: light-impact-grenade-task
+                state: completed
+                desc: "Infliggi 1.000 danni ciascuno con Light Impact Grenades a Hornet, Firefly, Surveyor e Fireball"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              base_damage: +5
+              arc_armor_damage_pct: +33
+              arc_armor_penetration: "Very Strong"
+              headshot_multiplier_pct: -10
+              recoil: "Increased"
+              bullet_velocity_pct: -50
+          node-kettle-anti-shield:
+            name: "Anti-Shield"
+            desc: "Raddoppia il danno inferto agli scudi dei Raider al costo di danno base."
+            blocks: [node-kettle-x-rounds]
+            reqs:
+              - type: quest
+                id: raiders-damage-task
+                state: completed
+                desc: "Infliggi 700 danni ai Raider"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: assessor-matrix
+                qty: 3
+                desc: "Installa 3x Assessor Matrix"
+            effects:
+              damage_vs_raider_shields_multiplier: 2
+              base_damage: -2
+
+  bettina:
+    required_module: amplification-module-mk5
+    branches:
+      branch-bettina-magazine:
+        name: "Magazine Expansion"
+        blocks: [branch-bettina-semi-auto-precision]
+        nodes:
+          node-bettina-bigger-mag:
+            name: "Bigger Mag"
+            desc: "Aumenta la capienza del caricatore a 37 colpi."
+            reqs:
+              - type: mat
+                id: pressure-regulator
+                qty: 3
+                desc: "Installa 3x Pressure Regulator"
+            effects:
+              magazine_size: +15
+      branch-bettina-semi-auto-precision:
+        name: "Semi-Auto & Precision"
+        blocks: [branch-bettina-magazine]
+        nodes:
+          node-bettina-semi-auto:
+            name: "Semi-Auto"
+            desc: "Converte il tiro in semiautomatico aumentando il danno base a discapito della cadenza."
+            reqs:
+              - type: quest
+                id: skulkers-raider-tool-task
+                state: completed
+                desc: "Uccidi 5 Skulker con il Raider Tool"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: pneumatic-actuator
+                qty: 3
+                desc: "Installa 3x Pneumatic Actuator"
+            effects:
+              firing_mode: semi_auto
+              base_damage: +3
+              fire_rate_pct: -20
+          node-bettina-x-rounds:
+            name: "X Rounds"
+            desc: "Aggiunge ulteriore danno, perforazione armatura ARC e riduce la capienza colpi."
+            requires: [node-bettina-semi-auto]
+            reqs:
+              - type: quest
+                id: light-impact-grenade-task
+                state: completed
+                desc: "Infliggi 1.000 danni ciascuno con Light Impact Grenades a Hornet, Firefly, Surveyor e Fireball"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              base_damage: +3
+              arc_armor_damage_pct: +25
+              arc_armor_penetration: "Very Strong"
+              magazine_size: -4
+
+  hullcracker:
+    required_module: amplification-module-mk4
+    branches:
+      branch-hullcracker-ordnance:
+        name: "Incendiary Ordnance"
+        nodes:
+          node-hullcracker-incendiary-grenades:
+            name: "Incendiary Grenades"
+            desc: "Le granate esplodendo diffondono fiamme persistenti su bersagli ARC a costo di danno d'impatto e velocità di lancio."
+            reqs:
+              - type: quest
+                id: blaze-grenade-task
+                state: completed
+                desc: "Infliggi 3.000 danni con Blaze Grenades"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              burn_damage_per_second: 11.25
+              burn_duration_seconds: +5
+              impact_damage: -40
+              projectile_velocity_pct: -50
+      branch-hullcracker-reload:
+        name: "Magazine Reload"
+        nodes:
+          node-hullcracker-mag-reload:
+            name: "Mag Reload"
+            desc: "Sostituisce il caricamento individuale delle granate con un caricatore completo."
+            reqs:
+              - type: mat
+                id: propellant-valve-assembly
+                qty: 3
+                desc: "Installa 3x Propellant Valve Assembly"
+            effects:
+              reload_type: magazine_reload
+
+  hairpin:
+    required_module: amplification-module-mk1
+    branches:
+      branch-hairpin-upgrades:
+        name: "Hairpin Upgrades"
+        nodes:
+          node-hairpin-incendiary-rounds:
+            name: "Incendiary Rounds"
+            desc: "Applica effetto incendiario con danni da bruciatura ai bersagli colpiti."
+            blocks: [node-hairpin-tracker-rounds, node-hairpin-semi-auto]
+            reqs:
+              - type: quest
+                id: fireball-explosive-mines-task
+                state: completed
+                desc: "Uccidi 30 Fireball con mine esplosive"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              burn_damage_per_second: 5
+              burn_duration_seconds: +2
+          node-hairpin-tracker-rounds:
+            name: "Tracker Rounds"
+            desc: "Evidenzia e traccia la posizione del bersaglio colpito per 5 secondi."
+            blocks: [node-hairpin-incendiary-rounds, node-hairpin-semi-auto]
+            reqs:
+              - type: mat
+                id: matriarch-reactor
+                qty: 1
+                desc: "Installa 1x Matriarch Reactor"
+            effects:
+              tracking_duration_seconds: 5
+          node-hairpin-semi-auto:
+            name: "Semi-Auto"
+            desc: "Incrementa radicalmente la cadenza a discapito del moltiplicatore headshot e della dispersione."
+            blocks: [node-hairpin-incendiary-rounds, node-hairpin-tracker-rounds]
+            reqs:
+              - type: quest
+                id: skulkers-raider-tool-task
+                state: completed
+                desc: "Uccidi 5 Skulker con il Raider Tool"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: pneumatic-actuator
+                qty: 3
+                desc: "Installa 3x Pneumatic Actuator"
+            effects:
+              firing_mode: semi_auto
+              fire_rate_pct: +150
+              headshot_multiplier_pct: -20
+              spread: "Increased"
+          node-hairpin-sprint-shooting:
+            name: "Sprint Shooting"
+            desc: "Consente di sparare durante lo scatto."
+            requires: [node-hairpin-semi-auto]
+            reqs:
+              - type: quest
+                id: pass-exploration-task
+                state: completed
+                desc: "Completa la ricerca di esplorazione su Pass"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fluted-rotor-core
+                qty: 3
+                desc: "Installa 3x Fluted Rotor Core"
+            effects:
+              allow_sprint_fire: true
+
+  renegade:
+    required_module: amplification-module-mk3
+    branches:
+      branch-renegade-upgrades:
+        name: "Renegade Upgrades"
+        nodes:
+          node-renegade-more-reload:
+            name: "More Reload"
+            desc: "Inserisce un colpo supplementare per ciclo di ricarica."
+            reqs:
+              - type: mat
+                id: propellant-valve-assembly
+                qty: 2
+                desc: "Installa 2x Propellant Valve Assembly"
+            effects:
+              rounds_loaded_per_cycle: +1
+          node-renegade-scope:
+            name: "Scope"
+            desc: "Installa un mirino ottico sull'arma."
+            reqs:
+              - type: quest
+                id: pilgrims-peak-osprey-task
+                state: completed
+                desc: "Su Blue Gate raggiungi Pilgrim's Peak e infliggi 1.000 danni ad ARC con un Osprey nella stessa incursione"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: snitch-scanner
+                qty: 14
+                desc: "Consegna 14x Snitch Scanner"
+              - type: mat
+                id: fluted-rotor-core
+                qty: 4
+                desc: "Installa 4x Fluted Rotor Core"
+            effects:
+              has_scope: true
+
+  osprey:
+    required_module: amplification-module-mk3
+    branches:
+      branch-osprey-upgrades:
+        name: "Osprey Upgrades"
+        nodes:
+          node-osprey-tracker-rounds:
+            name: "Tracker Rounds"
+            desc: "Traccia la posizione dei bersagli colpiti ma riduce la velocità del proiettile."
+            reqs:
+              - type: mat
+                id: matriarch-reactor
+                qty: 2
+                desc: "Installa 2x Matriarch Reactor"
+            effects:
+              tracking_rounds: true
+              bullet_velocity_pct: -60
+          node-osprey-anti-weak-point:
+            name: "Anti-Weak Point"
+            desc: "Raddoppia il danno inflitto ai punti deboli degli ARC ma riduce il danno contro l'armatura."
+            reqs:
+              - type: quest
+                id: flying-arc-thrusters-task
+                state: completed
+                desc: "Distruggi 40 propulsori su ARC volanti"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: assessor-matrix
+                qty: 2
+                desc: "Installa 2x Assessor Matrix"
+            effects:
+              weak_point_damage_multiplier: 2
+              armor_damage: "Decreased"
+          node-osprey-ergonomic-bolt:
+            name: "Ergonomic Bolt"
+            desc: "Permette di riarmare l'otturatore restando in modalità mirino ottico."
+            reqs:
+              - type: quest
+                id: hairpin-damage-raid-task
+                state: completed
+                desc: "Infliggi 1.000 danni con un Hairpin in una singola incursione"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fluted-rotor-core
+                qty: 3
+                desc: "Installa 3x Fluted Rotor Core"
+            effects:
+              chamber_round_while_scoped: true
+
+  rascal:
+    required_module: amplification-module-mk3
+    branches:
+      branch-rascal-upgrades:
+        name: "Rascal Upgrades"
+        nodes:
+          node-rascal-high-velocity:
+            name: "High Velocity"
+            desc: "Raddoppia la velocità del proiettile e dimezza la dispersione in puntamento."
+            reqs:
+              - type: mat
+                id: pneumatic-actuator
+                qty: 2
+                desc: "Installa 2x Pneumatic Actuator"
+            effects:
+              projectile_velocity_multiplier: 2
+              ads_spread_pct: -50
+          node-rascal-sprint-shooting:
+            name: "Sprint Shooting"
+            desc: "Abilita lo sparo durante lo scatto."
+            reqs:
+              - type: quest
+                id: pass-exploration-task
+                state: completed
+                desc: "Completa la ricerca di esplorazione su Pass"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fluted-rotor-core
+                qty: 2
+                desc: "Installa 2x Fluted Rotor Core"
+            effects:
+              allow_sprint_fire: true
+          node-rascal-incendiary-grenades:
+            name: "Incendiary Grenades"
+            desc: "Causa danno continuato da fuoco ad area riducendo il danno d'impatto base."
+            reqs:
+              - type: quest
+                id: blaze-grenade-task
+                state: completed
+                desc: "Infliggi 3.000 danni con Blaze Grenades"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              burn_damage_per_second: 11.25
+              impact_damage: -30
+
+  canto:
+    required_module: amplification-module-mk3
+    branches:
+      branch-canto-upgrades:
+        name: "Canto Upgrades"
+        nodes:
+          node-canto-carbine-conversion:
+            name: "Carbine Conversion"
+            desc: "Dimezza il rinculo ADS e restringe la dispersione, riducendo leggermente la cadenza e aumentando il tempo di estrazione."
+            reqs:
+              - type: mat
+                id: propellant-valve-assembly
+                qty: 3
+                desc: "Installa 3x Propellant Valve Assembly"
+            effects:
+              ads_recoil_pct: -50
+              spread: "Decreased"
+              fire_rate_pct: -10
+              draw_time: "Increased"
+          node-canto-sprint-shooting:
+            name: "Sprint Shooting"
+            desc: "Permette di sparare durante lo scatto."
+            reqs:
+              - type: quest
+                id: pass-exploration-task
+                state: completed
+                desc: "Completa la ricerca di esplorazione su Pass"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fluted-rotor-core
+                qty: 4
+                desc: "Installa 4x Fluted Rotor Core"
+            effects:
+              allow_sprint_fire: true
+          node-canto-incendiary-rounds:
+            name: "Incendiary Rounds"
+            desc: "Applica proiettili incendiari che bruciano i bersagli."
+            reqs:
+              - type: quest
+                id: fireball-explosive-mines-task
+                state: completed
+                desc: "Uccidi 30 Fireball con mine esplosive"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              burn_damage_per_second: 5
+              burn_duration_seconds: +2
+
+  equalizer:
+    required_module: amplification-module-mk5
+    branches:
+      branch-equalizer-beam-focus:
+        name: "Beam Sustained Focus"
+        nodes:
+          node-equalizer-bigger-mag:
+            name: "Bigger Mag"
+            desc: "Incrementa la capienza del serbatoio/caricatore da 50 a 80."
+            reqs:
+              - type: mat
+                id: pressure-regulator
+                qty: 3
+                desc: "Installa 3x Pressure Regulator"
+            effects:
+              magazine_size: +30
+          node-equalizer-ramping-damage:
+            name: "Ramping Damage"
+            desc: "Aumenta progressivamente i danni all'aumentare del tempo di contatto del raggio sul bersaglio."
+            reqs:
+              - type: quest
+                id: equalizer-vaporizers-task
+                state: completed
+                desc: "Infliggi 1.500 danni ai Vaporizer con Equalizer in un'unica incursione"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: queen-reactor
+                qty: 3
+                desc: "Installa 3x Queen Reactor"
+            effects:
+              ramping_beam_damage: true
+      branch-equalizer-anti-weak-point:
+        name: "Anti-Weak Point"
+        nodes:
+          node-equalizer-anti-weak-point:
+            name: "Anti-Weak Point"
+            desc: "Incrementa notevolmente i danni sui punti deboli a scapito di forte penalità contro l'armatura."
+            reqs:
+              - type: quest
+                id: flying-arc-thrusters-task
+                state: completed
+                desc: "Distruggi 40 propulsori su ARC volanti"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: assessor-matrix
+                qty: 2
+                desc: "Installa 2x Assessor Matrix"
+            effects:
+              weak_point_damage_pct: +67
+              armor_damage_pct: -60
+
+  aphelion:
+    required_module: amplification-module-mk5
+    branches:
+      branch-aphelion-upgrades:
+        name: "Aphelion Upgrades"
+        nodes:
+          node-aphelion-bigger-mag:
+            name: "Bigger Mag"
+            desc: "Aumenta la capacità del caricatore da 10 a 16 colpi."
+            reqs:
+              - type: mat
+                id: pressure-regulator
+                qty: 3
+                desc: "Installa 3x Pressure Regulator"
+            effects:
+              magazine_size: +6
+          node-aphelion-charge-burst:
+            name: "Charge Burst"
+            desc: "Modalità carica e rilascio: più a lungo si carica, più colpi vengono sparati (fino a 2 extra), aumentando rinculo e riducendo leggermente il danno."
+            reqs:
+              - type: quest
+                id: arc-turbines-task
+                state: completed
+                desc: "Distruggi 5 turbine ARC"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: queen-reactor
+                qty: 2
+                desc: "Installa 2x Queen Reactor"
+            effects:
+              firing_mode: charge_and_release
+              max_bonus_projectiles: 2
+              damage: "Decreased"
+              recoil: "Substantially Increased"
+          node-aphelion-increased-burst:
+            name: "Increased Burst"
+            desc: "Aggiunge 2 colpi alla raffica."
+            reqs:
+              - type: quest
+                id: burst-damage-task
+                state: completed
+                desc: "Infliggi 10.000 danni con Burletta a raffica o Charged Burst"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: pressure-regulator
+                qty: 2
+                desc: "Installa 2x Pressure Regulator"
+            effects:
+              burst_count: +2
+          node-aphelion-incendiary-rounds:
+            name: "Incendiary Rounds"
+            desc: "Proiettili incendiari che applicano danno continuato da fuoco."
+            reqs:
+              - type: quest
+                id: fireball-explosive-mines-task
+                state: completed
+                desc: "Uccidi 30 Fireball con mine esplosive"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fossilized-lightning
+                qty: 3
+                desc: "Installa 3x Fossilized Lightning"
+            effects:
+              burn_damage_per_second: 5
+              burn_duration_seconds: +2
+
+  jupiter:
+    required_module: amplification-module-mk5
+    branches:
+      branch-jupiter-upgrades:
+        name: "Jupiter Upgrades"
+        nodes:
+          node-jupiter-bigger-mag:
+            name: "Bigger Mag"
+            desc: "Aumenta la capienza del caricatore a 10 colpi."
+            reqs:
+              - type: mat
+                id: pressure-regulator
+                qty: 3
+                desc: "Installa 3x Pressure Regulator"
+            effects:
+              magazine_size: +5
+          node-jupiter-scope:
+            name: "Scope"
+            desc: "Installa un mirino ottico."
+            reqs:
+              - type: quest
+                id: pilgrims-peak-osprey-task
+                state: completed
+                desc: "Su Blue Gate raggiungi Pilgrim's Peak e infliggi 1.000 danni ad ARC con un Osprey nella stessa incursione"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: snitch-scanner
+                qty: 14
+                desc: "Consegna 14x Snitch Scanner"
+              - type: mat
+                id: fluted-rotor-core
+                qty: 3
+                desc: "Installa 3x Fluted Rotor Core"
+            effects:
+              has_scope: true
+          node-jupiter-ergonomic-bolt:
+            name: "Ergonomic Bolt"
+            desc: "Consente l'azionamento dell'otturatore mentre si mira nell'ottica."
+            reqs:
+              - type: quest
+                id: hairpin-damage-raid-task
+                state: completed
+                desc: "Infliggi 1.000 danni con un Hairpin in una singola incursione"
+              - type: currency
+                id: research-points
+                qty: 5000
+                desc: "Paga 5.000 Punti Ricerca"
+              - type: mat
+                id: fluted-rotor-core
+                qty: 3
+                desc: "Installa 3x Fluted Rotor Core"
+            effects:
+              chamber_round_while_scoped: true
