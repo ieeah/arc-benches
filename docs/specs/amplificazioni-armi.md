@@ -62,7 +62,7 @@ Costi di montaggio e requisiti di ricerca: fonte F (in gioco). Ricerca: 5.000 PR
 | Nodo | Effetti | Montaggio | Ricerca | Stato |
 |---|---|---|---|---|
 | X-Rounds | +5 danno base; +33% danno vs armatura ARC; penetrazione armatura "Very Strong"; −10% headshot; rinculo↑; velocità proiettile −50% | 3 Fossilized Lightning | 1.000 danni ciascuno a Hornet, Firefly, Surveyor, Fireball con Light Impact Grenades + 5 Rocketeer Driver | ✅ |
-| Anvil Splitter | 1 colpo → 4 proiettili, ognuno −70% danno (48 totali vs 40); −40% headshot; dispersione ADS↑ | ❌ | Nessuna | ✅ effetti · ❌ costo |
+| Anvil Splitter | 1 colpo → 4 proiettili, ognuno −70% danno (48 totali vs 40); −40% headshot; dispersione ADS↑ | 3 Turbine Compressor (confermato, ~99,9%) | Nessuna | ✅ |
 
 ### 3.2 Il Toro (Mk II)
 
@@ -143,7 +143,7 @@ Anti-Shield: non presente (F).
 
 ### 3.10 Osprey (Mk III)
 
-**Esclusivi:** Tracker Rounds ⊗ Anti-Weak Point (W; F non lo indica).
+**Esclusivi:** Tracker Rounds ⊗ Anti-Weak Point (W, confermato dall'utente).
 
 | Nodo | Effetti | Montaggio | Ricerca | Stato |
 |---|---|---|---|---|
@@ -179,7 +179,7 @@ Anti-Shield: non presente (F).
 
 ### 3.14 Aphelion (Mk V)
 
-**Esclusivi:** Increased Burst richiede Charged Burst (A).
+**Prerequisito:** Increased Burst richiede Charged Burst (A, confermato dall'utente).
 
 | Nodo | Effetti | Montaggio | Ricerca | Stato |
 |---|---|---|---|---|
@@ -213,7 +213,7 @@ Conflitti su stazioni, materiali, avamposto e nomi: [info §5](amplificazione-ar
 
 | # | Tema | Versione F (in gioco) | Versione alternativa | Stato |
 |---|---|---|---|---|
-| 1 | Rattler Drum Mag: ricerca | 15.000 danni Bastion (F) | + 5 Bastion Cell (K) | Usare F; verificare le Bastion Cell |
+| 1 | Rattler Drum Mag: ricerca | 15.000 danni Bastion (F) | + 5 Bastion Cell (K) | Risolto: niente Bastion Cell, 4 Pressure Regulator (conferma utente) |
 | 2 | Osprey: esclusività AWP / Tracker | Non indicata (F) | Esclusivi (W) | Verificare |
 | 3 | Charged Burst: numeri | Solo effetto qualitativo (F) | −2,5 danno, +60% rinculo (P) | Verificare |
 | 4 | Burletta Full Auto: stabilità | ~72 → ~42 (F) | Non indicata altrove | Single source in-game |
@@ -224,7 +224,6 @@ Risolti con F (in gioco): Bettina Mk 5; Kettle X-Rounds +5 / +33%; Sprint Shooti
 
 ## 6. Gap
 
-- [ ] Costo montaggio Anvil Splitter (F non lo indica).
 - [ ] Localizzazione dei materiali di montaggio: Fossilized Lightning, Propellant Valve Assembly, Queen Reactor, Fluted Rotor Core, Assessor Matrix, Matriarch Reactor, Turbine Compressor. Vedi [info §3](amplificazione-armi-info-secondarie.md#3-fonti-di-oggetti-rari).
 - [ ] Dettaglio Field Repair: [info §4](amplificazione-armi-info-secondarie.md#4-riparazione-e-durabilità).
 

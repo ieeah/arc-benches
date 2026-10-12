@@ -4,7 +4,7 @@ weapons:
     branches:
       branch-anvil-x-rounds:
         name: "X Rounds"
-        blocks: [branch-anvil-splitter]
+        excludes: [branch-anvil-splitter]
         nodes:
           node-anvil-x-rounds:
             name: "X Rounds"
@@ -35,12 +35,16 @@ weapons:
               bullet_velocity_pct: -50
       branch-anvil-splitter:
         name: "Splitter"
-        blocks: [branch-anvil-x-rounds]
+        excludes: [branch-anvil-x-rounds]
         nodes:
           node-anvil-splitter:
             name: "Anvil Splitter"
             desc: "Divide ogni colpo in 4 proiettili infliggendo complessivamente più danno se tutti i colpi vanno a segno, ma peggiora headshot e dispersione ADS."
-            # reqs non indicati: costo di montaggio non noto (non è gratuito, non è indicato)
+            reqs:
+              - type: mat
+                id: turbine-compressor
+                qty: 3
+                desc: "Installa 3x Turbine Compressor"
             effects:
               projectiles_per_shot: 4
               damage_per_projectile_pct: -70
@@ -115,6 +119,7 @@ weapons:
           node-rattler-drum-mag:
             name: "Drum Mag"
             desc: "Aumenta la capienza del caricatore a 64 colpi a scapito di rinculo, dispersione e velocità di mira."
+            requires: [node-rattler-more-reload]
             reqs:
               - type: quest
                 id: rattler-bastion-task
@@ -161,7 +166,7 @@ weapons:
     branches:
       branch-burletta-auto:
         name: "Full Auto"
-        blocks: [branch-burletta-burst]
+        excludes: [branch-burletta-burst]
         nodes:
           node-burletta-full-auto:
             name: "Full Auto"
@@ -179,7 +184,7 @@ weapons:
               headshot_multiplier_pct: -60
       branch-burletta-burst:
         name: "Burst"
-        blocks: [branch-burletta-auto]
+        excludes: [branch-burletta-auto]
         nodes:
           node-burletta-burst-fire:
             name: "Burst Fire"
@@ -250,7 +255,7 @@ weapons:
           node-kettle-full-auto:
             name: "Full Auto"
             desc: "Converte l'arma in automatica incrementando leggermente la cadenza."
-            blocks: [node-kettle-x-rounds]
+            excludes: [node-kettle-x-rounds]
             reqs:
               - type: mat
                 id: pneumatic-actuator
@@ -262,7 +267,7 @@ weapons:
           node-kettle-x-rounds:
             name: "X Rounds"
             desc: "Incrementa danno base e perforazione armatura ARC ma riduce moltiplicatore headshot e velocità del proiettile."
-            blocks: [node-kettle-full-auto, node-kettle-anti-shield]
+            excludes: [node-kettle-full-auto, node-kettle-anti-shield]
             reqs:
               - type: quest
                 id: light-impact-grenade-task
@@ -286,7 +291,7 @@ weapons:
           node-kettle-anti-shield:
             name: "Anti-Shield"
             desc: "Raddoppia il danno inferto agli scudi dei Raider al costo di danno base."
-            blocks: [node-kettle-x-rounds]
+            excludes: [node-kettle-x-rounds]
             reqs:
               - type: quest
                 id: raiders-damage-task
@@ -309,7 +314,7 @@ weapons:
     branches:
       branch-bettina-magazine:
         name: "Magazine Expansion"
-        blocks: [branch-bettina-semi-auto-precision]
+        excludes: [branch-bettina-semi-auto-precision]
         nodes:
           node-bettina-bigger-mag:
             name: "Bigger Mag"
@@ -323,7 +328,7 @@ weapons:
               magazine_size: +15
       branch-bettina-semi-auto-precision:
         name: "Semi-Auto & Precision"
-        blocks: [branch-bettina-magazine]
+        excludes: [branch-bettina-magazine]
         nodes:
           node-bettina-semi-auto:
             name: "Semi-Auto"
@@ -418,7 +423,7 @@ weapons:
           node-hairpin-incendiary-rounds:
             name: "Incendiary Rounds"
             desc: "Applica effetto incendiario con danni da bruciatura ai bersagli colpiti."
-            blocks: [node-hairpin-tracker-rounds, node-hairpin-semi-auto]
+            excludes: [node-hairpin-tracker-rounds, node-hairpin-semi-auto]
             reqs:
               - type: quest
                 id: fireball-explosive-mines-task
@@ -438,7 +443,7 @@ weapons:
           node-hairpin-tracker-rounds:
             name: "Tracker Rounds"
             desc: "Evidenzia e traccia la posizione del bersaglio colpito per 5 secondi."
-            blocks: [node-hairpin-incendiary-rounds, node-hairpin-semi-auto]
+            excludes: [node-hairpin-incendiary-rounds, node-hairpin-semi-auto]
             reqs:
               - type: mat
                 id: matriarch-reactor
@@ -449,7 +454,7 @@ weapons:
           node-hairpin-semi-auto:
             name: "Semi-Auto"
             desc: "Incrementa radicalmente la cadenza a discapito del moltiplicatore headshot e della dispersione."
-            blocks: [node-hairpin-incendiary-rounds, node-hairpin-tracker-rounds]
+            excludes: [node-hairpin-incendiary-rounds, node-hairpin-tracker-rounds]
             reqs:
               - type: quest
                 id: skulkers-raider-tool-task
@@ -536,6 +541,7 @@ weapons:
           node-osprey-tracker-rounds:
             name: "Tracker Rounds"
             desc: "Traccia la posizione dei bersagli colpiti ma riduce la velocità del proiettile."
+            excludes: [node-osprey-anti-weak-point]
             reqs:
               - type: mat
                 id: matriarch-reactor
@@ -547,6 +553,7 @@ weapons:
           node-osprey-anti-weak-point:
             name: "Anti-Weak Point"
             desc: "Raddoppia il danno inflitto ai punti deboli degli ARC ma riduce il danno contro l'armatura."
+            excludes: [node-osprey-tracker-rounds]
             reqs:
               - type: quest
                 id: flying-arc-thrusters-task
@@ -713,6 +720,7 @@ weapons:
           node-equalizer-ramping-damage:
             name: "Ramping Damage"
             desc: "Aumenta progressivamente i danni all'aumentare del tempo di contatto del raggio sul bersaglio."
+            excludes: [node-equalizer-anti-weak-point]
             reqs:
               - type: quest
                 id: equalizer-vaporizers-task
@@ -734,6 +742,7 @@ weapons:
           node-equalizer-anti-weak-point:
             name: "Anti-Weak Point"
             desc: "Incrementa notevolmente i danni sui punti deboli a scapito di forte penalità contro l'armatura."
+            excludes: [node-equalizer-ramping-damage]
             reqs:
               - type: quest
                 id: flying-arc-thrusters-task
@@ -791,6 +800,7 @@ weapons:
           node-aphelion-increased-burst:
             name: "Increased Burst"
             desc: "Aggiunge 2 colpi alla raffica."
+            requires: [node-aphelion-charge-burst]
             reqs:
               - type: quest
                 id: burst-damage-task

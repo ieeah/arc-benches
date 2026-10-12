@@ -62,6 +62,8 @@ Ogni nodo ha:
 - **prerequisiti**: altri nodi che devono essere già montati. Se un prerequisito non è montato, il nodo non è attivabile;
 - **esclusività**: nodi che non possono coesistere con questo.
 
+Esclusività a livello di ramo: un ramo può escludere un altro ramo (es. Full Auto blocca Burst). In quel caso nessun nodo del ramo escluso è attivabile, e viene mostrata l'etichetta "Esclude: …" tra i due rami. Esclusività di ramo e di nodo convivono.
+
 Regola degli id (hyphen-case, come da AGENTS.md):
 
 - i rami iniziano con `branch-`, es. `branch-1`, `branch-2`;
@@ -201,7 +203,8 @@ export interface AmplificationNode {
 
 export interface AmplificationBranch {
   id: `branch-${string}`;                   // es. 'branch-1'
-  nodeIds: `node-${string}`[];              // nodi del ramo, solo per raggruppamento in pagina
+  nodeIds: `node-${string}`[];              // nodi del ramo
+  excludes: `branch-${string}`[];           // rami incompatibili (simmetrico): nessun nodo del ramo escluso è attivabile
 }
 
 export interface WeaponDetail {
@@ -249,7 +252,7 @@ Tutti gli alberi di amplificazione sono costruiti da una sola funzione, con un s
   - un nodo con ricerca mostra il quadrato di ricerca collegato sopra di sé (come in gioco);
   - un nodo senza ricerca non mostra il quadrato;
   - un prerequisito è un connettore dal nodo precedente, un'esclusività è un'etichetta "Esclude: …" tra due nodi;
-  - i rami sono solo un raggruppamento visivo (§2.4), non cambiano la disposizione dei nodi.
+  - i rami sono un raggruppamento visivo (§2.4). Un'esclusione tra rami è un'etichetta "Esclude: …" tra i due rami, non cambia la disposizione dei nodi.
 - **Nessun layout per arma**: se un albero non si adatta alle regole, si cambia la funzione (e vale per tutte le armi), non il singolo albero.
 - **Test**: un test di snapshot per almeno tre armi di forme diverse (Burletta, Anvil, Hairpin) per verificare che la grammatica resti uguale.
 

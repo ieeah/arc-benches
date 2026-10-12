@@ -66,6 +66,28 @@ Completa "Sheltered Retreat" (K, M) ✅
 
 Il valore dipende dalla rarità dell'oggetto (spec §2.2). I quattro tomi corrispondono al riassunto del video: tascabile rovinato, diario del rider, manuale tecnico, modulo dati ARC.
 
+### 3.2 Materiali di montaggio: fonte di recupero
+
+Dal campo `loot_area` del catalogo (MetaForge). Indica la categoria della fonte, non una posizione precisa. Dove il campo è vuoto la fonte non è nota.
+
+| Materiale (id) | Fonte (loot_area) | Rarità catalogo |
+|---|---|---|
+| Fossilized Lightning (`fossilized-lightning`) | Nature | Epic |
+| Propellant Valve Assembly (`propellant-valve-assembly`) | ❌ non indicata | Epic |
+| Fluted Rotor Core (`fluted-rotor-core`) | ❌ non indicata | Epic |
+| Assessor Matrix (`assessor-matrix`) | ❌ campo vuoto | Epic |
+| Pneumatic Actuator (`pneumatic-actuator`) | ❌ non indicata · Payload Imperatore (A, K, Y, W) | Epic |
+| Pressure Regulator (`pressure-regulator`) | ❌ non indicata · Payload Imperatore (A, K, Y, W) | Epic |
+| Queen Reactor (`queen-reactor`) | ARC | Legendary |
+| Matriarch Reactor (`matriarch-reactor`) | ARC | Legendary |
+| Turbine Compressor (`turbine-compressor`) | ARC | Epic |
+| Tick Pod (`tick-pod`) | ARC | Uncommon |
+| Snitch Scanner (`snitch-scanner`) | ARC | Uncommon |
+| Rocketeer Driver (`rocketeer-part`) | ARC | Epic |
+| Skulker Driver (`skulker-driver`) | ARC | Rare |
+
+Da cercare: Propellant Valve Assembly, Fluted Rotor Core, Assessor Matrix (fonte non indicata nel catalogo).
+
 > Materiali di applicazione: la spec (video) indica fulmini fossilizzati (Anvil) e valvola del propellente (Renegade). Pneumatic Actuator e Pressure Regulator risultano nelle altre fonti. Vedi §5.
 
 ---
@@ -115,6 +137,8 @@ Il valore dipende dalla rarità dell'oggetto (spec §2.2). I quattro tomi corris
 ---
 
 ## 6. Gap
+
+- [ ] Materiali di livello 1–4 per arma: assenti nel catalogo (nessuna ricetta né fonte). `rattler-i`…`rattler-iv` sono item separati senza ricetta. Da cercare su fonti esterne o in gioco.
 
 - [ ] Costo di applicazione per ogni perk (noto solo Anvil X-Rounds).
 - [ ] Costo di sblocco dei moduli per Mk.
