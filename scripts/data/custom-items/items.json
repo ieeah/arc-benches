@@ -37,6 +37,29 @@
       }
     }
   },
+  "research-points": {
+    "id": "research-points",
+    "name": "Research Points",
+    "description": "Currency used to pay the research projects that unlock weapon amplification nodes.",
+    "icon": "",
+    "rarity": "Common",
+    "item_type": "Currency",
+    "subcategory": "",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Punti Ricerca",
+        "description": "Valuta usata per pagare i progetti di ricerca che sbloccano i nodi di amplificazione delle armi."
+      }
+    },
+    "review": [
+      "Icona assente: da procurare",
+      "Valuta custom introdotta per le amplificazioni (D1 della spec): non esiste come oggetto in gioco, i valori ottenuti da convertire sono da verificare"
+    ]
+  },
   "accessories-caposta-variant": {
     "id": "accessories-caposta-variant",
     "name": "Accessories (Caposta Variant)",
