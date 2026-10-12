@@ -48,7 +48,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "adrenaline-shot": {
     "id": "adrenaline-shot",
@@ -99,7 +99,7 @@
     "value": 1000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Fotocamera Avanzata",
@@ -258,9 +258,9 @@
     "name": "Alpine Wardrobe",
     "description": "",
     "icon": "icons/items/alpine-wardrobe.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -277,7 +277,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "alpino-outfit": {
     "id": "alpino-outfit",
@@ -302,8 +302,8 @@
     "subcategory": null,
     "value": 7000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "amplification-module-mk-ii": {
     "id": "amplification-module-mk-ii",
@@ -315,8 +315,8 @@
     "subcategory": null,
     "value": 7000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "amplification-module-mk-iii": {
     "id": "amplification-module-mk-iii",
@@ -328,8 +328,8 @@
     "subcategory": null,
     "value": 7000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "amplification-module-mk-iv": {
     "id": "amplification-module-mk-iv",
@@ -341,8 +341,8 @@
     "subcategory": null,
     "value": 7000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "amplification-module-mk-v": {
     "id": "amplification-module-mk-v",
@@ -354,21 +354,34 @@
     "subcategory": null,
     "value": 7000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
-  "amplified-anvil": {
-    "id": "amplified-anvil",
-    "name": "Amplified Anvil",
+  "amplified-anvil-projectile-splitter": {
+    "id": "amplified-anvil-projectile-splitter",
+    "name": "Amplified Anvil (Anvil Splitter)",
     "description": "An amplified variant of the Anvil.",
-    "icon": "icons/items/amplified-anvil.webp",
+    "icon": "icons/items/amplified-anvil-projectile-splitter.webp",
     "rarity": "Amplified",
     "item_type": "Weapon",
     "subcategory": "Hand Cannon",
     "value": 20800,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-anvil-x-rounds": {
+    "id": "amplified-anvil-x-rounds",
+    "name": "Amplified Anvil (X-Rounds)",
+    "description": "An amplified variant of the Anvil.",
+    "icon": "icons/items/amplified-anvil-projectile-splitter.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Hand Cannon",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-aphelion": {
     "id": "amplified-aphelion",
@@ -381,7 +394,150 @@
     "value": 35200,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-aphelion-bigger-mag": {
+    "id": "amplified-aphelion-bigger-mag",
+    "name": "Amplified Aphelion (Bigger Mag)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-bigger-mag-charged-burst": {
+    "id": "amplified-aphelion-bigger-mag-charged-burst",
+    "name": "Amplified Aphelion (Bigger Mag, Charged Burst)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-bigger-mag-charged-burst-incendiary-rounds": {
+    "id": "amplified-aphelion-bigger-mag-charged-burst-incendiary-rounds",
+    "name": "Amplified Aphelion (Bigger Mag, Charged Burst, Incendiary Rounds)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-bigger-mag-charged-burst-increased-burst": {
+    "id": "amplified-aphelion-bigger-mag-charged-burst-increased-burst",
+    "name": "Amplified Aphelion (Bigger Mag, Charged Burst, Increased Burst)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-bigger-mag-charged-burst-increased-burst-incendiary-rounds": {
+    "id": "amplified-aphelion-bigger-mag-charged-burst-increased-burst-incendiary-rounds",
+    "name": "Amplified Aphelion (Bigger Mag, Charged Burst, Increased Burst, Incendiary Rounds)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-bigger-mag-incendiary-rounds": {
+    "id": "amplified-aphelion-bigger-mag-incendiary-rounds",
+    "name": "Amplified Aphelion (Bigger Mag, Incendiary Rounds)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-charged-burst": {
+    "id": "amplified-aphelion-charged-burst",
+    "name": "Amplified Aphelion (Charged Burst)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-charged-burst-incendiary-rounds": {
+    "id": "amplified-aphelion-charged-burst-incendiary-rounds",
+    "name": "Amplified Aphelion (Charged Burst, Incendiary Rounds)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-charged-burst-increased-burst": {
+    "id": "amplified-aphelion-charged-burst-increased-burst",
+    "name": "Amplified Aphelion (Charged Burst, Increased Burst)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-charged-burst-increased-burst-incendiary-rounds": {
+    "id": "amplified-aphelion-charged-burst-increased-burst-incendiary-rounds",
+    "name": "Amplified Aphelion (Charged Burst, Increased Burst, Incendiary Rounds)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-aphelion-incendiary-rounds": {
+    "id": "amplified-aphelion-incendiary-rounds",
+    "name": "Amplified Aphelion (Incendiary Rounds)",
+    "description": "An amplified variant of the Aphelion.",
+    "icon": "icons/items/amplified-aphelion.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-bettina": {
     "id": "amplified-bettina",
@@ -394,7 +550,46 @@
     "value": 27200,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-bettina-bigger-mag": {
+    "id": "amplified-bettina-bigger-mag",
+    "name": "Amplified Bettina (Bigger Mag)",
+    "description": "An amplified variant of the Bettina.",
+    "icon": "icons/items/amplified-bettina.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 27200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-bettina-semi-auto": {
+    "id": "amplified-bettina-semi-auto",
+    "name": "Amplified Bettina (Semi-Auto)",
+    "description": "An amplified variant of the Bettina.",
+    "icon": "icons/items/amplified-bettina.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 27200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-bettina-semi-auto-x-rounds": {
+    "id": "amplified-bettina-semi-auto-x-rounds",
+    "name": "Amplified Bettina (Semi-Auto, X-Rounds)",
+    "description": "An amplified variant of the Bettina.",
+    "icon": "icons/items/amplified-bettina.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 27200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-burletta": {
     "id": "amplified-burletta",
@@ -407,7 +602,98 @@
     "value": 16000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-burletta-burst": {
+    "id": "amplified-burletta-burst",
+    "name": "Amplified Burletta (Burst Fire)",
+    "description": "An amplified variant of the Burletta.",
+    "icon": "icons/items/amplified-burletta.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-burletta-burst-increased-burst": {
+    "id": "amplified-burletta-burst-increased-burst",
+    "name": "Amplified Burletta (Burst Fire, Increased Burst)",
+    "description": "An amplified variant of the Burletta.",
+    "icon": "icons/items/amplified-burletta.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-burletta-burst-increased-burst-sprint-shooting": {
+    "id": "amplified-burletta-burst-increased-burst-sprint-shooting",
+    "name": "Amplified Burletta (Burst Fire, Increased Burst, Sprint Shooting)",
+    "description": "An amplified variant of the Burletta.",
+    "icon": "icons/items/amplified-burletta.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-burletta-burst-sprint-shooting": {
+    "id": "amplified-burletta-burst-sprint-shooting",
+    "name": "Amplified Burletta (Burst Fire, Sprint Shooting)",
+    "description": "An amplified variant of the Burletta.",
+    "icon": "icons/items/amplified-burletta.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-burletta-full-auto": {
+    "id": "amplified-burletta-full-auto",
+    "name": "Amplified Burletta (Full-Auto)",
+    "description": "An amplified variant of the Burletta.",
+    "icon": "icons/items/amplified-burletta.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-burletta-full-auto-sprint-shooting": {
+    "id": "amplified-burletta-full-auto-sprint-shooting",
+    "name": "Amplified Burletta (Full-Auto, Sprint Shooting)",
+    "description": "An amplified variant of the Burletta.",
+    "icon": "icons/items/amplified-burletta.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-burletta-sprint-shooting": {
+    "id": "amplified-burletta-sprint-shooting",
+    "name": "Amplified Burletta (Sprint Shooting)",
+    "description": "An amplified variant of the Burletta.",
+    "icon": "icons/items/amplified-burletta.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-canto": {
     "id": "amplified-canto",
@@ -420,7 +706,72 @@
     "value": 20800,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-canto-carbine": {
+    "id": "amplified-canto-carbine",
+    "name": "Amplified Canto (Carbine Conversion)",
+    "description": "An amplified variant of the Canto.",
+    "icon": "icons/items/amplified-canto-carbine.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "SMG",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-canto-incendiary-rounds": {
+    "id": "amplified-canto-incendiary-rounds",
+    "name": "Amplified Canto (Incendiary Rounds)",
+    "description": "An amplified variant of the Canto.",
+    "icon": "icons/items/amplified-canto.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "SMG",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-canto-incendiary-rounds-carbine": {
+    "id": "amplified-canto-incendiary-rounds-carbine",
+    "name": "Amplified Canto (Incendiary Rounds, Carbine Conversion)",
+    "description": "An amplified variant of the Canto.",
+    "icon": "icons/items/amplified-canto-carbine.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "SMG",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-canto-incendiary-rounds-sprint-shooting": {
+    "id": "amplified-canto-incendiary-rounds-sprint-shooting",
+    "name": "Amplified Canto (Incendiary Rounds, Sprint Shooting)",
+    "description": "An amplified variant of the Canto.",
+    "icon": "icons/items/amplified-canto.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "SMG",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-canto-sprint-shooting": {
+    "id": "amplified-canto-sprint-shooting",
+    "name": "Amplified Canto (Sprint Shooting)",
+    "description": "An amplified variant of the Canto.",
+    "icon": "icons/items/amplified-canto.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "SMG",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-equalizer": {
     "id": "amplified-equalizer",
@@ -433,7 +784,72 @@
     "value": 35200,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-equalizer-anti-weak-point": {
+    "id": "amplified-equalizer-anti-weak-point",
+    "name": "Amplified Equalizer (Anti-Weak Point)",
+    "description": "An amplified variant of the Equalizer.",
+    "icon": "icons/items/amplified-equalizer.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-equalizer-anti-weak-point-bigger-mag": {
+    "id": "amplified-equalizer-anti-weak-point-bigger-mag",
+    "name": "Amplified Equalizer (Anti-Weak Point, Bigger Mag)",
+    "description": "An amplified variant of the Equalizer.",
+    "icon": "icons/items/amplified-equalizer.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-equalizer-bigger-mag": {
+    "id": "amplified-equalizer-bigger-mag",
+    "name": "Amplified Equalizer (Bigger Mag)",
+    "description": "An amplified variant of the Equalizer.",
+    "icon": "icons/items/amplified-equalizer.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-equalizer-ramping-damage": {
+    "id": "amplified-equalizer-ramping-damage",
+    "name": "Amplified Equalizer (Ramping Damage)",
+    "description": "An amplified variant of the Equalizer.",
+    "icon": "icons/items/amplified-equalizer.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-equalizer-ramping-damage-bigger-mag": {
+    "id": "amplified-equalizer-ramping-damage-bigger-mag",
+    "name": "Amplified Equalizer (Ramping Damage, Bigger Mag)",
+    "description": "An amplified variant of the Equalizer.",
+    "icon": "icons/items/amplified-equalizer.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-fragments": {
     "id": "amplified-fragments",
@@ -445,8 +861,8 @@
     "subcategory": null,
     "value": 500,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 50
   },
   "amplified-hairpin": {
     "id": "amplified-hairpin",
@@ -459,7 +875,59 @@
     "value": 11200,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-hairpin-incendiary-rounds": {
+    "id": "amplified-hairpin-incendiary-rounds",
+    "name": "Amplified Hairpin (Incendiary Rounds)",
+    "description": "An amplified variant of the Hairpin.",
+    "icon": "icons/items/amplified-hairpin.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-hairpin-semi-auto": {
+    "id": "amplified-hairpin-semi-auto",
+    "name": "Amplified Hairpin (Semi-Auto)",
+    "description": "An amplified variant of the Hairpin.",
+    "icon": "icons/items/amplified-hairpin.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-hairpin-semi-auto-sprint-shooting": {
+    "id": "amplified-hairpin-semi-auto-sprint-shooting",
+    "name": "Amplified Hairpin (Semi-Auto, Sprint Shooting)",
+    "description": "An amplified variant of the Hairpin.",
+    "icon": "icons/items/amplified-hairpin.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-hairpin-tracker-rounds": {
+    "id": "amplified-hairpin-tracker-rounds",
+    "name": "Amplified Hairpin (Tracker Rounds)",
+    "description": "An amplified variant of the Hairpin.",
+    "icon": "icons/items/amplified-hairpin.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Pistol",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-hullcracker": {
     "id": "amplified-hullcracker",
@@ -472,7 +940,46 @@
     "value": 27200,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-hullcracker-incendiary-rounds": {
+    "id": "amplified-hullcracker-incendiary-rounds",
+    "name": "Amplified Hullcracker (Incendiary Grenades)",
+    "description": "An amplified variant of the Hullcracker.",
+    "icon": "icons/items/amplified-hullcracker.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 27200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-hullcracker-incendiary-rounds-mag-reload": {
+    "id": "amplified-hullcracker-incendiary-rounds-mag-reload",
+    "name": "Amplified Hullcracker (Incendiary Grenades, Mag Reload)",
+    "description": "An amplified variant of the Hullcracker.",
+    "icon": "icons/items/amplified-hullcracker.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 27200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-hullcracker-mag-reload": {
+    "id": "amplified-hullcracker-mag-reload",
+    "name": "Amplified Hullcracker (Mag Reload)",
+    "description": "An amplified variant of the Hullcracker.",
+    "icon": "icons/items/amplified-hullcracker.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 27200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-il-toro": {
     "id": "amplified-il-toro",
@@ -485,7 +992,46 @@
     "value": 16000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-il-toro-more-reload": {
+    "id": "amplified-il-toro-more-reload",
+    "name": "Amplified Il Toro (More Reload)",
+    "description": "An amplified variant of the Il Toro.",
+    "icon": "icons/items/amplified-il-toro.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Shotgun",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-il-toro-more-reload-slug-rounds": {
+    "id": "amplified-il-toro-more-reload-slug-rounds",
+    "name": "Amplified Il Toro (More Reload, Slug Rounds)",
+    "description": "An amplified variant of the Il Toro.",
+    "icon": "icons/items/amplified-il-toro.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Shotgun",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-il-toro-slug-rounds": {
+    "id": "amplified-il-toro-slug-rounds",
+    "name": "Amplified Il Toro (Slug Rounds)",
+    "description": "An amplified variant of the Il Toro.",
+    "icon": "icons/items/amplified-il-toro.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Shotgun",
+    "value": 16000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-jupiter": {
     "id": "amplified-jupiter",
@@ -498,7 +1044,98 @@
     "value": 35200,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-jupiter-bigger-mag": {
+    "id": "amplified-jupiter-bigger-mag",
+    "name": "Amplified Jupiter (Bigger Mag)",
+    "description": "An amplified variant of the Jupiter.",
+    "icon": "icons/items/amplified-jupiter.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-jupiter-bigger-mag-scoped": {
+    "id": "amplified-jupiter-bigger-mag-scoped",
+    "name": "Amplified Jupiter (Bigger Mag, Scoped)",
+    "description": "An amplified variant of the Jupiter.",
+    "icon": "icons/items/amplified-jupiter-bigger-mag-scoped.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-jupiter-bigger-mag-scoped-straight-bolt": {
+    "id": "amplified-jupiter-bigger-mag-scoped-straight-bolt",
+    "name": "Amplified Jupiter (Bigger Mag, Scoped, Ergonomic Bolt)",
+    "description": "An amplified variant of the Jupiter.",
+    "icon": "icons/items/amplified-jupiter-bigger-mag-scoped.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-jupiter-bigger-mag-straight-bolt": {
+    "id": "amplified-jupiter-bigger-mag-straight-bolt",
+    "name": "Amplified Jupiter (Bigger Mag, Ergonomic Bolt)",
+    "description": "An amplified variant of the Jupiter.",
+    "icon": "icons/items/amplified-jupiter.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-jupiter-scoped": {
+    "id": "amplified-jupiter-scoped",
+    "name": "Amplified Jupiter (Scoped)",
+    "description": "An amplified variant of the Jupiter.",
+    "icon": "icons/items/amplified-jupiter-bigger-mag-scoped.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-jupiter-scoped-straight-bolt": {
+    "id": "amplified-jupiter-scoped-straight-bolt",
+    "name": "Amplified Jupiter (Scoped, Ergonomic Bolt)",
+    "description": "An amplified variant of the Jupiter.",
+    "icon": "icons/items/amplified-jupiter-bigger-mag-scoped.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-jupiter-straight-bolt": {
+    "id": "amplified-jupiter-straight-bolt",
+    "name": "Amplified Jupiter (Ergonomic Bolt)",
+    "description": "An amplified variant of the Jupiter.",
+    "icon": "icons/items/amplified-jupiter.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 35200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-kettle": {
     "id": "amplified-kettle",
@@ -511,7 +1148,59 @@
     "value": 11200,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-kettle-anti-shield": {
+    "id": "amplified-kettle-anti-shield",
+    "name": "Amplified Kettle (Anti-Shield)",
+    "description": "An amplified variant of the Kettle.",
+    "icon": "icons/items/amplified-kettle.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-kettle-anti-shield-full-auto": {
+    "id": "amplified-kettle-anti-shield-full-auto",
+    "name": "Amplified Kettle (Anti-Shield, Full-Auto)",
+    "description": "An amplified variant of the Kettle.",
+    "icon": "icons/items/amplified-kettle.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-kettle-full-auto": {
+    "id": "amplified-kettle-full-auto",
+    "name": "Amplified Kettle (Full-Auto)",
+    "description": "An amplified variant of the Kettle.",
+    "icon": "icons/items/amplified-kettle.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-kettle-x-rounds": {
+    "id": "amplified-kettle-x-rounds",
+    "name": "Amplified Kettle (X-Rounds)",
+    "description": "An amplified variant of the Kettle.",
+    "icon": "icons/items/amplified-kettle.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-osprey": {
     "id": "amplified-osprey",
@@ -524,7 +1213,72 @@
     "value": 20800,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-osprey-anti-weak-point": {
+    "id": "amplified-osprey-anti-weak-point",
+    "name": "Amplified Osprey (Anti-Weak Point)",
+    "description": "An amplified variant of the Osprey.",
+    "icon": "icons/items/amplified-osprey.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-osprey-straight-bolt": {
+    "id": "amplified-osprey-straight-bolt",
+    "name": "Amplified Osprey (Ergonomic Bolt)",
+    "description": "An amplified variant of the Osprey.",
+    "icon": "icons/items/amplified-osprey.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-osprey-straight-bolt-anti-weak-point": {
+    "id": "amplified-osprey-straight-bolt-anti-weak-point",
+    "name": "Amplified Osprey (Ergonomic Bolt, Anti-Weak Point)",
+    "description": "An amplified variant of the Osprey.",
+    "icon": "icons/items/amplified-osprey.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-osprey-tracker-rounds": {
+    "id": "amplified-osprey-tracker-rounds",
+    "name": "Amplified Osprey (Tracker Rounds)",
+    "description": "An amplified variant of the Osprey.",
+    "icon": "icons/items/amplified-osprey.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-osprey-tracker-rounds-straight-bolt": {
+    "id": "amplified-osprey-tracker-rounds-straight-bolt",
+    "name": "Amplified Osprey (Tracker Rounds, Ergonomic Bolt)",
+    "description": "An amplified variant of the Osprey.",
+    "icon": "icons/items/amplified-osprey.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Sniper Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-rascal": {
     "id": "amplified-rascal",
@@ -537,7 +1291,98 @@
     "value": 20800,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-rascal-high-velocity": {
+    "id": "amplified-rascal-high-velocity",
+    "name": "Amplified Rascal (High Velocity)",
+    "description": "An amplified variant of the Rascal.",
+    "icon": "icons/items/amplified-rascal.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rascal-high-velocity-incendiary-rounds": {
+    "id": "amplified-rascal-high-velocity-incendiary-rounds",
+    "name": "Amplified Rascal (High Velocity, Incendiary Grenades)",
+    "description": "An amplified variant of the Rascal.",
+    "icon": "icons/items/amplified-rascal.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rascal-high-velocity-sprint-shooting": {
+    "id": "amplified-rascal-high-velocity-sprint-shooting",
+    "name": "Amplified Rascal (High Velocity, Sprint Shooting)",
+    "description": "An amplified variant of the Rascal.",
+    "icon": "icons/items/amplified-rascal.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rascal-high-velocity-sprint-shooting-incendiary-rounds": {
+    "id": "amplified-rascal-high-velocity-sprint-shooting-incendiary-rounds",
+    "name": "Amplified Rascal (High Velocity, Sprint Shooting, Incendiary Grenades)",
+    "description": "An amplified variant of the Rascal.",
+    "icon": "icons/items/amplified-rascal.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rascal-incendiary-rounds": {
+    "id": "amplified-rascal-incendiary-rounds",
+    "name": "Amplified Rascal (Incendiary Grenades)",
+    "description": "An amplified variant of the Rascal.",
+    "icon": "icons/items/amplified-rascal.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rascal-sprint-shooting": {
+    "id": "amplified-rascal-sprint-shooting",
+    "name": "Amplified Rascal (Sprint Shooting)",
+    "description": "An amplified variant of the Rascal.",
+    "icon": "icons/items/amplified-rascal.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rascal-sprint-shooting-incendiary-rounds": {
+    "id": "amplified-rascal-sprint-shooting-incendiary-rounds",
+    "name": "Amplified Rascal (Sprint Shooting, Incendiary Grenades)",
+    "description": "An amplified variant of the Rascal.",
+    "icon": "icons/items/amplified-rascal.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Special",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-rattler": {
     "id": "amplified-rattler",
@@ -550,7 +1395,72 @@
     "value": 11200,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-rattler-incendiary-rounds": {
+    "id": "amplified-rattler-incendiary-rounds",
+    "name": "Amplified Rattler (Incendiary Rounds)",
+    "description": "An amplified variant of the Rattler.",
+    "icon": "icons/items/amplified-rattler.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rattler-more-reload": {
+    "id": "amplified-rattler-more-reload",
+    "name": "Amplified Rattler (More Reload)",
+    "description": "An amplified variant of the Rattler.",
+    "icon": "icons/items/amplified-rattler.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rattler-more-reload-drum-mag": {
+    "id": "amplified-rattler-more-reload-drum-mag",
+    "name": "Amplified Rattler (More Reload, Drum Mag)",
+    "description": "An amplified variant of the Rattler.",
+    "icon": "icons/items/amplified-rattler-more-reload-drum-mag.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rattler-more-reload-drum-mag-incendiary-rounds": {
+    "id": "amplified-rattler-more-reload-drum-mag-incendiary-rounds",
+    "name": "Amplified Rattler (More Reload, Drum Mag, Incendiary Rounds)",
+    "description": "An amplified variant of the Rattler.",
+    "icon": "icons/items/amplified-rattler-more-reload-drum-mag.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-rattler-more-reload-incendiary-rounds": {
+    "id": "amplified-rattler-more-reload-incendiary-rounds",
+    "name": "Amplified Rattler (More Reload, Incendiary Rounds)",
+    "description": "An amplified variant of the Rattler.",
+    "icon": "icons/items/amplified-rattler.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Assault Rifle",
+    "value": 11200,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "amplified-renegade": {
     "id": "amplified-renegade",
@@ -563,7 +1473,46 @@
     "value": 20800,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
+  },
+  "amplified-renegade-more-reload": {
+    "id": "amplified-renegade-more-reload",
+    "name": "Amplified Renegade (More Reload)",
+    "description": "An amplified variant of the Renegade.",
+    "icon": "icons/items/amplified-renegade.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-renegade-more-reload-scoped": {
+    "id": "amplified-renegade-more-reload-scoped",
+    "name": "Amplified Renegade (More Reload, Scoped)",
+    "description": "An amplified variant of the Renegade.",
+    "icon": "icons/items/amplified-renegade-more-reload-scoped.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "amplified-renegade-scoped": {
+    "id": "amplified-renegade-scoped",
+    "name": "Amplified Renegade (Scoped)",
+    "description": "An amplified variant of the Renegade.",
+    "icon": "icons/items/amplified-renegade-more-reload-scoped.webp",
+    "rarity": "Amplified",
+    "item_type": "Weapon",
+    "subcategory": "Battle Rifle",
+    "value": 20800,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
   },
   "anchor-outfit": {
     "id": "anchor-outfit",
@@ -672,13 +1621,13 @@
     "name": "Anvil I",
     "description": "Has high damage output and headshot damage, but slow handling.",
     "icon": "icons/items/anvil-i.webp",
-    "rarity": "Uncommon",
+    "rarity": "Rare",
     "item_type": "Weapon",
     "subcategory": "Hand Cannon",
     "value": 5000,
     "workbench": "Weapon Bench 2",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Incudine I",
@@ -691,13 +1640,13 @@
     "name": "Anvil II",
     "description": "Has high damage output and headshot damage, but slow handling.",
     "icon": "icons/items/anvil-ii.webp",
-    "rarity": "Uncommon",
+    "rarity": "Rare",
     "item_type": "Weapon",
     "subcategory": "Hand Cannon",
     "value": 7000,
     "workbench": "Weapon Bench II",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Incudine II",
@@ -710,13 +1659,13 @@
     "name": "Anvil III",
     "description": "Has high damage output and headshot damage, but slow handling.",
     "icon": "icons/items/anvil-iii.webp",
-    "rarity": "Uncommon",
+    "rarity": "Rare",
     "item_type": "Weapon",
     "subcategory": "Hand Cannon",
     "value": 10000,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Incudine III",
@@ -729,13 +1678,13 @@
     "name": "Anvil IV",
     "description": "Has high damage output and headshot damage, but slow handling.",
     "icon": "icons/items/anvil-iv.webp",
-    "rarity": "Uncommon",
+    "rarity": "Rare",
     "item_type": "Weapon",
     "subcategory": "Hand Cannon",
     "value": 13000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Incudine IV",
@@ -746,10 +1695,10 @@
   "anvil-splitter": {
     "id": "anvil-splitter",
     "name": "Anvil Splitter",
-    "description": "Tech mod for the Anvil that replaces its bullets with ones that split into 4 weaker projectiles.",
+    "description": "Can be recycled into crafting materials.",
     "icon": "icons/items/anvil-splitter.webp",
     "rarity": "Legendary",
-    "item_type": "Modification",
+    "item_type": "Misc",
     "subcategory": "",
     "value": 7000,
     "workbench": "Gunsmith III",
@@ -773,7 +1722,7 @@
     "value": 27500,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Aphelion",
@@ -848,8 +1797,8 @@
     "subcategory": null,
     "value": 100,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "arc-coolant": {
     "id": "arc-coolant",
@@ -880,8 +1829,8 @@
     "subcategory": null,
     "value": 2000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "arc-flex-rubber": {
     "id": "arc-flex-rubber",
@@ -912,8 +1861,8 @@
     "subcategory": null,
     "value": 100,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "arc-motion-core": {
     "id": "arc-motion-core",
@@ -963,8 +1912,8 @@
     "subcategory": null,
     "value": 100,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "arc-powercell": {
     "id": "arc-powercell",
@@ -1026,7 +1975,7 @@
   "arcade-duck": {
     "id": "arcade-duck",
     "name": "Arcade Duck",
-    "description": "Can be thrown to create noise.",
+    "description": "For some reason, it feels oddly nostalgic.",
     "icon": "icons/items/arcade-duck.webp",
     "rarity": "Epic",
     "item_type": "Trinket",
@@ -1046,17 +1995,17 @@
     "subcategory": null,
     "value": 5000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Commercial, Residential, Old World",
+    "stack_size": 1
   },
   "archive-floor-lamp": {
     "id": "archive-floor-lamp",
     "name": "Archive Floor Lamp",
     "description": "",
     "icon": "icons/items/archive-floor-lamp.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1073,7 +2022,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "arpeggio-i": {
     "id": "arpeggio-i",
@@ -1086,7 +2035,7 @@
     "value": 5500,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Arpeggio I",
@@ -1105,7 +2054,7 @@
     "value": 8000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Arpeggio II",
@@ -1124,7 +2073,7 @@
     "value": 11500,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Arpeggio III",
@@ -1143,7 +2092,7 @@
     "value": 15000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Arpeggio IV",
@@ -1161,8 +2110,8 @@
     "subcategory": "Recyclable",
     "value": 5000,
     "workbench": null,
-    "loot_area": "ARC",
-    "stack_size": null,
+    "loot_area": "",
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Assessor Matrix",
@@ -1281,10 +2230,10 @@
     "rarity": "Rare",
     "item_type": "Quick Use",
     "subcategory": "",
-    "value": 3000,
+    "value": 2000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": 1
   },
   "banshee-outfit": {
     "id": "banshee-outfit",
@@ -1310,7 +2259,7 @@
     "value": 3800,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": 1
   },
   "bantam-ii": {
     "id": "bantam-ii",
@@ -1323,7 +2272,7 @@
     "value": 6000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "bantam-iii": {
     "id": "bantam-iii",
@@ -1336,7 +2285,7 @@
     "value": 8000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "bantam-iv": {
     "id": "bantam-iv",
@@ -1349,20 +2298,33 @@
     "value": 11000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "bar-table": {
+    "id": "bar-table",
+    "name": "Bar Table",
+    "description": "",
+    "icon": "icons/items/bar-table.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Tables",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "bar-table-design": {
     "id": "bar-table-design",
     "name": "Bar Table Design",
     "description": "",
-    "icon": "icons/items/bar-table-design.webp",
+    "icon": "icons/items/bar-table.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "barricade-kit": {
     "id": "barricade-kit",
@@ -1390,7 +2352,7 @@
     "icon": "icons/items/barstool.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1407,7 +2369,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "bastion-part": {
     "id": "bastion-part",
@@ -1433,9 +2395,9 @@
     "name": "Battered Aviary Table",
     "description": "",
     "icon": "icons/items/battered-aviary-table.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Tables",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1452,29 +2414,42 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "battered-bureau-chair": {
+    "id": "battered-bureau-chair",
+    "name": "Battered Bureau Chair",
+    "description": "",
+    "icon": "icons/items/battered-bureau-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "battered-bureau-chair-design": {
     "id": "battered-bureau-chair-design",
     "name": "Battered Bureau Chair Design",
     "description": "",
-    "icon": "icons/items/battered-bureau-chair-design.webp",
+    "icon": "icons/items/battered-bureau-chair.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "battered-bureau-sofa": {
     "id": "battered-bureau-sofa",
     "name": "Battered Bureau Sofa",
     "description": "",
     "icon": "icons/items/battered-bureau-sofa.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1491,20 +2466,33 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "battered-den-bed": {
+    "id": "battered-den-bed",
+    "name": "Battered Den Bed",
+    "description": "",
+    "icon": "icons/items/battered-den-bed.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Beds",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "battered-den-bed-design": {
     "id": "battered-den-bed-design",
     "name": "Battered Den Bed Design",
     "description": "",
-    "icon": "icons/items/battered-den-bed-design.webp",
+    "icon": "icons/items/battered-den-bed.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "battered-den-shelf": {
     "id": "battered-den-shelf",
@@ -1513,7 +2501,7 @@
     "icon": "icons/items/battered-den-shelf.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1530,17 +2518,43 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "battered-diner-chair": {
+    "id": "battered-diner-chair",
+    "name": "Battered Diner Chair",
+    "description": "",
+    "icon": "icons/items/battered-diner-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "battered-diner-chair-design": {
     "id": "battered-diner-chair-design",
     "name": "Battered Diner Chair Design",
     "description": "",
-    "icon": "icons/items/battered-diner-chair-design.webp",
+    "icon": "icons/items/battered-diner-chair.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "battered-faculty-table": {
+    "id": "battered-faculty-table",
+    "name": "Battered Faculty Table",
+    "description": "",
+    "icon": "icons/items/battered-faculty-table.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Tables",
+    "value": null,
     "workbench": null,
     "loot_area": null,
     "stack_size": null
@@ -1549,23 +2563,23 @@
     "id": "battered-faculty-table-design",
     "name": "Battered Faculty Table Design",
     "description": "",
-    "icon": "icons/items/battered-faculty-table-design.webp",
+    "icon": "icons/items/battered-faculty-table.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "battered-lab-cabinet": {
     "id": "battered-lab-cabinet",
     "name": "Battered Lab Cabinet",
     "description": "",
     "icon": "icons/items/battered-lab-cabinet.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1582,16 +2596,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "battered-lab-cabinet-wide": {
     "id": "battered-lab-cabinet-wide",
     "name": "Battered Lab Cabinet (Wide)",
     "description": "",
     "icon": "icons/items/battered-lab-cabinet-wide.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1608,20 +2622,33 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "battered-lab-chair": {
+    "id": "battered-lab-chair",
+    "name": "Battered Lab Chair",
+    "description": "",
+    "icon": "icons/items/battered-lab-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "battered-lab-chair-design": {
     "id": "battered-lab-chair-design",
     "name": "Battered Lab Chair Design",
     "description": "",
-    "icon": "icons/items/battered-lab-chair-design.webp",
+    "icon": "icons/items/battered-lab-chair.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "battered-paperback": {
     "id": "battered-paperback",
@@ -1634,16 +2661,16 @@
     "value": 270,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 5
   },
   "battered-shelf": {
     "id": "battered-shelf",
     "name": "Battered Shelf",
     "description": "",
     "icon": "icons/items/battered-shelf.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1660,7 +2687,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "battered-stash": {
     "id": "battered-stash",
@@ -1669,7 +2696,7 @@
     "icon": "icons/items/battered-stash.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1686,7 +2713,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "battered-weapon-rack": {
     "id": "battered-weapon-rack",
@@ -1695,7 +2722,7 @@
     "icon": "icons/items/battered-weapon-rack.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -1712,7 +2739,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "battery": {
     "id": "battery",
@@ -1744,7 +2771,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "bent-clothes-hanger": {
     "id": "bent-clothes-hanger",
@@ -1754,7 +2781,7 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 640,
     "workbench": null,
     "loot_area": null,
     "stack_size": 15
@@ -1770,7 +2797,7 @@
     "value": 8000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Bettina I",
@@ -1789,7 +2816,7 @@
     "value": 11000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Bettina II",
@@ -1808,7 +2835,7 @@
     "value": 14000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Bettina III",
@@ -1827,7 +2854,7 @@
     "value": 18000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Bettina IV",
@@ -1990,7 +3017,7 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 640,
     "workbench": null,
     "loot_area": null,
     "stack_size": 10
@@ -2006,7 +3033,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave della cantina del cancello blu",
@@ -2025,7 +3052,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave della Torre di Comunicazione del Cancello Blu",
@@ -2044,7 +3071,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave della sala confische del cancello blu",
@@ -2076,9 +3103,9 @@
     "name": "Blue Lab Cabinet",
     "description": "",
     "icon": "icons/items/blue-lab-cabinet.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -2095,7 +3122,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "blue-light-stick": {
     "id": "blue-light-stick",
@@ -2153,7 +3180,7 @@
     "value": 13000,
     "workbench": "Weapon Bench 3",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Lince I",
@@ -2172,7 +3199,7 @@
     "value": 17000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Lince II",
@@ -2191,7 +3218,7 @@
     "value": 22000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Lince III",
@@ -2210,7 +3237,7 @@
     "value": 27000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Lince IV",
@@ -2345,7 +3372,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "broken-flashlight": {
     "id": "broken-flashlight",
@@ -2439,7 +3466,7 @@
   "bronze-statuette": {
     "id": "bronze-statuette",
     "name": "Bronze Statuette",
-    "description": "",
+    "description": "An aged but beautiful bronze statuette. Rumor has it that the Nomad Envoy collects these.",
     "icon": "icons/items/bronze-statuette.webp",
     "rarity": "Legendary",
     "item_type": "Trinket",
@@ -2457,10 +3484,10 @@
     "rarity": "Epic",
     "item_type": "Recyclable",
     "subcategory": null,
-    "value": 3000,
+    "value": 5000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "bulwark-stencil": {
     "id": "bulwark-stencil",
@@ -2470,19 +3497,19 @@
     "rarity": "Legendary",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "bureau-ceiling-lamp": {
     "id": "bureau-ceiling-lamp",
     "name": "Bureau Ceiling Lamp",
     "description": "",
     "icon": "icons/items/bureau-ceiling-lamp.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -2499,7 +3526,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "bureau-desk-lamp": {
     "id": "bureau-desk-lamp",
@@ -2511,8 +3538,8 @@
     "subcategory": null,
     "value": 1000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Commercial, Residential, Old World",
+    "stack_size": 1
   },
   "burgerboy-backpack-charm": {
     "id": "burgerboy-backpack-charm",
@@ -2595,7 +3622,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave del municipio della città sepolta",
@@ -2614,7 +3641,7 @@
     "value": 2900,
     "workbench": "Weapon Bench 2",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Burletta I",
@@ -2633,7 +3660,7 @@
     "value": 5000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Burletta II",
@@ -2652,7 +3679,7 @@
     "value": 7000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Burletta III",
@@ -2671,7 +3698,7 @@
     "value": 10000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Burletta IV",
@@ -2728,7 +3755,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "cable-stripper": {
     "id": "cable-stripper",
@@ -2740,6 +3767,19 @@
     "subcategory": null,
     "value": 270,
     "workbench": null,
+    "loot_area": "Mechanical, Industrial",
+    "stack_size": 15
+  },
+  "cafeteria-table": {
+    "id": "cafeteria-table",
+    "name": "Cafeteria Table",
+    "description": "",
+    "icon": "icons/items/cafeteria-table.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Tables",
+    "value": null,
+    "workbench": null,
     "loot_area": null,
     "stack_size": null
   },
@@ -2747,14 +3787,14 @@
     "id": "cafeteria-table-design",
     "name": "Cafeteria Table Design",
     "description": "",
-    "icon": "icons/items/cafeteria-table-design.webp",
+    "icon": "icons/items/cafeteria-table.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "calculator": {
     "id": "calculator",
@@ -2766,8 +3806,8 @@
     "subcategory": null,
     "value": 640,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Technological, Electrical",
+    "stack_size": 3
   },
   "camera": {
     "id": "camera",
@@ -2780,7 +3820,7 @@
     "value": 640,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": 1
   },
   "camera-lens": {
     "id": "camera-lens",
@@ -2830,7 +3870,7 @@
     "subcategory": "",
     "value": 460,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "Nature",
     "stack_size": 10,
     "translations": {
       "it": {
@@ -2882,7 +3922,7 @@
     "value": 7000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Canto I",
@@ -2901,7 +3941,7 @@
     "value": 10000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Canto II",
@@ -2920,7 +3960,7 @@
     "value": 13000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Canto III",
@@ -2939,7 +3979,7 @@
     "value": 17000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Canto IV",
@@ -3039,10 +4079,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Diario di Celeste",
@@ -3058,19 +4098,19 @@
     "rarity": "Rare",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "chambers-lamp": {
     "id": "chambers-lamp",
     "name": "Chambers Lamp",
     "description": "",
     "icon": "icons/items/chambers-lamp.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -3087,16 +4127,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "chambers-nightstand": {
     "id": "chambers-nightstand",
     "name": "Chambers Nightstand",
     "description": "",
     "icon": "icons/items/chambers-nightstand.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Tables",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -3113,7 +4153,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "chambers-shelf": {
     "id": "chambers-shelf",
@@ -3122,7 +4162,7 @@
     "icon": "icons/items/chambers-shelf.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -3139,16 +4179,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "chandelier": {
     "id": "chandelier",
     "name": "Chandelier",
     "description": "",
     "icon": "icons/items/chandelier.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -3165,7 +4205,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "chap-outfit": {
     "id": "chap-outfit",
@@ -3217,9 +4257,9 @@
     "name": "Clinic Medical Cabinet",
     "description": "",
     "icon": "icons/items/clinic-medical-cabinet.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -3236,7 +4276,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "coffee-pot": {
     "id": "coffee-pot",
@@ -3281,7 +4321,7 @@
     "value": 10000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Scarpe Colorate",
@@ -3300,7 +4340,7 @@
     "value": 7000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Scarpe Colorate",
@@ -3338,7 +4378,7 @@
     "value": 640,
     "workbench": "Equipment Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Combattimento Mk. 1",
@@ -3357,7 +4397,7 @@
     "value": 2000,
     "workbench": "Equipment Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Combattimento Mk. 2",
@@ -3376,7 +4416,7 @@
     "value": 5000,
     "workbench": "Gear Bench III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Combattimento Mk. 3 (Aggressivo)",
@@ -3395,7 +4435,7 @@
     "value": 5000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Combattimento Mk. 3 (Fiancheggiamento)",
@@ -3413,7 +4453,7 @@
     "subcategory": "",
     "value": 1000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "ARC",
     "stack_size": 3,
     "translations": {
       "it": {
@@ -3433,7 +4473,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "compensator-i": {
     "id": "compensator-i",
@@ -3446,7 +4486,7 @@
     "value": 640,
     "workbench": "Gunsmith",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Compensatore I",
@@ -3465,7 +4505,7 @@
     "value": 2000,
     "workbench": "Gunsmith II",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Compensatore II",
@@ -3516,9 +4556,9 @@
     "name": "Console Chest",
     "description": "",
     "icon": "icons/items/console-chest.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -3535,7 +4575,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "coolant": {
     "id": "coolant",
@@ -3752,7 +4792,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave zona ad accesso controllato della Diga",
@@ -3790,7 +4830,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave sorveglianza Diga",
@@ -3878,7 +4918,7 @@
     "subcategory": "",
     "value": 270,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "ARC",
     "stack_size": 3,
     "translations": {
       "it": {
@@ -3916,7 +4956,7 @@
     "subcategory": "Recyclable",
     "value": 1000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "ARC",
     "stack_size": 3
   },
   "damaged-rocketeer-part": {
@@ -3946,9 +4986,9 @@
     "rarity": "Common",
     "item_type": "Recyclable",
     "subcategory": null,
-    "value": null,
+    "value": 659,
     "workbench": null,
-    "loot_area": null,
+    "loot_area": "ARC",
     "stack_size": 3,
     "translations": {
       "it": {
@@ -4005,7 +5045,7 @@
     "subcategory": "",
     "value": 640,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "ARC",
     "stack_size": 3,
     "translations": {
       "it": {
@@ -4132,8 +5172,8 @@
     "subcategory": null,
     "value": 2000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Commercial, Residential",
+    "stack_size": 1
   },
   "devotee-outfit": {
     "id": "devotee-outfit",
@@ -4158,17 +5198,17 @@
     "subcategory": null,
     "value": 1000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Technological, Electrical",
+    "stack_size": 3
   },
   "diner-ceiling-lamp": {
     "id": "diner-ceiling-lamp",
     "name": "Diner Ceiling Lamp",
     "description": "",
     "icon": "icons/items/diner-ceiling-lamp.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4185,16 +5225,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "diner-cupboard": {
     "id": "diner-cupboard",
     "name": "Diner Cupboard",
     "description": "",
     "icon": "icons/items/diner-cupboard.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4211,16 +5251,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "diner-shelf": {
     "id": "diner-shelf",
     "name": "Diner Shelf",
     "description": "",
     "icon": "icons/items/diner-shelf.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4237,16 +5277,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "diner-sofa": {
     "id": "diner-sofa",
     "name": "Diner Sofa",
     "description": "",
     "icon": "icons/items/diner-sofa.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4263,7 +5303,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "diner-stool": {
     "id": "diner-stool",
@@ -4272,7 +5312,7 @@
     "icon": "icons/items/diner-stool.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4289,20 +5329,33 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "diner-table": {
+    "id": "diner-table",
+    "name": "Diner Table",
+    "description": "",
+    "icon": "icons/items/diner-table.webp",
+    "rarity": "Epic",
+    "item_type": "Furniture",
+    "subcategory": "Tables",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "diner-table-design": {
     "id": "diner-table-design",
     "name": "Diner Table Design",
     "description": "",
-    "icon": "icons/items/diner-table-design.webp",
+    "icon": "icons/items/diner-table.webp",
     "rarity": "Epic",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "diving-googles": {
     "id": "diving-googles",
@@ -4334,7 +5387,7 @@
     "value": 1000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Rilevatore del capitano di porto",
@@ -4350,10 +5403,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Nota di Dodger",
@@ -4391,7 +5444,7 @@
     "value": 27500,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Dolabra",
@@ -4445,10 +5498,10 @@
     "rarity": "Legendary",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "draped-debris-a": {
     "id": "draped-debris-a",
@@ -4457,7 +5510,7 @@
     "icon": "icons/items/draped-debris-a.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4474,7 +5527,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "draped-debris-b": {
     "id": "draped-debris-b",
@@ -4483,7 +5536,7 @@
     "icon": "icons/items/draped-debris-b.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4500,7 +5553,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "draped-debris-c": {
     "id": "draped-debris-c",
@@ -4509,7 +5562,7 @@
     "icon": "icons/items/draped-debris-c.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4526,7 +5579,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "draped-debris-e": {
     "id": "draped-debris-e",
@@ -4535,7 +5588,7 @@
     "icon": "icons/items/draped-debris-e.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4552,7 +5605,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "draped-debris-f": {
     "id": "draped-debris-f",
@@ -4561,7 +5614,7 @@
     "icon": "icons/items/draped-debris-f.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4578,7 +5631,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "draped-debris-g": {
     "id": "draped-debris-g",
@@ -4587,7 +5640,7 @@
     "icon": "icons/items/draped-debris-g.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -4604,7 +5657,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "dried-out-arc-resin": {
     "id": "dried-out-arc-resin",
@@ -4684,10 +5737,10 @@
     "rarity": "Rare",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "dusty-film-reel": {
     "id": "dusty-film-reel",
@@ -4697,10 +5750,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Bobina di pellicola impolverata",
@@ -4751,7 +5804,7 @@
     "value": 10000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Obelisco elefante",
@@ -4770,7 +5823,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "emperor-beacon": {
     "id": "emperor-beacon",
@@ -4783,7 +5836,7 @@
     "value": 1000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 3
   },
   "emperor-gateway-conduit": {
     "id": "emperor-gateway-conduit",
@@ -4796,7 +5849,7 @@
     "value": 1000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "emperor-modulator": {
     "id": "emperor-modulator",
@@ -4808,8 +5861,8 @@
     "subcategory": null,
     "value": 7000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "empty-wine-bottle": {
     "id": "empty-wine-bottle",
@@ -4838,10 +5891,10 @@
     "rarity": "Epic",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "energy-ammo": {
     "id": "energy-ammo",
@@ -4873,7 +5926,7 @@
     "value": 1000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 5
   },
   "equalizer-i": {
     "id": "equalizer-i",
@@ -4886,7 +5939,7 @@
     "value": 27500,
     "workbench": "Weapon Bench 3",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Equalizzatore",
@@ -4921,10 +5974,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Parti di macchina per espresso",
@@ -4943,7 +5996,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Analizzatore ESR",
@@ -4980,8 +6033,8 @@
     "subcategory": null,
     "value": 1000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Exodus",
+    "stack_size": 5
   },
   "experimental-seed-sample": {
     "id": "experimental-seed-sample",
@@ -4991,10 +6044,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Campione di semi sperimentale",
@@ -5048,10 +6101,10 @@
     "rarity": "Common",
     "item_type": "Key",
     "subcategory": null,
-    "value": null,
+    "value": 10,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Codice di sicurezza scaduto",
@@ -5165,7 +6218,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "extended-light-mag-i": {
     "id": "extended-light-mag-i",
@@ -5178,7 +6231,7 @@
     "value": 640,
     "workbench": "Gunsmith",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Caricatore leggero esteso I",
@@ -5235,7 +6288,7 @@
     "value": 640,
     "workbench": "Weapon Bench I",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Caricatore medio esteso I",
@@ -5292,7 +6345,7 @@
     "value": 640,
     "workbench": "Gunsmith",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Caricatore fucile esteso I",
@@ -5362,9 +6415,9 @@
     "name": "Faculty Closet",
     "description": "",
     "icon": "icons/items/faculty-closet.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -5381,16 +6434,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "faculty-dresser": {
     "id": "faculty-dresser",
     "name": "Faculty Dresser",
     "description": "",
     "icon": "icons/items/faculty-dresser.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -5407,7 +6460,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "faded-flush-aviator-color": {
     "id": "faded-flush-aviator-color",
@@ -5471,7 +6524,7 @@
     "value": 475,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Ferro I",
@@ -5490,7 +6543,7 @@
     "value": 1000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Ferro II",
@@ -5509,7 +6562,7 @@
     "value": 2000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Ferro III",
@@ -5528,7 +6581,7 @@
     "value": 2900,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Ferro IV",
@@ -5546,7 +6599,7 @@
     "subcategory": "",
     "value": 1000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "Nature",
     "stack_size": 5,
     "translations": {
       "it": {
@@ -5667,7 +6720,7 @@
     "subcategory": "",
     "value": 1000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "ARC",
     "stack_size": 3,
     "translations": {
       "it": {
@@ -5703,10 +6756,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Bussola della Prima Ondata",
@@ -5722,10 +6775,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Razioni della Prima Ondata",
@@ -5741,10 +6794,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Nastro della Prima Ondata",
@@ -5795,9 +6848,9 @@
     "name": "Floor Lamp",
     "description": "",
     "icon": "icons/items/floor-lamp.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -5814,7 +6867,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "flow-controller": {
     "id": "flow-controller",
@@ -5846,7 +6899,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave del Terminale Flushing",
@@ -5862,10 +6915,10 @@
     "rarity": "Epic",
     "item_type": "Topside Material",
     "subcategory": null,
-    "value": 1,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 3
   },
   "food-wrapper": {
     "id": "food-wrapper",
@@ -5875,7 +6928,7 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 640,
     "workbench": null,
     "loot_area": null,
     "stack_size": 15
@@ -5888,10 +6941,10 @@
     "rarity": "Epic",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "fossilized-lightning": {
     "id": "fossilized-lightning",
@@ -5903,7 +6956,7 @@
     "subcategory": "",
     "value": 4000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "Nature",
     "stack_size": 1,
     "translations": {
       "it": {
@@ -5923,7 +6976,7 @@
     "value": 660,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Potenziamento equipaggiamento gratuito",
@@ -5979,8 +7032,8 @@
     "subcategory": null,
     "value": 3000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "frigate-inductor": {
     "id": "frigate-inductor",
@@ -5992,13 +7045,13 @@
     "subcategory": null,
     "value": 7000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 1
   },
   "frosty-duck": {
     "id": "frosty-duck",
     "name": "Frosty Duck",
-    "description": "Can be thrown to create noise.",
+    "description": "A dapper little fellow.",
     "icon": "icons/items/frosty-duck.webp",
     "rarity": "Rare",
     "item_type": "Trinket",
@@ -6086,10 +7139,10 @@
     "rarity": "Uncommon",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "gas-grenade": {
     "id": "gas-grenade",
@@ -6199,27 +7252,40 @@
       }
     }
   },
+  "geometric-fabric-chair": {
+    "id": "geometric-fabric-chair",
+    "name": "Geometric Fabric Chair",
+    "description": "",
+    "icon": "icons/items/geometric-fabric-chair.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "geometric-fabric-chair-design": {
     "id": "geometric-fabric-chair-design",
     "name": "Geometric Fabric Chair Design",
     "description": "",
-    "icon": "icons/items/geometric-fabric-chair-design.webp",
+    "icon": "icons/items/geometric-fabric-chair.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "glass-ceiling-lamp": {
     "id": "glass-ceiling-lamp",
     "name": "Glass Ceiling Lamp",
     "description": "",
     "icon": "icons/items/glass-ceiling-lamp.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -6236,7 +7302,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "glitched-arc-circuitry": {
     "id": "glitched-arc-circuitry",
@@ -6249,7 +7315,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Circuiti ARC Corrotti",
@@ -6268,7 +7334,7 @@
     "value": 3000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Anello Luminoso ARC Corrotto",
@@ -6287,7 +7353,7 @@
     "value": 2000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Array ARC Fasato Corrotto",
@@ -6306,7 +7372,7 @@
     "value": 640,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Convertitore energetico ARC difettoso",
@@ -6325,7 +7391,7 @@
     "value": 1000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Trasmettitore ARC Corrotto",
@@ -6383,7 +7449,7 @@
     "value": 1200,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": 1
   },
   "great-muullein": {
     "id": "great-muullein",
@@ -6404,15 +7470,41 @@
       }
     }
   },
+  "green-geometric-chair": {
+    "id": "green-geometric-chair",
+    "name": "Green Geometric Chair",
+    "description": "",
+    "icon": "icons/items/green-geometric-chair.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "green-geometric-chair-design": {
     "id": "green-geometric-chair-design",
     "name": "Green Geometric Chair Design",
     "description": "",
-    "icon": "icons/items/green-geometric-chair-design.webp",
+    "icon": "icons/items/green-geometric-chair.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "green-geometric-sofa": {
+    "id": "green-geometric-sofa",
+    "name": "Green Geometric Sofa",
+    "description": "",
+    "icon": "icons/items/green-geometric-sofa.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
     "workbench": null,
     "loot_area": null,
     "stack_size": null
@@ -6421,11 +7513,24 @@
     "id": "green-geometric-sofa-design",
     "name": "Green Geometric Sofa Design",
     "description": "",
-    "icon": "icons/items/green-geometric-sofa-design.webp",
+    "icon": "icons/items/green-geometric-sofa.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "green-lab-sofa": {
+    "id": "green-lab-sofa",
+    "name": "Green Lab Sofa",
+    "description": "",
+    "icon": "icons/items/green-lab-sofa.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
     "workbench": null,
     "loot_area": null,
     "stack_size": null
@@ -6434,14 +7539,14 @@
     "id": "green-lab-sofa-design",
     "name": "Green Lab Sofa Design",
     "description": "",
-    "icon": "icons/items/green-lab-sofa-design.webp",
+    "icon": "icons/items/green-lab-sofa.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "green-light-stick": {
     "id": "green-light-stick",
@@ -6473,7 +7578,7 @@
     "value": 450,
     "workbench": "Weapon Bench 1 or Basic Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tornante I",
@@ -6492,7 +7597,7 @@
     "value": 1000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tornante II",
@@ -6511,7 +7616,7 @@
     "value": 2000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tornante III",
@@ -6530,7 +7635,7 @@
     "value": 2900,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tornante IV",
@@ -6548,8 +7653,8 @@
     "subcategory": null,
     "value": 640,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Mechanical, Industrial",
+    "stack_size": 3
   },
   "happy-jig-emote": {
     "id": "happy-jig-emote",
@@ -6574,8 +7679,8 @@
     "subcategory": "",
     "value": 1000,
     "workbench": null,
-    "loot_area": "",
-    "stack_size": null
+    "loot_area": "Residential",
+    "stack_size": 1
   },
   "hawker-outfit": {
     "id": "hawker-outfit",
@@ -6677,7 +7782,7 @@
     "value": 5500,
     "workbench": "Gear Bench 3",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Scudo pesante",
@@ -6738,10 +7843,10 @@
     "rarity": "Epic",
     "item_type": "Key",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave del bunker nascosto",
@@ -6760,16 +7865,16 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "holly-bush": {
     "id": "holly-bush",
     "name": "Holly Bush",
     "description": "",
     "icon": "icons/items/holly-bush.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -6786,7 +7891,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "horizontal-grip": {
     "id": "horizontal-grip",
@@ -6839,18 +7944,31 @@
     "loot_area": null,
     "stack_size": null
   },
+  "hotel-chair": {
+    "id": "hotel-chair",
+    "name": "Hotel Chair",
+    "description": "",
+    "icon": "icons/items/hotel-chair.webp",
+    "rarity": "Uncommon",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "hotel-chair-design": {
     "id": "hotel-chair-design",
     "name": "Hotel Chair Design",
     "description": "",
-    "icon": "icons/items/hotel-chair-design.webp",
+    "icon": "icons/items/hotel-chair.webp",
     "rarity": "Uncommon",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "household-cleaner": {
     "id": "household-cleaner",
@@ -6882,7 +8000,7 @@
     "value": 10000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Spaccascudi I",
@@ -6901,7 +8019,7 @@
     "value": 13000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Spaccascudi II",
@@ -6920,7 +8038,7 @@
     "value": 17000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Spaccascudi III",
@@ -6939,7 +8057,7 @@
     "value": 22000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Spaccascudi IV",
@@ -6987,7 +8105,7 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
     "stack_size": 3
@@ -7035,7 +8153,7 @@
     "value": 5000,
     "workbench": "Weapon Bench 1",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Il Toro I",
@@ -7054,7 +8172,7 @@
     "value": 7000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Il Toro II",
@@ -7073,7 +8191,7 @@
     "value": 10000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Il Toro III",
@@ -7092,7 +8210,7 @@
     "value": 13000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Il Toro IV",
@@ -7187,7 +8305,7 @@
     "value": 3000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 3
   },
   "integrated-binoculars": {
     "id": "integrated-binoculars",
@@ -7200,7 +8318,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "integrated-defibrillator": {
     "id": "integrated-defibrillator",
@@ -7213,7 +8331,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "integrated-shield-recharger": {
     "id": "integrated-shield-recharger",
@@ -7226,7 +8344,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "ion-sputter": {
     "id": "ion-sputter",
@@ -7303,7 +8421,7 @@
     "value": 27500,
     "workbench": "Weapon Bench 3",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Giove",
@@ -7322,7 +8440,7 @@
     "value": 840,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Stormo I",
@@ -7341,7 +8459,7 @@
     "value": 2000,
     "workbench": "Gunsmith I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Stormo II",
@@ -7360,7 +8478,7 @@
     "value": 3000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Stormo III",
@@ -7379,7 +8497,7 @@
     "value": 5000,
     "workbench": "Gunsmith I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Stormo IV",
@@ -7411,9 +8529,9 @@
     "name": "Lab Ceiling Light",
     "description": "",
     "icon": "icons/items/lab-ceiling-light.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -7430,7 +8548,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "lab-stool": {
     "id": "lab-stool",
@@ -7439,7 +8557,7 @@
     "icon": "icons/items/lab-stool.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -7456,7 +8574,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "laboratory-reagents": {
     "id": "laboratory-reagents",
@@ -7506,8 +8624,8 @@
     "subcategory": null,
     "value": 2000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Mechanical, Industrial",
+    "stack_size": 3
   },
   "laser-trap-lure": {
     "id": "laser-trap-lure",
@@ -7622,7 +8740,7 @@
     "value": 10000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Modellino di nave \"Leviathan's Crown\"",
@@ -7638,10 +8756,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Libro",
@@ -7660,7 +8778,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Scanner Lidar",
@@ -7755,7 +8873,7 @@
     "value": 640,
     "workbench": "Equipment Bench 1",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Scudo leggero",
@@ -7774,7 +8892,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Calcio leggero",
@@ -7812,7 +8930,7 @@
     "value": 640,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Saccheggio Mk. 1",
@@ -7831,7 +8949,7 @@
     "value": 2000,
     "workbench": "Equipment Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Saccheggio Mk. 2",
@@ -7850,7 +8968,7 @@
     "value": 5000,
     "workbench": "Equipment Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Saccheggio Mk. 3 (Cauto)",
@@ -7869,7 +8987,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Saccheggio Mk. 3 (Custode)",
@@ -7888,7 +9006,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Saccheggio Mk. 3 (Sopravvissuto)",
@@ -7984,7 +9102,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "magnet": {
     "id": "magnet",
@@ -8051,10 +9169,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Ricordi del Maggiore Aiva",
@@ -8070,10 +9188,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Toppa del Maggiore Aiva",
@@ -8092,7 +9210,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Biglietto da visita del mercato Marano",
@@ -8150,7 +9268,7 @@
     "value": 11000,
     "workbench": null,
     "loot_area": "ARC",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Reattore della Matriarca",
@@ -8226,7 +9344,7 @@
     "value": 2000,
     "workbench": "Equipment Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Scudo medio",
@@ -8299,10 +9417,10 @@
     "rarity": "Rare",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "mini-centrifuge": {
     "id": "mini-centrifuge",
@@ -8314,7 +9432,7 @@
     "subcategory": "",
     "value": 3000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "Exodus",
     "stack_size": 3,
     "translations": {
       "it": {
@@ -8333,8 +9451,8 @@
     "subcategory": null,
     "value": 640,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Technological, Electrical",
+    "stack_size": 5
   },
   "mirage-outfit": {
     "id": "mirage-outfit",
@@ -8373,7 +9491,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "mod-components": {
     "id": "mod-components",
@@ -8402,10 +9520,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Misuratore di umidità",
@@ -8462,12 +9580,12 @@
     "value": 2000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "mri-duck": {
     "id": "mri-duck",
     "name": "MRI Duck",
-    "description": "Can be thrown to create noise.",
+    "description": "Has technology gone too far?",
     "icon": "icons/items/mri-duck.webp",
     "rarity": "Legendary",
     "item_type": "Trinket",
@@ -8477,18 +9595,31 @@
     "loot_area": "",
     "stack_size": 15
   },
+  "multicolored-geometric-sofa": {
+    "id": "multicolored-geometric-sofa",
+    "name": "Multicolored Geometric Sofa",
+    "description": "",
+    "icon": "icons/items/multicolored-geometric-sofa.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "multicolored-geometric-sofa-design": {
     "id": "multicolored-geometric-sofa-design",
     "name": "Multicolored Geometric Sofa Design",
     "description": "",
-    "icon": "icons/items/multicolored-geometric-sofa-design.webp",
+    "icon": "icons/items/multicolored-geometric-sofa.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "mushroom": {
     "id": "mushroom",
@@ -8558,7 +9689,7 @@
     "value": 640,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Freno di volata I",
@@ -8663,10 +9794,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Misuratore di nutrienti",
@@ -8682,10 +9813,10 @@
     "rarity": "Uncommon",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "official-shutdown-documentation": {
     "id": "official-shutdown-documentation",
@@ -8695,10 +9826,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Documentazione ufficiale di spegnimento",
@@ -8733,10 +9864,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Libri del Vecchio Mondo",
@@ -8802,27 +9933,40 @@
     "loot_area": null,
     "stack_size": null
   },
+  "ornate-den-bed": {
+    "id": "ornate-den-bed",
+    "name": "Ornate Den Bed",
+    "description": "",
+    "icon": "icons/items/ornate-den-bed.webp",
+    "rarity": "Epic",
+    "item_type": "Furniture",
+    "subcategory": "Beds",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "ornate-den-bed-design": {
     "id": "ornate-den-bed-design",
     "name": "Ornate Den Bed Design",
     "description": "",
-    "icon": "icons/items/ornate-den-bed-design.webp",
+    "icon": "icons/items/ornate-den-bed.webp",
     "rarity": "Epic",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "ornate-den-shelf": {
     "id": "ornate-den-shelf",
     "name": "Ornate Den Shelf",
     "description": "",
     "icon": "icons/items/ornate-den-shelf.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -8839,16 +9983,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "ornate-stash": {
     "id": "ornate-stash",
     "name": "Ornate Stash",
     "description": "",
     "icon": "icons/items/ornate-stash.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -8865,16 +10009,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "ornate-wardrobe": {
     "id": "ornate-wardrobe",
     "name": "Ornate Wardrobe",
     "description": "",
     "icon": "icons/items/ornate-wardrobe.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -8891,7 +10035,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "osprey-i": {
     "id": "osprey-i",
@@ -8904,7 +10048,7 @@
     "value": 7000,
     "workbench": "Weapon Bench 2",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Falco Pescatore I",
@@ -8923,7 +10067,7 @@
     "value": 10000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Falco Pescatore II",
@@ -8942,7 +10086,7 @@
     "value": 13000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Falco Pescatore III",
@@ -8961,7 +10105,7 @@
     "value": 17000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Falco Pescatore IV",
@@ -9044,7 +10188,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave dell'auto di pattuglia",
@@ -9076,7 +10220,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "pendola-pass-old-town-key": {
     "id": "pendola-pass-old-town-key",
@@ -9089,7 +10233,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "pendola-pass-railyard-key": {
     "id": "pendola-pass-railyard-key",
@@ -9102,7 +10246,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "pendola-pass-train-station-key": {
     "id": "pendola-pass-train-station-key",
@@ -9115,7 +10259,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "photoelectric-cloak": {
     "id": "photoelectric-cloak",
@@ -9147,7 +10291,7 @@
     "value": 0,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Codice di sicurezza di Pilgrim's Peak",
@@ -9166,7 +10310,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 50,
     "translations": {
       "it": {
         "name": "Tavole",
@@ -9201,9 +10345,9 @@
     "rarity": "Uncommon",
     "item_type": "Recyclable",
     "subcategory": null,
-    "value": null,
+    "value": 640,
     "workbench": null,
-    "loot_area": null,
+    "loot_area": "Residential",
     "stack_size": 5
   },
   "playing-cards": {
@@ -9233,7 +10377,20 @@
     "rarity": "Epic",
     "item_type": "Topside Material",
     "subcategory": null,
-    "value": 1,
+    "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 3
+  },
+  "polished-den-bed": {
+    "id": "polished-den-bed",
+    "name": "Polished Den Bed",
+    "description": "",
+    "icon": "icons/items/polished-den-bed.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Beds",
+    "value": null,
     "workbench": null,
     "loot_area": null,
     "stack_size": null
@@ -9242,23 +10399,23 @@
     "id": "polished-den-bed-design",
     "name": "Polished Den Bed Design",
     "description": "",
-    "icon": "icons/items/polished-den-bed-design.webp",
+    "icon": "icons/items/polished-den-bed.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "polished-den-shelf": {
     "id": "polished-den-shelf",
     "name": "Polished Den Shelf",
     "description": "",
     "icon": "icons/items/polished-den-shelf.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -9275,17 +10432,43 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "polished-diner-chair": {
+    "id": "polished-diner-chair",
+    "name": "Polished Diner Chair",
+    "description": "",
+    "icon": "icons/items/polished-diner-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "polished-diner-chair-design": {
     "id": "polished-diner-chair-design",
     "name": "Polished Diner Chair Design",
     "description": "",
-    "icon": "icons/items/polished-diner-chair-design.webp",
+    "icon": "icons/items/polished-diner-chair.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "polished-faculty-chair": {
+    "id": "polished-faculty-chair",
+    "name": "Polished Faculty Chair",
+    "description": "",
+    "icon": "icons/items/polished-faculty-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
     "workbench": null,
     "loot_area": null,
     "stack_size": null
@@ -9294,11 +10477,24 @@
     "id": "polished-faculty-chair-design",
     "name": "Polished Faculty Chair Design",
     "description": "",
-    "icon": "icons/items/polished-faculty-chair-design.webp",
+    "icon": "icons/items/polished-faculty-chair.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "polished-faculty-table": {
+    "id": "polished-faculty-table",
+    "name": "Polished Faculty Table",
+    "description": "",
+    "icon": "icons/items/polished-faculty-table.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Tables",
+    "value": null,
     "workbench": null,
     "loot_area": null,
     "stack_size": null
@@ -9307,23 +10503,23 @@
     "id": "polished-faculty-table-design",
     "name": "Polished Faculty Table Design",
     "description": "",
-    "icon": "icons/items/polished-faculty-table-design.webp",
+    "icon": "icons/items/polished-faculty-table.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "polished-round-sofa": {
     "id": "polished-round-sofa",
     "name": "Polished Round Sofa",
     "description": "",
     "icon": "icons/items/polished-round-sofa.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -9340,16 +10536,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "polished-stash": {
     "id": "polished-stash",
     "name": "Polished Stash",
     "description": "",
     "icon": "icons/items/polished-stash.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -9366,16 +10562,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "polished-study-sofa": {
     "id": "polished-study-sofa",
     "name": "Polished Study Sofa",
     "description": "",
     "icon": "icons/items/polished-study-sofa.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -9392,16 +10588,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "polished-wardrobe": {
     "id": "polished-wardrobe",
     "name": "Polished Wardrobe",
     "description": "",
     "icon": "icons/items/polished-wardrobe.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -9418,16 +10614,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "polished-weapon-rack": {
     "id": "polished-weapon-rack",
     "name": "Polished Weapon Rack",
     "description": "",
     "icon": "icons/items/polished-weapon-rack.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": 150,
     "workbench": null,
     "loot_area": null,
@@ -9444,7 +10640,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "polluted-air-filter": {
     "id": "polluted-air-filter",
@@ -9511,10 +10707,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Pianta forse tossica",
@@ -9551,8 +10747,8 @@
     "subcategory": null,
     "value": 1000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Residential",
+    "stack_size": 2
   },
   "pottery": {
     "id": "pottery",
@@ -9641,7 +10837,7 @@
     "value": 10000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Discensore motorizzato",
@@ -9657,10 +10853,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Gimbal di precisione",
@@ -9676,10 +10872,10 @@
     "rarity": "Epic",
     "item_type": "Topside Material",
     "subcategory": null,
-    "value": 1,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 3
   },
   "prickly-pear": {
     "id": "prickly-pear",
@@ -9700,15 +10896,41 @@
       }
     }
   },
+  "printed-fabric-chair": {
+    "id": "printed-fabric-chair",
+    "name": "Printed Fabric Chair",
+    "description": "",
+    "icon": "icons/items/printed-fabric-chair.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "printed-fabric-chair-design": {
     "id": "printed-fabric-chair-design",
     "name": "Printed Fabric Chair Design",
     "description": "",
-    "icon": "icons/items/printed-fabric-chair-design.webp",
+    "icon": "icons/items/printed-fabric-chair.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "printed-lab-sofa": {
+    "id": "printed-lab-sofa",
+    "name": "Printed Lab Sofa",
+    "description": "",
+    "icon": "icons/items/printed-lab-sofa.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
     "workbench": null,
     "loot_area": null,
     "stack_size": null
@@ -9717,14 +10939,14 @@
     "id": "printed-lab-sofa-design",
     "name": "Printed Lab Sofa Design",
     "description": "",
-    "icon": "icons/items/printed-lab-sofa-design.webp",
+    "icon": "icons/items/printed-lab-sofa.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "processor": {
     "id": "processor",
@@ -9756,7 +10978,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "projector": {
     "id": "projector",
@@ -9785,10 +11007,10 @@
     "rarity": "Epic",
     "item_type": "Topside Material",
     "subcategory": null,
-    "value": 1,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 3
   },
   "pulse-mine": {
     "id": "pulse-mine",
@@ -9820,7 +11042,7 @@
     "value": 11000,
     "workbench": null,
     "loot_area": "ARC",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Reattore regina",
@@ -9851,8 +11073,8 @@
     "subcategory": null,
     "value": 3000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Mechanical, Industrial",
+    "stack_size": 3
   },
   "radio": {
     "id": "radio",
@@ -9913,10 +11135,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Bandiera Raider",
@@ -9953,8 +11175,8 @@
     "subcategory": null,
     "value": 640,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Raider",
+    "stack_size": 5
   },
   "raider-tokens": {
     "id": "raider-tokens",
@@ -9980,7 +11202,7 @@
     "value": 0,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Codice di sicurezza di Raider's Refuge",
@@ -9999,7 +11221,7 @@
     "value": 7000,
     "workbench": "Gunsmith II",
     "loot_area": "",
-    "stack_size": null
+    "stack_size": 1
   },
   "rascal-ii": {
     "id": "rascal-ii",
@@ -10012,7 +11234,7 @@
     "value": 10000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Rascal II",
@@ -10031,7 +11253,7 @@
     "value": 13000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Rascal III",
@@ -10050,7 +11272,7 @@
     "value": 17000,
     "workbench": "Gunsmith II",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Rascal IV",
@@ -10069,7 +11291,7 @@
     "value": 1750,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Rattler I",
@@ -10088,7 +11310,7 @@
     "value": 3000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Rattler II",
@@ -10107,7 +11329,7 @@
     "value": 5000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Rattler III",
@@ -10126,7 +11348,7 @@
     "value": 7000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Rattler IV",
@@ -10235,9 +11457,9 @@
     "name": "Red Study Sofa",
     "description": "",
     "icon": "icons/items/red-study-sofa.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -10254,7 +11476,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "reinforced-reception-security-code": {
     "id": "reinforced-reception-security-code",
@@ -10267,7 +11489,7 @@
     "value": 0,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Codice di sicurezza di Reinforced Reception",
@@ -10324,7 +11546,7 @@
     "value": 7000,
     "workbench": "Weapon Bench 2",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Renegade I",
@@ -10343,7 +11565,7 @@
     "value": 10000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Renegade II",
@@ -10362,7 +11584,7 @@
     "value": 13000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Renegade III",
@@ -10381,7 +11603,7 @@
     "value": 17000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Renegade IV",
@@ -10402,6 +11624,19 @@
     "loot_area": null,
     "stack_size": null
   },
+  "research-points": {
+    "id": "research-points",
+    "name": "Research Points",
+    "description": "Research Points are used to craft Blueprints, Designs and to research Weapon Amplification",
+    "icon": "icons/items/research-points.webp",
+    "rarity": "Common",
+    "item_type": "Misc",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 2000000000
+  },
   "resin": {
     "id": "resin",
     "name": "Resin",
@@ -10421,18 +11656,31 @@
       }
     }
   },
+  "restaurant-table": {
+    "id": "restaurant-table",
+    "name": "Restaurant Table",
+    "description": "",
+    "icon": "icons/items/restaurant-table.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Tables",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "restaurant-table-design": {
     "id": "restaurant-table-design",
     "name": "Restaurant Table Design",
     "description": "",
-    "icon": "icons/items/restaurant-table-design.webp",
+    "icon": "icons/items/restaurant-table.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "riot-outfit": {
     "id": "riot-outfit",
@@ -10490,7 +11738,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica degli archivi riservati di Riven Tides",
@@ -10509,7 +11757,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica della casa gru di Riven Tides",
@@ -10528,7 +11776,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica dell'hotel di Riven Tides n. 102",
@@ -10547,7 +11795,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica dell'hotel di Riven Tides n. 107",
@@ -10566,7 +11814,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica dell'hotel di Riven Tides n. 113",
@@ -10585,7 +11833,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica dell'hotel di Riven Tides n. 205",
@@ -10604,7 +11852,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica dell'hotel di Riven Tides n. 208",
@@ -10623,7 +11871,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica dell'hotel di Riven Tides n. 311",
@@ -10642,7 +11890,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica dell'hotel di Riven Tides n. 404",
@@ -10661,7 +11909,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tessera magnetica del deposito sicuro di Riven Tides",
@@ -10744,7 +11992,7 @@
     "name": "Rope",
     "description": "Used in crafting.",
     "icon": "icons/items/rope.webp",
-    "rarity": "Rare",
+    "rarity": "Uncommon",
     "item_type": "Topside Material",
     "subcategory": null,
     "value": 300,
@@ -10787,7 +12035,7 @@
     "subcategory": "",
     "value": 3000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "Exodus",
     "stack_size": 3,
     "translations": {
       "it": {
@@ -10806,7 +12054,7 @@
     "subcategory": null,
     "value": null,
     "workbench": null,
-    "loot_area": null,
+    "loot_area": "Residential",
     "stack_size": 3
   },
   "rubber-duck": {
@@ -10857,7 +12105,7 @@
     "subcategory": "Basic Material",
     "value": 50,
     "workbench": null,
-    "loot_area": "Medical, Industrial, Technological",
+    "loot_area": "Mechanical, Industrial, Electrical",
     "stack_size": 50,
     "translations": {
       "it": {
@@ -10931,10 +12179,10 @@
     "rarity": "Common",
     "item_type": "Recyclable",
     "subcategory": null,
-    "value": null,
+    "value": 1000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 8
   },
   "ruined-handcuffs": {
     "id": "ruined-handcuffs",
@@ -11128,10 +12376,10 @@
     "rarity": "Epic",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "saltwalker-outfit": {
     "id": "saltwalker-outfit",
@@ -11212,10 +12460,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Nota di pattuglia scout",
@@ -11231,10 +12479,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Informazioni sulla riunione segreta",
@@ -11242,18 +12490,31 @@
       }
     }
   },
+  "security-chair": {
+    "id": "security-chair",
+    "name": "Security Chair",
+    "description": "",
+    "icon": "icons/items/security-chair.webp",
+    "rarity": "Uncommon",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "security-chair-design": {
     "id": "security-chair-design",
     "name": "Security Chair Design",
     "description": "",
-    "icon": "icons/items/security-chair-design.webp",
+    "icon": "icons/items/security-chair.webp",
     "rarity": "Uncommon",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "seed-vault-box-key": {
     "id": "seed-vault-box-key",
@@ -11263,10 +12524,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Chiave della cassetta del caveau dei semi",
@@ -11339,10 +12600,10 @@
     "rarity": "Legendary",
     "item_type": "Stencil",
     "subcategory": null,
-    "value": null,
+    "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sextant": {
     "id": "sextant",
@@ -11386,7 +12647,7 @@
     "subcategory": "Gadget",
     "value": 1000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "Residential",
     "stack_size": 1,
     "translations": {
       "it": {
@@ -11419,7 +12680,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 50
   },
   "shield-recharger": {
     "id": "shield-recharger",
@@ -11451,7 +12712,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "shotgun-ammo": {
     "id": "shotgun-ammo",
@@ -11654,7 +12915,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Silenziatore II",
@@ -11748,8 +13009,8 @@
     "subcategory": null,
     "value": 1000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "skulker-targeter": {
     "id": "skulker-targeter",
@@ -11761,8 +13022,8 @@
     "subcategory": null,
     "value": 1000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "ARC",
+    "stack_size": 3
   },
   "slipstream-stencil": {
     "id": "slipstream-stencil",
@@ -11775,7 +13036,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "slugger-outfit": {
     "id": "slugger-outfit",
@@ -11797,7 +13058,7 @@
     "icon": "icons/items/small-lab-cabinet.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -11814,7 +13075,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "smoke-grenade": {
     "id": "smoke-grenade",
@@ -11935,20 +13196,33 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "solid-green-chair": {
+    "id": "solid-green-chair",
+    "name": "Solid Green Chair",
+    "description": "",
+    "icon": "icons/items/solid-green-chair.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "solid-green-chair-design": {
     "id": "solid-green-chair-design",
     "name": "Solid Green Chair Design",
     "description": "",
-    "icon": "icons/items/solid-green-chair-design.webp",
+    "icon": "icons/items/solid-green-chair.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "spaceport-container-storage-key": {
     "id": "spaceport-container-storage-key",
@@ -12151,7 +13425,7 @@
     "value": 640,
     "workbench": "Gunsmith",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Calcio stabile I",
@@ -12189,7 +13463,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Calcio stabile III",
@@ -12208,7 +13482,7 @@
     "value": 100,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Pila di videocassette",
@@ -12259,7 +13533,7 @@
     "value": 270,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 5
   },
   "stella-montis-archives-key": {
     "id": "stella-montis-archives-key",
@@ -12347,8 +13621,8 @@
     "subcategory": null,
     "value": 1,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Commercial, Residential, Industrial",
+    "stack_size": 500
   },
   "sterilized-bandage": {
     "id": "sterilized-bandage",
@@ -12380,7 +13654,7 @@
     "value": 3800,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": 1
   },
   "stiletto-ii": {
     "id": "stiletto-ii",
@@ -12393,7 +13667,7 @@
     "value": 6000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "stiletto-iii": {
     "id": "stiletto-iii",
@@ -12406,7 +13680,7 @@
     "value": 8000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "stiletto-iv": {
     "id": "stiletto-iv",
@@ -12419,7 +13693,7 @@
     "value": 11000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "stitcher-i": {
     "id": "stitcher-i",
@@ -12432,7 +13706,7 @@
     "value": 800,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Suturante I",
@@ -12451,7 +13725,7 @@
     "value": 2000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Suturante II",
@@ -12470,7 +13744,7 @@
     "value": 3000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Suturante III",
@@ -12489,7 +13763,7 @@
     "value": 5000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Suturante IV",
@@ -12515,9 +13789,9 @@
     "name": "Study Armchair",
     "description": "",
     "icon": "icons/items/study-armchair.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12534,7 +13808,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "study-armchair-design-res-sofa-01-y150-a": {
     "id": "study-armchair-design-res-sofa-01-y150-a",
@@ -12547,6 +13821,19 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "study-armchair-res-armchair-01-a": {
+    "id": "study-armchair-res-armchair-01-a",
+    "name": "Study Armchair",
+    "description": "",
+    "icon": "icons/items/study-armchair-design-res-armchair-01-a.webp",
+    "rarity": "Legendary",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "study-ceiling-lamp": {
@@ -12554,9 +13841,9 @@
     "name": "Study Ceiling Lamp",
     "description": "",
     "icon": "icons/items/study-ceiling-lamp.webp",
-    "rarity": "Common",
+    "rarity": "Rare",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12573,16 +13860,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "study-piano": {
     "id": "study-piano",
     "name": "Study Piano",
     "description": "",
     "icon": "icons/items/study-piano.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12599,7 +13886,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "study-tv-stand": {
     "id": "study-tv-stand",
@@ -12608,7 +13895,7 @@
     "icon": "icons/items/study-tv-stand.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12625,16 +13912,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-aviary-table": {
     "id": "sturdy-aviary-table",
     "name": "Sturdy Aviary Table",
     "description": "",
     "icon": "icons/items/sturdy-aviary-table.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Tables",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12651,20 +13938,33 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "sturdy-bureau-chair": {
+    "id": "sturdy-bureau-chair",
+    "name": "Sturdy Bureau Chair",
+    "description": "",
+    "icon": "icons/items/sturdy-bureau-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "sturdy-bureau-chair-design": {
     "id": "sturdy-bureau-chair-design",
     "name": "Sturdy Bureau Chair Design",
     "description": "",
-    "icon": "icons/items/sturdy-bureau-chair-design.webp",
+    "icon": "icons/items/sturdy-bureau-chair.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-bureau-sofa": {
     "id": "sturdy-bureau-sofa",
@@ -12673,7 +13973,7 @@
     "icon": "icons/items/sturdy-bureau-sofa.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12690,29 +13990,42 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "sturdy-den-bed": {
+    "id": "sturdy-den-bed",
+    "name": "Sturdy Den Bed",
+    "description": "",
+    "icon": "icons/items/sturdy-den-bed.webp",
+    "rarity": "Uncommon",
+    "item_type": "Furniture",
+    "subcategory": "Beds",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "sturdy-den-bed-design": {
     "id": "sturdy-den-bed-design",
     "name": "Sturdy Den Bed Design",
     "description": "",
-    "icon": "icons/items/sturdy-den-bed-design.webp",
+    "icon": "icons/items/sturdy-den-bed.webp",
     "rarity": "Uncommon",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-den-shelf": {
     "id": "sturdy-den-shelf",
     "name": "Sturdy Den Shelf",
     "description": "",
     "icon": "icons/items/sturdy-den-shelf.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12729,17 +14042,43 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "sturdy-faculty-chair": {
+    "id": "sturdy-faculty-chair",
+    "name": "Sturdy Faculty Chair",
+    "description": "",
+    "icon": "icons/items/sturdy-faculty-chair.webp",
+    "rarity": "Rare",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "sturdy-faculty-chair-design": {
     "id": "sturdy-faculty-chair-design",
     "name": "Sturdy Faculty Chair Design",
     "description": "",
-    "icon": "icons/items/sturdy-faculty-chair-design.webp",
+    "icon": "icons/items/sturdy-faculty-chair.webp",
     "rarity": "Rare",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1
+  },
+  "sturdy-faculty-table": {
+    "id": "sturdy-faculty-table",
+    "name": "Sturdy Faculty Table",
+    "description": "",
+    "icon": "icons/items/sturdy-faculty-table.webp",
+    "rarity": "Uncommon",
+    "item_type": "Furniture",
+    "subcategory": "Tables",
+    "value": null,
     "workbench": null,
     "loot_area": null,
     "stack_size": null
@@ -12748,14 +14087,14 @@
     "id": "sturdy-faculty-table-design",
     "name": "Sturdy Faculty Table Design",
     "description": "",
-    "icon": "icons/items/sturdy-faculty-table-design.webp",
+    "icon": "icons/items/sturdy-faculty-table.webp",
     "rarity": "Uncommon",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-lab-cabinet": {
     "id": "sturdy-lab-cabinet",
@@ -12764,7 +14103,7 @@
     "icon": "icons/items/sturdy-lab-cabinet.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12781,7 +14120,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-lab-cabinet-wide": {
     "id": "sturdy-lab-cabinet-wide",
@@ -12790,7 +14129,7 @@
     "icon": "icons/items/sturdy-lab-cabinet-wide.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12807,29 +14146,42 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
+    "stack_size": 1
+  },
+  "sturdy-lab-chair": {
+    "id": "sturdy-lab-chair",
+    "name": "Sturdy Lab Chair",
+    "description": "",
+    "icon": "icons/items/sturdy-lab-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
     "stack_size": null
   },
   "sturdy-lab-chair-design": {
     "id": "sturdy-lab-chair-design",
     "name": "Sturdy Lab Chair Design",
     "description": "",
-    "icon": "icons/items/sturdy-lab-chair-design.webp",
+    "icon": "icons/items/sturdy-lab-chair.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-shelf": {
     "id": "sturdy-shelf",
     "name": "Sturdy Shelf",
     "description": "",
     "icon": "icons/items/sturdy-shelf.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12846,16 +14198,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-stash": {
     "id": "sturdy-stash",
     "name": "Sturdy Stash",
     "description": "",
     "icon": "icons/items/sturdy-stash.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12872,7 +14224,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-wardrobe": {
     "id": "sturdy-wardrobe",
@@ -12881,7 +14233,7 @@
     "icon": "icons/items/sturdy-wardrobe.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12898,7 +14250,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "sturdy-weapon-rack": {
     "id": "sturdy-weapon-rack",
@@ -12907,7 +14259,7 @@
     "icon": "icons/items/sturdy-weapon-rack.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Decoration",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -12924,7 +14276,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "subterranean-outfit": {
     "id": "subterranean-outfit",
@@ -13090,7 +14442,7 @@
     "value": 2000,
     "workbench": "Equipment Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tattico Mk. 2",
@@ -13109,7 +14461,7 @@
     "value": 5000,
     "workbench": "Gear Bench III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tattico Mk. 3 (Guarigione)",
@@ -13128,7 +14480,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tattico Mk. 3 (Rianimazione)",
@@ -13147,7 +14499,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tattico Mk. 3 (Fumo)",
@@ -13166,7 +14518,7 @@
     "value": 5000,
     "workbench": "Gear Bench III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tattico Mk. 3 (Difensivo)",
@@ -13217,7 +14569,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "tattered-arc-lining": {
     "id": "tattered-arc-lining",
@@ -13287,7 +14639,7 @@
     "value": 7000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tellurion",
@@ -13306,7 +14658,7 @@
     "value": 13000,
     "workbench": "Weapon Bench 3",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tempesta I",
@@ -13325,7 +14677,7 @@
     "value": 17000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tempesta II",
@@ -13344,7 +14696,7 @@
     "value": 22000,
     "workbench": "Weapon bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tempesta III",
@@ -13363,7 +14715,7 @@
     "value": 27000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tempesta IV",
@@ -13382,7 +14734,7 @@
     "value": 3000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": 1
   },
   "thermal-shaker": {
     "id": "thermal-shaker",
@@ -13394,8 +14746,8 @@
     "subcategory": null,
     "value": 3000,
     "workbench": null,
-    "loot_area": null,
-    "stack_size": null
+    "loot_area": "Technological, Electrical",
+    "stack_size": 3
   },
   "thermite-tipped-rounds": {
     "id": "thermite-tipped-rounds",
@@ -13408,7 +14760,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "thermostat": {
     "id": "thermostat",
@@ -13491,7 +14843,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "torch-ginger": {
     "id": "torch-ginger",
@@ -13587,7 +14939,7 @@
     "value": 7000,
     "workbench": "Weapon Bench 2",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Torrente I",
@@ -13606,7 +14958,7 @@
     "value": 10000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Torrente II",
@@ -13625,7 +14977,7 @@
     "value": 13000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Torrente III",
@@ -13644,7 +14996,7 @@
     "value": 17000,
     "workbench": "Weapon Bench I",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Torrente IV",
@@ -13663,7 +15015,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "trailblazer-grenade": {
     "id": "trailblazer-grenade",
@@ -13733,7 +15085,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "triumph-outfit": {
     "id": "triumph-outfit",
@@ -13772,9 +15124,9 @@
     "name": "Tufted Sofa",
     "description": "",
     "icon": "icons/items/tufted-sofa.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -13791,7 +15143,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "turbine-compressor": {
     "id": "turbine-compressor",
@@ -13861,7 +15213,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "unusable-weapon": {
     "id": "unusable-weapon",
@@ -13918,7 +15270,7 @@
     "subcategory": "",
     "value": 6000,
     "workbench": null,
-    "loot_area": "",
+    "loot_area": "ARC",
     "stack_size": 3,
     "translations": {
       "it": {
@@ -13989,7 +15341,7 @@
     "value": 7000,
     "workbench": "Weapon Bench 2",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Venator I",
@@ -14008,7 +15360,7 @@
     "value": 10000,
     "workbench": "Weapon Bench",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Venator II",
@@ -14027,7 +15379,7 @@
     "value": 13000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Venator III",
@@ -14046,7 +15398,7 @@
     "value": 17000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Venator IV",
@@ -14059,9 +15411,9 @@
     "name": "Venetian Dresser",
     "description": "",
     "icon": "icons/items/venetian-dresser.webp",
-    "rarity": "Common",
+    "rarity": "Epic",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -14078,7 +15430,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "verdigris-stencil": {
     "id": "verdigris-stencil",
@@ -14091,7 +15443,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "vertical-grip-i": {
     "id": "vertical-grip-i",
@@ -14104,7 +15456,7 @@
     "value": 640,
     "workbench": "Gunsmith 1",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Impugnatura verticale I",
@@ -14123,7 +15475,7 @@
     "value": 2000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Impugnatura verticale II",
@@ -14314,7 +15666,7 @@
     "value": 10000,
     "workbench": "Weapon Bench 3",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Vulcano I",
@@ -14333,7 +15685,7 @@
     "value": 13000,
     "workbench": "Gunsmith III",
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Vulcano II",
@@ -14352,7 +15704,7 @@
     "value": 17000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Vulcano III",
@@ -14371,7 +15723,7 @@
     "value": 22000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Vulcano IV",
@@ -14392,27 +15744,40 @@
     "loot_area": "",
     "stack_size": null
   },
+  "warehouse-chair": {
+    "id": "warehouse-chair",
+    "name": "Warehouse Chair",
+    "description": "",
+    "icon": "icons/items/warehouse-chair.webp",
+    "rarity": "Common",
+    "item_type": "Furniture",
+    "subcategory": "Seating",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "warehouse-chair-design": {
     "id": "warehouse-chair-design",
     "name": "Warehouse Chair Design",
     "description": "",
-    "icon": "icons/items/warehouse-chair-design.webp",
+    "icon": "icons/items/warehouse-chair.webp",
     "rarity": "Common",
     "item_type": "Design",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "warehouse-desk": {
     "id": "warehouse-desk",
     "name": "Warehouse Desk",
     "description": "",
     "icon": "icons/items/warehouse-desk.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -14429,16 +15794,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "warehouse-dresser": {
     "id": "warehouse-dresser",
     "name": "Warehouse Dresser",
     "description": "",
     "icon": "icons/items/warehouse-dresser.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Storage",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -14455,7 +15820,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "wasp-driver": {
     "id": "wasp-driver",
@@ -14534,7 +15899,7 @@
     "icon": "icons/items/weather-station-chair.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Seating",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -14551,16 +15916,16 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "weather-station-table": {
     "id": "weather-station-table",
     "name": "Weather Station Table",
     "description": "",
     "icon": "icons/items/weather-station-table.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Tables",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -14577,7 +15942,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "white-flag": {
     "id": "white-flag",
@@ -14635,9 +16000,9 @@
     "name": "Winter Table",
     "description": "",
     "icon": "icons/items/winter-table.webp",
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Tables",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -14654,7 +16019,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "wires": {
     "id": "wires",
@@ -14701,7 +16066,7 @@
     "icon": "icons/items/work-light.webp",
     "rarity": "Common",
     "item_type": "Furniture",
-    "subcategory": null,
+    "subcategory": "Lighting",
     "value": null,
     "workbench": null,
     "loot_area": null,
@@ -14718,7 +16083,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "wreck-outfit": {
     "id": "wreck-outfit",
@@ -14744,7 +16109,7 @@
     "value": 550,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null
+    "stack_size": 3
   },
   "yellow-light-stick": {
     "id": "yellow-light-stick",
@@ -14815,13 +16180,13 @@
     "name": "Advanced Camera Blueprint",
     "description": "Lets you craft an Advanced Camera",
     "icon": "icons/items/advanced-camera.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "angled-grip-ii-recipe": {
     "id": "angled-grip-ii-recipe",
@@ -14834,7 +16199,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Impugnatura angolata II",
@@ -14853,7 +16218,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Impugnatura angolata III",
@@ -14872,7 +16237,7 @@
     "value": 5000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Incudine",
@@ -14891,7 +16256,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Aphelion",
@@ -14904,26 +16269,26 @@
     "name": "Banjo Blueprint",
     "description": "",
     "icon": "icons/items/banjo.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": null,
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "bantam-blueprint": {
     "id": "bantam-blueprint",
     "name": "Bantam Blueprint",
     "description": "Lets you craft a Bantam",
     "icon": "icons/items/bantam.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "barricade-kit-recipe": {
     "id": "barricade-kit-recipe",
@@ -14936,7 +16301,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto kit barricata",
@@ -14955,7 +16320,7 @@
     "value": 5000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Bettina",
@@ -14974,7 +16339,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto granata incendiaria",
@@ -14993,7 +16358,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto bastoncino luminoso blu",
@@ -15012,7 +16377,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Lince I",
@@ -15031,7 +16396,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Burletta",
@@ -15050,7 +16415,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Canto Progetto",
@@ -15069,7 +16434,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Combattimento Mk. 3 (Fiancheggiamento)",
@@ -15088,7 +16453,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Combattimento Mk. 3 (Aggressivo)",
@@ -15107,7 +16472,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto compensatore II",
@@ -15126,7 +16491,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Compensatore III",
@@ -15145,7 +16510,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto parti di armi complesse",
@@ -15164,7 +16529,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto materasso d'atterraggio",
@@ -15183,7 +16548,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Deadline",
@@ -15202,7 +16567,7 @@
     "value": 5000,
     "workbench": "Medical Lab II",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto defibrillatore",
@@ -15221,7 +16586,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Dolabra Progetto",
@@ -15234,13 +16599,13 @@
     "name": "Emperor Gateway Conduit Blueprint",
     "description": "CollectorKey Blueprint Description",
     "icon": "icons/items/emperor-gateway-conduit.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "equalizer-recipe": {
     "id": "equalizer-recipe",
@@ -15253,7 +16618,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Equalizzatore",
@@ -15272,7 +16637,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Mina esplosiva",
@@ -15291,7 +16656,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Canna estesa II",
@@ -15310,7 +16675,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Canna estesa III",
@@ -15329,7 +16694,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Caricatore leggero esteso II",
@@ -15348,7 +16713,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Caricatore leggero esteso III",
@@ -15367,7 +16732,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto caricatore medio esteso II",
@@ -15386,7 +16751,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto caricatore medio esteso III",
@@ -15405,7 +16770,7 @@
     "value": 5000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto caricatore fucile esteso II",
@@ -15424,7 +16789,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Caricatore esteso per fucile III",
@@ -15443,7 +16808,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto scatola di fuochi d'artificio",
@@ -15462,7 +16827,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Mina a gas",
@@ -15475,13 +16840,13 @@
     "name": "Grappling Hook Blueprint",
     "description": "Lets you craft a Grappling Hook",
     "icon": "icons/items/grappling-hook.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "green-light-stick-blueprint": {
     "id": "green-light-stick-blueprint",
@@ -15494,7 +16859,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto bastoncino luminoso verde",
@@ -15513,7 +16878,7 @@
     "value": 5000,
     "workbench": "Refiner II",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto di parti di arma pesante",
@@ -15532,7 +16897,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Spaccascudi",
@@ -15551,7 +16916,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Il Toro",
@@ -15570,7 +16935,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto mina stordente",
@@ -15589,7 +16954,7 @@
     "value": 5000,
     "workbench": "Gunsmith III",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Giove",
@@ -15608,7 +16973,7 @@
     "value": 5000,
     "workbench": "Refiner",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto parti di armi leggere",
@@ -15627,7 +16992,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto calcio leggero",
@@ -15646,7 +17011,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Saccheggio Mk. 3 (Custode)",
@@ -15665,7 +17030,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Saccheggio Mk. 3 (Sopravvissuto)",
@@ -15684,7 +17049,7 @@
     "value": 5000,
     "workbench": "Utility Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto granata esca",
@@ -15703,7 +17068,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto parti arma medie",
@@ -15722,7 +17087,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto freno di bocca II",
@@ -15741,7 +17106,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Freno di bocca III",
@@ -15760,7 +17125,7 @@
     "value": 5000,
     "workbench": "Gunsmith II",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Falco Pescatore",
@@ -15779,7 +17144,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto: Calcio imbottito",
@@ -15798,7 +17163,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto discensore motorizzato",
@@ -15814,10 +17179,10 @@
     "rarity": "Common",
     "item_type": "Trinket",
     "subcategory": null,
-    "value": null,
+    "value": 100,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Schemi del Progetto Heartwood",
@@ -15836,7 +17201,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto mina a impulsi",
@@ -15855,7 +17220,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "rascal-blueprint": {
     "id": "rascal-blueprint",
@@ -15868,7 +17233,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Disegno tecnico Rascal",
@@ -15887,7 +17252,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto bastoncino luminoso rosso",
@@ -15906,7 +17271,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Razzo segnalatore predone remoto",
@@ -15925,7 +17290,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto granata cercatrice",
@@ -15944,7 +17309,7 @@
     "value": 5000,
     "workbench": "Weapon Bench",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Strozzatore per fucile II",
@@ -15963,7 +17328,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Strozzatore fucile III",
@@ -15982,7 +17347,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Silenziatore per fucile a pompa",
@@ -16001,7 +17366,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Showstopper",
@@ -16020,7 +17385,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Silenziatore I",
@@ -16039,7 +17404,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Silenziatore II",
@@ -16058,7 +17423,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Granata fumogena",
@@ -16077,7 +17442,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Gancio a scatto",
@@ -16096,7 +17461,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Calcio stabile II",
@@ -16115,7 +17480,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Calcio stabile III",
@@ -16128,13 +17493,13 @@
     "name": "Stiletto Blueprint",
     "description": "Lets you craft a Stiletto",
     "icon": "icons/items/stiletto.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "surge-coil-blueprint": {
     "id": "surge-coil-blueprint",
@@ -16147,7 +17512,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Surge Coil Progetto",
@@ -16166,7 +17531,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Tattico Mk. 3 (Cura)",
@@ -16185,7 +17550,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Tattico Mk. 3 (Rianimazione)",
@@ -16204,7 +17569,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Tattico Mk. 3 (Difensivo)",
@@ -16223,7 +17588,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Granata marcatrice",
@@ -16242,7 +17607,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Tempesta I",
@@ -16255,13 +17620,13 @@
     "name": "Tether Launcher Blueprint",
     "description": "Lets you craft a Tether Launcher",
     "icon": "icons/items/tether-launcher.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "torrent-i-recipe": {
     "id": "torrent-i-recipe",
@@ -16274,7 +17639,7 @@
     "value": 5000,
     "workbench": "Gunsmith II",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Torrente",
@@ -16293,7 +17658,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Trailblazer",
@@ -16312,7 +17677,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto granata ad attivazione",
@@ -16331,7 +17696,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Tattico Mk. 3 (Fumo)",
@@ -16350,7 +17715,7 @@
     "value": 5000,
     "workbench": "Gunsmith II",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Venator",
@@ -16369,7 +17734,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Impugnatura verticale II",
@@ -16388,7 +17753,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Impugnatura Verticale III",
@@ -16407,7 +17772,7 @@
     "value": 5000,
     "workbench": "Med Station",
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Iniezione Vita",
@@ -16426,7 +17791,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto spray Vita",
@@ -16445,7 +17810,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Vulcano",
@@ -16464,7 +17829,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto bandiera bianca",
@@ -16483,7 +17848,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Progetto Wolfpack",
@@ -16496,13 +17861,13 @@
     "name": "Yank Grenade Blueprint",
     "description": "Lets you craft a Yank Grenade",
     "icon": "icons/items/yank-grenade.webp",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "item_type": "Blueprint",
     "subcategory": null,
     "value": 5000,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null
+    "stack_size": 1
   },
   "yellow-light-stick-blueprint": {
     "id": "yellow-light-stick-blueprint",
@@ -16515,7 +17880,7 @@
     "value": 5000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": null,
+    "stack_size": 1,
     "translations": {
       "it": {
         "name": "Bastoncino luminoso giallo",
@@ -16953,24 +18318,6 @@
     "stack_size": null,
     "iconFromItem": "deadwire-outfit"
   },
-  "bar-table": {
-    "id": "bar-table",
-    "name": "Bar Table",
-    "description": "",
-    "icon": null,
-    "rarity": "Common",
-    "item_type": "Furniture",
-    "subcategory": "",
-    "value": 100,
-    "workbench": null,
-    "loot_area": "",
-    "stack_size": 1,
-    "translations": {
-      "it": {
-        "name": "Tavolo da bar"
-      }
-    }
-  },
   "mock-scared-emote": {
     "id": "mock-scared-emote",
     "name": "Mock Scared (Emote)",
@@ -17100,24 +18447,6 @@
     "translations": {
       "it": {
         "name": "Frantuma-ghiacciai"
-      }
-    }
-  },
-  "printed-fabric-chair": {
-    "id": "printed-fabric-chair",
-    "name": "Printed Fabric Chair",
-    "description": "",
-    "icon": null,
-    "rarity": "Rare",
-    "item_type": "Furniture",
-    "subcategory": "",
-    "value": null,
-    "workbench": null,
-    "loot_area": "",
-    "stack_size": 1,
-    "translations": {
-      "it": {
-        "name": "Sedia in stoffa stampata"
       }
     }
   },

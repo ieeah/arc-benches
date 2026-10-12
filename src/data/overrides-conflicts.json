@@ -1,3 +1,391 @@
 {
-  "conflicts": []
+  "conflicts": [
+    {
+      "id": "adrenaline-shot",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Healing",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "bandage",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Healing",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "barricade-kit",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Utility",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "blaze-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "blaze-grenade-trap",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "crash-mat",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "deadline",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "defibrillator",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Healing",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "dockmasters-detector",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Gadget",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "door-blocker",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Utility",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "explosive-mine",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "flame-spray",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Gadget",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "flushing-terminal-key",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quest Item",
+      "newUpstream": "",
+      "overrideVal": "Key",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "fruit-mix",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Healing",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "gas-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "gas-grenade-trap",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "gas-mine",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "heavy-fuze-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "herbal-bandage",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Healing",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "jolt-mine",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "laser-trap-smoke",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "light-impact-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "lil-smoke-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "lure-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "lure-grenade-trap",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "noisemaker",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Gadget",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "photoelectric-cloak",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Gadget",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "powered-descender",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Gadget",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "pulse-mine",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Trap",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "remote-raider-flare",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Utility",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "seeker-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "showstopper",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "shrapnel-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "smoke-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "snap-blast-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "snap-hook",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Gadget",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "surge-coil",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Utility",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "tagging-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "trailblazer-grenade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "trigger-nade",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Grenade",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "vita-shot",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": "",
+      "overrideVal": "Healing",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "vita-spray",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Healing",
+      "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "zipline",
+      "key": "subcategory",
+      "kind": "changed",
+      "oldUpstream": "Quick Use",
+      "newUpstream": null,
+      "overrideVal": "Utility",
+      "detectedAt": "2026-10-12"
+    }
+  ]
 }
