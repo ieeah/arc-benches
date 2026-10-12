@@ -85,6 +85,22 @@ async function processIconBuffer(originalBuffer) {
   return normalized;
 }
 
+// Icone che su fondo trasparente sono invisibili sui temi chiari (glifo bianco): il glifo viene
+// composto su un disco colorato, come per i punti XP delle valute custom.
+const BADGED_ICONS = { 'research-points': 'research-points-badge.svg' };
+
+async function applyIconBadge(iconBuffer, badgeFile) {
+  const disc = await sharp(readFileSync(join(__dirname, 'data', 'custom-items', badgeFile)))
+    .resize(256, 256)
+    .png()
+    .toBuffer();
+  const glyph = await sharp(iconBuffer).resize(256, 256).png().toBuffer();
+  return sharp(disc)
+    .composite([{ input: glyph }])
+    .webp({ quality: 80, effort: 4, smartSubsample: true })
+    .toBuffer();
+}
+
 function deriveStackSize(item) {
   return typeof item.stat_block?.stackSize === 'number' && item.stat_block.stackSize > 0
     ? item.stat_block.stackSize : null;
@@ -300,6 +316,7 @@ async function main() {
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const rawBuf = Buffer.from(await res.arrayBuffer());
           normalizedBuf = await processIconBuffer(rawBuf);
+          if (BADGED_ICONS[item.id]) normalizedBuf = await applyIconBadge(normalizedBuf, BADGED_ICONS[item.id]);
           withIcon++;
           await new Promise(r => setTimeout(r, 60));
         }
