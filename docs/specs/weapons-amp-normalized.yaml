@@ -1,6 +1,6 @@
 weapons:
   anvil:
-    required_module: amplification-module-mk3
+    required_module: amplification-module-mk-iii
     branches:
       branch-anvil-x-rounds:
         name: "X Rounds"
@@ -48,7 +48,7 @@ weapons:
               ads_spread: "Increased"
 
   il-toro:
-    required_module: amplification-module-mk2
+    required_module: amplification-module-mk-ii
     branches:
       branch-il-toro-slug:
         name: "Slug Rounds"
@@ -94,7 +94,7 @@ weapons:
               shells_loaded_per_cycle: +1
 
   rattler:
-    required_module: amplification-module-mk1
+    required_module: amplification-module-mk-i
     branches:
       branch-rattler-reload:
         name: "Reload"
@@ -157,7 +157,7 @@ weapons:
               burn_duration_seconds: +2
 
   burletta:
-    required_module: amplification-module-mk2
+    required_module: amplification-module-mk-ii
     branches:
       branch-burletta-auto:
         name: "Full Auto"
@@ -242,7 +242,7 @@ weapons:
               allow_sprint_fire: true
 
   kettle:
-    required_module: amplification-module-mk1
+    required_module: amplification-module-mk-i
     branches:
       branch-kettle-upgrades:
         name: "Kettle Upgrades"
@@ -305,7 +305,7 @@ weapons:
               base_damage: -2
 
   bettina:
-    required_module: amplification-module-mk5
+    required_module: amplification-module-mk-v
     branches:
       branch-bettina-magazine:
         name: "Magazine Expansion"
@@ -369,7 +369,7 @@ weapons:
               magazine_size: -4
 
   hullcracker:
-    required_module: amplification-module-mk4
+    required_module: amplification-module-mk-iv
     branches:
       branch-hullcracker-ordnance:
         name: "Incendiary Ordnance"
@@ -410,7 +410,7 @@ weapons:
               reload_type: magazine_reload
 
   hairpin:
-    required_module: amplification-module-mk1
+    required_module: amplification-module-mk-i
     branches:
       branch-hairpin-upgrades:
         name: "Hairpin Upgrades"
@@ -489,7 +489,7 @@ weapons:
               allow_sprint_fire: true
 
   renegade:
-    required_module: amplification-module-mk3
+    required_module: amplification-module-mk-iii
     branches:
       branch-renegade-upgrades:
         name: "Renegade Upgrades"
@@ -528,7 +528,7 @@ weapons:
               has_scope: true
 
   osprey:
-    required_module: amplification-module-mk3
+    required_module: amplification-module-mk-iii
     branches:
       branch-osprey-upgrades:
         name: "Osprey Upgrades"
@@ -583,7 +583,7 @@ weapons:
               chamber_round_while_scoped: true
 
   rascal:
-    required_module: amplification-module-mk3
+    required_module: amplification-module-mk-iii
     branches:
       branch-rascal-upgrades:
         name: "Rascal Upgrades"
@@ -638,7 +638,7 @@ weapons:
               impact_damage: -30
 
   canto:
-    required_module: amplification-module-mk3
+    required_module: amplification-module-mk-iii
     branches:
       branch-canto-upgrades:
         name: "Canto Upgrades"
@@ -695,7 +695,7 @@ weapons:
               burn_duration_seconds: +2
 
   equalizer:
-    required_module: amplification-module-mk5
+    required_module: amplification-module-mk-v
     branches:
       branch-equalizer-beam-focus:
         name: "Beam Sustained Focus"
@@ -752,7 +752,7 @@ weapons:
               armor_damage_pct: -60
 
   aphelion:
-    required_module: amplification-module-mk5
+    required_module: amplification-module-mk-v
     branches:
       branch-aphelion-upgrades:
         name: "Aphelion Upgrades"
@@ -827,7 +827,7 @@ weapons:
               burn_duration_seconds: +2
 
   jupiter:
-    required_module: amplification-module-mk5
+    required_module: amplification-module-mk-v
     branches:
       branch-jupiter-upgrades:
         name: "Jupiter Upgrades"
