@@ -128,7 +128,7 @@ function detectOverrideConflicts({ overrides, catalog, previousById, previousCon
   for (const [id, ovr] of Object.entries(overrides)) {
     const item = byId.get(id);
     if (!item) {
-      conflicts.push({ id, key: '*', kind: 'orphan', oldUpstream: null, newUpstream: null, overrideVal: Object.keys(ovr) });
+      conflicts.push({ id, key: '*', kind: 'orphan', oldUpstream: null, newUpstream: null, overrideVal: Object.keys(withoutReview(ovr)) });
       continue;
     }
     for (const key of COMPARABLE_KEYS) {
@@ -158,6 +158,12 @@ function detectOverrideConflicts({ overrides, catalog, previousById, previousCon
     .sort((a, b) => a.id.localeCompare(b.id) || a.key.localeCompare(b.key));
 }
 
+// `reviewed` (firme dei conflitti già mantenuti, vedi overrideConflicts.ts) non è un campo dell'oggetto
+function withoutReview(override = {}) {
+  const { reviewed: _reviewed, ...fields } = override;
+  return fields;
+}
+
 function trimItem(item, icon, itemOverride = {}) {
   const base = {
     id: item.id,
@@ -173,11 +179,12 @@ function trimItem(item, icon, itemOverride = {}) {
     stack_size: deriveStackSize(item),
   };
 
+  const fields = withoutReview(itemOverride);
   return {
     ...base,
-    ...itemOverride,
+    ...fields,
     id: item.id,
-    icon: itemOverride.icon !== undefined ? itemOverride.icon : icon,
+    icon: fields.icon !== undefined ? fields.icon : icon,
   };
 }
 
@@ -343,7 +350,7 @@ async function main() {
     }
     // `review` (note per le pagine Dev) non va nel catalogo distribuito
     const { review: _review, ...catalogDef } = def;
-    results[id] = { ...catalogDef, ...(overrides[id] ?? {}), id, icon: localPath };
+    results[id] = { ...catalogDef, ...withoutReview(overrides[id]), id, icon: localPath };
   }
 
   // Miniature 128px in public/icons/items/sm/ (stesso nome file dell'originale): rigenerate solo se mancano

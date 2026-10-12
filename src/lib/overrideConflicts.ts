@@ -15,10 +15,15 @@ export interface OverrideConflict {
   detectedAt: string;
 }
 
-/** conflictKey -> firma del conflitto al momento in cui l'override è stato mantenuto. */
-export type ResolvedConflicts = Record<string, string>;
+type OverrideEntry = Record<string, unknown>;
+type OverrideMap = Record<string, OverrideEntry>;
 
-type OverrideMap = Record<string, Record<string, unknown>>;
+/**
+ * Campo riservato dentro ogni override: campo conflitto -> firma del conflitto al momento in cui
+ * è stato "mantenuto". Non è un campo dell'oggetto: va escluso da ogni merge sugli item.
+ */
+export const REVIEW_FIELD = 'reviewed';
+type ReviewMap = Record<string, string>;
 
 export const CONFLICT_KIND_LABELS: Record<ConflictKind, string> = {
   changed: 'Upstream cambiato',
@@ -26,31 +31,37 @@ export const CONFLICT_KIND_LABELS: Record<ConflictKind, string> = {
   orphan: 'Orfano',
 };
 
-const RESOLVED_STORAGE_KEY = 'dev_overrides_conflicts_resolved';
-
 export const conflictKey = (c: Pick<OverrideConflict, 'id' | 'key'>) => `${c.id}::${c.key}`;
 
 // Se upstream si muove di nuovo la firma cambia e il conflitto "mantenuto" riappare.
-const conflictSignature = (c: OverrideConflict) => `${c.kind}|${JSON.stringify(c.newUpstream ?? null)}`;
+export const conflictSignature = (c: OverrideConflict) => `${c.kind}|${JSON.stringify(c.newUpstream ?? null)}`;
+
+/** Override senza il campo riservato `reviewed`, da usare ovunque l'override venga unito a un item. */
+export function stripReview<T extends OverrideEntry>(entry: T): Omit<T, typeof REVIEW_FIELD> {
+  const { [REVIEW_FIELD]: _reviewed, ...fields } = entry;
+  return fields as Omit<T, typeof REVIEW_FIELD>;
+}
 
 /** Conflitti ancora da rivedere: l'override esiste ancora e non è stato marcato come mantenuto. */
-export function getActiveConflicts(
-  conflicts: OverrideConflict[],
-  overrides: OverrideMap,
-  resolved: ResolvedConflicts,
-): OverrideConflict[] {
+export function getActiveConflicts(conflicts: OverrideConflict[], overrides: OverrideMap): OverrideConflict[] {
   return conflicts.filter(c => {
     const entry = overrides[c.id];
     if (!entry) return false;
     if (c.kind !== 'orphan' && !(c.key in entry)) return false;
-    return resolved[conflictKey(c)] !== conflictSignature(c);
+    const reviewed = entry[REVIEW_FIELD] as ReviewMap | undefined;
+    return reviewed?.[c.key] !== conflictSignature(c);
   });
 }
 
-/** "Mantieni override": ricorda il conflitto come rivisto finché upstream non cambia ancora. */
-export function markConflictsResolved(resolved: ResolvedConflicts, conflicts: OverrideConflict[]): ResolvedConflicts {
-  const next = { ...resolved };
-  for (const c of conflicts) next[conflictKey(c)] = conflictSignature(c);
+/** "Mantieni override": segna il conflitto come rivisto nell'override stesso, finché upstream non cambia ancora. */
+export function markConflictsResolved(overrides: OverrideMap, conflicts: OverrideConflict[]): OverrideMap {
+  const next = { ...overrides };
+  for (const c of conflicts) {
+    const entry = next[c.id];
+    if (!entry) continue;
+    const reviewed = (entry[REVIEW_FIELD] ?? {}) as ReviewMap;
+    next[c.id] = { ...entry, [REVIEW_FIELD]: { ...reviewed, [c.key]: conflictSignature(c) } };
+  }
   return next;
 }
 
@@ -65,7 +76,13 @@ export function adoptUpstream(overrides: OverrideMap, conflicts: OverrideConflic
     const entry = next[c.id];
     if (!entry || !(c.key in entry)) continue;
     const { [c.key]: _removed, ...rest } = entry;
-    if (Object.keys(rest).length === 0) delete next[c.id];
+    const reviewed = rest[REVIEW_FIELD] as ReviewMap | undefined;
+    if (reviewed) {
+      const { [c.key]: _forgotten, ...otherReviews } = reviewed;
+      if (Object.keys(otherReviews).length === 0) delete rest[REVIEW_FIELD];
+      else rest[REVIEW_FIELD] = otherReviews;
+    }
+    if (Object.keys(stripReview(rest)).length === 0) delete next[c.id];
     else next[c.id] = rest;
   }
   return next;
@@ -74,18 +91,4 @@ export function adoptUpstream(overrides: OverrideMap, conflicts: OverrideConflic
 export function formatConflictValue(v: unknown): string {
   if (v === null || v === undefined || v === '') return '∅';
   return typeof v === 'object' ? JSON.stringify(v) : String(v);
-}
-
-export function loadResolvedConflicts(): ResolvedConflicts {
-  try {
-    const raw = localStorage.getItem(RESOLVED_STORAGE_KEY);
-    if (raw) return JSON.parse(raw) as ResolvedConflicts;
-  } catch { /* storage non disponibile o JSON corrotto: si riparte da vuoto */ }
-  return {};
-}
-
-export function saveResolvedConflicts(resolved: ResolvedConflicts): void {
-  try {
-    localStorage.setItem(RESOLVED_STORAGE_KEY, JSON.stringify(resolved));
-  } catch { /* ignore */ }
 }

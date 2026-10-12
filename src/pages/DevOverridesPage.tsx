@@ -21,12 +21,9 @@ import {
   adoptUpstream,
   formatConflictValue,
   getActiveConflicts,
-  loadResolvedConflicts,
   markConflictsResolved,
-  saveResolvedConflicts,
   type ConflictKind,
   type OverrideConflict,
-  type ResolvedConflicts,
 } from '@/lib/overrideConflicts';
 import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
@@ -257,7 +254,6 @@ export const DevOverridesPage = ({
   const [filterTranslationLang, setFilterTranslationLang] = useState<string>('it');
   const [filterConflicts, setFilterConflicts] = useState(false);
   const [conflictKindFilter, setConflictKindFilter] = useState<ConflictKind | 'all'>('all');
-  const [resolvedConflicts, setResolvedConflicts] = useState<ResolvedConflicts>(loadResolvedConflicts);
   const [checkedConflictIds, setCheckedConflictIds] = useState<Set<string>>(() => new Set());
   const [selectedItemId, setSelectedItemId] = useState<string>(
     initialSelectedItemId && (itemsDataBase as Record<string, ItemInfo>)[initialSelectedItemId]
@@ -377,8 +373,8 @@ export const DevOverridesPage = ({
 
   // Conflitti con upstream ancora da rivedere (l'override esiste ancora e non è stato "mantenuto")
   const activeConflicts = useMemo(
-    () => getActiveConflicts(ALL_CONFLICTS, overrides as Record<string, Record<string, unknown>>, resolvedConflicts),
-    [overrides, resolvedConflicts]
+    () => getActiveConflicts(ALL_CONFLICTS, overrides as Record<string, Record<string, unknown>>),
+    [overrides]
   );
 
   const conflictKindCounts = useMemo(() => {
@@ -574,11 +570,7 @@ export const DevOverridesPage = ({
   };
 
   const applyKeepOverride = (conflicts: OverrideConflict[]) => {
-    setResolvedConflicts(prev => {
-      const next = markConflictsResolved(prev, conflicts);
-      saveResolvedConflicts(next);
-      return next;
-    });
+    setOverrides(prev => markConflictsResolved(prev as Record<string, Record<string, unknown>>, conflicts) as ItemOverrideMap);
   };
 
   const applyAdoptUpstream = (conflicts: OverrideConflict[]) => {
