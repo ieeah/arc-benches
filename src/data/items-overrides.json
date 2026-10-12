@@ -23,28 +23,49 @@
         "description": "Un siero che ripristina completamente l'energia e aumenta temporaneamente la rigenerazione dell'energia."
       }
     },
-    "subcategory": "Healing"
+    "subcategory": "Healing",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "bandage": {
-    "subcategory": "Healing"
+    "subcategory": "Healing",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "defibrillator": {
-    "subcategory": "Healing"
+    "subcategory": "Healing",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "fruit-mix": {
-    "subcategory": "Healing"
+    "subcategory": "Healing",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "herbal-bandage": {
-    "subcategory": "Healing"
+    "subcategory": "Healing",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "sterilized-bandage": {
     "subcategory": "Healing"
   },
   "vita-shot": {
-    "subcategory": "Healing"
+    "subcategory": "Healing",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "vita-spray": {
-    "subcategory": "Healing"
+    "subcategory": "Healing",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "shield-recharger": {
     "subcategory": "Healing"
@@ -53,40 +74,70 @@
     "subcategory": "Healing"
   },
   "barricade-kit": {
-    "subcategory": "Utility"
+    "subcategory": "Utility",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "door-blocker": {
-    "subcategory": "Utility"
+    "subcategory": "Utility",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "fireworks-box": {
     "subcategory": "Utility"
   },
   "remote-raider-flare": {
-    "subcategory": "Utility"
+    "subcategory": "Utility",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "zipline": {
-    "subcategory": "Utility"
+    "subcategory": "Utility",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "surge-coil": {
-    "subcategory": "Utility"
+    "subcategory": "Utility",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "binoculars": {
     "subcategory": "Gadget"
   },
   "flame-spray": {
-    "subcategory": "Gadget"
+    "subcategory": "Gadget",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "dockmasters-detector": {
-    "subcategory": "Gadget"
+    "subcategory": "Gadget",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "noisemaker": {
-    "subcategory": "Gadget"
+    "subcategory": "Gadget",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "photoelectric-cloak": {
-    "subcategory": "Gadget"
+    "subcategory": "Gadget",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "powered-descender": {
-    "subcategory": "Gadget"
+    "subcategory": "Gadget",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "recorder": {
     "subcategory": "Gadget"
@@ -95,52 +146,97 @@
     "subcategory": "Gadget"
   },
   "snap-hook": {
-    "subcategory": "Gadget"
+    "subcategory": "Gadget",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "light-impact-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "heavy-fuze-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "blaze-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "gas-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "showstopper": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "snap-blast-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "seeker-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "shrapnel-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "trigger-nade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "trailblazer-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "wolfpack": {
     "subcategory": "Grenade"
   },
   "lure-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "lil-smoke-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "smoke-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "tagging-grenade": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "green-light-stick": {
     "subcategory": "Grenade"
@@ -158,43 +254,76 @@
     "subcategory": "Grenade"
   },
   "crash-mat": {
-    "subcategory": "Grenade"
+    "subcategory": "Grenade",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "blaze-grenade-trap": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "gas-grenade-trap": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "lure-grenade-trap": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "laser-trap-smoke": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "laser-trap-lure": {
     "subcategory": "Trap"
   },
   "explosive-mine": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "gas-mine": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "jolt-mine": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|null"
+    }
   },
   "pulse-mine": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "deadline": {
-    "subcategory": "Trap"
+    "subcategory": "Trap",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "dam-utility-key": {
     "subcategory": "Key"
   },
   "flushing-terminal-key": {
-    "subcategory": "Key"
+    "subcategory": "Key",
+    "reviewed": {
+      "subcategory": "changed|\"\""
+    }
   },
   "advanced-arc-powercell": {
     "translations": {
