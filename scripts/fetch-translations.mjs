@@ -13,10 +13,12 @@
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { extractList, loadArcTracker, normalizeItem } from "./lib/arctracker.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const RAW_CACHE = join(__dirname, "translations-raw.json");
+const ARCTRACKER_CACHE = join(__dirname, "arctracker-raw.json");
 const ITEMS_JSON = join(ROOT, "src", "data", "items.json");
 const OVERRIDES_JSON = join(ROOT, "src", "data", "items-overrides.json");
 
@@ -119,8 +121,42 @@ function findBestMatch(ourItem, raidTheoryItems) {
   return null;
 }
 
+function findArcTrackerMatch(ourItem, arcById, arcByName) {
+  if (!arcById || arcById.size === 0) return null;
+  const ourId = ourItem.id.toLowerCase();
+  if (arcById.has(ourId)) return arcById.get(ourId);
+
+  // Blueprint / Recipe suffix variations
+  const variations = [
+    ourId.replace(/-recipe$/, "-blueprint"),
+    ourId.replace(/-blueprint$/, "-recipe"),
+    ourId.replace(/-recipe$/, ""),
+    ourId.replace(/-blueprint$/, ""),
+  ];
+  for (const v of variations) {
+    if (arcById.has(v)) return arcById.get(v);
+  }
+
+  // Roman numerals vs Arabic numbers
+  const numeralReplacements = [
+    [/-i$/, "-1"], [/-ii$/, "-2"], [/-iii$/, "-3"], [/-iv$/, "-4"],
+    [/-1$/, "-i"], [/-2$/, "-ii"], [/-3$/, "-iii"], [/-4$/, "-iv"],
+  ];
+  for (const [pattern, rep] of numeralReplacements) {
+    const alt = ourId.replace(pattern, rep);
+    if (arcById.has(alt)) return arcById.get(alt);
+  }
+
+  // Match by English name
+  const normName = normalizeKey(ourItem.name);
+  if (arcByName.has(normName)) return arcByName.get(normName);
+
+  return null;
+}
+
 async function main() {
   const refresh = process.argv.includes("--refresh");
+  const noArcTracker = process.argv.includes("--no-arctracker");
   const targetLang = (process.argv.find((a) => a.startsWith("--lang="))?.split("=")[1]) || "it";
 
   console.log(`=== ARC Benches - Translation Synchronizer [${targetLang.toUpperCase()}] ===`);
@@ -134,6 +170,31 @@ async function main() {
     raidTheoryItems = await fetchRawTranslations();
     writeFileSync(RAW_CACHE, JSON.stringify(raidTheoryItems, null, 2), "utf-8");
     console.log(`Cached raw translations to ${RAW_CACHE}\n`);
+  }
+
+  const arcTrackerMapById = new Map();
+  const arcTrackerMapByName = new Map();
+  if (!noArcTracker) {
+    try {
+      console.log("Loading ARC Tracker data for fallback translations...");
+      const arcData = await loadArcTracker({
+        cachePath: ARCTRACKER_CACHE,
+        refresh,
+        log: (m) => console.log(`  ${m}`),
+      });
+      const list = extractList("items", arcData.items).map(normalizeItem);
+      for (const it of list) {
+        arcTrackerMapById.set(it.id, it);
+        if (it.names?.en) {
+          arcTrackerMapByName.set(normalizeKey(it.names.en), it);
+        }
+      }
+      console.log(`Loaded ${list.length} ARC Tracker items ready for fallback.\n`);
+    } catch (err) {
+      console.warn(`Warning: Could not load ARC Tracker fallback: ${err.message}\n`);
+    }
+  } else {
+    console.log("ARC Tracker fallback disabled via --no-arctracker.\n");
   }
 
   if (!existsSync(ITEMS_JSON)) {
@@ -152,6 +213,8 @@ async function main() {
 
   let totalItems = 0;
   let translatedCount = 0;
+  let raidTheoryCount = 0;
+  let arcTrackerCount = 0;
   let overriddenCount = 0;
   const unmatched = [];
 
@@ -161,15 +224,41 @@ async function main() {
 
     let itName = match?.name?.[targetLang];
     let itDesc = match?.description?.[targetLang];
+    const fromRaidTheory = Boolean(itName || itDesc);
 
-    // Check if local override exists for translations
+    let fromArcTracker = false;
+    if (!noArcTracker && (!itName || !itDesc)) {
+      const arcMatch = findArcTrackerMatch(item, arcTrackerMapById, arcTrackerMapByName);
+      if (arcMatch) {
+        if (!itName && arcMatch.names?.[targetLang]) {
+          itName = arcMatch.names[targetLang];
+          fromArcTracker = true;
+        }
+        if (!itDesc && arcMatch.descriptions?.[targetLang]) {
+          itDesc = arcMatch.descriptions[targetLang];
+          fromArcTracker = true;
+        }
+      }
+    }
+
+    // Check if local override exists for translations (highest priority)
     const itemOverride = overrides[id];
     const overrideTrans = itemOverride?.translations?.[targetLang];
+    let isOverridden = false;
     if (overrideTrans) {
-      overriddenCount++;
-      if (overrideTrans.name) itName = overrideTrans.name;
-      if (overrideTrans.description) itDesc = overrideTrans.description;
+      if (overrideTrans.name) {
+        itName = overrideTrans.name;
+        isOverridden = true;
+      }
+      if (overrideTrans.description) {
+        itDesc = overrideTrans.description;
+        isOverridden = true;
+      }
+      if (isOverridden) overriddenCount++;
     }
+
+    if (fromRaidTheory && !isOverridden) raidTheoryCount++;
+    else if (fromArcTracker && !isOverridden) arcTrackerCount++;
 
     if (itName || itDesc) {
       translatedCount++;
@@ -190,7 +279,9 @@ async function main() {
   console.log("├─────────────────────────────────────────────────────────────┤");
   console.log(`│ Total items in database:        ${String(totalItems).padStart(6)}                      │`);
   console.log(`│ Items localized in ${targetLang.toUpperCase()}:           ${String(translatedCount).padStart(6)} (${Math.round((translatedCount / totalItems) * 100)}%)               │`);
-  console.log(`│ Local overrides preserved:      ${String(overriddenCount).padStart(6)}                      │`);
+  console.log(`│   • From RaidTheory (primary):  ${String(raidTheoryCount).padStart(6)}                      │`);
+  console.log(`│   • From ARC Tracker (fallback):${String(arcTrackerCount).padStart(6)}                      │`);
+  console.log(`│   • Local overrides preserved:  ${String(overriddenCount).padStart(6)}                      │`);
   console.log(`│ Unmatched items (fallback EN):  ${String(unmatched.length).padStart(6)}                      │`);
   console.log("└─────────────────────────────────────────────────────────────┘");
 

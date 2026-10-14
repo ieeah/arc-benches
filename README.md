@@ -57,8 +57,8 @@ I dati sono file JSON statici nel bundle: nessuna chiamata di rete a runtime.
 
 - `src/data/items.json` e `public/icons/items/`: catalogo oggetti da
   [MetaForge](https://metaforge.app/), più gli oggetti non presenti (outfit, cosmetici…) definiti a
-  mano. Traduzioni italiane da [RaidTheory](https://github.com/RaidTheory/arcraiders-data).
-  [ARC Tracker](https://arctracker.io/) serve come riscontro, solo in locale.
+  mano. Traduzioni italiane da [RaidTheory](https://github.com/RaidTheory/arcraiders-data)
+  con ripiego automatico da [ARC Tracker](https://arctracker.io/).
 - `src/data/workbenches.json`, `projects.json`, `expeditions.json`, `passes.json`: liste di gioco,
   curate a mano.
 

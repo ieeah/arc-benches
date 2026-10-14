@@ -10,8 +10,6 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 - [ ] #87 [Progetto Outpost: moduli e requisiti tra liste fatti, restano Research Bench e arredi](https://github.com/ieeah/arc-benches/issues/87)
 - [ ] #102 [Moduli attivabili per profilo: l'utente spegne le sezioni che non usa (feature flags utente)](https://github.com/ieeah/arc-benches/issues/102)
 - [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110)
-- [ ] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
-- [ ] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego](https://github.com/ieeah/arc-benches/issues/104)
 
 ---
 
