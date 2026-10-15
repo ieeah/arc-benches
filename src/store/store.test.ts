@@ -274,5 +274,66 @@ describe('useAppStore persistence boundary', () => {
       expect(state.checkedActions[`expedition-damage|0|damage-challenge:${s.id}`]).toBe(true);
     });
   });
+
+  it('resetProgress selectively resets only lists marked with extractionWiped: true', () => {
+    const store = useAppStore.getState();
+
+    // 1. Permanent workbench progress (extractionWiped: false)
+    store.setModuleCurrentLevel('equipment-bench', 3);
+
+    // 2. Expedition progress (extractionWiped: true)
+    store.setModuleCurrentLevel('expedition-1', 2);
+    store.toggleAction('expedition-1', 1, 'phase-1-action');
+    store.toggleAction('expedition-damage', 0, 'tier-1');
+
+    // 3. Custom list with extractionWiped: true
+    const wipedCustomId = store.createCustomList({
+      name: 'Raid Bounty',
+      levels: [
+        { level: 1, requirementItemIds: [{ itemId: 'metal-parts', quantity: 10 }], actions: [{ id: 'bounty-1', label: 'Kill ARC' }] },
+      ],
+      extractionWiped: true,
+    });
+    store.setModuleCurrentLevel(wipedCustomId, 1);
+    store.toggleAction(wipedCustomId, 1, 'bounty-1');
+
+    // 4. Custom list with extractionWiped: false (permanent project)
+    const permanentCustomId = store.createCustomList({
+      name: 'Shelter Expansion',
+      levels: [
+        { level: 1, requirementItemIds: [{ itemId: 'fabric', quantity: 5 }], actions: [{ id: 'shelter-1', label: 'Build wall' }] },
+      ],
+      extractionWiped: false,
+    });
+    store.setModuleCurrentLevel(permanentCustomId, 1);
+    store.toggleAction(permanentCustomId, 1, 'shelter-1');
+
+    // 5. Inventory
+    store.setItemCount('metal-parts', 50);
+
+    // Trigger resetProgress
+    store.resetProgress();
+
+    const after = useAppStore.getState();
+
+    // Permanent workbench MUST be preserved
+    expect(after.currentLevels['equipment-bench']).toBe(3);
+
+    // Permanent custom list MUST be preserved
+    expect(after.currentLevels[permanentCustomId]).toBe(1);
+    expect(after.checkedActions[`${permanentCustomId}|1|shelter-1`]).toBe(true);
+
+    // Expedition (extractionWiped: false) MUST be preserved (non si azzera da se stessa)
+    expect(after.currentLevels['expedition-1']).toBe(2);
+    expect(after.checkedActions['expedition-1|1|phase-1-action']).toBe(true);
+    expect(after.checkedActions['expedition-damage|0|tier-1']).toBeUndefined();
+
+    // Wiped custom list (extractionWiped: true) MUST be reset
+    expect(after.currentLevels[wipedCustomId]).toBe(0);
+    expect(after.checkedActions[`${wipedCustomId}|1|bounty-1`]).toBeUndefined();
+
+    // Inventory must be wiped
+    expect(after.inventory).toEqual({});
+  });
 });
 

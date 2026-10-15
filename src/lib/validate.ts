@@ -326,6 +326,7 @@ export const validateList = (v: unknown): List | null => {
       out = { ...base, listType };
   }
   if (v.shared === true) out.shared = true;
+  if (typeof v.extractionWiped === 'boolean') out.extractionWiped = v.extractionWiped;
   if (Array.isArray(v.prerequisites)) out.prerequisites = sanitizeStringArray(v.prerequisites);
   const expirationDate = asIsoDateString(v.expirationDate);
   if (expirationDate) out.expirationDate = expirationDate;

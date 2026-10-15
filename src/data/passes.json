@@ -10,6 +10,7 @@
       },
       "listType": "pass",
       "maxLevel": 60,
+      "extractionWiped": false,
       "premiumCostTokens": 1150,
       "tracks": [
         {
@@ -955,6 +956,7 @@
       },
       "listType": "pass",
       "maxLevel": 62,
+      "extractionWiped": false,
       "tracks": [
         {
           "id": "free",

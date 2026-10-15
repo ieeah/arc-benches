@@ -98,6 +98,8 @@ export interface ListBase {
   expirationDate?: string;
   /** IDs (es. ARDB) delle liste/quest/azioni da completare prima che questa si sblocchi. Opzionale su ogni tipo di lista. */
   prerequisites?: string[];
+  /** true = la progressione di questa lista viene azzerata dal wipe post-estrazione/prestigio; false/assente = permanente nel rifugio. */
+  extractionWiped?: boolean;
 }
 
 /** Game hideout bench (read-only seed). */
@@ -321,8 +323,8 @@ export interface AppState {
   resetProgress: () => void;
 
   /** Create a user list; returns its namespaced id (`custom:<uuid>`). Always 'custom' listType. */
-  createCustomList: (data: { name: string; levels: ListLevel[]; shared?: boolean; expirationDate?: string }) => string;
-  updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; expirationDate?: string }>) => void;
+  createCustomList: (data: { name: string; levels: ListLevel[]; shared?: boolean; expirationDate?: string; extractionWiped?: boolean }) => string;
+  updateCustomList: (id: string, patch: Partial<{ name: string; levels: ListLevel[]; expirationDate?: string; extractionWiped?: boolean }>) => void;
   deleteCustomList: (id: string) => void;
 
   /** Import lists from a v2 export file. Custom lists: merge definition + state. Game lists: state only. */

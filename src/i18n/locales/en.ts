@@ -168,6 +168,8 @@ export const en: LocaleSchema = {
     expirationDesc: 'Materials will no longer be counted in Stash after expiration.',
     noExpiration: 'No expiration set',
     clearExpiration: 'Clear expiration',
+    extractionWiped: 'Wiped on extraction',
+    extractionWipedDesc: 'If active, progress for this list resets during post-extraction wipe.',
   },
   quantityModal: {
     title: 'Set Quantity',

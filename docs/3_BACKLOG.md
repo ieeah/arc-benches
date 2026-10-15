@@ -7,7 +7,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 ## 0.5.0 "Segnale Radio"
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102) — toggle nelle impostazioni per spegnere sezioni non usate (Spedizioni, Progetti, Pass).
 - [ ] #74 [Export/import completo: tutti i campi del profilo inclusi nel backup](https://github.com/ieeah/arc-benches/issues/74) — dopo #102, include moduli attivi, pass completati con timestamp, livelli attivi e azioni.
-- [ ] #79 [UX Liste & Progetti: opzione "extractionWiped"](https://github.com/ieeah/arc-benches/issues/79) — marcatura per liste/progetti soggetti al wipe o azzeramento legato all'estrazione (`extractionWiped` / `resetsOnExtraction`); il reset agirà solo su quelli marcati come tali, non sulle liste permanenti del rifugio.
+- [x] #79 [UX Liste & Progetti: opzione "extractionWiped"](https://github.com/ieeah/arc-benches/issues/79) — marcatura per liste/progetti soggetti al wipe o azzeramento legato all'estrazione (`extractionWiped: true`); il reset progressi agisce solo sulle liste marcate come tali, lasciando intatti i banchi del rifugio, i progetti permanenti e i blueprint sbloccati. Toggle in UI (Custom List e Dev) e campo esteso a tutti i seed pregressi.
 - [ ] #88 [UX ItemPicker: filtri per tipo selezionabili in UI](https://github.com/ieeah/arc-benches/issues/88) — oggi i tipi non selezionabili come requisito di consegna (Blueprint, Cosmetic, Outfits, Furniture, Research, Currency) sono fissi in una costante; valutare un filtro attivabile dall'utente (Stencil e Design sono trovabili in raid).
 
 ## 0.6.0 "Archivio del Rifugio"
@@ -29,6 +29,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #114 [UX Liste: elenco unico senza raggruppamento per tipo, card differenziate e più intuitive](https://github.com/ieeah/arc-benches/issues/114) — la priorità si esprime con la posizione; correlata a #69. Comprende la rinomina della pagina «Banchi e Liste» (es. «Obiettivi»).
 
 ## Completati di recente
+- [x] #79 [UX Liste & Progetti: opzione "extractionWiped"](https://github.com/ieeah/arc-benches/issues/79) — reset selettivo e integrazione nel modello e nei seed pregressi.
 - [x] #86 [Dati banchi al Lvl 3 (Frozen Trail)] — verificati: livelli 1-3 invariati rispetto al gioco; Gunsmith Lvl 4, Stazione Ricerca e Outpost già integrati.
 - [x] #72 & #73 [Tipi liste: discriminated union completa su `listType`].
 - [x] #80 [Bug Stash: contatore quantità che torna a zero](https://github.com/ieeah/arc-benches/issues/80)

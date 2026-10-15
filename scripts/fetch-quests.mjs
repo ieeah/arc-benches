@@ -217,6 +217,7 @@ async function main() {
       },
       maxLevel: 1,
       listType: 'quest',
+      extractionWiped: false,
       trader,
       ...(prereqs.length > 0 ? { prerequisites: prereqs } : {}),
       levels: [

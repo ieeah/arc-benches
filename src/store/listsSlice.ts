@@ -38,11 +38,11 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   // ---- Custom lists -------------------------------------------------------
 
-  createCustomList: ({ name, levels, shared = false, expirationDate }) => {
+  createCustomList: ({ name, levels, shared = false, expirationDate, extractionWiped }) => {
     const s = get();
     const id = `custom:${generateUUID()}`;
     const maxLevel = levels.length ? Math.max(...levels.map(l => l.level)) : 1;
-    const list: List = { id, name, maxLevel, levels, custom: true, listType: 'custom', shared, expirationDate };
+    const list: List = { id, name, maxLevel, levels, custom: true, listType: 'custom', shared, expirationDate, extractionWiped };
 
     const currentLevels = { ...s.currentLevels, [id]: 0 };
     const targetLevels = { ...s.targetLevels, [id]: levelsAbove(0, maxLevel) };

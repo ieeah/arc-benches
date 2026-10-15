@@ -10,6 +10,7 @@
       },
       "maxLevel": 5,
       "listType": "project",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -129,6 +130,7 @@
       },
       "maxLevel": 6,
       "listType": "project",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -282,6 +284,7 @@
       },
       "maxLevel": 6,
       "listType": "project",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -411,6 +414,7 @@
       },
       "maxLevel": 5,
       "listType": "project",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -525,6 +529,7 @@
       },
       "maxLevel": 4,
       "listType": "project",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -625,6 +630,7 @@
       },
       "maxLevel": 3,
       "listType": "project",
+      "extractionWiped": false,
       "description": "Conduct research, gather supplies, and safeguard the construction site to carve out your own small corner of Topside. Requires player level 18 (informational: the app does not check it). Completing it unlocks the Outpost.",
       "levels": [
         {

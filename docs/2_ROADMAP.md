@@ -31,6 +31,7 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
   - *Nuovo albero (Frozen Trail)*: albero rielaborato — scelta binaria a metà ramo, fino a due su tre a fine ramo, valori di diverse abilità cambiati. La specifica va rifatta sul nuovo albero.
   - *Sorgente dati*: lo skill builder di MetaForge (`metaforge.app/arc-raiders/skill-builder`, rami Conditioning / Mobility / Survival) è reso con svelte-flow, quindi nodi e collegamenti sono estraibili dal payload della pagina invece di essere ricopiati a mano. Da verificare: la pagina è dietro Cloudflare (non raggiungibile da uno script semplice) e non è confermato che esponga già il nuovo albero; alternative: API MetaForge o RaidTheory/arcraiders-data.
 - [ ] #58 [Quest Tracker Informativo: Consultazione contratti e ricompense commercianti con ipotesi visualizzazione albero canvas (ARDB)](https://github.com/ieeah/arc-benches/issues/58)
+  - *Comportamento con le Spedizioni (reset opzionale)*: in gioco il Raider può scegliere se azzerare o conservare i progressi delle quest alla partenza; quando le spedizioni saranno reinserite, il flusso di chiusura/partenza richiederà la scelta all'utente prima del wipe.
 - [ ] #94 [Commercianti: limiti giornalieri e Nomadic Envoy](https://github.com/ieeah/arc-benches/issues/94)
 - [ ] #95 [Planner progressione XP → Skill Points](https://github.com/ieeah/arc-benches/issues/95)
 - [ ] #57 [Bestiario ARC & Drop Tables: Consultazione nemici ARC e componenti con icone SVG (ARDB)](https://github.com/ieeah/arc-benches/issues/57)
@@ -97,4 +98,4 @@ Deve già contenere Skill Tree, tracker e collezioni, armi amplificate (0.6.0–
 ---
 
 ## Fuori sequenza
-- **Spedizioni (da rivalutare)**: in pausa, Embark le sta ricostruendo da zero. Contiene #34 [Vault Spedizione (Cassaforte Wipe)](https://github.com/ieeah/arc-benches/issues/34). Si valuta un milestone intermedio dedicato in base a quando arriva la 1.0.0.
+- **Spedizioni (da rivalutare)**: in pausa, Embark le sta ricostruendo da zero. Contiene #34 [Vault Spedizione (Cassaforte Wipe)](https://github.com/ieeah/arc-benches/issues/34). Include la modale di partenza con la scelta se azzerare o mantenere le quest completate. Si valuta un milestone intermedio dedicato in base a quando arriva la 1.0.0.

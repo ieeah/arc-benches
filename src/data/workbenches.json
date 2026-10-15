@@ -9,6 +9,7 @@
       "id": "equipment-bench",
       "name": "Gear Bench",
       "maxLevel": 3,
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -69,6 +70,7 @@
       "id": "explosives-bench",
       "name": "Explosives Station",
       "maxLevel": 3,
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -129,6 +131,7 @@
       "id": "med-station",
       "name": "Medical Lab",
       "maxLevel": 3,
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -189,6 +192,7 @@
       "id": "refiner",
       "name": "Refiner",
       "maxLevel": 3,
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -249,6 +253,7 @@
       "id": "scrappy",
       "name": "Scrappy",
       "maxLevel": 5,
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -322,6 +327,7 @@
       "id": "utility-bench",
       "name": "Utility Station",
       "maxLevel": 3,
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -382,6 +388,7 @@
       "id": "weapon-bench",
       "name": "Gunsmith",
       "maxLevel": 4,
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -465,6 +472,7 @@
       "id": "workbench",
       "name": "Workbench",
       "maxLevel": 0,
+      "extractionWiped": false,
       "levels": [],
       "translations": {
         "it": {
@@ -477,6 +485,7 @@
       "id": "outpost",
       "name": "Outpost",
       "maxLevel": 4,
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -552,13 +561,14 @@
     {
       "id": "research-station",
       "name": "Research Station",
+      "maxLevel": 4,
+      "extractionWiped": false,
       "translations": {
         "it": {
           "name": "Stazione di Ricerca",
           "description": "Trasforma Punti Ricerca e materiali in progetti, disegni, oggetti e potenziamenti per armi."
         }
       },
-      "maxLevel": 4,
       "listType": "workbench",
       "levels": [
         {

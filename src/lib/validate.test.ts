@@ -178,6 +178,17 @@ describe('validateList', () => {
     expect(out!.expirationDate).toBeUndefined();
   });
 
+  it('preserves extractionWiped boolean flag', () => {
+    const wiped = validateList({ ...valid, extractionWiped: true });
+    expect(wiped!.extractionWiped).toBe(true);
+
+    const persistent = validateList({ ...valid, extractionWiped: false });
+    expect(persistent!.extractionWiped).toBe(false);
+
+    const omitted = validateList({ ...valid });
+    expect(omitted!.extractionWiped).toBeUndefined();
+  });
+
   it('keeps prerequisites on every list type', () => {
     for (const listType of ['workbench', 'project', 'quest', 'expedition'] as const) {
       const out = validateList({ ...valid, listType, prerequisites: ['a', 'b', 3] });

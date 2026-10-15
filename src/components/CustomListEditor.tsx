@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Plus, Trash2, Pencil, ListPlus, CheckSquare, Users, Clock, Copy } from 'lucide-react';
+import { X, Plus, Trash2, Pencil, ListPlus, CheckSquare, Users, Clock, Copy, RotateCcw } from 'lucide-react';
 import type { ListLevel, ItemInfo, CheckboxAction } from '@/types';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName, getListName, getActionLabel } from '@/i18n';
@@ -111,6 +111,7 @@ export const CustomListEditor = ({ listId, onClose }: {
 
   const [name, setName] = useState(existing?.name ?? '');
   const [shared, setShared] = useState(existing?.shared ?? false);
+  const [extractionWiped, setExtractionWiped] = useState(existing?.extractionWiped ?? false);
   const [copyFromExisting, setCopyFromExisting] = useState(false);
   const [selectedSourceId, setSelectedSourceId] = useState('');
   const [expirationInput, setExpirationInput] = useState<string>(toInputDateTime(existing?.expirationDate));
@@ -180,6 +181,9 @@ export const CustomListEditor = ({ listId, onClose }: {
 
     if (source.expirationDate) {
       setExpirationInput(toInputDateTime(source.expirationDate));
+    }
+    if (typeof source.extractionWiped === 'boolean') {
+      setExtractionWiped(source.extractionWiped);
     }
   };
 
@@ -251,8 +255,8 @@ export const CustomListEditor = ({ listId, onClose }: {
     const kept = levels
       .filter(l => l.requirementItemIds.length > 0 || (l.actions?.length ?? 0) > 0)
       .map((l, i) => ({ ...l, level: i + 1 }));
-    if (existing) store.updateCustomList(existing.id, { name: cleanName, levels: kept, expirationDate });
-    else store.createCustomList({ name: cleanName, levels: kept, shared, expirationDate });
+    if (existing) store.updateCustomList(existing.id, { name: cleanName, levels: kept, expirationDate, extractionWiped });
+    else store.createCustomList({ name: cleanName, levels: kept, shared, expirationDate, extractionWiped });
     onClose();
   };
 
@@ -474,6 +478,35 @@ export const CustomListEditor = ({ listId, onClose }: {
           </p>
         </div>
 
+        {/* Toggle extractionWiped */}
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => setExtractionWiped(v => !v)}
+            className="w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left cursor-pointer transition-colors"
+          >
+            <div
+              className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${
+                extractionWiped ? 'bg-amber-500' : 'bg-gray-300 dark:bg-gray-600'
+              }`}
+            >
+              <div
+                className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                  extractionWiped ? 'translate-x-[1.125rem]' : 'translate-x-0.5'
+                }`}
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-1.5">
+                <RotateCcw size={13} className="text-amber-500" />
+                <span>{t('customLists.extractionWiped')}</span>
+              </p>
+              <p className="text-[10px] text-gray-400">
+                {t('customLists.extractionWipedDesc')}
+              </p>
+            </div>
+          </button>
+        </div>
 
         {/* Insert before the first level */}
         <InsertDivider onInsert={() => insertLevelAt(0)} />

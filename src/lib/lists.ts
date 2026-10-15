@@ -29,8 +29,8 @@ export const DEFAULT_PASS_TRACKS: readonly PassTrackDef[] = [
  * aggiungendo quelli obbligatori del tipo di arrivo (`expeditionIndex` per le spedizioni).
  */
 export function withListType(list: List, listType: ListType, expeditionIndex = 1): List {
-  const { id, name, description, translations, maxLevel, levels, shared, startDate, expirationDate, prerequisites } = list;
-  const base = { id, name, description, translations, maxLevel, levels, shared, startDate, expirationDate, prerequisites };
+  const { id, name, description, translations, maxLevel, levels, shared, startDate, expirationDate, prerequisites, extractionWiped } = list;
+  const base = { id, name, description, translations, maxLevel, levels, shared, startDate, expirationDate, prerequisites, extractionWiped };
   switch (listType) {
     case 'expedition':
       return {

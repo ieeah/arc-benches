@@ -1248,6 +1248,31 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
 
             <DevListIssues list={selectedList} />
 
+            {/* Toggle extractionWiped */}
+            <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={Boolean(selectedList.extractionWiped)}
+                  onChange={(e) =>
+                    updateSelectedList((prev) => ({
+                      ...prev,
+                      extractionWiped: e.target.checked,
+                    }))
+                  }
+                  className="mt-0.5 w-4 h-4 rounded text-amber-500 focus:ring-amber-400 border-gray-300 dark:border-gray-700 cursor-pointer"
+                />
+                <div>
+                  <span className="text-xs font-bold text-gray-800 dark:text-gray-200">
+                    Soggetto a Wipe di Estrazione (extractionWiped)
+                  </span>
+                  <p className="text-[10px] text-gray-400">
+                    Se attivo, il progresso di questa lista viene azzerato durante il reset post-estrazione.
+                  </p>
+                </div>
+              </label>
+            </div>
+
             {/* Date: servono a spedizioni e progetti (finestre temporali); per banchi e quest solo se già valorizzate */}
             {showDateFields && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2 border-t border-gray-100 dark:border-gray-800">

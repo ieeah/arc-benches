@@ -107,7 +107,7 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #86, #108, #111, #
 - [x] #86 [Dati banchi al Lvl 3 (Frozen Trail)](https://github.com/ieeah/arc-benches/issues/86) — verificati: livelli 1-3 invariati nel gioco; Gunsmith Lvl 4, Stazione Ricerca e Outpost già integrati
 - [ ] #76 [Pagina Dev per la gestione delle quest](https://github.com/ieeah/arc-benches/issues/76) — dopo #72
 - [ ] #87 [Progetto Outpost completo (moduli e requisiti tra liste fatti; restano Research Bench e arredi)](https://github.com/ieeah/arc-benches/issues/87) — dopo #82, #83
-- [ ] #79 [Opzione "extractionWiped" per progetti e liste (azzeramento da estrazione/wipe)](https://github.com/ieeah/arc-benches/issues/79)
+- [x] #79 [Opzione "extractionWiped" per progetti e liste (azzeramento da estrazione/wipe)](https://github.com/ieeah/arc-benches/issues/79)
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102)
 - [ ] #74 [Export/import completo del profilo](https://github.com/ieeah/arc-benches/issues/74) — dopo #102
 - [ ] #88 [Filtri per tipo selezionabili nell'ItemPicker](https://github.com/ieeah/arc-benches/issues/88)

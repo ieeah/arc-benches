@@ -66,6 +66,8 @@ Quando il ciclo si conclude, l'utente interagisce con il pannello Post-Spedizion
 * Esegue il reset del prestigio sul tracker:
   * Azzera lo stash (`inventory = {}`).
   * Azzera il livello dei banchi (`hideoutLevels` impostato sui livelli di default, es. Refiner a 0, Scrappy a 1).
+  * **Scelta Reset Quest (meccanica di gioco recente)**: nel gioco l'utente può decidere se le quest vengono azzerate o meno alla partenza. Quando le Spedizioni verranno riattivate/reintrodotte, prima di azzerare i dati la modale di partenza chiederà esplicitamente all'utente se intende azzerare o mantenere i progressi delle Quest narrative dei commercianti (se selezionato, azzera i livelli e le azioni delle quest; altrimenti restano conservate).
+  * Le liste Spedizioni non vengono azzerate da se stesse (`extractionWiped: false` nei dati seed) perché tracciano la progressione del Raider attraverso i cicli.
   * Azzera le checkbox temporanee di danni, catch-up e della carovana completata in `checkedActions`.
   * Incrementa `completedExpeditionsCount` di 1.
   * Incrementa `consecutiveStreak` di 1.

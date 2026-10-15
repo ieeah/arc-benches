@@ -6,6 +6,7 @@
       "maxLevel": 6,
       "expeditionIndex": 1,
       "listType": "expedition",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -161,6 +162,7 @@
       "maxLevel": 6,
       "expeditionIndex": 2,
       "listType": "expedition",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -316,6 +318,7 @@
       "maxLevel": 6,
       "expeditionIndex": 3,
       "listType": "expedition",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -471,6 +474,7 @@
       "maxLevel": 6,
       "expeditionIndex": 4,
       "listType": "expedition",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,
@@ -626,6 +630,7 @@
       "maxLevel": 6,
       "expeditionIndex": 5,
       "listType": "expedition",
+      "extractionWiped": false,
       "levels": [
         {
           "level": 1,

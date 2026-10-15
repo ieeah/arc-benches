@@ -11,6 +11,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "off-the-raider"
@@ -59,6 +60,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "eyes-in-the-sky"
@@ -125,6 +127,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "the-right-tool"
@@ -182,6 +185,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "groundbreaking"
@@ -258,6 +262,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "off-the-raider"
@@ -333,6 +338,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "esr-analyzer"
@@ -408,6 +414,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "building-a-library"
@@ -461,6 +468,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "cassio",
       "prerequisites": [
         "taking-stock"
@@ -549,6 +557,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "the-clean-dream"
@@ -611,6 +620,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "a-dead-end"
@@ -699,6 +709,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "unexpected-initiative"
@@ -765,6 +776,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "life-of-a-pharmacist"
@@ -844,6 +856,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "switching-the-supply"
@@ -923,6 +936,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "safe-harbor"
@@ -980,6 +994,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "eyes-in-the-sky"
@@ -1046,6 +1061,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "with-a-trace",
@@ -1131,6 +1147,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "the-majors-footlocker",
@@ -1208,6 +1225,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "tracks-of-the-beast"
@@ -1279,6 +1297,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "off-the-raider"
@@ -1341,6 +1360,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "flickering-threat"
@@ -1394,6 +1414,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "tracks-of-the-beast",
@@ -1501,6 +1522,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "off-the-raider"
@@ -1580,6 +1602,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "combat-recon"
@@ -1629,6 +1652,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "what-we-left-behind"
@@ -1731,6 +1755,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "digging-up-dirt"
@@ -1815,6 +1840,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "shoring-up-defenses"
@@ -1882,6 +1908,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "a-symbol-of-unification"
@@ -1948,6 +1975,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "celestes-childhood-drawings"
@@ -2055,6 +2083,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "dormant-barons"
@@ -2130,6 +2159,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "cassio",
       "prerequisites": [
         "off-the-raider"
@@ -2205,6 +2235,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "picking-up-the-pieces"
@@ -2267,6 +2298,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "in-my-image"
@@ -2320,6 +2352,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "safe-passage"
@@ -2377,6 +2410,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "into-the-fray",
@@ -2462,6 +2496,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "lost-in-transmission"
@@ -2542,6 +2577,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "paving-the-way"
@@ -2604,6 +2640,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "tribute-to-toledo"
@@ -2657,6 +2694,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "boarding-the-frigate"
@@ -2742,6 +2780,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "cassio",
       "prerequisites": [
         "a-path-not-yours",
@@ -2822,6 +2861,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "greasing-her-palms"
@@ -2923,6 +2963,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "greasing-her-palms",
@@ -2968,6 +3009,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "hatch-repairs"
@@ -3030,6 +3072,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "the-trifecta"
@@ -3109,6 +3152,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "keeping-the-memory"
@@ -3175,6 +3219,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "someone-elses-shoes"
@@ -3255,6 +3300,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "bees"
@@ -3308,6 +3354,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "medical-merchandise"
@@ -3361,6 +3408,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "off-the-raider"
@@ -3441,6 +3489,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "a-lay-of-the-land"
@@ -3507,6 +3556,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "market-correction"
@@ -3565,6 +3615,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "power-out"
@@ -3645,6 +3696,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "a-dead-end",
@@ -3708,6 +3760,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "fragmented-logs"
@@ -3788,6 +3841,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "a-better-use"
@@ -3863,6 +3917,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "deciphering-the-data"
@@ -3943,6 +3998,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "a-bad-feeling"
@@ -3996,6 +4052,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "a-wrench-in-the-works"
@@ -4107,6 +4164,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "a-bad-feeling"
@@ -4160,6 +4218,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "eyes-on-the-prize"
@@ -4231,6 +4290,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "water-troubles",
@@ -4303,6 +4363,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "the-clean-dream"
@@ -4356,6 +4417,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "straight-record"
@@ -4422,6 +4484,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "furtive-meetings"
@@ -4502,6 +4565,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "espresso"
@@ -4586,6 +4650,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "last-entry"
@@ -4661,6 +4726,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "our-presence-up-there"
@@ -4728,6 +4794,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "broken-monument"
@@ -4790,6 +4857,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "marked-for-death"
@@ -4847,6 +4915,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "doctors-orders"
@@ -4913,6 +4982,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "dormant-barons"
@@ -4971,6 +5041,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "with-a-view"
@@ -5042,6 +5113,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "nothing-ventured"
@@ -5117,6 +5189,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "levels": [
         {
@@ -5230,6 +5303,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "clearer-skies",
@@ -5280,6 +5354,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "worth-your-salt",
@@ -5347,6 +5422,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "on-deaf-ears"
@@ -5431,6 +5507,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "back-on-top"
@@ -5497,6 +5574,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "a-symbol-of-unification",
@@ -5556,6 +5634,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "the-clean-dream"
@@ -5622,6 +5701,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "into-the-fray"
@@ -5697,6 +5777,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "levels": [
         {
@@ -5747,6 +5828,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "prescriptions-of-the-past"
@@ -5826,6 +5908,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "lance",
       "prerequisites": [
         "a-warm-place-to-rest"
@@ -5892,6 +5975,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "a-first-foothold"
@@ -5967,6 +6051,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "wires-crossed"
@@ -6037,6 +6122,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "line-in-the-sand"
@@ -6112,6 +6198,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "a-bad-feeling"
@@ -6160,6 +6247,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "outstanding-balance"
@@ -6203,6 +6291,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "off-the-raider"
@@ -6278,6 +6367,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "off-the-raider"
@@ -6384,6 +6474,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "cold-storage"
@@ -6472,6 +6563,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "home-to-roost"
@@ -6538,6 +6630,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "water-troubles"
@@ -6604,6 +6697,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "what-goes-around"
@@ -6661,6 +6755,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "with-a-view"
@@ -6763,6 +6858,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "broken-monument"
@@ -6852,6 +6948,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "source-of-the-contamination"
@@ -6909,6 +7006,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "cassio",
       "prerequisites": [
         "clean-hands"
@@ -6989,6 +7087,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "the-league"
@@ -7064,6 +7163,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "with-a-trace"
@@ -7166,6 +7266,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "levels": [
         {
@@ -7355,6 +7456,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "sparks-fly"
@@ -7457,6 +7559,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "a-symbol-of-unification"
@@ -7506,6 +7609,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "a-bad-feeling"
@@ -7572,6 +7676,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "untended-garden"
@@ -7630,6 +7735,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "a-toxic-trail"
@@ -7723,6 +7829,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "down-to-earth"
@@ -7833,6 +7940,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "off-the-raider"
@@ -8106,6 +8214,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "exploring-pendola-pass"
@@ -8195,6 +8304,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "picking-up-the-pieces"
@@ -8257,6 +8367,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "life-of-a-pharmacist"
@@ -8310,6 +8421,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "digging-up-dirt"
@@ -8372,6 +8484,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "industrial-espionage",
@@ -8475,6 +8588,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "a-balanced-harvest"
@@ -8541,6 +8655,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "dust-on-the-wires"
@@ -8607,6 +8722,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "after-rain-comes",
@@ -8674,6 +8790,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "apollo",
       "prerequisites": [
         "safe-passage"
@@ -8727,6 +8844,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "tian_wen",
       "prerequisites": [
         "dormant-barons"
@@ -8793,6 +8911,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "empathetic-prototypes"
@@ -8908,6 +9027,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "exploring-pendola-pass"
@@ -8978,6 +9098,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "reduced-to-rubble"
@@ -9049,6 +9170,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "shani",
       "prerequisites": [
         "snap-and-salvage"
@@ -9138,6 +9260,7 @@
       },
       "maxLevel": 1,
       "listType": "quest",
+      "extractionWiped": false,
       "trader": "celeste",
       "prerequisites": [
         "groundbreaking"

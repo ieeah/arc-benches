@@ -165,7 +165,9 @@ export const it = {
     "expirationOptional": "Data di scadenza (opzionale)",
     "expirationDesc": "I materiali non saranno più conteggiati nello Stash dopo la scadenza.",
     "noExpiration": "Nessuna scadenza impostata",
-    "clearExpiration": "Rimuovi scadenza"
+    "clearExpiration": "Rimuovi scadenza",
+    "extractionWiped": "Soggetto a wipe di estrazione",
+    "extractionWipedDesc": "Se attivo, il progresso di questa lista viene azzerato durante il reset post-estrazione."
   },
   "quantityModal": {
     "title": "Imposta Quantità",

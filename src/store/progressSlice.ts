@@ -2,7 +2,7 @@ import type { StateCreator } from 'zustand';
 import type { AppState } from '@/types';
 import { bootProfileState } from '@/store/boot';
 import {
-  defaultActiveModules, defaultCurrentLevels, defaultTargetLevels, levelsAbove,
+  levelsAbove,
 } from '@/store/gameData';
 import { currentLevelOf, getCascadeLowering, isActionWindowOpen, levelActionKeys, maxReachableLevel, unmetRequirements } from '@/lib/lists';
 
@@ -188,14 +188,39 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
 
   resetProgress: () => {
     const s = get();
-    const currentLevels = { ...defaultCurrentLevels };
-    const targetLevels = { ...defaultTargetLevels };
-    const activeModules = { ...defaultActiveModules };
-    [...s.sharedCustomLists, ...s.customLists].forEach(l => {
-      currentLevels[l.id] = 0;
-      targetLevels[l.id] = levelsAbove(0, l.maxLevel);
-      activeModules[l.id] = true;
+    const currentLevels = { ...s.currentLevels };
+    const targetLevels = { ...s.targetLevels };
+    const activeModules = { ...s.activeModules };
+    const checkedActions = { ...s.checkedActions };
+
+    // Liste conosciute (tutti i banchi, progetti, custom, e spedizioni)
+    const allKnownLists = [...s.getAllLists(), ...s.expeditions];
+    const seenIds = new Set<string>();
+
+    allKnownLists.forEach(l => {
+      if (seenIds.has(l.id)) return;
+      seenIds.add(l.id);
+
+      if (l.extractionWiped) {
+        currentLevels[l.id] = 0;
+        targetLevels[l.id] = levelsAbove(0, l.maxLevel);
+        activeModules[l.id] = true;
+
+        Object.keys(checkedActions).forEach(k => {
+          if (k.startsWith(`${l.id}|`)) {
+            delete checkedActions[k];
+          }
+        });
+      }
     });
+
+    // Rimuove anche le azioni temporanee di spedizione (damage challenge e catch-up)
+    Object.keys(checkedActions).forEach(k => {
+      if (k.startsWith('expedition-damage|') || k.startsWith('expedition-catchup|')) {
+        delete checkedActions[k];
+      }
+    });
+
     set({
       currentLevels,
       targetLevels,
@@ -204,8 +229,8 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
       filterHideCompleted: true,
       listOrder: s.listOrder,
       customLists: s.customLists,
-      checkedActions: {},
-      ownedBlueprints: {},
+      checkedActions,
+      ownedBlueprints: s.ownedBlueprints,
       filterHideOwnedBlueprints: false,
     });
   },

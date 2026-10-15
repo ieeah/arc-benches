@@ -50,6 +50,14 @@ describe('withListType', () => {
   it('sets custom: true when converting to a custom list', () => {
     expect(withListType({ ...base, listType: 'project' }, 'custom')).toMatchObject({ listType: 'custom', custom: true });
   });
+
+  it('preserves extractionWiped across conversions', () => {
+    const listWithWipe: List = { ...base, listType: 'project', extractionWiped: true };
+    expect(withListType(listWithWipe, 'custom')).toMatchObject({ extractionWiped: true });
+
+    const listWithoutWipe: List = { ...base, listType: 'project', extractionWiped: false };
+    expect(withListType(listWithoutWipe, 'expedition')).toMatchObject({ extractionWiped: false });
+  });
 });
 
 describe('action window', () => {
