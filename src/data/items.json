@@ -11566,6 +11566,25 @@
     "loot_area": null,
     "stack_size": null
   },
+  "research-points": {
+    "id": "research-points",
+    "name": "Research Points",
+    "description": "Research Points are used to craft Blueprints, Designs and to research Weapon Amplification.",
+    "icon": "icons/items/research-points.webp",
+    "rarity": "Common",
+    "item_type": "Currency",
+    "subcategory": "",
+    "value": null,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Punti Ricerca",
+        "description": "I Punti Ricerca sono utilizzati per fabbricare Progetti, Design e per ricercare l'Amplificazione delle armi."
+      }
+    }
+  },
   "resin": {
     "id": "resin",
     "name": "Resin",
