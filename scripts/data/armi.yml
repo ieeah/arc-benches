@@ -1845,7 +1845,7 @@ all_weapons:
           repaired_durability_multiplier: 0.5
   legendary_weapons:
     "aphelion-rifle":
-      can_be_amplified: false
+      can_be_amplified: true
       ammo_type: "energy_clip"
       firing_mode: "fully_automatic"
       ARC_armor_penetration: "very strong"
