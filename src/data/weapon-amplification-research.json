@@ -1,0 +1,286 @@
+[
+  {
+    "id": "action-economy",
+    "name": "Action Economy",
+    "translations": {
+      "it": {
+        "name": "Economia delle azioni"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Deal 1000 damage with a Hairpin",
+        "it": "Infliggi 1000 danni con un Tornante"
+      }
+    ]
+  },
+  {
+    "id": "beam-resonance-tech",
+    "name": "Beam Resonance Tech",
+    "translations": {
+      "it": {
+        "name": "Tecnologia di risonanza raggio"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Deal 1500 damage to Vaporizers with an Equalizer in one round",
+        "it": "Infliggi 1500 danni ai Vaporizzatori con un Equalizzatore in un round"
+      }
+    ]
+  },
+  {
+    "id": "burst-assembly-recovery",
+    "name": "Burst Assembly Recovery",
+    "translations": {
+      "it": {
+        "name": "Recupero montaggio a raffica"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Destroy 3 Shredders with a Raider Tool",
+        "it": "Distruggi 3 Shredder con uno strumento Raider"
+      }
+    ]
+  },
+  {
+    "id": "compact-combustion-charges",
+    "name": "Compact Combustion Charges",
+    "translations": {
+      "it": {
+        "name": "Cariche combustione compatte"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Deal 3000 damage with Blaze Grenades",
+        "it": "Infliggi 3000 danni con le granate incendiarie"
+      }
+    ]
+  },
+  {
+    "id": "embedded-blast-engineering",
+    "name": "Embedded Blast Engineering",
+    "translations": {
+      "it": {
+        "name": "Ingegneria degli esplosivi integrata"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Deal 1000 Damage to Fireflies using Light Impact Grenades",
+        "it": "Infliggi 1000 danni alle Lucciole usando granate a impatto leggero"
+      },
+      {
+        "en": "Deal 1000 Damage to Hornets using Light Impact Grenades",
+        "it": "Infliggi 1000 danni ai Calabroni usando granate a impatto leggero"
+      },
+      {
+        "en": "Deal 1000 Damage to Fireballs using Light Impact Grenades",
+        "it": "Infliggi 1000 danni alle Sfere infuocate usando granate a impatto leggero"
+      },
+      {
+        "en": "Deal 1000 Damage to Surveyors using Light Impact Grenades",
+        "it": "Infliggi 1000 danni ai Supervisori usando granate a impatto leggero"
+      }
+    ]
+  },
+  {
+    "id": "extended-burst-cycles",
+    "name": "Extended Burst Cycles",
+    "translations": {
+      "it": {
+        "name": "Cicli di raffica estesi"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Deal 10000 damage with a Burst Burletta or Charged Burst Aphelion",
+        "it": "Infliggi 10000 danni con una Burletta a raffica o una Raffica carica dell'Aphelion"
+      }
+    ]
+  },
+  {
+    "id": "high-voltage-exposure",
+    "name": "High-Voltage Exposure",
+    "translations": {
+      "it": {
+        "name": "Esposizione ad alto voltaggio"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Destroy 5 ARC Turbines",
+        "it": "Distruggi 5 Turbine ARC"
+      }
+    ]
+  },
+  {
+    "id": "magazine-geometry-101",
+    "name": "Magazine Geometry 101",
+    "translations": {
+      "it": {
+        "name": "Geometria dei caricatori 101"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Deal 15000 damage to a Bastion with a Rattler",
+        "it": "Infliggi 15000 danni a un Bastione con un Rattler"
+      },
+      {
+        "en": "Destroy 1 Bastions with a Rattler",
+        "it": "Distruggi 1 Bastioni con un Rattler"
+      }
+    ]
+  },
+  {
+    "id": "shield-stress-testing",
+    "name": "Shield Stress Testing",
+    "translations": {
+      "it": {
+        "name": "Test di resistenza dello scudo"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Deal 700 damage to encountered Raiders",
+        "it": "Infliggi 700 danni ai Raider incontrati"
+      }
+    ]
+  },
+  {
+    "id": "solid-core-casting-tech",
+    "name": "Solid-Core Casting Tech",
+    "translations": {
+      "it": {
+        "name": "Tecnologia fusione a nucleo solido"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Destroy 50 Flying ARC using shotguns",
+        "it": "Distruggi 50 ARC volanti usando i fucili"
+      }
+    ]
+  },
+  {
+    "id": "sprint-shooting",
+    "name": "Sprint Shooting",
+    "translations": {
+      "it": {
+        "name": "Sparo in corsa"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Visit the Electrical Substation",
+        "it": "Visita la Sottostazione elettrica"
+      },
+      {
+        "en": "Visit the Truck Stop",
+        "it": "Visita la stazione di servizio"
+      },
+      {
+        "en": "Visit the Old Town",
+        "it": "Visita la Città vecchia"
+      },
+      {
+        "en": "Visit the Almatera Station",
+        "it": "Visita la stazione di Almatera"
+      },
+      {
+        "en": "Visit the Researcher Lodgings",
+        "it": "Visita gli alloggi del ricercatore"
+      },
+      {
+        "en": "Visit the Deep-Space Telescope",
+        "it": "Visita il telescopio dello spazio profondo"
+      },
+      {
+        "en": "Visit the Commissary Supermarket",
+        "it": "Visita il supermercato Commissary"
+      }
+    ]
+  },
+  {
+    "id": "targeted-component-trial",
+    "name": "Targeted Component Trial",
+    "translations": {
+      "it": {
+        "name": "Prova componente mirata"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Destroy 40 thrusters on flying ARC enemies",
+        "it": "Distruggi 40 propulsori su nemici ARC volanti"
+      }
+    ]
+  },
+  {
+    "id": "thermite-tipped-rounds",
+    "name": "Thermite-Tipped Rounds",
+    "translations": {
+      "it": {
+        "name": "Munizioni a punta di termite"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Destroy 30 Fireballs with Explosive Mines",
+        "it": "Distruggi 30 Sfere infuocate con mine esplosive"
+      }
+    ]
+  },
+  {
+    "id": "top-mounted-optics-retrofittings",
+    "name": "Top Mounted Optics Retrofittings",
+    "translations": {
+      "it": {
+        "name": "Modifiche ottiche a montaggio superiore"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "On Blue Gate, head to Pilgrim's Peak",
+        "it": "Al Varco Blu, dirigiti verso il Picco del pellegrino"
+      },
+      {
+        "en": "Deal 1000 Damage to ARC enemies using the Osprey",
+        "it": "Infliggi 1000 danni ai nemici ARC usando il Falco pescatore"
+      }
+    ]
+  },
+  {
+    "id": "trigger-reset-systems",
+    "name": "Trigger Reset Systems",
+    "translations": {
+      "it": {
+        "name": "Sistemi ripristino grilletti"
+      }
+    },
+    "xp": 0,
+    "objectives": [
+      {
+        "en": "Destroy 5 Skulkers with a Raider Tool",
+        "it": "Distruggi 5 Skulker con uno strumento Raider"
+      }
+    ]
+  }
+]
