@@ -19,7 +19,7 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 - [ ] #92 [Armi amplificate (Weapon Amplification): pagina informativa, nessun tracker](https://github.com/ieeah/arc-benches/issues/92)
 - [ ] #26 [Vista Aggregata per Banco (Fase 3)](https://github.com/ieeah/arc-benches/issues/26)
 - [ ] #105 [Rapporto completo degli oggetti di ARC Tracker assenti dal catalogo](https://github.com/ieeah/arc-benches/issues/105)
-- [ ] #106 [Generatore delle quest da ARC Tracker con ripiego MetaForge](https://github.com/ieeah/arc-benches/issues/106)
+- [x] #106 [Generatore delle quest da ARC Tracker con ripiego MetaForge](https://github.com/ieeah/arc-benches/issues/106) — anticipata in 0.5.0
 - [ ] #109 [Outfit sbloccati a pezzi: icone di sottocategoria e badge per completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109)
 - [ ] #107 [Rifugio/avamposto: moduli e livelli con ARC Tracker come riscontro](https://github.com/ieeah/arc-benches/issues/107)
 
