@@ -9,6 +9,7 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 - [ ] #76 [Pagina Dev per la gestione delle quest e albero delle dipendenze](https://github.com/ieeah/arc-benches/issues/76)
 - [ ] #87 [Progetto Outpost: moduli e requisiti tra liste fatti, restano Research Bench e arredi](https://github.com/ieeah/arc-benches/issues/87)
 - [ ] #102 [Moduli attivabili per profilo: l'utente spegne le sezioni che non usa (feature flags utente)](https://github.com/ieeah/arc-benches/issues/102)
+  - *Specifica tecnica*: [docs/specs/moduli-attivabili-per-profilo.md](specs/moduli-attivabili-per-profilo.md)
 - [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110)
 
 ---
