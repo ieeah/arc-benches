@@ -90,3 +90,35 @@ CREATE INDEX idx_map_pois_map_floor ON map_pois(map_id, floor_level);
   2. Allineamento geometrico e sovrapposizione dei livelli multi-piano (*Stella Montis L1/L2*).
   3. Raccolta e georeferenziazione delle coordinate dei POI con mapping del `floor_level`.
 * **Posizionamento:** **Versione 1.x Orizzonte Tattico**, dopo il consolidamento dell'architettura Next.js + Supabase Storage CDN.
+
+---
+
+## 7. Pianificazione Itinerari Tattici & Routing (#118)
+
+Il modulo di routing estende la mappa interattiva trasformandola in un assistente tattico di incursione a inizio raid:
+
+### 7.1 Algoritmo di Calcolo Percorso
+* **Modello matematico**: TSP (Travelling Salesperson Problem) leggero con vincoli di precedenza (DAG per step di quest sequenziali) e punto di partenza fisso (punto di spawn scelto dall'utente).
+* **Complessità computazionale**: Trascurabile ($< 5\text{ ms}$ su $N \le 8$ tappe in linea retta euclidea nel browser), con immediata potatura (*pruning*) delle sequenze non conformi ai requisiti delle quest.
+* **Tracciamento visivo**: Linea spezzata (`L.polyline`) tra i nodi con badge numerati progressivi (`1`, `2`, `3`...).
+
+### 7.2 Separazione tra Nodi Fissi e Aree RNG / Probabilistiche
+Per evitare percorsi rigidi su obiettivi non deterministici:
+1. **Tappe dell'itinerario (Waypoints)**: Solo azioni e punti con coordinate note e fisse (interazioni con console, registratori, terminali, spawn point, porte bloccate, estrazioni).
+2. **Layer "Aree ad Alta Probabilità" (Hotspots)**: Per obiettivi generici o soggetti a RNG (es. *"Elimina 5 Snitch"*, *"Trova 3 Componenti Elettronici"*), la mappa mostra layer tematici / zone sfumate ad alta probabilità di spawn/loot senza forzarli come nodi obbligati. L'utente valuta visivamente le zone e decide se aggiungere una tappa ad hoc.
+
+### 7.3 Interattività & Controllo Utente (Mobile-First UX)
+In coerenza con l'impostazione mobile-first dell'app, le interazioni avvengono direttamente sulla mappa e tramite Drawer dal basso parziale per non oscurare la visuale di gioco:
+
+1. **Gestures dirette sulla mappa**:
+   * **Tap su uno step esistente**: apre opzioni contestuali rapide (tra cui l'eliminazione diretta della tappa).
+   * **Tap prolungato (long-press) su uno step**: abilita il trascinamento (drag) del marker per riposizionare geograficamente la tappa.
+   * **Tap prolungato su una linea di tragitto**: inserisce un nuovo step intermedio esattamente in quel segmento del percorso, trascinabile poi nella posizione desiderata (l'utente decide esplicitamente dove inserire la tappa nella sequenza senza dover forzare un ricalcolo globale).
+2. **Riordino tramite Bottom Drawer parziale (`from="bottom"`)**:
+   * All'apertura del drawer per modificare l'ordine delle tappe, il foglio copre solo la parte inferiore dello schermo lasciando visibile la porzione superiore della mappa.
+   * **Compensazione Viewport**: la mappa riposiziona la visuale centrando lo step selezionato esclusivamente nella porzione visibile non coperta dal drawer (offset verticale).
+   * **Drag & Drop nell'elenco tappe (`@dnd-kit`)**: permette di riordinare facilmente l'ordine di visita.
+   * **Ottimizzazione del ricalcolo**: l'aggiornamento visivo (es. re-indexing numerico e feedback che le modifiche sono state registrate) è immediato in UI, mentre il ricalcolo effettivo della geometria della spezzata avviene solo al termine del riordino (`onDragEnd`), minimizzando repaint e computazioni intermedie.
+3. **Fonte dati coordinate**: Estrazione automatica da pipeline (MetaForge/ARDB) dei campi `locations` associati a quest e POI.
+
+

@@ -190,8 +190,10 @@ Deve già contenere: Skill Tree (0.7.0), tracker e collezioni (0.6.0), armi ampl
 ## 1.x "Orizzonte Tattico" — Moduli Estesi Post-Lancio — Non ancora raggiunta
 - [ ] #29 [Supporto PWA (service worker e offline, dopo la migrazione a Next e legata a #16)](https://github.com/ieeah/arc-benches/issues/29) — dopo 0.10.0
 - [ ] #61 [Mappe Interattive (include Pendola Pass)](https://github.com/ieeah/arc-benches/issues/61) — dopo 0.10.0 (tile su Supabase Storage)
+- [ ] #118 [Mappe Interattive: pianificazione itinerari e percorsi tattici](https://github.com/ieeah/arc-benches/issues/118) — collegata a #61
 - [ ] #98 [Condivisione build Skill Tree via link](https://github.com/ieeah/arc-benches/issues/98) — dopo #62, #25
 - [ ] #99 [Checklist pre-raid degli oggetti da portare](https://github.com/ieeah/arc-benches/issues/99) — dopo #82
+- [ ] #117 [UX Liste: creazione rapida di liste temporanee di raid (SessionStorage)](https://github.com/ieeah/arc-benches/issues/117)
 - [ ] #33 [Role Maker — Riorganizzazione UI](https://github.com/ieeah/arc-benches/issues/33)
 - [ ] #37 [Role Maker — Arricchimento e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)
 - [ ] #38 [Role Maker — micro-app autonoma](https://github.com/ieeah/arc-benches/issues/38)

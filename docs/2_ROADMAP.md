@@ -82,8 +82,10 @@ Deve già contenere Skill Tree, tracker e collezioni, armi amplificate (0.6.0–
   - *Asset & Risoluzione*: Ricerca/estrazione del livello sotterraneo mancante di The Blue Gate e valutazione estrazione texture native in 4K/8K da Unreal Engine 5 (FModel) per massima nitidezza.
   - *Storage Remoto*: Distribuzione dei tile esclusivamente via Supabase Storage CDN (`scripts/data/maps/` $\rightarrow$ bucket CDN), senza inclusione nel bundle statico dell'app.
   - *Pendola Pass*: nuova regione montuosa e innevata, con i ripari dal freddo per il Flash Freeze.
+- [ ] #118 [Mappe Interattive: pianificazione itinerari e percorsi tattici (waypoint)](https://github.com/ieeah/arc-benches/issues/118) — estensione/modulo collegato a #61 per definire e visualizzare sequenze di tappe o percorsi ordinati
 - [ ] #98 [Condivisione build Skill Tree via link](https://github.com/ieeah/arc-benches/issues/98)
 - [ ] #99 [Checklist pre-raid degli oggetti da portare](https://github.com/ieeah/arc-benches/issues/99)
+- [ ] #117 [UX Liste: creazione rapida di liste temporanee di raid (SessionStorage)](https://github.com/ieeah/arc-benches/issues/117) — liste effimere per tracciare obiettivi veloci durante un singolo raid con inserimento rapido
 - [ ] #33 [Role Maker — Riorganizzazione UI e Miglioramenti](https://github.com/ieeah/arc-benches/issues/33)
 - [ ] #37 [Role Maker — Arricchimento, coerenza gameplay e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)
 - [ ] #38 [Role Maker: Creazione della pagina / micro-app autonoma su sottodominio dedicato](https://github.com/ieeah/arc-benches/issues/38)
