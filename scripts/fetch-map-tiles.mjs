@@ -62,6 +62,13 @@ const MAP_CONFIGS = [
     minZoom: 8,
     maxZoom: 12,
   },
+  {
+    id: 'pendola-pass',
+    title: 'Pendola Pass',
+    pathPrefix: 'arc-raiders/pendola-pass/default_v1',
+    minZoom: 8,
+    maxZoom: 12,
+  },
 ];
 
 async function fetchWithRetry(url, retries = 3) {
@@ -230,10 +237,15 @@ async function main() {
     process.exit(1);
   }
 
+  const manifestPath = path.join(outputDir, 'manifest.json');
   const manifest = {
     generatedAt: new Date().toISOString(),
     maps: {},
   };
+  try {
+    const existing = JSON.parse(await fs.readFile(manifestPath, 'utf-8'));
+    if (existing?.maps) manifest.maps = existing.maps;
+  } catch {}
 
   let globalTiles = 0;
   let globalBytes = 0;
@@ -247,7 +259,6 @@ async function main() {
     }
   }
 
-  const manifestPath = path.join(outputDir, 'manifest.json');
   await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8');
 
   console.log(`\n🎉 COMPLETATO!`);

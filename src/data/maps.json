@@ -6,6 +6,6 @@
     { "id": "blue-gate", "name": "The Blue Gate", "badge": "Valley" },
     { "id": "stella-montis", "name": "Stella Montis", "badge": "Mountain Lab" },
     { "id": "riven-tides", "name": "Riven Tides", "badge": "Coastal Harbor" },
-    { "id": "pendola-pass", "name": "Pendola Pass" }
+    { "id": "pendola-pass", "name": "Pendola Pass", "badge": "Summit Basin" }
   ]
 }

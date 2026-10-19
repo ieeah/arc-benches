@@ -17,6 +17,7 @@ const MAP_CENTERS: Record<string, [number, number]> = {
   'blue-gate': [0.65, -0.70],
   'stella-montis': [0.70, -0.72],
   'riven-tides': [0.60, -0.68],
+  'pendola-pass': [0.7068, -0.8764],
 };
 
 const MAP_TILE_PATHS: Record<string, string> = {
@@ -26,6 +27,7 @@ const MAP_TILE_PATHS: Record<string, string> = {
   'blue-gate': 'arc-raiders/the-blue-gate/default-v5',
   'stella-montis': 'arc-raiders/stella-montis/default-v1',
   'riven-tides': 'arc-raiders/riven-tides/default-v1',
+  'pendola-pass': 'arc-raiders/pendola-pass/default_v1',
 };
 
 export const MapViewer = ({

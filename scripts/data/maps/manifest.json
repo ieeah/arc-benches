@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25T14:16:29.746Z",
+  "generatedAt": "2026-10-19T11:28:41.442Z",
   "maps": {
     "buried-city": {
       "id": "buried-city",
@@ -178,6 +178,36 @@
         "12": {
           "tiles": 256,
           "bytes": 1594912
+        }
+      }
+    },
+    "pendola-pass": {
+      "id": "pendola-pass",
+      "title": "Pendola Pass",
+      "minZoom": 8,
+      "maxZoom": 12,
+      "totalTiles": 341,
+      "totalBytes": 2883631,
+      "zoomStats": {
+        "8": {
+          "tiles": 1,
+          "bytes": 12037
+        },
+        "9": {
+          "tiles": 4,
+          "bytes": 45449
+        },
+        "10": {
+          "tiles": 16,
+          "bytes": 169262
+        },
+        "11": {
+          "tiles": 64,
+          "bytes": 601742
+        },
+        "12": {
+          "tiles": 256,
+          "bytes": 2055141
         }
       }
     }
