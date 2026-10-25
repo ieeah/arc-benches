@@ -682,11 +682,11 @@
               "quantity": 1
             },
             {
-              "itemId": "anvil-splitter",
+              "itemId": "extended-barrel",
               "quantity": 1
             },
             {
-              "itemId": "extended-barrel",
+              "itemId": "silencer-ii",
               "quantity": 1
             },
             {
@@ -1523,7 +1523,7 @@
       "maxLevel": 1,
       "listType": "quest",
       "extractionWiped": false,
-      "trader": "celeste",
+      "trader": "shani",
       "prerequisites": [
         "off-the-raider"
       ],
@@ -2189,7 +2189,7 @@
             },
             {
               "id": "clean-hands-action-3",
-              "label": "Bring the Equatiorial Sundial to the top of the Church in Old Town",
+              "label": "Bring the Equatorial Sundial to the top of the Church in Old Town",
               "translations": {
                 "it": {
                   "label": "Porta la meridiana equatoriale in cima alla chiesa nella Città vecchia"

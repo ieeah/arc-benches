@@ -7,7 +7,7 @@
     ],
     "totalQuests": 123,
     "totalEdges": 134,
-    "extractedAt": "2026-10-19"
+    "extractedAt": "2026-10-25"
   },
   "nodes": [
     {
@@ -485,11 +485,11 @@
           "quantity": 1
         },
         {
-          "itemId": "anvil-splitter",
+          "itemId": "extended-barrel",
           "quantity": 1
         },
         {
-          "itemId": "extended-barrel",
+          "itemId": "silencer-ii",
           "quantity": 1
         },
         {
@@ -1120,7 +1120,7 @@
       "metaforgeId": "boarding-the-frigate",
       "name": "Boarding the Frigate",
       "nameIT": "Abbordaggio della Fregata",
-      "trader": "celeste",
+      "trader": "shani",
       "map": null,
       "description": "None of our old tactics work, facing those Frigates. We can’t run. We can’t hide. And there’s no waiting them out.\r\n\r\nWe need to take bold action, and we need to do it now.",
       "descriptionIT": "Nessuna delle nostre vecchie tattiche funziona contro quelle fregate. Non possiamo scappare. Non possiamo nasconderci. E non possiamo aspettare che se ne vadano. Dobbiamo agire con coraggio, e dobbiamo farlo ora.",
@@ -1597,7 +1597,7 @@
           "it": "Cerca l'oggetto contaminato nell'accampamento dei Nomadi"
         },
         {
-          "en": "Bring the Equatiorial Sundial to the top of the Church in Old Town",
+          "en": "Bring the Equatorial Sundial to the top of the Church in Old Town",
           "it": "Porta la meridiana equatoriale in cima alla chiesa nella Città vecchia"
         },
         {
