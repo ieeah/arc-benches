@@ -292,7 +292,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Guardaroba alpino",
+        "name": "Design guardaroba alpino",
         "description": ""
       }
     }
@@ -1160,8 +1160,8 @@
     "stack_size": 50,
     "translations": {
       "it": {
-        "name": "Amplified Fragments",
-        "description": "Obtained through recycling and used to repair amplified weapons."
+        "name": "Frammenti amplificati",
+        "description": "Si ottiene tramite riciclaggio e si usa per riparare le armi amplificate."
       }
     }
   },
@@ -2259,8 +2259,8 @@
   },
   "anvil-splitter": {
     "id": "anvil-splitter",
-    "name": "Anvil Splitter",
-    "description": "Can be recycled into crafting materials.",
+    "name": "Deprecated Anvil Splitter",
+    "description": "No longer functional, but can still be sold or recycled.",
     "icon": "icons/items/anvil-splitter.webp",
     "rarity": "Legendary",
     "item_type": "Misc",
@@ -2594,7 +2594,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Lampada da scrivania dell'archivio",
+        "name": "Lampada da scrivania archivio",
         "description": "Potrebbe valere qualcosina."
       }
     }
@@ -2613,7 +2613,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Lampada da terra dell'archivio",
+        "name": "Lampada da terra archivio",
         "description": ""
       }
     }
@@ -2632,7 +2632,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Lampada da terra dell'archivio",
+        "name": "Design lampada da terra archivio",
         "description": ""
       }
     }
@@ -2957,7 +2957,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo da bar",
+        "name": "Tavolo bar",
         "description": ""
       }
     }
@@ -2976,7 +2976,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Tavolo da bar",
+        "name": "Design tavolo bar",
         "description": ""
       }
     }
@@ -3033,7 +3033,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Sgabello da bar",
+        "name": "Design sgabello da bar",
         "description": ""
       }
     }
@@ -3071,7 +3071,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo della voliera rovinato",
+        "name": "Tavolino voliera malconcio",
         "description": ""
       }
     }
@@ -3090,7 +3090,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Tavolo della voliera rovinato Design",
+        "name": "Design tavolo voliera malconcio",
         "description": ""
       }
     }
@@ -3109,7 +3109,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia da ufficio rovinata",
+        "name": "Sedia da ufficio malconcia",
         "description": ""
       }
     }
@@ -3128,7 +3128,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Sedia da ufficio rovinata Design",
+        "name": "Design sedia da ufficio malconcia",
         "description": ""
       }
     }
@@ -3147,7 +3147,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Divano da ufficio rovinato",
+        "name": "Divano da ufficio malconcio",
         "description": ""
       }
     }
@@ -3166,7 +3166,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Divano da ufficio rovinato",
+        "name": "Design divano da ufficio malconcio",
         "description": ""
       }
     }
@@ -3185,7 +3185,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Letto rovinato del covo Raider",
+        "name": "Letto tana malconcio",
         "description": ""
       }
     }
@@ -3204,7 +3204,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Letto rovinato del covo Raider Design",
+        "name": "Design letto tana malconcio",
         "description": ""
       }
     }
@@ -3223,7 +3223,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Mensola rovinata del covo Raider",
+        "name": "Mensola tana malconcia",
         "description": ""
       }
     }
@@ -3242,7 +3242,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Mensola rovinata del covo Raider",
+        "name": "Design mensola tana malconcia",
         "description": ""
       }
     }
@@ -3261,7 +3261,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia rovinata del diner",
+        "name": "Sedia diner malconcia",
         "description": ""
       }
     }
@@ -3280,7 +3280,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design: Sedia rovinata del diner",
+        "name": "Design sedia diner malconcia",
         "description": ""
       }
     }
@@ -3299,7 +3299,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo rovinato della facoltà",
+        "name": "Tavolo facoltà malconcio",
         "description": ""
       }
     }
@@ -3318,7 +3318,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Tavolo rovinato della facoltà",
+        "name": "Design tavolo facoltà malconcio",
         "description": ""
       }
     }
@@ -3337,7 +3337,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Armadietto del laboratorio rovinato",
+        "name": "Armadio laboratorio malconcio",
         "description": ""
       }
     }
@@ -3356,7 +3356,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Armadietto del laboratorio rovinato Design",
+        "name": "Design armadio laboratorio malconcio",
         "description": ""
       }
     }
@@ -3375,7 +3375,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Armadio del laboratorio rovinato (largo)",
+        "name": "Armadio laboratorio malconcio (largo)",
         "description": ""
       }
     }
@@ -3394,7 +3394,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Armadio del laboratorio rovinato (largo) Design",
+        "name": "Design armadio laboratorio malconcio (largo)",
         "description": ""
       }
     }
@@ -3413,7 +3413,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia da laboratorio rovinata",
+        "name": "Sedia laboratorio malconcia",
         "description": ""
       }
     }
@@ -3432,7 +3432,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Sedia da laboratorio rovinata",
+        "name": "Design sedia laboratorio malconcia",
         "description": ""
       }
     }
@@ -3470,7 +3470,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Mensola rovinata",
+        "name": "Mensola malconcia",
         "description": ""
       }
     }
@@ -3489,7 +3489,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Mensola rovinata",
+        "name": "Design mensola malconcia",
         "description": ""
       }
     }
@@ -3508,7 +3508,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Deposito rovinato",
+        "name": "Deposito malconcio",
         "description": ""
       }
     }
@@ -3527,7 +3527,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Deposito rovinato",
+        "name": "Design deposito malconcio",
         "description": ""
       }
     }
@@ -3546,7 +3546,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Espositore per armi rovinato",
+        "name": "Rastrelliera per armi malconcia",
         "description": ""
       }
     }
@@ -3565,7 +3565,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Espositore per armi rovinato Design",
+        "name": "Design rastrelliera per armi malconcia",
         "description": ""
       }
     }
@@ -3947,7 +3947,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Armadio blu del laboratorio",
+        "name": "Armadio laboratorio blu",
         "description": ""
       }
     }
@@ -3966,7 +3966,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Armadio blu del laboratorio",
+        "name": "Design armadio laboratorio blu",
         "description": ""
       }
     }
@@ -4381,7 +4381,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Plafoniera da ufficio",
+        "name": "Lampada da soffitto ufficio",
         "description": ""
       }
     }
@@ -4400,7 +4400,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Plafoniera da ufficio Design",
+        "name": "Design lampada da soffitto ufficio",
         "description": ""
       }
     }
@@ -4419,7 +4419,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Lampada da scrivania dell'ufficio",
+        "name": "Lampada da scrivania ufficio",
         "description": "Potrebbe valere qualcosina."
       }
     }
@@ -4679,7 +4679,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo della mensa",
+        "name": "Tavolo mensa",
         "description": ""
       }
     }
@@ -4698,7 +4698,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Tavolo della mensa",
+        "name": "Design tavolo mensa",
         "description": ""
       }
     }
@@ -5036,7 +5036,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Lampada delle camere",
+        "name": "Lampada camera",
         "description": ""
       }
     }
@@ -5055,7 +5055,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Lampada delle camere",
+        "name": "Design lampada camera",
         "description": ""
       }
     }
@@ -5074,7 +5074,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Comodino delle camere",
+        "name": "Comodino camera",
         "description": ""
       }
     }
@@ -5093,7 +5093,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Comodino delle camere",
+        "name": "Design comodino camera",
         "description": ""
       }
     }
@@ -5112,7 +5112,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Mensola delle camere",
+        "name": "Mensola camera",
         "description": ""
       }
     }
@@ -5131,7 +5131,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Mensola delle camere",
+        "name": "Design mensola camera",
         "description": ""
       }
     }
@@ -5169,7 +5169,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Lampadario",
+        "name": "Design lampadario",
         "description": ""
       }
     }
@@ -5233,7 +5233,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Armadietto medico della clinica",
+        "name": "Armadietto medico clinica",
         "description": ""
       }
     }
@@ -5252,7 +5252,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design dell'Armadietto medico della clinica",
+        "name": "Design armadietto medico clinica",
         "description": ""
       }
     }
@@ -5550,7 +5550,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Cassa della console",
+        "name": "Console",
         "description": ""
       }
     }
@@ -5569,7 +5569,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Cassa della console",
+        "name": "Design console",
         "description": ""
       }
     }
@@ -6070,6 +6070,38 @@
       }
     }
   },
+  "dead-eye-outfit": {
+    "id": "dead-eye-outfit",
+    "name": "Dead Eye (Outfit)",
+    "description": "",
+    "icon": "icons/items/dead-eye-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
+  "dead-flowers": {
+    "id": "dead-flowers",
+    "name": "Dead Flowers",
+    "description": "Don't give these to your date.",
+    "icon": "icons/items/dead-flowers.webp",
+    "rarity": "Uncommon",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 640,
+    "workbench": null,
+    "loot_area": "Old World, Residential, Commercial",
+    "stack_size": 5,
+    "translations": {
+      "it": {
+        "name": "Fiori morti",
+        "description": "Non darli alla persona con cui esci."
+      }
+    }
+  },
   "deadline": {
     "id": "deadline",
     "name": "Deadline",
@@ -6224,7 +6256,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Plafoniera del diner",
+        "name": "Lampada da soffitto diner",
         "description": ""
       }
     }
@@ -6243,7 +6275,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Plafoniera del diner",
+        "name": "Design lampada da soffitto diner",
         "description": ""
       }
     }
@@ -6262,7 +6294,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Credenza del diner",
+        "name": "Credenza diner",
         "description": ""
       }
     }
@@ -6281,7 +6313,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Credenza del diner",
+        "name": "Design credenza diner",
         "description": ""
       }
     }
@@ -6300,7 +6332,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Mensola del diner",
+        "name": "Mensola diner",
         "description": ""
       }
     }
@@ -6319,7 +6351,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Mensola del diner",
+        "name": "Design mensola diner",
         "description": ""
       }
     }
@@ -6338,7 +6370,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Divano stile diner",
+        "name": "Divano diner",
         "description": ""
       }
     }
@@ -6357,7 +6389,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Divano stile diner",
+        "name": "Design divano diner",
         "description": ""
       }
     }
@@ -6376,7 +6408,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sgabello da diner",
+        "name": "Sgabello diner",
         "description": ""
       }
     }
@@ -6395,7 +6427,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design dello Sgabello da diner",
+        "name": "Design sgabello diner",
         "description": ""
       }
     }
@@ -6414,7 +6446,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo del diner",
+        "name": "Tavolo diner",
         "description": ""
       }
     }
@@ -6433,7 +6465,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Tavolo del diner",
+        "name": "Design tavolo diner",
         "description": ""
       }
     }
@@ -6617,7 +6649,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Detriti drappeggiati A",
+        "name": "Design detriti drappeggiati A",
         "description": ""
       }
     }
@@ -6655,7 +6687,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Detriti drappeggiati B Design",
+        "name": "Design detriti drappeggiati B",
         "description": ""
       }
     }
@@ -6693,7 +6725,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Detriti drappeggiati C",
+        "name": "Design detriti drappeggiati C",
         "description": ""
       }
     }
@@ -6731,7 +6763,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Detriti drappeggiati E Design",
+        "name": "Design detriti drappeggiati E",
         "description": ""
       }
     }
@@ -6769,7 +6801,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Detriti drappeggiati F Design",
+        "name": "Design detriti drappeggiati F",
         "description": ""
       }
     }
@@ -6807,7 +6839,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Detriti drappeggiati G Design",
+        "name": "Design detriti drappeggiati G",
         "description": ""
       }
     }
@@ -7619,7 +7651,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Guardaroba della facoltà",
+        "name": "Armadio facoltà",
         "description": ""
       }
     }
@@ -7638,7 +7670,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Guardaroba della facoltà",
+        "name": "Design armadio facoltà",
         "description": ""
       }
     }
@@ -7657,7 +7689,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Cassettiera della facoltà",
+        "name": "Comò facoltà",
         "description": ""
       }
     }
@@ -7676,7 +7708,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della cassettiera della facoltà",
+        "name": "Design comò facoltà",
         "description": ""
       }
     }
@@ -7729,6 +7761,25 @@
       "it": {
         "name": "Papera Familiare",
         "description": "A differenza di quella vera, questa entra nello zaino. Può essere lanciata per creare rumore."
+      }
+    }
+  },
+  "fancy-plate": {
+    "id": "fancy-plate",
+    "name": "Fancy Plate",
+    "description": "Careful not to shatter it.",
+    "icon": "icons/items/fancy-plate.webp",
+    "rarity": "Epic",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": "Old World",
+    "stack_size": 3,
+    "translations": {
+      "it": {
+        "name": "Piatto elegante",
+        "description": "Fai attenzione a non frantumarlo."
       }
     }
   },
@@ -8095,7 +8146,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della lampada da terra",
+        "name": "Design lampada da terra",
         "description": ""
       }
     }
@@ -8152,8 +8203,8 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Fluted Rotor Core",
-        "description": "Used to craft amplified weapons."
+        "name": "Nucleo di rotore scanalato",
+        "description": "Si usa per creare armi amplificate."
       }
     }
   },
@@ -8521,7 +8572,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia in stoffa geometrica",
+        "name": "Sedia in tessuto geometrico",
         "description": ""
       }
     }
@@ -8540,7 +8591,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della sedia in stoffa geometrica",
+        "name": "Design sedia in tessuto geometrico",
         "description": ""
       }
     }
@@ -8559,7 +8610,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Plafoniera in vetro",
+        "name": "Lampada da soffitto in vetro",
         "description": ""
       }
     }
@@ -8578,7 +8629,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Plafoniera in vetro",
+        "name": "Design lampada da soffitto in vetro",
         "description": ""
       }
     }
@@ -8788,7 +8839,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della sedia geometrica verde",
+        "name": "Design sedia geometrica verde",
         "description": ""
       }
     }
@@ -8826,7 +8877,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del divano geometrico verde",
+        "name": "Design divano geometrico verde",
         "description": ""
       }
     }
@@ -8845,7 +8896,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Divano verde da laboratorio",
+        "name": "Divano laboratorio verde",
         "description": ""
       }
     }
@@ -8864,7 +8915,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Divano verde da laboratorio",
+        "name": "Design divano laboratorio verde",
         "description": ""
       }
     }
@@ -9220,7 +9271,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Cespuglio di agrifoglio",
+        "name": "Cespuglio agrifoglio",
         "description": ""
       }
     }
@@ -9239,7 +9290,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Cespuglio di agrifoglio",
+        "name": "Design cespuglio agrifoglio",
         "description": ""
       }
     }
@@ -9309,7 +9360,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia dell'hotel",
+        "name": "Sedia hotel",
         "description": ""
       }
     }
@@ -9328,7 +9379,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Sedia dell'hotel",
+        "name": "Design sedia hotel",
         "description": ""
       }
     }
@@ -9907,7 +9958,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Plafoniera del laboratorio",
+        "name": "Lampada da soffitto laboratorio",
         "description": ""
       }
     }
@@ -9926,7 +9977,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Plafoniera del laboratorio",
+        "name": "Design lampada da soffitto laboratorio",
         "description": ""
       }
     }
@@ -9945,7 +9996,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sgabello del laboratorio",
+        "name": "Sgabello laboratorio",
         "description": ""
       }
     }
@@ -9964,7 +10015,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Sgabello del laboratorio",
+        "name": "Design sgabello laboratorio",
         "description": ""
       }
     }
@@ -10318,6 +10369,19 @@
       }
     }
   },
+  "lone-survivor-backpack": {
+    "id": "lone-survivor-backpack",
+    "name": "Lone Survivor (Backpack)",
+    "description": "",
+    "icon": "icons/items/lone-survivor-backpack.webp",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "looting-mk-1": {
     "id": "looting-mk-1",
     "name": "Looting Mk. 1",
@@ -10635,6 +10699,25 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": null
+  },
+  "mask-fragment": {
+    "id": "mask-fragment",
+    "name": "Mask Fragment",
+    "description": "Half a face, cast in bronze.",
+    "icon": "icons/items/mask-fragment.webp",
+    "rarity": "Epic",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 7000,
+    "workbench": null,
+    "loot_area": "Old World",
+    "stack_size": 3,
+    "translations": {
+      "it": {
+        "name": "Frammento di maschera",
+        "description": "Mezzo volto, fuso in bronzo."
+      }
+    }
   },
   "mastery-medal-backpack-charm": {
     "id": "mastery-medal-backpack-charm",
@@ -11057,7 +11140,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Divano geometrico multicolore",
+        "name": "Design divano geometrico multicolore",
         "description": ""
       }
     }
@@ -11208,6 +11291,19 @@
       }
     }
   },
+  "noxious-outfit": {
+    "id": "noxious-outfit",
+    "name": "Noxious (Outfit)",
+    "description": "",
+    "icon": "icons/items/noxious-outfit.webp",
+    "rarity": "Common",
+    "item_type": "Outfits",
+    "subcategory": "Outfit",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "number-plate": {
     "id": "number-plate",
     "name": "Number Plate",
@@ -11258,6 +11354,44 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1
+  },
+  "offering-display-table": {
+    "id": "offering-display-table",
+    "name": "Offering Display Table",
+    "description": "",
+    "icon": "icons/items/offering-display-table.webp",
+    "rarity": "Legendary",
+    "item_type": "Furniture",
+    "subcategory": "Tables",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null,
+    "translations": {
+      "it": {
+        "name": "Tavolo espositivo offerte",
+        "description": ""
+      }
+    }
+  },
+  "offering-display-table-design": {
+    "id": "offering-display-table-design",
+    "name": "Offering Display Table Design",
+    "description": "",
+    "icon": "icons/items/offering-display-table.webp",
+    "rarity": "Legendary",
+    "item_type": "Design",
+    "subcategory": null,
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 1,
+    "translations": {
+      "it": {
+        "name": "Design tavolo espositivo offerte",
+        "description": ""
+      }
+    }
   },
   "official-shutdown-documentation": {
     "id": "official-shutdown-documentation",
@@ -11388,7 +11522,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Letto ornato del covo Raider",
+        "name": "Letto tana decorato",
         "description": ""
       }
     }
@@ -11407,7 +11541,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Letto ornato del covo Raider",
+        "name": "Design letto tana decorato",
         "description": ""
       }
     }
@@ -11426,7 +11560,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Mensola ornata del covo Raider",
+        "name": "Mensola tana decorata",
         "description": ""
       }
     }
@@ -11445,7 +11579,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Mensola ornata del covo Raider Design",
+        "name": "Design mensola tana decorata",
         "description": ""
       }
     }
@@ -11464,7 +11598,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Deposito ornato",
+        "name": "Deposito decorato",
         "description": ""
       }
     }
@@ -11483,7 +11617,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Deposito ornato",
+        "name": "Design deposito decorato",
         "description": ""
       }
     }
@@ -11502,7 +11636,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Guardaroba ornato",
+        "name": "Guardaroba decorato",
         "description": ""
       }
     }
@@ -11521,7 +11655,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Guardaroba ornato",
+        "name": "Design guardaroba decorato",
         "description": ""
       }
     }
@@ -11793,6 +11927,19 @@
       }
     }
   },
+  "pilgrim-backpack": {
+    "id": "pilgrim-backpack",
+    "name": "Pilgrim (Backpack)",
+    "description": "",
+    "icon": "icons/items/pilgrim-backpack.webp",
+    "rarity": "Common",
+    "item_type": "Cosmetic",
+    "subcategory": "Backpack",
+    "value": null,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": null
+  },
   "pilgrims-peak-security-code": {
     "id": "pilgrims-peak-security-code",
     "name": "Pilgrim's Peak Security Code",
@@ -11896,8 +12043,8 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Pneumatic Actuator",
-        "description": "Used to craft amplified weapons."
+        "name": "Attuatore pneumatico",
+        "description": "Si usa per creare armi amplificate."
       }
     }
   },
@@ -11915,7 +12062,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Letto lucidato del covo Raider",
+        "name": "Letto tana levigato",
         "description": ""
       }
     }
@@ -11934,7 +12081,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Letto lucidato del covo Raider",
+        "name": "Design letto tana levigato",
         "description": ""
       }
     }
@@ -11953,7 +12100,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Mensola lucidata del covo Raider",
+        "name": "Mensola tana lucida",
         "description": ""
       }
     }
@@ -11972,7 +12119,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Mensola lucidata del covo Raider",
+        "name": "Design mensola tana lucida",
         "description": ""
       }
     }
@@ -11991,7 +12138,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia da diner lucidata",
+        "name": "Sedia diner lucidata",
         "description": ""
       }
     }
@@ -12010,7 +12157,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Sedia da diner lucidata",
+        "name": "Design sedia diner lucidata",
         "description": ""
       }
     }
@@ -12029,7 +12176,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia lucidata della facoltà",
+        "name": "Sedia facoltà lucidata",
         "description": ""
       }
     }
@@ -12048,7 +12195,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Sedia lucidata della facoltà Design",
+        "name": "Design sedia facoltà lucidata",
         "description": ""
       }
     }
@@ -12067,7 +12214,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo lucidato della facoltà",
+        "name": "Tavolo facoltà lucidato",
         "description": ""
       }
     }
@@ -12086,7 +12233,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Tavolo lucidato della facoltà",
+        "name": "Design tavolo facoltà lucidato",
         "description": ""
       }
     }
@@ -12124,7 +12271,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del divano rotondo lucidato",
+        "name": "Design divano rotondo lucidato",
         "description": ""
       }
     }
@@ -12162,7 +12309,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Deposito lucidato",
+        "name": "Design deposito lucidato",
         "description": ""
       }
     }
@@ -12181,7 +12328,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Divano da studio lucidato",
+        "name": "Divano studio lucidato",
         "description": ""
       }
     }
@@ -12200,7 +12347,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Divano da studio lucidato",
+        "name": "Design divano studio lucidato",
         "description": ""
       }
     }
@@ -12238,7 +12385,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Guardaroba lucidato",
+        "name": "Design guardaroba lucidato",
         "description": ""
       }
     }
@@ -12257,7 +12404,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Espositore per armi lucidato",
+        "name": "Rastrelliera per armi lucidata",
         "description": ""
       }
     }
@@ -12276,7 +12423,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Espositore per armi lucidato",
+        "name": "Design rastrelliera per armi lucidata",
         "description": ""
       }
     }
@@ -12523,8 +12670,8 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Pressure Regulator",
-        "description": "Used to craft amplified weapons."
+        "name": "Regolatore di pressione",
+        "description": "Si usa per creare armi amplificate."
       }
     }
   },
@@ -12561,7 +12708,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia in stoffa stampata",
+        "name": "Sedia in tessuto stampato (sblocco)",
         "description": ""
       }
     }
@@ -12580,7 +12727,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della sedia in stoffa stampata",
+        "name": "Design sedia in tessuto stampato",
         "description": ""
       }
     }
@@ -12599,7 +12746,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Divano stampato in laboratorio",
+        "name": "Divano laboratorio stampato",
         "description": ""
       }
     }
@@ -12618,7 +12765,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Divano stampato in laboratorio",
+        "name": "Design divano laboratorio stampato",
         "description": ""
       }
     }
@@ -12694,8 +12841,8 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Propellant Valve Assembly",
-        "description": "Used to craft amplified weapons."
+        "name": "Montaggio della valvola del propellente",
+        "description": "Si usa per creare armi amplificate."
       }
     }
   },
@@ -12906,6 +13053,25 @@
       "it": {
         "name": "Codice di sicurezza di Raider's Refuge",
         "description": "Uno dei quattro codici di sicurezza necessari per sbloccare il cancello chiuso a Blue Gate. Trovato a Raider's Refuge."
+      }
+    }
+  },
+  "railway-lantern": {
+    "id": "railway-lantern",
+    "name": "Railway Lantern",
+    "description": "Once kept trains from running into each other in the dark.",
+    "icon": "icons/items/railway-lantern.webp",
+    "rarity": "Rare",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 3000,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 3,
+    "translations": {
+      "it": {
+        "name": "Lanterna ferroviaria",
+        "description": "Un tempo serviva a impedire che i treni si scontrassero nel buio."
       }
     }
   },
@@ -13165,7 +13331,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Divano da studio rosso",
+        "name": "Divano studio rosso",
         "description": ""
       }
     }
@@ -13184,7 +13350,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Divano da studio rosso",
+        "name": "Design divano studio rosso",
         "description": ""
       }
     }
@@ -13381,7 +13547,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo del ristorante",
+        "name": "Tavolo ristorante",
         "description": ""
       }
     }
@@ -13400,7 +13566,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Tavolo del ristorante",
+        "name": "Design tavolo ristorante",
         "description": ""
       }
     }
@@ -13652,6 +13818,25 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": null
+  },
+  "rock-salt": {
+    "id": "rock-salt",
+    "name": "Rock Salt",
+    "description": "Decorative, not dinner.",
+    "icon": "icons/items/rock-salt.webp",
+    "rarity": "Uncommon",
+    "item_type": "Trinket",
+    "subcategory": null,
+    "value": 640,
+    "workbench": null,
+    "loot_area": null,
+    "stack_size": 5,
+    "translations": {
+      "it": {
+        "name": "Salgemma",
+        "description": "Decorativo, non commestibile."
+      }
+    }
   },
   "rocket-thruster": {
     "id": "rocket-thruster",
@@ -14233,7 +14418,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia di sicurezza",
+        "name": "Sedia sicurezza",
         "description": ""
       }
     }
@@ -14252,7 +14437,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Sedia di sicurezza",
+        "name": "Design sedia di sicurezza",
         "description": ""
       }
     }
@@ -14424,7 +14609,7 @@
     "stack_size": 50,
     "translations": {
       "it": {
-        "name": "Sheet Metal",
+        "name": "Lamina di metallo",
         "description": "Utile per le creazioni."
       }
     }
@@ -14830,7 +15015,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Piccolo armadietto da laboratorio",
+        "name": "Armadio laboratorio piccolo",
         "description": ""
       }
     }
@@ -14849,7 +15034,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Piccolo armadietto da laboratorio",
+        "name": "Design armadio laboratorio piccolo",
         "description": ""
       }
     }
@@ -14995,7 +15180,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia verde tinta unita",
+        "name": "Sedia verde a tinta unita",
         "description": ""
       }
     }
@@ -15014,7 +15199,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Sedia verde tinta unita",
+        "name": "Design sedia verde a tinta unita",
         "description": ""
       }
     }
@@ -15629,7 +15814,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Poltrona da studio",
+        "name": "Poltrona studio",
         "description": ""
       }
     }
@@ -15648,7 +15833,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Poltrona da studio",
+        "name": "Design poltrona studio",
         "description": ""
       }
     }
@@ -15667,7 +15852,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Poltrona da studio",
+        "name": "Design poltrona studio",
         "description": ""
       }
     }
@@ -15686,7 +15871,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Poltrona da studio",
+        "name": "Poltrona studio",
         "description": ""
       }
     }
@@ -15705,7 +15890,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Plafoniera dello studio",
+        "name": "Lampada da soffitto studio",
         "description": ""
       }
     }
@@ -15724,7 +15909,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Plafoniera dello studio Design",
+        "name": "Design lampada da soffitto studio",
         "description": ""
       }
     }
@@ -15743,7 +15928,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Pianoforte da studio",
+        "name": "Piano studio",
         "description": ""
       }
     }
@@ -15762,7 +15947,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Pianoforte da studio",
+        "name": "Design piano studio",
         "description": ""
       }
     }
@@ -15781,7 +15966,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Supporto TV dello studio",
+        "name": "Mobile TV studio",
         "description": ""
       }
     }
@@ -15800,7 +15985,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Supporto TV dello studio",
+        "name": "Design mobile TV studio",
         "description": ""
       }
     }
@@ -15819,7 +16004,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo aviario resistente",
+        "name": "Tavolino voliera robusto",
         "description": ""
       }
     }
@@ -15838,7 +16023,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Tavolo aviario resistente",
+        "name": "Design tavolo voliera robusto",
         "description": ""
       }
     }
@@ -15857,7 +16042,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia da ufficio resistente",
+        "name": "Sedia da ufficio robusta",
         "description": ""
       }
     }
@@ -15876,7 +16061,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Sedia da ufficio resistente",
+        "name": "Design sedia da ufficio robusta",
         "description": ""
       }
     }
@@ -15895,7 +16080,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Divano da ufficio resistente",
+        "name": "Divano da ufficio robusto",
         "description": ""
       }
     }
@@ -15914,7 +16099,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del divano da ufficio resistente",
+        "name": "Design divano da ufficio robusto",
         "description": ""
       }
     }
@@ -15933,7 +16118,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Letto resistente del covo Raider",
+        "name": "Letto tana robusto",
         "description": ""
       }
     }
@@ -15952,7 +16137,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Letto resistente del covo Raider",
+        "name": "Design letto tana robusto",
         "description": ""
       }
     }
@@ -15971,7 +16156,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Mensola resistente del covo Raider",
+        "name": "Mensola tana robusta",
         "description": ""
       }
     }
@@ -15990,7 +16175,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Mensola resistente del covo Raider",
+        "name": "Design mensola tana robusta",
         "description": ""
       }
     }
@@ -16009,7 +16194,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia resistente della facoltà",
+        "name": "Sedia facoltà robusta",
         "description": ""
       }
     }
@@ -16028,7 +16213,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Sedia resistente della facoltà Design",
+        "name": "Design sedia facoltà robusta",
         "description": ""
       }
     }
@@ -16047,7 +16232,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo resistente della facoltà",
+        "name": "Tavolo facoltà robusto",
         "description": ""
       }
     }
@@ -16066,7 +16251,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Tavolo resistente della facoltà",
+        "name": "Design tavolo facoltà robusto",
         "description": ""
       }
     }
@@ -16085,7 +16270,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Armadietto da laboratorio resistente",
+        "name": "Armadio laboratorio robusto",
         "description": ""
       }
     }
@@ -16104,7 +16289,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Armadietto da laboratorio resistente",
+        "name": "Design armadio laboratorio robusto",
         "description": ""
       }
     }
@@ -16123,7 +16308,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Armadio del laboratorio resistente (largo)",
+        "name": "Armadio laboratorio robusto (largo)",
         "description": ""
       }
     }
@@ -16142,7 +16327,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Armadio del laboratorio resistente (largo) Design",
+        "name": "Design armadio laboratorio robusto (largo)",
         "description": ""
       }
     }
@@ -16161,7 +16346,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia resistente da laboratorio",
+        "name": "Sedia laboratorio robusta",
         "description": ""
       }
     }
@@ -16180,7 +16365,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Sedia resistente da laboratorio",
+        "name": "Design sedia laboratorio robusta",
         "description": ""
       }
     }
@@ -16199,7 +16384,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Mensola resistente",
+        "name": "Mensola robusta",
         "description": ""
       }
     }
@@ -16218,7 +16403,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Mensola resistente",
+        "name": "Design mensola robusta",
         "description": ""
       }
     }
@@ -16237,7 +16422,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Deposito resistente",
+        "name": "Deposito robusto",
         "description": ""
       }
     }
@@ -16256,7 +16441,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Deposito resistente",
+        "name": "Design deposito robusto",
         "description": ""
       }
     }
@@ -16275,7 +16460,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Guardaroba resistente",
+        "name": "Guardaroba robusto",
         "description": ""
       }
     }
@@ -16294,7 +16479,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Guardaroba resistente Design",
+        "name": "Design guardaroba robusto",
         "description": ""
       }
     }
@@ -16313,7 +16498,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Espositore per armi resistente",
+        "name": "Rastrelliera per armi robusta",
         "description": ""
       }
     }
@@ -16332,7 +16517,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Espositore per armi resistente Design",
+        "name": "Design rastrelliera per armi robusta",
         "description": ""
       }
     }
@@ -17228,7 +17413,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Divano capitoné",
+        "name": "Divano capitonné",
         "description": ""
       }
     }
@@ -17247,7 +17432,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Divano capitoné",
+        "name": "Design divano capitonné",
         "description": ""
       }
     }
@@ -17552,7 +17737,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Comò veneziano",
+        "name": "Design comò veneziano",
         "description": ""
       }
     }
@@ -17883,7 +18068,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia del magazzino",
+        "name": "Sedia magazzino",
         "description": ""
       }
     }
@@ -17902,7 +18087,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Sedia del magazzino",
+        "name": "Design sedia magazzino",
         "description": ""
       }
     }
@@ -17921,7 +18106,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Scrivania del magazzino",
+        "name": "Scrivania magazzino",
         "description": ""
       }
     }
@@ -17940,7 +18125,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design della Scrivania del magazzino",
+        "name": "Design scrivania magazzino",
         "description": ""
       }
     }
@@ -17959,7 +18144,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Cassettiera del magazzino",
+        "name": "Comò magazzino",
         "description": ""
       }
     }
@@ -17978,7 +18163,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Cassettiera del magazzino",
+        "name": "Design comò magazzino",
         "description": ""
       }
     }
@@ -18067,7 +18252,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Sedia della stazione meteorologica",
+        "name": "Sedia stazione meteorologica",
         "description": ""
       }
     }
@@ -18086,7 +18271,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Sedia della stazione meteorologica",
+        "name": "Design sedia stazione meteorologica",
         "description": ""
       }
     }
@@ -18105,7 +18290,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Tavolo della stazione meteorologica",
+        "name": "Tavolo stazione meteorologica",
         "description": ""
       }
     }
@@ -18124,7 +18309,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design del Tavolo della stazione meteorologica",
+        "name": "Design tavolo stazione meteorologica",
         "description": ""
       }
     }
@@ -18213,7 +18398,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Tavolo invernale",
+        "name": "Design tavolo invernale",
         "description": ""
       }
     }
@@ -18270,7 +18455,7 @@
     "stack_size": null,
     "translations": {
       "it": {
-        "name": "Lampada da lavoro",
+        "name": "Luce di lavoro",
         "description": ""
       }
     }
@@ -18289,7 +18474,7 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Design Lampada da lavoro",
+        "name": "Design luce di lavoro",
         "description": ""
       }
     }

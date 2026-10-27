@@ -46,7 +46,7 @@ function parseWorkbenchItemIds(workbenches) {
 
 // Fetch one page of the catalog
 async function fetchPage(page) {
-  const url = `https://metaforge.app/api/arc-raiders/items?page=${page}&limit=${PAGE_SIZE}`;
+  const url = `https://metaforge.app/api/arc-raiders/items?page=${page}&limit=${PAGE_SIZE}&sortBy=id&order=asc`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`HTTP ${res.status} for page ${page}`);
   return res.json();

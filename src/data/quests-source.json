@@ -7,7 +7,7 @@
     ],
     "totalQuests": 123,
     "totalEdges": 134,
-    "extractedAt": "2026-10-25"
+    "extractedAt": "2026-10-27"
   },
   "nodes": [
     {
@@ -620,8 +620,8 @@
           "it": "Cerca nella palude tracce dell'origine del barile"
         },
         {
-          "en": "Take a photo of the barrel truck",
-          "it": "Scatta una foto del camion con il barile"
+          "en": "Transmit the location of the barrel truck",
+          "it": "Trasmetti la posizione del camion con il barile"
         },
         {
           "en": "Search the truck for clues about the saboteur's identity",
@@ -4185,7 +4185,14 @@
       "name": "Picking Up The Pieces",
       "nameIT": "Raccogliere i pezzi",
       "trader": "shani",
-      "map": null,
+      "map": [
+        "dam_battlegrounds",
+        "the_blue_gate",
+        "the_spaceport",
+        "riven_tide",
+        "stella_montis",
+        "buried_city"
+      ],
       "description": "The storm has mostly settled, but much of our infrastructure has taken a proper beating. If you're hoping to stay with us, I'll need you to pull your weight in the repair efforts.",
       "descriptionIT": "La tempesta si è in gran parte placata, ma molte delle nostre infrastrutture hanno subito gravi danni. Se vuoi restare con noi, dovrai dare una mano con le riparazioni.",
       "position": {
@@ -4732,8 +4739,8 @@
       ],
       "objectives": [
         {
-          "en": "Take a Photo of any of the Rovers in the Sandbox",
-          "it": "Scatta una foto di uno dei Rover nel sandbox"
+          "en": "Inspect any of the Rovers in the Sandbox",
+          "it": "Ispeziona uno dei Rover nel sandbox"
         },
         {
           "en": "Search the papers in the Security Checkpoint room by the Lobby",
@@ -5810,7 +5817,7 @@
         },
         {
           "en": "Search for the Gondola Prototype at the top of the Dried Riverbed",
-          "it": "Cerca il prototipo di Gondola in cima al fiume prosciugato"
+          "it": "Cerca il prototipo di Gondola in cima al letto del fiume prosciugato"
         },
         {
           "en": "Install ARC Performance Steel",

@@ -181,15 +181,6 @@
       "detectedAt": "2026-10-12"
     },
     {
-      "id": "laser-trap-smoke",
-      "key": "subcategory",
-      "kind": "changed",
-      "oldUpstream": "Quick Use",
-      "newUpstream": "",
-      "overrideVal": "Trap",
-      "detectedAt": "2026-10-12"
-    },
-    {
       "id": "light-impact-grenade",
       "key": "subcategory",
       "kind": "changed",
@@ -295,33 +286,6 @@
       "oldUpstream": "Quick Use",
       "newUpstream": "",
       "overrideVal": "Grenade",
-      "detectedAt": "2026-10-12"
-    },
-    {
-      "id": "smoke-grenade",
-      "key": "subcategory",
-      "kind": "changed",
-      "oldUpstream": "Quick Use",
-      "newUpstream": null,
-      "overrideVal": "Grenade",
-      "detectedAt": "2026-10-12"
-    },
-    {
-      "id": "snap-blast-grenade",
-      "key": "subcategory",
-      "kind": "changed",
-      "oldUpstream": "Quick Use",
-      "newUpstream": null,
-      "overrideVal": "Grenade",
-      "detectedAt": "2026-10-12"
-    },
-    {
-      "id": "snap-hook",
-      "key": "subcategory",
-      "kind": "changed",
-      "oldUpstream": "Quick Use",
-      "newUpstream": null,
-      "overrideVal": "Gadget",
       "detectedAt": "2026-10-12"
     },
     {

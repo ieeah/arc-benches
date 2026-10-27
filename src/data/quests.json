@@ -806,10 +806,10 @@
             },
             {
               "id": "a-toxic-trail-action-3",
-              "label": "Take a photo of the barrel truck",
+              "label": "Transmit the location of the barrel truck",
               "translations": {
                 "it": {
-                  "label": "Scatta una foto del camion con il barile"
+                  "label": "Trasmetti la posizione del camion con il barile"
                 }
               }
             },
@@ -6495,10 +6495,10 @@
           "actions": [
             {
               "id": "snap-and-salvage-action-1",
-              "label": "Take a Photo of any of the Rovers in the Sandbox",
+              "label": "Inspect any of the Rovers in the Sandbox",
               "translations": {
                 "it": {
-                  "label": "Scatta una foto di uno dei Rover nel sandbox"
+                  "label": "Ispeziona uno dei Rover nel sandbox"
                 }
               }
             },
@@ -8135,7 +8135,7 @@
               "label": "Search for the Gondola Prototype at the top of the Dried Riverbed",
               "translations": {
                 "it": {
-                  "label": "Cerca il prototipo di Gondola in cima al fiume prosciugato"
+                  "label": "Cerca il prototipo di Gondola in cima al letto del fiume prosciugato"
                 }
               }
             },
