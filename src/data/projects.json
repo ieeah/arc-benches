@@ -724,6 +724,175 @@
           "tieredActions": []
         }
       ]
+    },
+    {
+      "id": "souls-offering",
+      "name": "Soul's Offering",
+      "translations": {
+        "it": {
+          "name": "Offerta dell'anima",
+          "description": "Mentre in superficie infuria la lotta contro l'ARC, alcuni abitanti di Toledo si fermano a fare i conti con il passato. I Raider delle diverse contrade di Toledo (gli industriosi Ferroviani, i Vaultoni isolati e i caparbi Murtetani) celebrano l'Offerta dell'anima costruendo altari in onore dei Raider che li hanno preceduti."
+        }
+      },
+      "maxLevel": 4,
+      "listType": "project",
+      "extractionWiped": false,
+      "description": "As the fight against ARC rages on the surface, some in Toledo have paused to grapple with the past. Raiders from the different contradas of Toledo – the industrious Ferrovians, the sealed off Vaultons, and the willful Murtetans – celebrate Soul's Offering by building shrines to the Raiders who came before.",
+      "levels": [
+        {
+          "level": 1,
+          "requirementItemIds": [
+            {
+              "itemId": "dead-flowers",
+              "quantity": 1
+            },
+            {
+              "itemId": "rock-salt",
+              "quantity": 2
+            },
+            {
+              "itemId": "arc-alloy",
+              "quantity": 15
+            },
+            {
+              "itemId": "expired-respirator",
+              "quantity": 1
+            }
+          ],
+          "rewards": [
+            {
+              "itemId": "stiletto-ii",
+              "quantity": 1
+            },
+            {
+              "itemId": "extended-barrel-i",
+              "quantity": 1
+            },
+            {
+              "itemId": "angled-grip-ii",
+              "quantity": 1
+            },
+            {
+              "itemId": "stable-stock-ii",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "requirementItemIds": [
+            {
+              "itemId": "dead-flowers",
+              "quantity": 3
+            },
+            {
+              "itemId": "railway-lantern",
+              "quantity": 2
+            },
+            {
+              "itemId": "advanced-arc-powercell",
+              "quantity": 15
+            },
+            {
+              "itemId": "remote-raider-flare",
+              "quantity": 10
+            }
+          ],
+          "rewards": [
+            {
+              "itemId": "torrente-ii",
+              "quantity": 1
+            },
+            {
+              "itemId": "compensator-iii",
+              "quantity": 1
+            },
+            {
+              "itemId": "extended-medium-mag-iii",
+              "quantity": 1
+            },
+            {
+              "itemId": "stable-stock-iii",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "requirementItemIds": [
+            {
+              "itemId": "fancy-plate",
+              "quantity": 2
+            },
+            {
+              "itemId": "mask-fragment",
+              "quantity": 1
+            },
+            {
+              "itemId": "insulation-roll",
+              "quantity": 1
+            },
+            {
+              "itemId": "fertilizer",
+              "quantity": 5
+            }
+          ],
+          "rewards": [
+            {
+              "itemId": "vulcano-i",
+              "quantity": 1
+            },
+            {
+              "itemId": "shotgun-silencer",
+              "quantity": 1
+            },
+            {
+              "itemId": "extended-shotgun-mag-iii",
+              "quantity": 1
+            },
+            {
+              "itemId": "fireworks-box",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "level": 4,
+          "requirementItemIds": [],
+          "actions": [
+            {
+              "id": "souls-offering-firework",
+              "label": "Set off a firework on the rooftop of the Santa Maria Houses to honor the fallen",
+              "translations": {
+                "it": {
+                  "label": "Accendi un fuoco d'artificio sul tetto delle Residenze Santa Maria per onorare i caduti"
+                }
+              },
+              "maps": [
+                "buried-city"
+              ],
+              "carryItems": [
+                {
+                  "itemId": "fireworks-box",
+                  "quantity": 1
+                }
+              ]
+            }
+          ],
+          "rewards": [
+            {
+              "itemId": "pilgrim-backpack",
+              "quantity": 1
+            },
+            {
+              "itemId": "offering-display-table-design",
+              "quantity": 1
+            }
+          ]
+        }
+      ],
+      "startDate": "2026-10-27T00:00:00.000Z",
+      "expirationDate": "2026-11-16T00:00:00.000Z"
     }
   ]
 }
