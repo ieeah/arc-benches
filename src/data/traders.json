@@ -1,0 +1,545 @@
+{
+  "syncedAt": "2026-11-01T19:09:52.808Z",
+  "items": [
+    {
+      "id": "barricade-kit",
+      "trader": "apollo",
+      "price": 1920
+    },
+    {
+      "id": "blaze-grenade",
+      "trader": "apollo",
+      "price": 4800
+    },
+    {
+      "id": "dockmasters-detector",
+      "trader": "apollo",
+      "price": 1920
+    },
+    {
+      "id": "door-blocker",
+      "trader": "apollo",
+      "price": 810
+    },
+    {
+      "id": "gas-grenade",
+      "trader": "apollo",
+      "price": 810
+    },
+    {
+      "id": "heavy-fuze-grenade",
+      "trader": "apollo",
+      "price": 4800
+    },
+    {
+      "id": "light-impact-grenade",
+      "trader": "apollo",
+      "price": 810
+    },
+    {
+      "id": "noisemaker",
+      "trader": "apollo",
+      "price": 1920
+    },
+    {
+      "id": "pulse-mine",
+      "trader": "apollo",
+      "price": 1410
+    },
+    {
+      "id": "recorder",
+      "trader": "apollo",
+      "price": 3000
+    },
+    {
+      "id": "seeker-grenade",
+      "trader": "apollo",
+      "price": 1920
+    },
+    {
+      "id": "shrapnel-grenade",
+      "trader": "apollo",
+      "price": 2400
+    },
+    {
+      "id": "smoke-grenade",
+      "trader": "apollo",
+      "price": 3000
+    },
+    {
+      "id": "snap-blast-grenade",
+      "trader": "apollo",
+      "price": 2400
+    },
+    {
+      "id": "surge-coil",
+      "trader": "apollo",
+      "price": 6300
+    },
+    {
+      "id": "tagging-grenade",
+      "trader": "apollo",
+      "price": 3000
+    },
+    {
+      "id": "trigger-nade",
+      "trader": "apollo",
+      "price": 3000
+    },
+    {
+      "id": "zipline",
+      "trader": "apollo",
+      "price": 3000
+    },
+    {
+      "id": "battery",
+      "trader": "celeste",
+      "price": 5
+    },
+    {
+      "id": "canister",
+      "trader": "celeste",
+      "price": 6
+    },
+    {
+      "id": "chemicals",
+      "trader": "celeste",
+      "price": 1
+    },
+    {
+      "id": "complex-gun-parts",
+      "trader": "celeste",
+      "price": 60
+    },
+    {
+      "id": "duct-tape-recipe",
+      "trader": "celeste",
+      "price": 6
+    },
+    {
+      "id": "exodus-modules",
+      "trader": "celeste",
+      "price": 55
+    },
+    {
+      "id": "fabric",
+      "trader": "celeste",
+      "price": 1
+    },
+    {
+      "id": "great-muullein",
+      "trader": "celeste",
+      "price": 5
+    },
+    {
+      "id": "heavy-gun-parts",
+      "trader": "celeste",
+      "price": 15
+    },
+    {
+      "id": "light-gun-parts",
+      "trader": "celeste",
+      "price": 15
+    },
+    {
+      "id": "magnet",
+      "trader": "celeste",
+      "price": 6
+    },
+    {
+      "id": "medium-gun-parts",
+      "trader": "celeste",
+      "price": 15
+    },
+    {
+      "id": "metal-parts",
+      "trader": "celeste",
+      "price": 1
+    },
+    {
+      "id": "moss",
+      "trader": "celeste",
+      "price": 10
+    },
+    {
+      "id": "oil",
+      "trader": "celeste",
+      "price": 6
+    },
+    {
+      "id": "planks",
+      "trader": "celeste",
+      "price": 3
+    },
+    {
+      "id": "plastic-parts",
+      "trader": "celeste",
+      "price": 1
+    },
+    {
+      "id": "processor",
+      "trader": "celeste",
+      "price": 10
+    },
+    {
+      "id": "rope",
+      "trader": "celeste",
+      "price": 10
+    },
+    {
+      "id": "rubber-parts-recipe",
+      "trader": "celeste",
+      "price": 1
+    },
+    {
+      "id": "sensors-recipe",
+      "trader": "celeste",
+      "price": 10
+    },
+    {
+      "id": "sheet-metal",
+      "trader": "celeste",
+      "price": 3
+    },
+    {
+      "id": "simple-gun-parts",
+      "trader": "celeste",
+      "price": 7
+    },
+    {
+      "id": "speaker-component",
+      "trader": "celeste",
+      "price": 10
+    },
+    {
+      "id": "steel-cable",
+      "trader": "celeste",
+      "price": 20
+    },
+    {
+      "id": "spring",
+      "trader": "celeste",
+      "price": 6
+    },
+    {
+      "id": "synthesized-fuel",
+      "trader": "celeste",
+      "price": 14
+    },
+    {
+      "id": "syringe",
+      "trader": "celeste",
+      "price": 10
+    },
+    {
+      "id": "voltage-converter",
+      "trader": "celeste",
+      "price": 10
+    },
+    {
+      "id": "wires-recipe",
+      "trader": "celeste",
+      "price": 4
+    },
+    {
+      "id": "adrenaline-shot",
+      "trader": "lance",
+      "price": 900
+    },
+    {
+      "id": "bandage",
+      "trader": "lance",
+      "price": 750
+    },
+    {
+      "id": "combat-mk-1",
+      "trader": "lance",
+      "price": 1920
+    },
+    {
+      "id": "combat-mk-2",
+      "trader": "lance",
+      "price": 6000
+    },
+    {
+      "id": "combat-mk3-flanking",
+      "trader": "lance",
+      "price": 15000
+    },
+    {
+      "id": "defibrillator",
+      "trader": "lance",
+      "price": 3000
+    },
+    {
+      "id": "heavy-shield",
+      "trader": "lance",
+      "price": 16500
+    },
+    {
+      "id": "herbal-bandage",
+      "trader": "lance",
+      "price": 2700
+    },
+    {
+      "id": "light-shield",
+      "trader": "lance",
+      "price": 1920
+    },
+    {
+      "id": "looting-mk-1",
+      "trader": "lance",
+      "price": 1920
+    },
+    {
+      "id": "looting-mk-2",
+      "trader": "lance",
+      "price": 6000
+    },
+    {
+      "id": "looting-mk-3-cautious",
+      "trader": "lance",
+      "price": 15000
+    },
+    {
+      "id": "medium-shield",
+      "trader": "lance",
+      "price": 6000
+    },
+    {
+      "id": "shield-recharger",
+      "trader": "lance",
+      "price": 1560
+    },
+    {
+      "id": "sterilized-bandage",
+      "trader": "lance",
+      "price": 6000
+    },
+    {
+      "id": "surge-shield-recharger",
+      "trader": "lance",
+      "price": 3600
+    },
+    {
+      "id": "tactical-mk-1",
+      "trader": "lance",
+      "price": 1920
+    },
+    {
+      "id": "tactical-mk-2",
+      "trader": "lance",
+      "price": 6000
+    },
+    {
+      "id": "tactical-mk-3-healing",
+      "trader": "lance",
+      "price": 15000
+    },
+    {
+      "id": "advanced-camera",
+      "trader": "shani",
+      "price": 3000
+    },
+    {
+      "id": "camera",
+      "trader": "shani",
+      "price": 1920
+    },
+    {
+      "id": "binoculars",
+      "trader": "shani",
+      "price": 1920
+    },
+    {
+      "id": "blue-light-stick",
+      "trader": "shani",
+      "price": 3000
+    },
+    {
+      "id": "firecracker",
+      "trader": "shani",
+      "price": 810
+    },
+    {
+      "id": "fireworks-box",
+      "trader": "shani",
+      "price": 6000
+    },
+    {
+      "id": "green-light-stick",
+      "trader": "shani",
+      "price": 3000
+    },
+    {
+      "id": "raider-hatch-key",
+      "trader": "shani",
+      "price": 9000
+    },
+    {
+      "id": "red-light-stick",
+      "trader": "shani",
+      "price": 3000
+    },
+    {
+      "id": "remote-raider-flare",
+      "trader": "shani",
+      "price": 810
+    },
+    {
+      "id": "yellow-light-stick",
+      "trader": "shani",
+      "price": 3000
+    },
+    {
+      "id": "angled-grip-i",
+      "trader": "tian-wen",
+      "price": 1920
+    },
+    {
+      "id": "angled-grip-ii",
+      "trader": "tian-wen",
+      "price": 6000
+    },
+    {
+      "id": "angled-grip-iii",
+      "trader": "tian-wen",
+      "price": 15000
+    },
+    {
+      "id": "arpeggio-i",
+      "trader": "tian-wen",
+      "price": 16500
+    },
+    {
+      "id": "bantam",
+      "trader": "tian-wen",
+      "price": 11400
+    },
+    {
+      "id": "burletta-i",
+      "trader": "tian-wen",
+      "price": 8700
+    },
+    {
+      "id": "energy-ammo",
+      "trader": "tian-wen",
+      "price": 3000
+    },
+    {
+      "id": "extended-light-mag-i",
+      "trader": "tian-wen",
+      "price": 1920
+    },
+    {
+      "id": "extended-light-mag-ii",
+      "trader": "tian-wen",
+      "price": 6000
+    },
+    {
+      "id": "extended-medium-mag-ii",
+      "trader": "tian-wen",
+      "price": 6000
+    },
+    {
+      "id": "ferro-i",
+      "trader": "tian-wen",
+      "price": 1425
+    },
+    {
+      "id": "ferro-iv",
+      "trader": "tian-wen",
+      "price": 8700
+    },
+    {
+      "id": "heavy-ammo",
+      "trader": "tian-wen",
+      "price": 900
+    },
+    {
+      "id": "il-toro-i",
+      "trader": "tian-wen",
+      "price": 15000
+    },
+    {
+      "id": "kettle-i",
+      "trader": "tian-wen",
+      "price": 2520
+    },
+    {
+      "id": "launcher-ammo",
+      "trader": "tian-wen",
+      "price": 4500
+    },
+    {
+      "id": "light-ammo",
+      "trader": "tian-wen",
+      "price": 900
+    },
+    {
+      "id": "medium-ammo",
+      "trader": "tian-wen",
+      "price": 900
+    },
+    {
+      "id": "muzzle-brake-i",
+      "trader": "tian-wen",
+      "price": 1920
+    },
+    {
+      "id": "osprey-i",
+      "trader": "tian-wen",
+      "price": 21000
+    },
+    {
+      "id": "padded-stock",
+      "trader": "tian-wen",
+      "price": 15000
+    },
+    {
+      "id": "rascal",
+      "trader": "tian-wen",
+      "price": 21000
+    },
+    {
+      "id": "renegade-i",
+      "trader": "tian-wen",
+      "price": 21000
+    },
+    {
+      "id": "shotgun-ammo",
+      "trader": "tian-wen",
+      "price": 900
+    },
+    {
+      "id": "shotgun-choke-ii",
+      "trader": "tian-wen",
+      "price": 6000
+    },
+    {
+      "id": "silencer-i",
+      "trader": "tian-wen",
+      "price": 6000
+    },
+    {
+      "id": "stable-stock-iii",
+      "trader": "tian-wen",
+      "price": 15000
+    },
+    {
+      "id": "stitcher-i",
+      "trader": "tian-wen",
+      "price": 2400
+    },
+    {
+      "id": "torrente-i",
+      "trader": "tian-wen",
+      "price": 21000
+    },
+    {
+      "id": "vertical-grip-ii",
+      "trader": "tian-wen",
+      "price": 6000
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import {
   getActiveExpeditionPure,
 } from '@/store/selectors';
 import { REFINER_ID } from '@/store/gameData';
+import { getTraderPurchase, getTraderDisplayName, type TraderId } from '@/lib/traders';
 import { safeLS } from '@/lib/safeStorage';
 import { v } from '@/lib/validate';
 import { rarityOrder } from '@/lib/rarity';
@@ -184,6 +185,14 @@ export const StashPage = ({
       },
     },
     {
+      id: 'purchasable',
+      label: t('stash.filterPurchasable'),
+      predicate: item => {
+        const isPurchasable = getTraderPurchase(item.itemId) !== null;
+        return filterHideCompleted ? isPurchasable && !item.isCompleted : isPurchasable;
+      },
+    },
+    {
       id: 'completed',
       label: t('stash.filterCompleted'),
       predicate: item => item.isCompleted,
@@ -299,6 +308,8 @@ export const StashPage = ({
     activeSortId,
     setActiveSortId,
     processedItems,
+    groupedItems,
+    groupKeys,
   } = useListManager<StashMaterial>({
     items: missingMaterials,
     search: {
@@ -312,6 +323,13 @@ export const StashPage = ({
       options: sortOptions,
       defaultSortId: initialSortId,
     },
+    grouping: {
+      groupKey: item => {
+        const purchase = getTraderPurchase(item.itemId);
+        return purchase ? getTraderDisplayName(purchase.trader) : 'Altro';
+      },
+      defaultEnabled: true,
+    },
   });
 
   // Cliccando su una categoria impostiamo activeCategoryId senza mutare il toggle globale
@@ -320,7 +338,7 @@ export const StashPage = ({
   };
 
   const visibleActions = useMemo(() => {
-    if (activeCategoryId === 'craftable') {
+    if (activeCategoryId === 'craftable' || activeCategoryId === 'purchasable') {
       return [];
     }
     if (activeCategoryId === 'missing') {
@@ -435,8 +453,93 @@ export const StashPage = ({
         </div>
       )}
 
-      {stashViewMode === 'grid' ? (
-
+      {activeCategoryId === 'purchasable' && groupedItems ? (
+        <div className="p-2 space-y-5">
+          {groupKeys.map(groupName => {
+            const groupList = groupedItems[groupName] || [];
+            if (groupList.length === 0) return null;
+            return (
+              <div key={groupName} className="space-y-2">
+                <div className="flex items-center gap-2 px-1">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    {groupName}
+                  </h3>
+                  <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300">
+                    {groupList.length}
+                  </span>
+                </div>
+                {stashViewMode === 'grid' ? (
+                  <div
+                    data-list-container
+                    className={`grid gap-2.5 ${
+                      stashGridDensity === 'compact' ? 'grid-stash-compact' : 'grid-stash-comfortable'
+                    }`}
+                  >
+                    {groupList.map(mat => (
+                      <InventoryCard
+                        key={mat.itemId}
+                        {...mat}
+                        itemInfo={itemsInfo[mat.itemId]}
+                        refinerLevel={refinerLevel}
+                        onIncrement={() => incrementItem(mat.itemId)}
+                        onDecrement={() => decrementItem(mat.itemId)}
+                        onSet={val => setItemCount(mat.itemId, val)}
+                        onOpenDetail={() => {
+                          const info = itemsInfo[mat.itemId] ?? {
+                            id: mat.itemId,
+                            name: mat.itemId,
+                            description: '',
+                            icon: null,
+                            rarity: 'Common',
+                            item_type: 'Material',
+                            subcategory: null,
+                            value: 0,
+                            workbench: null,
+                            loot_area: null,
+                            stack_size: null,
+                          };
+                          setSelectedItemForDetail(info);
+                        }}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div data-list-container="compact" className="flex flex-col gap-2">
+                    {groupList.map(mat => (
+                      <InventoryListItem
+                        key={mat.itemId}
+                        {...mat}
+                        itemInfo={itemsInfo[mat.itemId]}
+                        refinerLevel={refinerLevel}
+                        dependencies={dependenciesMap.get(mat.itemId) ?? []}
+                        onIncrement={() => incrementItem(mat.itemId)}
+                        onDecrement={() => decrementItem(mat.itemId)}
+                        onSet={val => setItemCount(mat.itemId, val)}
+                        onOpenDetail={() => {
+                          const info = itemsInfo[mat.itemId] ?? {
+                            id: mat.itemId,
+                            name: mat.itemId,
+                            description: '',
+                            icon: null,
+                            rarity: 'Common',
+                            item_type: 'Material',
+                            subcategory: null,
+                            value: 0,
+                            workbench: null,
+                            loot_area: null,
+                            stack_size: null,
+                          };
+                          setSelectedItemForDetail(info);
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : stashViewMode === 'grid' ? (
         <div
           data-list-container
           className={`p-2 grid gap-2.5 ${

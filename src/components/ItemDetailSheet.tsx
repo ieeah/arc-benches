@@ -1,7 +1,8 @@
-import { Hammer, FileJson } from "lucide-react";
+import { Hammer, ShoppingCart, FileJson } from "lucide-react";
 import type { ItemInfo } from "@/types";
 import { getRarityStyles, getRarityText } from "@/lib/rarity";
 import { refinerCraftLevel } from "@/lib/craft";
+import { getTraderPurchase, getTraderDisplayName } from "@/lib/traders";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { BottomSheet } from "@/components/BottomSheet";
@@ -27,6 +28,7 @@ export const ItemDetailSheet = ({
   const { glow } = getRarityStyles(item.rarity);
   const craftLevel = refinerCraftLevel(item);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+  const traderPurchase = getTraderPurchase(item.id);
   const displayName = getItemName(item, language);
   const displayDesc = getItemDescription(item, language);
 
@@ -133,6 +135,17 @@ export const ItemDetailSheet = ({
                   ? "Craftable now"
                   : "Craftabile ora"
                 : `Refiner Lvl ${craftLevel}`}
+            </span>
+          </div>
+        )}
+        {traderPurchase !== null && (
+          <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
+            <span className="text-gray-400 font-medium">Shop</span>
+            <span className="flex items-center gap-1.5 font-semibold text-sky-500 dark:text-sky-400">
+              <ShoppingCart size={14} />
+              <span>
+                {getTraderDisplayName(traderPurchase.trader)} ({traderPurchase.price.toLocaleString(language === "en" ? "en-US" : "it-IT")} {language === "en" ? "Coins" : "Monete"})
+              </span>
             </span>
           </div>
         )}

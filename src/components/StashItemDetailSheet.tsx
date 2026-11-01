@@ -1,7 +1,8 @@
-import { CheckCircle2, Hammer, ClipboardList, FileJson, Clock } from 'lucide-react';
+import { CheckCircle2, Hammer, ShoppingCart, ClipboardList, FileJson, Clock } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
+import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
 import { getLootAreas } from '@/lib/lootArea';
 import { formatTimeRemaining } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
@@ -10,7 +11,6 @@ import { CategoryBadge } from '@/components/CategoryBadge';
 import { BottomSheet } from '@/components/BottomSheet';
 import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
-
 
 interface StashItemDetailSheetProps {
   item: ItemInfo;
@@ -35,6 +35,7 @@ export const StashItemDetailSheet = ({
   const { glow } = getRarityStyles(item.rarity);
   const craftLevel = refinerCraftLevel(item);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+  const traderPurchase = getTraderPurchase(item.id);
   const lootAreas = getLootAreas(item.loot_area, 15);
   const isCompleted = owned >= required;
   const missing = Math.max(0, required - owned);
@@ -163,6 +164,29 @@ export const StashItemDetailSheet = ({
         </div>
       )}
 
+      {/* ── SEZIONE COMMERCIANTE (se acquistabile) ── */}
+      {traderPurchase !== null && (
+        <div className="flex items-center justify-between p-3 rounded-xl bg-sky-50/60 dark:bg-sky-950/20 border border-sky-200/80 dark:border-sky-800/40">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="p-2 rounded-lg bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-300">
+              <ShoppingCart size={16} />
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-gray-900 dark:text-gray-100">
+                {t('stash.purchasableFromTraderDetail')}
+              </p>
+              <p className="text-[11px] text-sky-700 dark:text-sky-300 font-medium">
+                {getTraderDisplayName(traderPurchase.trader)} • {traderPurchase.price.toLocaleString(language === 'en' ? 'en-US' : 'it-IT')} {language === 'en' ? 'Coins' : 'Monete'}
+              </p>
+            </div>
+          </div>
+
+          <span className="px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 bg-sky-500/15 text-sky-600 dark:text-sky-300 border border-sky-500/30">
+            {t('stash.available')}
+          </span>
+        </div>
+      )}
+
       {/* ── SEZIONE 3: ZONE DI LOOT & PROVENIENZA ── */}
       <div>
         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
@@ -257,7 +281,6 @@ export const StashItemDetailSheet = ({
                 </div>
 
                 <div className="text-right shrink-0 pl-3">
-
                   <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-blue-100/70 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">
                     ×{dep.quantity}
                   </span>

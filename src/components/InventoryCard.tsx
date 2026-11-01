@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { CheckCircle2, Hammer } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
+import { getTraderPurchase } from '@/lib/traders';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
 import { QuantityStepper } from '@/components/QuantityStepper';
+import { RefinerBadge } from '@/components/RefinerBadge';
+import { TraderBadge } from '@/components/TraderBadge';
 import { useTranslation, getItemName } from '@/i18n';
 
 export const InventoryCard = ({
@@ -35,6 +38,7 @@ export const InventoryCard = ({
   const { border, glow } = getRarityStyles(itemInfo?.rarity);
   const craftLevel = refinerCraftLevel(itemInfo);
   const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+  const traderPurchase = getTraderPurchase(itemId);
   const [prevOwned, setPrevOwned] = useState(owned);
   const [tempValue, setTempValue] = useState(owned.toString());
 
@@ -57,7 +61,7 @@ export const InventoryCard = ({
 
   return (
     <div
-      className={`flex flex-col p-2.5 rounded-[28px] card-concentric-28 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all ${isCompleted ? 'opacity-40 grayscale-[0.8]' : ''}`}
+      className={`flex flex-col p-2.5 rounded-[28px] card-concentric-28 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all ${isCompleted ? 'opacity-60 grayscale-[0.45]' : ''}`}
     >
       <ItemCardFrameV2
         icon={itemInfo?.icon}
@@ -68,19 +72,30 @@ export const InventoryCard = ({
         className={`mb-2 ${!isCompleted ? glow : ''}`}
         imgClassName="max-w-full max-h-full object-contain"
         topLeftSlot={
-          craftLevel !== null ? (
-            <div
-              title={
-                craftableNow
-                  ? t('stash.craftableNowInRefiner')
-                  : t('stash.requiresRefinerLevelShort', { level: craftLevel, current: refinerLevel })
-              }
-              className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wide text-white ${
-                craftableNow ? 'bg-emerald-500' : 'bg-amber-500'
-              }`}
-            >
-              <Hammer size={9} />
-              Refiner{craftLevel === 2 ? ' II' : ''}
+          (craftLevel !== null || traderPurchase !== null) ? (
+            <div className="flex items-center gap-1 max-w-[calc(100%-1.5rem)]">
+              {craftLevel !== null && (
+                <RefinerBadge
+                  craftLevel={craftLevel}
+                  craftableNow={craftableNow}
+                  shortLabel={traderPurchase !== null}
+                  title={
+                    craftableNow
+                      ? t('stash.craftableNowInRefiner')
+                      : t('stash.requiresRefinerLevelShort', { level: craftLevel, current: refinerLevel })
+                  }
+                />
+              )}
+              {traderPurchase !== null && (
+                <TraderBadge
+                  trader={traderPurchase.trader}
+                  price={traderPurchase.price}
+                  title={t('stash.purchasableFromTrader', {
+                    trader: traderPurchase.trader,
+                    price: traderPurchase.price.toLocaleString(),
+                  })}
+                />
+              )}
             </div>
           ) : undefined
         }

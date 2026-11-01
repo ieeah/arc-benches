@@ -95,7 +95,7 @@ Changelog: [changelog/0.4.0.md](../changelog/0.4.0.md)
 ## 0.5.0 "Segnale Radio" — Fondamenta Dev e Dati: liste, pass, progetti, database — Parziale
 Obiettivo: mettere le basi perché lo sviluppatore possa gestire liste, pass, progetti e dati senza toccare il codice.
 Changelog (bozza in lavorazione, comprende le aggiunte non pianificate): [changelog/0.5.0.md](../changelog/0.5.0.md)
-Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #86, #108, #111, #112. Ordine di lavoro (le dipendenze sono a destra di ogni voce):
+Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #86, #108, #111, #112, #129. Ordine di lavoro (le dipendenze sono a destra di ogni voce):
 - [x] #112 [Reward Pass: pass attivo cambiabile in qualsiasi momento, livello di ogni pass conservato](https://github.com/ieeah/arc-benches/issues/112) — dopo #90
 - [x] #111 [Le azioni di un livello contano solo dal livello precedente (compresa la fase attiva delle spedizioni)](https://github.com/ieeah/arc-benches/issues/111)
 - [x] #72 [Tipi liste: `listType` required e type guard](https://github.com/ieeah/arc-benches/issues/72)
@@ -105,7 +105,7 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #86, #108, #111, #
 - [x] #82 [Azioni vincolate a mappe e oggetti da portare (definisce il catalogo globale delle mappe)](https://github.com/ieeah/arc-benches/issues/82)
 - [x] #85 [Modello Reward Pass come tipo di lista + editor Dev dei pass](https://github.com/ieeah/arc-benches/issues/85) — dopo #73, #83
 - [x] #86 [Dati banchi al Lvl 3 (Frozen Trail)](https://github.com/ieeah/arc-benches/issues/86) — verificati: livelli 1-3 invariati nel gioco; Gunsmith Lvl 4, Stazione Ricerca e Outpost già integrati
-- [ ] #76 [Pagina Dev per la gestione delle quest](https://github.com/ieeah/arc-benches/issues/76) — dopo #72
+- [ ] #76 [Pagina Dev per la gestione delle quest e albero delle dipendenze](https://github.com/ieeah/arc-benches/issues/76) — dopo #72
 - [ ] #87 [Progetto Outpost completo (moduli e requisiti tra liste fatti; restano Research Bench e arredi)](https://github.com/ieeah/arc-benches/issues/87) — dopo #82, #83
 - [x] #79 [Opzione "extractionWiped" per progetti e liste (azzeramento da estrazione/wipe)](https://github.com/ieeah/arc-benches/issues/79)
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102)
@@ -114,6 +114,8 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #86, #108, #111, #
 - [x] #108 [Cestino Dev per liste e tracce eliminate, con pagina di gestione](https://github.com/ieeah/arc-benches/issues/108)
 - [x] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
 - [x] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego (RaidTheory vince)](https://github.com/ieeah/arc-benches/issues/104) — dopo #103
+- [x] #129 [Badge per gli oggetti acquistabili dai commercianti (simile al Refiner)](https://github.com/ieeah/arc-benches/issues/129)
+- [ ] #130 [Barra di progresso dell'avanzamento sulle card delle liste](https://github.com/ieeah/arc-benches/issues/130)
 
 ---
 

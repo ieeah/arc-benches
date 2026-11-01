@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, ChevronDown, Clock, Hammer, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { CheckCircle2, ChevronDown, Clock, Hammer, ShoppingCart, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import type { ItemInfo, List } from '@/types';
 import { getBaseLevel, hasDeductionConflict, isActionWindowOpen } from '@/lib/lists';
 import type { LevelBlocker } from '@/lib/levelRequirements';
@@ -9,6 +9,7 @@ import { useLevelGuard } from '@/hooks/useLevelGuard';
 import { isListExpired, formatTimeRemaining } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
 import { refinerCraftLevel } from '@/lib/craft';
+import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
 import { TieredActionTimeline } from '@/components/TieredActionTimeline';
 import { useTranslation, getItemName, getListName, getActionLabel } from '@/i18n';
 import { LevelBadge } from '@/components/LevelBadge';
@@ -43,18 +44,28 @@ const RequirementsGrid = ({
         const itemName = getItemName(item, language) || req.itemId;
         const craftLevel = refinerCraftLevel(item);
         const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+        const traderPurchase = getTraderPurchase(req.itemId);
         const owned = inventory[req.itemId] ?? 0;
         const collected = owned >= req.quantity && owned >= (totalRequired[req.itemId] ?? 0);
         return (
           <div key={req.itemId}
-            className={`text-[10px] flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-xl gap-1 min-w-0 overflow-hidden ${collected ? 'opacity-45' : ''}`}>
+            className={`text-[10px] flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-xl gap-1 min-w-0 overflow-hidden ${collected ? 'opacity-65' : ''}`}>
             <div className="flex items-center gap-1 min-w-0 overflow-hidden flex-1">
               {collected ? (
                 <CheckCircle2 size={10} className="shrink-0 text-green-500" aria-label={t('benches.alreadyCollected')} />
-              ) : craftLevel !== null && (
-                <Hammer size={10}
-                  className={`shrink-0 ${craftableNow ? 'text-emerald-500' : 'text-amber-500'}`}
-                  aria-label={craftableNow ? t('benches.craftableInRefiner') : t('benches.refinerRequired', { level: craftLevel })} />
+              ) : (
+                <>
+                  {craftLevel !== null && (
+                    <Hammer size={10}
+                      className={`shrink-0 ${craftableNow ? 'text-emerald-500' : 'text-amber-500'}`}
+                      aria-label={craftableNow ? t('benches.craftableInRefiner') : t('benches.refinerRequired', { level: craftLevel })} />
+                  )}
+                  {traderPurchase !== null && (
+                    <ShoppingCart size={10}
+                      className="shrink-0 text-sky-500 dark:text-sky-400"
+                      aria-label={t('benches.purchasableFromTrader', { trader: getTraderDisplayName(traderPurchase.trader) })} />
+                  )}
+                </>
               )}
               <span className="truncate font-semibold">{itemName}</span>
             </div>
