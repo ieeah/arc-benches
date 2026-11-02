@@ -1,6 +1,10 @@
 # AGENTS.md
 
-Questo file fornisce le linee guida e le regole operative per gli Agenti AI che lavorano su **ARC Benches**.
+Questo file fornisce una panoramica rapida e comandi utili per gli Agenti AI che lavorano su **ARC Benches**.
+
+> ⚠️ **Regole Operative e Vincoli di Progetto**:
+> Tutte le regole vincolanti (autonomia commit, convenzioni git, lockfile, UI, tracker CLI, cosa l'agente non deve fare) sono definite e consolidate in **[AGENTS-PROJECT-RULES.md](AGENTS-PROJECT-RULES.md)**.
+> Prima di qualsiasi operazione, proposta o piano, fai riferimento a quel file.
 
 ---
 
@@ -21,13 +25,6 @@ cd scripts && node fetch-arctracker.mjs                      # Rapporto locale d
 cd scripts && node fetch-quests.mjs                          # Sincronizza le 123 quest da MetaForge + ARC Tracker (--refresh per riscaricare)
 ```
 
-> ⚠️ **Gestione Lockfile (Bug npm cross-platform)**:
-> I fallback WASM (`@emnapi/*`) servono alla CI Linux ma non a Windows; rigenerare il lockfile con `node_modules` preesistente potrebbe perderli e causare il fallimento di `npm ci` in CI (`EUSAGE`).
-> **Regole**:
-> 1. Dopo OGNI `npm install` che modifica il lockfile, esegui `npm run check:lock` prima del push.
-> 2. Se fallisce, elimina SIA `node_modules` SIA `package-lock.json` e rilancia `npm install`.
-> 3. Niente dipendenze con binding nativi pesanti (`sharp`, `esbuild` standalone, ecc.) nel `package.json` radice — vanno inserite esclusivamente in `scripts/package.json`.
-
 ---
 
 ## 🛠 Cos'è questo Progetto
@@ -39,19 +36,10 @@ Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROF
 
 ---
 
-## 📐 Convenzioni e Regole di Progetto
+## 📐 Regole di Progetto
 
-- **Autonomia dei Commit**: Non effettuare MAI commit in autonomia senza esplicita autorizzazione o richiesta diretta dell'utente. Quando si lavora a un task o una issue, le modifiche devono rimanere nel working tree come modifiche non committate per permettere la revisione manuale dell'utente.
-- **Esecuzione di Lint e Build**: Non lanciare i comandi di linting (`npm run lint`) e build (`npm run build`) ad ogni singola modifica intermedia o di piccolo conto. Ha senso eseguirli solo in presenza di errori espliciti da indagare, oppure come validazione finale al completamento del task prima che l'utente effettui il commit.
-- **Commit**: Segui lo standard Conventional Commits (`type: descrizione` o `type(scope): descrizione`), con eventuale riferimento all'issue o fase (es. `feat: aggiunge pill livello attuale (#7 Fase 2)`). Nessun riferimento a strumenti AI nei commit.
-- **Release notes**: ogni `feat`/`fix`/`perf` che entra aggiunge o aggiorna una riga nella bozza `changelog/<prossima versione>.md` (sezione giusta; il lavoro non previsto in `docs/VERSIONING.md` va in «Aggiunte non pianificate»), così alla release le note sono complete. Non basta il commit: la riga si scrive nello stesso intervento.
-- **ID Oggetti**: Gli ID degli oggetti usano sempre la notazione hyphen-case (`metal-parts`), mai underscore.
-- **Modern Web Guidance**: prima di scrivere o modificare HTML/CSS/JS lato client (dialog, layout, animazioni, performance, form), cerca la guida pertinente con la skill `modern-web-guidance`. La skill non è nel repo (`.agents/` e `skills-lock.json` sono ignorati): si installa con `npx modern-web-guidance@latest install`. Google raccoglie telemetria anonima; opt-out con `DISABLE_TELEMETRY=1`.
-- **Interfaccia Utente (UI)**:
-  - Lingua della UI in italiano.
-  - Abbreviazione livelli: utilizzare sempre **"Lvl"** (non "Lv" o "Lvl.").
-  - Card con superellisse: `rounded-[24px]` o `rounded-[28px]`.
-  - **Direzione dei Drawer**: Un drawer deve aprirsi sempre dal lato del pulsante trigger (trigger in alto → `from="top"`, trigger in basso → `from="bottom"`).
+Le regole operative, le convenzioni di commit, l'uso di `gh`, le linee guida UI e la gestione del lockfile sono centralizzate in:
+👉 **[AGENTS-PROJECT-RULES.md](AGENTS-PROJECT-RULES.md)**
 
 ---
 
@@ -60,6 +48,7 @@ Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROF
 Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per la contestualizzazione rapida + cartella `docs/` per la documentazione tecnica di dettaglio.
 
 ### File in Radice
+- [AGENTS-PROJECT-RULES.md](AGENTS-PROJECT-RULES.md) — Regole e vincoli operativi vincolanti per gli agenti.
 - [PROJECT-PROFILE.md](PROJECT-PROFILE.md) — Profilo sintetico condiviso del progetto.
 - [README.md](README.md) — Presentazione pubblica, funzionalità e setup rapido.
 
@@ -96,4 +85,3 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/adrs/006-feature-flags-da-seed-con-override-locale.md](docs/adrs/006-feature-flags-da-seed-con-override-locale.md) — Feature flag da seed con override locale (bozza).
 - [docs/adrs/007-strumenti-dev-bozze-a-differenze-e-applica.md](docs/adrs/007-strumenti-dev-bozze-a-differenze-e-applica.md) — Strumenti Dev: bozze a differenze e «Applica» (bozza).
 - [docs/adrs/008-reward-pass-come-lista-con-tracce-generiche.md](docs/adrs/008-reward-pass-come-lista-con-tracce-generiche.md) — Reward Pass come lista con tracce generiche (bozza).
-

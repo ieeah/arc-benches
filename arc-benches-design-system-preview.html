@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arc Raiders — Design System & UI Specification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600;700&family=Prompt:wght@500;600;700&family=Urbanist:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        /* Base Canvas & Surfaces */
+        --arc-bg-base: #0c1015;
+        --arc-bg-surface: #141a22;
+        --arc-bg-elevated: #1d2430;
+        --arc-bg-overlay: rgba(12, 16, 21, 0.9);
+
+        /* Borders & Dividers */
+        --arc-border-subtle: rgba(255, 255, 255, 0.12);
+        --arc-border-medium: rgba(255, 255, 255, 0.25);
+        --arc-border-focus: #4fa8db;
+        --arc-border-width-default: 1px;
+        --arc-border-width-active: 2px;
+
+        /* Brand Stripes & Skill Branches */
+        --arc-accent-mobility: #eab308;
+        --arc-accent-conditioning: #ef4444;
+        --arc-accent-survival: #22c55e;
+        --arc-accent-arc-tech: #0284c7;
+
+        /* Item Rarity Hierarchy */
+        --arc-rarity-common: #929292;
+        --arc-rarity-uncommon: #64b978;
+        --arc-rarity-rare: #4fa8db;
+        --arc-rarity-epic: #b6499a;
+        --arc-rarity-legendary: #ff9933;
+        --arc-rarity-blueprint: #4258e0;
+
+        /* Tactical HUD & Status */
+        --arc-hud-shield: #38bdf8;
+        --arc-hud-health: #22c55e;
+        --arc-hud-danger: #ef4444;
+        --arc-hud-extract-active: #f59e0b;
+        --arc-hud-extract-closed: #64748b;
+
+        /* Typography Tokens */
+        --arc-font-display: "Urbanist", -apple-system, sans-serif;
+        --arc-font-heading: "Urbanist", -apple-system, sans-serif;
+        --arc-font-subheading: "Prompt", -apple-system, sans-serif;
+        --arc-font-body: "Barlow", -apple-system, sans-serif;
+        --arc-font-telemetry: "JetBrains Mono", monospace;
+
+        /* Text Colors */
+        --arc-text-primary: #f8fafc;
+        --arc-text-secondary: #94a3b8;
+        --arc-text-muted: #64748b;
+
+        /* Geometry & Radii */
+        --arc-radius-none: 0px;
+        --arc-radius-sm: 2px;
+        --arc-radius-md: 4px;
+        --arc-radius-lg: 8px;
+
+        /* Spacing Scale */
+        --arc-space-xxs: 2px;
+        --arc-space-xs: 4px;
+        --arc-space-sm: 8px;
+        --arc-space-md: 16px;
+        --arc-space-lg: 24px;
+        --arc-space-xl: 32px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--arc-bg-base);
+        color: var(--arc-text-primary);
+        font-family: var(--arc-font-body);
+        font-size: 15px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        padding: 40px 24px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Header & Brand Emblem */
+      header {
+        border-bottom: 1px solid var(--arc-border-subtle);
+        padding-bottom: 28px;
+        margin-bottom: 40px;
+      }
+
+      .brand-stripe-bar {
+        display: flex;
+        gap: 4px;
+        height: 4px;
+        width: 160px;
+        margin-bottom: 16px;
+      }
+
+      .stripe {
+        flex: 1;
+        height: 100%;
+      }
+
+      .stripe-mob {
+        background: var(--arc-accent-mobility);
+      }
+      .stripe-con {
+        background: var(--arc-accent-conditioning);
+      }
+      .stripe-sur {
+        background: var(--arc-accent-survival);
+      }
+      .stripe-arc {
+        background: var(--arc-accent-arc-tech);
+      }
+
+      h1 {
+        font-family: var(--arc-font-heading);
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .doc-meta {
+        font-family: var(--arc-font-telemetry);
+        font-size: 13px;
+        color: var(--arc-text-secondary);
+      }
+
+      /* Section Structure */
+      section {
+        background: var(--arc-bg-surface);
+        border: 1px solid var(--arc-border-subtle);
+        border-radius: var(--arc-radius-md);
+        padding: 28px;
+        margin-bottom: 32px;
+      }
+
+      h2 {
+        font-family: var(--arc-font-subheading);
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--arc-text-primary);
+        border-left: 3px solid var(--arc-border-focus);
+        padding-left: 12px;
+        margin-bottom: 20px;
+      }
+
+      p {
+        margin-bottom: 16px;
+        color: var(--arc-text-secondary);
+      }
+
+      /* Color Swatch Grids */
+      .palette-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      .swatch-card {
+        background: var(--arc-bg-base);
+        border: 1px solid var(--arc-border-subtle);
+        border-radius: var(--arc-radius-sm);
+        overflow: hidden;
+      }
+
+      .swatch-color {
+        height: 56px;
+        width: 100%;
+      }
+
+      .swatch-meta {
+        padding: 10px 12px;
+        font-family: var(--arc-font-telemetry);
+        font-size: 12px;
+      }
+
+      .swatch-name {
+        font-weight: 700;
+        color: var(--arc-text-primary);
+        margin-bottom: 2px;
+      }
+
+      .swatch-hex {
+        color: var(--arc-text-secondary);
+      }
+
+      /* Data Tables */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--arc-border-subtle);
+        padding: 10px 14px;
+        text-align: left;
+      }
+
+      th {
+        background: var(--arc-bg-elevated);
+        font-family: var(--arc-font-subheading);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        color: var(--arc-text-primary);
+      }
+
+      td.mono {
+        font-family: var(--arc-font-telemetry);
+        font-size: 13px;
+      }
+
+      /* Component Previews */
+      .component-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        margin-top: 16px;
+      }
+
+      .btn {
+        font-family: var(--arc-font-subheading);
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 10px 20px;
+        border-radius: var(--arc-radius-sm);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
+        transition: all 120ms ease;
+      }
+
+      .btn-primary {
+        background: var(--arc-border-focus);
+        color: #0c1015;
+      }
+
+      .btn-primary:hover {
+        background: #60b7ea;
+        transform: translateX(2px);
+      }
+
+      .btn-ghost {
+        background: var(--arc-bg-surface);
+        border-color: var(--arc-border-medium);
+        color: var(--arc-text-primary);
+      }
+
+      .btn-ghost:hover {
+        border-color: var(--arc-border-focus);
+        background: var(--arc-bg-elevated);
+      }
+
+      .btn-destructive {
+        background: rgba(239, 68, 68, 0.15);
+        border-color: var(--arc-hud-danger);
+        color: var(--arc-hud-danger);
+      }
+
+      /* Hold-to-Confirm Component */
+      .hold-prompt {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--arc-bg-elevated);
+        border: 1px solid var(--arc-border-subtle);
+        border-radius: var(--arc-radius-sm);
+        padding: 8px 16px;
+        font-family: var(--arc-font-subheading);
+        font-size: 13px;
+        text-transform: uppercase;
+      }
+
+      .hold-box {
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--arc-border-focus);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--arc-font-telemetry);
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--arc-border-focus);
+        position: relative;
+      }
+
+      /* Inventory Slot Previews */
+      .slots-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .slot {
+        width: 64px;
+        height: 64px;
+        background: var(--arc-bg-base);
+        border: 1px solid var(--arc-border-subtle);
+        border-radius: var(--arc-radius-sm);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 4px;
+      }
+
+      .slot.safe-pocket {
+        background: repeating-linear-gradient(
+          45deg,
+          rgba(234, 179, 8, 0.05),
+          rgba(234, 179, 8, 0.05) 6px,
+          rgba(12, 16, 21, 0.95) 6px,
+          rgba(12, 16, 21, 0.95) 12px
+        );
+        border-color: var(--arc-accent-mobility);
+      }
+
+      .slot-tier-bar {
+        height: 3px;
+        width: 100%;
+        border-radius: 1px;
+      }
+
+      .slot-qty {
+        align-self: flex-end;
+        font-family: var(--arc-font-telemetry);
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--arc-text-primary);
+      }
+
+      /* HUD Visualizer */
+      .hud-preview {
+        background: radial-gradient(circle at center, #17202b 0%, #0c1015 100%);
+        border: 1px solid var(--arc-border-subtle);
+        border-radius: var(--arc-radius-md);
+        height: 300px;
+        position: relative;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 16px;
+      }
+
+      .hud-top-compass {
+        align-self: center;
+        text-align: center;
+        font-family: var(--arc-font-telemetry);
+      }
+
+      .compass-tape {
+        letter-spacing: 4px;
+        font-size: 12px;
+        color: var(--arc-text-secondary);
+        border-bottom: 1px solid var(--arc-border-medium);
+        padding-bottom: 4px;
+        margin-bottom: 4px;
+      }
+
+      .compass-timer {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--arc-text-primary);
+      }
+
+      .hud-bottom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+
+      .hud-vitals {
+        width: 200px;
+      }
+
+      .bar-wrap {
+        margin-bottom: 6px;
+      }
+
+      .bar-label {
+        font-family: var(--arc-font-telemetry);
+        font-size: 10px;
+        color: var(--arc-text-muted);
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+
+      .bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 1px;
+        overflow: hidden;
+      }
+
+      .bar-shield {
+        background: var(--arc-hud-shield);
+        width: 85%;
+      }
+      .bar-health {
+        background: var(--arc-hud-health);
+        width: 100%;
+      }
+
+      .hud-ammo {
+        text-align: right;
+        font-family: var(--arc-font-telemetry);
+      }
+
+      .hud-ammo-val {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--arc-text-primary);
+      }
+
+      .hud-ammo-type {
+        font-size: 11px;
+        color: var(--arc-text-secondary);
+        text-transform: uppercase;
+      }
+
+      pre {
+        background: var(--arc-bg-base);
+        border: 1px solid var(--arc-border-subtle);
+        border-radius: var(--arc-radius-sm);
+        padding: 16px;
+        overflow-x: auto;
+        font-family: var(--arc-font-telemetry);
+        font-size: 12px;
+        color: #7dd3fc;
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="brand-stripe-bar">
+          <div class="stripe stripe-mob"></div>
+          <div class="stripe stripe-con"></div>
+          <div class="stripe stripe-sur"></div>
+          <div class="stripe stripe-arc"></div>
+        </div>
+        <h1>Arc Raiders — UI / UX Design System</h1>
+        <div class="doc-meta">
+          Specifica Tecnica di Produzione & Design Tokens • Versione Corretta
+        </div>
+      </header>
+
+      <!-- 1. FONDAMENTI VISIVI -->
+      <section id="fondamenti">
+        <h2>1. Fondamenti Visivi e Direzione Artistica</h2>
+        <p>
+          L'interfaccia adotta un'estetica retro-futuristica analogica
+          ("Nasapunk") combinata con la precisione editoriale svizzera. La
+          struttura geometrica è rigorosamente ortogonale: pulsanti, card e
+          contenitori sono rettangolari a spigolo vivo o con micro-smussature
+          standard (2px o 4px). Non sono presenti smussi a 45° (chamfer) né
+          sagome a pillola arrotondata.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Pilastro di Progetto</th>
+              <th>Principio Funzionale</th>
+              <th>Riscontro nell'Interfaccia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Minimalismo Perimetrico</strong></td>
+              <td>HUD essenziale in raid</td>
+              <td>
+                Area centrale libera; indicatori confinati ai margini esterni.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Tangibilità Meccanica</strong></td>
+              <td>Modularità hardware industriale</td>
+              <td>
+                Pannelli rettangolari, micro-raggi 2-4px, bordi netti da 1px.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Stabilità Telemetrica</strong></td>
+              <td>Zero oscillazioni numeriche</td>
+              <td>
+                Caratteri monospaziati (JetBrains Mono) per dati dinamici.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 2. PALETTE CROMATICA -->
+      <section id="colori">
+        <h2>2. Specifiche Cromatiche & Riconoscimento Visivo</h2>
+
+        <p><strong>Identità di Fazione e Rami Abilità</strong></p>
+        <div class="palette-grid">
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-accent-mobility)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Mobility</div>
+              <div class="swatch-hex">#EAB308</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-accent-conditioning)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Conditioning</div>
+              <div class="swatch-hex">#EF4444</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-accent-survival)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Survival</div>
+              <div class="swatch-hex">#22C55E</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-accent-arc-tech)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">ARC Tech</div>
+              <div class="swatch-hex">#0284C7</div>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: 24px">
+          <strong>Gerarchia di Rarità dell'Equipaggiamento</strong>
+        </p>
+        <div class="palette-grid">
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-rarity-common)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Common</div>
+              <div class="swatch-hex">#929292</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-rarity-uncommon)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Uncommon</div>
+              <div class="swatch-hex">#64B978</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-rarity-rare)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Rare</div>
+              <div class="swatch-hex">#4FA8DB</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-rarity-epic)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Epic</div>
+              <div class="swatch-hex">#B6499A</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-rarity-legendary)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Legendary</div>
+              <div class="swatch-hex">#FF9933</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div
+              class="swatch-color"
+              style="background: var(--arc-rarity-blueprint)"
+            ></div>
+            <div class="swatch-meta">
+              <div class="swatch-name">Blueprint</div>
+              <div class="swatch-hex">#4258E0</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. COMPONENTI UI -->
+      <section id="componenti">
+        <h2>3. Componenti Interattivi & Slot</h2>
+
+        <p>
+          <strong>Pulsanti d'Azione e Prompt Hold-to-Confirm</strong> (Sagoma
+          quadrata smussata, non circolare)
+        </p>
+        <div class="component-row">
+          <button class="btn btn-primary">Schiera Raider</button>
+          <button class="btn btn-ghost">Dettagli Modulo</button>
+          <button class="btn btn-destructive">Scarta Risorsa</button>
+
+          <div class="hold-prompt">
+            <div class="hold-box">F</div>
+            <span>Tieni premuto per estrarre</span>
+          </div>
+        </div>
+
+        <p style="margin-top: 24px">
+          <strong
+            >Alloggiamenti Inventario (Slot 64x64px con Indicatori e Safe
+            Pocket)</strong
+          >
+        </p>
+        <div class="slots-row">
+          <!-- Common -->
+          <div class="slot">
+            <div
+              class="slot-tier-bar"
+              style="background: var(--arc-rarity-common)"
+            ></div>
+            <div class="slot-qty">x60</div>
+          </div>
+          <!-- Rare -->
+          <div class="slot">
+            <div
+              class="slot-tier-bar"
+              style="background: var(--arc-rarity-rare)"
+            ></div>
+            <div class="slot-qty">x1</div>
+          </div>
+          <!-- Legendary -->
+          <div class="slot">
+            <div
+              class="slot-tier-bar"
+              style="background: var(--arc-rarity-legendary)"
+            ></div>
+            <div class="slot-qty">x1</div>
+          </div>
+          <!-- Safe Pocket -->
+          <div class="slot safe-pocket" title="Safe Pocket (Blindata)">
+            <div
+              class="slot-tier-bar"
+              style="background: var(--arc-accent-mobility)"
+            ></div>
+            <div class="slot-qty">🔒</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. HUD TATTICO -->
+      <section id="hud">
+        <h2>4. Layout dell'In-Round Tactical HUD</h2>
+        <p>
+          L'HUD colloca i dati critici nei quattro quadranti periferici ed è
+          configurabile su quattro profili: <em>Visible</em>,
+          <em>Crosshair and Interactions Only</em>, <em>Crosshair Only</em> e
+          <em>Hidden</em> (F10 su PC).
+        </p>
+
+        <div class="hud-preview">
+          <!-- Bussola & Timer Superiore -->
+          <div class="hud-top-compass">
+            <div class="compass-tape">165 • • • S • • • 195 • • • 210</div>
+            <div class="compass-timer">18:42</div>
+          </div>
+
+          <!-- Indicatori Inferiori -->
+          <div class="hud-bottom-row">
+            <div class="hud-vitals">
+              <div class="bar-wrap">
+                <div class="bar-label">Shield Monitor</div>
+                <div class="bar"><div class="bar-shield"></div></div>
+              </div>
+              <div class="bar-wrap">
+                <div class="bar-label">Vitals</div>
+                <div class="bar"><div class="bar-health"></div></div>
+              </div>
+            </div>
+
+            <div class="hud-ammo">
+              <div class="hud-ammo-val">28 / 140</div>
+              <div class="hud-ammo-type">Tempest • Full Auto</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. DESIGN TOKENS CSS -->
+      <section id="tokens">
+        <h2>5. Libreria Tokens CSS (Estratto)</h2>
+        <pre>
+:root {
+  --arc-bg-base:              #0C1015;
+  --arc-bg-surface:           #141A22;
+  --arc-bg-elevated:          #1D2430;
+  --arc-border-subtle:        rgba(255, 255, 255, 0.12);
+  --arc-border-focus:         #4FA8DB;
+
+  --arc-accent-mobility:      #EAB308;
+  --arc-accent-conditioning:  #EF4444;
+  --arc-accent-survival:      #22C55E;
+  --arc-accent-arc-tech:      #0284C7;
+
+  --arc-rarity-common:        #929292;
+  --arc-rarity-uncommon:      #64B978;
+  --arc-rarity-rare:          #4FA8DB;
+  --arc-rarity-epic:          #B6499A;
+  --arc-rarity-legendary:     #FF9933;
+  --arc-rarity-blueprint:     #4258E0;
+
+  --arc-radius-none:          0px;
+  --arc-radius-sm:            2px;
+  --arc-radius-md:            4px;
+}
+      </pre
+        >
+      </section>
+    </div>
+  </body>
+</html>
