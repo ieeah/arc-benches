@@ -25,7 +25,14 @@ export const RefinerBadge: React.FC<RefinerBadgeProps> = ({
   const isSmall = size === 'sm' || size === 'xs';
   const iconSize = isSmall ? 7.5 : 9.5;
   const label = shortLabel ? 'Ref' : 'Refiner';
-  const suffix = craftLevel === 2 ? ' II' : '';
+  const ROMAN_NUMERALS: Record<number, string> = {
+    1: '',
+    2: ' II',
+    3: ' III',
+    4: ' IV',
+    5: ' V',
+  };
+  const suffix = ROMAN_NUMERALS[craftLevel] ?? (craftLevel > 1 ? ` ${craftLevel}` : '');
 
   return (
     <Badge

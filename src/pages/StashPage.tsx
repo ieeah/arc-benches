@@ -13,6 +13,7 @@ import {
   getActiveExpeditionPure,
 } from '@/store/selectors';
 import { REFINER_ID } from '@/store/gameData';
+import { refinerCraftLevel } from '@/lib/craft';
 import { getTraderPurchase, getTraderDisplayName, type TraderId } from '@/lib/traders';
 import { safeLS } from '@/lib/safeStorage';
 import { v } from '@/lib/validate';
@@ -180,7 +181,7 @@ export const StashPage = ({
       label: t('stash.filterCraftable'),
       predicate: item => {
         const info = itemsInfo[item.itemId];
-        const isRefiner = info?.workbench === 'Refiner';
+        const isRefiner = refinerCraftLevel(info) !== null;
         return filterHideCompleted ? isRefiner && !item.isCompleted : isRefiner;
       },
     },
