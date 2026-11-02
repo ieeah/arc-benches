@@ -69,6 +69,10 @@ Legenda: **[bug]** comportamento sbagliato · **[ux]** ritocco di interfaccia ·
 
 ## 6. Da provare ancora (non testato)
 
+- [ux/raid] **Rifiniture visive e feedback card Raid**:
+  - Quando un oggetto è segnato come completo, abbassare l'opacità dell'immagine e del colore relativo alla rarità.
+  - Abbassare leggermente la saturazione del bordo esterno della card, sia nel caso ambra (completamento parziale) sia verde (completato).
+  - Valutare di estendere la gestione del tap prolungato con animazione al centro anche alla pagina Stash.
 - [refactor/code] **Verifica adozione regole TypeScript e Mobile-First**: verificare retroattivamente che la codebase rispetti le nuove regole consolidate in `AGENTS-PROJECT-RULES.md`:
   - Utilizzo tassativo di `type` (e rimozione di `interface` su modelli, DTO, state slice e props).
   - Rispetto dei principi Mobile-First & Touch-First (aree di tocco ≥ 44×44px, micro-interazioni `active:scale-95`, accessibilità da tocco).
