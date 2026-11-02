@@ -1889,6 +1889,10 @@
           ],
           "rewards": [
             {
+              "itemId": "game-cosmetic-1798101245",
+              "quantity": 1
+            },
+            {
               "itemId": "sterilized-bandage",
               "quantity": 3
             }
@@ -3135,6 +3139,12 @@
                   "label": "Consegna la nota della pattuglia di perlustratori a Shani"
                 }
               }
+            }
+          ],
+          "rewards": [
+            {
+              "itemId": "game-cosmetic-n79868038",
+              "quantity": 1
             }
           ]
         }

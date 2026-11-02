@@ -7,7 +7,7 @@
     ],
     "totalQuests": 123,
     "totalEdges": 134,
-    "extractedAt": "2026-10-27"
+    "extractedAt": "2026-11-02"
   },
   "nodes": [
     {
@@ -1353,6 +1353,10 @@
       ],
       "rewards": [
         {
+          "itemId": "game-cosmetic-1798101245",
+          "quantity": 1
+        },
+        {
           "itemId": "sterilized-bandage",
           "quantity": 3
         }
@@ -2236,7 +2240,12 @@
       "prerequisites": [
         "the-trifecta"
       ],
-      "rewards": [],
+      "rewards": [
+        {
+          "itemId": "game-cosmetic-n79868038",
+          "quantity": 1
+        }
+      ],
       "requiredItems": [],
       "objectives": [
         {
