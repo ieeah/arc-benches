@@ -37,25 +37,6 @@
       }
     }
   },
-  "research-points": {
-    "id": "research-points",
-    "name": "Research Points",
-    "description": "Research Points are used to craft Blueprints, Designs and to research Weapon Amplification.",
-    "icon": "research-points.webp",
-    "rarity": "Common",
-    "item_type": "Currency",
-    "subcategory": "",
-    "value": null,
-    "workbench": null,
-    "loot_area": "",
-    "stack_size": null,
-    "translations": {
-      "it": {
-        "name": "Punti Ricerca",
-        "description": "I Punti Ricerca sono utilizzati per fabbricare Progetti, Design e per ricercare l'Amplificazione delle armi."
-      }
-    }
-  },
   "accessories-caposta-variant": {
     "id": "accessories-caposta-variant",
     "name": "Accessories (Caposta Variant)",
@@ -591,28 +572,6 @@
     ],
     "iconFromItem": "deadwire-outfit"
   },
-  "bar-table": {
-    "id": "bar-table",
-    "name": "Bar Table",
-    "description": "",
-    "icon": "",
-    "rarity": "Common",
-    "item_type": "Furniture",
-    "subcategory": "",
-    "value": 100,
-    "workbench": null,
-    "loot_area": "",
-    "stack_size": 1,
-    "translations": {
-      "it": {
-        "name": "Tavolo da bar"
-      }
-    },
-    "review": [
-      "Icona assente: l'immagine è sul CDN di ARC Tracker e non viene importata",
-      "Descrizione mancante"
-    ]
-  },
   "mock-scared-emote": {
     "id": "mock-scared-emote",
     "name": "Mock Scared (Emote)",
@@ -790,28 +749,6 @@
       "Rarità provvisoria (Common): da verificare in gioco",
       "Descrizione mancante",
       "Icona assente: usa il fallback della sottocategoria"
-    ]
-  },
-  "printed-fabric-chair": {
-    "id": "printed-fabric-chair",
-    "name": "Printed Fabric Chair",
-    "description": "",
-    "icon": "",
-    "rarity": "Rare",
-    "item_type": "Furniture",
-    "subcategory": "",
-    "value": null,
-    "workbench": null,
-    "loot_area": "",
-    "stack_size": 1,
-    "translations": {
-      "it": {
-        "name": "Sedia in stoffa stampata"
-      }
-    },
-    "review": [
-      "Icona assente: l'immagine è sul CDN di ARC Tracker e non viene importata",
-      "Descrizione mancante"
     ]
   },
   "ice-giant-helmet-scrappy-outfit": {

@@ -539,5 +539,14 @@
         "name": "Abisso (outfit)"
       }
     }
+  },
+  "research-points": {
+    "item_type": "Currency",
+    "translations": {
+      "it": {
+        "name": "Punti Ricerca",
+        "description": "I Punti Ricerca sono utilizzati per fabbricare Progetti, Design e per ricercare l'Amplificazione delle armi."
+      }
+    }
   }
 }
