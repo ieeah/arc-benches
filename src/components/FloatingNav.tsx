@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
 import {
   MoreHorizontal, Check, Users, X,
-  ChevronRight, ChevronLeft
+  ChevronRight, ChevronLeft, Radar
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
@@ -16,7 +16,7 @@ export type ContextAction = {
   label: string;
   onClick: () => void;
   checked?: boolean;
-  variant?: 'danger' | 'default';
+  variant?: 'danger' | 'default' | 'primary';
   dividerBefore?: boolean;
 };
 
@@ -51,6 +51,11 @@ export const FloatingNav = ({
   const activeProfileName = useAppStore(
     s => s.profiles.find(p => p.id === s.activeProfileId)?.name ?? 'Principale'
   );
+
+  // Stato Raid Plan (#117)
+  const raidPlan = useAppStore(s => s.raidPlan);
+  const hasRaidElements = (raidPlan?.actions?.length ?? 0) > 0 || (raidPlan?.items?.length ?? 0) > 0;
+  const isRaidRunning = raidPlan?.isRaidRunning ?? false;
 
   const [contextMenuOpen, setContextMenuOpen] = useState(false);
   const [profilesDrawerOpen, setProfilesDrawerOpen] = useState(false);
@@ -196,6 +201,38 @@ export const FloatingNav = ({
       {nextTargetItem.icon}
     </button>
   );
+
+  // Pulsante Centrale Raid Plan (visibile quando ci sono azioni o oggetti pianificati)
+  const raidBtn = hasRaidElements ? (
+    <div key="raid-btn" className="relative flex items-center justify-center">
+      {/* Bagliori Magici AI a 4 Colori Arc Raiders (solo quando raid in corso) */}
+      {isRaidRunning && (
+        <>
+          <span className="arc-magic-glow-blur" />
+          <span className="arc-magic-glow" />
+        </>
+      )}
+      <button
+        onClick={() => {
+          onNavigate('raid');
+          closeAll();
+          triggerHaptic(20);
+        }}
+        className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer select-none ${
+          isRaidRunning
+            ? 'bg-gray-950 text-white shadow-inner'
+            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
+        }`}
+        aria-label="Pianificazione Raid"
+        title="Pianificazione Raid"
+      >
+        <Radar
+          size={21}
+          className={isRaidRunning ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)] stroke-[2.3]' : ''}
+        />
+      </button>
+    </div>
+  ) : null;
 
   return (
     <>
@@ -363,8 +400,10 @@ export const FloatingNav = ({
                         {action.dividerBefore && <div className="mx-3 my-1 h-px bg-gray-100 dark:bg-gray-800" />}
                         <button
                           onClick={() => { action.onClick(); closeAll(); }}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-2xl text-xs font-semibold text-left transition-colors cursor-pointer ${
-                            action.variant === 'danger'
+                          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-xs font-semibold text-left transition-colors cursor-pointer ${
+                            action.variant === 'primary'
+                              ? 'bg-blue-600 text-white font-bold hover:bg-blue-500 shadow-sm shadow-blue-500/20 active:scale-98'
+                              : action.variant === 'danger'
                               ? 'text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40'
                               : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
                           }`}
@@ -390,11 +429,13 @@ export const FloatingNav = ({
             {navSide === 'right' ? (
               <>
                 {secondaryBtn}
+                {raidBtn}
                 {primaryBtn}
               </>
             ) : (
               <>
                 {primaryBtn}
+                {raidBtn}
                 {secondaryBtn}
               </>
             )}

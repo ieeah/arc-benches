@@ -10,7 +10,8 @@ export const it = {
     "settings": "Impostazioni",
     "tools": "Strumenti",
     "profile": "Profilo",
-    "manageProfiles": "Gestisci profili"
+    "manageProfiles": "Gestisci profili",
+    "raidPlan": "Pianificazione"
   },
   "stash": {
     "title": "Stash & Materiali",
@@ -512,6 +513,32 @@ export const it = {
     "inactiveMessage": "Il pass «{name}» non è più disponibile, quindi non è più il tuo pass attivo.",
     "inactiveDescription": "Il livello raggiunto resta salvato.",
     "inactiveOk": "Ho capito",
+  },
+  "raid": {
+    "title": "Pianificazione Raid",
+    "subtitle": "Preparazione tattica, obiettivi spot e materiali da estrarre.",
+    "statusActive": "Incursione In Corso",
+    "statusInactive": "Incursione Inattiva",
+    "spotActions": "Azioni Spot",
+    "spotActionsDesc": "Promemoria e micro-obiettivi da spuntare durante il raid.",
+    "actionPlaceholder": "Cosa devi fare in questo raid?",
+    "addAction": "Aggiungi",
+    "itemsToFind": "Oggetti da Recuperare",
+    "itemsToFindDesc": "Materiali cercati da reperire e consegnare allo stash.",
+    "addItem": "Aggiungi Oggetto",
+    "noActions": "Nessuna azione programmata. Aggiungi un'attività da completare nel raid.",
+    "noItems": "Nessun oggetto in lista. Seleziona i materiali da trovare.",
+    "foundAll": "Completato",
+    "apply": "Applica allo Stash",
+    "applyTitle": "Accredita bottino allo Stash",
+    "applyMessage": "Verranno accreditati allo Stash solo gli oggetti richiesti dalle liste attive. Le azioni spuntate e gli oggetti completati verranno rimossi dalla pianificazione.",
+    "applySuccess": "Accreditati {count} oggetti nello Stash.",
+    "reset": "Azzera progressi",
+    "resetTitle": "Azzera progressi raid",
+    "resetMessage": "Azzerare la quantità trovata degli oggetti e deselezionare le azioni senza cancellarli?",
+    "clear": "Elimina pianificazione",
+    "clearTitle": "Elimina intera pianificazione",
+    "clearMessage": "Svuotare tutte le azioni e gli oggetti programmati e spegnere l'incursione?"
   },
   "common": {
     "search": "Cerca…",

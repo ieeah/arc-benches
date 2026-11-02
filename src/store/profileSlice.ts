@@ -152,6 +152,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         departureWindowActive: false,
         activeRewardPass: null,
         completedRewardPasses: [],
+        raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
       };
 
       if (!profiles.some(p => p.id === entry.profile.id)) profiles = [...profiles, entry.profile];

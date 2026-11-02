@@ -100,6 +100,7 @@ describe('persistence.ts', () => {
       departureWindowActive: true,
       activeRewardPass: 'frozen-trail',
       completedRewardPasses: [{ id: 'legacy', completedAt: '2026-10-09T10:00:00.000Z' }],
+      raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: 123456789 },
     };
 
     it('saves and loads active profile state with per-profile language', () => {
@@ -259,6 +260,7 @@ describe('persistence.ts', () => {
         departureWindowActive: false,
         activeRewardPass: null,
         completedRewardPasses: [],
+        raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: 123456789 },
       });
 
       // Simulate browser reload

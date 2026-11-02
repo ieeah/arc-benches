@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import {
   Backpack, LayoutList, ScrollText, Compass, Wrench, ShieldAlert, Database,
   Dice5, Map, Layers, FlaskConical, FileJson, Languages, Settings, Route,
-  Flag, CircleHelp, Code2, Ticket,
+  Flag, CircleHelp, Code2, Ticket, Radar,
 } from 'lucide-react';
 
 /**
@@ -28,6 +28,7 @@ const REGISTRY: Record<string, typeof Backpack> = {
   flag: Flag,
   'code-2': Code2,
   ticket: Ticket,
+  radar: Radar,
 };
 
 /** Icon names selectable in the dev nav editor. */

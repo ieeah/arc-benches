@@ -259,6 +259,27 @@ export interface PersonalityProfile {
   };
 }
 
+export type RaidAction = {
+  id: string;
+  text: string;
+  completed: boolean;
+  createdAt: number;
+};
+
+export type RaidItem = {
+  id: string;
+  itemId: string;
+  targetQuantity: number;
+  foundQuantity: number;
+};
+
+export type RaidPlanState = {
+  isRaidRunning: boolean;
+  actions: RaidAction[];
+  items: RaidItem[];
+  updatedAt: number;
+};
+
 export interface AppState {
   /** Game-seed lists (the hideout workbenches), read-only — never persisted. */
   workbenches: List[];
@@ -378,6 +399,21 @@ export interface AppState {
   setBlueprintOwned: (id: string, owned: boolean) => void;
   setFilterHideOwnedBlueprints: (hide: boolean) => void;
   syncItemsOverrides?: () => void;
+
+  /** Raid Plan state for the active profile (#117) */
+  raidPlan: RaidPlanState;
+  setIsRaidRunning: (isRunning: boolean) => void;
+  addRaidAction: (text: string) => void;
+  toggleRaidAction: (id: string) => void;
+  removeRaidAction: (id: string) => void;
+  addRaidItem: (itemId: string, targetQuantity?: number) => void;
+  updateRaidItemFound: (id: string, delta: number) => void;
+  setRaidItemFoundAll: (id: string) => void;
+  updateRaidItemTarget: (id: string, targetQuantity: number) => void;
+  removeRaidItem: (id: string) => void;
+  applyRaidPlanToStash: () => { addedItemsCount: number; remainingItemsCount: number };
+  resetRaidPlanProgress: () => void;
+  clearRaidPlan: () => void;
 
   createProfile: (name: string) => void;
   switchProfile: (id: string) => void;

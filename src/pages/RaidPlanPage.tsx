@@ -1,0 +1,457 @@
+import { useState } from 'react';
+import {
+  Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus
+} from 'lucide-react';
+import { useAppStore } from '@/store';
+import { useTranslation, getItemName } from '@/i18n';
+import { StickyHeader } from '@/components/StickyHeader';
+import { ItemPicker } from '@/components/ItemPicker';
+import { ItemQuantityModal } from '@/components/ItemQuantityModal';
+import { ActionCheckbox } from '@/components/ActionCheckbox';
+import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
+import { ConfirmActionModal } from '@/components/ConfirmActionModal';
+import { useEffect } from 'react';
+import type { ItemInfo } from '@/types';
+
+export type RaidPlanPageProps = {
+  action?: 'apply' | 'reset' | 'clear' | null;
+  onActionHandled?: () => void;
+};
+
+export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}) => {
+  const { t, language } = useTranslation();
+
+  // Selettori dallo store Zustand
+  const raidPlan = useAppStore(s => s.raidPlan);
+  const itemsInfo = useAppStore(s => s.itemsInfo);
+  const setIsRaidRunning = useAppStore(s => s.setIsRaidRunning);
+  const addRaidAction = useAppStore(s => s.addRaidAction);
+  const toggleRaidAction = useAppStore(s => s.toggleRaidAction);
+  const removeRaidAction = useAppStore(s => s.removeRaidAction);
+  const addRaidItem = useAppStore(s => s.addRaidItem);
+  const updateRaidItemFound = useAppStore(s => s.updateRaidItemFound);
+  const setRaidItemFoundAll = useAppStore(s => s.setRaidItemFoundAll);
+  const updateRaidItemTarget = useAppStore(s => s.updateRaidItemTarget);
+  const removeRaidItem = useAppStore(s => s.removeRaidItem);
+  const applyRaidPlanToStash = useAppStore(s => s.applyRaidPlanToStash);
+  const resetRaidPlanProgress = useAppStore(s => s.resetRaidPlanProgress);
+  const clearRaidPlan = useAppStore(s => s.clearRaidPlan);
+
+  // Stato locale
+  const [newActionText, setNewActionText] = useState('');
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [quantityModalItem, setQuantityModalItem] = useState<{
+    item: ItemInfo;
+    initialQty: number;
+    existingPlanItemId?: string;
+  } | null>(null);
+  const [modalType, setModalType] = useState<'apply' | 'reset' | 'clear' | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
+
+  // Ascolta le azioni contestuali provenienti dal FloatingNav (...)
+  useEffect(() => {
+    if (action) {
+      setModalType(action);
+      onActionHandled?.();
+    }
+  }, [action, onActionHandled]);
+
+  const isRaidRunning = raidPlan.isRaidRunning;
+  const actions = raidPlan.actions;
+  const items = raidPlan.items;
+
+  const handleAddAction = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!newActionText.trim()) return;
+    addRaidAction(newActionText);
+    setNewActionText('');
+  };
+
+  const handlePickItem = (item: ItemInfo) => {
+    setPickerOpen(false);
+    // Cerca se l'oggetto è già presente nella pianificazione
+    const existing = items.find(i => i.itemId === item.id);
+    setQuantityModalItem({
+      item,
+      initialQty: existing ? existing.targetQuantity : 1,
+      existingPlanItemId: existing?.id,
+    });
+  };
+
+  const handleConfirmQuantity = (quantity: number) => {
+    if (!quantityModalItem) return;
+    if (quantity <= 0) {
+      if (quantityModalItem.existingPlanItemId) {
+        removeRaidItem(quantityModalItem.existingPlanItemId);
+      }
+    } else if (quantityModalItem.existingPlanItemId) {
+      updateRaidItemTarget(quantityModalItem.existingPlanItemId, quantity);
+    } else {
+      addRaidItem(quantityModalItem.item.id, quantity);
+    }
+    setQuantityModalItem(null);
+  };
+
+  const handleConfirmModal = () => {
+    if (modalType === 'apply') {
+      const res = applyRaidPlanToStash();
+      setNotification(t('raid.applySuccess').replace('{count}', String(res.addedItemsCount)));
+      setTimeout(() => setNotification(null), 3500);
+    } else if (modalType === 'reset') {
+      resetRaidPlanProgress();
+    } else if (modalType === 'clear') {
+      clearRaidPlan();
+    }
+    setModalType(null);
+  };
+
+  return (
+    <div className="pb-32 min-h-screen">
+      {/* ── HEADER STICKY ── */}
+      <StickyHeader elevated className="space-y-2 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
+              <Radar size={20} />
+            </div>
+            <div>
+              <h1 className="text-base font-bold text-gray-900 dark:text-white leading-tight">
+                {t('raid.title')}
+              </h1>
+              <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                {t('raid.subtitle')}
+              </p>
+            </div>
+          </div>
+
+          {/* Toggle Stato Incursione */}
+          <button
+            onClick={() => setIsRaidRunning(!isRaidRunning)}
+            disabled={actions.length === 0 && items.length === 0}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer border shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
+              isRaidRunning
+                ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm shadow-emerald-500/20'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
+            }`}
+            aria-label={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
+          >
+            <span
+              className={`w-2 h-2 rounded-full ${
+                isRaidRunning ? 'bg-white animate-pulse' : 'bg-gray-400'
+              }`}
+            />
+            <span>{isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}</span>
+          </button>
+        </div>
+
+        {/* ── 3 PULSANTI AZIONE COMPATTI E DISCRETI (Sotto il titolo) ── */}
+        <div className="flex items-center justify-between gap-2">
+          <button
+            onClick={() => setModalType('apply')}
+            disabled={actions.length === 0 && items.length === 0}
+            className="flex-1 h-8.5 px-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800/60 disabled:opacity-30 disabled:pointer-events-none text-xs font-bold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <PackageCheck size={14} />
+            <span className="truncate">{t('raid.apply')}</span>
+          </button>
+
+          <button
+            onClick={() => setModalType('reset')}
+            disabled={actions.length === 0 && items.length === 0}
+            className="h-8.5 px-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 disabled:opacity-30 disabled:pointer-events-none text-xs font-semibold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+            title={t('raid.reset')}
+            aria-label={t('raid.reset')}
+          >
+            <RotateCcw size={13} />
+            <span className="hidden sm:inline text-[11px]">{t('raid.reset')}</span>
+          </button>
+
+          <button
+            onClick={() => setModalType('clear')}
+            disabled={actions.length === 0 && items.length === 0}
+            className="h-8.5 px-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 border border-rose-200 dark:border-rose-800/50 disabled:opacity-30 disabled:pointer-events-none text-xs font-semibold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+            title={t('raid.clear')}
+            aria-label={t('raid.clear')}
+          >
+            <Trash2 size={13} />
+            <span className="hidden sm:inline text-[11px]">{t('raid.clear')}</span>
+          </button>
+        </div>
+      </StickyHeader>
+
+      {/* Notifica feedback */}
+      {notification && (
+        <div className="mx-4 mt-3 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
+          <PackageCheck size={16} className="shrink-0" />
+          <span>{notification}</span>
+        </div>
+      )}
+
+      <div className="p-4 space-y-6">
+        {/* ── SEZIONE 1: AZIONI SPOT ── */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-bold text-gray-900 dark:text-white">
+                {t('raid.spotActions')}
+              </h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t('raid.spotActionsDesc')}
+              </p>
+            </div>
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+              {actions.filter(a => a.completed).length}/{actions.length}
+            </span>
+          </div>
+
+          {/* Form rapido inserimento azione */}
+          <form onSubmit={handleAddAction} className="flex gap-2">
+            <input
+              type="text"
+              value={newActionText}
+              onChange={e => setNewActionText(e.target.value)}
+              placeholder={t('raid.actionPlaceholder')}
+              className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl px-3.5 py-2.5 text-xs text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
+            />
+            <button
+              type="submit"
+              disabled={!newActionText.trim()}
+              className="px-4 py-2.5 rounded-2xl bg-blue-500 hover:bg-blue-600 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1 shadow-xs"
+            >
+              <Plus size={16} />
+              <span>{t('raid.addAction')}</span>
+            </button>
+          </form>
+
+          {/* Lista azioni */}
+          {actions.length === 0 ? (
+            <div className="p-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
+              {t('raid.noActions')}
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {actions.map(action => (
+                <div
+                  key={action.id}
+                  className={`w-full flex items-center justify-between gap-2 p-2.5 rounded-2xl border transition-all ${
+                    action.completed
+                      ? 'bg-gray-50/80 dark:bg-gray-900/40 border-gray-200/60 dark:border-gray-800/60 opacity-60'
+                      : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 shadow-xs'
+                  }`}
+                >
+                  <div className="flex-1 min-w-0">
+                    <ActionCheckbox
+                      label={action.text}
+                      checked={action.completed}
+                      onToggle={() => toggleRaidAction(action.id)}
+                    />
+                  </div>
+
+                  {/* Pulsante rimozione */}
+                  <button
+                    onClick={() => removeRaidAction(action.id)}
+                    className="w-8 h-8 rounded-xl flex items-center justify-center text-gray-400 hover:text-red-500 active:scale-95 transition-colors cursor-pointer shrink-0"
+                    aria-label={t('common.delete')}
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* ── SEZIONE 2: OGGETTI DA RECUPERARE ── */}
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-bold text-gray-900 dark:text-white">
+                {t('raid.itemsToFind')}
+              </h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t('raid.itemsToFindDesc')}
+              </p>
+            </div>
+            <button
+              onClick={() => setPickerOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+            >
+              <Plus size={14} />
+              <span>{t('raid.addItem')}</span>
+            </button>
+          </div>
+
+          {items.length === 0 ? (
+            <div className="p-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
+              {t('raid.noItems')}
+            </div>
+          ) : (
+            <div className="space-y-2.5">
+              {items.map(raidItem => {
+                const info = itemsInfo[raidItem.itemId];
+                const itemName = info ? getItemName(info, language) : raidItem.itemId;
+                const isComplete = raidItem.foundQuantity >= raidItem.targetQuantity;
+
+                return (
+                  <div
+                    key={raidItem.id}
+                    className={`p-3 rounded-2xl border transition-all ${
+                      isComplete
+                        ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/40'
+                        : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 shadow-xs'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      {/* Icona Oggetto */}
+                      <div className="w-11 h-11 shrink-0">
+                        <ItemCardFrameV2
+                          icon={info?.icon}
+                          rarity={info?.rarity}
+                          compact
+                          thumb
+                        />
+                      </div>
+
+                      {/* Info Oggetto */}
+                      <div
+                        onClick={() => {
+                          if (info) {
+                            setQuantityModalItem({
+                              item: info,
+                              initialQty: raidItem.targetQuantity,
+                              existingPlanItemId: raidItem.id,
+                            });
+                          }
+                        }}
+                        className="flex-1 min-w-0 cursor-pointer group"
+                        title={t('common.edit')}
+                      >
+                        <p className="text-xs font-bold text-gray-900 dark:text-gray-100 truncate group-hover:text-blue-500 transition-colors">
+                          {itemName}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span
+                            className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-md ${
+                              isComplete
+                                ? 'bg-emerald-500 text-white'
+                                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                            }`}
+                          >
+                            {raidItem.foundQuantity} / {raidItem.targetQuantity}
+                          </span>
+                          {isComplete && (
+                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                              <Check size={12} className="stroke-[3]" /> Completo
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Azioni Touch Rapide */}
+                      <div className="flex items-center gap-1 shrink-0">
+                        {/* Micro Stepper - / + */}
+                        <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-xl p-0.5 border border-gray-200 dark:border-gray-700">
+                          <button
+                            onClick={() => updateRaidItemFound(raidItem.id, -1)}
+                            disabled={raidItem.foundQuantity <= 0}
+                            className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 disabled:opacity-30 active:scale-95 transition-all cursor-pointer"
+                            aria-label="Decrementa trovato"
+                          >
+                            <Minus size={13} />
+                          </button>
+                          <button
+                            onClick={() => updateRaidItemFound(raidItem.id, 1)}
+                            className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 active:scale-95 transition-all cursor-pointer"
+                            aria-label="Incrementa trovato"
+                          >
+                            <Plus size={13} />
+                          </button>
+                        </div>
+
+                        {/* Pulsante Touch "Trovato tutto" */}
+                        <button
+                          onClick={() => setRaidItemFoundAll(raidItem.id)}
+                          className={`h-8 px-2.5 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-all active:scale-95 cursor-pointer ${
+                            isComplete
+                              ? 'bg-emerald-500 text-white shadow-xs'
+                              : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100'
+                          }`}
+                          title={t('raid.foundAll')}
+                          aria-label={t('raid.foundAll')}
+                        >
+                          <Check size={14} className="stroke-[2.5]" />
+                          <span className="hidden sm:inline">{t('raid.foundAll')}</span>
+                        </button>
+
+                        {/* Rimuovi */}
+                        <button
+                          onClick={() => removeRaidItem(raidItem.id)}
+                          className="w-8 h-8 flex items-center justify-center rounded-xl text-gray-400 hover:text-red-500 active:scale-95 transition-colors cursor-pointer"
+                          aria-label={t('common.delete')}
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      </div>
+
+
+
+      {/* ── MODALE SELETTORE OGGETTI ── */}
+      {pickerOpen && (
+        <ItemPicker
+          onPick={handlePickItem}
+          onClose={() => setPickerOpen(false)}
+        />
+      )}
+
+      {/* ── MODALE QUANTITÀ OGGETTO (STANDARD APP) ── */}
+      {quantityModalItem && (
+        <ItemQuantityModal
+          item={quantityModalItem.item}
+          initialQuantity={quantityModalItem.initialQty}
+          onConfirm={handleConfirmQuantity}
+          onClose={() => setQuantityModalItem(null)}
+          title={quantityModalItem.existingPlanItemId ? t('common.edit') : t('common.add')}
+          confirmLabel={t('common.save')}
+        />
+      )}
+
+      {/* ── DIALOG DI CONFERMA (APPLICA / AZZERA / ELIMINA) ── */}
+      {modalType && (
+        <ConfirmActionModal
+          title={
+            modalType === 'apply'
+              ? t('raid.applyTitle')
+              : modalType === 'reset'
+              ? t('raid.resetTitle')
+              : t('raid.clearTitle')
+          }
+          message={
+            modalType === 'apply'
+              ? t('raid.applyMessage')
+              : modalType === 'reset'
+              ? t('raid.resetMessage')
+              : t('raid.clearMessage')
+          }
+          variant={modalType === 'clear' ? 'danger' : modalType === 'reset' ? 'warning' : 'primary'}
+          confirmText={
+            modalType === 'apply'
+              ? t('raid.apply')
+              : modalType === 'reset'
+              ? t('raid.reset')
+              : t('common.delete')
+          }
+          onConfirm={handleConfirmModal}
+          onClose={() => setModalType(null)}
+        />
+      )}
+    </div>
+  );
+};

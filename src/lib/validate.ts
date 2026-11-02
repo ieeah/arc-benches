@@ -1,5 +1,5 @@
 import { DEFAULT_PASS_TRACKS, isExpedition } from '@/lib/lists';
-import type { CompletedRewardPass, LevelRequirement, PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction } from '@/types';
+import type { CompletedRewardPass, LevelRequirement, PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction, RaidPlanState, RaidAction, RaidItem } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -606,4 +606,33 @@ export const validateCompletedRewardPass = (v: unknown): CompletedRewardPass | n
   const completedAt = asIsoDateString(v.completedAt);
   if (id === null || completedAt === undefined) return null;
   return { id, completedAt };
+};
+
+export const validateRaidAction = (v: unknown): RaidAction | null => {
+  if (!isObject(v)) return null;
+  const id = asNonEmptyString(v.id);
+  const text = typeof v.text === 'string' ? v.text : null;
+  const completed = typeof v.completed === 'boolean' ? v.completed : false;
+  const createdAt = typeof v.createdAt === 'number' && Number.isFinite(v.createdAt) ? v.createdAt : Date.now();
+  if (!id || text === null) return null;
+  return { id, text, completed, createdAt };
+};
+
+export const validateRaidItem = (v: unknown): RaidItem | null => {
+  if (!isObject(v)) return null;
+  const id = asNonEmptyString(v.id);
+  const itemId = asNonEmptyString(v.itemId);
+  const targetQuantity = typeof v.targetQuantity === 'number' && Number.isFinite(v.targetQuantity) ? Math.max(1, Math.floor(v.targetQuantity)) : 1;
+  const foundQuantity = typeof v.foundQuantity === 'number' && Number.isFinite(v.foundQuantity) ? Math.max(0, Math.floor(v.foundQuantity)) : 0;
+  if (!id || !itemId) return null;
+  return { id, itemId, targetQuantity, foundQuantity };
+};
+
+export const validateRaidPlan = (v: unknown): RaidPlanState | null => {
+  if (!isObject(v)) return null;
+  const isRaidRunning = typeof v.isRaidRunning === 'boolean' ? v.isRaidRunning : false;
+  const actions = Array.isArray(v.actions) ? v.actions.map(validateRaidAction).filter((a): a is RaidAction => a !== null) : [];
+  const items = Array.isArray(v.items) ? v.items.map(validateRaidItem).filter((i): i is RaidItem => i !== null) : [];
+  const updatedAt = typeof v.updatedAt === 'number' && Number.isFinite(v.updatedAt) ? v.updatedAt : Date.now();
+  return { isRaidRunning, actions, items, updatedAt };
 };

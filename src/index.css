@@ -193,3 +193,60 @@ input[type='number'] {
   transition-duration: 0.001ms !important;
   scroll-behavior: auto !important;
 }
+
+/* ── Bagliore Magico "AI Style" Pulsante Raid Attivo ── */
+@keyframes arc-magic-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes arc-magic-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+    filter: blur(4px);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.05);
+    filter: blur(6px);
+  }
+}
+
+.arc-magic-glow {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    #eab308 0deg,
+    #ef4444 90deg,
+    #22c55e 180deg,
+    #0284c7 270deg,
+    #eab308 360deg
+  );
+  animation: arc-magic-spin 5s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.arc-magic-glow-blur {
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 180deg,
+    #eab308 0deg,
+    #ef4444 90deg,
+    #22c55e 180deg,
+    #0284c7 270deg,
+    #eab308 360deg
+  );
+  animation: arc-magic-spin 5s linear infinite, arc-magic-pulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}

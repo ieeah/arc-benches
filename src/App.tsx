@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Download, EyeOff, Plus, RotateCcw, Upload } from 'lucide-react';
+import { Download, EyeOff, Plus, RotateCcw, Upload, PackageCheck, Trash2 } from 'lucide-react';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import { FloatingNav } from '@/components/FloatingNav';
 import { MorphingFloatingNav } from '@/components/MorphingFloatingNav';
@@ -24,6 +24,7 @@ import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
 import { ExpeditionPage } from '@/pages/ExpeditionPage';
 import { RewardPassPage } from '@/pages/RewardPassPage';
+import { RaidPlanPage } from '@/pages/RaidPlanPage';
 import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
 import { useFeatureFlags } from '@/lib/featureFlags';
@@ -43,6 +44,7 @@ export default function App() {
   const { isEnabled: isFeatureEnabled } = useFeatureFlags();
 
   const [listsAction, setListsAction] = useState<ListsPageAction>(null);
+  const [raidAction, setRaidAction] = useState<'apply' | 'reset' | 'clear' | null>(null);
 
   // Selettori Zustand
   const navVariant = useAppStore(s => s.navVariant);
@@ -95,6 +97,29 @@ export default function App() {
           label: t('blueprints.hideOwned'),
           onClick: () => setFilterHideOwnedBlueprints(!filterHideOwnedBlueprints),
           checked: filterHideOwnedBlueprints,
+        },
+      ];
+    }
+    if (activeTab === 'raid') {
+      return [
+        {
+          icon: <PackageCheck size={16} />,
+          label: t('raid.apply'),
+          onClick: () => setRaidAction('apply'),
+          variant: 'primary',
+        },
+        {
+          icon: <RotateCcw size={15} />,
+          label: t('raid.reset'),
+          onClick: () => setRaidAction('reset'),
+          dividerBefore: true,
+        },
+        {
+          icon: <Trash2 size={15} />,
+          label: t('raid.clear'),
+          onClick: () => setRaidAction('clear'),
+          variant: 'danger',
+          dividerBefore: true,
         },
       ];
     }
@@ -167,6 +192,12 @@ export default function App() {
                   passId={router.params.pass}
                   view={router.params.view}
                   onNavigate={(params) => router.push('reward-pass', params)}
+                />
+              )}
+              {activeTab === 'raid' && (
+                <RaidPlanPage
+                  action={raidAction}
+                  onActionHandled={() => setRaidAction(null)}
                 />
               )}
               {activeTab === 'items' && (

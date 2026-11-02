@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import {
   MoreHorizontal, Check, Users, X,
-  ChevronRight, ChevronLeft
+  ChevronRight, ChevronLeft, Radar
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
@@ -36,6 +36,11 @@ export const MorphingFloatingNav = ({
   const activeProfileName = useAppStore(
     s => s.profiles.find(p => p.id === s.activeProfileId)?.name ?? 'Principale'
   );
+
+  // Stato Raid Plan (#117)
+  const raidPlan = useAppStore(s => s.raidPlan);
+  const hasRaidElements = (raidPlan?.actions?.length ?? 0) > 0 || (raidPlan?.items?.length ?? 0) > 0;
+  const isRaidRunning = raidPlan?.isRaidRunning ?? false;
 
   const [mode, setMode] = useState<MorphMode>('idle');
   const [profilesDrawerOpen, setProfilesDrawerOpen] = useState(false);
@@ -267,7 +272,7 @@ export const MorphingFloatingNav = ({
               WebkitBackfaceVisibility: 'hidden',
               backfaceVisibility: 'hidden',
               height: `${dynamicHeight}px`,
-              width: isOpen ? '304px' : '136px',
+              width: isOpen ? '304px' : hasRaidElements ? '192px' : '136px',
               borderRadius: isOpen ? '26px' : '34px',
             }}
             className={`relative mb-6 overflow-hidden pointer-events-auto transform-gpu select-none shadow-2xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 ${
@@ -296,6 +301,36 @@ export const MorphingFloatingNav = ({
                     <MoreHorizontal size={20} />
                   </button>
 
+                  {/* Tasto Centrale Raid (se presenti elementi) */}
+                  {hasRaidElements && (
+                    <div className="relative flex items-center justify-center">
+                      {isRaidRunning && (
+                        <>
+                          <span className="arc-magic-glow-blur" />
+                          <span className="arc-magic-glow" />
+                        </>
+                      )}
+                      <button
+                        onClick={() => {
+                          onNavigate('raid');
+                          triggerHaptic(20);
+                        }}
+                        className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer select-none ${
+                          isRaidRunning
+                            ? 'bg-gray-950 text-white shadow-inner'
+                            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
+                        }`}
+                        aria-label="Pianificazione Raid"
+                        title="Pianificazione Raid"
+                      >
+                        <Radar
+                          size={20}
+                          className={isRaidRunning ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)] stroke-[2.3]' : ''}
+                        />
+                      </button>
+                    </div>
+                  )}
+
                   {/* Tasto Primario (Toggle / Morph Long Press) - Circolare */}
                   <button
                     ref={mainBtnRef}
@@ -321,6 +356,36 @@ export const MorphingFloatingNav = ({
                   >
                     {nextTargetItem.icon}
                   </button>
+
+                  {/* Tasto Centrale Raid (se presenti elementi) */}
+                  {hasRaidElements && (
+                    <div className="relative flex items-center justify-center">
+                      {isRaidRunning && (
+                        <>
+                          <span className="arc-magic-glow-blur" />
+                          <span className="arc-magic-glow" />
+                        </>
+                      )}
+                      <button
+                        onClick={() => {
+                          onNavigate('raid');
+                          triggerHaptic(20);
+                        }}
+                        className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer select-none ${
+                          isRaidRunning
+                            ? 'bg-gray-950 text-white shadow-inner'
+                            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
+                        }`}
+                        aria-label="Pianificazione Raid"
+                        title="Pianificazione Raid"
+                      >
+                        <Radar
+                          size={20}
+                          className={isRaidRunning ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)] stroke-[2.3]' : ''}
+                        />
+                      </button>
+                    </div>
+                  )}
 
                   {/* Tasto Secondario (...) - Circolare */}
                   <button

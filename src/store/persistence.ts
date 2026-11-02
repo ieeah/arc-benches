@@ -3,6 +3,7 @@ import type { AppLanguage } from '@/i18n/types';
 import { safeLS } from '@/lib/safeStorage';
 import {
   isObject, sanitizeBoolRecord, sanitizeNumberRecord, sanitizeStringArray, validateCompletedRewardPass, validateList, validateProfile,
+  validateRaidPlan,
 } from '@/lib/validate';
 
 // Per-profile state: each profile has its own key in localStorage.
@@ -21,7 +22,8 @@ export type PersistedState = Pick<AppState,
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
   'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
-  'consecutiveStreak' | 'departureWindowActive' | 'activeRewardPass' | 'completedRewardPasses'
+  'consecutiveStreak' | 'departureWindowActive' | 'activeRewardPass' | 'completedRewardPasses' |
+  'raidPlan'
 > & { language?: AppLanguage };
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
@@ -99,6 +101,10 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
       .map(validateCompletedRewardPass)
       .filter((c): c is CompletedRewardPass => c !== null);
   }
+  if (isObject(raw.raidPlan)) {
+    const validPlan = validateRaidPlan(raw.raidPlan);
+    if (validPlan) out.raidPlan = validPlan;
+  }
   return out;
 }
 
@@ -137,6 +143,7 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     departureWindowActive: s.departureWindowActive ?? false,
     activeRewardPass: s.activeRewardPass ?? null,
     completedRewardPasses: s.completedRewardPasses ?? [],
+    raidPlan: s.raidPlan ?? { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
   };
   safeLS(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }

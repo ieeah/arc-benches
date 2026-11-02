@@ -11,6 +11,7 @@
       "icon": "wrench",
       "category": true,
       "children": [
+        { "id": "raid", "labelKey": "nav.raidPlan", "icon": "radar" },
         { "id": "vault", "label": "Vault Spedizione", "icon": "shield-alert" },
         { "id": "items", "labelKey": "nav.catalog", "icon": "database" },
         { "id": "role-maker", "label": "Role Maker 🎲", "icon": "dice-5" },
