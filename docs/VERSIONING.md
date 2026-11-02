@@ -21,6 +21,7 @@ I nickname seguono l'evoluzione narrativa del rifugio dei Raiders in Speranza:
 - **0.3.0**: *Banco da Lavoro* (Rafforzamento architetturale & identity/roleplay)
 - **0.4.0**: *Mappa di Spedizione* (Spedizioni, progetti, router centralizzato & legal)
 - **0.5.0**: *Segnale Radio* (Fondamenta Dev e dati: liste, pass, progetti, database)
+- **0.5.1**: *Taratura del Segnale* (Patch di modernizzazione web: performance di avvio, dialog nativo, viewport mobile e tema del browser)
 - **0.6.0**: *Archivio del Rifugio* (Tracker e collezioni: Reward Pass, collezioni cosmetiche, armi amplificate)
 - **0.7.0**: *Guida di Speranza* (Quest, bestiario, spawn tips, Skill Tree)
 - **0.8.0**: *Centro Operativo* (Dashboard, eventi live, trofei, telemetria)
@@ -116,6 +117,22 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #86, #108, #111, #
 - [x] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego (RaidTheory vince)](https://github.com/ieeah/arc-benches/issues/104) — dopo #103
 - [x] #129 [Badge per gli oggetti acquistabili dai commercianti (simile al Refiner)](https://github.com/ieeah/arc-benches/issues/129)
 - [ ] #130 [Barra di progresso dell'avanzamento sulle card delle liste](https://github.com/ieeah/arc-benches/issues/130)
+
+---
+
+## 0.5.1 "Taratura del Segnale" — Modernizzazione web: performance, dialog nativo, viewport e tema — Non ancora raggiunta
+Obiettivo: patch senza nuove funzionalità di gioco, nata dall'audit con la skill [Modern Web Guidance](https://developer.chrome.com/docs/modern-web-guidance) (Chrome for Developers). Si fa dopo la 0.5.0 e prima della 0.6.0.
+Ordine di lavoro (le dipendenze sono a destra di ogni voce):
+- [ ] #119 [Code-splitting delle pagine con `React.lazy` e pagine Dev fuori dalla build](https://github.com/ieeah/arc-benches/issues/119)
+- [ ] #120 [Caricamento dinamico dei JSON pesanti e di Leaflet](https://github.com/ieeah/arc-benches/issues/120) — dopo #119
+- [ ] #121 [Drawer, BottomSheet e modali su `<dialog>` nativo](https://github.com/ieeah/arc-benches/issues/121) — tocca la regola dei Drawer (ADR 003)
+- [ ] #122 [Rimuovere lo scroll lock su html/body, `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121
+- [ ] #123 [`dvh`/`svh` al posto di `vh`/`h-screen`](https://github.com/ieeah/arc-benches/issues/123)
+- [ ] #124 [`color-scheme`, `theme-color` e `accent-color`](https://github.com/ieeah/arc-benches/issues/124)
+- [ ] #125 [Scrollbar nascosta nelle pill orizzontali: affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
+- [ ] #126 [`lang` dinamico, titolo e meta description](https://github.com/ieeah/arc-benches/issues/126)
+- [ ] #127 [`@tailwindcss/vite` al posto di PostCSS/autoprefixer](https://github.com/ieeah/arc-benches/issues/127)
+- [ ] #128 [Adottare `modern-web-guidance` nel flusso di lavoro](https://github.com/ieeah/arc-benches/issues/128)
 
 ---
 

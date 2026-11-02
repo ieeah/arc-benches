@@ -11,6 +11,18 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [x] #79 [UX Liste & Progetti: opzione "extractionWiped"](https://github.com/ieeah/arc-benches/issues/79) — marcatura per liste/progetti soggetti al wipe o azzeramento legato all'estrazione (`extractionWiped: true`); il reset progressi agisce solo sulle liste marcate come tali, lasciando intatti i banchi del rifugio, i progetti permanenti e i blueprint sbloccati. Toggle in UI (Custom List e Dev) e campo esteso a tutti i seed pregressi.
 - [ ] #88 [UX ItemPicker: filtri per tipo selezionabili in UI](https://github.com/ieeah/arc-benches/issues/88) — oggi i tipi non selezionabili come requisito di consegna (Blueprint, Cosmetic, Outfits, Furniture, Research, Currency) sono fissi in una costante; valutare un filtro attivabile dall'utente (Stencil e Design sono trovabili in raid).
 
+## 0.5.1 "Taratura del Segnale"
+Audit con la skill Modern Web Guidance; piano e ordine in [VERSIONING.md](VERSIONING.md).
+- [ ] #119 [Performance: code-splitting delle pagine con `React.lazy` e pagine Dev fuori dalla build di produzione](https://github.com/ieeah/arc-benches/issues/119)
+- [ ] #120 [Performance: caricamento dinamico dei JSON pesanti (items, quests) e di Leaflet](https://github.com/ieeah/arc-benches/issues/120) — dopo #119
+- [ ] #121 [Refactor UI: Drawer, BottomSheet e modali su `<dialog>` nativo (`showModal()`)](https://github.com/ieeah/arc-benches/issues/121) — elimina il focus trap manuale di `useDialog`; correlata a ADR 003 e #60
+- [ ] #122 [Refactor UI: rimuovere lo scroll lock su html/body, `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121
+- [ ] #123 [Fix UI: `dvh`/`svh` al posto di `vh`/`h-screen` per la barra URL mobile](https://github.com/ieeah/arc-benches/issues/123)
+- [ ] #125 [A11y: scrollbar nascosta nelle pill orizzontali senza altra affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
+- [ ] #126 [Fix HTML: `lang` dinamico, titolo e meta description](https://github.com/ieeah/arc-benches/issues/126)
+- [ ] #127 [Build: `@tailwindcss/vite` al posto di PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
+- [ ] #128 [Docs/DX: adottare `modern-web-guidance` nel flusso di lavoro](https://github.com/ieeah/arc-benches/issues/128)
+
 ## 0.6.0 "Archivio del Rifugio"
 - [ ] #69 [UX Stash: Ordinamento per priorità multi-criterio (Banco + Livello)](https://github.com/ieeah/arc-benches/issues/69) — oltre all'ordine dei banchi/liste, dare precedenza ai requisiti di livello inferiore (es. Lvl 2 prima di Lvl 3); per materiali aggregati su più livelli o banchi, assegnare la priorità più alta (livello minimo / primo banco nell'ordinamento).
 - [ ] #93 [UX Stash: filtri per fonte lista nel menu contestuale (...)](https://github.com/ieeah/arc-benches/issues/93) — toggle nelle opzioni secondarie del floating nav per attivare/disattivare gli oggetti provenienti da specifiche tipologie di lista (banchi di lavoro, progetti, liste personalizzate, spedizioni, quest).

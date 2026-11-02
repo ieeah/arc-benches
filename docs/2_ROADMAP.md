@@ -16,6 +16,13 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 
 ---
 
+## Versione 0.5.1 "Taratura del Segnale" — Modernizzazione web
+- [ ] #124 [Tema del browser: `color-scheme`, `theme-color` e `accent-color`](https://github.com/ieeah/arc-benches/issues/124)
+
+Il resto della versione (performance, dialog nativo, viewport, accessibilità, tooling) è debito tecnico su cose esistenti: vedi [3_BACKLOG.md](3_BACKLOG.md).
+
+---
+
 ## Versione 0.6.0 "Archivio del Rifugio" — Tracker e collezioni
 - [ ] #90 [Reward Pass Tracker (solo livelli e ricompense, dati inseriti a mano; niente Feats)](https://github.com/ieeah/arc-benches/issues/90)
 - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
