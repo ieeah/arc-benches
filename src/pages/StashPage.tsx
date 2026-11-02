@@ -14,7 +14,7 @@ import {
 } from '@/store/selectors';
 import { REFINER_ID } from '@/store/gameData';
 import { refinerCraftLevel } from '@/lib/craft';
-import { getTraderPurchase, getTraderDisplayName, type TraderId } from '@/lib/traders';
+import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
 import { safeLS } from '@/lib/safeStorage';
 import { v } from '@/lib/validate';
 import { rarityOrder } from '@/lib/rarity';

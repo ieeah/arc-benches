@@ -1,12 +1,11 @@
 import React from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { Badge, type BadgeSize } from '@/components/Badge';
-import { getTraderDisplayName } from '@/lib/traders';
-import type { QuestTrader } from '@/types';
+import { getTraderDisplayName, type TraderId } from '@/lib/traders';
 import { cn } from '@/lib/cn';
 
 export interface TraderBadgeProps {
-  trader: QuestTrader | string;
+  trader: TraderId | string;
   price?: number;
   title?: string;
   size?: BadgeSize;
