@@ -37,7 +37,9 @@ Questo file contiene tutte le regole, convenzioni e vincoli vincolanti che gli a
 - **ID Oggetti**: Gli ID degli oggetti usano sempre la notazione hyphen-case (`metal-parts`), mai underscore.
 - **Modern Web Guidance**: Prima di scrivere o modificare HTML/CSS/JS lato client (dialog, layout, animazioni, performance, form), cerca la guida pertinente con la skill `modern-web-guidance`.
 - **Stile del Codice**: Rispetta le linee guida formalizzate in `docs/STYLE_GUIDE.md` (convenzioni naming, formatting, pattern architetturali).
+- **Riutilizzo Componenti e Composizione**: Cercare sempre di riutilizzare i componenti già esistenti nel progetto (`src/components/`), ricorrendo a composizione o derivazioni quando sensato invece di ricostruire varianti isolate o duplicare logica UI/comportamentale da zero.
 - **Stato e Persistenza**: Gestione dello stato tramite Zustand con slice per dominio; la persistenza in `localStorage` avviene tramite wrapper custom `safeLS` (non middleware persist nativo di Zustand, vedi ADR 001).
+- **TypeScript: sempre `type`, mai `interface`**: Utilizzare tassativamente `type` (e mai `interface`) per la definizione di modelli, DTO, tipi di stato e props dei componenti.
 
 ---
 
@@ -47,6 +49,7 @@ Questo file contiene tutte le regole, convenzioni e vincoli vincolanti che gli a
 - **Abbreviazione Livelli**: Utilizzare sempre **"Lvl"** (mai "Lv" o "Lvl.").
 - **Superellissi**: Card e contenitori principali utilizzano raggio di curvatura `rounded-[24px]` o `rounded-[28px]`.
 - **Direzione dei Drawer**: Un drawer deve aprirsi sempre dal lato del pulsante trigger (trigger in alto → `from="top"`, trigger in basso → `from="bottom"`).
+- **Mobile-First & Touch-First**: Tutte le interfacce utente devono essere progettate prioritariamente per l'uso da smartphone e con il tocco del pollice. Aree di tocco minime generose (minimo 44×44px), feedback all'interazione (`active:scale-95`), leggibilità e contrasto elevato al buio, e preferenza per gesti a tocco singolo per le azioni frequenti prima ancora che al mouse e tastiera.
 
 ---
 

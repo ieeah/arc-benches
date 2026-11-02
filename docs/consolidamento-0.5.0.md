@@ -69,6 +69,9 @@ Legenda: **[bug]** comportamento sbagliato · **[ux]** ritocco di interfaccia ·
 
 ## 6. Da provare ancora (non testato)
 
+- [refactor/code] **Verifica adozione regole TypeScript e Mobile-First**: verificare retroattivamente che la codebase rispetti le nuove regole consolidate in `AGENTS-PROJECT-RULES.md`:
+  - Utilizzo tassativo di `type` (e rimozione di `interface` su modelli, DTO, state slice e props).
+  - Rispetto dei principi Mobile-First & Touch-First (aree di tocco ≥ 44×44px, micro-interazioni `active:scale-95`, accessibilità da tocco).
 - [test] Card: quantità nella barra come nel gioco, barra scura con l'icona nei progetti, `overflow-clip`.
 - [test] Prestazioni e layout: miniature da 128px nelle righe piccole, icone di categoria per tema, header sticky unificati. Controllare scroll e tema chiaro/scuro nelle liste.
 - [test] Impostazioni: la versione mostrata arriva da `package.json`.
