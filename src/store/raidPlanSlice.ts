@@ -12,12 +12,15 @@ export type RaidPlanSlice = Pick<
   | 'removeRaidAction'
   | 'addRaidItem'
   | 'updateRaidItemFound'
+  | 'setRaidItemFoundQuantity'
   | 'setRaidItemFoundAll'
   | 'updateRaidItemTarget'
+  | 'replaceRaidItem'
   | 'removeRaidItem'
   | 'applyRaidPlanToStash'
   | 'resetRaidPlanProgress'
   | 'clearRaidPlan'
+  | 'setRaidPreferredViewMode'
 >;
 
 const DEFAULT_RAID_PLAN: RaidPlanState = {
@@ -132,6 +135,20 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
     });
   },
 
+  setRaidItemFoundQuantity: (id: string, quantity: number) => {
+    const s = get();
+    const qty = Math.max(0, quantity);
+    set({
+      raidPlan: {
+        ...s.raidPlan,
+        items: s.raidPlan.items.map(item =>
+          item.id === id ? { ...item, foundQuantity: qty } : item
+        ),
+        updatedAt: Date.now(),
+      },
+    });
+  },
+
   setRaidItemFoundAll: (id: string) => {
     const s = get();
     set({
@@ -153,6 +170,19 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
         ...s.raidPlan,
         items: s.raidPlan.items.map(item =>
           item.id === id ? { ...item, targetQuantity: qty } : item
+        ),
+        updatedAt: Date.now(),
+      },
+    });
+  },
+
+  replaceRaidItem: (id: string, newItemId: string) => {
+    const s = get();
+    set({
+      raidPlan: {
+        ...s.raidPlan,
+        items: s.raidPlan.items.map(item =>
+          item.id === id ? { ...item, itemId: newItemId } : item
         ),
         updatedAt: Date.now(),
       },
@@ -238,6 +268,17 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
         isRaidRunning: false,
         actions: [],
         items: [],
+        updatedAt: Date.now(),
+      },
+    });
+  },
+
+  setRaidPreferredViewMode: (preferredViewMode: 'grid' | 'list') => {
+    const s = get();
+    set({
+      raidPlan: {
+        ...s.raidPlan,
+        preferredViewMode,
         updatedAt: Date.now(),
       },
     });

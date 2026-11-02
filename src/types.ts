@@ -277,6 +277,7 @@ export type RaidPlanState = {
   isRaidRunning: boolean;
   actions: RaidAction[];
   items: RaidItem[];
+  preferredViewMode?: 'grid' | 'list';
   updatedAt: number;
 };
 
@@ -408,12 +409,15 @@ export interface AppState {
   removeRaidAction: (id: string) => void;
   addRaidItem: (itemId: string, targetQuantity?: number) => void;
   updateRaidItemFound: (id: string, delta: number) => void;
+  setRaidItemFoundQuantity: (id: string, quantity: number) => void;
   setRaidItemFoundAll: (id: string) => void;
   updateRaidItemTarget: (id: string, targetQuantity: number) => void;
+  replaceRaidItem: (id: string, newItemId: string) => void;
   removeRaidItem: (id: string) => void;
   applyRaidPlanToStash: () => { addedItemsCount: number; remainingItemsCount: number };
   resetRaidPlanProgress: () => void;
   clearRaidPlan: () => void;
+  setRaidPreferredViewMode: (viewMode: 'grid' | 'list') => void;
 
   createProfile: (name: string) => void;
   switchProfile: (id: string) => void;

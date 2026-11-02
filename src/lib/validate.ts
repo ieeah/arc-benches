@@ -633,6 +633,7 @@ export const validateRaidPlan = (v: unknown): RaidPlanState | null => {
   const isRaidRunning = typeof v.isRaidRunning === 'boolean' ? v.isRaidRunning : false;
   const actions = Array.isArray(v.actions) ? v.actions.map(validateRaidAction).filter((a): a is RaidAction => a !== null) : [];
   const items = Array.isArray(v.items) ? v.items.map(validateRaidItem).filter((i): i is RaidItem => i !== null) : [];
+  const preferredViewMode = v.preferredViewMode === 'grid' || v.preferredViewMode === 'list' ? v.preferredViewMode : undefined;
   const updatedAt = typeof v.updatedAt === 'number' && Number.isFinite(v.updatedAt) ? v.updatedAt : Date.now();
-  return { isRaidRunning, actions, items, updatedAt };
+  return { isRaidRunning, actions, items, preferredViewMode, updatedAt };
 };

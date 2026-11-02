@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus
+  Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus, LayoutGrid, List as ListIcon, Pencil
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
@@ -9,6 +9,7 @@ import { ItemPicker } from '@/components/ItemPicker';
 import { ItemQuantityModal } from '@/components/ItemQuantityModal';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
+import { RaidItemCard } from '@/components/RaidItemCard';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { useEffect } from 'react';
 import type { ItemInfo } from '@/types';
@@ -30,16 +31,20 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   const removeRaidAction = useAppStore(s => s.removeRaidAction);
   const addRaidItem = useAppStore(s => s.addRaidItem);
   const updateRaidItemFound = useAppStore(s => s.updateRaidItemFound);
+  const setRaidItemFoundQuantity = useAppStore(s => s.setRaidItemFoundQuantity);
   const setRaidItemFoundAll = useAppStore(s => s.setRaidItemFoundAll);
   const updateRaidItemTarget = useAppStore(s => s.updateRaidItemTarget);
+  const replaceRaidItem = useAppStore(s => s.replaceRaidItem);
   const removeRaidItem = useAppStore(s => s.removeRaidItem);
   const applyRaidPlanToStash = useAppStore(s => s.applyRaidPlanToStash);
   const resetRaidPlanProgress = useAppStore(s => s.resetRaidPlanProgress);
   const clearRaidPlan = useAppStore(s => s.clearRaidPlan);
+  const setRaidPreferredViewMode = useAppStore(s => s.setRaidPreferredViewMode);
 
   // Stato locale
   const [newActionText, setNewActionText] = useState('');
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [replacingItemId, setReplacingItemId] = useState<string | null>(null);
   const [quantityModalItem, setQuantityModalItem] = useState<{
     item: ItemInfo;
     initialQty: number;
@@ -59,6 +64,10 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   const isRaidRunning = raidPlan.isRaidRunning;
   const actions = raidPlan.actions;
   const items = raidPlan.items;
+  const preferredViewMode = raidPlan.preferredViewMode ?? 'grid';
+
+  // In modalità configurazione (inattivo) forza la vista 'list'. In focus mode (attivo) usa la preferenza dell'utente salvata nel profilo.
+  const activeViewMode = isRaidRunning ? preferredViewMode : 'list';
 
   const handleAddAction = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -69,11 +78,19 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
 
   const handlePickItem = (item: ItemInfo) => {
     setPickerOpen(false);
+
+    // Se stiamo sostituendo un oggetto esistente (senza toccare quantità)
+    if (replacingItemId) {
+      replaceRaidItem(replacingItemId, item.id);
+      setReplacingItemId(null);
+      return;
+    }
+
     // Cerca se l'oggetto è già presente nella pianificazione
     const existing = items.find(i => i.itemId === item.id);
     setQuantityModalItem({
       item,
-      initialQty: existing ? existing.targetQuantity : 1,
+      initialQty: existing ? existing.targetQuantity : 0,
       existingPlanItemId: existing?.id,
     });
   };
@@ -124,59 +141,95 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
             </div>
           </div>
 
-          {/* Toggle Stato Incursione */}
-          <button
-            onClick={() => setIsRaidRunning(!isRaidRunning)}
-            disabled={actions.length === 0 && items.length === 0}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer border shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
-              isRaidRunning
-                ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm shadow-emerald-500/20'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
-            }`}
-            aria-label={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
-          >
-            <span
-              className={`w-2 h-2 rounded-full ${
-                isRaidRunning ? 'bg-white animate-pulse' : 'bg-gray-400'
+          <div className="flex items-center gap-2">
+            {/* Toggle Stato Incursione */}
+            <button
+              onClick={() => setIsRaidRunning(!isRaidRunning)}
+              disabled={actions.length === 0 && items.length === 0}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer border shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
+                isRaidRunning
+                  ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm shadow-emerald-500/20'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
-            />
-            <span>{isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}</span>
-          </button>
+              aria-label={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
+            >
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  isRaidRunning ? 'bg-white animate-pulse' : 'bg-gray-400'
+                }`}
+              />
+              <span>{isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}</span>
+            </button>
+
+            {/* Toggle Vista Griglia / Lista (Visibile e selezionabile solo in Incursione Attiva) */}
+            {isRaidRunning && (
+              <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-0.5 rounded-xl border border-gray-200 dark:border-gray-700 animate-in fade-in duration-200">
+                <button
+                  type="button"
+                  onClick={() => setRaidPreferredViewMode('grid')}
+                  className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                    activeViewMode === 'grid'
+                      ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
+                      : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                  }`}
+                  title={t('stash.viewGrid')}
+                  aria-label={t('stash.viewGrid')}
+                >
+                  <LayoutGrid size={15} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRaidPreferredViewMode('list')}
+                  className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                    activeViewMode === 'list'
+                      ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
+                      : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                  }`}
+                  title={t('stash.viewList')}
+                  aria-label={t('stash.viewList')}
+                >
+                  <ListIcon size={15} />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* ── 3 PULSANTI AZIONE COMPATTI E DISCRETI (Sotto il titolo) ── */}
-        <div className="flex items-center justify-between gap-2">
-          <button
-            onClick={() => setModalType('apply')}
-            disabled={actions.length === 0 && items.length === 0}
-            className="flex-1 h-8.5 px-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800/60 disabled:opacity-30 disabled:pointer-events-none text-xs font-bold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
-          >
-            <PackageCheck size={14} />
-            <span className="truncate">{t('raid.apply')}</span>
-          </button>
+        {/* ── 3 PULSANTI AZIONE COMPATTI E DISCRETI (Nascosti in Focus Mode) ── */}
+        {!isRaidRunning && (
+          <div className="flex items-center justify-between gap-2 pt-1 animate-in fade-in duration-150">
+            <button
+              onClick={() => setModalType('apply')}
+              disabled={actions.length === 0 && items.length === 0}
+              className="flex-1 h-8.5 px-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800/60 disabled:opacity-30 disabled:pointer-events-none text-xs font-bold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <PackageCheck size={14} />
+              <span className="truncate">{t('raid.apply')}</span>
+            </button>
 
-          <button
-            onClick={() => setModalType('reset')}
-            disabled={actions.length === 0 && items.length === 0}
-            className="h-8.5 px-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 disabled:opacity-30 disabled:pointer-events-none text-xs font-semibold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
-            title={t('raid.reset')}
-            aria-label={t('raid.reset')}
-          >
-            <RotateCcw size={13} />
-            <span className="hidden sm:inline text-[11px]">{t('raid.reset')}</span>
-          </button>
+            <button
+              onClick={() => setModalType('reset')}
+              disabled={actions.length === 0 && items.length === 0}
+              className="h-8.5 px-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 disabled:opacity-30 disabled:pointer-events-none text-xs font-semibold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+              title={t('raid.reset')}
+              aria-label={t('raid.reset')}
+            >
+              <RotateCcw size={13} />
+              <span className="hidden sm:inline text-[11px]">{t('raid.reset')}</span>
+            </button>
 
-          <button
-            onClick={() => setModalType('clear')}
-            disabled={actions.length === 0 && items.length === 0}
-            className="h-8.5 px-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 border border-rose-200 dark:border-rose-800/50 disabled:opacity-30 disabled:pointer-events-none text-xs font-semibold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
-            title={t('raid.clear')}
-            aria-label={t('raid.clear')}
-          >
-            <Trash2 size={13} />
-            <span className="hidden sm:inline text-[11px]">{t('raid.clear')}</span>
-          </button>
-        </div>
+            <button
+              onClick={() => setModalType('clear')}
+              disabled={actions.length === 0 && items.length === 0}
+              className="h-8.5 px-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 border border-rose-200 dark:border-rose-800/50 disabled:opacity-30 disabled:pointer-events-none text-xs font-semibold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+              title={t('raid.clear')}
+              aria-label={t('raid.clear')}
+            >
+              <Trash2 size={13} />
+              <span className="hidden sm:inline text-[11px]">{t('raid.clear')}</span>
+            </button>
+          </div>
+        )}
       </StickyHeader>
 
       {/* Notifica feedback */}
@@ -190,44 +243,51 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
       <div className="p-4 space-y-6">
         {/* ── SEZIONE 1: AZIONI SPOT ── */}
         <section className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-sm font-bold text-gray-900 dark:text-white">
-                {t('raid.spotActions')}
-              </h2>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                {t('raid.spotActionsDesc')}
-              </p>
-            </div>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
-              {actions.filter(a => a.completed).length}/{actions.length}
-            </span>
-          </div>
+          {/* Header e Form Aggiunta: Nascosti in Focus Mode */}
+          {!isRaidRunning && (
+            <>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-sm font-bold text-gray-900 dark:text-white">
+                    {t('raid.spotActions')}
+                  </h2>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {t('raid.spotActionsDesc')}
+                  </p>
+                </div>
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+                  {actions.filter(a => a.completed).length}/{actions.length}
+                </span>
+              </div>
 
-          {/* Form rapido inserimento azione */}
-          <form onSubmit={handleAddAction} className="flex gap-2">
-            <input
-              type="text"
-              value={newActionText}
-              onChange={e => setNewActionText(e.target.value)}
-              placeholder={t('raid.actionPlaceholder')}
-              className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl px-3.5 py-2.5 text-xs text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
-            />
-            <button
-              type="submit"
-              disabled={!newActionText.trim()}
-              className="px-4 py-2.5 rounded-2xl bg-blue-500 hover:bg-blue-600 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1 shadow-xs"
-            >
-              <Plus size={16} />
-              <span>{t('raid.addAction')}</span>
-            </button>
-          </form>
+              {/* Form rapido inserimento azione */}
+              <form onSubmit={handleAddAction} className="flex gap-2">
+                <input
+                  type="text"
+                  value={newActionText}
+                  onChange={e => setNewActionText(e.target.value)}
+                  placeholder={t('raid.actionPlaceholder')}
+                  className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl px-3.5 py-2.5 text-xs text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
+                />
+                <button
+                  type="submit"
+                  disabled={!newActionText.trim()}
+                  className="px-4 py-2.5 rounded-2xl bg-blue-500 hover:bg-blue-600 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1 shadow-xs"
+                >
+                  <Plus size={16} />
+                  <span>{t('raid.addAction')}</span>
+                </button>
+              </form>
+            </>
+          )}
 
           {/* Lista azioni */}
           {actions.length === 0 ? (
-            <div className="p-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
-              {t('raid.noActions')}
-            </div>
+            !isRaidRunning ? (
+              <div className="p-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
+                {t('raid.noActions')}
+              </div>
+            ) : null
           ) : (
             <div className="space-y-2">
               {actions.map(action => (
@@ -247,14 +307,16 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                     />
                   </div>
 
-                  {/* Pulsante rimozione */}
-                  <button
-                    onClick={() => removeRaidAction(action.id)}
-                    className="w-8 h-8 rounded-xl flex items-center justify-center text-gray-400 hover:text-red-500 active:scale-95 transition-colors cursor-pointer shrink-0"
-                    aria-label={t('common.delete')}
-                  >
-                    <Trash2 size={15} />
-                  </button>
+                  {/* Pulsante rimozione (nascosto in Focus Mode) */}
+                  {!isRaidRunning && (
+                    <button
+                      onClick={() => removeRaidAction(action.id)}
+                      className="w-8 h-8 rounded-xl flex items-center justify-center text-gray-400 hover:text-red-500 active:scale-95 transition-colors cursor-pointer shrink-0"
+                      aria-label={t('common.delete')}
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -263,27 +325,62 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
 
         {/* ── SEZIONE 2: OGGETTI DA RECUPERARE ── */}
         <section className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-sm font-bold text-gray-900 dark:text-white">
-                {t('raid.itemsToFind')}
-              </h2>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                {t('raid.itemsToFindDesc')}
-              </p>
+          {/* Header e Aggiungi Oggetto: Nascosti in Focus Mode */}
+          {!isRaidRunning && (
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-sm font-bold text-gray-900 dark:text-white">
+                  {t('raid.itemsToFind')}
+                </h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {t('raid.itemsToFindDesc')}
+                </p>
+              </div>
+              <button
+                onClick={() => setPickerOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+              >
+                <Plus size={14} />
+                <span>{t('raid.addItem')}</span>
+              </button>
             </div>
-            <button
-              onClick={() => setPickerOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
-            >
-              <Plus size={14} />
-              <span>{t('raid.addItem')}</span>
-            </button>
-          </div>
+          )}
 
           {items.length === 0 ? (
-            <div className="p-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
-              {t('raid.noItems')}
+            !isRaidRunning ? (
+              <div className="p-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
+                {t('raid.noItems')}
+              </div>
+            ) : null
+          ) : activeViewMode === 'grid' ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+              {items.map(raidItem => {
+                const info = itemsInfo[raidItem.itemId];
+
+                return (
+                  <RaidItemCard
+                    key={raidItem.id}
+                    raidItem={raidItem}
+                    itemInfo={info}
+                    hideDelete={isRaidRunning}
+                    onIncrementFound={() => updateRaidItemFound(raidItem.id, 1)}
+                    onDecrementFound={() => updateRaidItemFound(raidItem.id, -1)}
+                    onSetFound={(val) => setRaidItemFoundQuantity(raidItem.id, val)}
+                    onComplete={() => setRaidItemFoundAll(raidItem.id)}
+                    onResetProgress={() => setRaidItemFoundQuantity(raidItem.id, 0)}
+                    onOpenEditModal={() => {
+                      if (info) {
+                        setQuantityModalItem({
+                          item: info,
+                          initialQty: raidItem.targetQuantity,
+                          existingPlanItemId: raidItem.id,
+                        });
+                      }
+                    }}
+                    onRemove={() => removeRaidItem(raidItem.id)}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="space-y-2.5">
@@ -312,21 +409,9 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                         />
                       </div>
 
-                      {/* Info Oggetto */}
-                      <div
-                        onClick={() => {
-                          if (info) {
-                            setQuantityModalItem({
-                              item: info,
-                              initialQty: raidItem.targetQuantity,
-                              existingPlanItemId: raidItem.id,
-                            });
-                          }
-                        }}
-                        className="flex-1 min-w-0 cursor-pointer group"
-                        title={t('common.edit')}
-                      >
-                        <p className="text-xs font-bold text-gray-900 dark:text-gray-100 truncate group-hover:text-blue-500 transition-colors">
+                      {/* Info Oggetto (click disabilitato: solo visualizzazione) */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-bold text-gray-900 dark:text-gray-100 truncate">
                           {itemName}
                         </p>
                         <div className="flex items-center gap-2 mt-1">
@@ -349,6 +434,26 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
 
                       {/* Azioni Touch Rapide */}
                       <div className="flex items-center gap-1 shrink-0">
+                        {/* Pulsante Modifica Elemento (apre la modale per cambiare sia quantità che oggetto) */}
+                        {!isRaidRunning && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (info) {
+                                setQuantityModalItem({
+                                  item: info,
+                                  initialQty: raidItem.targetQuantity,
+                                  existingPlanItemId: raidItem.id,
+                                });
+                              }
+                            }}
+                            className="w-8 h-8 rounded-xl flex items-center justify-center text-gray-500 hover:text-blue-500 bg-gray-50 dark:bg-gray-800/80 hover:bg-blue-50 dark:hover:bg-blue-950/40 border border-gray-200 dark:border-gray-700 active:scale-95 transition-all cursor-pointer"
+                            title={t('common.edit')}
+                            aria-label={t('common.edit')}
+                          >
+                            <Pencil size={13} />
+                          </button>
+                        )}
                         {/* Micro Stepper - / + */}
                         <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-xl p-0.5 border border-gray-200 dark:border-gray-700">
                           <button
@@ -368,9 +473,15 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                           </button>
                         </div>
 
-                        {/* Pulsante Touch "Trovato tutto" */}
+                        {/* Pulsante Touch "Completato" */}
                         <button
-                          onClick={() => setRaidItemFoundAll(raidItem.id)}
+                          onClick={() => {
+                            if (isComplete) {
+                              setRaidItemFoundQuantity(raidItem.id, 0);
+                            } else {
+                              setRaidItemFoundAll(raidItem.id);
+                            }
+                          }}
                           className={`h-8 px-2.5 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-all active:scale-95 cursor-pointer ${
                             isComplete
                               ? 'bg-emerald-500 text-white shadow-xs'
@@ -383,14 +494,16 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                           <span className="hidden sm:inline">{t('raid.foundAll')}</span>
                         </button>
 
-                        {/* Rimuovi */}
-                        <button
-                          onClick={() => removeRaidItem(raidItem.id)}
-                          className="w-8 h-8 flex items-center justify-center rounded-xl text-gray-400 hover:text-red-500 active:scale-95 transition-colors cursor-pointer"
-                          aria-label={t('common.delete')}
-                        >
-                          <Trash2 size={15} />
-                        </button>
+                        {/* Rimuovi (nascosto in Focus Mode) */}
+                        {!isRaidRunning && (
+                          <button
+                            onClick={() => removeRaidItem(raidItem.id)}
+                            className="w-8 h-8 flex items-center justify-center rounded-xl text-gray-400 hover:text-red-500 active:scale-95 transition-colors cursor-pointer"
+                            aria-label={t('common.delete')}
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -407,7 +520,10 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
       {pickerOpen && (
         <ItemPicker
           onPick={handlePickItem}
-          onClose={() => setPickerOpen(false)}
+          onClose={() => {
+            setPickerOpen(false);
+            setReplacingItemId(null);
+          }}
         />
       )}
 
@@ -418,6 +534,14 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
           initialQuantity={quantityModalItem.initialQty}
           onConfirm={handleConfirmQuantity}
           onClose={() => setQuantityModalItem(null)}
+          onChangeItem={() => {
+            const planId = quantityModalItem.existingPlanItemId;
+            setQuantityModalItem(null);
+            if (planId) {
+              setReplacingItemId(planId);
+            }
+            setPickerOpen(true);
+          }}
           title={quantityModalItem.existingPlanItemId ? t('common.edit') : t('common.add')}
           confirmLabel={t('common.save')}
         />
