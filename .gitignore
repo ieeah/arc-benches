@@ -27,6 +27,9 @@ scripts/reports/
 !.vscode/extensions.json
 .idea
 .claude
+# Skill di terzi (modern-web-guidance), rigenerabili con `npx modern-web-guidance@latest install`
+.agents/
+skills-lock.json
 .DS_Store
 *.suo
 *.ntvs*

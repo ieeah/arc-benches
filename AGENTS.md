@@ -46,6 +46,7 @@ Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROF
 - **Commit**: Segui lo standard Conventional Commits (`type: descrizione` o `type(scope): descrizione`), con eventuale riferimento all'issue o fase (es. `feat: aggiunge pill livello attuale (#7 Fase 2)`). Nessun riferimento a strumenti AI nei commit.
 - **Release notes**: ogni `feat`/`fix`/`perf` che entra aggiunge o aggiorna una riga nella bozza `changelog/<prossima versione>.md` (sezione giusta; il lavoro non previsto in `docs/VERSIONING.md` va in «Aggiunte non pianificate»), così alla release le note sono complete. Non basta il commit: la riga si scrive nello stesso intervento.
 - **ID Oggetti**: Gli ID degli oggetti usano sempre la notazione hyphen-case (`metal-parts`), mai underscore.
+- **Modern Web Guidance**: prima di scrivere o modificare HTML/CSS/JS lato client (dialog, layout, animazioni, performance, form), cerca la guida pertinente con la skill `modern-web-guidance`. La skill non è nel repo (`.agents/` e `skills-lock.json` sono ignorati): si installa con `npx modern-web-guidance@latest install`. Google raccoglie telemetria anonima; opt-out con `DISABLE_TELEMETRY=1`.
 - **Interfaccia Utente (UI)**:
   - Lingua della UI in italiano.
   - Abbreviazione livelli: utilizzare sempre **"Lvl"** (non "Lv" o "Lvl.").
