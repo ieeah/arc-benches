@@ -11,7 +11,7 @@ const DURATION_IN  = 280;
 const DURATION_OUT = 200;
 
 const panelClass: Record<DrawerFrom, string> = {
-  bottom: 'bottom-0 left-0 right-0 rounded-t-[28px] max-h-[85vh]',
+  bottom: 'bottom-0 left-0 right-0 rounded-t-[28px] max-h-[85dvh]',
   top:    'top-0 left-0 right-0 rounded-b-[28px]',
   left:   'top-0 bottom-0 left-0 rounded-r-[28px] w-72',
   right:  'top-0 bottom-0 right-0 rounded-l-[28px] w-72',
