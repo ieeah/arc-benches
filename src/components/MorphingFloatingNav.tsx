@@ -202,7 +202,7 @@ export const MorphingFloatingNav = ({
   };
 
   const renderItemList = (itemList: NavItem[]) => (
-    <div className="p-1 space-y-0.5 overflow-y-auto max-h-[60vh]">
+    <div className="p-1 space-y-0.5 overflow-y-auto max-h-[60dvh]">
       {itemList.map(item => {
         const hasChildren = Boolean(item.children && item.children.length > 0);
         const isSelected = item.id === activePage;

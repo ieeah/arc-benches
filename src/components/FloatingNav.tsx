@@ -286,7 +286,7 @@ export const FloatingNav = ({
                   className="relative overflow-hidden w-full transition-[height] duration-250 ease-out"
                   style={{
                     height: menuHeight !== undefined ? `${menuHeight}px` : 'auto',
-                    maxHeight: '60vh',
+                    maxHeight: '60dvh',
                   }}
                 >
                   <div
@@ -295,7 +295,7 @@ export const FloatingNav = ({
                     }`}
                   >
                     {/* Pane 1: Root Menu */}
-                    <div ref={rootPaneRef} className="w-1/2 shrink-0 p-2 space-y-0.5 overflow-y-auto max-h-[60vh]">
+                    <div ref={rootPaneRef} className="w-1/2 shrink-0 p-2 space-y-0.5 overflow-y-auto max-h-[60dvh]">
                       {navTree.map(item => {
                         const hasChildren = Boolean(item.children && item.children.length > 0);
                         const isSelected = item.id === activePage;
@@ -331,7 +331,7 @@ export const FloatingNav = ({
                     </div>
 
                     {/* Pane 2: Sub-category Menu */}
-                    <div ref={subPaneRef} className="w-1/2 shrink-0 p-2 space-y-0.5 overflow-y-auto max-h-[60vh]">
+                    <div ref={subPaneRef} className="w-1/2 shrink-0 p-2 space-y-0.5 overflow-y-auto max-h-[60dvh]">
                       {(drillCategory?.children ?? []).map(item => {
                         const isSelected = item.id === activePage;
 

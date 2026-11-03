@@ -452,7 +452,7 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
             role="dialog"
             aria-modal="true"
             aria-label={t('importExport.importTitle')}
-            className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm max-h-[85vh] flex flex-col touch-auto"
+            className="bg-white dark:bg-gray-900 rounded-[24px] p-5 w-full max-w-sm max-h-[85dvh] flex flex-col touch-auto"
             onClick={e => e.stopPropagation()}>
             <h3 className="text-base font-bold mb-2 shrink-0">{t('importExport.importTitle')}</h3>
 

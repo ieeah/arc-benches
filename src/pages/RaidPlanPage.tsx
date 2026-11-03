@@ -123,7 +123,7 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   };
 
   return (
-    <div className="pb-32 min-h-screen">
+    <div className="pb-32 min-h-dvh">
       {/* ── HEADER STICKY ── */}
       <StickyHeader elevated className="space-y-2 px-4 py-3">
         <div className="flex items-center justify-between">

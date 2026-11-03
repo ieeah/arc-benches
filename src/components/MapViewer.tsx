@@ -126,8 +126,8 @@ export const MapViewer = ({
     <div
       className={`relative overflow-hidden bg-gray-950 border border-gray-800 ${
         isFullscreen
-          ? 'fixed inset-0 z-50 rounded-none w-screen h-screen'
-          : 'w-full h-[65vh] min-h-[420px] rounded-[24px] shadow-xl'
+          ? 'fixed inset-0 z-50 rounded-none w-screen h-dvh'
+          : 'w-full h-[65dvh] min-h-[420px] rounded-[24px] shadow-xl'
       } ${className}`}
     >
       {/* Contenitore Leaflet */}

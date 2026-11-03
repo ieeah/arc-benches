@@ -128,7 +128,7 @@ export function DevStudioLayout({
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col">
+    <div className="h-dvh w-screen overflow-hidden bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col">
       {/* ── AVVISO PER SCHERMI PICCOLI (DESKTOP ONLY REQUIREMENT) ── */}
       <div className="lg:hidden fixed inset-0 z-50 bg-gray-900/95 text-white flex flex-col items-center justify-center p-6 text-center">
         <Monitor size={48} className="text-amber-400 mb-4 animate-bounce" />

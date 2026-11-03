@@ -45,7 +45,7 @@ export function RoleMakerModal({
 
   return (
     <Drawer from="bottom" onClose={onClose} title={`🎲 ${t('roleMaker.title')}`}>
-      <div className="space-y-4 p-1 pb-6 text-slate-800 dark:text-slate-100 max-h-[75vh] overflow-y-auto pr-1">
+      <div className="space-y-4 p-1 pb-6 text-slate-800 dark:text-slate-100 max-h-[75dvh] overflow-y-auto pr-1">
         {!active ? (
           <div className="text-center py-8 px-4 space-y-4">
             <div className="w-16 h-16 mx-auto rounded-full bg-blue-500/10 dark:bg-blue-400/20 text-blue-600 dark:text-blue-400 flex items-center justify-center">

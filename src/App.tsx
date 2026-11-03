@@ -154,7 +154,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-clip w-full">
+      <div className="min-h-dvh bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-clip w-full">
         {isDev && activeTab === 'dev' ? (
           <DevDashboardPage onBack={() => router.back()} onNavigate={handleNavigate} />
         ) : isDev && activeTab === 'dev-overrides' ? (
@@ -176,7 +176,7 @@ export default function App() {
           <DevTrashPage onBack={() => router.back()} />
         ) : (
           <>
-            <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-screen">
+            <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-dvh">
               {activeTab === 'stash' && <StashPage onOpenOverrides={handleOpenOverrides} />}
               {activeTab === 'liste' && (
                 <ListsPage
