@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CheckCircle2, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles } from '@/lib/rarity';
 import { refinerCraftLevel } from '@/lib/craft';
@@ -114,16 +114,7 @@ export const InventoryListItem = ({
             ) : undefined
           }
           categoryBadge={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} bare />}
-          overlay={
-            isCompleted ? (
-              <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">
-                <CheckCircle2
-                  size={22}
-                  className="text-green-500 bg-white dark:bg-black rounded-full shadow-lg"
-                />
-              </div>
-            ) : undefined
-          }
+          completed={isCompleted}
         />
       </div>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { CheckCircle2 } from "lucide-react";
 import { ItemIcon } from "@/components/ItemIcon";
 import { getRarityHex } from "@/lib/rarity";
 
@@ -20,6 +21,8 @@ export interface ItemCardFrameV2Props {
   /** Testo a destra nella barra inferiore, accanto all'icona categoria (es. «×3» come nel gioco). Ignorato se `compact`. */
   barRightSlot?: React.ReactNode;
   overlay?: React.ReactNode;
+  /** Se true, mostra l'overlay standard di completamento con icona check verde ad alto contrasto. */
+  completed?: boolean;
   /** Per rendering molto piccoli: nasconde la barra categoria inferiore (badge + spazio riservato). */
   compact?: boolean;
   /** Usa la miniatura 128px dell'icona (righe di lista piccole). */
@@ -57,6 +60,7 @@ export const ItemCardFrameV2 = ({
   bottomRightSlot,
   barRightSlot,
   overlay,
+  completed = false,
   compact = false,
   thumb = false,
   onClick,
@@ -160,6 +164,16 @@ export const ItemCardFrameV2 = ({
               {barRightSlot}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Overlay completato globale a tutta la card (centrato geometricamente su icona + barra) */}
+      {completed && (
+        <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center pointer-events-none z-20">
+          <CheckCircle2
+            size={32}
+            className="text-green-500 bg-white dark:bg-black rounded-full shadow-lg"
+          />
         </div>
       )}
     </div>

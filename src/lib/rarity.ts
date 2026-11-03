@@ -17,6 +17,14 @@ export const rarityHex: Record<string, string> = {
 export const getRarityHex = (rarity?: string): string =>
   rarityHex[rarity?.toLowerCase() ?? ""] ?? rarityHex.common;
 
+export const rarityGlowPresets: Record<string, string> = {
+  common: "shadow-[0_8px_20px_-4px_rgba(108,108,108,0.5)]",
+  uncommon: "shadow-[0_8px_20px_-4px_rgba(38,191,87,0.5)]",
+  rare: "shadow-[0_8px_20px_-4px_rgba(0,168,242,0.5)]",
+  epic: "shadow-[0_8px_20px_-4px_rgba(204,48,153,0.5)]",
+  legendary: "shadow-[0_8px_20px_-4px_rgba(255,198,0,0.5)]",
+};
+
 export const rarityStyles: Record<
   string,
   { color: string; border: string; glow: string; hex: string }
@@ -24,31 +32,31 @@ export const rarityStyles: Record<
   common: {
     color: "bg-[#6C6C6C]",
     border: "border-[#6C6C6C]/40",
-    glow: "shadow-[0_8px_20px_-4px_rgba(108,108,108,0.5)]",
+    glow: "",
     hex: "#6C6C6C",
   },
   uncommon: {
     color: "bg-[#26BF57]",
     border: "border-[#26BF57]/40",
-    glow: "shadow-[0_8px_20px_-4px_rgba(38,191,87,0.5)]",
+    glow: "",
     hex: "#26BF57",
   },
   rare: {
     color: "bg-[#00A8F2]",
     border: "border-[#00A8F2]/40",
-    glow: "shadow-[0_8px_20px_-4px_rgba(0,168,242,0.5)]",
+    glow: "",
     hex: "#00A8F2",
   },
   epic: {
     color: "bg-[#CC3099]",
     border: "border-[#CC3099]/40",
-    glow: "shadow-[0_8px_20px_-4px_rgba(204,48,153,0.5)]",
+    glow: "",
     hex: "#CC3099",
   },
   legendary: {
     color: "bg-[#ffc600]",
     border: "border-[#ffc600]/40",
-    glow: "shadow-[0_8px_20px_-4px_rgba(255,198,0,0.5)]",
+    glow: "",
     hex: "#ffc600",
   },
 };
