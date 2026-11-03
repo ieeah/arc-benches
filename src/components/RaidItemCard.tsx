@@ -1,22 +1,12 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { Trash2, CheckCircle2, RotateCcw } from 'lucide-react';
-import type { ItemInfo, RaidItem } from '@/types';
-import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
-import { CategoryBadge } from '@/components/CategoryBadge';
-import { QuantityStepper } from '@/components/QuantityStepper';
-import { useTranslation, getItemName } from '@/i18n';
-
-// ── PARAMETRI DI CONFIGURAZIONE INTERAZIONE (NON MAGIC NUMBERS) ──
-export const RAID_HOLD_CONFIG = {
-  /** Millisecondi iniziali di "zona morta" per ignorare tocchi accidentali o scroll */
-  deadzoneMs: 200,
-  /** Durata della pressione continua necessaria per completare l'oggetto (dopo la deadzone) */
-  completeDurationMs: 1000,
-  /** Durata della pressione continua necessaria per deselezionare l'oggetto (dopo la deadzone) */
-  uncompleteDurationMs: 1400,
-  /** Durata dell'effetto esplosione/glow post-completamento */
-  burstDurationMs: 500,
-} as const;
+import { useState, useRef, useEffect, useCallback } from "react";
+import { CheckCircle2, RotateCcw, Trash2 } from "lucide-react";
+import type { ItemInfo, RaidItem } from "@/types";
+import { getRarityStyles } from "@/lib/rarity";
+import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
+import { CategoryBadge } from "@/components/CategoryBadge";
+import { QuantityStepper } from "@/components/QuantityStepper";
+import { useTranslation, getItemName } from "@/i18n";
+import { RAID_HOLD_CONFIG } from "@/lib/raidConfig";
 
 export type RaidItemCardProps = {
   raidItem: RaidItem;
@@ -45,22 +35,11 @@ export const RaidItemCard = ({
   hideDelete = false,
 }: RaidItemCardProps) => {
   const { t, language } = useTranslation();
-  const displayName = getItemName(itemInfo, language) || raidItem.itemId.replace(/-/g, ' ');
+  const displayName =
+    getItemName(itemInfo, language) || raidItem.itemId.replace(/-/g, " ");
 
-  // ── STATO COMPLETAMENTO ──
-  // 0: nessun oggetto segnato (neutro)
-  // > 0 ma < target: completamento parziale (giallo)
-  // >= target: completamento totale (verde)
   const isComplete = raidItem.foundQuantity >= raidItem.targetQuantity;
-  const isPartial = raidItem.foundQuantity > 0 && !isComplete;
-
-  // ── BORDO ESTERNO CARD DINAMICO ──
-  // Neutro se 0, Giallo se parziale, Verde se completo
-  const cardBorderClass = isComplete
-    ? 'border-emerald-500 shadow-sm shadow-emerald-500/20'
-    : isPartial
-    ? 'border-amber-400 dark:border-amber-500 shadow-sm shadow-amber-400/15'
-    : 'border-gray-200 dark:border-gray-800';
+  const { border, glow } = getRarityStyles(itemInfo?.rarity);
 
   // ── STEPPER CONTROLLO INTERNO ──
   const [prevFound, setPrevFound] = useState(raidItem.foundQuantity);
@@ -156,9 +135,11 @@ export const RaidItemCard = ({
 
   return (
     <div
-      className={`relative flex flex-col p-2.5 rounded-[24px] card-concentric-24 squircle border-2 ${cardBorderClass} bg-white dark:bg-gray-900 transition-all select-none overflow-hidden ${
-        isHolding && holdProgress > 0.1 ? 'animate-pulse' : ''
-      } ${bursting ? 'scale-[1.03] ring-4 ring-emerald-400/50' : ''}`}
+      className={`relative flex flex-col p-2.5 rounded-[24px] card-concentric-24 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all select-none overflow-hidden ${
+        isComplete ? "opacity-60 grayscale-[0.45]" : ""
+      } ${isHolding && holdProgress > 0.1 ? "animate-pulse" : ""} ${
+        bursting ? "scale-[1.03] ring-4 ring-emerald-400/50" : ""
+      }`}
     >
       {/* ── BAGLIORE ESPLOSIONE FINALE (BURST) ── */}
       {bursting && (
@@ -176,16 +157,16 @@ export const RaidItemCard = ({
         onTouchCancel={cancelHold}
         title={
           isComplete
-            ? 'Tieni premuto per azzerare'
-            : 'Tieni premuto per completare'
+            ? "Tieni premuto per azzerare"
+            : "Tieni premuto per completare"
         }
       >
         <ItemCardFrameV2
           icon={itemInfo?.icon}
           alt={displayName}
           rarity={itemInfo?.rarity}
-          fallbackText={raidItem.itemId.replace(/-/g, ' ')}
-          className="mb-1.5"
+          fallbackText={raidItem.itemId.replace(/-/g, " ")}
+          className={`mb-1.5 ${!isComplete ? glow : ""}`}
           imgClassName="max-w-full max-h-full object-contain"
           categoryBadge={
             <CategoryBadge
@@ -195,23 +176,13 @@ export const RaidItemCard = ({
             />
           }
           barRightSlot={
-            <span
-              className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[11px] font-black font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-            >
+            <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[11px] font-black font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
               ×{raidItem.targetQuantity}
             </span>
           }
+          completed={isComplete && !isHolding}
           overlay={
             <>
-              {/* Overlay stato completato statico */}
-              {isComplete && !isHolding && (
-                <div className="absolute inset-0 bg-emerald-500/20 backdrop-blur-[1px] flex items-center justify-center pointer-events-none transition-opacity">
-                  <div className="w-9 h-9 rounded-full bg-white dark:bg-black/90 text-emerald-500 flex items-center justify-center shadow-lg border border-emerald-400">
-                    <CheckCircle2 size={24} className="stroke-[2.5]" />
-                  </div>
-                </div>
-              )}
-
               {/* Overlay animazione espansione dal centro (Hold to Complete / Reset) */}
               {isHolding && holdProgress > 0 && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden rounded-[20px]">
@@ -221,7 +192,9 @@ export const RaidItemCard = ({
                       opacity: Math.min(0.9, holdProgress + 0.1),
                     }}
                     className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
-                      isComplete ? 'bg-rose-500/80 text-white' : 'bg-emerald-500/80 text-white'
+                      isComplete
+                        ? "bg-rose-500/80 text-white"
+                        : "bg-emerald-500/80 text-white"
                     }`}
                   >
                     {isComplete ? (
@@ -266,18 +239,20 @@ export const RaidItemCard = ({
             type="button"
             onClick={onOpenEditModal}
             className="p-1 text-gray-400 hover:text-blue-500 rounded-lg active:scale-90 transition-colors cursor-pointer"
-            title={t('common.edit')}
-            aria-label={t('common.edit')}
+            title={t("common.edit")}
+            aria-label={t("common.edit")}
           >
-            <span className="text-[10px] font-bold text-gray-400 hover:text-blue-500">Modifica</span>
+            <span className="text-[10px] font-bold text-gray-400 hover:text-blue-500">
+              Modifica
+            </span>
           </button>
 
           <button
             type="button"
             onClick={onRemove}
             className="p-1 text-gray-400 hover:text-red-500 rounded-lg active:scale-90 transition-colors cursor-pointer"
-            title={t('common.delete')}
-            aria-label={t('common.delete')}
+            title={t("common.delete")}
+            aria-label={t("common.delete")}
           >
             <Trash2 size={13} />
           </button>

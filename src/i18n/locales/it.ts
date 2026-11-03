@@ -516,7 +516,7 @@ export const it = {
   },
   "raid": {
     "title": "Pianificazione Raid",
-    "subtitle": "Preparazione tattica, obiettivi spot e materiali da estrarre.",
+    "subtitle": "Obiettivi e materiali da estrarre.",
     "statusActive": "Incursione In Corso",
     "statusInactive": "Incursione Inattiva",
     "spotActions": "Azioni Spot",

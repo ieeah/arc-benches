@@ -91,7 +91,7 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
     const s = get();
     const qty = Math.max(1, targetQuantity);
     const existingIndex = s.raidPlan.items.findIndex(i => i.itemId === itemId);
-    let updatedItems = [...s.raidPlan.items];
+    const updatedItems = [...s.raidPlan.items];
 
     if (existingIndex >= 0) {
       const existing = updatedItems[existingIndex];

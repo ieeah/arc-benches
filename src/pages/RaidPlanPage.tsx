@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus, LayoutGrid, List as ListIcon, Pencil
+  Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus, LayoutGrid, List as ListIcon, Pencil, Play, Square
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
@@ -141,24 +141,24 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Toggle Stato Incursione */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Toggle Stato Incursione: Player style Play / Stop */}
             <button
               onClick={() => setIsRaidRunning(!isRaidRunning)}
               disabled={actions.length === 0 && items.length === 0}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer border shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
                 isRaidRunning
-                  ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm shadow-emerald-500/20'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  ? 'bg-emerald-500 text-white border-emerald-400 shadow-md shadow-emerald-500/25 hover:bg-emerald-600'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
+              title={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
               aria-label={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
             >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  isRaidRunning ? 'bg-white animate-pulse' : 'bg-gray-400'
-                }`}
-              />
-              <span>{isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}</span>
+              {isRaidRunning ? (
+                <Square size={16} className="fill-current" />
+              ) : (
+                <Play size={17} className="fill-current translate-x-0.5" />
+              )}
             </button>
 
             {/* Toggle Vista Griglia / Lista (Visibile e selezionabile solo in Incursione Attiva) */}
@@ -167,7 +167,7 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                 <button
                   type="button"
                   onClick={() => setRaidPreferredViewMode('grid')}
-                  className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                  className={`p-2 rounded-lg transition-all cursor-pointer ${
                     activeViewMode === 'grid'
                       ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                       : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
@@ -175,12 +175,12 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                   title={t('stash.viewGrid')}
                   aria-label={t('stash.viewGrid')}
                 >
-                  <LayoutGrid size={15} />
+                  <LayoutGrid size={16} />
                 </button>
                 <button
                   type="button"
                   onClick={() => setRaidPreferredViewMode('list')}
-                  className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                  className={`p-2 rounded-lg transition-all cursor-pointer ${
                     activeViewMode === 'list'
                       ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                       : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
@@ -188,7 +188,7 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                   title={t('stash.viewList')}
                   aria-label={t('stash.viewList')}
                 >
-                  <ListIcon size={15} />
+                  <ListIcon size={16} />
                 </button>
               </div>
             )}

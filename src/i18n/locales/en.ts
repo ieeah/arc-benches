@@ -518,7 +518,7 @@ export const en: LocaleSchema = {
   },
   raid: {
     title: 'Raid Plan',
-    subtitle: 'Tactical briefing, spot objectives, and loot to extract.',
+    subtitle: 'Objectives and loot to extract.',
     statusActive: 'Raid In Progress',
     statusInactive: 'Raid Inactive',
     spotActions: 'Spot Actions',
