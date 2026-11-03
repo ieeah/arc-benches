@@ -2,7 +2,8 @@ import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react'
 import { createPortal } from 'react-dom';
 import { CheckCircle2, ChevronDown, Clock, Hammer, ShoppingCart, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import type { ItemInfo, List } from '@/types';
-import { getBaseLevel, hasDeductionConflict, isActionWindowOpen } from '@/lib/lists';
+import { getBaseLevel, hasDeductionConflict, isActionWindowOpen, calculateListProgress } from '@/lib/lists';
+import { ListProgressBar } from '@/components/ListProgressBar';
 import type { LevelBlocker } from '@/lib/levelRequirements';
 import { RequirementChips } from '@/components/RequirementChips';
 import { useLevelGuard } from '@/hooks/useLevelGuard';
@@ -148,6 +149,9 @@ export const UnifiedListCard = ({
   const remaining = list.expirationDate ? formatTimeRemaining(list.expirationDate, language) : null;
 
   // Solo le azioni del livello successivo (la finestra, #111): né quelle dei livelli superati né quelle più avanti.
+  const listName = getListName(list, language);
+  const progress = calculateListProgress(list, current, inventory, checkedActions, canUpgrade);
+
   const actionLevels = list.levels.filter(
     l => isActionWindowOpen(l.level, current) && ((l.actions?.length ?? 0) > 0 || (l.tieredActions?.length ?? 0) > 0)
   );
@@ -218,31 +222,34 @@ export const UnifiedListCard = ({
         {dragHandle}
         <button
           onClick={() => setExpanded(e => !e)}
-          className="flex-1 flex items-center gap-1.5 min-w-0 text-left overflow-hidden"
+          className="flex-1 flex items-center gap-2 min-w-0 text-left overflow-hidden py-0.5"
         >
-          <span className="font-bold text-base flex-1 flex items-center gap-1.5 min-w-0 overflow-hidden">
-            <span className="truncate">{getListName(list, language)}</span>
-            {list.custom && (
-              <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">
-                Custom
-              </span>
-            )}
-            {remaining && (
-              <span className={cn(
-                'shrink-0 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full flex items-center gap-1',
-                expired
-                  ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
-                  : remaining.urgent
-                  ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
-                  : remaining.warning
-                  ? 'text-amber-600 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
-                  : 'text-gray-500 bg-gray-100 dark:bg-gray-800 dark:text-gray-400'
-              )}>
-                <Clock size={10} />
-                {expired ? t('lists.expired') : remaining.text}
-              </span>
-            )}
-          </span>
+          <div className="flex-1 min-w-0 flex flex-col gap-1 overflow-hidden">
+            <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
+              <span className="font-bold text-base truncate">{listName}</span>
+              {list.custom && (
+                <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">
+                  Custom
+                </span>
+              )}
+              {remaining && (
+                <span className={cn(
+                  'shrink-0 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full flex items-center gap-1',
+                  expired
+                    ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                    : remaining.urgent
+                    ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                    : remaining.warning
+                    ? 'text-amber-600 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
+                    : 'text-gray-500 bg-gray-100 dark:bg-gray-800 dark:text-gray-400'
+                )}>
+                  <Clock size={10} />
+                  {expired ? t('lists.expired') : remaining.text}
+                </span>
+              )}
+            </div>
+            <ListProgressBar progress={progress} isCustom={Boolean(list.custom)} listName={listName} />
+          </div>
           <LevelBadge current={current} max={list.maxLevel} state={isMaxed ? 'maxed' : canUpgrade ? 'ready' : 'default'} />
           <ChevronDown
             size={16}

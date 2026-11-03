@@ -3,7 +3,7 @@ import type { List } from '@/types';
 import {
   actionWindowLevel, currentLevelOf, hasDeductionConflict, isActionWindowOpen, isCustom, isExpedition, isPass, isProject,
   getBaseLevel, getCascadeLowering, isQuest, isWorkbench, levelActionKeys, maxReachableLevel, parseActionKey,
-  pruneOutOfWindowChecks, unmetRequirements, withListType,
+  pruneOutOfWindowChecks, unmetRequirements, withListType, calculateListProgress,
 } from './lists';
 
 const levels = [{ level: 1, requirementItemIds: [] }];
@@ -179,5 +179,163 @@ describe('requirements between lists (#87)', () => {
     expect(getCascadeLowering(all, { retreat: 2, outpost: 3, research: 1, gun: 2 }, 'outpost', 2)).toEqual([]);
     // Outpost può scendere o salire con Research Station a 0: il vincolo è a senso unico
     expect(getCascadeLowering(all, { retreat: 2, outpost: 3, research: 0, gun: 2 }, 'research', 0)).toEqual([]);
+  });
+});
+
+describe('calculateListProgress', () => {
+  const sampleWorkbench: List = {
+    id: 'wb1',
+    name: 'Armeria',
+    listType: 'workbench',
+    maxLevel: 3,
+    levels: [
+      {
+        level: 1,
+        requirementItemIds: [
+          { itemId: 'metal-parts', quantity: 10 },
+          { itemId: 'rubber', quantity: 10 },
+        ],
+      },
+      {
+        level: 2,
+        requirementItemIds: [
+          { itemId: 'steel-cable', quantity: 20 },
+        ],
+      },
+      {
+        level: 3,
+        requirementItemIds: [
+          { itemId: 'circuit-board', quantity: 5 },
+        ],
+      },
+    ],
+  };
+
+  it('starts at 0% when current is 0 and inventory is empty', () => {
+    const res = calculateListProgress(sampleWorkbench, 0, {});
+    expect(res.baseLevel).toBe(0);
+    expect(res.maxLevel).toBe(3);
+    expect(res.isMaxed).toBe(false);
+    expect(res.canUpgrade).toBe(false);
+    expect(res.nextLevelPercent).toBe(0);
+    expect(res.overallPercent).toBe(0);
+    expect(res.segments).toEqual([
+      { level: 1, status: 'in-progress', percent: 0 },
+      { level: 2, status: 'future', percent: 0 },
+      { level: 3, status: 'future', percent: 0 },
+    ]);
+  });
+
+  it('computes partial micro progress based on collected materials', () => {
+    // 5 metal-parts out of 10, 5 rubber out of 10 -> 10/20 = 50%
+    const res = calculateListProgress(sampleWorkbench, 0, {
+      'metal-parts': 5,
+      'rubber': 5,
+    });
+    expect(res.nextLevelPercent).toBe(50);
+    // 50% of level 1 on 3 total levels -> round(50 / 3) = 17%
+    expect(res.overallPercent).toBe(17);
+    expect(res.segments[0]).toEqual({ level: 1, status: 'in-progress', percent: 50 });
+  });
+
+  it('shows ready status and 100% micro when canUpgrade is true', () => {
+    const res = calculateListProgress(sampleWorkbench, 0, {
+      'metal-parts': 10,
+      'rubber': 10,
+    }, {}, true);
+    expect(res.canUpgrade).toBe(true);
+    expect(res.nextLevelPercent).toBe(100);
+    // (0*100 + 100)/3 = 33%
+    expect(res.overallPercent).toBe(33);
+    expect(res.segments[0]).toEqual({ level: 1, status: 'ready', percent: 100 });
+  });
+
+  it('marks completed segments when current level is advanced', () => {
+    // Current is level 1. Target is level 2 (20 steel-cable). Owned: 10 steel-cable (50%)
+    const res = calculateListProgress(sampleWorkbench, 1, {
+      'steel-cable': 10,
+    });
+    expect(res.nextLevelPercent).toBe(50);
+    // (1*100 + 50)/3 = 150/3 = 50%
+    expect(res.overallPercent).toBe(50);
+    expect(res.segments).toEqual([
+      { level: 1, status: 'completed', percent: 100 },
+      { level: 2, status: 'in-progress', percent: 50 },
+      { level: 3, status: 'future', percent: 0 },
+    ]);
+  });
+
+  it('handles maxed lists correctly with all segments completed and 100% overall', () => {
+    const res = calculateListProgress(sampleWorkbench, 3, {});
+    expect(res.isMaxed).toBe(true);
+    expect(res.overallPercent).toBe(100);
+    expect(res.nextLevelPercent).toBe(100);
+    expect(res.segments).toEqual([
+      { level: 1, status: 'completed', percent: 100 },
+      { level: 2, status: 'completed', percent: 100 },
+      { level: 3, status: 'completed', percent: 100 },
+    ]);
+  });
+
+  it('handles lists with baseLevel = 1 (e.g. Scrappy)', () => {
+    const scrappyList: List = {
+      id: 'scrappy',
+      name: 'Scrappy',
+      listType: 'workbench',
+      maxLevel: 4,
+      levels: [
+        { level: 1, requirementItemIds: [] },
+        { level: 2, requirementItemIds: [{ itemId: 'seeds', quantity: 5 }] },
+        { level: 3, requirementItemIds: [{ itemId: 'seeds', quantity: 10 }] },
+        { level: 4, requirementItemIds: [{ itemId: 'seeds', quantity: 15 }] },
+      ],
+    };
+    const res = calculateListProgress(scrappyList, 1, { seeds: 5 });
+    expect(res.baseLevel).toBe(1);
+    expect(res.segments.length).toBe(3); // levels 2, 3, 4
+    expect(res.segments.map(s => s.level)).toEqual([2, 3, 4]);
+    expect(res.segments[0]).toEqual({ level: 2, status: 'in-progress', percent: 100 });
+  });
+
+  it('combines materials and actions weighting', () => {
+    const projectWithActions: List = {
+      id: 'proj1',
+      name: 'Progetto Test',
+      listType: 'project',
+      maxLevel: 1,
+      levels: [
+        {
+          level: 1,
+          requirementItemIds: [{ itemId: 'iron', quantity: 10 }],
+          actions: [{ id: 'act1', label: 'Cerca indizio' }],
+        },
+      ],
+    };
+    // 100% materials (10/10), 0% actions -> (100% + 0%) / 2 = 50%
+    const resPartial = calculateListProgress(projectWithActions, 0, { iron: 10 }, {});
+    expect(resPartial.nextLevelPercent).toBe(50);
+
+    // 100% materials and 100% actions -> 100%
+    const resFull = calculateListProgress(projectWithActions, 0, { iron: 10 }, { 'proj1|1|act1': true });
+    expect(resFull.nextLevelPercent).toBe(100);
+  });
+
+  it('takes delivered items from checkedActions into account', () => {
+    const caravanList: List = {
+      id: 'exp1',
+      name: 'Spedizione 1',
+      listType: 'expedition',
+      expeditionIndex: 1,
+      maxLevel: 1,
+      levels: [
+        {
+          level: 1,
+          requirementItemIds: [{ itemId: 'fuel', quantity: 50 }],
+        },
+      ],
+    };
+    // Inventory has 0, but fuel was delivered in phase
+    const res = calculateListProgress(caravanList, 0, { fuel: 0 }, { 'exp1|1|item_fuel': true });
+    expect(res.nextLevelPercent).toBe(100);
   });
 });

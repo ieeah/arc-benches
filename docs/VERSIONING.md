@@ -116,7 +116,7 @@ Già fatte: #63, #72, #73, #77, #78, #80, #82, #83, #84, #85, #86, #108, #111, #
 - [x] #103 [Script dati: modulo condiviso per ARC Tracker con cache locale](https://github.com/ieeah/arc-benches/issues/103)
 - [x] #104 [Script dati: traduzioni italiane con ARC Tracker di ripiego (RaidTheory vince)](https://github.com/ieeah/arc-benches/issues/104) — dopo #103
 - [x] #129 [Badge per gli oggetti acquistabili dai commercianti (simile al Refiner)](https://github.com/ieeah/arc-benches/issues/129)
-- [ ] #130 [Barra di progresso dell'avanzamento sulle card delle liste](https://github.com/ieeah/arc-benches/issues/130)
+- [x] #130 [Barra di progresso dell'avanzamento sulle card delle liste](https://github.com/ieeah/arc-benches/issues/130)
 
 ---
 

@@ -71,7 +71,9 @@ export const it = {
     "actionsCount": "{count} azioni richieste",
     "slideActionToComplete": "Scorri per completare",
     "actionCompleted": "Completata",
-    "reopenAction": "Riapri azione"
+    "reopenAction": "Riapri azione",
+    "holdToComplete": "Tieni premuto per completare",
+    "holdToReset": "Tieni premuto per azzerare"
   },
   "benches": {
     "title": "Banchi del Rifugio",
@@ -122,7 +124,10 @@ export const it = {
     "expiredNotice": "Questa lista è scaduta. I suoi requisiti non sono inclusi nel conteggio dello Stash.",
     "rewards": "Ricompense",
     "requiredMaps": "Da compiere in questa mappa",
-    "carryItems": "Oggetti da portare"
+    "carryItems": "Oggetti da portare",
+    "progressBarLabel": "Avanzamento {name}: Lvl {current} di {max}, {percent}% verso il prossimo livello",
+    "progressBarLabelMaxed": "Avanzamento {name}: Lvl {max} di {max} (Completato)",
+    "progressBarLabelReady": "Avanzamento {name}: Lvl {current} di {max}, pronto per il potenziamento"
   },
   "listDetail": {
     "backToLists": "Torna alle liste",

@@ -12,7 +12,6 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
   - *Specifica tecnica*: [docs/specs/moduli-attivabili-per-profilo.md](specs/moduli-attivabili-per-profilo.md)
 - [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110)
 - [x] #129 [Badge per gli oggetti acquistabili dai commercianti (simile al Refiner)](https://github.com/ieeah/arc-benches/issues/129)
-- [ ] #130 [Barra di progresso dell'avanzamento sulle card delle liste](https://github.com/ieeah/arc-benches/issues/130)
 
 ---
 

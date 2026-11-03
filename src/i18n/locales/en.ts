@@ -74,6 +74,8 @@ export const en: LocaleSchema = {
     slideActionToComplete: 'Slide to complete',
     actionCompleted: 'Completed',
     reopenAction: 'Reopen action',
+    holdToComplete: 'Hold to complete',
+    holdToReset: 'Hold to reset',
   },
   benches: {
     title: 'Workbenches',
@@ -125,6 +127,9 @@ export const en: LocaleSchema = {
     rewards: 'Rewards',
     requiredMaps: 'To be done on this map',
     carryItems: 'Items to bring',
+    progressBarLabel: '{name} progress: Lvl {current} of {max}, {percent}% towards next level',
+    progressBarLabelMaxed: '{name} progress: Lvl {max} of {max} (Completed)',
+    progressBarLabelReady: '{name} progress: Lvl {current} of {max}, ready to upgrade',
   },
   listDetail: {
     backToLists: 'Back to lists',
