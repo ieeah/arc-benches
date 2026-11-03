@@ -194,6 +194,8 @@ export type ListProgressSegment = {
   level: number;
   status: 'completed' | 'in-progress' | 'future' | 'ready';
   percent: number;
+  /** True se corrisponde esattamente al livello target successivo a quello corrente (livello attivo) */
+  isTarget?: boolean;
 };
 
 export type ListProgress = {
@@ -206,6 +208,69 @@ export type ListProgress = {
   nextLevelPercent: number;
   segments: ListProgressSegment[];
 };
+
+/**
+ * Calcola la percentuale di completamento dei requisiti (materiali e azioni) per un livello specifico.
+ */
+export function calculateLevelRequirementsPercent(
+  list: List,
+  levelNum: number,
+  inventory: Record<string, number> = {},
+  checkedActions?: Record<string, boolean>,
+): number {
+  const levelData = list.levels.find(l => l.level === levelNum);
+  if (!levelData) return 0;
+
+  const reqItems = levelData.requirementItemIds ?? [];
+  let hasMaterials = false;
+  let materialFraction = 0;
+
+  if (reqItems.length > 0) {
+    let totalRequired = 0;
+    let totalOwned = 0;
+    for (const req of reqItems) {
+      totalRequired += req.quantity;
+      const isDelivered = checkedActions?.[`${list.id}|${levelNum}|item_${req.itemId}`];
+      const owned = isDelivered ? req.quantity : (inventory[req.itemId] ?? 0);
+      totalOwned += Math.min(req.quantity, Math.max(0, owned));
+    }
+    hasMaterials = true;
+    materialFraction = totalRequired > 0 ? totalOwned / totalRequired : 1;
+  }
+
+  const actions = levelData.actions ?? [];
+  const tieredActions = levelData.tieredActions ?? [];
+  let totalActions = actions.length;
+  for (const t of tieredActions) {
+    totalActions += (t.steps ?? []).length;
+  }
+
+  let hasActions = false;
+  let actionFraction = 0;
+
+  if (totalActions > 0) {
+    let completedActions = 0;
+    for (const a of actions) {
+      if (checkedActions?.[`${list.id}|${levelNum}|${a.id}`]) completedActions++;
+    }
+    for (const t of tieredActions) {
+      for (const s of t.steps ?? []) {
+        if (checkedActions?.[`${list.id}|${levelNum}|${t.id}:${s.id}`]) completedActions++;
+      }
+    }
+    hasActions = true;
+    actionFraction = completedActions / totalActions;
+  }
+
+  if (hasMaterials && hasActions) {
+    return Math.min(100, Math.max(0, Math.round(((materialFraction + actionFraction) / 2) * 100)));
+  } else if (hasMaterials) {
+    return Math.min(100, Math.max(0, Math.round(materialFraction * 100)));
+  } else if (hasActions) {
+    return Math.min(100, Math.max(0, Math.round(actionFraction * 100)));
+  }
+  return 0;
+}
 
 export function calculateListProgress(
   list: List,
@@ -222,10 +287,10 @@ export function calculateListProgress(
   if (isMaxed) {
     const segments: ListProgressSegment[] = [];
     for (let lvl = baseLevel + 1; lvl <= maxLevel; lvl++) {
-      segments.push({ level: lvl, status: 'completed', percent: 100 });
+      segments.push({ level: lvl, status: 'completed', percent: 100, isTarget: false });
     }
     if (segments.length === 0) {
-      segments.push({ level: maxLevel, status: 'completed', percent: 100 });
+      segments.push({ level: maxLevel, status: 'completed', percent: 100, isTarget: false });
     }
     return {
       baseLevel,
@@ -240,78 +305,30 @@ export function calculateListProgress(
   }
 
   const targetLevel = current + 1;
-  let nextLevelPercent = 0;
-
-  if (canUpgrade) {
-    nextLevelPercent = 100;
-  } else {
-    const levelData = list.levels.find(l => l.level === targetLevel);
-    if (levelData) {
-      const reqItems = levelData.requirementItemIds ?? [];
-      let hasMaterials = false;
-      let materialFraction = 0;
-
-      if (reqItems.length > 0) {
-        let totalRequired = 0;
-        let totalOwned = 0;
-        for (const req of reqItems) {
-          totalRequired += req.quantity;
-          const isDelivered = checkedActions?.[`${list.id}|${targetLevel}|item_${req.itemId}`];
-          const owned = isDelivered ? req.quantity : (inventory[req.itemId] ?? 0);
-          totalOwned += Math.min(req.quantity, Math.max(0, owned));
-        }
-        hasMaterials = true;
-        materialFraction = totalRequired > 0 ? totalOwned / totalRequired : 1;
-      }
-
-      const actions = levelData.actions ?? [];
-      const tieredActions = levelData.tieredActions ?? [];
-      let totalActions = actions.length;
-      for (const t of tieredActions) {
-        totalActions += (t.steps ?? []).length;
-      }
-
-      let hasActions = false;
-      let actionFraction = 0;
-
-      if (totalActions > 0) {
-        let completedActions = 0;
-        for (const a of actions) {
-          if (checkedActions?.[`${list.id}|${targetLevel}|${a.id}`]) completedActions++;
-        }
-        for (const t of tieredActions) {
-          for (const s of t.steps ?? []) {
-            if (checkedActions?.[`${list.id}|${targetLevel}|${t.id}:${s.id}`]) completedActions++;
-          }
-        }
-        hasActions = true;
-        actionFraction = completedActions / totalActions;
-      }
-
-      if (hasMaterials && hasActions) {
-        nextLevelPercent = Math.min(100, Math.max(0, Math.round(((materialFraction + actionFraction) / 2) * 100)));
-      } else if (hasMaterials) {
-        nextLevelPercent = Math.min(100, Math.max(0, Math.round(materialFraction * 100)));
-      } else if (hasActions) {
-        nextLevelPercent = Math.min(100, Math.max(0, Math.round(actionFraction * 100)));
-      } else {
-        nextLevelPercent = 0;
-      }
-    }
-  }
+  const targetReqPercent = calculateLevelRequirementsPercent(list, targetLevel, inventory, checkedActions);
+  const nextLevelPercent = canUpgrade ? 100 : targetReqPercent;
 
   const segments: ListProgressSegment[] = [];
   for (let lvl = baseLevel + 1; lvl <= maxLevel; lvl++) {
+    const isTarget = lvl === targetLevel;
     if (lvl <= current) {
-      segments.push({ level: lvl, status: 'completed', percent: 100 });
-    } else if (lvl === targetLevel) {
+      segments.push({ level: lvl, status: 'completed', percent: 100, isTarget: false });
+    } else if (isTarget) {
       segments.push({
         level: lvl,
         status: canUpgrade ? 'ready' : 'in-progress',
         percent: nextLevelPercent,
+        isTarget: true,
       });
     } else {
-      segments.push({ level: lvl, status: 'future', percent: 0 });
+      // Livelli futuri oltre il target corrente: calcoliamo il progresso reale in base ai componenti posseduti
+      const lvlPercent = calculateLevelRequirementsPercent(list, lvl, inventory, checkedActions);
+      segments.push({
+        level: lvl,
+        status: lvlPercent > 0 ? 'in-progress' : 'future',
+        percent: lvlPercent,
+        isTarget: false,
+      });
     }
   }
 

@@ -220,9 +220,9 @@ describe('calculateListProgress', () => {
     expect(res.nextLevelPercent).toBe(0);
     expect(res.overallPercent).toBe(0);
     expect(res.segments).toEqual([
-      { level: 1, status: 'in-progress', percent: 0 },
-      { level: 2, status: 'future', percent: 0 },
-      { level: 3, status: 'future', percent: 0 },
+      { level: 1, status: 'in-progress', percent: 0, isTarget: true },
+      { level: 2, status: 'future', percent: 0, isTarget: false },
+      { level: 3, status: 'future', percent: 0, isTarget: false },
     ]);
   });
 
@@ -235,7 +235,7 @@ describe('calculateListProgress', () => {
     expect(res.nextLevelPercent).toBe(50);
     // 50% of level 1 on 3 total levels -> round(50 / 3) = 17%
     expect(res.overallPercent).toBe(17);
-    expect(res.segments[0]).toEqual({ level: 1, status: 'in-progress', percent: 50 });
+    expect(res.segments[0]).toEqual({ level: 1, status: 'in-progress', percent: 50, isTarget: true });
   });
 
   it('shows ready status and 100% micro when canUpgrade is true', () => {
@@ -247,7 +247,7 @@ describe('calculateListProgress', () => {
     expect(res.nextLevelPercent).toBe(100);
     // (0*100 + 100)/3 = 33%
     expect(res.overallPercent).toBe(33);
-    expect(res.segments[0]).toEqual({ level: 1, status: 'ready', percent: 100 });
+    expect(res.segments[0]).toEqual({ level: 1, status: 'ready', percent: 100, isTarget: true });
   });
 
   it('marks completed segments when current level is advanced', () => {
@@ -259,9 +259,9 @@ describe('calculateListProgress', () => {
     // (1*100 + 50)/3 = 150/3 = 50%
     expect(res.overallPercent).toBe(50);
     expect(res.segments).toEqual([
-      { level: 1, status: 'completed', percent: 100 },
-      { level: 2, status: 'in-progress', percent: 50 },
-      { level: 3, status: 'future', percent: 0 },
+      { level: 1, status: 'completed', percent: 100, isTarget: false },
+      { level: 2, status: 'in-progress', percent: 50, isTarget: true },
+      { level: 3, status: 'future', percent: 0, isTarget: false },
     ]);
   });
 
@@ -271,9 +271,9 @@ describe('calculateListProgress', () => {
     expect(res.overallPercent).toBe(100);
     expect(res.nextLevelPercent).toBe(100);
     expect(res.segments).toEqual([
-      { level: 1, status: 'completed', percent: 100 },
-      { level: 2, status: 'completed', percent: 100 },
-      { level: 3, status: 'completed', percent: 100 },
+      { level: 1, status: 'completed', percent: 100, isTarget: false },
+      { level: 2, status: 'completed', percent: 100, isTarget: false },
+      { level: 3, status: 'completed', percent: 100, isTarget: false },
     ]);
   });
 
@@ -294,7 +294,7 @@ describe('calculateListProgress', () => {
     expect(res.baseLevel).toBe(1);
     expect(res.segments.length).toBe(3); // levels 2, 3, 4
     expect(res.segments.map(s => s.level)).toEqual([2, 3, 4]);
-    expect(res.segments[0]).toEqual({ level: 2, status: 'in-progress', percent: 100 });
+    expect(res.segments[0]).toEqual({ level: 2, status: 'in-progress', percent: 100, isTarget: true });
   });
 
   it('combines materials and actions weighting', () => {
@@ -318,6 +318,25 @@ describe('calculateListProgress', () => {
     // 100% materials and 100% actions -> 100%
     const resFull = calculateListProgress(projectWithActions, 0, { iron: 10 }, { 'proj1|1|act1': true });
     expect(resFull.nextLevelPercent).toBe(100);
+  });
+
+  it('tracks requirements of future levels (e.g. level 3 materials owned while at level 1)', () => {
+    const multiBench: List = {
+      id: 'multi',
+      name: 'Multi Bench',
+      listType: 'workbench',
+      maxLevel: 3,
+      levels: [
+        { level: 1, requirementItemIds: [{ itemId: 'wood', quantity: 10 }] },
+        { level: 2, requirementItemIds: [{ itemId: 'iron', quantity: 20 }] },
+        { level: 3, requirementItemIds: [{ itemId: 'gold', quantity: 5 }] },
+      ],
+    };
+    // Siamo al livello 1 (quindi target = livello 2). Possediamo 0 iron per lvl 2, ma abbiamo 5 gold (100% per lvl 3)!
+    const res = calculateListProgress(multiBench, 1, { gold: 5 }, {});
+    expect(res.segments[0]).toEqual({ level: 1, status: 'completed', percent: 100, isTarget: false });
+    expect(res.segments[1]).toEqual({ level: 2, status: 'in-progress', percent: 0, isTarget: true });
+    expect(res.segments[2]).toEqual({ level: 3, status: 'in-progress', percent: 100, isTarget: false });
   });
 
   it('takes delivered items from checkedActions into account', () => {

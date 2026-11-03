@@ -39,6 +39,9 @@ export const ListProgressBar = memo(function ListProgressBar({
       className={cn('flex items-center gap-1 w-full min-w-0 py-0.5', className)}
     >
       {segments.map(seg => {
+        const isTarget = seg.isTarget ?? false;
+
+        // Livello già completato
         if (seg.status === 'completed') {
           return (
             <div
@@ -51,6 +54,7 @@ export const ListProgressBar = memo(function ListProgressBar({
           );
         }
 
+        // Livello target pronto per l'upgrade (100% requisiti del livello target)
         if (seg.status === 'ready') {
           return (
             <div
@@ -60,24 +64,30 @@ export const ListProgressBar = memo(function ListProgressBar({
           );
         }
 
-        if (seg.status === 'in-progress') {
+        // Livello in progresso (con percentuale > 0).
+        // Se non è il target corrente: opacity-65 (dimmerato) e colore verde fisso (senza pulse/glow) se ha raggiunto il 100%
+        if (seg.status === 'in-progress' || seg.percent > 0) {
+          const isLvlComplete = seg.percent >= 100;
           return (
             <div
               key={seg.level}
-              className="flex-1 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700/60 overflow-hidden"
+              className={cn(
+                'flex-1 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700/60 overflow-hidden transition-opacity duration-300',
+                !isTarget && 'opacity-65'
+              )}
             >
               <div
                 style={{ width: `${seg.percent}%` }}
                 className={cn(
                   'h-full rounded-full transition-all duration-300 ease-out',
-                  activeColor
+                  isLvlComplete ? 'bg-emerald-500' : activeColor
                 )}
               />
             </div>
           );
         }
 
-        // status === 'future'
+        // status === 'future' con 0%
         return (
           <div
             key={seg.level}

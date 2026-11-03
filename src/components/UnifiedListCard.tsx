@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, ChevronDown, Clock, Hammer, ShoppingCart, Layers, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { CheckCircle2, ChevronDown, Clock, Hammer, ShoppingCart, MoreHorizontal, Pencil, Trash2, Info } from 'lucide-react';
 import type { ItemInfo, List } from '@/types';
 import { getBaseLevel, hasDeductionConflict, isActionWindowOpen, calculateListProgress } from '@/lib/lists';
 import { ListProgressBar } from '@/components/ListProgressBar';
@@ -143,7 +143,7 @@ export const UnifiedListCard = ({
   const baseLevel = getBaseLevel(list);
   const nextLevelData = list.levels.find(l => l.level === current + 1);
   const hasCollapsedBody = !isMaxed || list.custom;
-  const hasMenu = Boolean(onOpenDetail || onEdit || onDelete);
+  const hasCustomMenu = Boolean(onEdit || onDelete);
 
   const expired = isListExpired(list);
   const remaining = list.expirationDate ? formatTimeRemaining(list.expirationDate, language) : null;
@@ -218,14 +218,14 @@ export const UnifiedListCard = ({
 
   return (
     <div className={`mb-3 rounded-[24px] border-2 transition-colors w-full min-w-0 overflow-hidden box-border ${cardBorder}`}>
-      <div className="flex items-center gap-1.5 px-3 pt-3 pb-2 w-full min-w-0 overflow-hidden">
-        {dragHandle}
-        <button
-          onClick={() => setExpanded(e => !e)}
-          className="flex-1 flex items-center gap-2 min-w-0 text-left overflow-hidden py-0.5"
-        >
-          <div className="flex-1 min-w-0 flex flex-col gap-1 overflow-hidden">
-            <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
+      <div className="flex flex-col w-full min-w-0 pt-2.5 pb-2">
+        <div className="flex items-center gap-1.5 px-3 w-full min-w-0 overflow-hidden">
+          {dragHandle}
+          <button
+            onClick={() => setExpanded(e => !e)}
+            className="flex-1 flex items-center gap-2 min-w-0 text-left overflow-hidden py-1"
+          >
+            <div className="flex-1 flex items-center gap-1.5 min-w-0 overflow-hidden">
               <span className="font-bold text-base truncate">{listName}</span>
               {list.custom && (
                 <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">
@@ -248,96 +248,102 @@ export const UnifiedListCard = ({
                 </span>
               )}
             </div>
-            <ListProgressBar progress={progress} isCustom={Boolean(list.custom)} listName={listName} />
-          </div>
-          <LevelBadge current={current} max={list.maxLevel} state={isMaxed ? 'maxed' : canUpgrade ? 'ready' : 'default'} />
-          <ChevronDown
-            size={16}
-            className={`shrink-0 text-gray-400 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
-          />
-        </button>
+            <LevelBadge current={current} max={list.maxLevel} state={isMaxed ? 'maxed' : canUpgrade ? 'ready' : 'default'} />
+            <ChevronDown
+              size={16}
+              className={`shrink-0 text-gray-400 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+            />
+          </button>
 
-
-        {hasMenu && (
-          <div className="relative shrink-0">
+          {/* Pulsante Dettagli Diretto (niente più dropdown con opzione singola) */}
+          {onOpenDetail && (
             <button
-              ref={buttonRef}
-              onClick={() => {
-                if (menuOpen) {
-                  closeMenu();
-                } else {
-                  updateMenuPosition();
-                  setMenuOpen(true);
-                }
-              }}
-              title={t('lists.actions')}
-              className="w-9 h-9 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors rounded-full"
+              type="button"
+              onClick={onOpenDetail}
+              title={t('lists.viewDetail')}
+              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors rounded-full shrink-0 cursor-pointer"
             >
-              <MoreHorizontal size={20} />
+              <Info size={18} />
             </button>
-            {menuOpen && menuCoords && typeof document !== 'undefined' && createPortal(
-              <>
-                <div 
-                  className="fixed inset-0 z-50 bg-black/40 dark:bg-black/60 cursor-default" 
-                  onClick={(e) => {
-                    e.stopPropagation();
+          )}
+
+          {/* Menu azioni contestuali per liste personalizzate (modifica ed eliminazione) */}
+          {hasCustomMenu && (
+            <div className="relative shrink-0">
+              <button
+                ref={buttonRef}
+                onClick={() => {
+                  if (menuOpen) {
                     closeMenu();
-                  }}
-                />
-                <div
-                  style={{
-                    top: menuCoords.openUpward ? undefined : `${menuCoords.top}px`,
-                    bottom: menuCoords.openUpward ? `${window.innerHeight - menuCoords.top}px` : undefined,
-                    right: `${menuCoords.right}px`,
-                  }}
-                  className="fixed z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl overflow-hidden min-w-[10rem] animate-in fade-in zoom-in-95 duration-100"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {onOpenDetail && (
-                    <button onClick={() => { closeMenu(); onOpenDetail(); }}
-                      className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                      <Layers size={15} className="text-gray-400 shrink-0" />
-                      {t('lists.viewDetail')}
-                    </button>
-                  )}
-                  {onEdit && (
-                    <>
-                      {onOpenDetail && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
+                  } else {
+                    updateMenuPosition();
+                    setMenuOpen(true);
+                  }
+                }}
+                title={t('lists.actions')}
+                className="w-8 h-8 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors rounded-full cursor-pointer"
+              >
+                <MoreHorizontal size={18} />
+              </button>
+              {menuOpen && menuCoords && typeof document !== 'undefined' && createPortal(
+                <>
+                  <div 
+                    className="fixed inset-0 z-50 bg-black/40 dark:bg-black/60 cursor-default" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeMenu();
+                    }}
+                  />
+                  <div
+                    style={{
+                      top: menuCoords.openUpward ? undefined : `${menuCoords.top}px`,
+                      bottom: menuCoords.openUpward ? `${window.innerHeight - menuCoords.top}px` : undefined,
+                      right: `${menuCoords.right}px`,
+                    }}
+                    className="fixed z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl overflow-hidden min-w-[10rem] animate-in fade-in zoom-in-95 duration-100"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {onEdit && (
                       <button onClick={() => { closeMenu(); onEdit(); }}
-                        className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                        className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer">
                         <Pencil size={15} className="text-gray-400 shrink-0" />
                         {t('lists.edit')}
                       </button>
-                    </>
-                  )}
-                  {onDelete && (
-                    <>
-                      {(onOpenDetail || onEdit) && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
-                      {confirmingDelete ? (
-                        <div className="px-3 py-2.5 space-y-1.5">
-                          <p className="text-[11px] text-gray-500 dark:text-gray-400">{t('customLists.deleteConfirm')}</p>
-                          <div className="flex gap-1.5">
-                            <button onClick={() => { closeMenu(); onDelete(); }}
-                              className="flex-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full">{t('common.delete')}</button>
-                            <button onClick={() => setConfirmingDelete(false)}
-                              className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-xs font-bold rounded-full">{t('common.cancel')}</button>
+                    )}
+                    {onDelete && (
+                      <>
+                        {onEdit && <div className="mx-3 h-px bg-gray-100 dark:bg-gray-700" />}
+                        {confirmingDelete ? (
+                          <div className="px-3 py-2.5 space-y-1.5">
+                            <p className="text-[11px] text-gray-500 dark:text-gray-400">{t('customLists.deleteConfirm')}</p>
+                            <div className="flex gap-1.5">
+                              <button onClick={() => { closeMenu(); onDelete(); }}
+                                className="flex-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full cursor-pointer">{t('common.delete')}</button>
+                              <button onClick={() => setConfirmingDelete(false)}
+                                className="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-xs font-bold rounded-full cursor-pointer">{t('common.cancel')}</button>
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <button onClick={() => setConfirmingDelete(true)}
-                          className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                          <Trash2 size={15} className="shrink-0" />
-                          {t('lists.delete')}
-                        </button>
-                      )}
-                    </>
-                  )}
-                </div>
-              </>,
-              document.body
-            )}
-          </div>
-        )}
+                        ) : (
+                          <button onClick={() => setConfirmingDelete(true)}
+                            className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer">
+                            <Trash2 size={15} className="shrink-0" />
+                            {t('lists.delete')}
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </>,
+                document.body
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Barra di avanzamento a tutta larghezza sotto il blocco superiore */}
+        <div className="px-3 pt-2 pb-0.5 w-full">
+          <ListProgressBar progress={progress} isCustom={Boolean(list.custom)} listName={listName} />
+        </div>
       </div>
 
       {!expanded && hasCollapsedBody && (
