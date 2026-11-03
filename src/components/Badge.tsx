@@ -23,19 +23,10 @@ const VARIANT_STYLES: Record<BadgeVariant, string> = {
   neutral: 'bg-gray-500 text-white',
 };
 
-const SIZE_STYLES: Record<BadgeSize, { container: string; iconOffset: string }> = {
-  xs: {
-    container: 'gap-0.5 px-1 py-0.2 text-[6.5px]',
-    iconOffset: '-translate-y-[0.5px]',
-  },
-  sm: {
-    container: 'gap-1 px-1.5 py-0.5 text-[7.5px]',
-    iconOffset: '-translate-y-[0.5px]',
-  },
-  md: {
-    container: 'gap-1.5 px-2 py-0.5 text-[8.5px]',
-    iconOffset: '-translate-y-[0.5px]',
-  },
+const SIZE_STYLES: Record<BadgeSize, string> = {
+  xs: 'gap-1 px-1.5 py-0.5 text-[8.5px]',
+  sm: 'gap-1 px-1.5 py-0.5 text-[9.5px]',
+  md: 'gap-1.5 px-2 py-0.5 text-[10.5px]',
 };
 
 /**
@@ -51,13 +42,13 @@ export const Badge: React.FC<BadgeProps> = ({
   className,
   ...props
 }) => {
-  const { container, iconOffset } = SIZE_STYLES[size];
+  const container = SIZE_STYLES[size];
 
   return (
     <div
       title={title}
       className={cn(
-        'inline-flex items-center justify-center leading-none rounded-full font-bold tracking-wide shadow-xs shrink-0 select-none',
+        'inline-flex items-center leading-none rounded-full font-bold tracking-wide shadow-xs shrink-0 select-none',
         VARIANT_STYLES[variant],
         container,
         className
@@ -65,7 +56,7 @@ export const Badge: React.FC<BadgeProps> = ({
       {...props}
     >
       {icon && (
-        <span className={cn('shrink-0 flex items-center justify-center', iconOffset)} aria-hidden="true">
+        <span className="shrink-0 flex items-center justify-center" aria-hidden="true">
           {icon}
         </span>
       )}

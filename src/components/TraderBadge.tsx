@@ -24,7 +24,7 @@ export const TraderBadge: React.FC<TraderBadgeProps> = ({
 }) => {
   const displayName = getTraderDisplayName(trader);
   const isSmall = size === 'sm' || size === 'xs';
-  const iconSize = isSmall ? 7.5 : 9.5;
+  const iconSize = isSmall ? 9 : 10;
 
   const defaultTitle = price != null
     ? `${displayName} (${price.toLocaleString()} Coins)`

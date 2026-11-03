@@ -23,7 +23,7 @@ export const RefinerBadge: React.FC<RefinerBadgeProps> = ({
   className,
 }) => {
   const isSmall = size === 'sm' || size === 'xs';
-  const iconSize = isSmall ? 7.5 : 9.5;
+  const iconSize = isSmall ? 9 : 10;
   const label = shortLabel ? 'Ref' : 'Refiner';
   const ROMAN_NUMERALS: Record<number, string> = {
     1: '',
