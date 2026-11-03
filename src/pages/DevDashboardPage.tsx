@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { suppressUnappliedWarning } from '@/lib/devUnapplied';
 import {
-  ArrowLeft, Archive, Code2, Download, FileJson, FlaskConical, Flag, Languages, PackagePlus, Trash2, Layers, RotateCcw, Route,
+  ArrowLeft, Archive, Code2, Download, FileJson, FlaskConical, Flag, Languages, PackagePlus, Trash2, Layers, RotateCcw, Route, Timer,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { AppRoute } from '@/router';
@@ -35,6 +35,7 @@ const DEV_TOOLS: DevTool[] = [
   { route: 'dev-translations', title: 'Traduzioni UI', description: 'Stringhe dell\'interfaccia in italiano e inglese', icon: <Languages size={20} className="text-blue-500" /> },
   { route: 'dev-nav', title: 'Menu di Navigazione', description: 'Editor drag & drop del menu', icon: <Route size={20} className="text-gray-500" /> },
   { route: 'dev-flags', title: 'Feature Flags', description: 'Moduli, rotte e sottomenu attivi', icon: <Flag size={20} className="text-purple-500" /> },
+  { route: 'dev-hold', title: 'Tempi & Interazioni', description: 'Calibrazione Hold-to-Complete, Stepper e dissolvenze visive', icon: <Timer size={20} className="text-amber-500" /> },
   { route: 'dev-lab', title: 'Catalog Lab', description: 'Laboratorio del catalogo (sola consultazione)', icon: <FlaskConical size={20} className="text-amber-500" /> },
 ];
 

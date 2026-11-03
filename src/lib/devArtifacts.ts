@@ -12,6 +12,12 @@ import featureFlagsSeed from '@/data/feature-flags.json';
 import { DRAFT_STORAGE_KEY, getInitialData } from '@/hooks/dev/useDevListDrafts';
 import { clearNavDraft, getSeedNavConfig, readNavDraft } from '@/lib/navTree';
 import { getFeatureFlags, hasCustomFeatureFlags, resetFeatureFlags } from '@/lib/featureFlags';
+import holdConfigSeed from '@/data/hold-config.json';
+import {
+  getHoldConfigSerializable,
+  hasCustomHoldConfig,
+  resetHoldConfigOverride,
+} from '@/lib/holdConfig';
 import {
   CUSTOM_ITEMS_FILE,
   CUSTOM_ITEMS_ICONS_DIR,
@@ -173,6 +179,17 @@ const flagsArtifact: DevArtifact = {
   reset: resetFeatureFlags,
 };
 
+const holdConfigArtifact: DevArtifact = {
+  id: 'hold-config',
+  file: 'src/data/hold-config.json',
+  label: 'Tempi Interazioni & Uscita (Hold/Stepper)',
+  route: 'dev-hold',
+  isModified: hasCustomHoldConfig,
+  build: () => json(getHoldConfigSerializable()),
+  baseline: () => JSON.stringify(holdConfigSeed),
+  reset: resetHoldConfigOverride,
+};
+
 function localeArtifact(lang: I18nLang): DevArtifact {
   return {
     id: `locale-${lang}`,
@@ -195,5 +212,6 @@ export function getDevArtifacts(): DevArtifact[] {
     flagsArtifact,
     localeArtifact('it'),
     localeArtifact('en'),
+    holdConfigArtifact,
   ];
 }

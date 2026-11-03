@@ -19,6 +19,7 @@ import { DevNavPage } from '@/pages/DevNavPage';
 import { DevFlagsPage } from '@/pages/DevFlagsPage';
 import { DevCustomItemsPage } from '@/pages/DevCustomItemsPage';
 import { DevTrashPage } from '@/pages/DevTrashPage';
+import { DevHoldPage } from '@/pages/DevHoldPage';
 import { DevDashboardPage } from '@/pages/DevDashboardPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { ListDetailPage } from '@/pages/ListDetailPage';
@@ -174,6 +175,8 @@ export default function App() {
           <DevCustomItemsPage onBack={() => router.back()} />
         ) : isDev && activeTab === 'dev-trash' ? (
           <DevTrashPage onBack={() => router.back()} />
+        ) : isDev && activeTab === 'dev-hold' ? (
+          <DevHoldPage onBack={() => router.back()} />
         ) : (
           <>
             <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-dvh">

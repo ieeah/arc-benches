@@ -10,6 +10,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #74 [Export/import completo: tutti i campi del profilo inclusi nel backup](https://github.com/ieeah/arc-benches/issues/74) — dopo #102, include moduli attivi, pass completati con timestamp, livelli attivi e azioni.
 - [x] #79 [UX Liste & Progetti: opzione "extractionWiped"](https://github.com/ieeah/arc-benches/issues/79) — marcatura per liste/progetti soggetti al wipe o azzeramento legato all'estrazione (`extractionWiped: true`); il reset progressi agisce solo sulle liste marcate come tali, lasciando intatti i banchi del rifugio, i progetti permanenti e i blueprint sbloccati. Toggle in UI (Custom List e Dev) e campo esteso a tutti i seed pregressi.
 - [ ] #88 [UX ItemPicker: filtri per tipo selezionabili in UI](https://github.com/ieeah/arc-benches/issues/88) — oggi i tipi non selezionabili come requisito di consegna (Blueprint, Cosmetic, Outfits, Furniture, Research, Currency) sono fissi in una costante; valutare un filtro attivabile dall'utente (Stencil e Design sono trovabili in raid).
+- [ ] Fix/Raffinamento: Calibrazione dissolvenza di uscita (fadeMs) da Hold — la transizione CSS su holdExit.fadeMs viene ignorata o accelerata dal frame di render quando scatta l'unmount rispetto allo stepper. Da riprendere l'analisi e uniformare l'aggancio di transitionDuration inline/Tailwind.
 
 ## 0.5.1 "Taratura del Segnale"
 Audit con la skill Modern Web Guidance; piano e ordine in [VERSIONING.md](VERSIONING.md).

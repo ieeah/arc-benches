@@ -1,12 +1,13 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { CheckCircle2, RotateCcw, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Trash2 } from "lucide-react";
 import type { ItemInfo, RaidItem } from "@/types";
 import { getRarityStyles } from "@/lib/rarity";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { QuantityStepper } from "@/components/QuantityStepper";
 import { useTranslation, getItemName } from "@/i18n";
-import { RAID_HOLD_CONFIG } from "@/lib/raidConfig";
+import { useHoldAction } from "@/hooks/useHoldAction";
+import { HoldProgressOverlay, BurstPing } from "@/components/HoldProgressOverlay";
 
 export type RaidItemCardProps = {
   raidItem: RaidItem;
@@ -59,79 +60,12 @@ export const RaidItemCard = ({
     setTempValue(val.toString());
   };
 
-  // ── PRESSIONE PROLUNGATA & TRANSIZIONE (HOLD-TO-ACTION) ──
-  const [holdProgress, setHoldProgress] = useState(0); // 0 -> 1
-  const [isHolding, setIsHolding] = useState(false);
-  const [bursting, setBursting] = useState(false);
-
-  const holdStartRef = useRef<number | null>(null);
-  const animationFrameRef = useRef<number | null>(null);
-
-  const targetDurationMs = isComplete
-    ? RAID_HOLD_CONFIG.uncompleteDurationMs
-    : RAID_HOLD_CONFIG.completeDurationMs;
-
-  const cancelHold = useCallback(() => {
-    setIsHolding(false);
-    holdStartRef.current = null;
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = null;
-    }
-    setHoldProgress(0);
-  }, []);
-
-  const startHold = useCallback(() => {
-    if (bursting) return;
-    setIsHolding(true);
-    const startTime = performance.now();
-    holdStartRef.current = startTime;
-
-    const tick = (now: number) => {
-      const elapsed = now - startTime;
-
-      // Durante la zona morta non mostriamo ancora avanzamento
-      if (elapsed < RAID_HOLD_CONFIG.deadzoneMs) {
-        setHoldProgress(0);
-        animationFrameRef.current = requestAnimationFrame(tick);
-        return;
-      }
-
-      // Tempo attivo dopo la deadzone
-      const activeElapsed = elapsed - RAID_HOLD_CONFIG.deadzoneMs;
-      const progress = Math.min(1, activeElapsed / targetDurationMs);
-      setHoldProgress(progress);
-
-      if (progress >= 1) {
-        // Raggiunto il 100%!
-        setIsHolding(false);
-        holdStartRef.current = null;
-        setHoldProgress(0);
-
-        // Effetto burst/esplosione
-        setBursting(true);
-        setTimeout(() => setBursting(false), RAID_HOLD_CONFIG.burstDurationMs);
-
-        if (isComplete) {
-          onResetProgress();
-        } else {
-          onComplete();
-        }
-      } else {
-        animationFrameRef.current = requestAnimationFrame(tick);
-      }
-    };
-
-    animationFrameRef.current = requestAnimationFrame(tick);
-  }, [bursting, isComplete, targetDurationMs, onComplete, onResetProgress]);
-
-  useEffect(() => {
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
+  // ── PRESSIONE PROLUNGATA & TRANSIZIONE (HOLD-TO-ACTION CONDIVISA) ──
+  const { isHolding, holdProgress, bursting, holdProps } = useHoldAction({
+    isComplete,
+    onComplete,
+    onReset: onResetProgress,
+  });
 
   return (
     <div
@@ -142,19 +76,12 @@ export const RaidItemCard = ({
       }`}
     >
       {/* ── BAGLIORE ESPLOSIONE FINALE (BURST) ── */}
-      {bursting && (
-        <div className="absolute inset-0 bg-emerald-400/25 dark:bg-emerald-400/35 z-30 pointer-events-none animate-ping rounded-[24px]" />
-      )}
+      <BurstPing bursting={bursting} className="rounded-[24px]" />
 
       {/* ── AREA ICONA OGGETTO (INTERATTIVA: PRESSIONE PROLUNGATA) ── */}
       <div
         className="relative cursor-pointer touch-none active:scale-[0.98] transition-transform"
-        onMouseDown={startHold}
-        onMouseUp={cancelHold}
-        onMouseLeave={cancelHold}
-        onTouchStart={startHold}
-        onTouchEnd={cancelHold}
-        onTouchCancel={cancelHold}
+        {...holdProps}
         title={
           isComplete
             ? "Tieni premuto per azzerare"
@@ -182,30 +109,11 @@ export const RaidItemCard = ({
           }
           completed={isComplete && !isHolding}
           overlay={
-            <>
-              {/* Overlay animazione espansione dal centro (Hold to Complete / Reset) */}
-              {isHolding && holdProgress > 0 && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden rounded-[20px]">
-                  <div
-                    style={{
-                      transform: `scale(${holdProgress * 2.2})`,
-                      opacity: Math.min(0.9, holdProgress + 0.1),
-                    }}
-                    className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
-                      isComplete
-                        ? "bg-rose-500/80 text-white"
-                        : "bg-emerald-500/80 text-white"
-                    }`}
-                  >
-                    {isComplete ? (
-                      <RotateCcw size={18} className="animate-spin" />
-                    ) : (
-                      <CheckCircle2 size={20} className="stroke-[3]" />
-                    )}
-                  </div>
-                </div>
-              )}
-            </>
+            <HoldProgressOverlay
+              isHolding={isHolding}
+              holdProgress={holdProgress}
+              isComplete={isComplete}
+            />
           }
         />
       </div>

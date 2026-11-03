@@ -1,9 +1,8 @@
 import { Plus, Minus } from "lucide-react";
-import { useLongPress } from "@/hooks/useLongPress";
 import { getRarityHex } from "@/lib/rarity";
 import { useTranslation } from "@/i18n";
 
-export interface QuantityStepperProps {
+export type QuantityStepperProps = {
   tempValue: string;
   onTempValueChange: (val: string) => void;
   onBlur: () => void;
@@ -13,7 +12,7 @@ export interface QuantityStepperProps {
   orientation?: "horizontal" | "vertical";
   itemName?: string;
   className?: string;
-}
+};
 
 export const QuantityStepper = ({
   tempValue,
@@ -27,8 +26,6 @@ export const QuantityStepper = ({
   className = "",
 }: QuantityStepperProps) => {
   const { t } = useTranslation();
-  const longPressInc = useLongPress(onIncrement);
-  const longPressDec = useLongPress(onDecrement);
 
   const hex = getRarityHex(rarity);
   const backgroundColor = hex ? `${hex}40` : undefined;
@@ -61,7 +58,6 @@ export const QuantityStepper = ({
             type="button"
             onContextMenu={(e) => e.preventDefault()}
             onClick={onIncrement}
-            {...longPressInc}
             aria-label={t('quantityStepper.increase', { name: targetName })}
             className="w-8 h-7 flex items-center justify-center text-gray-900 dark:text-gray-100 hover:bg-black/10 dark:hover:bg-white/20 rounded-lg active:scale-90 transition-all shrink-0 font-bold"
           >
@@ -92,7 +88,6 @@ export const QuantityStepper = ({
             type="button"
             onContextMenu={(e) => e.preventDefault()}
             onClick={onDecrement}
-            {...longPressDec}
             aria-label={t('quantityStepper.decrease', { name: targetName })}
             className="w-8 h-7 flex items-center justify-center text-gray-900 dark:text-gray-100 hover:bg-black/10 dark:hover:bg-white/20 rounded-lg active:scale-90 transition-all shrink-0 font-bold"
           >
@@ -105,7 +100,6 @@ export const QuantityStepper = ({
             type="button"
             onContextMenu={(e) => e.preventDefault()}
             onClick={onDecrement}
-            {...longPressDec}
             aria-label={t('quantityStepper.decrease', { name: targetName })}
             className="w-8 h-7 flex items-center justify-center text-gray-900 dark:text-gray-100 hover:bg-black/10 dark:hover:bg-white/20 rounded-lg active:scale-90 transition-all shrink-0 font-bold"
           >
@@ -136,7 +130,6 @@ export const QuantityStepper = ({
             type="button"
             onContextMenu={(e) => e.preventDefault()}
             onClick={onIncrement}
-            {...longPressInc}
             aria-label={t('quantityStepper.increase', { name: targetName })}
             className="w-8 h-7 flex items-center justify-center text-gray-900 dark:text-gray-100 hover:bg-black/10 dark:hover:bg-white/20 rounded-lg active:scale-90 transition-all shrink-0 font-bold"
           >

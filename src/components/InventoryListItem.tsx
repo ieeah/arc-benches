@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Clock } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles } from '@/lib/rarity';
@@ -13,8 +13,11 @@ import { RefinerBadge } from '@/components/RefinerBadge';
 import { TraderBadge } from '@/components/TraderBadge';
 import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName } from '@/i18n';
+import { useHoldAction } from '@/hooks/useHoldAction';
+import { HoldProgressOverlay, BurstPing } from '@/components/HoldProgressOverlay';
+import { useHoldConfig } from '@/lib/holdConfig';
 
-interface InventoryListItemProps {
+export type InventoryListItemProps = {
   itemId: string;
   owned: number;
   required: number;
@@ -25,7 +28,10 @@ interface InventoryListItemProps {
   onDecrement: () => void;
   onSet: (val: number) => void;
   onOpenDetail?: () => void;
-}
+  isExiting?: boolean;
+  onHoldStart?: () => void;
+  onHoldEnd?: () => void;
+};
 
 export const InventoryListItem = ({
   itemId,
@@ -38,6 +44,9 @@ export const InventoryListItem = ({
   onDecrement,
   onSet,
   onOpenDetail,
+  isExiting,
+  onHoldStart,
+  onHoldEnd,
 }: InventoryListItemProps) => {
   const { t, language } = useTranslation();
   const displayName = getItemName(itemInfo, language) || itemId.replace(/-/g, ' ');
@@ -67,20 +76,63 @@ export const InventoryListItem = ({
     setTempValue(val.toString());
   };
 
+  // ── PRESSIONE PROLUNGATA & TRANSIZIONE (HOLD-TO-ACTION CONDIVISA) ──
+  const { isHolding, holdProgress, bursting, holdProps } = useHoldAction({
+    isComplete: isCompleted,
+    onComplete: () => onSet(required),
+    onReset: () => onSet(0),
+    onClick: onOpenDetail,
+    onHoldStart,
+    onHoldEnd,
+  });
+
+  const holdConfig = useHoldConfig();
+
+  // ── BAGLIORE ESPLOSIONE POST-COMPLETAMENTO (BURST) ANCHE DA STEPPER/SET ──
+  const [internalBurst, setInternalBurst] = useState(false);
+  const prevCompletedRef = useRef(isCompleted);
+
+  useEffect(() => {
+    if (!prevCompletedRef.current && isCompleted && !isHolding) {
+      setInternalBurst(true);
+      const timer = setTimeout(() => setInternalBurst(false), holdConfig.stepperExit.feedbackMs);
+      return () => clearTimeout(timer);
+    }
+    prevCompletedRef.current = isCompleted;
+  }, [isCompleted, isHolding, holdConfig.stepperExit.feedbackMs]);
+
+  const showBurst = bursting || internalBurst;
+
   return (
     <div
-      className={`flex items-center gap-3 p-3 rounded-[24px] card-concentric-24 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all ${
+      style={{
+        ...(isExiting ? { transitionDuration: `${holdConfig.holdExit.fadeMs}ms` } : {}),
+        ...(showBurst ? { animationDuration: `${holdConfig.holdExit.feedbackMs}ms` } : {}),
+      }}
+    className={`relative flex items-center gap-3 p-3 rounded-[24px] card-concentric-24 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all select-none overflow-hidden ${
         isCompleted ? 'opacity-60 grayscale-[0.45]' : 'shadow-xs'
-      }`}
+      } ${isHolding && holdProgress > 0.1 ? 'animate-pulse' : ''} ${
+        showBurst ? 'scale-[1.02] ring-4 ring-emerald-400/50' : ''
+      } ${isExiting ? 'opacity-0 scale-95 pointer-events-none' : ''}`}
     >
-      {/* ── COLONNA SX: ICONA (ingrandita) ── */}
-      <div className="flex flex-col items-center shrink-0">
+      {/* ── BAGLIORE ESPLOSIONE FINALE (BURST) ── */}
+      <BurstPing bursting={showBurst} durationMs={holdConfig.holdExit.feedbackMs} className="rounded-[24px]" />
+
+      {/* ── COLONNA SX: ICONA (ingrandita e interattiva con hold-to-action) ── */}
+      <div
+        className="relative flex flex-col items-center shrink-0 cursor-pointer touch-none active:scale-[0.98] transition-transform"
+        {...holdProps}
+        title={
+          isCompleted
+            ? t('stash.holdToReset')
+            : t('stash.holdToComplete')
+        }
+      >
         <ItemCardFrameV2
           icon={itemInfo?.icon}
           alt={displayName}
           rarity={itemInfo?.rarity}
           fallbackText={itemId.replace(/-/g, ' ')}
-          onClick={onOpenDetail}
           className={`w-16 h-16 sm:w-20 sm:h-20 shrink-0 ${!isCompleted ? glow : ''}`}
           imgClassName="max-w-full max-h-full object-contain"
           topLeftSlot={
@@ -114,7 +166,14 @@ export const InventoryListItem = ({
             ) : undefined
           }
           categoryBadge={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} bare />}
-          completed={isCompleted}
+          completed={isCompleted && !isHolding}
+          overlay={
+            <HoldProgressOverlay
+              isHolding={isHolding}
+              holdProgress={holdProgress}
+              isComplete={isCompleted}
+            />
+          }
         />
       </div>
 

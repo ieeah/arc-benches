@@ -1,0 +1,16 @@
+{
+  "deadzoneMs": 100,
+  "completeDurationMs": 350,
+  "uncompleteDurationMs": 450,
+  "touchMoveThresholdPx": 14,
+  "holdExit": {
+    "feedbackMs": 250,
+    "settleMs": 450,
+    "fadeMs": 300
+  },
+  "stepperExit": {
+    "feedbackMs": 200,
+    "settleMs": 500,
+    "fadeMs": 300
+  }
+}

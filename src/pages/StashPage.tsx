@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { ChevronDown, LayoutGrid, List as ListIcon, ListChecks } from 'lucide-react';
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store';
@@ -28,6 +28,7 @@ import type { ItemInfo } from '@/types';
 
 import { useListManager } from '@/hooks/useListManager';
 import type { FilterCategory, SortOption } from '@/hooks/useListManager';
+import { useRetainedItems } from '@/hooks/useRetainedItems';
 import { ListControls } from '@/components/ListControls';
 import { useTranslation, getItemName, getItemSearchFields, getActionLabel, getListName } from '@/i18n';
 import { useFeatureFlags } from '@/lib/featureFlags';
@@ -134,6 +135,44 @@ export const StashPage = ({
     [currentLevels],
   );
 
+  const retainedEntries = useMemo(
+    () => missingMaterials.map(m => ({ id: m.itemId, isCompleted: m.isCompleted })),
+    [missingMaterials],
+  );
+
+  const {
+    isRetained,
+    isExiting,
+    handleHoldStart,
+    handleHoldEnd,
+    markRetained,
+    cancelRetained,
+    clearAll: clearRetained,
+  } = useRetainedItems(retainedEntries);
+
+  const handleIncrementItem = useCallback((itemId: string, owned: number, required: number) => {
+    if (owned + 1 >= required) {
+      markRetained(itemId);
+    }
+    incrementItem(itemId);
+  }, [markRetained, incrementItem]);
+
+  const handleDecrementItem = useCallback((itemId: string, owned: number, required: number) => {
+    if (owned <= required) {
+      cancelRetained(itemId);
+    }
+    decrementItem(itemId);
+  }, [cancelRetained, decrementItem]);
+
+  const handleSetItemCount = useCallback((itemId: string, val: number, required: number, prevOwned: number) => {
+    if (val >= required && prevOwned < required) {
+      markRetained(itemId);
+    } else if (val < required && prevOwned >= required) {
+      cancelRetained(itemId);
+    }
+    setItemCount(itemId, val);
+  }, [markRetained, cancelRetained, setItemCount]);
+
   // Mappa delle dipendenze per ciascun materiale
   const dependenciesMap = useMemo(() => {
     const map = new Map<string, ReturnType<typeof getItemDependenciesPure>>();
@@ -169,12 +208,12 @@ export const StashPage = ({
     {
       id: 'all',
       label: t('stash.filterAll'),
-      predicate: item => (filterHideCompleted ? !item.isCompleted : true),
+      predicate: item => (filterHideCompleted ? (!item.isCompleted || isRetained(item.itemId)) : true),
     },
     {
       id: 'missing',
       label: t('stash.filterMissing'),
-      predicate: item => !item.isCompleted,
+      predicate: item => !item.isCompleted || isRetained(item.itemId),
     },
     {
       id: 'craftable',
@@ -182,7 +221,7 @@ export const StashPage = ({
       predicate: item => {
         const info = itemsInfo[item.itemId];
         const isRefiner = refinerCraftLevel(info) !== null;
-        return filterHideCompleted ? isRefiner && !item.isCompleted : isRefiner;
+        return filterHideCompleted ? isRefiner && (!item.isCompleted || isRetained(item.itemId)) : isRefiner;
       },
     },
     {
@@ -190,7 +229,7 @@ export const StashPage = ({
       label: t('stash.filterPurchasable'),
       predicate: item => {
         const isPurchasable = getTraderPurchase(item.itemId) !== null;
-        return filterHideCompleted ? isPurchasable && !item.isCompleted : isPurchasable;
+        return filterHideCompleted ? isPurchasable && (!item.isCompleted || isRetained(item.itemId)) : isPurchasable;
       },
     },
     {
@@ -198,7 +237,7 @@ export const StashPage = ({
       label: t('stash.filterCompleted'),
       predicate: item => item.isCompleted,
     },
-  ], [itemsInfo, filterHideCompleted, t]);
+  ], [itemsInfo, filterHideCompleted, isRetained, t]);
 
   // Opzioni di ordinamento statiche con label fissa e indicatore di direzione
   const sortOptions = useMemo<SortOption<StashMaterial>[]>(() => [
@@ -335,6 +374,7 @@ export const StashPage = ({
 
   // Cliccando su una categoria impostiamo activeCategoryId senza mutare il toggle globale
   const handleCategorySelect = (catId: string) => {
+    clearRetained();
     setActiveCategoryId(catId);
   };
 
@@ -482,9 +522,12 @@ export const StashPage = ({
                         {...mat}
                         itemInfo={itemsInfo[mat.itemId]}
                         refinerLevel={refinerLevel}
-                        onIncrement={() => incrementItem(mat.itemId)}
-                        onDecrement={() => decrementItem(mat.itemId)}
-                        onSet={val => setItemCount(mat.itemId, val)}
+                        isExiting={isExiting(mat.itemId)}
+                        onHoldStart={() => handleHoldStart(mat.itemId)}
+                        onHoldEnd={() => handleHoldEnd(mat.itemId)}
+                        onIncrement={() => handleIncrementItem(mat.itemId, mat.owned, mat.required)}
+                        onDecrement={() => handleDecrementItem(mat.itemId, mat.owned, mat.required)}
+                        onSet={val => handleSetItemCount(mat.itemId, val, mat.required, mat.owned)}
                         onOpenDetail={() => {
                           const info = itemsInfo[mat.itemId] ?? {
                             id: mat.itemId,
@@ -513,9 +556,12 @@ export const StashPage = ({
                         itemInfo={itemsInfo[mat.itemId]}
                         refinerLevel={refinerLevel}
                         dependencies={dependenciesMap.get(mat.itemId) ?? []}
-                        onIncrement={() => incrementItem(mat.itemId)}
-                        onDecrement={() => decrementItem(mat.itemId)}
-                        onSet={val => setItemCount(mat.itemId, val)}
+                        isExiting={isExiting(mat.itemId)}
+                        onHoldStart={() => handleHoldStart(mat.itemId)}
+                        onHoldEnd={() => handleHoldEnd(mat.itemId)}
+                        onIncrement={() => handleIncrementItem(mat.itemId, mat.owned, mat.required)}
+                        onDecrement={() => handleDecrementItem(mat.itemId, mat.owned, mat.required)}
+                        onSet={val => handleSetItemCount(mat.itemId, val, mat.required, mat.owned)}
                         onOpenDetail={() => {
                           const info = itemsInfo[mat.itemId] ?? {
                             id: mat.itemId,
@@ -553,9 +599,12 @@ export const StashPage = ({
               {...mat}
               itemInfo={itemsInfo[mat.itemId]}
               refinerLevel={refinerLevel}
-              onIncrement={() => incrementItem(mat.itemId)}
-              onDecrement={() => decrementItem(mat.itemId)}
-              onSet={val => setItemCount(mat.itemId, val)}
+              isExiting={isExiting(mat.itemId)}
+              onHoldStart={() => handleHoldStart(mat.itemId)}
+              onHoldEnd={() => handleHoldEnd(mat.itemId)}
+              onIncrement={() => handleIncrementItem(mat.itemId, mat.owned, mat.required)}
+              onDecrement={() => handleDecrementItem(mat.itemId, mat.owned, mat.required)}
+              onSet={val => handleSetItemCount(mat.itemId, val, mat.required, mat.owned)}
               onOpenDetail={() => {
                 const info = itemsInfo[mat.itemId] ?? {
                   id: mat.itemId,
@@ -584,9 +633,12 @@ export const StashPage = ({
               itemInfo={itemsInfo[mat.itemId]}
               refinerLevel={refinerLevel}
               dependencies={dependenciesMap.get(mat.itemId) ?? []}
-              onIncrement={() => incrementItem(mat.itemId)}
-              onDecrement={() => decrementItem(mat.itemId)}
-              onSet={val => setItemCount(mat.itemId, val)}
+              isExiting={isExiting(mat.itemId)}
+              onHoldStart={() => handleHoldStart(mat.itemId)}
+              onHoldEnd={() => handleHoldEnd(mat.itemId)}
+              onIncrement={() => handleIncrementItem(mat.itemId, mat.owned, mat.required)}
+              onDecrement={() => handleDecrementItem(mat.itemId, mat.owned, mat.required)}
+              onSet={val => handleSetItemCount(mat.itemId, val, mat.required, mat.owned)}
               onOpenDetail={() => {
                 const info = itemsInfo[mat.itemId] ?? {
                   id: mat.itemId,

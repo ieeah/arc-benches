@@ -22,6 +22,7 @@ export const APPLY_ALLOWED_FILES = [
   'src/data/items-overrides.json',
   'src/data/nav.json',
   'src/data/feature-flags.json',
+  'src/data/hold-config.json',
   'scripts/data/custom-items/items.json',
   'src/i18n/locales/it.ts',
   'src/i18n/locales/en.ts',

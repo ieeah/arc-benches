@@ -169,7 +169,7 @@ export const ItemCardFrameV2 = ({
 
       {/* Overlay completato globale a tutta la card (centrato geometricamente su icona + barra) */}
       {completed && (
-        <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center pointer-events-none z-20">
+        <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center pointer-events-none z-20 animate-in fade-in zoom-in-90 duration-200">
           <CheckCircle2
             size={32}
             className="text-green-500 bg-white dark:bg-black rounded-full shadow-lg"
