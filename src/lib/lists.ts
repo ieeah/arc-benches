@@ -305,7 +305,45 @@ export function calculateListProgress(
   }
 
   const targetLevel = current + 1;
-  const targetReqPercent = calculateLevelRequirementsPercent(list, targetLevel, inventory, checkedActions);
+
+  // Ottimizzazione issue #138: estraiamo unicamente gli item richiesti dai livelli pendenti (> current)
+  // anziché clonare l'intero inventario Stash, e allochiamo a cascata (waterfall) dal livello attivo in su.
+  const remainingInventory: Record<string, number> = {};
+  for (const lvl of list.levels) {
+    if (lvl.level > current && lvl.requirementItemIds) {
+      for (const req of lvl.requirementItemIds) {
+        if (remainingInventory[req.itemId] === undefined) {
+          const count = inventory[req.itemId];
+          if (count !== undefined && count > 0) {
+            remainingInventory[req.itemId] = count;
+          }
+        }
+      }
+    }
+  }
+
+  // Alloca le risorse consumando remainingInventory livello per livello
+  const allocateForLevel = (lvlNum: number): Record<string, number> => {
+    const allocated: Record<string, number> = {};
+    const lvlData = list.levels.find(l => l.level === lvlNum);
+    if (!lvlData?.requirementItemIds) return allocated;
+
+    for (const req of lvlData.requirementItemIds) {
+      const isDelivered = checkedActions?.[`${list.id}|${lvlNum}|item_${req.itemId}`];
+      if (isDelivered) {
+        // Se già consegnato, non attinge dall'inventario
+        continue;
+      }
+      const available = remainingInventory[req.itemId] ?? 0;
+      const take = Math.min(req.quantity, Math.max(0, available));
+      allocated[req.itemId] = take;
+      remainingInventory[req.itemId] = available - take;
+    }
+    return allocated;
+  };
+
+  const targetAllocated = allocateForLevel(targetLevel);
+  const targetReqPercent = calculateLevelRequirementsPercent(list, targetLevel, targetAllocated, checkedActions);
   const nextLevelPercent = canUpgrade ? 100 : targetReqPercent;
 
   const segments: ListProgressSegment[] = [];
@@ -321,8 +359,9 @@ export function calculateListProgress(
         isTarget: true,
       });
     } else {
-      // Livelli futuri oltre il target corrente: calcoliamo il progresso reale in base ai componenti posseduti
-      const lvlPercent = calculateLevelRequirementsPercent(list, lvl, inventory, checkedActions);
+      // Livelli futuri oltre il target corrente: calcoliamo il progresso reale in base ai componenti allocati a cascata
+      const lvlAllocated = allocateForLevel(lvl);
+      const lvlPercent = calculateLevelRequirementsPercent(list, lvl, lvlAllocated, checkedActions);
       segments.push({
         level: lvl,
         status: lvlPercent > 0 ? 'in-progress' : 'future',

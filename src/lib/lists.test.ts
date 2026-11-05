@@ -357,4 +357,38 @@ describe('calculateListProgress', () => {
     const res = calculateListProgress(caravanList, 0, { fuel: 0 }, { 'exp1|1|item_fuel': true });
     expect(res.nextLevelPercent).toBe(100);
   });
+
+  it('allocates shared materials across levels in waterfall order (#138)', () => {
+    const offeringList: List = {
+      id: 'offering',
+      name: "Soul's Offering",
+      listType: 'workbench',
+      maxLevel: 2,
+      levels: [
+        { level: 1, requirementItemIds: [{ itemId: 'dead-flowers', quantity: 2 }] },
+        { level: 2, requirementItemIds: [{ itemId: 'dead-flowers', quantity: 2 }] },
+      ],
+    };
+
+    // 2 posseduti: Lvl 1 deve essere 100%, Lvl 2 deve essere 0% (non 50% / 50%)
+    const resExact = calculateListProgress(offeringList, 0, { 'dead-flowers': 2 });
+    expect(resExact.segments[0]).toEqual({ level: 1, status: 'in-progress', percent: 100, isTarget: true });
+    expect(resExact.segments[1]).toEqual({ level: 2, status: 'future', percent: 0, isTarget: false });
+
+    // 3 posseduti: Lvl 1 a 100% (2 consumati), Lvl 2 a 50% (1 rimasto / 2 richiesti)
+    const resPartial = calculateListProgress(offeringList, 0, { 'dead-flowers': 3 });
+    expect(resPartial.segments[0]).toEqual({ level: 1, status: 'in-progress', percent: 100, isTarget: true });
+    expect(resPartial.segments[1]).toEqual({ level: 2, status: 'in-progress', percent: 50, isTarget: false });
+
+    // Se Lvl 1 ha già consegnato dead-flowers tramite checkedActions, i 2 fiori dell'inventario
+    // scalano interamente su Lvl 2!
+    const resDelivered = calculateListProgress(
+      offeringList,
+      0,
+      { 'dead-flowers': 2 },
+      { 'offering|1|item_dead-flowers': true }
+    );
+    expect(resDelivered.segments[0]).toEqual({ level: 1, status: 'in-progress', percent: 100, isTarget: true });
+    expect(resDelivered.segments[1]).toEqual({ level: 2, status: 'in-progress', percent: 100, isTarget: false });
+  });
 });
