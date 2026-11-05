@@ -5,6 +5,8 @@ export interface FilterCategory<T> {
   id: string;
   label: string;
   predicate: (item: T) => boolean;
+  /** Opzionale: calcolo o contributo personalizzato/multi-fonte per il conteggio della categoria */
+  countResolver?: (items: T[]) => number;
 }
 
 export type SortIndicatorType = 'arrow' | 'text';

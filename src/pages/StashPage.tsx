@@ -236,8 +236,13 @@ export const StashPage = ({
       id: 'completed',
       label: t('stash.filterCompleted'),
       predicate: item => item.isCompleted,
+      countResolver: materials => {
+        const completedMaterials = materials.filter(m => m.isCompleted).length;
+        const completedActions = allStashActions.filter(a => a.isCompleted).length;
+        return completedMaterials + completedActions;
+      },
     },
-  ], [itemsInfo, filterHideCompleted, isRetained, t]);
+  ], [itemsInfo, filterHideCompleted, isRetained, allStashActions, t]);
 
   // Opzioni di ordinamento statiche con label fissa e indicatore di direzione
   const sortOptions = useMemo<SortOption<StashMaterial>[]>(() => [

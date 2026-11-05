@@ -52,7 +52,7 @@ export const ListControls = <T,>({
     if (!items || items.length === 0 || categories.length === 0) return counts;
     
     categories.forEach(cat => {
-      counts[cat.id] = items.filter(cat.predicate).length;
+      counts[cat.id] = cat.countResolver ? cat.countResolver(items) : items.filter(cat.predicate).length;
     });
     return counts;
   }, [items, categories]);
