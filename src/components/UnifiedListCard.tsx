@@ -229,7 +229,7 @@ export const UnifiedListCard = ({
               <span className="font-bold text-base truncate">{listName}</span>
               {list.custom && (
                 <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">
-                  Custom
+                  {t('lists.customBadge')}
                 </span>
               )}
               {remaining && (

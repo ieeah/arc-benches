@@ -128,10 +128,10 @@ export function ItemQuantityModal({
               type="button"
               onClick={() => onChangeItem(quantity)}
               className="px-3 py-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-200 dark:border-blue-800 rounded-xl transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer shadow-2xs"
-              title="Cambia oggetto"
+              title={t('quantityModal.changeItemTitle')}
             >
               <RefreshCw size={13} />
-              <span>Cambia</span>
+              <span>{t('quantityModal.changeItem')}</span>
             </button>
           )}
         </div>

@@ -84,8 +84,8 @@ export const RaidItemCard = ({
         {...holdProps}
         title={
           isComplete
-            ? "Tieni premuto per azzerare"
-            : "Tieni premuto per completare"
+            ? t("stash.holdToReset")
+            : t("stash.holdToComplete")
         }
       >
         <ItemCardFrameV2
@@ -151,7 +151,7 @@ export const RaidItemCard = ({
             aria-label={t("common.edit")}
           >
             <span className="text-[10px] font-bold text-gray-400 hover:text-blue-500">
-              Modifica
+              {t("common.edit")}
             </span>
           </button>
 

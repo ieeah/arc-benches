@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Map, ArrowLeft, Layers, Compass } from 'lucide-react';
 import { MapViewer } from '@/components/MapViewer';
 import { GAME_MAPS } from '@/lib/maps';
+import { useTranslation } from '@/i18n';
 
 interface MapsPageProps {
   onBack?: () => void;
@@ -10,6 +11,7 @@ interface MapsPageProps {
 const MAP_LIST = GAME_MAPS;
 
 export const MapsPage = ({ onBack }: MapsPageProps) => {
+  const { t } = useTranslation();
   const [selectedMapId, setSelectedMapId] = useState<string>('buried-city');
 
   const currentMap = MAP_LIST.find(m => m.id === selectedMapId) ?? MAP_LIST[0];
@@ -23,7 +25,7 @@ export const MapsPage = ({ onBack }: MapsPageProps) => {
             <button
               onClick={onBack}
               className="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors cursor-pointer"
-              aria-label="Indietro"
+              aria-label={t('common.back')}
             >
               <ArrowLeft size={20} />
             </button>
@@ -31,10 +33,10 @@ export const MapsPage = ({ onBack }: MapsPageProps) => {
           <div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
               <Map size={22} className="text-blue-500" />
-              Mappe Tattiche
+              {t('maps.title')}
             </h1>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Visualizzatore offline ad alta risoluzione
+              {t('maps.subtitle')}
             </p>
           </div>
         </div>
@@ -72,7 +74,7 @@ export const MapsPage = ({ onBack }: MapsPageProps) => {
           <span className="font-semibold text-gray-700 dark:text-gray-300">
             {currentMap.name}{currentMap.badge ? ` (${currentMap.badge})` : ""}
           </span>
-          <span>Zoom e pan con tocco o rotellina</span>
+          <span>{t('maps.gestureHint')}</span>
         </div>
 
         <MapViewer mapId={selectedMapId} minZoom={8} maxZoom={12} />

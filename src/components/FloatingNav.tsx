@@ -176,7 +176,7 @@ export const FloatingNav = ({
       key="secondary-btn"
       onClick={() => { setContextMenuOpen(!contextMenuOpen); setMenuOpen(false); }}
       className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center transition-all duration-150 active:scale-95 cursor-pointer"
-      aria-label="Opzioni e Profilo"
+      aria-label={t('nav.optionsAndProfile')}
     >
       {contextMenuOpen ? <X size={20} /> : <MoreHorizontal size={22} />}
     </button>
@@ -195,8 +195,8 @@ export const FloatingNav = ({
           ? 'bg-blue-600 scale-105 ring-4 ring-blue-400/40 shadow-blue-500/40'
           : 'bg-blue-500 hover:bg-blue-600 active:scale-95'
       }`}
-      aria-label={`Navigazione rapida a ${nextTargetItem.label} (Tieni premuto per il menu completo)`}
-      title={`Vai a ${nextTargetItem.label} (Pressione prolungata per menu completo)`}
+      aria-label={t('nav.quickNavAria', { target: nextTargetItem.label })}
+      title={t('nav.quickNavTitle', { target: nextTargetItem.label })}
     >
       {nextTargetItem.icon}
     </button>
@@ -223,8 +223,8 @@ export const FloatingNav = ({
             ? 'bg-gray-950 text-white shadow-inner'
             : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
         }`}
-        aria-label="Pianificazione Raid"
-        title="Pianificazione Raid"
+        aria-label={t('nav.raidPlan')}
+        title={t('nav.raidPlan')}
       >
         <Radar
           size={21}
@@ -277,7 +277,7 @@ export const FloatingNav = ({
                       <ChevronLeft size={16} /> {drillCategory.label}
                     </button>
                   ) : (
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Tutte le Pagine</span>
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t('nav.allPages')}</span>
                   )}
                 </div>
 

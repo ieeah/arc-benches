@@ -112,12 +112,14 @@ export function ProfilesDrawer({
                 <div className="flex gap-1 shrink-0">
                   <button
                     onClick={commitRenameProfile}
+                    aria-label={t('common.confirm')}
                     className="px-2.5 py-1 bg-blue-500 text-white text-xs font-bold rounded-full"
                   >
                     OK
                   </button>
                   <button
                     onClick={() => setEditingProfile(null)}
+                    aria-label={t('common.cancel')}
                     className="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded-full"
                   >
                     ✕
@@ -136,6 +138,7 @@ export function ProfilesDrawer({
                   </button>
                   <button
                     onClick={() => setDeletingProfileId(null)}
+                    aria-label={t('common.cancel')}
                     className="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 text-xs rounded-full"
                   >
                     ✕
@@ -149,6 +152,8 @@ export function ProfilesDrawer({
                       setDeletingProfileId(null);
                     }}
                     className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-colors"
+                    aria-label={t('profiles.rename')}
+                    title={t('profiles.rename')}
                   >
                     <Pencil size={13} />
                   </button>
@@ -159,6 +164,8 @@ export function ProfilesDrawer({
                     }}
                     disabled={profiles.length <= 1}
                     className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors disabled:opacity-30"
+                    aria-label={t('profiles.delete')}
+                    title={t('profiles.delete')}
                   >
                     <Trash2 size={13} />
                   </button>
@@ -187,6 +194,7 @@ export function ProfilesDrawer({
               />
               <button
                 onClick={commitNewProfile}
+                aria-label={t('common.confirm')}
                 className="px-3 py-2 bg-blue-500 text-white text-xs font-bold rounded-xl"
               >
                 OK
@@ -197,6 +205,7 @@ export function ProfilesDrawer({
                   setNewProfileName('');
                 }}
                 className="px-3 py-2 bg-gray-100 dark:bg-gray-800 text-xs rounded-xl"
+                aria-label={t('common.cancel')}
               >
                 ✕
               </button>

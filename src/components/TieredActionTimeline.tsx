@@ -28,7 +28,7 @@ export const TieredActionTimeline: React.FC<TieredActionTimelineProps> = ({
   className,
   compact = false,
 }) => {
-  const { language } = useTranslation();
+  const { t, language } = useTranslation();
   const storeCheckedActions = useAppStore(s => s.checkedActions);
   const setTieredActionStep = useAppStore(s => s.setTieredActionStep);
 
@@ -85,7 +85,7 @@ export const TieredActionTimeline: React.FC<TieredActionTimelineProps> = ({
 
       {/* Timeline Track */}
       {steps.length === 0 ? (
-        <p className="text-[11px] text-gray-400 italic">Nessuna soglia definita.</p>
+        <p className="text-[11px] text-gray-400 italic">{t('timeline.noTiersDefined')}</p>
       ) : (
         <div className="overflow-x-auto py-2 scrollbar-thin">
           <div className="flex items-start min-w-full justify-between">
@@ -151,7 +151,7 @@ export const TieredActionTimeline: React.FC<TieredActionTimelineProps> = ({
                           ? 'bg-green-600 border-2 border-green-500 text-white shadow-xs shadow-green-500/30 active:scale-95'
                           : 'bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-transparent hover:border-green-400 dark:hover:border-green-500 active:scale-95',
                       )}
-                      aria-label={`${actionTitle} — ${stepLabel} (${isChecked ? 'Completato' : 'Incompleto'})`}
+                      aria-label={`${actionTitle} — ${stepLabel} (${isChecked ? t('timeline.stepCompleted') : t('timeline.stepIncomplete')})`}
                     >
                       <Check
                         size={compact ? 13 : 15}

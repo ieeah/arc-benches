@@ -460,14 +460,14 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                             onClick={() => updateRaidItemFound(raidItem.id, -1)}
                             disabled={raidItem.foundQuantity <= 0}
                             className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 disabled:opacity-30 active:scale-95 transition-all cursor-pointer"
-                            aria-label="Decrementa trovato"
+                            aria-label={t('raid.decreaseFound')}
                           >
                             <Minus size={13} />
                           </button>
                           <button
                             onClick={() => updateRaidItemFound(raidItem.id, 1)}
                             className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-300 active:scale-95 transition-all cursor-pointer"
-                            aria-label="Incrementa trovato"
+                            aria-label={t('raid.increaseFound')}
                           >
                             <Plus size={13} />
                           </button>

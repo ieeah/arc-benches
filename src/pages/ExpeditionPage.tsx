@@ -808,7 +808,7 @@ export const ExpeditionPage = () => {
             ) : (
               <div className="bg-purple-500/10 border border-purple-500/20 rounded-2xl p-3 text-xs text-purple-700 dark:text-purple-300 font-semibold flex items-center gap-2">
                 <Award size={16} className="text-purple-500 shrink-0" />
-                <span>Hai già raggiunto il limite massimo di 15 Punti Abilità Permanenti!</span>
+                <span>{t('expeditions.departure.spCapReached')}</span>
               </div>
             )}
 

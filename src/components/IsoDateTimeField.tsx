@@ -43,7 +43,7 @@ export function IsoDateTimeField({
   onChange,
   className = '',
 }: IsoDateTimeFieldProps) {
-  const { language } = useTranslation();
+  const { t, language } = useTranslation();
 
   const parsedDate = value ? new Date(value) : null;
   const isValidDate = parsedDate !== null && !isNaN(parsedDate.getTime());
@@ -71,7 +71,7 @@ export function IsoDateTimeField({
             onClick={() => onChange(undefined)}
             className="text-[10px] text-rose-500 font-bold hover:underline flex items-center gap-0.5 cursor-pointer"
           >
-            <X size={11} /> Cancella
+            <X size={11} /> {t('common.delete')}
           </button>
         )}
       </div>
@@ -82,7 +82,7 @@ export function IsoDateTimeField({
         onClick={() => onChange(addDaysIso(-1))}
         className="px-2.5 py-1 text-[10px] font-bold rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors cursor-pointer"
       >
-        Già scaduto (ieri)
+        {t('expiration.yesterdayPreset')}
       </button>
 
       {/* Date-only picker */}
@@ -95,13 +95,13 @@ export function IsoDateTimeField({
 
       {/* Presets futuri */}
       <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mr-1">Preset:</span>
+        <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mr-1">{t('expiration.presetsLabel')}</span>
         <button
           type="button"
           onClick={() => onChange(dateInputToIso(todayDateStr()))}
           className="px-2 py-0.5 text-[10px] font-bold rounded-lg bg-gray-200/80 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-950/60 hover:text-purple-600 transition-colors cursor-pointer"
         >
-          Oggi
+          {t('expiration.todayPreset')}
         </button>
         {[
           { label: '+1g', days: 1 },
@@ -116,7 +116,7 @@ export function IsoDateTimeField({
             onClick={() => onChange(addDaysIso(p.days))}
             className="px-2 py-0.5 text-[10px] font-bold rounded-lg bg-gray-200/80 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-950/60 hover:text-purple-600 transition-colors cursor-pointer"
           >
-            {p.label}
+            {t('expiration.daysOffset', { days: p.days })}
           </button>
         ))}
       </div>
@@ -127,10 +127,10 @@ export function IsoDateTimeField({
           <div className="flex items-center gap-2 text-[11px] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1.5 rounded-xl border border-emerald-200 dark:border-emerald-900/50">
             <Check size={13} className="shrink-0" />
             <div className="min-w-0 flex-1 flex flex-wrap items-center justify-between gap-1">
-              <span>{parsedDate?.toLocaleDateString('it-IT', { dateStyle: 'long' })}</span>
+              <span>{parsedDate?.toLocaleDateString(language === 'en' ? 'en-US' : 'it-IT', { dateStyle: 'long' })}</span>
               {remaining && (
                 <span className="text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-900/40">
-                  {remaining.isExpired ? 'Scaduta' : `Tra ${remaining.text}`}
+                  {remaining.isExpired ? t('lists.expired') : t('lists.expiresIn', { time: remaining.text })}
                 </span>
               )}
             </div>
@@ -138,11 +138,11 @@ export function IsoDateTimeField({
         ) : (
           <div className="flex items-center gap-1.5 text-[11px] text-rose-500 bg-rose-50 dark:bg-rose-950/30 px-2.5 py-1 rounded-xl border border-rose-200 dark:border-rose-900/50">
             <AlertCircle size={13} className="shrink-0" />
-            <span>Data non valida nel JSON. Usa il selettore per correggerla.</span>
+            <span>{t('expiration.invalidDate')}</span>
           </div>
         )
       ) : (
-        <p className="text-[10px] text-gray-400 italic">Nessuna data impostata.</p>
+        <p className="text-[10px] text-gray-400 italic">{t('customLists.noExpiration')}</p>
       )}
     </div>
   );

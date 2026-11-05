@@ -296,7 +296,7 @@ export const MorphingFloatingNav = ({
                   <button
                     onClick={handleToggleContextMenu}
                     className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
-                    aria-label="Opzioni e Profilo"
+                    aria-label={t('nav.optionsAndProfile')}
                   >
                     <MoreHorizontal size={20} />
                   </button>
@@ -320,8 +320,8 @@ export const MorphingFloatingNav = ({
                             ? 'bg-gray-950 text-white shadow-inner'
                             : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
                         }`}
-                        aria-label="Pianificazione Raid"
-                        title="Pianificazione Raid"
+                        aria-label={t('nav.raidPlan')}
+                        title={t('nav.raidPlan')}
                       >
                         <Radar
                           size={20}
@@ -338,7 +338,8 @@ export const MorphingFloatingNav = ({
                     onPointerUp={handlePointerUp}
                     onPointerCancel={closeMenu}
                     className="w-13 h-13 rounded-full text-white flex items-center justify-center shadow-lg bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all select-none touch-none cursor-pointer"
-                    aria-label={`Navigazione rapida a ${nextTargetItem.label} (Tieni premuto per il menu completo)`}
+                    aria-label={t('nav.quickNavAria', { target: nextTargetItem.label })}
+                    title={t('nav.quickNavTitle', { target: nextTargetItem.label })}
                   >
                     {nextTargetItem.icon}
                   </button>
@@ -352,7 +353,8 @@ export const MorphingFloatingNav = ({
                     onPointerUp={handlePointerUp}
                     onPointerCancel={closeMenu}
                     className="w-13 h-13 rounded-full text-white flex items-center justify-center shadow-lg bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all select-none touch-none cursor-pointer"
-                    aria-label={`Navigazione rapida a ${nextTargetItem.label} (Tieni premuto per il menu completo)`}
+                    aria-label={t('nav.quickNavAria', { target: nextTargetItem.label })}
+                    title={t('nav.quickNavTitle', { target: nextTargetItem.label })}
                   >
                     {nextTargetItem.icon}
                   </button>
@@ -376,8 +378,8 @@ export const MorphingFloatingNav = ({
                             ? 'bg-gray-950 text-white shadow-inner'
                             : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
                         }`}
-                        aria-label="Pianificazione Raid"
-                        title="Pianificazione Raid"
+                        aria-label={t('nav.raidPlan')}
+                        title={t('nav.raidPlan')}
                       >
                         <Radar
                           size={20}
@@ -391,7 +393,7 @@ export const MorphingFloatingNav = ({
                   <button
                     onClick={handleToggleContextMenu}
                     className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
-                    aria-label="Opzioni e Profilo"
+                    aria-label={t('nav.optionsAndProfile')}
                   >
                     <MoreHorizontal size={20} />
                   </button>
@@ -417,18 +419,18 @@ export const MorphingFloatingNav = ({
                     </button>
                   ) : mode === 'nav' ? (
                     <span className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Navigazione
+                      {t('nav.navigationTitle')}
                     </span>
                   ) : (
                     <span className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Users size={13} className="text-purple-500" /> {t('nav.profile')} & Opzioni
+                      <Users size={13} className="text-purple-500" /> {t('nav.profileAndOptions')}
                     </span>
                   )}
 
                   <button
                     onClick={closeMenu}
                     className="w-7 h-7 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 flex items-center justify-center transition-colors cursor-pointer"
-                    aria-label="Chiudi menu"
+                    aria-label={t('common.closeMenu')}
                   >
                     <X size={15} />
                   </button>
@@ -470,7 +472,7 @@ export const MorphingFloatingNav = ({
                     <div className="p-2 bg-gray-50 dark:bg-gray-800/60 rounded-2xl border border-gray-100 dark:border-gray-800">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                          Profilo Attivo
+                          {t('nav.activeProfile')}
                         </span>
                       </div>
                       <button

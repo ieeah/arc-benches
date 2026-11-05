@@ -3,6 +3,7 @@ import { Search, ArrowUpDown, ArrowUp, ArrowDown, LayoutGrid } from 'lucide-reac
 import type { FilterCategory, SortOption } from '@/hooks/useListManager';
 import { ScrollablePillList } from '@/components/ScrollablePillList';
 import type { PillItem } from '@/components/ScrollablePillList';
+import { useTranslation } from '@/i18n';
 
 interface ListControlsProps<T> {
   query: string;
@@ -36,7 +37,7 @@ export const ListControls = <T,>({
   setActiveSortId,
   groupByEnabled,
   setGroupByEnabled,
-  searchPlaceholder = 'Cerca...',
+  searchPlaceholder,
   categories = [],
   sortOptions = [],
   showGroupingToggle = false,
@@ -46,6 +47,7 @@ export const ListControls = <T,>({
   searchRef,
 }: ListControlsProps<T>) => {
   
+  const { t } = useTranslation();
   // Dynamic item counts per category
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -150,7 +152,7 @@ export const ListControls = <T,>({
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder={searchPlaceholder}
+            placeholder={searchPlaceholder ?? t('common.search')}
             className="w-full pl-9 pr-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full focus:outline-none focus:ring-1 focus:ring-blue-400"
           />
         </div>
@@ -174,7 +176,7 @@ export const ListControls = <T,>({
                 <div className="shrink-0 w-px h-5 bg-gray-200 dark:bg-gray-700 self-center" />
                 <button
                   onClick={() => setGroupByEnabled(!groupByEnabled)}
-                  title={groupByEnabled ? 'Disattiva raggruppamento per tipo' : 'Raggruppa per tipo'}
+                  title={groupByEnabled ? t('common.groupingDisable') : t('common.groupingEnable')}
                   className={`flex items-center gap-1 shrink-0 cursor-pointer transition-colors py-1.5 ${
                     groupByEnabled
                       ? 'text-blue-600 dark:text-blue-400'
@@ -182,7 +184,7 @@ export const ListControls = <T,>({
                   }`}
                 >
                   <LayoutGrid size={14} />
-                  <span className="text-xs font-semibold">Gruppi</span>
+                  <span className="text-xs font-semibold">{t('common.groups')}</span>
                 </button>
               </>
             )}
@@ -214,7 +216,7 @@ export const ListControls = <T,>({
             {showGroupingToggle && (
               <button
                 onClick={() => setGroupByEnabled(!groupByEnabled)}
-                title={groupByEnabled ? 'Disattiva raggruppamento per tipo' : 'Raggruppa per tipo'}
+                title={groupByEnabled ? t('common.groupingDisable') : t('common.groupingEnable')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
                   groupByEnabled
                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
@@ -222,7 +224,7 @@ export const ListControls = <T,>({
                 }`}
               >
                 <LayoutGrid size={13} />
-                <span>Gruppi</span>
+                <span>{t('common.groups')}</span>
               </button>
             )}
           </div>

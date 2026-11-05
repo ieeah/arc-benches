@@ -610,8 +610,10 @@ export const CustomListEditor = ({ listId, onClose }: {
                     className="flex-1 px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 rounded-2xl focus:outline-none focus:ring-1 focus:ring-blue-400"
                   />
                   <button onClick={() => commitAction(lvl.level)}
+                    aria-label={t('common.confirm')}
                     className="px-3 py-2 bg-blue-500 text-white text-xs font-bold rounded-full">OK</button>
                   <button onClick={() => setAddingAction(null)}
+                    aria-label={t('common.cancel')}
                     className="px-3 py-2 bg-gray-100 dark:bg-gray-800 text-xs rounded-full">✕</button>
                 </div>
               ) : (

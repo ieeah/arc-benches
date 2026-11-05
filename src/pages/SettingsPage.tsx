@@ -79,16 +79,16 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
 
   const handleNavVariantChange = (variant: 'classic' | 'morphing') => {
     setNavVariant(variant);
-    setFeedbackMsg(variant === 'morphing' ? 'Stile Navigazione: Morphing a Molla (Demo)' : 'Stile Navigazione: Classico (Dropdown)');
+    setFeedbackMsg(variant === 'morphing' ? t('settings.feedbackNavStyleMorphing') : t('settings.feedbackNavStyleClassic'));
     setTimeout(() => setFeedbackMsg(null), 3000);
   };
 
   const handleReducedMotionChange = (mode: 'auto' | 'reduce' | 'normal') => {
     setReducedMotion(mode);
     const labels = {
-      auto: 'Animazioni: Automatico (Segui Sistema)',
-      reduce: 'Animazioni: Disattivate (Movimento Ridotto)',
-      normal: 'Animazioni: Sempre Attive',
+      auto: t('settings.feedbackMotionAuto'),
+      reduce: t('settings.feedbackMotionReduced'),
+      normal: t('settings.feedbackMotionActive'),
     };
     setFeedbackMsg(labels[mode]);
     setTimeout(() => setFeedbackMsg(null), 3000);
@@ -276,13 +276,13 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-bold text-gray-800 dark:text-gray-200 flex items-center gap-1.5">
-                Stile Barra di Navigazione
+                {t('settings.navStyleTitle')}
                 <span className="text-[10px] bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 font-bold px-1.5 py-0.5 rounded-full">
                   Demo
                 </span>
               </p>
               <p className="text-xs text-gray-500">
-                Scegli tra il dropdown classico separato e il morphing elastico a molla
+                {t('settings.navStyleDesc')}
               </p>
             </div>
             <Sparkles size={18} className="text-purple-500" />
@@ -296,7 +296,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                   : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
               }`}
             >
-              Classico (Dropdown) {navVariant === 'classic' && <Check size={14} />}
+              {t('settings.navStyleClassic')} {navVariant === 'classic' && <Check size={14} />}
             </button>
             <button
               onClick={() => handleNavVariantChange('morphing')}
@@ -306,7 +306,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                   : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
               }`}
             >
-              Morphing a Molla {navVariant === 'morphing' && <Check size={14} />}
+              {t('settings.navStyleMorphing')} {navVariant === 'morphing' && <Check size={14} />}
             </button>
           </div>
         </div>
@@ -318,10 +318,10 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
-                Effetti e Animazioni
+                {t('settings.motionTitle')}
               </p>
               <p className="text-xs text-gray-500">
-                Gestisci le transizioni e il movimento ridotto (accessibilità e performance)
+                {t('settings.motionDesc')}
               </p>
             </div>
             {reducedMotion === 'reduce' ? <ZapOff size={18} className="text-amber-500" /> : <Zap size={18} className="text-blue-500" />}
@@ -335,8 +335,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                   : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
               }`}
             >
-              <span>Sistema</span>
-              <span className="text-[10px] opacity-75 font-normal">Auto</span>
+              <span>{t('settings.motionSystem')}</span>
+              <span className="text-[10px] opacity-75 font-normal">{t('settings.motionSystemHint')}</span>
             </button>
             <button
               onClick={() => handleReducedMotionChange('reduce')}
@@ -346,8 +346,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                   : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
               }`}
             >
-              <span>Ridotte</span>
-              <span className="text-[10px] opacity-75 font-normal">Off</span>
+              <span>{t('settings.motionReduced')}</span>
+              <span className="text-[10px] opacity-75 font-normal">{t('settings.motionReducedHint')}</span>
             </button>
             <button
               onClick={() => handleReducedMotionChange('normal')}
@@ -357,8 +357,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                   : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
               }`}
             >
-              <span>Attive</span>
-              <span className="text-[10px] opacity-75 font-normal">On</span>
+              <span>{t('settings.motionActive')}</span>
+              <span className="text-[10px] opacity-75 font-normal">{t('settings.motionActiveHint')}</span>
             </button>
           </div>
         </div>

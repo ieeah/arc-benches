@@ -11,7 +11,14 @@ export const it = {
     "tools": "Strumenti",
     "profile": "Profilo",
     "manageProfiles": "Gestisci profili",
-    "raidPlan": "Pianificazione"
+    "raidPlan": "Pianificazione",
+    "optionsAndProfile": "Opzioni e Profilo",
+    "allPages": "Tutte le Pagine",
+    "navigationTitle": "Navigazione",
+    "profileAndOptions": "Profilo & Opzioni",
+    "activeProfile": "Profilo Attivo",
+    "quickNavAria": "Navigazione rapida a {target} (Tieni premuto per il menu completo)",
+    "quickNavTitle": "Vai a {target} (Pressione prolungata per menu completo)"
   },
   "stash": {
     "title": "Stash & Materiali",
@@ -54,6 +61,7 @@ export const it = {
     "purchasableFromTrader": "Acquistabile da {trader} ({price} Monete)",
     "purchasableFromTraderShort": "Acquistabile da {trader}",
     "purchasableFromTraderDetail": "Acquistabile da commerciante",
+    "craftableNow": "Craftabile ora",
     "available": "Disponibile",
     "locked": "Bloccato",
     "lootAreasTitle": "Zone di Loot & Ritrovamento",
@@ -93,7 +101,8 @@ export const it = {
     "purchasableFromTrader": "Acquistabile da {trader}",
     "conflictMessage": "Alcuni materiali in inventario servono anche ad altri banchi. Li hai usati per questo potenziamento?",
     "conflictYes": "Sì, scala",
-    "conflictNo": "No, conservali"
+    "conflictNo": "No, conservali",
+    "dragToReorder": "Trascina per riordinare"
   },
   "lists": {
     "title": "Banchi & Liste",
@@ -127,7 +136,8 @@ export const it = {
     "carryItems": "Oggetti da portare",
     "progressBarLabel": "Avanzamento {name}: Lvl {current} di {max}, {percent}% verso il prossimo livello",
     "progressBarLabelMaxed": "Avanzamento {name}: Lvl {max} di {max} (Completato)",
-    "progressBarLabelReady": "Avanzamento {name}: Lvl {current} di {max}, pronto per il potenziamento"
+    "progressBarLabelReady": "Avanzamento {name}: Lvl {current} di {max}, pronto per il potenziamento",
+    "customBadge": "Personalizzata"
   },
   "listDetail": {
     "backToLists": "Torna alle liste",
@@ -189,7 +199,9 @@ export const it = {
     "updateQty": "Aggiorna quantità ({quantity})",
     "modeDirect": "Diretto",
     "modeAdditive": "Additivo",
-    "reset": "Azzera"
+    "reset": "Azzera",
+    "changeItem": "Cambia",
+    "changeItemTitle": "Cambia oggetto"
   },
   "itemPicker": {
     "searchPrompt": "Cerca un oggetto per aggiungerlo",
@@ -285,6 +297,7 @@ export const it = {
     "themeDesc": "Modalità chiara o scura ad alto contrasto",
     "themeLight": "Chiaro",
     "themeDark": "Scuro",
+    "themeToggleTooltip": "Cambia tema",
     "ergonomics": "Ergonomia & Layout",
     "quickFavorites": "Pagine Preferite (Navigazione Rapida)",
     "quickFavoritesDesc": "Il tap singolo sul pulsante della pill alterna tra queste due pagine. La pressione prolungata apre il menù completo.",
@@ -332,7 +345,24 @@ export const it = {
     "feedbackProfileCreated": "Nuovo profilo creato con successo!",
     "feedbackQuickFavorite": "Pagina Rapida {index} impostata su: {page}",
     "resetProgress": "Ripristina Progresso",
-    "resetConfirm": "Sei sicuro di voler azzerare il progresso del profilo attivo?"
+    "resetConfirm": "Sei sicuro di voler azzerare il progresso del profilo attivo?",
+    "motionTitle": "Effetti e Animazioni",
+    "motionDesc": "Gestisci le transizioni e il movimento ridotto (accessibilità e performance)",
+    "motionSystem": "Sistema",
+    "motionSystemHint": "Auto",
+    "motionReduced": "Ridotte",
+    "motionReducedHint": "Off",
+    "motionActive": "Attive",
+    "motionActiveHint": "On",
+    "feedbackMotionAuto": "Animazioni: Automatico (Segui Sistema)",
+    "feedbackMotionReduced": "Animazioni: Disattivate (Movimento Ridotto)",
+    "feedbackMotionActive": "Animazioni: Sempre Attive",
+    "navStyleTitle": "Stile Barra di Navigazione",
+    "navStyleDesc": "Scegli tra il dropdown classico separato e il morphing elastico a molla",
+    "navStyleClassic": "Classico (Dropdown)",
+    "navStyleMorphing": "Morphing a Molla",
+    "feedbackNavStyleClassic": "Stile Navigazione: Classico (Dropdown)",
+    "feedbackNavStyleMorphing": "Stile Navigazione: Morphing a Molla (Demo)"
   },
   "itemDetail": {
     "workbench": "Banco",
@@ -341,7 +371,9 @@ export const it = {
     "value": "Valore",
     "rarity": "Rarità",
     "type": "Tipo",
-    "sources": "Origini e Fonti"
+    "sources": "Origini e Fonti",
+    "craft": "Craft",
+    "shop": "Shop"
   },
   "rarities": {
     "Common": "Comune",
@@ -375,7 +407,8 @@ export const it = {
     "groupRarity": "Per Rarità",
     "groupType": "Per Tipo",
     "noItemsFound": "Nessun oggetto trovato",
-    "noItemsDesc": "Prova a modificare i filtri di ricerca."
+    "noItemsDesc": "Prova a modificare i filtri di ricerca.",
+    "editInOverrides": "Modifica in Dev Overrides"
   },
   "expeditions": {
     "title": "Spedizioni",
@@ -430,7 +463,8 @@ export const it = {
       "overridePlaceholder": "Es. 5",
       "closeModalTitle": "Chiudi Finestra senza Partire?",
       "closeModalDesc": "La tua streak di spedizioni consecutive verrà azzerata. I progressi della carovana e l'inventario rimarranno intatti.",
-      "clearInventoryOption": "Svuota anche l'inventario dello stash"
+      "clearInventoryOption": "Svuota anche l'inventario dello stash",
+      "spCapReached": "Hai già raggiunto il limite massimo di 15 Punti Abilità Permanenti!"
     },
     "config": {
       "title": "Configurazione Manuale",
@@ -543,11 +577,36 @@ export const it = {
     "resetMessage": "Azzerare la quantità trovata degli oggetti e deselezionare le azioni senza cancellarli?",
     "clear": "Elimina pianificazione",
     "clearTitle": "Elimina intera pianificazione",
-    "clearMessage": "Svuotare tutte le azioni e gli oggetti programmati e spegnere l'incursione?"
+    "clearMessage": "Svuotare tutte le azioni e gli oggetti programmati e spegnere l'incursione?",
+    "decreaseFound": "Decrementa trovato",
+    "increaseFound": "Incrementa trovato"
+  },
+  "maps": {
+    "title": "Mappe Tattiche",
+    "subtitle": "Visualizzatore offline ad alta risoluzione",
+    "gestureHint": "Zoom e pan con tocco o rotellina",
+    "zoomIn": "Ingrandisci",
+    "zoomOut": "Riduci",
+    "resetCenter": "Centra Mappa",
+    "fullscreen": "Schermo Intero",
+    "exitFullscreen": "Esci da Schermo Intero"
+  },
+  "expiration": {
+    "yesterdayPreset": "Già scaduto (ieri)",
+    "presetsLabel": "Preset:",
+    "todayPreset": "Oggi",
+    "daysOffset": "+{days}g",
+    "invalidDate": "Data non valida nel JSON. Usa il selettore per correggerla."
+  },
+  "timeline": {
+    "noTiersDefined": "Nessuna soglia definita.",
+    "stepCompleted": "Completato",
+    "stepIncomplete": "Incompleto"
   },
   "common": {
     "search": "Cerca…",
     "close": "Chiudi",
+    "closeMenu": "Chiudi menu",
     "confirm": "Conferma",
     "cancel": "Annulla",
     "save": "Salva",
@@ -561,7 +620,13 @@ export const it = {
     "total": "Totale",
     "items": "Oggetti",
     "back": "Indietro",
-    "done": "Fatto"
+    "done": "Fatto",
+    "groups": "Gruppi",
+    "groupingEnable": "Raggruppa per tipo",
+    "groupingDisable": "Disattiva raggruppamento per tipo",
+    "coins": "Monete",
+    "confirmAction": "Conferma Operazione",
+    "restore": "Ripristina"
   }
 };
 

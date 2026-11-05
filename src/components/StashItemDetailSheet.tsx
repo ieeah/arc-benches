@@ -60,7 +60,7 @@ export const StashItemDetailSheet = ({
                   onOpenOverrides(item.id);
                 }}
                 className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer"
-                title="Modifica in Dev Overrides"
+                title={t('catalog.editInOverrides')}
               >
                 <FileJson size={13} />
                 <span>Overrides</span>
@@ -176,7 +176,7 @@ export const StashItemDetailSheet = ({
                 {t('stash.purchasableFromTraderDetail')}
               </p>
               <p className="text-[11px] text-sky-700 dark:text-sky-300 font-medium">
-                {getTraderDisplayName(traderPurchase.trader)} • {traderPurchase.price.toLocaleString(language === 'en' ? 'en-US' : 'it-IT')} {language === 'en' ? 'Coins' : 'Monete'}
+                {getTraderDisplayName(traderPurchase.trader)} • {traderPurchase.price.toLocaleString(language === 'en' ? 'en-US' : 'it-IT')} {t('common.coins')}
               </p>
             </div>
           </div>

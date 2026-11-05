@@ -49,7 +49,7 @@ export const ItemDetailSheet = ({
                   onOpenOverrides(item.id);
                 }}
                 className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer"
-                title="Modifica in Dev Overrides"
+                title={t("catalog.editInOverrides")}
               >
                 <FileJson size={13} />
                 <span>Overrides</span>
@@ -125,26 +125,26 @@ export const ItemDetailSheet = ({
         )}
         {craftLevel !== null && (
           <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-gray-400 font-medium">Craft</span>
+            <span className="text-gray-400 font-medium">{t("itemDetail.craft")}</span>
             <span
               className={`flex items-center gap-1.5 font-semibold ${craftableNow ? "text-emerald-500" : "text-amber-500"}`}
             >
               <Hammer size={14} />
               {craftableNow
-                ? language === "en"
-                  ? "Craftable now"
-                  : "Craftabile ora"
+                ? t("stash.craftableNow")
+
+
                 : `Refiner Lvl ${craftLevel}`}
             </span>
           </div>
         )}
         {traderPurchase !== null && (
           <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-gray-400 font-medium">Shop</span>
+            <span className="text-gray-400 font-medium">{t("itemDetail.shop")}</span>
             <span className="flex items-center gap-1.5 font-semibold text-sky-500 dark:text-sky-400">
               <ShoppingCart size={14} />
               <span>
-                {getTraderDisplayName(traderPurchase.trader)} ({traderPurchase.price.toLocaleString(language === "en" ? "en-US" : "it-IT")} {language === "en" ? "Coins" : "Monete"})
+                {getTraderDisplayName(traderPurchase.trader)} ({traderPurchase.price.toLocaleString(language === "en" ? "en-US" : "it-IT")} {t("common.coins")})
               </span>
             </span>
           </div>

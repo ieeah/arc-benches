@@ -1,4 +1,5 @@
 import { cn } from "@/lib/cn";
+import { useTranslation } from "@/i18n";
 
 type CommonProps = {
   min?: number;
@@ -31,6 +32,7 @@ type MultiProps = CommonProps & {
 /** Row of level pills (min..max), single-select or multi-toggle depending on props. */
 export const LevelPills = (props: SingleProps | MultiProps) => {
   const { min = 0, max, activeClass, ariaLabel } = props;
+  const { t } = useTranslation();
   const levels = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
   return (
@@ -45,7 +47,7 @@ export const LevelPills = (props: SingleProps | MultiProps) => {
             <button
               key={lvl}
               onClick={() => props.onToggle(lvl)}
-              aria-label={ariaLabel ? ariaLabel(lvl) : `Livello ${lvl}`}
+              aria-label={ariaLabel ? ariaLabel(lvl) : `${t('benches.level')} ${lvl}`}
               aria-pressed={active}
               className={cn(
                 "w-8 h-8 rounded-full text-xs font-bold transition-colors",
@@ -72,7 +74,7 @@ export const LevelPills = (props: SingleProps | MultiProps) => {
             key={lvl}
             disabled={disabled}
             onClick={() => props.onChange(lvl)}
-            aria-label={ariaLabel ? ariaLabel(lvl) : `Livello ${lvl}`}
+            aria-label={ariaLabel ? ariaLabel(lvl) : `${t('benches.level')} ${lvl}`}
             aria-pressed={isActive}
             className={cn(
               "w-8 h-8 rounded-full text-xs font-bold transition-colors",

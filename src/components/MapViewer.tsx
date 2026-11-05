@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ZoomIn, ZoomOut, Maximize2, RotateCcw } from 'lucide-react';
+import { useTranslation } from '@/i18n';
 
 interface MapViewerProps {
   mapId: string;
@@ -36,6 +37,7 @@ export const MapViewer = ({
   maxZoom = 12,
   className = '',
 }: MapViewerProps) => {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
@@ -139,8 +141,8 @@ export const MapViewer = ({
           <button
             onClick={handleZoomIn}
             className="p-2.5 text-gray-300 hover:text-white hover:bg-gray-800/80 rounded-xl transition-colors cursor-pointer active:scale-95"
-            title="Ingrandisci"
-            aria-label="Ingrandisci"
+            title={t('maps.zoomIn')}
+            aria-label={t('maps.zoomIn')}
           >
             <ZoomIn size={18} />
           </button>
@@ -148,8 +150,8 @@ export const MapViewer = ({
           <button
             onClick={handleZoomOut}
             className="p-2.5 text-gray-300 hover:text-white hover:bg-gray-800/80 rounded-xl transition-colors cursor-pointer active:scale-95"
-            title="Riduci"
-            aria-label="Riduci"
+            title={t('maps.zoomOut')}
+            aria-label={t('maps.zoomOut')}
           >
             <ZoomOut size={18} />
           </button>
@@ -159,8 +161,8 @@ export const MapViewer = ({
           <button
             onClick={handleReset}
             className="p-2.5 text-gray-300 hover:text-white hover:bg-gray-800/80 rounded-xl transition-colors cursor-pointer active:scale-95"
-            title="Centra Mappa"
-            aria-label="Centra Mappa"
+            title={t('maps.resetCenter')}
+            aria-label={t('maps.resetCenter')}
           >
             <RotateCcw size={18} />
           </button>
@@ -168,8 +170,8 @@ export const MapViewer = ({
           <button
             onClick={toggleFullscreen}
             className="p-2.5 text-gray-300 hover:text-white hover:bg-gray-800/80 rounded-xl transition-colors cursor-pointer active:scale-95"
-            title={isFullscreen ? 'Riduci' : 'Schermo Intero'}
-            aria-label="Schermo Intero"
+            title={isFullscreen ? t('maps.exitFullscreen') : t('maps.fullscreen')}
+            aria-label={isFullscreen ? t('maps.exitFullscreen') : t('maps.fullscreen')}
           >
             <Maximize2 size={18} />
           </button>
