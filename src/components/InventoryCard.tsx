@@ -117,7 +117,7 @@ export const InventoryCard = ({
 
       {/* ── AREA ICONA OGGETTO (INTERATTIVA: PRESSIONE PROLUNGATA) ── */}
       <div
-        className="relative cursor-pointer touch-none active:scale-[0.98] transition-transform"
+        className="relative cursor-pointer touch-pan-y active:scale-[0.98] transition-transform"
         {...holdProps}
         title={
           isCompleted

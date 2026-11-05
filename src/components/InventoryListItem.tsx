@@ -120,7 +120,7 @@ export const InventoryListItem = ({
 
       {/* ── COLONNA SX: ICONA (ingrandita e interattiva con hold-to-action) ── */}
       <div
-        className="relative flex flex-col items-center shrink-0 cursor-pointer touch-none active:scale-[0.98] transition-transform"
+        className="relative flex flex-col items-center shrink-0 cursor-pointer touch-pan-y active:scale-[0.98] transition-transform"
         {...holdProps}
         title={
           isCompleted
