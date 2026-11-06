@@ -1,4 +1,5 @@
 import type { List } from '@/types';
+import { translate } from '@/i18n';
 
 /**
  * Checks whether a list has an expiration date and that date is in the past.
@@ -34,12 +35,10 @@ export function formatTimeRemaining(
   }
 
   const diff = exp - now;
-  const isIt = language === 'it';
-
   if (diff <= 0) {
     return {
       isExpired: true,
-      text: isIt ? 'Scaduto' : 'Expired',
+      text: translate(language, 'lists.expired'),
       urgent: true,
       warning: false,
     };
@@ -52,8 +51,9 @@ export function formatTimeRemaining(
   const minutes = totalMinutes % 60;
 
   let text = '';
+  const dayUnit = translate(language, 'common.dayShort') || 'd';
   if (days >= 1) {
-    text = isIt ? `${days}g ${hours}h` : `${days}d ${hours}h`;
+    text = `${days}${dayUnit} ${hours}h`;
   } else if (totalHours >= 1) {
     text = `${hours}h ${minutes}m`;
   } else {

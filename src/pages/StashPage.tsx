@@ -13,7 +13,7 @@ import {
   getActiveExpeditionPure,
 } from '@/store/selectors';
 import { REFINER_ID } from '@/store/gameData';
-import { refinerCraftLevel } from '@/lib/craft';
+import { getCraftInfo } from '@/lib/craft';
 import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
 import { safeLS } from '@/lib/safeStorage';
 import { v } from '@/lib/validate';
@@ -220,8 +220,8 @@ export const StashPage = ({
       label: t('stash.filterCraftable'),
       predicate: item => {
         const info = itemsInfo[item.itemId];
-        const isRefiner = refinerCraftLevel(info) !== null;
-        return filterHideCompleted ? isRefiner && (!item.isCompleted || isRetained(item.itemId)) : isRefiner;
+        const isCraftable = getCraftInfo(info, itemsInfo) !== null;
+        return filterHideCompleted ? isCraftable && (!item.isCompleted || isRetained(item.itemId)) : isCraftable;
       },
     },
     {
@@ -271,7 +271,7 @@ export const StashPage = ({
       compare: (a, b) => {
         const nameA = getItemName(itemsInfo[a.itemId], language) || a.itemId;
         const nameB = getItemName(itemsInfo[b.itemId], language) || b.itemId;
-        return nameA.localeCompare(nameB, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+        return nameA.localeCompare(nameB, language, { sensitivity: 'base' });
       },
     },
     {
@@ -285,7 +285,7 @@ export const StashPage = ({
       compare: (a, b) => {
         const nameA = getItemName(itemsInfo[a.itemId], language) || a.itemId;
         const nameB = getItemName(itemsInfo[b.itemId], language) || b.itemId;
-        return nameB.localeCompare(nameA, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+        return nameB.localeCompare(nameA, language, { sensitivity: 'base' });
       },
     },
     {

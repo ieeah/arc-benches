@@ -29,7 +29,7 @@ export const TraderBadge: React.FC<TraderBadgeProps> = ({
   const iconSize = isSmall ? 9 : 10;
 
   const defaultTitle = price != null
-    ? `${displayName} (${price.toLocaleString(language === 'en' ? 'en-US' : 'it-IT')} ${t('common.coins')})`
+    ? `${displayName} (${price.toLocaleString(language)} ${t('common.coins')})`
     : displayName;
 
   return (

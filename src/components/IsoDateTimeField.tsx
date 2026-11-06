@@ -127,7 +127,7 @@ export function IsoDateTimeField({
           <div className="flex items-center gap-2 text-[11px] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 px-2.5 py-1.5 rounded-xl border border-emerald-200 dark:border-emerald-900/50">
             <Check size={13} className="shrink-0" />
             <div className="min-w-0 flex-1 flex flex-wrap items-center justify-between gap-1">
-              <span>{parsedDate?.toLocaleDateString(language === 'en' ? 'en-US' : 'it-IT', { dateStyle: 'long' })}</span>
+              <span>{parsedDate?.toLocaleDateString(language, { dateStyle: 'long' })}</span>
               {remaining && (
                 <span className="text-[10px] font-bold font-mono px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-900/40">
                   {remaining.isExpired ? t('lists.expired') : t('lists.expiresIn', { time: remaining.text })}

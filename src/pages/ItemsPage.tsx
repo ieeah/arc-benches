@@ -138,7 +138,7 @@ export const ItemsPage = ({
       compare: (a: ItemInfo, b: ItemInfo) => {
         const nameA = getItemName(a, language);
         const nameB = getItemName(b, language);
-        return nameA.localeCompare(nameB, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+        return nameA.localeCompare(nameB, language, { sensitivity: 'base' });
       },
       toggleId: "name_desc",
     },
@@ -151,7 +151,7 @@ export const ItemsPage = ({
       compare: (a: ItemInfo, b: ItemInfo) => {
         const nameA = getItemName(a, language);
         const nameB = getItemName(b, language);
-        return nameB.localeCompare(nameA, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+        return nameB.localeCompare(nameA, language, { sensitivity: 'base' });
       },
       toggleId: "name_asc",
       hideFromUi: true,

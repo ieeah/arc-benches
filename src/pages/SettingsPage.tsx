@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import {
   ArrowLeft, Check, Download, Hand, Moon, Plus,
   Sun, Trash2, Upload, Users, Info, Sparkles, LayoutGrid, Languages,
-  Zap, ZapOff
+  Zap, ZapOff, Hammer
 } from 'lucide-react';
 import { RewardPassConfigSection } from '@/components/pass/RewardPassConfigSection';
 import { SectionHeader } from '@/components/SectionHeader';
@@ -17,7 +17,7 @@ import { flattenNavLeaves } from '@/lib/navTree';
 /** Nav ids that are not sensible quick-favorite targets (dead entry / modal). */
 const NON_FAVORITE_IDS = new Set(['vault', 'role-maker']);
 
-interface SettingsPageProps {
+type SettingsPageProps = {
   onBack: () => void;
 }
 
@@ -36,6 +36,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const setQuickFavorites = useAppStore(s => s.setQuickFavorites);
   const stashGridDensity = useAppStore(s => s.stashGridDensity);
   const setStashGridDensity = useAppStore(s => s.setStashGridDensity);
+  const craftMode = useAppStore(s => s.craftMode);
+  const setCraftMode = useAppStore(s => s.setCraftMode);
 
   // Quick-favorite targets: navigable leaves of the nav tree (categories flattened out,
   // non-page entries like the role-maker modal excluded).
@@ -402,6 +404,53 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
                 {stashGridDensity === 'compact' && <Check size={14} />}
               </div>
               <span className={`text-[10px] font-normal ${stashGridDensity === 'compact' ? 'text-blue-100' : 'text-gray-400'}`}>{t('settings.compactDesc')}</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="h-px bg-gray-100 dark:bg-gray-800" />
+
+        {/* Modalità Verifica Crafting */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{t('settings.craftMode')}</p>
+              <p className="text-xs text-gray-500">{t('settings.craftModeDesc')}</p>
+            </div>
+            <Hammer size={18} className="text-gray-400 shrink-0" />
+          </div>
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <button
+              onClick={() => setCraftMode('level-only')}
+              className={`p-3 rounded-2xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                craftMode === 'level-only'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <div className="flex items-center gap-1.5">
+                <span>{t('settings.craftModeLevelOnly')}</span>
+                {craftMode === 'level-only' && <Check size={14} />}
+              </div>
+              <span className={`text-[10px] font-normal ${craftMode === 'level-only' ? 'text-blue-100' : 'text-gray-400'}`}>
+                {t('settings.craftModeLevelOnlyDesc')}
+              </span>
+            </button>
+            <button
+              onClick={() => setCraftMode('strict')}
+              className={`p-3 rounded-2xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                craftMode === 'strict'
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-gray-50 dark:bg-gray-800/60 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <div className="flex items-center gap-1.5">
+                <span>{t('settings.craftModeStrict')}</span>
+                {craftMode === 'strict' && <Check size={14} />}
+              </div>
+              <span className={`text-[10px] font-normal ${craftMode === 'strict' ? 'text-blue-100' : 'text-gray-400'}`}>
+                {t('settings.craftModeStrictDesc')}
+              </span>
             </button>
           </div>
         </div>

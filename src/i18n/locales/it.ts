@@ -58,6 +58,13 @@ export const it = {
     "craftableNowInRefiner": "Craftabile ora nel Refiner",
     "requiresRefinerLevel": "Richiede Refiner Livello {level} (attuale: Lvl {current})",
     "requiresRefinerLevelShort": "Richiede Refiner Lvl {level} (sei a {current})",
+    "craftableInWorkbench": "Fabbricabile: {bench}",
+    "craftableNowInWorkbench": "Craftabile ora: {bench} Lvl {level}",
+    "craftableNowBasic": "Craftabile ora nel Banco da Lavoro",
+    "requiresWorkbenchLevel": "Richiede {bench} Livello {level} (attuale: Lvl {current})",
+    "requiresWorkbenchLevelShort": "Richiede {bench} Lvl {level} (sei a {current})",
+    "requiresBlueprint": "Richiede Progetto: {name}",
+    "requiresBlueprintShort": "Manca Progetto ({name})",
     "purchasableFromTrader": "Acquistabile da {trader} ({price} Monete)",
     "purchasableFromTraderShort": "Acquistabile da {trader}",
     "purchasableFromTraderDetail": "Acquistabile da commerciante",
@@ -102,7 +109,45 @@ export const it = {
     "conflictMessage": "Alcuni materiali in inventario servono anche ad altri banchi. Li hai usati per questo potenziamento?",
     "conflictYes": "Sì, scala",
     "conflictNo": "No, conservali",
-    "dragToReorder": "Trascina per riordinare"
+    "dragToReorder": "Trascina per riordinare",
+    "workbenchNames": {
+      "refiner": "Rifinitore",
+      "weapon-bench": "Banco delle armi",
+      "med-station": "Laboratorio Medico",
+      "equipment-bench": "Banco Equipaggiamento",
+      "explosives-bench": "Stazione Esplosivi",
+      "utility-bench": "Postazione di Funzionalità",
+      "workbench": "Banco da Lavoro",
+      "research-station": "Stazione di Ricerca",
+      "scrappy": "Scartino",
+      "outpost": "Avamposto"
+    },
+    "workbenchShortNames": {
+      "refiner": "Refiner",
+      "weapon-bench": "Armi",
+      "med-station": "Med",
+      "equipment-bench": "Equip",
+      "explosives-bench": "Esplosivi",
+      "utility-bench": "Utilità",
+      "workbench": "Banco",
+      "research-station": "Ricerca",
+      "scrappy": "Scartino",
+      "outpost": "Avamposto"
+    },
+    "workbenchBadgeShort": {
+      "refiner": "Ref",
+      "weapon-bench": "Armi",
+      "med-station": "Med",
+      "equipment-bench": "Equip",
+      "explosives-bench": "Espl",
+      "utility-bench": "Util",
+      "workbench": "Banco",
+      "research-station": "Ricerca",
+      "scrappy": "Scrap",
+      "outpost": "Post"
+    },
+    "defaultBench": "Banco",
+    "defaultBenchShort": "Craft"
   },
   "lists": {
     "title": "Banchi & Liste",
@@ -314,6 +359,12 @@ export const it = {
     "comfortableDesc": "Card Grandi (~2 col)",
     "compact": "Compatta",
     "compactDesc": "Card Piccole (~3 col)",
+    "craftMode": "Verifica Fabbricabilità (Badge Crafting)",
+    "craftModeDesc": "Determina i requisiti per mostrare il badge di fabbricabilità verde sulle card degli oggetti.",
+    "craftModeLevelOnly": "Solo livello del banco",
+    "craftModeLevelOnlyDesc": "Verde appena il banco di lavoro raggiunge il livello necessario",
+    "craftModeStrict": "Banco + Progetto (Strict)",
+    "craftModeStrictDesc": "Richiede sia il livello del banco sia il possesso del relativo progetto/blueprint",
     "profiles": "Gestione Profili",
     "profilesHeader": "Gestione Profili ({count})",
     "mainProfileLabel": "⭐ Profilo Principale:",
@@ -626,7 +677,8 @@ export const it = {
     "groupingDisable": "Disattiva raggruppamento per tipo",
     "coins": "Monete",
     "confirmAction": "Conferma Operazione",
-    "restore": "Ripristina"
+    "restore": "Ripristina",
+    "dayShort": "g"
   }
 };
 

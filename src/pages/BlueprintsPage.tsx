@@ -40,7 +40,7 @@ export const BlueprintsPage = () => {
       compare: (a, b) => {
         const nameA = getItemName(a, language);
         const nameB = getItemName(b, language);
-        return nameA.localeCompare(nameB, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+        return nameA.localeCompare(nameB, language, { sensitivity: 'base' });
       },
       toggleId: 'name_desc',
     },
@@ -53,7 +53,7 @@ export const BlueprintsPage = () => {
       compare: (a, b) => {
         const nameA = getItemName(a, language);
         const nameB = getItemName(b, language);
-        return nameB.localeCompare(nameA, language === 'en' ? 'en' : 'it', { sensitivity: 'base' });
+        return nameB.localeCompare(nameA, language, { sensitivity: 'base' });
       },
       toggleId: 'name_asc',
       hideFromUi: true,
@@ -65,7 +65,7 @@ export const BlueprintsPage = () => {
       compare: (a, b) => {
         const aOwned = ownedBlueprints[a.id] ? 1 : 0;
         const bOwned = ownedBlueprints[b.id] ? 1 : 0;
-        return aOwned - bOwned || getItemName(a, language).localeCompare(getItemName(b, language), language === 'en' ? 'en' : 'it');
+        return aOwned - bOwned || getItemName(a, language).localeCompare(getItemName(b, language), language);
       },
       toggleId: 'owned_first',
     },
@@ -76,7 +76,7 @@ export const BlueprintsPage = () => {
       compare: (a, b) => {
         const aOwned = ownedBlueprints[a.id] ? 1 : 0;
         const bOwned = ownedBlueprints[b.id] ? 1 : 0;
-        return bOwned - aOwned || getItemName(a, language).localeCompare(getItemName(b, language), language === 'en' ? 'en' : 'it');
+        return bOwned - aOwned || getItemName(a, language).localeCompare(getItemName(b, language), language);
       },
       toggleId: 'owned_last',
       hideFromUi: true,

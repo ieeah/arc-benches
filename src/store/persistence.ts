@@ -1,4 +1,4 @@
-import type { AppState, CompletedRewardPass, List, Profile } from '@/types';
+import type { AppState, CompletedRewardPass, CraftMode, List, Profile } from '@/types';
 import type { AppLanguage } from '@/i18n/types';
 import { safeLS } from '@/lib/safeStorage';
 import {
@@ -177,7 +177,7 @@ export function initProfilesMeta(): ProfilesMeta {
 
 export const SETTINGS_KEY = 'arc-raiders-tracker-settings';
 
-export interface AppSettingsData {
+export type AppSettingsData = {
   language: AppLanguage;
   navSide: 'left' | 'right';
   navVariant?: 'classic' | 'morphing';
@@ -189,7 +189,8 @@ export interface AppSettingsData {
   theme: 'light' | 'dark';
   stashViewMode: 'grid' | 'list';
   stashGridDensity: 'comfortable' | 'compact';
-}
+  craftMode?: CraftMode;
+};
 
 export function loadSettings(): AppSettingsData {
   return safeLS(() => {
@@ -204,6 +205,7 @@ export function loadSettings(): AppSettingsData {
     const legacyTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const legacyStashView = localStorage.getItem('stash-view-mode') as 'grid' | 'list' | null;
     const legacyStashDensity = localStorage.getItem('stash-grid-density') as 'comfortable' | 'compact' | null;
+    const legacyCraftMode = localStorage.getItem('craft-mode') as CraftMode | null;
 
     let parsed: Partial<AppSettingsData> = {};
     if (raw) {
@@ -243,6 +245,10 @@ export function loadSettings(): AppSettingsData {
       ? parsed.reducedMotion
       : (legacyReducedMotion === 'auto' || legacyReducedMotion === 'reduce' || legacyReducedMotion === 'normal' ? legacyReducedMotion : 'auto');
 
+    const initialCraftMode: CraftMode = (parsed.craftMode === 'strict' || parsed.craftMode === 'level-only')
+      ? parsed.craftMode
+      : (legacyCraftMode === 'strict' || legacyCraftMode === 'level-only' ? legacyCraftMode : 'level-only');
+
     if (typeof document !== 'undefined') {
       document.documentElement.dataset.reducedMotion = reducedMotion;
     }
@@ -259,6 +265,7 @@ export function loadSettings(): AppSettingsData {
       theme: initialTheme,
       stashViewMode: initialStashView,
       stashGridDensity: initialStashDensity,
+      craftMode: initialCraftMode,
     };
   }, {
     language: 'en',
@@ -272,6 +279,7 @@ export function loadSettings(): AppSettingsData {
     theme: 'dark',
     stashViewMode: 'grid',
     stashGridDensity: 'comfortable',
+    craftMode: 'level-only',
   });
 }
 
@@ -288,5 +296,6 @@ export function saveSettings(settings: AppSettingsData) {
     localStorage.setItem('theme', settings.theme);
     localStorage.setItem('stash-view-mode', settings.stashViewMode);
     localStorage.setItem('stash-grid-density', settings.stashGridDensity);
+    if (settings.craftMode) localStorage.setItem('craft-mode', settings.craftMode);
   }, undefined);
 }

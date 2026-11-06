@@ -1,7 +1,8 @@
 import { CheckCircle2, Hammer, ShoppingCart, ClipboardList, FileJson, Clock } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
-import { refinerCraftLevel } from '@/lib/craft';
+import { getItemCraftStatus, getWorkbenchName } from '@/lib/craft';
+import { useAppStore } from '@/store';
 import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
 import { getLootAreas } from '@/lib/lootArea';
 import { formatTimeRemaining } from '@/lib/expiration';
@@ -26,15 +27,17 @@ export const StashItemDetailSheet = ({
   item,
   owned,
   required,
-  refinerLevel,
   dependencies,
   onClose,
   onOpenOverrides,
 }: StashItemDetailSheetProps) => {
   const { t, language } = useTranslation();
   const { glow } = getRarityStyles(item.rarity);
-  const craftLevel = refinerCraftLevel(item);
-  const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+  const currentLevels = useAppStore(s => s.currentLevels);
+  const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
+  const craftMode = useAppStore(s => s.craftMode);
+  const itemsInfo = useAppStore(s => s.itemsInfo);
+  const craftResult = getItemCraftStatus(item, currentLevels, ownedBlueprints, craftMode, itemsInfo);
   const traderPurchase = getTraderPurchase(item.id);
   const lootAreas = getLootAreas(item.loot_area, 15);
   const isCompleted = owned >= required;
@@ -129,40 +132,61 @@ export const StashItemDetailSheet = ({
         </div>
       </div>
 
-      {/* ── SEZIONE 2: FABBRICAZIONE NEL REFINER (se craftabile) ── */}
-      {craftLevel !== null && (
-        <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200/80 dark:border-gray-700/50">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div
-              className={`p-2 rounded-lg ${
-                craftableNow
-                  ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400'
-                  : 'bg-amber-100 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400'
+      {/* ── SEZIONE 2: FABBRICAZIONE NEL BANCO (se craftabile) ── */}
+      {craftResult.craftInfo !== null && (() => {
+        const benchName = getWorkbenchName(craftResult.craftInfo.workbenchId, t);
+        const isCraftable = craftResult.status === 'craftable';
+        const bpItem = craftResult.craftInfo.recipeId ? itemsInfo[craftResult.craftInfo.recipeId] : undefined;
+        const bpName = bpItem ? getItemName(bpItem, language) : (craftResult.craftInfo.recipeId ?? 'Blueprint');
+
+        return (
+          <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200/80 dark:border-gray-700/50">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div
+                className={`p-2 rounded-lg ${
+                  isCraftable
+                    ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400'
+                    : 'bg-amber-100 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400'
+                }`}
+              >
+                <Hammer size={16} />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-gray-900 dark:text-gray-100">
+                  {t('stash.craftableInWorkbench', { bench: benchName })}
+                </p>
+                <p className="text-[11px] text-gray-500">
+                  {craftResult.status === 'needs_project'
+                    ? t('stash.requiresBlueprint', { name: bpName })
+                    : craftResult.craftInfo.workbenchId === 'workbench'
+                      ? t('stash.craftableNowBasic')
+                      : t('stash.requiresWorkbenchLevel', {
+                          bench: benchName,
+                          level: craftResult.craftInfo.levelRequired,
+                          current: craftResult.currentBenchLevel,
+                        })}
+                </p>
+              </div>
+            </div>
+
+            <span
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 ${
+                isCraftable
+                  ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                  : 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30'
               }`}
             >
-              <Hammer size={16} />
-            </div>
-            <div className="min-w-0">
-              <p className="text-xs font-bold text-gray-900 dark:text-gray-100">
-                {t('stash.craftableInRefiner')}
-              </p>
-              <p className="text-[11px] text-gray-500">
-                {t('stash.requiresRefinerLevel', { level: craftLevel, current: refinerLevel })}
-              </p>
-            </div>
+              {isCraftable
+                ? t('stash.craftableNow')
+                : craftResult.status === 'needs_project'
+                  ? t('stash.locked')
+                  : craftResult.craftInfo.workbenchId === 'workbench'
+                    ? t('stash.available')
+                    : `Lvl ${craftResult.craftInfo.levelRequired}`}
+            </span>
           </div>
-
-          <span
-            className={`px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 ${
-              craftableNow
-                ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
-                : 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30'
-            }`}
-          >
-            {craftableNow ? t('stash.available') : t('stash.locked')}
-          </span>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ── SEZIONE COMMERCIANTE (se acquistabile) ── */}
       {traderPurchase !== null && (
@@ -176,7 +200,7 @@ export const StashItemDetailSheet = ({
                 {t('stash.purchasableFromTraderDetail')}
               </p>
               <p className="text-[11px] text-sky-700 dark:text-sky-300 font-medium">
-                {getTraderDisplayName(traderPurchase.trader)} • {traderPurchase.price.toLocaleString(language === 'en' ? 'en-US' : 'it-IT')} {t('common.coins')}
+                {getTraderDisplayName(traderPurchase.trader)} • {traderPurchase.price.toLocaleString(language)} {t('common.coins')}
               </p>
             </div>
           </div>

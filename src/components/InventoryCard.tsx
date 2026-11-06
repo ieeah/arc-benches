@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles } from '@/lib/rarity';
-import { refinerCraftLevel } from '@/lib/craft';
+import { getItemCraftStatus, getWorkbenchName } from '@/lib/craft';
+import { useAppStore } from '@/store';
 import { getTraderPurchase } from '@/lib/traders';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { CategoryBadge } from '@/components/CategoryBadge';
 import { QuantityStepper } from '@/components/QuantityStepper';
-import { RefinerBadge } from '@/components/RefinerBadge';
+import { CraftBadge } from '@/components/CraftBadge';
 import { TraderBadge } from '@/components/TraderBadge';
 import { useTranslation, getItemName } from '@/i18n';
 import { useHoldAction } from '@/hooks/useHoldAction';
@@ -34,7 +35,6 @@ export const InventoryCard = ({
   owned,
   required,
   itemInfo,
-  refinerLevel,
   onIncrement,
   onDecrement,
   onSet,
@@ -48,8 +48,31 @@ export const InventoryCard = ({
   const displayName = getItemName(itemInfo, language) || itemId.replace(/-/g, ' ');
   const isCompleted = owned >= required;
   const { border, glow } = getRarityStyles(itemInfo?.rarity);
-  const craftLevel = refinerCraftLevel(itemInfo);
-  const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+  const currentLevels = useAppStore(s => s.currentLevels);
+  const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
+  const craftMode = useAppStore(s => s.craftMode);
+  const itemsInfo = useAppStore(s => s.itemsInfo);
+  const craftResult = getItemCraftStatus(itemInfo, currentLevels, ownedBlueprints, craftMode, itemsInfo);
+
+  let craftTooltip: string | undefined = undefined;
+  if (craftResult.craftInfo) {
+    const benchName = getWorkbenchName(craftResult.craftInfo.workbenchId, t);
+    if (craftResult.status === 'craftable') {
+      craftTooltip = craftResult.craftInfo.workbenchId === 'workbench'
+        ? t('stash.craftableNowBasic')
+        : t('stash.craftableNowInWorkbench', { bench: benchName, level: craftResult.craftInfo.levelRequired });
+    } else if (craftResult.status === 'needs_project') {
+      const bpItem = craftResult.craftInfo.recipeId ? itemsInfo[craftResult.craftInfo.recipeId] : undefined;
+      const bpName = bpItem ? getItemName(bpItem, language) : (craftResult.craftInfo.recipeId ?? '');
+      craftTooltip = t('stash.requiresBlueprint', { name: bpName });
+    } else {
+      craftTooltip = t('stash.requiresWorkbenchLevelShort', {
+        bench: benchName,
+        level: craftResult.craftInfo.levelRequired,
+        current: craftResult.currentBenchLevel,
+      });
+    }
+  }
   const traderPurchase = getTraderPurchase(itemId);
   const [prevOwned, setPrevOwned] = useState(owned);
   const [tempValue, setTempValue] = useState(owned.toString());
@@ -133,18 +156,15 @@ export const InventoryCard = ({
           className={`mb-2 ${!isCompleted ? glow : ''}`}
           imgClassName="max-w-full max-h-full object-contain"
           topLeftSlot={
-            (craftLevel !== null || traderPurchase !== null) ? (
+            (craftResult.craftInfo !== null || traderPurchase !== null) ? (
               <div className="flex items-center gap-1 max-w-[calc(100%-1.5rem)]">
-                {craftLevel !== null && (
-                  <RefinerBadge
-                    craftLevel={craftLevel}
-                    craftableNow={craftableNow}
+                {craftResult.craftInfo !== null && (
+                  <CraftBadge
+                    workbenchId={craftResult.craftInfo.workbenchId}
+                    levelRequired={craftResult.craftInfo.levelRequired}
+                    status={craftResult.status}
                     shortLabel={traderPurchase !== null}
-                    title={
-                      craftableNow
-                        ? t('stash.craftableNowInRefiner')
-                        : t('stash.requiresRefinerLevelShort', { level: craftLevel, current: refinerLevel })
-                    }
+                    title={craftTooltip}
                   />
                 )}
                 {traderPurchase !== null && (

@@ -1,3 +1,4 @@
+import { useAppStore } from '@/store';
 import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { CheckCircle2, ChevronDown, Clock, Hammer, ShoppingCart, MoreHorizontal, Pencil, Trash2, Info } from 'lucide-react';
@@ -9,7 +10,7 @@ import { RequirementChips } from '@/components/RequirementChips';
 import { useLevelGuard } from '@/hooks/useLevelGuard';
 import { isListExpired, formatTimeRemaining } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
-import { refinerCraftLevel } from '@/lib/craft';
+import { getItemCraftStatus, getWorkbenchShortName } from '@/lib/craft';
 import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
 import { TieredActionTimeline } from '@/components/TieredActionTimeline';
 import { useTranslation, getItemName, getListName, getActionLabel } from '@/i18n';
@@ -22,7 +23,6 @@ const RequirementsGrid = ({
   levelData,
   currentLevelNum,
   itemsInfo,
-  refinerLevel,
   inventory,
   totalRequired,
 }: {
@@ -34,6 +34,9 @@ const RequirementsGrid = ({
   totalRequired: Record<string, number>;
 }) => {
   const { t, language } = useTranslation();
+  const currentLevels = useAppStore(s => s.currentLevels);
+  const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
+  const craftMode = useAppStore(s => s.craftMode);
   return (
   <div className="w-full min-w-0">
     <p className="text-[9px] font-bold uppercase text-gray-400 mb-1.5 tracking-wider">
@@ -43,8 +46,7 @@ const RequirementsGrid = ({
       {levelData.requirementItemIds.map(req => {
         const item = itemsInfo[req.itemId];
         const itemName = getItemName(item, language) || req.itemId;
-        const craftLevel = refinerCraftLevel(item);
-        const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+        const craftResult = getItemCraftStatus(item, currentLevels, ownedBlueprints, craftMode, itemsInfo);
         const traderPurchase = getTraderPurchase(req.itemId);
         const owned = inventory[req.itemId] ?? 0;
         const collected = owned >= req.quantity && owned >= (totalRequired[req.itemId] ?? 0);
@@ -56,10 +58,27 @@ const RequirementsGrid = ({
                 <CheckCircle2 size={10} className="shrink-0 text-green-500" aria-label={t('benches.alreadyCollected')} />
               ) : (
                 <>
-                  {craftLevel !== null && (
+                  {craftResult.craftInfo !== null && (
                     <Hammer size={10}
-                      className={`shrink-0 ${craftableNow ? 'text-emerald-500' : 'text-amber-500'}`}
-                      aria-label={craftableNow ? t('benches.craftableInRefiner') : t('benches.refinerRequired', { level: craftLevel })} />
+                      className={`shrink-0 ${craftResult.status === 'craftable' ? 'text-emerald-500' : 'text-amber-500'}`}
+                      aria-label={
+                        craftResult.status === 'craftable'
+                          ? (craftResult.craftInfo.workbenchId === 'workbench'
+                              ? t('stash.craftableNowBasic')
+                              : t('stash.craftableNowInWorkbench', {
+                                  bench: getWorkbenchShortName(craftResult.craftInfo.workbenchId, t),
+                                  level: craftResult.craftInfo.levelRequired,
+                                }))
+                          : craftResult.status === 'needs_project'
+                            ? (craftResult.craftInfo.recipeId && itemsInfo[craftResult.craftInfo.recipeId]
+                                ? t('stash.requiresBlueprintShort', { name: getItemName(itemsInfo[craftResult.craftInfo.recipeId], language) })
+                                : t('stash.requiresBlueprintShort', { name: 'Blueprint' }))
+                            : t('stash.requiresWorkbenchLevelShort', {
+                                bench: getWorkbenchShortName(craftResult.craftInfo.workbenchId, t),
+                                level: craftResult.craftInfo.levelRequired,
+                                current: craftResult.currentBenchLevel,
+                              })
+                      } />
                   )}
                   {traderPurchase !== null && (
                     <ShoppingCart size={10}

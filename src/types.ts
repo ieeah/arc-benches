@@ -183,12 +183,22 @@ export interface Profile {
   name: string;
 }
 
-export interface ItemTranslation {
+export type CraftMode = 'strict' | 'level-only';
+
+export type CraftStatus = 'craftable' | 'needs_level' | 'needs_project' | 'not_craftable';
+
+export type CraftInfo = {
+  workbenchId: string;
+  levelRequired: number;
+  recipeId?: string | null;
+};
+
+export type ItemTranslation = {
   name?: string;
   description?: string;
-}
+};
 
-export interface ItemInfo {
+export type ItemInfo = {
   id: string;
   name: string; // Default / English
   description: string; // Default / English
@@ -204,7 +214,13 @@ export interface ItemInfo {
   hidden?: boolean;
   /** Se l'oggetto non ha un'icona propria, usa quella di questo altro oggetto (es. i pezzi di un outfit usano l'immagine dell'outfit di base). */
   iconFromItem?: string;
-}
+  /** ID del banco di lavoro strutturato (es. "refiner", "weapon-bench", "med-station"). Derivato o da override. */
+  craft_workbench_id?: string | null;
+  /** Livello richiesto del banco. */
+  craft_level_required?: number | null;
+  /** ID dell'oggetto blueprint / recipe richiesto (opzionale). */
+  craft_recipe_id?: string | null;
+};
 
 export interface ListExportEntry {
   list: List;
@@ -315,6 +331,7 @@ export interface AppState {
   theme: 'light' | 'dark';
   stashViewMode: 'grid' | 'list';
   stashGridDensity: 'comfortable' | 'compact';
+  craftMode: CraftMode;
   setLanguage: (lang: AppLanguage) => void;
   setNavSide: (side: 'left' | 'right') => void;
   setNavVariant: (variant: 'classic' | 'morphing') => void;
@@ -326,6 +343,7 @@ export interface AppState {
   setTheme: (theme: 'light' | 'dark') => void;
   setStashViewMode: (mode: 'grid' | 'list') => void;
   setStashGridDensity: (density: 'comfortable' | 'compact') => void;
+  setCraftMode: (mode: CraftMode) => void;
 
   /** Active Role Maker personality for the active profile */
   activePersonalityId: string | null;

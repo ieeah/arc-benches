@@ -1,7 +1,8 @@
 import { Hammer, ShoppingCart, FileJson } from "lucide-react";
 import type { ItemInfo } from "@/types";
 import { getRarityStyles, getRarityText } from "@/lib/rarity";
-import { refinerCraftLevel } from "@/lib/craft";
+import { getItemCraftStatus, getWorkbenchShortName } from "@/lib/craft";
+import { useAppStore } from "@/store";
 import { getTraderPurchase, getTraderDisplayName } from "@/lib/traders";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
 import { CategoryBadge } from "@/components/CategoryBadge";
@@ -15,7 +16,6 @@ import {
 
 export const ItemDetailSheet = ({
   item,
-  refinerLevel,
   onClose,
   onOpenOverrides,
 }: {
@@ -26,8 +26,11 @@ export const ItemDetailSheet = ({
 }) => {
   const { t, language } = useTranslation();
   const { glow } = getRarityStyles(item.rarity);
-  const craftLevel = refinerCraftLevel(item);
-  const craftableNow = craftLevel !== null && refinerLevel >= craftLevel;
+  const currentLevels = useAppStore(s => s.currentLevels);
+  const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
+  const craftMode = useAppStore(s => s.craftMode);
+  const itemsInfo = useAppStore(s => s.itemsInfo);
+  const craftResult = getItemCraftStatus(item, currentLevels, ownedBlueprints, craftMode, itemsInfo);
   const traderPurchase = getTraderPurchase(item.id);
   const displayName = getItemName(item, language);
   const displayDesc = getItemDescription(item, language);
@@ -112,7 +115,7 @@ export const ItemDetailSheet = ({
             {t("itemDetail.value")}
           </span>
           <span className="font-semibold font-mono">
-            {(item.value ?? 0).toLocaleString(language === "en" ? "en-US" : "it-IT")}
+            {(item.value ?? 0).toLocaleString(language)}
           </span>
         </div>
         {item.stack_size != null && item.stack_size > 1 && (
@@ -123,18 +126,26 @@ export const ItemDetailSheet = ({
             <span className="font-semibold font-mono">×{item.stack_size}</span>
           </div>
         )}
-        {craftLevel !== null && (
+        {craftResult.craftInfo !== null && (
           <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
             <span className="text-gray-400 font-medium">{t("itemDetail.craft")}</span>
             <span
-              className={`flex items-center gap-1.5 font-semibold ${craftableNow ? "text-emerald-500" : "text-amber-500"}`}
+              className={`flex items-center gap-1.5 font-semibold ${craftResult.status === 'craftable' ? "text-emerald-500" : "text-amber-500"}`}
             >
               <Hammer size={14} />
-              {craftableNow
-                ? t("stash.craftableNow")
-
-
-                : `Refiner Lvl ${craftLevel}`}
+              <span>
+                {craftResult.status === 'craftable'
+                  ? (craftResult.craftInfo.workbenchId === 'workbench'
+                      ? t("stash.craftableNowBasic")
+                      : `${t("stash.craftableNow")} (${getWorkbenchShortName(craftResult.craftInfo.workbenchId, t)} Lvl ${craftResult.craftInfo.levelRequired})`)
+                  : craftResult.status === 'needs_project'
+                    ? (craftResult.craftInfo.recipeId && itemsInfo[craftResult.craftInfo.recipeId]
+                        ? t('stash.requiresBlueprintShort', { name: getItemName(itemsInfo[craftResult.craftInfo.recipeId], language) })
+                        : t('stash.requiresBlueprintShort', { name: 'Blueprint' }))
+                    : craftResult.craftInfo.workbenchId === 'workbench'
+                      ? t('stash.craftableNowBasic')
+                      : `${getWorkbenchShortName(craftResult.craftInfo.workbenchId, t)} Lvl ${craftResult.craftInfo.levelRequired}`}
+              </span>
             </span>
           </div>
         )}
@@ -144,7 +155,7 @@ export const ItemDetailSheet = ({
             <span className="flex items-center gap-1.5 font-semibold text-sky-500 dark:text-sky-400">
               <ShoppingCart size={14} />
               <span>
-                {getTraderDisplayName(traderPurchase.trader)} ({traderPurchase.price.toLocaleString(language === "en" ? "en-US" : "it-IT")} {t("common.coins")})
+                {getTraderDisplayName(traderPurchase.trader)} ({traderPurchase.price.toLocaleString(language)} {t("common.coins")})
               </span>
             </span>
           </div>
