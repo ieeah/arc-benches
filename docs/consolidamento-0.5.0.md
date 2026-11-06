@@ -1,5 +1,7 @@
 # Consolidamento 0.5.0
 
+> Tracciato su GitHub nella issue ombrello [#144](https://github.com/ieeah/arc-benches/issues/144).
+
 Raccolta grezza dei punti emersi dalla prova manuale del 2026-10-09 (dopo il push di `d1214f5`). Non è ancora un piano: le voci vanno riorganizzate, raggruppate e pianificate. Le note «Ipotesi» sono sospetti da verificare, non diagnosi.
 
 Legenda: **[bug]** comportamento sbagliato · **[ux]** ritocco di interfaccia · **[feat]** funzione nuova · **[dati]** contenuto del catalogo · **[verifica]** da riprodurre prima · **[test]** area non ancora provata.
@@ -34,6 +36,7 @@ Legenda: **[bug]** comportamento sbagliato · **[ux]** ritocco di interfaccia ·
 - [bug/dati] **Raider Token con icona generica**: ha una icona di categoria propria e non viene usata.
   - Ipotesi: la catena di ripiego `applyIconFallbacks` prende la categoria generica; controllare `item_type` e sottocategoria dell'oggetto.
 - [verifica] **Le emote non hanno una propria icona?** Controllare se esiste una sottocategoria o un'icona dedicata, e come ripiegano.
+- [dati] **Bonifica anomalie di categorizzazione catalogo tramite overrides**: correggere puntualmente gli oggetti con `item_type` / `subcategory` incoerenti emersi da `docs/specs/matrice-categorie-catalogo.md` (es. `Flushing Terminal Key` con `subcategory: "Key"` ed `ESR Analyzer` con `subcategory: "Misc"` dentro `Trinket`; `Torch Ginger` unico oggetto sotto `Material` anziché `Nature`/`Topside Material`; `Coins` e `Deprecated Anvil Splitter` sotto `Misc`) così che i filtri per categoria (#88) poggino su dati coerenti.
 
 ## 3. Layout generale
 
@@ -92,7 +95,7 @@ Raggruppamenti possibili, da discutere:
 1. **Bug bloccanti degli strumenti Dev**: «Applica» negli override, eliminazione che non rimuove dal file (anche sul cestino).
 2. **Pass: correzioni rapide**: z-index dei badge, ordine dei livelli, pulsante verso i livelli del pass attivo.
 3. **Pass: configurazione**: modale di configurazione, livello corrente nelle impostazioni, coriandoli.
-4. **Dati e icone**: Raider Token, emote, nomi dei pezzi degli outfit.
+4. **Dati e icone**: Raider Token, emote, nomi dei pezzi degli outfit, bonifica anomalie categorizzazione tramite overrides.
 5. **Layout trasversale**: callout a fondo pagina, pulsante Home nelle pagine Dev.
 6. **Tracker dei progetti**: spaziatura, wrapper, nomi.
 7. **Redesign** delle pagine dei pass.

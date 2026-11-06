@@ -1,51 +1,77 @@
-# 3_BACKLOG.md — Debito Tecnico & Bug
+# 3_BACKLOG.md — Debito Tecnico, Refactor & Ottimizzazioni
 
-Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esistenti in **ARC Benches**. Ogni voce indica la versione pianificata (vedi [VERSIONING.md](VERSIONING.md)).
+Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esistenti in **ARC Benches**, allineato alla sequenza di milestone in [VERSIONING.md](VERSIONING.md).
 
 ---
 
-## 0.5.0 "Segnale Radio"
+## 0.5.0 "Segnale Radio" — Gestione dei Dati di 1° Livello
+- [ ] #143 [Catalogo: gestione e raggruppamento estetico/algoritmico di varianti d'arma, livelli (I-IV) e schemi omonimi](https://github.com/ieeah/arc-benches/issues/143) — il DB resta 100% compatibile con MetaForge; l'aggregazione famiglie (`getItemFamily`) e la disambiguazione `Blueprint`/`Design` avvengono a runtime/UI. Bloccante per #88.
+- [ ] #88 [UX `ItemPicker`: pool di oggetti contestuali, relevance ranking e cap risultati](https://github.com/ieeah/arc-benches/issues/88) — tre pool contestuali per punto d'uso (Opzione C + Variante A1), ranking per rilevanza e cap DOM a 50 elementi. Dipende da #143 e dalla bonifica categorie in #144.
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102) — toggle nelle impostazioni per spegnere sezioni non usate (Spedizioni, Progetti, Pass).
   - *Specifica tecnica*: [docs/specs/moduli-attivabili-per-profilo.md](specs/moduli-attivabili-per-profilo.md)
 - [ ] #74 [Export/import completo: tutti i campi del profilo inclusi nel backup](https://github.com/ieeah/arc-benches/issues/74) — dopo #102, include moduli attivi, pass completati con timestamp, livelli attivi e azioni.
-- [x] #79 [UX Liste & Progetti: opzione "extractionWiped"](https://github.com/ieeah/arc-benches/issues/79) — marcatura per liste/progetti soggetti al wipe o azzeramento legato all'estrazione (`extractionWiped: true`); il reset progressi agisce solo sulle liste marcate come tali, lasciando intatti i banchi del rifugio, i progetti permanenti e i blueprint sbloccati. Toggle in UI (Custom List e Dev) e campo esteso a tutti i seed pregressi.
-- [ ] #88 [UX ItemPicker: filtri per tipo selezionabili in UI](https://github.com/ieeah/arc-benches/issues/88) — oggi i tipi non selezionabili come requisito di consegna (Blueprint, Cosmetic, Outfits, Furniture, Research, Currency) sono fissi in una costante; valutare un filtro attivabile dall'utente (Stencil e Design sono trovabili in raid).
-- [ ] Fix/Raffinamento: Calibrazione dissolvenza di uscita (fadeMs) da Hold — la transizione CSS su holdExit.fadeMs viene ignorata o accelerata dal frame di render quando scatta l'unmount rispetto allo stepper. Da riprendere l'analisi e uniformare l'aggancio di transitionDuration inline/Tailwind.
+- [ ] #144 [Consolidamento, bugfix e rifiniture pre-rilascio 0.5.0](https://github.com/ieeah/arc-benches/issues/144) — bugfix «Applica» override in Dev, bonifica categorie errate nel catalogo tramite override, icone Raider Token/Emote, rifiniture UI Pass e Blueprint (dettagli in [consolidamento-0.5.0.md](consolidamento-0.5.0.md)).
+- [ ] Fix/Raffinamento: calibrazione dissolvenza di uscita (`fadeMs`) da Hold — uniformare l'aggancio di `transitionDuration` inline/Tailwind su `holdExit.fadeMs`.
 
-## 0.5.1 "Taratura del Segnale"
-Audit con la skill Modern Web Guidance; piano e ordine in [VERSIONING.md](VERSIONING.md).
-- [ ] #119 [Performance: code-splitting delle pagine con `React.lazy` e pagine Dev fuori dalla build di produzione](https://github.com/ieeah/arc-benches/issues/119)
-- [ ] #120 [Performance: caricamento dinamico dei JSON pesanti (items, quests) e di Leaflet](https://github.com/ieeah/arc-benches/issues/120) — dopo #119
-- [ ] #121 [Refactor UI: Drawer, BottomSheet e modali su `<dialog>` nativo (`showModal()`)](https://github.com/ieeah/arc-benches/issues/121) — elimina il focus trap manuale di `useDialog`; correlata a ADR 003 e #60
-- [ ] #122 [Refactor UI: rimuovere lo scroll lock su html/body, `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121
-- [ ] #123 [Fix UI: `dvh`/`svh` al posto di `vh`/`h-screen` per la barra URL mobile](https://github.com/ieeah/arc-benches/issues/123)
-- [ ] #125 [A11y: scrollbar nascosta nelle pill orizzontali senza altra affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
-- [ ] #126 [Fix HTML: `lang` dinamico, titolo e meta description](https://github.com/ieeah/arc-benches/issues/126)
-- [ ] #127 [Build: `@tailwindcss/vite` al posto di PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
-- [ ] #128 [Docs/DX: adottare `modern-web-guidance` nel flusso di lavoro](https://github.com/ieeah/arc-benches/issues/128)
+---
 
-## 0.6.0 "Archivio del Rifugio"
-- [ ] #69 [UX Stash: Ordinamento per priorità multi-criterio (Banco + Livello)](https://github.com/ieeah/arc-benches/issues/69) — oltre all'ordine dei banchi/liste, dare precedenza ai requisiti di livello inferiore (es. Lvl 2 prima di Lvl 3); per materiali aggregati su più livelli o banchi, assegnare la priorità più alta (livello minimo / primo banco nell'ordinamento).
-- [ ] #93 [UX Stash: filtri per fonte lista nel menu contestuale (...)](https://github.com/ieeah/arc-benches/issues/93) — toggle nelle opzioni secondarie del floating nav per attivare/disattivare gli oggetti provenienti da specifiche tipologie di lista (banchi di lavoro, progetti, liste personalizzate, spedizioni, quest).
+## 0.5.1 "Taratura del Segnale" — Consolidamento 0.5.0 & Tooling Vite
+- [ ] #135 [Refactor Layout: migrazione pagine esistenti a `PageLayout` e testing layout/scroll](https://github.com/ieeah/arc-benches/issues/135) — applica `PageLayout` (#134) a `StashPage`, `ListsPage`, `BlueprintsPage`, `PassPage` e `PassesOverviewPage`.
+- [ ] #136 [Refactor Layout: standardizzazione layout unificato `PageLayout` e fix retroattivo](https://github.com/ieeah/arc-benches/issues/136) — insieme a #135.
+- [ ] #133 [Refactor Codice: verifica retroattiva adozione `type` e standard mobile/touch-first](https://github.com/ieeah/arc-benches/issues/133)
+- [ ] #69 [UX Stash: ordinamento per priorità multi-criterio (Banco + Livello)](https://github.com/ieeah/arc-benches/issues/69) — oltre all'ordine delle liste (`listOrder`), dà precedenza ai requisiti di livello inferiore (es. Lvl 2 prima di Lvl 3).
+- [ ] #125 [A11y UI: scrollbar nascosta nelle liste di pill orizzontali senza altra affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
+- [ ] #126 [Fix HTML: `lang` dinamico, titolo e meta description in `index.html`](https://github.com/ieeah/arc-benches/issues/126)
+- [ ] #149 [Refactor i18n: rimozione assunzioni binarie ('it' vs 'en') ed estensione traduzioni in Dev Studio](https://github.com/ieeah/arc-benches/issues/149) — elimina controlli rigidi e assicura che nel Dev Studio sia possibile inserire/modificare traduzioni per tutte le lingue supportate.
+- [ ] #127 [Build: passare a `@tailwindcss/vite` e rimuovere PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
 
-- [ ] #11 [Performance: virtualizzazione delle liste lunghe (Catalogo e Stash)](https://github.com/ieeah/arc-benches/issues/11) — anticipata da 0.9.0: scroll a scatti su dispositivi di fascia media; prima si misura l'effetto di header opachi, `overflow-clip`, miniature 128px e icone per tema.
+---
 
-## 0.7.0 "Guida di Speranza"
-- [ ] #75 [UX: badge di craftabilità sulle card degli oggetti](https://github.com/ieeah/arc-benches/issues/75) — include l'estensione dell'icona craft a tutti i banchi (non solo Refiner), con stato verde (livello banco raggiunto / producibile) e ambra (livello banco non ancora sufficiente).
+## 0.6.0 "Archivio del Rifugio" — Dati di 2° Livello (Refactor UI Liste)
+- [ ] #114 [UX Liste: elenco unico senza raggruppamento per tipo, card differenziate e più intuitive](https://github.com/ieeah/arc-benches/issues/114) — la priorità si esprime con la posizione; correlata a #69.
 
-## 0.9.0 "Rifinitura Tattica"
-- [ ] #60 [Refactor UI/UX Globale: Consolidamento componenti, modali, drawer e densità visiva](https://github.com/ieeah/arc-benches/issues/60)
-- [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
-- [ ] #115 [UX: valutare un redesign dell'app, oggi troppo «Tailwind generico»](https://github.com/ieeah/arc-benches/issues/115) — da valutare insieme a #60; deve essere completato prima del rilascio pubblico della 1.0.0
-- [ ] #116 [UX: pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116) — dopo il redesign del tema (#115)
+---
 
-## Da pianificare
-- [ ] #114 [UX Liste: elenco unico senza raggruppamento per tipo, card differenziate e più intuitive](https://github.com/ieeah/arc-benches/issues/114) — la priorità si esprime con la posizione; correlata a #69. Comprende la rinomina della pagina «Banchi e Liste» (es. «Obiettivi»).
-- [ ] Proposta UX Stash: visualizzazione sdoppiata Fabbisogno (Lista della Spesa) vs Magazzino Reale (Inventario) con toggle in testata, forte differenziazione visiva (ambra per fabbisogni vs verde smeraldo per magazzino) e pulsante di aggiunta rapida per oggetti non richiesti dai banchi.
+## 0.6.x "Consolidamento & Dati Estesi"
+- [ ] #146 [Refactor Spedizioni: revisione UX/UI e correzione logica pregresso, vincoli, requisiti e progressione](https://github.com/ieeah/arc-benches/issues/146)
+- [ ] #76 [Dev Quest: redesign da zero pagina Dev gestione quest e visualizzazione dipendenze in ottica mobile-first](https://github.com/ieeah/arc-benches/issues/76) — sviluppata insieme al Quest Tracker utente (#58).
+- [ ] #93 [UX Stash / Impostazioni: filtri per fonte lista configurabili nelle Impostazioni](https://github.com/ieeah/arc-benches/issues/93) — permette di scegliere quali tipologie di lista alimentano il fabbisogno dello Stash.
+- [ ] #37 [Role Maker: arricchimento, coerenza gameplay e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37) — insieme a #101.
 
-## Completati di recente
-- [x] #79 [UX Liste & Progetti: opzione "extractionWiped"](https://github.com/ieeah/arc-benches/issues/79) — reset selettivo e integrazione nel modello e nei seed pregressi.
-- [x] #86 [Dati banchi al Lvl 3 (Frozen Trail)] — verificati: livelli 1-3 invariati rispetto al gioco; Gunsmith Lvl 4, Stazione Ricerca e Outpost già integrati.
+---
+
+## 0.7.0 "Guida di Speranza" — Preparazione UI/UX, Base UI & Struttura Pagine (Pre-Migrazione)
+Ordine di lavoro vincolato (**#141 prima del passaggio a Base UI**):
+1. [ ] #141 [Dev Studio: UI Kit & Component Playground con vista comparativa e adozione incrementale Base UI](https://github.com/ieeah/arc-benches/issues/141)
+2. [ ] #121 [Refactor UI: migrare Drawer, BottomSheet e modali a `<dialog>` nativo / Base UI Dialog](https://github.com/ieeah/arc-benches/issues/121) — elimina il focus trap manuale di `useDialog`; correlata a ADR 003 e #60.
+3. [ ] #122 [Refactor UI: rimuovere lo scroll lock su html/body e usare `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121.
+4. [ ] #60 [Refactor UI/UX Globale: consolidamento componenti, modali, drawer e densità visiva con Base UI](https://github.com/ieeah/arc-benches/issues/60)
+5. [ ] #115 [UX Design: valutare e applicare un redesign dell'app, oggi troppo «Tailwind generico»](https://github.com/ieeah/arc-benches/issues/115) — insieme a #60.
+6. [ ] #4 [Accessibilità: supporto tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
+7. [ ] #116 [UX Pagine: pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116) — prepara la gerarchia delle viste per l'App Router di Next.js (#28).
+
+---
+
+## 0.8.0 "Ponte Next & Supabase" — Refactor Impostazioni sulla Nuova Persistenza
+- [ ] #148 [Refactor Impostazioni: redesign completo pagina Impostazioni, audit globale preferenze e integrazione nuova persistenza](https://github.com/ieeah/arc-benches/issues/148) — raccoglie tutte le preferenze tracciate durante `0.5.0` → `0.7.0` (#102, #75, #93, #26, #112) integrandole nel nuovo livello di persistenza Next.js/Supabase (#28, #14–#16).
+
+---
+
+## 0.9.0 "Rifinitura Tattica" — Performance & Ottimizzazione sul Nuovo Stack
+- [ ] #119 [Performance Build: ottimizzazione code-splitting delle rotte ed esclusione pagine Dev/Admin dal bundle client pubblico](https://github.com/ieeah/arc-benches/issues/119)
+- [ ] #120 [Performance Data: caricamento dinamico dei payload pesanti e di Leaflet](https://github.com/ieeah/arc-benches/issues/120) — insieme a #119.
+- [ ] #142 [Performance Search: analisi pre-calcolo token normalizzati e indice di ricerca per il catalogo](https://github.com/ieeah/arc-benches/issues/142)
+- [ ] #11 [Performance Rendering: virtualizzazione e ottimizzazione per liste lunghe (Catalogo e Stash)](https://github.com/ieeah/arc-benches/issues/11)
+
+---
+
+## Completati di recente (0.5.0 / 0.5.1)
+- [x] #137, #138, #139, #140 [Fix scroll mobile ItemCard, computo materiali a scalare barre progresso (#130), pill "Completati" per azioni nello Stash e internazionalizzazione testi/a11y residui].
+- [x] #134 [Componente unificato `PageLayout` (header sticky, action bar e footer copyright)](https://github.com/ieeah/arc-benches/issues/134)
+- [x] #129 [Badge per gli oggetti acquistabili dai commercianti (`TraderBadge`)](https://github.com/ieeah/arc-benches/issues/129)
+- [x] #123 & #128 [`dvh`/`svh` al posto di `vh`/`h-screen` e adozione `modern-web-guidance` nel flusso di lavoro].
+- [x] #87 & #90 [Progetto Outpost completo e Reward Pass Tracker].
+- [x] #79 [UX Liste & Progetti: opzione "extractionWiped"](https://github.com/ieeah/arc-benches/issues/79)
+- [x] #86 [Dati banchi al Lvl 3 (Frozen Trail)](https://github.com/ieeah/arc-benches/issues/86)
 - [x] #72 & #73 [Tipi liste: discriminated union completa su `listType`].
 - [x] #80 [Bug Stash: contatore quantità che torna a zero](https://github.com/ieeah/arc-benches/issues/80)
-- [x] Bug UI Stash: lo slider delle azioni (`ActionSlider`) — il background azzurro del trascinamento usciva dai bordi arrotondati; ora slider lineare e riempimento clippato.

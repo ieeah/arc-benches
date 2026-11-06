@@ -59,6 +59,8 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Mappa statica di architettura e flusso dati.
 - [docs/INCEPTION_BRIEF.md](docs/INCEPTION_BRIEF.md) — Documento d'insieme di fondazione (problema, persone, MVP, pre-mortem e decisioni tecniche).
 - [docs/VERSIONING.md](docs/VERSIONING.md) — Piano previsionale delle versioni e della roadmap SemVer fino all'MVP (1.0.0).
+- [docs/revisione-roadmap-dati-verso-1.0.0.md](docs/revisione-roadmap-dati-verso-1.0.0.md) — Decisioni consolidate e pianificazione delle issue legate ai dati verso la 1.0.0.
+- [docs/revisione-roadmap-tecnica-ui-verso-1.0.0.md](docs/revisione-roadmap-tecnica-ui-verso-1.0.0.md) — Decisioni e pianificazione delle issue tecniche, UI, cambio stack e performance verso la 1.0.0.
 - [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md) — Convenzioni di codice osservate nella codebase.
 - [docs/consolidamento-0.5.0.md](docs/consolidamento-0.5.0.md) — Raccolta dei punti emersi dalla prova manuale della 0.5.0, da riorganizzare.
 - [changelog/](changelog/) — Note di rilascio per versione; la prossima versione ha una bozza sempre aggiornata (es. `changelog/0.5.0.md`).

@@ -1,0 +1,81 @@
+# Revisione Roadmap «Dati» verso la 1.0.0
+
+_Documento di lavoro aggiornato al 2026-11-06 — Decisioni consolidate, analisi dei prerequisiti, dipendenze e pianificazione delle 52 issue legate ai dati._
+
+> Per il censimento e la proposta sulle restanti 21 issue tecniche/UI vedi [revisione-roadmap-tecnica-ui-verso-1.0.0.md](revisione-roadmap-tecnica-ui-verso-1.0.0.md).
+
+---
+
+## Architettura delle Milestone di Riferimento
+
+- **`0.5.0` ("Segnale Radio")**: Gestione dei **Dati di 1° livello** (oggetti di gioco non puramente cosmetici, banchi, progetti, spedizioni base, pass, selezione oggetti `ItemPicker`, craftabilità banchi, moduli attivabili e backup stato profilo).
+- **`0.5.1` ("Taratura del Segnale")**: **Consolidamento della `0.5.0`** (bugfix, rifiniture UI/UX, standardizzazione `PageLayout`, pulizia `type`, ordinamento priorità Stash).
+- **`0.6.0` ("Archivio del Rifugio")**: Gestione dei **Dati di 2° livello e avanzati — Blocco Principale** (Pagina *Collezioni* unificata con Blueprint + Cosmetici/Outfit/Stencil/Design/Arredi, Amplificazione Armi + Ricerche Research Bench, dettagli costruzione/miglioramento/riparazione oggetti, Skill Tree, elenco unico liste).
+- **`0.6.x`**: **Consolidamento della `0.6.0` ed estensioni dati pre-1.0.0** (Quest Tracker utente + redesign mobile-first gestione Dev quest, revisione UX/logica Spedizioni, dati statici e limiti giornalieri Commercianti, viste/filtri avanzati Stash e Raid per zona di loot, Bacheca Trofei, eventuale valutazione Dashboard).
+- **`0.7.0` ("Guida di Speranza")**: **Preparazione UI/UX, Base UI & Struttura Pagine pre-migrazione** (Dev Studio UI Kit Playground #141, migrazione Drawer/Dialog e componenti a Base UI #121/#122/#60, redesign visivo #115/#4 e pagina dettaglio lista/Outpost #116).
+- **`0.8.0` ("Ponte Next & Supabase")**: **Passaggio alla Nuova Architettura** (migrazione a Next.js App Router #28, Database e Auth Supabase con sync offline-first #14/#15/#16, Redesign completo Impostazioni sulla nuova persistenza #148 e Backoffice `/admin` con fallback fonti #65/#97).
+- **`0.9.0` ("Rifinitura Tattica")**: **Performance, Ottimizzazione & Telemetria sul Nuovo Stack** (code-splitting e dynamic loading payload/Leaflet #119/#120, pre-calcolo indice ricerca #142, virtualizzazione liste lunghe #11, `View Transitions` #27 e telemetria first-party cookieless e anonima #66/#67).
+- **`1.0.0` ("Rete Speranza")**: **Lancio Pubblico Ufficiale** (Offerte settimanali Cassio/Ermal via backend #147, Eventi Live #55, Mappe Interattive #61, Codex con sezione ARCs/Sonde/Corrieri #64/#57, Condivisione Link #25/#98 e Tour Onboarding #20).
+
+---
+
+## 1. Issue Chiuse (5)
+
+- **[#90](https://github.com/ieeah/arc-benches/issues/90)** (`feat: Reward Pass Tracker`) → Spostata in **`0.5.0`** e **chiusa** (già sviluppata e popolata in `0.5.0`; le rifiniture UI sono in #144).
+- **[#107](https://github.com/ieeah/arc-benches/issues/107)** (`data(hideout): rifugio/avamposto, moduli e livelli con ARC Tracker come riscontro`) → **Chiusa come `wontfix` (da non fare)** (Gunsmith Lvl 4, Research Station e Outpost sono già stati chiusi in #86 e #87; i 12 livelli di espansione capienza Stash non hanno utilità nell'app perché non tracciamo live gli slot dell'inventario di gioco).
+- **[#34](https://github.com/ieeah/arc-benches/issues/34)** (`Vault Spedizione - Cassaforte Wipe`) → **Chiusa** (il Vault è stato eliminato dal gioco da Embark Studios).
+- **[#95](https://github.com/ieeah/arc-benches/issues/95)** (`feat: planner progressione XP → Skill Points`) → **Chiusa per sovrapposizione con [#62](https://github.com/ieeah/arc-benches/issues/62)** (il contatore dei Punti Abilità totali/spesi confluisce direttamente dentro #62 Skill Tree).
+- **[#96](https://github.com/ieeah/arc-benches/issues/96)** (`feat(events): allerta Flash Freeze nel meteo dinamico`) → **Chiusa come `wontfix`** (il Flash Freeze non è un evento schedulato ma un fenomeno ambientale sempre presente su *Pendola Pass* a cadenza di 3–4 minuti in punti casuali).
+
+---
+
+## 2. Nuove Issue Create nel Perimetro «Dati & Impostazioni» (4)
+
+1. **[#145](https://github.com/ieeah/arc-benches/issues/145)** — **`feat(collections): pagina unificata Collezioni (Blueprint, Cosmetici, Outfit, Stencil, Design, Arredi)`** → Milestone **`0.6.0`**
+   - Issue **wrapper** che unifica il tracker Blueprint attuale con **[#91](https://github.com/ieeah/arc-benches/issues/91)** (Stencil, Outfit, Design, Arredi), **[#131](https://github.com/ieeah/arc-benches/issues/131)** (Guardaroba: Skin, Zaini, Ciondoli, Emote, Scrappy) e **[#109](https://github.com/ieeah/arc-benches/issues/109)** (distinzione completo, toggle e colori degli outfit).
+2. **[#146](https://github.com/ieeah/arc-benches/issues/146)** — **`refactor(expeditions): revisione UX/UI e correzione logica pregresso, vincoli, requisiti e progressione delle spedizioni`** → Milestone **`0.6.x`**
+   - Consolida e corregge le imprecisioni delle spedizioni secondo la specifica corrente, preparando una base pulita in attesa del rework di Embark.
+3. **[#147](https://github.com/ieeah/arc-benches/issues/147)** — **`feat(traders): integrazione offerte a rotazione settimanale di Cassio/Ermal via backend`** → Milestone **`1.0.0`** (dopo il passaggio a Next.js e Supabase)
+   - Sfrutta il backend / pipeline programmata (1 chiamata a settimana su `GET /api/arc-raiders/traders` → chiave `ermal.offers`) per mostrare l'offerta settimanale attiva, il costo in monete, la finestra temporale (`offer_start` / `offer_end`) e gli oggetti accettati in scambio (`accepted_items`).
+4. **[#148](https://github.com/ieeah/arc-benches/issues/148)** — **`refactor(settings): redesign completo pagina Impostazioni, audit globale preferenze e integrazione nuova persistenza`** → Milestone **`0.8.0`** (insieme al passaggio a Next.js e Supabase)
+   - Analisi di tutta l'app per raccogliere e riorganizzare tutte le impostazioni e preferenze utente in una struttura coerente, integrata con la nuova persistenza Next.js/Supabase.
+   - **Nota operativa**: Questa issue funge da **registro vivente** durante tutto lo sviluppo da `0.5.0` a `0.7.0`: ogni volta che una feature introduce o sposta una preferenza (es. *Moduli attivi* #102, *Modalità badge craftabilità strict/level-only* #75, *Filtri fonti lista Stash* #93, *Vista aggregata per banco* #26), viene annotata nella checklist di questa issue.
+
+---
+
+## 3. Tabella Riepilogativa delle Issue «Dati» Attive per Milestone
+
+| Milestone Target | Issue | Decisione e Note di Implementazione / Riformulazione |
+| :--- | :--- | :--- |
+| **`0.5.0`** *(Dati 1° Livello)* | **[#143](https://github.com/ieeah/arc-benches/issues/143)** | **Solo a livello estetico/algoritmico**: il DB (`items.json`) resta 100% compatibile con MetaForge e le altre fonti. Usiamo un algoritmo runtime (`getItemFamily`) + eventuale supporto override per raggruppare livelli `I–IV` / varianti `Amplified` e distinguere `Blueprint`/`Design`. (Valuteremo se serve una sezione nel Dev Studio in una issue collegata solo se l'algoritmo non bastasse). Bloccante per #88. |
+| **`0.5.0`** *(Dati 1° Livello)* | **[#88](https://github.com/ieeah/arc-benches/issues/88)** | Pool di oggetti contestuali nell'`ItemPicker` (Opzione C + Variante A1), Relevance Ranking e Cap DOM a 50. Dipende da #143 e dalla bonifica categorie in #144. |
+| **`0.5.0`** *(Dati 1° Livello)* | **[#75](https://github.com/ieeah/arc-benches/issues/75)** | **Spostata da `0.7.0` a `0.5.0`**: estensione di `src/lib/craft.ts` a tutti i banchi già presenti in `item.workbench` (156 oggetti) con stato Verde/Ambra e preferenza `strict` / `level-only` (annotata anche in #148). |
+| **`0.5.0`** *(Dati 1° Livello)* | **[#102](https://github.com/ieeah/arc-benches/issues/102), [#74](https://github.com/ieeah/arc-benches/issues/74)** | Moduli attivabili per profilo (`isSectionActive`, #102) e subito dopo Export/Import completo di tutti i campi del profilo (#74). |
+| **`0.5.0`** *(Dati 1° Livello)* | **[#144](https://github.com/ieeah/arc-benches/issues/144)** | Consolidamento pre-rilascio `0.5.0` (bugfix Dev «Applica» override, bonifica categorie catalogo tramite overrides, icone Raider Token/Emote, rifiniture Pass e Blueprint). |
+| **`0.5.1`** *(Consolidamento 0.5.0)* | **[#69](https://github.com/ieeah/arc-benches/issues/69)** | **Spostata da `0.6.0` a `0.5.1`**: ordinamento Stash per priorità multi-criterio (posizione lista `listOrder` + livello requisito). |
+| **`0.6.0`** *(Dati 2° Livello)* | **[#145](https://github.com/ieeah/arc-benches/issues/145) + [#91](https://github.com/ieeah/arc-benches/issues/91), [#131](https://github.com/ieeah/arc-benches/issues/131), [#109](https://github.com/ieeah/arc-benches/issues/109)** | Creazione pagina **Collezioni** (#145) con Blueprint, Stencil, Outfit (completo/toggle/colore #109), Design, Arredi (#91) e Guardaroba/Scrappy (#131). (#131 spostata da `0.5.0` a `0.6.0`). |
+| **`0.6.0`** *(Dati 2° Livello)* | **[#92](https://github.com/ieeah/arc-benches/issues/92)** | Armi amplificate (*Weapon Amplification*) e gestione delle 15 ricerche del Research Bench (`weapon-amplification-research.json`). |
+| **`0.6.0`** *(Dati 2° Livello)* | **[#113](https://github.com/ieeah/arc-benches/issues/113)** | **Spostata da `0.7.0` a `0.6.0`**: costruzione (ricette), miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti. |
+| **`0.6.0`** *(Dati 2° Livello)* | **[#114](https://github.com/ieeah/arc-benches/issues/114)** | Elenco unico delle liste senza raggruppamento rigido per tipo e card differenziate. |
+| **`0.6.0`** *(Dati 2° Livello)* | **[#89](https://github.com/ieeah/arc-benches/issues/89), [#62](https://github.com/ieeah/arc-benches/issues/62)** | **Spostate da `0.7.0` a `0.6.0`**: estrazione dati nuovo Skill Tree (#89) e Skill Tree interattivo (#62, che assorbe anche il contatore punti di #95). |
+| **`0.6.x`** *(Estensioni Dati & Consolidamento 0.6.0)* | **[#146](https://github.com/ieeah/arc-benches/issues/146)** | Revisione UX/UI e correzione logica del pregresso, vincoli, requisiti e progressione delle spedizioni. |
+| **`0.6.x`** | **[#76](https://github.com/ieeah/arc-benches/issues/76), [#58](https://github.com/ieeah/arc-benches/issues/58)** | **#76 spostata da `0.5.0` a `0.6.x`**: ripensare da zero la gestione Dev delle quest e la visualizzazione dell'albero dipendenze in ottica **mobile-first**, condividendo l'approccio con il **Quest Tracker utente (#58)**. |
+| **`0.6.x`** | **[#94](https://github.com/ieeah/arc-benches/issues/94)** | **Riformulata per la parte statica**: mostrare per gli articoli dei commercianti i limiti giornalieri di acquisto (*"Ne puoi comprare X al giorno"*) + eventuale countdown (*"Si azzera tra hh:mm"* una volta verificato l'orario di reset del server), più menzione informativa di Cassio/Ermal. (La parte live settimanale è in #147 su `1.0.0`). |
+| **`0.6.x`** | **[#93](https://github.com/ieeah/arc-benches/issues/93), [#26](https://github.com/ieeah/arc-benches/issues/26)** | **#93**: Filtri per fonte lista nello Stash gestiti nelle **Impostazioni** (e tracciati in #148). **#26**: Vista aggregata per banco/lista attivabile dal menu contestuale `...` / Impostazioni, con pulsante su ogni gruppo che apre il dettaglio della lista diviso per livelli. |
+| **`0.6.x`** | **[#81](https://github.com/ieeah/arc-benches/issues/81), [#59](https://github.com/ieeah/arc-benches/issues/59)** | **#59**: Studio di fattibilità focalizzato sui tag **Zona di Loot (`loot_area`)** già presenti a catalogo (senza gestione manuale di container o screenshot). **#81**: Raggruppamento per Mappa / Zona di Loot valutato prioritariamente nella **`RaidPlanPage`** anziché nella `StashPage`. |
+| **`0.6.x`** | **[#70](https://github.com/ieeah/arc-benches/issues/70)** | **Spostata da `0.8.0` a `0.6.x`**: Bacheca dei Trofei (storico spedizioni, progetti, pass e banchi completati). |
+| **`0.6.x`** | **[#56](https://github.com/ieeah/arc-benches/issues/56)** | **Spostata da `0.8.0` a `0.6.x` con nota di riserva**: pagina di riepilogo (non caricata come prima pagina all'avvio); da analizzare in `0.6.x` valutando se realizzarla, posticiparla o rimuoverla. |
+| **`0.6.x` (o succ.)** | **[#101](https://github.com/ieeah/arc-benches/issues/101), [#37](https://github.com/ieeah/arc-benches/issues/37)** | **Spostate in `0.6.x`**: revisione contenuti e meccaniche Role Maker, da rivalutare in base all'eventuale gestione futura di UGC e storico per profilo (fino ad allora il modulo resta dietro feature flag `role-maker: false`). |
+| **`0.7.0`** *(UI/UX, Base UI & Struttura Pagine)* | **[#116](https://github.com/ieeah/arc-benches/issues/116)** | **Spostata da `0.9.0` a `0.7.0`**: pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione pagine (preparazione al routing Next.js insieme a #141, #121, #122, #60, #115, #4). |
+| **`0.8.0`** *(Passaggio a Next.js & Supabase)* | **[#14](https://github.com/ieeah/arc-benches/issues/14), [#15](https://github.com/ieeah/arc-benches/issues/15), [#16](https://github.com/ieeah/arc-benches/issues/16)** | **Collocate in `0.8.0`** (insieme a Next.js #28): Supabase — Schema Dati di Gioco (#14), Account & Auth RLS (#15) e Sync Background offline-first (#16). |
+| **`0.8.0`** *(Passaggio a Next.js & Supabase)* | **[#148](https://github.com/ieeah/arc-benches/issues/148)** | Redesign completo pagina Impostazioni, audit globale preferenze e integrazione nuova persistenza Next.js/Supabase (registro vivente da `0.5.0` a `0.7.0`). |
+| **`0.8.0`** *(Passaggio a Next.js & Supabase)* | **[#65](https://github.com/ieeah/arc-benches/issues/65), [#97](https://github.com/ieeah/arc-benches/issues/97)** | Backoffice `/admin` su Next.js per sync dati, storage asset, override (#65) e fallback automatico su fonte dati di backup (#97). |
+| **`0.9.0`** *(Performance & Rifinitura sul Nuovo Stack)* | **[#142](https://github.com/ieeah/arc-benches/issues/142), [#120](https://github.com/ieeah/arc-benches/issues/120), [#11](https://github.com/ieeah/arc-benches/issues/11)** | Pre-calcolo indice di ricerca e token normalizzati (#142), caricamento dinamico payload pesanti e Leaflet (#120, insieme a #119), strategie di virtualizzazione/rendering per liste lunghe sul DOM definitivo (#11). |
+| **`0.9.0`** *(Performance & Rifinitura sul Nuovo Stack)* | **[#66](https://github.com/ieeah/arc-benches/issues/66), [#67](https://github.com/ieeah/arc-benches/issues/67)** | Telemetria rigorosamente **cookieless e anonima** (zero dati sensibili/personali per evitare complessità GDPR/banner cookie) sul nuovo stack Next.js/Supabase. |
+| **`1.0.0`** *(Lancio Pubblico)* | **[#147](https://github.com/ieeah/arc-benches/issues/147)** | Offerte a rotazione settimanale di Cassio/Ermal via backend/pipeline (1 chiamata a settimana a `ermal.offers`). |
+| **`1.0.0`** | **[#61](https://github.com/ieeah/arc-benches/issues/61)** | **Spostata da `1.x` a `1.0.0`**: Mappe Interattive complete (POI, estrattori, loot nodes su DB Supabase e selettore multipiano). |
+| **`1.0.0`** | **[#55](https://github.com/ieeah/arc-benches/issues/55)** | **Spostata da `0.8.0` a `1.0.0`**: Condizioni Mappe & Eventi Live (con caching backend). |
+| **`1.0.0`** | **[#64](https://github.com/ieeah/arc-benches/issues/64), [#57](https://github.com/ieeah/arc-benches/issues/57)** | **Spostate in `1.0.0`**: Codex di Speranza (#64) che ingloba la sezione **«ARCs»** (#57, **senza drop tables**, ma includendo anche le entità non-nemico come **Sonde ARC** e **Corrieri ARC** da cui si estraggono i materiali `loot_area: "ARC"`). |
+| **`1.0.0`** | **[#25](https://github.com/ieeah/arc-benches/issues/25)** | Condivisione Lista tramite Link pubblico `/share/<token>`. |
+| **`1.0.0`** | **[#98](https://github.com/ieeah/arc-benches/issues/98)** | **Spostata da `1.x` a `1.0.0`** (valutabile anche `1.x`): Condivisione build Skill Tree via link. |
+| **`1.x` / `2.x`** | **[#99](https://github.com/ieeah/arc-benches/issues/99), [#132](https://github.com/ieeah/arc-benches/issues/132), [#118](https://github.com/ieeah/arc-benches/issues/118), [#100](https://github.com/ieeah/arc-benches/issues/100)** | Checklist pre-raid (#99, `1.x`), Modulo Pianificazione Raid esteso (#132, `1.x`), Percorsi Waypoint su mappa (#118, `1.x`, anticipabile se si libera uno slot), Guide e suggerimenti in-app (#100, `2.x`). |

@@ -39,3 +39,6 @@ skills-lock.json
 
 # Cestino degli strumenti Dev: locale, non va nel repository
 dev-trash/
+
+# Documenti e report binari locali
+*.pdf

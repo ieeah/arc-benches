@@ -1,112 +1,107 @@
 # 2_ROADMAP.md — Sviluppi Futuri
 
 Roadmap delle **nuove funzionalità e sistemi** non ancora presenti nel codice di **ARC Benches**, organizzata per versione.
-Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vive in [VERSIONING.md](VERSIONING.md); miglioramenti, refactor e bug su cose esistenti stanno in [3_BACKLOG.md](3_BACKLOG.md).
+Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vive in [VERSIONING.md](VERSIONING.md); miglioramenti, refactor, debito tecnico e ottimizzazioni su cose esistenti stanno in [3_BACKLOG.md](3_BACKLOG.md).
 
 ---
 
-## Versione 0.5.0 "Segnale Radio" — Fondamenta Dev e dati
-- [ ] #76 [Pagina Dev per la gestione delle quest e albero delle dipendenze](https://github.com/ieeah/arc-benches/issues/76)
-- [ ] #87 [Progetto Outpost: moduli e requisiti tra liste fatti, restano Research Bench e arredi](https://github.com/ieeah/arc-benches/issues/87)
-- [ ] #102 [Moduli attivabili per profilo: l'utente spegne le sezioni che non usa (feature flags utente)](https://github.com/ieeah/arc-benches/issues/102)
+## Versione 0.5.0 "Segnale Radio" — Gestione dei Dati di 1° Livello
+- [x] #75 [Badge di craftabilità sulle card degli oggetti (estensione a tutti i banchi)](https://github.com/ieeah/arc-benches/issues/75)
+- [ ] #102 [Moduli attivabili per profilo (`isSectionActive`, feature flags utente)](https://github.com/ieeah/arc-benches/issues/102)
   - *Specifica tecnica*: [docs/specs/moduli-attivabili-per-profilo.md](specs/moduli-attivabili-per-profilo.md)
-- [ ] #110 [Popolamento del Frozen Trail con import una tantum e correzioni a mano](https://github.com/ieeah/arc-benches/issues/110)
-- [x] #129 [Badge per gli oggetti acquistabili dai commercianti (simile al Refiner)](https://github.com/ieeah/arc-benches/issues/129)
+
+Le altre voci aperte della `0.5.0` (#143, #88, #74, #144) riguardano refactor e consolidamento su sistemi già esistenti: vedi [3_BACKLOG.md](3_BACKLOG.md).
 
 ---
 
-## Versione 0.5.1 "Taratura del Segnale" — Modernizzazione web
+## Versione 0.5.1 "Taratura del Segnale" — Consolidamento 0.5.0 & Tooling Vite
 - [ ] #124 [Tema del browser: `color-scheme`, `theme-color` e `accent-color`](https://github.com/ieeah/arc-benches/issues/124)
 
-Il resto della versione (performance, dialog nativo, viewport, accessibilità, tooling) è debito tecnico su cose esistenti: vedi [3_BACKLOG.md](3_BACKLOG.md).
+Il resto della `0.5.1` (migrazione `PageLayout`, `type`, ordinamento priorità Stash #69, `@tailwindcss/vite` #127) è in [3_BACKLOG.md](3_BACKLOG.md).
 
 ---
 
-## Versione 0.6.0 "Archivio del Rifugio" — Tracker e collezioni
-- [ ] #90 [Reward Pass Tracker (solo livelli e ricompense, dati inseriti a mano; niente Feats)](https://github.com/ieeah/arc-benches/issues/90)
-- [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
-- [ ] #92 [Armi amplificate (Weapon Amplification): pagina informativa, nessun tracker](https://github.com/ieeah/arc-benches/issues/92)
-- [ ] #26 [Vista Aggregata per Banco (Fase 3)](https://github.com/ieeah/arc-benches/issues/26)
-- [ ] #105 [Rapporto completo degli oggetti di ARC Tracker assenti dal catalogo](https://github.com/ieeah/arc-benches/issues/105)
-- [x] #106 [Generatore delle quest da ARC Tracker con ripiego MetaForge](https://github.com/ieeah/arc-benches/issues/106) — anticipata in 0.5.0
-- [ ] #109 [Outfit sbloccati a pezzi: icone di sottocategoria e badge per completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109)
-- [ ] #107 [Rifugio/avamposto: moduli e livelli con ARC Tracker come riscontro](https://github.com/ieeah/arc-benches/issues/107)
+## Versione 0.6.0 "Archivio del Rifugio" — Gestione dei Dati di 2° Livello e Avanzati (Blocco Principale)
+- [ ] #145 [Pagina unificata «Collezioni» (Blueprint, Cosmetici, Outfit, Stencil, Design, Arredi)](https://github.com/ieeah/arc-benches/issues/145) — issue wrapper che riunisce:
+  - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
+  - [ ] #131 [Sezione Guardaroba e catalogo personalizzazioni (skin, zaini, cosmetici e Scrappy)](https://github.com/ieeah/arc-benches/issues/131)
+  - [ ] #109 [Outfit sbloccati a pezzi: distinguere completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109)
+- [ ] #92 [Armi amplificate (Weapon Amplification) e gestione ricerche Research Bench](https://github.com/ieeah/arc-benches/issues/92)
+- [ ] #113 [Costruzione, miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
+- [ ] #89 [Estrazione dati Skill Tree da MetaForge (`svelte-flow`)](https://github.com/ieeah/arc-benches/issues/89)
+- [ ] #62 [Skill Tree dei Raiders: albero delle abilità, sinergie e contatore punti abilità](https://github.com/ieeah/arc-benches/issues/62)
+  - *Nuovo albero (Frozen Trail)*: albero rielaborato — scelta binaria a metà ramo, fino a due su tre a fine ramo, valori di diverse abilità cambiati.
+  - *Sorgente dati*: lo skill builder di MetaForge (`metaforge.app/arc-raiders/skill-builder`, rami Conditioning / Mobility / Survival) è reso con `svelte-flow`, quindi nodi e collegamenti sono estraibili dal payload della pagina.
 
 ---
 
-## Versione 0.7.0 "Guida di Speranza" — Quest, bestiario, spawn tips e Skill Tree
-- [ ] #89 [Estrazione dati Skill Tree da MetaForge (svelte-flow)](https://github.com/ieeah/arc-benches/issues/89)
-- [ ] #62 [Skill Tree dei Raiders: Albero delle abilità e sinergie](https://github.com/ieeah/arc-benches/issues/62)
-  - *Nuovo albero (Frozen Trail)*: albero rielaborato — scelta binaria a metà ramo, fino a due su tre a fine ramo, valori di diverse abilità cambiati. La specifica va rifatta sul nuovo albero.
-  - *Sorgente dati*: lo skill builder di MetaForge (`metaforge.app/arc-raiders/skill-builder`, rami Conditioning / Mobility / Survival) è reso con svelte-flow, quindi nodi e collegamenti sono estraibili dal payload della pagina invece di essere ricopiati a mano. Da verificare: la pagina è dietro Cloudflare (non raggiungibile da uno script semplice) e non è confermato che esponga già il nuovo albero; alternative: API MetaForge o RaidTheory/arcraiders-data.
-- [ ] #58 [Quest Tracker Informativo: Consultazione contratti e ricompense commercianti con ipotesi visualizzazione albero canvas (ARDB)](https://github.com/ieeah/arc-benches/issues/58)
-  - *Comportamento con le Spedizioni (reset opzionale)*: in gioco il Raider può scegliere se azzerare o conservare i progressi delle quest alla partenza; quando le spedizioni saranno reinserite, il flusso di chiusura/partenza richiederà la scelta all'utente prima del wipe.
-- [ ] #94 [Commercianti: limiti giornalieri e Nomadic Envoy](https://github.com/ieeah/arc-benches/issues/94)
-- [ ] #95 [Planner progressione XP → Skill Points](https://github.com/ieeah/arc-benches/issues/95)
-- [ ] #57 [Bestiario ARC & Drop Tables: Consultazione nemici ARC e componenti con icone SVG (ARDB)](https://github.com/ieeah/arc-benches/issues/57)
-- [ ] #59 [Spawn Tips "Dove trovo questo oggetto": Schede visive con screenshot in-game/mappa dei punti noti](https://github.com/ieeah/arc-benches/issues/59)
-- [ ] #81 [Stash: raggruppamento "per mappa"](https://github.com/ieeah/arc-benches/issues/81) — richiede il catalogo globale delle mappe definito in #82 (dato condiviso con #59)
-- [ ] #113 [Costruzione, miglioramento di livello e riparazione nel dettaglio degli oggetti (dati informativi)](https://github.com/ieeah/arc-benches/issues/113)
+## Versione 0.6.x "Consolidamento & Dati Estesi" — Consolidamento 0.6.0 & Dati Pre-1.0.0
+- [ ] #58 [Quest Tracker utente (condivide l'architettura mobile-first di #76)](https://github.com/ieeah/arc-benches/issues/58)
+  - *Comportamento con le Spedizioni (reset opzionale)*: in gioco il Raider può scegliere se azzerare o conservare i progressi delle quest alla partenza; il flusso di chiusura/partenza richiederà la scelta all'utente prima del wipe.
+- [ ] #94 [Commercianti: limiti giornalieri statici ("Ne puoi comprare X al giorno"), countdown reset e scheda informativa Cassio/Ermal](https://github.com/ieeah/arc-benches/issues/94)
+- [ ] #26 [Vista Aggregata per Banco/Lista nello Stash con accesso rapido al dettaglio lista per livelli](https://github.com/ieeah/arc-benches/issues/26)
+- [ ] #59 [Spawn Tips "Dove trovo questo oggetto" basati sulle Zone di Loot (`loot_area`)](https://github.com/ieeah/arc-benches/issues/59)
+- [ ] #81 [Raggruppamento per Mappa / Zona di Loot (prioritariamente in `RaidPlanPage`)](https://github.com/ieeah/arc-benches/issues/81) — collegata a #59
+- [ ] #70 [Bacheca dei Trofei: pagina archivio per progetti, spedizioni, pass e traguardi completati](https://github.com/ieeah/arc-benches/issues/70)
+- [ ] #56 [Dashboard Minimale: pagina di riepilogo non predefinita all'avvio (da analizzare; possibile rinvio/rimozione)](https://github.com/ieeah/arc-benches/issues/56)
+- [ ] #101 [Role Maker: pagina Dev per la revisione manuale di ruoli e lore](https://github.com/ieeah/arc-benches/issues/101) — da rivalutare in ottica UGC/storico; fino ad allora il modulo resta dietro il flag `role-maker` (`false`)
 
 ---
 
-## Versione 0.8.0 "Centro Operativo" — Dashboard, eventi live, trofei e telemetria
-- [ ] #55 [Condizioni Mappe & Eventi Live: Service multi-regione, caching 24h e preferenze](https://github.com/ieeah/arc-benches/issues/55)
-- [ ] #96 [Allerta Flash Freeze nel meteo dinamico](https://github.com/ieeah/arc-benches/issues/96)
-- [ ] #56 [Dashboard Minimale: Panoramica eventi live filtrabili e sintesi rifugio ad alto livello](https://github.com/ieeah/arc-benches/issues/56)
-- [ ] #70 [Bacheca dei Trofei: Pagina archivio per visualizzare progetti, spedizioni e traguardi completati](https://github.com/ieeah/arc-benches/issues/70)
-- [ ] #66 [Telemetria & Metriche: Definizione tassonomia eventi, KPI di utilizzo e specifiche privacy](https://github.com/ieeah/arc-benches/issues/66)
+## Versione 0.7.0 "Guida di Speranza" — Preparazione UI/UX, Base UI & Struttura Pagine (Pre-Migrazione)
+- [ ] #141 [Dev Studio: UI Kit & Component Playground con vista comparativa e adozione incrementale Base UI](https://github.com/ieeah/arc-benches/issues/141) — **1° step prima di toccare Base UI**
+- [ ] #116 [Pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116)
+
+Le altre voci della `0.7.0` (#121, #122, #60, #115, #4) sono refactor UI/accessibilità: vedi [3_BACKLOG.md](3_BACKLOG.md).
 
 ---
 
-## Versione 0.9.0 "Rifinitura Tattica"
-Solo voci di refactor e performance: vedi [3_BACKLOG.md](3_BACKLOG.md) (#60, #4).
-
----
-
-## Versione 0.10.0 "Ponte Next & Supabase"
-- [ ] #28 [Next.js & Vercel: Migrazione ad App Router, SSR e Route Handlers (Fase 5)](https://github.com/ieeah/arc-benches/issues/28)
-- [ ] #27 [View Transitions](https://github.com/ieeah/arc-benches/issues/27) — dopo #28
-- [ ] #14 [Database & Backend — Schema Dati di Gioco & RLS (Fase 4a)](https://github.com/ieeah/arc-benches/issues/14)
-- [ ] #15 [Supabase — Account & Auth (Fase 4b)](https://github.com/ieeah/arc-benches/issues/15)
-- [ ] #16 [Supabase — Sync Background Offline-First (Fase 4c)](https://github.com/ieeah/arc-benches/issues/16)
-- [ ] #65 [Backoffice & Pipeline: Area riservata Next.js (/admin) per sync dati, storage asset e studio overrides](https://github.com/ieeah/arc-benches/issues/65)
+## Versione 0.8.0 "Ponte Next & Supabase" — Passaggio alla Nuova Architettura
+- [ ] #28 [Next.js & Vercel: migrazione ad App Router, SSR e Route Handlers](https://github.com/ieeah/arc-benches/issues/28)
+- [ ] #14 [Supabase — Schema Dati di Gioco & RLS](https://github.com/ieeah/arc-benches/issues/14)
+- [ ] #15 [Supabase — Account & Auth](https://github.com/ieeah/arc-benches/issues/15)
+- [ ] #16 [Supabase — Sync Background offline-first](https://github.com/ieeah/arc-benches/issues/16)
+- [ ] #65 [Backoffice & Pipeline: area riservata Next.js (`/admin`) per sync dati, storage asset e studio overrides](https://github.com/ieeah/arc-benches/issues/65)
 - [ ] #97 [Fallback automatico della pipeline su fonte dati di backup](https://github.com/ieeah/arc-benches/issues/97)
-- [ ] #67 [Telemetria & Metriche: Implementazione first-party su Route Handlers Next.js e Supabase](https://github.com/ieeah/arc-benches/issues/67)
+
+Il redesign completo delle Impostazioni sulla nuova persistenza (#148) è tracciato anche in [3_BACKLOG.md](3_BACKLOG.md).
+
+---
+
+## Versione 0.9.0 "Rifinitura Tattica" — Performance, Ottimizzazione & Telemetria sul Nuovo Stack
+- [ ] #27 [`View Transitions` fluide tra le rotte del router Next.js](https://github.com/ieeah/arc-benches/issues/27) — dopo #28
+- [ ] #66 [Telemetria & Metriche: tassonomia eventi, KPI di utilizzo e specifiche privacy (rigorosamente cookieless e anonima)](https://github.com/ieeah/arc-benches/issues/66)
+- [ ] #67 [Telemetria & Metriche: implementazione first-party su Route Handlers Next.js e Supabase](https://github.com/ieeah/arc-benches/issues/67)
+
+Le ottimizzazioni di performance sul nuovo stack (#119, #120, #142, #11) sono in [3_BACKLOG.md](3_BACKLOG.md).
 
 ---
 
 ## Versione 1.0.0 "Rete Speranza" (Lancio Pubblico Ufficiale)
-Deve già contenere Skill Tree, tracker e collezioni, armi amplificate (0.6.0–0.7.0).
-- [ ] #20 [Tour Onboarding interattivo per nuovi utenti](https://github.com/ieeah/arc-benches/issues/20)
-- [ ] #25 [Condivisione Liste tramite Link con Open-Graph preview (Fase 4d)](https://github.com/ieeah/arc-benches/issues/25)
+- [ ] #147 [Commercianti: integrazione offerte a rotazione settimanale di Cassio/Ermal via backend](https://github.com/ieeah/arc-benches/issues/147)
+- [ ] #55 [Condizioni Mappe & Eventi Live: service multi-regione, caching backend e preferenze](https://github.com/ieeah/arc-benches/issues/55)
+- [ ] #61 [Mappe Interattive: Pan/Zoom Leaflet, POI, estrattori, selettore multipiano e loot nodes su database](https://github.com/ieeah/arc-benches/issues/61)
+  - *Multi-Livello & Floor Switcher*: gestione piani verticali sovrapposti (Stella Montis L1/L2, Blue Gate e Spaceport) con toggle del layer e filtro POI su `floor_level`.
+  - *Storage Remoto*: distribuzione dei tile via Supabase Storage CDN (`scripts/data/maps/` → bucket CDN).
+  - *Pendola Pass*: regione montuosa e innevata con i ripari dal freddo.
+- [ ] #64 [Codex di Speranza: enciclopedia lore, trascrizioni radio, guide e archivio di mondo](https://github.com/ieeah/arc-benches/issues/64)
+- [ ] #57 [Sezione «ARCs» nel Codex (nemici, Sonde e Corrieri ARC, senza drop tables)](https://github.com/ieeah/arc-benches/issues/57)
+- [ ] #25 [Condivisione Liste tramite Link con Open-Graph preview (`/share/<token>`)](https://github.com/ieeah/arc-benches/issues/25)
+- [ ] #98 [Condivisione build Skill Tree via link](https://github.com/ieeah/arc-benches/issues/98)
+- [ ] #20 [Tour Onboarding interattivo con `driver.js`](https://github.com/ieeah/arc-benches/issues/20)
 
 ---
 
 ## Versione 1.x "Orizzonte Tattico" (Moduli Estesi Post-Lancio)
-- [ ] #29 [Supporto PWA (service worker e offline)](https://github.com/ieeah/arc-benches/issues/29) — dopo la migrazione a Next, legata alla sync offline di #16
-- [ ] #61 [Mappe Interattive: Pan/Zoom Leaflet, POI, estrattori e loot nodes su database](https://github.com/ieeah/arc-benches/issues/61)
-  - *Multi-Livello & Floor Switcher*: Gestione piani verticali sovrapposti (Stella Montis L1/L2, Blue Gate e Spaceport) con toggle del layer e filtro POI su `floor_level`.
-  - *Asset & Risoluzione*: Ricerca/estrazione del livello sotterraneo mancante di The Blue Gate e valutazione estrazione texture native in 4K/8K da Unreal Engine 5 (FModel) per massima nitidezza.
-  - *Storage Remoto*: Distribuzione dei tile esclusivamente via Supabase Storage CDN (`scripts/data/maps/` $\rightarrow$ bucket CDN), senza inclusione nel bundle statico dell'app.
-  - *Pendola Pass*: nuova regione montuosa e innevata, con i ripari dal freddo per il Flash Freeze.
-- [ ] #118 [Mappe Interattive: pianificazione itinerari e percorsi tattici (waypoint)](https://github.com/ieeah/arc-benches/issues/118) — estensione/modulo collegato a #61 per definire e visualizzare sequenze di tappe o percorsi ordinati
-- [ ] #98 [Condivisione build Skill Tree via link](https://github.com/ieeah/arc-benches/issues/98)
+- [ ] #29 [Supporto PWA (service worker e offline manifest)](https://github.com/ieeah/arc-benches/issues/29) — dopo la migrazione a Next.js (#28) e la sync di #16
 - [ ] #99 [Checklist pre-raid degli oggetti da portare](https://github.com/ieeah/arc-benches/issues/99)
-- [ ] #117 [UX Liste: creazione rapida di liste temporanee di raid (SessionStorage)](https://github.com/ieeah/arc-benches/issues/117) — liste effimere per tracciare obiettivi veloci durante un singolo raid con inserimento rapido
-- [ ] #33 [Role Maker — Riorganizzazione UI e Miglioramenti](https://github.com/ieeah/arc-benches/issues/33)
-- [ ] #37 [Role Maker — Arricchimento, coerenza gameplay e correzione meccaniche](https://github.com/ieeah/arc-benches/issues/37)
-- [ ] #38 [Role Maker: Creazione della pagina / micro-app autonoma su sottodominio dedicato](https://github.com/ieeah/arc-benches/issues/38)
-- [ ] #101 [Role Maker: pagina Dev per la revisione manuale di ruoli e lore (contenuti scritti da AI)](https://github.com/ieeah/arc-benches/issues/101) — la feature resta dietro il flag `role-maker` (false) finché i contenuti non sono rivisti
+- [ ] #132 [Modulo Pianificazione Raid (Briefing, obiettivi spot, checklist e percorsi)](https://github.com/ieeah/arc-benches/issues/132)
+- [ ] #118 [Mappe Interattive: pianificazione itinerari e percorsi tattici (waypoint)](https://github.com/ieeah/arc-benches/issues/118) — collegata a #61
+- [ ] #33 [Role Maker — Riorganizzazione UI e miglioramenti](https://github.com/ieeah/arc-benches/issues/33)
+- [ ] #38 [Role Maker — Creazione della pagina / micro-app autonoma su sottodominio dedicato](https://github.com/ieeah/arc-benches/issues/38)
 
 ---
 
-## Versione 2.x "Controllo Totale" (Codex & Mobile)
-- [ ] #64 [Codex di Speranza: Enciclopedia lore, trascrizioni radio, guide e archivio di mondo](https://github.com/ieeah/arc-benches/issues/64)
-- [ ] #100 [Guide e suggerimenti in-app (confluisce nel Codex)](https://github.com/ieeah/arc-benches/issues/100)
+## Versione 2.x "Controllo Totale" (Evoluzioni di Lungo Periodo)
+- [ ] #100 [Guide e suggerimenti in-app (confluisce nel Codex #64)](https://github.com/ieeah/arc-benches/issues/100)
 - [ ] #40 [Wrapper Mobile Nativo (React Native / Capacitor / Expo)](https://github.com/ieeah/arc-benches/issues/40)
-
----
-
-## Fuori sequenza
-- **Spedizioni (da rivalutare)**: in pausa, Embark le sta ricostruendo da zero. Contiene #34 [Vault Spedizione (Cassaforte Wipe)](https://github.com/ieeah/arc-benches/issues/34). Include la modale di partenza con la scelta se azzerare o mantenere le quest completate. Si valuta un milestone intermedio dedicato in base a quando arriva la 1.0.0.
