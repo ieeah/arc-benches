@@ -25,7 +25,8 @@ export type AppRoute =
   | 'dev-flags'
   | 'dev-custom-items'
   | 'dev-trash'
-  | 'dev-hold';
+  | 'dev-hold'
+  | 'dev-base-items';
 
 export const VALID_ROUTES: readonly AppRoute[] = [
   'stash',
@@ -49,6 +50,7 @@ export const VALID_ROUTES: readonly AppRoute[] = [
   'dev-custom-items',
   'dev-trash',
   'dev-hold',
+  'dev-base-items',
 ] as const;
 
 export const DEV_ROUTES: readonly AppRoute[] = [
@@ -62,6 +64,7 @@ export const DEV_ROUTES: readonly AppRoute[] = [
   'dev-custom-items',
   'dev-trash',
   'dev-hold',
+  'dev-base-items',
 ] as const;
 
 /** Feature non ancora pronte: raggiungibili solo in dev, escluse dalla build di produzione. */

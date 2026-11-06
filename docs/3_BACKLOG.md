@@ -10,7 +10,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102) — toggle nelle impostazioni per spegnere sezioni non usate (Spedizioni, Progetti, Pass).
   - *Specifica tecnica*: [docs/specs/moduli-attivabili-per-profilo.md](specs/moduli-attivabili-per-profilo.md)
 - [ ] #74 [Export/import completo: tutti i campi del profilo inclusi nel backup](https://github.com/ieeah/arc-benches/issues/74) — dopo #102, include moduli attivi, pass completati con timestamp, livelli attivi e azioni.
-- [ ] #144 [Consolidamento, bugfix e rifiniture pre-rilascio 0.5.0](https://github.com/ieeah/arc-benches/issues/144) — bugfix «Applica» override in Dev, bonifica categorie errate nel catalogo tramite override, icone Raider Token/Emote, rifiniture UI Pass e Blueprint (dettagli in [consolidamento-0.5.0.md](consolidamento-0.5.0.md)).
+- [x] #144 [Consolidamento, bugfix e rifiniture pre-rilascio 0.5.0](https://github.com/ieeah/arc-benches/issues/144) — bugfix «Applica» override in Dev, bonifica categorie errate nel catalogo tramite override, icone Raider Token/Emote, rifiniture UI Pass e Blueprint (dettagli in [consolidamento-0.5.0.md](consolidamento-0.5.0.md)).
 - [ ] Fix/Raffinamento: calibrazione dissolvenza di uscita (`fadeMs`) da Hold — uniformare l'aggancio di `transitionDuration` inline/Tailwind su `holdExit.fadeMs`.
 
 ---
@@ -23,6 +23,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #125 [A11y UI: scrollbar nascosta nelle liste di pill orizzontali senza altra affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
 - [ ] #126 [Fix HTML: `lang` dinamico, titolo e meta description in `index.html`](https://github.com/ieeah/arc-benches/issues/126)
 - [ ] #149 [Refactor i18n: rimozione assunzioni binarie ('it' vs 'en') ed estensione traduzioni in Dev Studio](https://github.com/ieeah/arc-benches/issues/149) — elimina controlli rigidi e assicura che nel Dev Studio sia possibile inserire/modificare traduzioni per tutte le lingue supportate.
+- [ ] #150 [UX Card: background grafici dedicati per Armi amplificate, Stencil e Design](https://github.com/ieeah/arc-benches/issues/150) — background e cornici visive distinte su modello dei blueprint.
 - [ ] #127 [Build: passare a `@tailwindcss/vite` e rimuovere PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
 
 ---

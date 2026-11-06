@@ -427,6 +427,8 @@ export const en: LocaleSchema = {
     sources: 'Sources & Origins',
     craft: 'Craft',
     shop: 'Shop',
+    familyLevels: 'Available Levels',
+    amplifiedVariants: 'Amplified Variants',
   },
   rarities: {
     Common: 'Common',
@@ -463,6 +465,8 @@ export const en: LocaleSchema = {
     noItemsFound: 'No items found',
     noItemsDesc: 'Try adjusting your search filters.',
     editInOverrides: 'Edit in Dev Overrides',
+    groupVariants: 'Group variants',
+    showAllVariants: 'All variants',
   },
   expeditions: {
     title: 'Expeditions',

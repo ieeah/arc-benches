@@ -13,6 +13,12 @@ import { DRAFT_STORAGE_KEY, getInitialData } from '@/hooks/dev/useDevListDrafts'
 import { clearNavDraft, getSeedNavConfig, readNavDraft } from '@/lib/navTree';
 import { getFeatureFlags, hasCustomFeatureFlags, resetFeatureFlags } from '@/lib/featureFlags';
 import holdConfigSeed from '@/data/hold-config.json';
+import itemVariantsSeed from '@/data/item-variants.json';
+import {
+  getItemVariantsData,
+  hasItemVariantsDraft,
+  clearItemVariantsDraft,
+} from '@/lib/baseItems';
 import {
   getHoldConfigSerializable,
   hasCustomHoldConfig,
@@ -206,6 +212,18 @@ const holdConfigArtifact: DevArtifact = {
   afterApply: resetHoldConfigOverride,
 };
 
+const itemVariantsArtifact: DevArtifact = {
+  id: 'item-variants',
+  file: 'src/data/item-variants.json',
+  label: 'Base Items & Varianti',
+  route: 'dev-base-items',
+  isModified: hasItemVariantsDraft,
+  build: () => json(getItemVariantsData()),
+  baseline: () => JSON.stringify(itemVariantsSeed),
+  reset: clearItemVariantsDraft,
+  afterApply: clearItemVariantsDraft,
+};
+
 function localeArtifact(lang: I18nLang): DevArtifact {
   return {
     id: `locale-${lang}`,
@@ -230,5 +248,6 @@ export function getDevArtifacts(): DevArtifact[] {
     localeArtifact('it'),
     localeArtifact('en'),
     holdConfigArtifact,
+    itemVariantsArtifact,
   ];
 }

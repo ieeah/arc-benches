@@ -20,6 +20,7 @@ interface ListControlsProps<T> {
   sortOptions?: SortOption<T>[];
   showGroupingToggle?: boolean;
   showSearch?: boolean;
+  extraActions?: React.ReactNode;
   
   sortType?: 'select' | 'pills';
   items?: T[]; 
@@ -42,6 +43,7 @@ export const ListControls = <T,>({
   sortOptions = [],
   showGroupingToggle = false,
   showSearch = true,
+  extraActions,
   sortType = 'select',
   items = [],
   searchRef,
@@ -175,6 +177,7 @@ export const ListControls = <T,>({
               <>
                 <div className="shrink-0 w-px h-5 bg-gray-200 dark:bg-gray-700 self-center" />
                 <button
+                  type="button"
                   onClick={() => setGroupByEnabled(!groupByEnabled)}
                   title={groupByEnabled ? t('common.groupingDisable') : t('common.groupingEnable')}
                   className={`flex items-center gap-1 shrink-0 cursor-pointer transition-colors py-1.5 ${
@@ -188,11 +191,18 @@ export const ListControls = <T,>({
                 </button>
               </>
             )}
+
+            {extraActions && (
+              <>
+                <div className="shrink-0 w-px h-5 bg-gray-200 dark:bg-gray-700 self-center" />
+                {extraActions}
+              </>
+            )}
           </div>
         )
       ) : (
         /* Sorting as Select Dropdown */
-        (visibleSortOptions.length > 0 || showGroupingToggle) && (
+        (visibleSortOptions.length > 0 || showGroupingToggle || extraActions) && (
           <div className="flex items-center justify-between gap-3 pt-0.5">
             {visibleSortOptions.length > 0 && (
               <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 flex-1 min-w-0">
@@ -213,20 +223,24 @@ export const ListControls = <T,>({
               </div>
             )}
 
-            {showGroupingToggle && (
-              <button
-                onClick={() => setGroupByEnabled(!groupByEnabled)}
-                title={groupByEnabled ? t('common.groupingDisable') : t('common.groupingEnable')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
-                  groupByEnabled
-                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border border-transparent'
-                }`}
-              >
-                <LayoutGrid size={13} />
-                <span>{t('common.groups')}</span>
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              {showGroupingToggle && (
+                <button
+                  type="button"
+                  onClick={() => setGroupByEnabled(!groupByEnabled)}
+                  title={groupByEnabled ? t('common.groupingDisable') : t('common.groupingEnable')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                    groupByEnabled
+                      ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border border-transparent'
+                  }`}
+                >
+                  <LayoutGrid size={13} />
+                  <span>{t('common.groups')}</span>
+                </button>
+              )}
+              {extraActions}
+            </div>
           </div>
         )
       )}

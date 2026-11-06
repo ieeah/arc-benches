@@ -424,7 +424,9 @@ export const it = {
     "type": "Tipo",
     "sources": "Origini e Fonti",
     "craft": "Craft",
-    "shop": "Shop"
+    "shop": "Shop",
+    "familyLevels": "Livelli disponibili",
+    "amplifiedVariants": "Varianti Amplificate"
   },
   "rarities": {
     "Common": "Comune",
@@ -460,7 +462,9 @@ export const it = {
     "groupType": "Per Tipo",
     "noItemsFound": "Nessun oggetto trovato",
     "noItemsDesc": "Prova a modificare i filtri di ricerca.",
-    "editInOverrides": "Modifica in Dev Overrides"
+    "editInOverrides": "Modifica in Dev Overrides",
+    "groupVariants": "Raggruppa varianti",
+    "showAllVariants": "Tutte le varianti"
   },
   "expeditions": {
     "title": "Spedizioni",

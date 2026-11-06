@@ -20,6 +20,11 @@ describe('isPickableItem', () => {
     }
   });
 
+  it('allows blueprints when includeBlueprints is true (e.g. raid planning)', () => {
+    expect(isPickableItem(item({ item_type: 'Blueprint' }), { includeBlueprints: true })).toBe(true);
+    expect(isPickableItem(item({ item_type: 'Cosmetic' }), { includeBlueprints: true })).toBe(false);
+  });
+
   it('always excludes hidden, deprecated, and already chosen items', () => {
     expect(isPickableItem(item({ hidden: true }), { includeAll: true })).toBe(false);
     expect(isPickableItem(item({ deprecated: true }))).toBe(false);

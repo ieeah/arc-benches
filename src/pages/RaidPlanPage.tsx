@@ -519,6 +519,7 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
       {/* ── MODALE SELETTORE OGGETTI ── */}
       {pickerOpen && (
         <ItemPicker
+          includeBlueprints={true}
           onPick={handlePickItem}
           onClose={() => {
             setPickerOpen(false);

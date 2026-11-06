@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { ArrowLeft, ChevronRight } from "lucide-react";
+import { useState, useMemo, useCallback } from "react";
+import { ArrowLeft, ChevronRight, Layers } from "lucide-react";
 import type { ItemInfo } from "@/types";
 import { useAppStore } from "@/store";
 import { getRarityText } from "@/lib/rarity";
@@ -12,6 +12,11 @@ import { ListControls } from "@/components/ListControls";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
 import { useTranslation, getItemName, getItemSearchFields, getRarityLabel } from "@/i18n";
 import { StickyHeader } from '@/components/StickyHeader';
+import {
+  getBaseItem,
+  getBaseItemForVariant,
+  isVariantItem,
+} from "@/lib/baseItems";
 
 const RARITY_WEIGHTS: Record<string, number> = {
   legendary: 5,
@@ -28,7 +33,7 @@ export const ItemsPage = ({
   onBack,
   onOpenOverrides,
 }: {
-  onBack: () => void;
+  onBack?: () => void;
   onOpenOverrides?: (itemId: string) => void;
 }) => {
   const itemsInfo = useAppStore((s) => s.itemsInfo);
@@ -36,6 +41,7 @@ export const ItemsPage = ({
     (s) => s.currentLevels["refiner"] || 0
   );
   const [selected, setSelected] = useState<ItemInfo | null>(null);
+  const [collapseVariants, setCollapseVariants] = useState<boolean>(true);
   const { t, language } = useTranslation();
 
   const filterCategories: FilterCategory<ItemInfo>[] = useMemo(() => [
@@ -189,7 +195,45 @@ export const ItemsPage = ({
   ], [language, t]);
 
   // Nascondi sempre gli oggetti contrassegnati come 'hidden' nel catalogo principale
-  const allItems = Object.values(itemsInfo).filter((item) => !item.hidden);
+  const allItems = useMemo(
+    () => Object.values(itemsInfo).filter((item) => !item.hidden),
+    [itemsInfo],
+  );
+
+  // Elementi esposti: se collapseVariants è attivo, mostriamo i Base Items e nascondiamo le singole varianti
+  const displayedItems = useMemo(() => {
+    if (!collapseVariants) return allItems;
+    return allItems.filter((item) => !isVariantItem(item.id));
+  }, [allItems, collapseVariants]);
+
+  // Ricerca estesa ai nomi delle varianti se raggruppate
+  const getSearchFields = useCallback(
+    (item: ItemInfo): string[] => {
+      const base = getItemSearchFields(item);
+      const baseDef = getBaseItem(item.id);
+      if (!baseDef) return base;
+
+      const extra: string[] = [baseDef.name];
+      if (baseDef.translations) {
+        for (const tr of Object.values(baseDef.translations)) {
+          if (tr.name) extra.push(tr.name);
+        }
+      }
+      for (const vId of baseDef.variantItemIds) {
+        const vItem = itemsInfo[vId];
+        if (vItem) {
+          extra.push(vItem.name);
+          if (vItem.translations) {
+            for (const tr of Object.values(vItem.translations)) {
+              if (tr.name) extra.push(tr.name);
+            }
+          }
+        }
+      }
+      return Array.from(new Set([...base, ...extra]));
+    },
+    [itemsInfo],
+  );
 
   const {
     query,
@@ -204,9 +248,9 @@ export const ItemsPage = ({
     groupedItems,
     groupKeys,
   } = useListManager<ItemInfo>({
-    items: allItems,
+    items: displayedItems,
     search: {
-      fields: getItemSearchFields,
+      fields: getSearchFields,
     },
     filters: {
       categories: filterCategories,
@@ -222,37 +266,59 @@ export const ItemsPage = ({
   });
 
   return (
-    <div className="pb-28">
+    <div className="pb-24">
       <StickyHeader>
-        <div className="mb-3">
-          <SectionHeader
-            title={t('nav.catalog')}
-            leading={
-              <IconButton onClick={onBack} title={t('common.back')}>
+        <SectionHeader
+          title={t('catalog.title')}
+          leading={
+            onBack ? (
+              <IconButton onClick={onBack}>
                 <ArrowLeft size={16} />
               </IconButton>
+            ) : undefined
+          }
+        />
+
+        <div className="pt-1.5 pb-2">
+          <ListControls
+            query={query}
+            setQuery={setQuery}
+            activeCategoryId={activeCategoryId}
+            setActiveCategoryId={setActiveCategoryId}
+            activeSortId={activeSortId}
+            setActiveSortId={setActiveSortId}
+            groupByEnabled={groupByEnabled}
+            setGroupByEnabled={setGroupByEnabled}
+            searchPlaceholder={t('catalog.searchPlaceholder')}
+            categories={filterCategories}
+            sortOptions={sortOptions}
+            showGroupingToggle={true}
+            sortType="pills"
+            items={allItems}
+            extraActions={
+              <button
+                type="button"
+                onClick={() => setCollapseVariants(!collapseVariants)}
+                className={`flex items-center gap-1 shrink-0 cursor-pointer transition-colors py-1.5 px-1.5 rounded-lg ${
+                  collapseVariants
+                    ? 'text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50 dark:bg-indigo-950/40'
+                    : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 font-medium'
+                }`}
+                title="Raggruppa i livelli e le varianti dello stesso oggetto in una sola card"
+              >
+                <Layers size={14} />
+                <span className="text-xs">
+                  {collapseVariants
+                    ? (t('catalog.groupVariants') || 'Varianti')
+                    : (t('catalog.showAllVariants') || 'Tutte')}
+                </span>
+              </button>
             }
           />
         </div>
-        <ListControls
-          query={query}
-          setQuery={setQuery}
-          activeCategoryId={activeCategoryId}
-          setActiveCategoryId={setActiveCategoryId}
-          activeSortId={activeSortId}
-          setActiveSortId={setActiveSortId}
-          groupByEnabled={groupByEnabled}
-          setGroupByEnabled={setGroupByEnabled}
-          searchPlaceholder={t('catalog.searchPlaceholder')}
-          categories={filterCategories}
-          sortOptions={sortOptions}
-          showGroupingToggle={true}
-          sortType="pills"
-          items={allItems}
-        />
       </StickyHeader>
 
-      <div data-list-container="compact" className="p-3">
+      <div data-list-container="compact" className="p-3 pt-4">
         {groupByEnabled
           ? groupKeys.map((groupName) => (
               <div key={groupName} className="mb-6">
@@ -262,14 +328,15 @@ export const ItemsPage = ({
                 <div data-list-container="compact">
                   {groupedItems?.[groupName].map((item) => {
                     const displayName = getItemName(item, language);
+                    const baseDef = getBaseItem(item.id);
+                    const parentBase = getBaseItemForVariant(item.id);
+
                     return (
                       <button
                         key={item.id}
                         onClick={() => setSelected(item)}
                         className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer"
                       >
-                        {/* Prototipo ItemCardFrameV2 (#44 follow-up): a questa dimensione (48px)
-                            l'icona categoria va rimossa per non accavallarsi (compact) */}
                         <ItemCardFrameV2
                           icon={item.icon}
                           alt={displayName}
@@ -284,13 +351,23 @@ export const ItemsPage = ({
                           <p className="font-bold text-sm truncate">
                             {displayName}
                           </p>
-                          <p className="text-[10px] text-gray-400">
+                          <p className="text-[10px] text-gray-400 truncate">
                             <span
                               className={`font-bold ${getRarityText(item.rarity)}`}
                             >
                               {getRarityLabel(item.rarity, language)}
                             </span>{" "}
                             · {item.item_type}
+                            {collapseVariants && baseDef && baseDef.variantItemIds.length > 0 && (
+                              <span className="ml-1 text-indigo-500 font-semibold">
+                                ({baseDef.variantItemIds.length} varianti)
+                              </span>
+                            )}
+                            {!collapseVariants && parentBase && (
+                              <span className="ml-1 text-gray-500 font-semibold">
+                                · Var. di {parentBase.name}
+                              </span>
+                            )}
                           </p>
                         </div>
                         <ChevronRight
@@ -305,6 +382,9 @@ export const ItemsPage = ({
             ))
           : processedItems.map((item) => {
               const displayName = getItemName(item, language);
+              const baseDef = getBaseItem(item.id);
+              const parentBase = getBaseItemForVariant(item.id);
+
               return (
                 <button
                   key={item.id}
@@ -323,13 +403,23 @@ export const ItemsPage = ({
                   />
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-sm truncate">{displayName}</p>
-                    <p className="text-[10px] text-gray-400">
+                    <p className="text-[10px] text-gray-400 truncate">
                       <span
                         className={`font-bold ${getRarityText(item.rarity)}`}
                       >
                         {getRarityLabel(item.rarity, language)}
                       </span>{" "}
                       · {item.item_type}
+                      {collapseVariants && baseDef && baseDef.variantItemIds.length > 0 && (
+                        <span className="ml-1 text-indigo-500 font-semibold">
+                          ({baseDef.variantItemIds.length} varianti)
+                        </span>
+                      )}
+                      {!collapseVariants && parentBase && (
+                        <span className="ml-1 text-gray-500 font-semibold">
+                          · Var. di {parentBase.name}
+                        </span>
+                      )}
                     </p>
                   </div>
                   <ChevronRight

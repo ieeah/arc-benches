@@ -132,7 +132,7 @@ Changelog (bozza in lavorazione): [changelog/0.5.0.md](../changelog/0.5.0.md)
 - [x] #75 [Badge di craftabilità sulle card degli oggetti (estensione a tutti i banchi)](https://github.com/ieeah/arc-benches/issues/75)
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102)
 - [ ] #74 [Export/import completo del profilo](https://github.com/ieeah/arc-benches/issues/74) — dopo #102
-- [ ] #144 [Consolidamento, bugfix e rifiniture pre-rilascio 0.5.0](https://github.com/ieeah/arc-benches/issues/144)
+- [x] #144 [Consolidamento, bugfix e rifiniture pre-rilascio 0.5.0](https://github.com/ieeah/arc-benches/issues/144)
 
 ---
 
@@ -148,6 +148,7 @@ Obiettivo: consolidare la `0.5.0` standardizzando il layout su tutte le pagine, 
 - [ ] #125 [Scrollbar nascosta nelle liste di pill orizzontali: affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
 - [ ] #126 [`lang` dinamico, titolo e meta description in `index.html`](https://github.com/ieeah/arc-benches/issues/126)
 - [ ] #149 [Rimozione assunzioni binarie ('it' vs 'en') ed estensione traduzioni in Dev Studio](https://github.com/ieeah/arc-benches/issues/149)
+- [ ] #150 [Background grafici dedicati per Armi amplificate, Stencil e Design](https://github.com/ieeah/arc-benches/issues/150)
 - [ ] #127 [Passare a `@tailwindcss/vite` e rimuovere PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
 
 ---

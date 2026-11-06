@@ -62,6 +62,16 @@ describe('dev artifacts', () => {
     expect(art.isModified()).toBe(false);
   });
 
+  it('detects an item-variants draft and rebuilds the file from it', () => {
+    storage.setItem('arc_benches_item_variants_draft_v1', JSON.stringify({ baseItems: {} }));
+    const art = byId('item-variants');
+    expect(art).toBeDefined();
+    expect(art.isModified()).toBe(true);
+    expect(JSON.parse(art.build())).toEqual({ baseItems: {} });
+    art.reset();
+    expect(art.isModified()).toBe(false);
+  });
+
   it('builds the locale source files from the effective dictionaries', () => {
     expect(byId('locale-it').build()).toContain('export const it =');
     expect(byId('locale-en').build()).toContain('export const en: LocaleSchema =');

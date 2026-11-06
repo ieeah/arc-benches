@@ -10,6 +10,7 @@ import itemsOverridesData from '@/data/items-overrides.json';
 import type { PersistedState } from '@/store/persistence';
 import { applyIconFallbacks } from '@/lib/itemIcons';
 import { stripReview } from '@/lib/overrideConflicts';
+import { getBaseItemsMap, baseItemToItemInfo } from '@/lib/baseItems';
 
 // The Refiner bench gates item crafting (see refinerCraftLevel + the craftable-now badges).
 export const REFINER_ID = 'refiner';
@@ -123,6 +124,12 @@ export function computeEffectiveItemsInfo(): Record<string, ItemInfo> {
         ...stripReview(ovr),
       };
     }
+  }
+
+  // Base Items (#143): integra i base items sintetici come ItemInfo nel catalogo
+  const baseMap = getBaseItemsMap();
+  for (const base of Object.values(baseMap)) {
+    result[base.id] = baseItemToItemInfo(base);
   }
 
   // Icona: propria (custom/MetaForge) > ereditata (`iconFromItem`) > sottocategoria > categoria > generica

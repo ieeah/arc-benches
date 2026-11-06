@@ -153,6 +153,18 @@ describe('getCraftInfo and Overrides', () => {
     });
     expect(getCraftInfo(item)).toBeNull();
   });
+
+  it('rejects weapon levels > 1 and amplified variants as craftable', () => {
+    const lvl1 = makeItem('Weapon Bench 2', 'anvil-i', { item_type: 'Weapon', subcategory: 'Hand Cannon' });
+    const lvl2 = makeItem('Weapon Bench 2', 'anvil-ii', { item_type: 'Weapon', subcategory: 'Hand Cannon' });
+    const lvl3 = makeItem('Weapon Bench', 'anvil-iii', { item_type: 'Weapon', subcategory: 'Hand Cannon' });
+    const amp = makeItem(null, 'amplified-anvil', { item_type: 'Weapon', rarity: 'Amplified' });
+
+    expect(getCraftInfo(lvl1)).not.toBeNull();
+    expect(getCraftInfo(lvl2)).toBeNull();
+    expect(getCraftInfo(lvl3)).toBeNull();
+    expect(getCraftInfo(amp)).toBeNull();
+  });
 });
 
 describe('getBlueprintIdForItem', () => {

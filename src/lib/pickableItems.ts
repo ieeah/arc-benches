@@ -11,13 +11,20 @@ export const NON_DELIVERABLE_ITEM_TYPES: ReadonlySet<string> = new Set([
 export type PickableOptions = {
   /** Ricompense: qualsiasi oggetto del catalogo (blueprint, cosmetici, valute…). */
   includeAll?: boolean;
+  /** Includi i blueprint (es. pianificazione raid: blueprint cercati come bottino). */
+  includeBlueprints?: boolean;
   /** Oggetti già scelti: esclusi dall'elenco. */
   excludedIds?: ReadonlySet<string>;
-}
+};
 
 /** Un oggetto è selezionabile se non è nascosto (né già scelto) e, per le consegne, è "di gioco". */
-export function isPickableItem(item: ItemInfo, { includeAll = false, excludedIds }: PickableOptions = {}): boolean {
+export function isPickableItem(
+  item: ItemInfo,
+  { includeAll = false, includeBlueprints = false, excludedIds }: PickableOptions = {},
+): boolean {
   if (excludedIds?.has(item.id)) return false;
   if (item.hidden || item.deprecated) return false;
-  return includeAll || !NON_DELIVERABLE_ITEM_TYPES.has(item.item_type);
+  if (includeAll) return true;
+  if (includeBlueprints && item.item_type === 'Blueprint') return true;
+  return !NON_DELIVERABLE_ITEM_TYPES.has(item.item_type);
 }

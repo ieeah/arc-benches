@@ -1,4 +1,5 @@
 import type { CraftInfo, CraftMode, CraftStatus, ItemInfo } from '@/types';
+import { getBaseItem } from '@/lib/baseItems';
 
 export type WorkbenchMeta = {
   id: string;
@@ -189,6 +190,29 @@ export const getCraftInfo = (
   itemsInfo?: Record<string, ItemInfo>
 ): CraftInfo | null => {
   if (!itemInfo) return null;
+
+  // Le armi di livello > 1 o amplificate non sono fabbricabili direttamente (#143):
+  // sono ottenibili solo potenziando un'arma Lvl 1 o amplificando un'arma Lvl 4.
+  const isWeapon = itemInfo.item_type === 'Weapon' || itemInfo.subcategory?.toLowerCase().includes('weapon');
+  if (isWeapon) {
+    const isHigherLevel = /-(ii|iii|iv|v)$/i.test(itemInfo.id);
+    const isAmplified = itemInfo.rarity === 'Amplified' || /^amplified-/i.test(itemInfo.id);
+    if (isHigherLevel || isAmplified) {
+      return null;
+    }
+  }
+
+  // Se l'oggetto è un Base Item (senza banco proprio), eredita i requisiti dalla variante Lvl 1
+  if (!itemInfo.workbench && !itemInfo.craft_workbench_id && itemsInfo) {
+    const baseDef = getBaseItem(itemInfo.id);
+    if (baseDef && baseDef.variantItemIds.length > 0) {
+      const lvl1Id = baseDef.variantItemIds.find((id) => /-(i|1)$/i.test(id)) || baseDef.variantItemIds[0];
+      const lvl1Item = itemsInfo[lvl1Id];
+      if (lvl1Item && lvl1Item.id !== itemInfo.id) {
+        return getCraftInfo(lvl1Item, itemsInfo);
+      }
+    }
+  }
 
   if (itemInfo.craft_workbench_id !== undefined && itemInfo.craft_level_required !== undefined) {
     if (!itemInfo.craft_workbench_id) return null;

@@ -1,0 +1,662 @@
+{
+  "baseItems": {
+    "anvil": {
+      "id": "anvil",
+      "name": "Anvil",
+      "item_type": "Weapon",
+      "subcategory": "Hand Cannon",
+      "rarity": "Rare",
+      "icon": "icons/items/anvil-i.webp",
+      "description": "Has high damage output and headshot damage, but slow handling.",
+      "translations": {
+        "it": {
+          "name": "Incudine",
+          "description": "Elevata potenza di Danni e danni alla testa, ma maneggevolezza ridotta."
+        }
+      },
+      "variantItemIds": [
+        "amplified-anvil",
+        "amplified-anvil-projectile-splitter",
+        "amplified-anvil-x-rounds",
+        "anvil-i",
+        "anvil-ii",
+        "anvil-iii",
+        "anvil-iv",
+        "anvil-splitter"
+      ],
+      "blueprintItemId": "anvil-recipe"
+    },
+    "aphelion": {
+      "id": "aphelion",
+      "name": "Aphelion",
+      "item_type": "Weapon",
+      "subcategory": "Battle Rifle",
+      "rarity": "Legendary",
+      "icon": "icons/items/aphelion-rifle.webp",
+      "description": "Fires high velocity energy rounds.",
+      "translations": {
+        "it": {
+          "name": "Aphelion",
+          "description": "Fires high velocity energy rounds."
+        }
+      },
+      "variantItemIds": [
+        "amplified-aphelion",
+        "amplified-aphelion-bigger-mag",
+        "amplified-aphelion-bigger-mag-charged-burst",
+        "amplified-aphelion-bigger-mag-charged-burst-incendiary-rounds",
+        "amplified-aphelion-bigger-mag-charged-burst-increased-burst",
+        "amplified-aphelion-bigger-mag-charged-burst-increased-burst-incendiary-rounds",
+        "amplified-aphelion-bigger-mag-incendiary-rounds",
+        "amplified-aphelion-charged-burst",
+        "amplified-aphelion-charged-burst-incendiary-rounds",
+        "amplified-aphelion-charged-burst-increased-burst",
+        "amplified-aphelion-charged-burst-increased-burst-incendiary-rounds",
+        "amplified-aphelion-incendiary-rounds",
+        "aphelion-rifle"
+      ],
+      "blueprintItemId": "aphelion-rifle-blueprint"
+    },
+    "bettina": {
+      "id": "bettina",
+      "name": "Bettina",
+      "item_type": "Weapon",
+      "subcategory": "Assault Rifle",
+      "rarity": "Epic",
+      "icon": "icons/items/bettina-i.webp",
+      "description": "Has slow fire rate and high damage output.",
+      "translations": {
+        "it": {
+          "name": "Bettina",
+          "description": "Ha una cadenza di fuoco lenta e un alto Danni in uscita."
+        }
+      },
+      "variantItemIds": [
+        "amplified-bettina",
+        "amplified-bettina-bigger-mag",
+        "amplified-bettina-semi-auto",
+        "amplified-bettina-semi-auto-x-rounds",
+        "bettina-i",
+        "bettina-ii",
+        "bettina-iii",
+        "bettina-iv"
+      ],
+      "blueprintItemId": "bettina-blueprint"
+    },
+    "burletta": {
+      "id": "burletta",
+      "name": "Burletta",
+      "item_type": "Weapon",
+      "subcategory": "Pistol",
+      "rarity": "Uncommon",
+      "icon": "icons/items/burletta-i.webp",
+      "description": "Has decent damage output and accuracy.",
+      "translations": {
+        "it": {
+          "name": "Burletta",
+          "description": "Ha una potenza di danno e una precisione discrete."
+        }
+      },
+      "variantItemIds": [
+        "amplified-burletta",
+        "amplified-burletta-burst",
+        "amplified-burletta-burst-increased-burst",
+        "amplified-burletta-burst-increased-burst-sprint-shooting",
+        "amplified-burletta-burst-sprint-shooting",
+        "amplified-burletta-full-auto",
+        "amplified-burletta-full-auto-sprint-shooting",
+        "amplified-burletta-sprint-shooting",
+        "burletta-i",
+        "burletta-ii",
+        "burletta-iiii",
+        "burletta-iv"
+      ]
+    },
+    "canto": {
+      "id": "canto",
+      "name": "Canto",
+      "item_type": "Weapon",
+      "subcategory": "SMG",
+      "rarity": "Rare",
+      "icon": "icons/items/canto.webp",
+      "description": "Fully automatic submachine gun with a larger caliber.",
+      "translations": {
+        "it": {
+          "name": "Canto",
+          "description": "Pistola mitragliatrice completamente automatica con un calibro maggiore."
+        }
+      },
+      "variantItemIds": [
+        "amplified-canto",
+        "amplified-canto-carbine",
+        "amplified-canto-incendiary-rounds",
+        "amplified-canto-incendiary-rounds-carbine",
+        "amplified-canto-incendiary-rounds-sprint-shooting",
+        "amplified-canto-sprint-shooting",
+        "canto-ii",
+        "canto-iii",
+        "canto-iv"
+      ],
+      "blueprintItemId": "canto-blueprint"
+    },
+    "equalizer": {
+      "id": "equalizer",
+      "name": "Equalizer",
+      "item_type": "Weapon",
+      "subcategory": "Special",
+      "rarity": "Legendary",
+      "icon": "icons/items/equalizer-i.webp",
+      "description": "A high capacity experimental beam rifle.",
+      "translations": {
+        "it": {
+          "name": "Equalizzatore",
+          "description": "Un fucile a raggi sperimentale ad alta capacità."
+        }
+      },
+      "variantItemIds": [
+        "amplified-equalizer",
+        "amplified-equalizer-anti-weak-point",
+        "amplified-equalizer-anti-weak-point-bigger-mag",
+        "amplified-equalizer-bigger-mag",
+        "amplified-equalizer-ramping-damage",
+        "amplified-equalizer-ramping-damage-bigger-mag",
+        "equalizer-i"
+      ],
+      "blueprintItemId": "equalizer-recipe"
+    },
+    "hairpin": {
+      "id": "hairpin",
+      "name": "Hairpin",
+      "item_type": "Weapon",
+      "subcategory": "Pistol",
+      "rarity": "Common",
+      "icon": "icons/items/hairpin-i.webp",
+      "description": "Has a built-in silencer. Great for stealth, but tricky in combat.",
+      "translations": {
+        "it": {
+          "name": "Tornante",
+          "description": "Ha un silenziatore incorporato. Ottima per la furtività, ma difficile da usare in combattimento."
+        }
+      },
+      "variantItemIds": [
+        "amplified-hairpin",
+        "amplified-hairpin-incendiary-rounds",
+        "amplified-hairpin-semi-auto",
+        "amplified-hairpin-semi-auto-sprint-shooting",
+        "amplified-hairpin-tracker-rounds",
+        "hairpin-i",
+        "hairpin-ii",
+        "hairpin-iii",
+        "hairpin-iv"
+      ]
+    },
+    "hullcracker": {
+      "id": "hullcracker",
+      "name": "Hullcracker",
+      "item_type": "Weapon",
+      "subcategory": "Special",
+      "rarity": "Epic",
+      "icon": "icons/items/hullcracker-i.webp",
+      "description": "Fires explosive projectiles that only detonate when hitting ARC.",
+      "translations": {
+        "it": {
+          "name": "Spaccascudi",
+          "description": "Spara proiettili esplosivi che si attivano solo colpendo ARC."
+        }
+      },
+      "variantItemIds": [
+        "amplified-hullcracker",
+        "amplified-hullcracker-incendiary-rounds",
+        "amplified-hullcracker-incendiary-rounds-mag-reload",
+        "amplified-hullcracker-mag-reload",
+        "hullcracker-i",
+        "hullcracker-ii",
+        "hullcracker-iii",
+        "hullcracker-iv"
+      ],
+      "blueprintItemId": "hullcracker-blueprint"
+    },
+    "il-toro": {
+      "id": "il-toro",
+      "name": "Il Toro",
+      "item_type": "Weapon",
+      "subcategory": "Shotgun",
+      "rarity": "Uncommon",
+      "icon": "icons/items/il-toro-i.webp",
+      "description": "Has a large bullet spread, sharp falloff, and high damage output.",
+      "translations": {
+        "it": {
+          "name": "Il Toro",
+          "description": "Ha un'ampia dispersione dei proiettili, caduta netta e alto Danni."
+        }
+      },
+      "variantItemIds": [
+        "amplified-il-toro",
+        "amplified-il-toro-more-reload",
+        "amplified-il-toro-more-reload-slug-rounds",
+        "amplified-il-toro-slug-rounds",
+        "il-toro-i",
+        "il-toro-ii",
+        "il-toro-iiii",
+        "il-toro-iv"
+      ],
+      "blueprintItemId": "il-toro-recipe"
+    },
+    "jupiter": {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "item_type": "Weapon",
+      "subcategory": "Sniper Rifle",
+      "rarity": "Legendary",
+      "icon": "icons/items/jupiter-i.webp",
+      "description": "Fires projectiles at an incredible velocity, capable of damaging multiple targets with one shot.",
+      "translations": {
+        "it": {
+          "name": "Giove",
+          "description": "Lancia proiettili a incredibile velocità, in grado di danneggiare diversi bersagli con un colpo solo."
+        }
+      },
+      "variantItemIds": [
+        "amplified-jupiter",
+        "amplified-jupiter-bigger-mag",
+        "amplified-jupiter-bigger-mag-scoped",
+        "amplified-jupiter-bigger-mag-scoped-straight-bolt",
+        "amplified-jupiter-bigger-mag-straight-bolt",
+        "amplified-jupiter-scoped",
+        "amplified-jupiter-scoped-straight-bolt",
+        "amplified-jupiter-straight-bolt",
+        "jupiter-i"
+      ],
+      "blueprintItemId": "jupiter-i-recipe"
+    },
+    "kettle": {
+      "id": "kettle",
+      "name": "Kettle",
+      "item_type": "Weapon",
+      "subcategory": "Assault Rifle",
+      "rarity": "Common",
+      "icon": "icons/items/kettle-i.webp",
+      "description": "Quick and accurate, but has low bullet velocity and takes a long time to reload.",
+      "translations": {
+        "it": {
+          "name": "Stormo",
+          "description": "È rapido e preciso, ma ha una velocità dei proiettili ridotta e richiede molto tempo per essere ricaricato."
+        }
+      },
+      "variantItemIds": [
+        "amplified-kettle",
+        "amplified-kettle-anti-shield",
+        "amplified-kettle-anti-shield-full-auto",
+        "amplified-kettle-full-auto",
+        "amplified-kettle-x-rounds",
+        "kettle-i",
+        "kettle-ii",
+        "kettle-iii",
+        "kettle-iv"
+      ]
+    },
+    "osprey": {
+      "id": "osprey",
+      "name": "Osprey",
+      "item_type": "Weapon",
+      "subcategory": "Sniper Rifle",
+      "rarity": "Rare",
+      "icon": "icons/items/osprey-i.webp",
+      "description": "Has reliable damage output and accuracy.",
+      "translations": {
+        "it": {
+          "name": "Falco Pescatore",
+          "description": "Potenza di danno e precisione affidabili."
+        }
+      },
+      "variantItemIds": [
+        "amplified-osprey",
+        "amplified-osprey-anti-weak-point",
+        "amplified-osprey-straight-bolt",
+        "amplified-osprey-straight-bolt-anti-weak-point",
+        "amplified-osprey-tracker-rounds",
+        "amplified-osprey-tracker-rounds-straight-bolt",
+        "osprey-i",
+        "osprey-ii",
+        "osprey-iii",
+        "osprey-iv"
+      ],
+      "blueprintItemId": "osprey-recipe"
+    },
+    "rascal": {
+      "id": "rascal",
+      "name": "Rascal",
+      "item_type": "Weapon",
+      "subcategory": "Special",
+      "rarity": "Rare",
+      "icon": "icons/items/rascal.webp",
+      "description": "Fires explosive projectiles that only detonate when hitting ARC.",
+      "translations": {
+        "it": {
+          "name": "Rascal",
+          "description": "Fires explosive projectiles that only detonate when hitting ARC."
+        }
+      },
+      "variantItemIds": [
+        "amplified-rascal",
+        "amplified-rascal-high-velocity",
+        "amplified-rascal-high-velocity-incendiary-rounds",
+        "amplified-rascal-high-velocity-sprint-shooting",
+        "amplified-rascal-high-velocity-sprint-shooting-incendiary-rounds",
+        "amplified-rascal-incendiary-rounds",
+        "amplified-rascal-sprint-shooting",
+        "amplified-rascal-sprint-shooting-incendiary-rounds",
+        "rascal-ii",
+        "rascal-iii",
+        "rascal-iv"
+      ],
+      "blueprintItemId": "rascal-blueprint"
+    },
+    "rattler": {
+      "id": "rattler",
+      "name": "Rattler",
+      "item_type": "Weapon",
+      "subcategory": "Assault Rifle",
+      "rarity": "Common",
+      "icon": "icons/items/rattler-i.webp",
+      "description": "A cheap offensive option, but has to be reloaded 2 bullets at a time.",
+      "translations": {
+        "it": {
+          "name": "Rattler",
+          "description": "Un'opzione offensiva economica, ma deve essere ricaricata 2 proiettili alla volta."
+        }
+      },
+      "variantItemIds": [
+        "amplified-rattler",
+        "amplified-rattler-incendiary-rounds",
+        "amplified-rattler-more-reload",
+        "amplified-rattler-more-reload-drum-mag",
+        "amplified-rattler-more-reload-drum-mag-incendiary-rounds",
+        "amplified-rattler-more-reload-incendiary-rounds",
+        "rattler-i",
+        "rattler-ii",
+        "rattler-iii",
+        "rattler-iv"
+      ]
+    },
+    "renegade": {
+      "id": "renegade",
+      "name": "Renegade",
+      "item_type": "Weapon",
+      "subcategory": "Battle Rifle",
+      "rarity": "Rare",
+      "icon": "icons/items/renegade-i.webp",
+      "description": "Has high damage output, accuracy, and headshot damage.",
+      "translations": {
+        "it": {
+          "name": "Renegade",
+          "description": "Ha alto Danni, precisione e Danni da colpo alla testa."
+        }
+      },
+      "variantItemIds": [
+        "amplified-renegade",
+        "amplified-renegade-more-reload",
+        "amplified-renegade-more-reload-scoped",
+        "amplified-renegade-scoped",
+        "renegade-censer-backpack-attachment",
+        "renegade-i",
+        "renegade-ii",
+        "renegade-iii",
+        "renegade-iv"
+      ]
+    },
+    "arpeggio": {
+      "id": "arpeggio",
+      "name": "Arpeggio",
+      "item_type": "Weapon",
+      "subcategory": "Assault Rifle",
+      "rarity": "Uncommon",
+      "icon": "icons/items/arpeggio-i.webp",
+      "description": "Has decent damage output and accuracy.",
+      "translations": {
+        "it": {
+          "name": "Arpeggio",
+          "description": "Ha una potenza di Danni e una precisione discrete."
+        }
+      },
+      "variantItemIds": [
+        "arpeggio-i",
+        "arpeggio-ii",
+        "arpeggio-iii",
+        "arpeggio-iv"
+      ]
+    },
+    "bantam": {
+      "id": "bantam",
+      "name": "Bantam",
+      "item_type": "Weapon",
+      "subcategory": "Hand Cannon",
+      "rarity": "Uncommon",
+      "icon": "icons/items/bantam.webp",
+      "description": "Short-barrel revolver with varied fire rate, good handling and damage, but with low accuracy, control and range.",
+      "translations": {
+        "it": {
+          "name": "Bantam",
+          "description": "Revolver a canna corta con cadenza di fuoco variabile, buona maneggevolezza e danno, ma con scarsa precisione, controllo e gittata."
+        }
+      },
+      "variantItemIds": [
+        "bantam-ii",
+        "bantam-iii",
+        "bantam-iv"
+      ],
+      "blueprintItemId": "bantam-blueprint"
+    },
+    "bobcat": {
+      "id": "bobcat",
+      "name": "Bobcat",
+      "item_type": "Weapon",
+      "subcategory": "SMG",
+      "rarity": "Epic",
+      "icon": "icons/items/bobcat-i.webp",
+      "description": "Has high fire rate but low accuracy.",
+      "translations": {
+        "it": {
+          "name": "Lince",
+          "description": "Ha un'alta cadenza di fuoco ma bassa precisione."
+        }
+      },
+      "variantItemIds": [
+        "bobcat-i",
+        "bobcat-ii",
+        "bobcat-iii",
+        "bobcat-iv"
+      ],
+      "blueprintItemId": "bobcat-i-recipe"
+    },
+    "dolabra": {
+      "id": "dolabra",
+      "name": "Dolabra",
+      "item_type": "Weapon",
+      "subcategory": "Shotgun",
+      "rarity": "Legendary",
+      "icon": "icons/items/dolabra.webp",
+      "description": "An experimental weapon that can either fire a wide short range blast, or be focused to fire a tight medium range beam of heat.",
+      "translations": {
+        "it": {
+          "name": "Dolabra",
+          "description": "Un'arma sperimentale che può sparare un'ampia scarica a corto raggio o essere focalizzata per sparare un raggio di calore concentrato a medio raggio."
+        }
+      },
+      "variantItemIds": [],
+      "blueprintItemId": "dolabra-blueprint"
+    },
+    "ferro": {
+      "id": "ferro",
+      "name": "Ferro",
+      "item_type": "Weapon",
+      "subcategory": "Battle Rifle",
+      "rarity": "Common",
+      "icon": "icons/items/ferro-i.webp",
+      "description": "Packs a punch, but must be reloaded between every shot.",
+      "translations": {
+        "it": {
+          "name": "Ferro",
+          "description": "Colpisce duro, ma deve essere ricaricata tra ogni colpo."
+        }
+      },
+      "variantItemIds": [
+        "ferro-i",
+        "ferro-ii",
+        "ferro-iii",
+        "ferro-iv"
+      ]
+    },
+    "stiletto": {
+      "id": "stiletto",
+      "name": "Stiletto",
+      "item_type": "Weapon",
+      "subcategory": "Battle Rifle",
+      "rarity": "Uncommon",
+      "icon": "icons/items/stiletto.webp",
+      "description": "Semi-automatic rifle with high accuracy, good handling and low initial recoil, but becomes harder to handle with sustained fire.",
+      "translations": {
+        "it": {
+          "name": "Stiletto",
+          "description": "Fucile semiautomatico con elevata precisione, buona maneggevolezza e basso rinculo iniziale, ma che diventa più difficile da gestire con il fuoco prolungato."
+        }
+      },
+      "variantItemIds": [
+        "stiletto-ii",
+        "stiletto-iii",
+        "stiletto-iv"
+      ],
+      "blueprintItemId": "stiletto-blueprint"
+    },
+    "stitcher": {
+      "id": "stitcher",
+      "name": "Stitcher",
+      "item_type": "Weapon",
+      "subcategory": "SMG",
+      "rarity": "Common",
+      "icon": "icons/items/stitcher-i.webp",
+      "description": "Has a good damage output, but has a low fire-rate for an SMG, and can be hard to control.",
+      "translations": {
+        "it": {
+          "name": "Suturante",
+          "description": "Infligge danni elevati, ma ha una cadenza di fuoco piuttosto ridotta e può essere difficile da controllare."
+        }
+      },
+      "variantItemIds": [
+        "stitcher-i",
+        "stitcher-ii",
+        "stitcher-iii",
+        "stitcher-iv"
+      ]
+    },
+    "tempest": {
+      "id": "tempest",
+      "name": "Tempest",
+      "item_type": "Weapon",
+      "subcategory": "Assault Rifle",
+      "rarity": "Epic",
+      "icon": "icons/items/tempest-i.webp",
+      "description": "Has moderate fire rate and accuracy.",
+      "translations": {
+        "it": {
+          "name": "Tempesta",
+          "description": "Fucile d'assalto completamente automatico con cadenza di fuoco e precisione moderate."
+        }
+      },
+      "variantItemIds": [
+        "tempest-i",
+        "tempest-ii",
+        "tempest-iii",
+        "tempest-iv"
+      ],
+      "blueprintItemId": "tempest-i-recipe"
+    },
+    "torrente": {
+      "id": "torrente",
+      "name": "Torrente",
+      "item_type": "Weapon",
+      "subcategory": "LMG",
+      "rarity": "Rare",
+      "icon": "icons/items/torrente-i.webp",
+      "description": "Has a large ammo capacity, but is only accurate while crouched.",
+      "translations": {
+        "it": {
+          "name": "Torrente",
+          "description": "Ha un'ampia capacità di munizioni, ma è precisa solo quando si è accucciati."
+        }
+      },
+      "variantItemIds": [
+        "torrente-i",
+        "torrente-ii",
+        "torrente-iii",
+        "torrente-iv"
+      ]
+    },
+    "venator": {
+      "id": "venator",
+      "name": "Venator",
+      "item_type": "Weapon",
+      "subcategory": "Pistol",
+      "rarity": "Rare",
+      "icon": "icons/items/venator-i.webp",
+      "description": "Fires two shots at a time.",
+      "translations": {
+        "it": {
+          "name": "Venator",
+          "description": "Pistola semiautomatica. Spara due colpi alla volta."
+        }
+      },
+      "variantItemIds": [
+        "venator-i",
+        "venator-ii",
+        "venator-iii",
+        "venator-iv"
+      ],
+      "blueprintItemId": "venator-recipe"
+    },
+    "vulcano": {
+      "id": "vulcano",
+      "name": "Vulcano",
+      "item_type": "Weapon",
+      "subcategory": "Shotgun",
+      "rarity": "Epic",
+      "icon": "icons/items/vulcano-i.webp",
+      "description": "Has good bullet spread but sharp falloff.",
+      "translations": {
+        "it": {
+          "name": "Vulcano",
+          "description": "Fucile a pompa semiautomatico con buona dispersione ma calo netto."
+        }
+      },
+      "variantItemIds": [
+        "vulcano-i",
+        "vulcano-ii",
+        "vulcano-iii",
+        "vulcano-iv"
+      ],
+      "blueprintItemId": "vulcano-blueprint"
+    },
+    "amplification-module": {
+      "id": "amplification-module",
+      "name": "Amplification Module",
+      "item_type": "Topside Material",
+      "subcategory": null,
+      "rarity": "Rare",
+      "icon": "icons/items/amplification-module-mk-i.webp",
+      "description": "Advanced ARC technology that unlocks common weapon Amplification.",
+      "translations": {
+        "it": {
+          "name": "Modulo di Amplificazione",
+          "description": "Tecnologia ARC avanzata che sblocca l'amplificazione delle armi comuni."
+        }
+      },
+      "variantItemIds": [
+        "amplification-module-mk-i",
+        "amplification-module-mk-ii",
+        "amplification-module-mk-iii",
+        "amplification-module-mk-iv",
+        "amplification-module-mk-v"
+      ]
+    }
+  }
+}
