@@ -76,6 +76,7 @@ Il progetto adotta la convenzione **layered-docs**: file sintetici in radice per
 - [docs/specs/azioni-di-livello.md](docs/specs/azioni-di-livello.md) — Azioni di livello: finestra di validità (corrente + 1) e fase attiva delle spedizioni.
 - [docs/specs/outpost-e-requisiti-tra-liste.md](docs/specs/outpost-e-requisiti-tra-liste.md) — Outpost, Sheltered Retreat e requisiti di livello tra liste.
 - [docs/specs/reward-pass-tech-spec.md](docs/specs/reward-pass-tech-spec.md) — Modello e visualizzazione dei Reward Pass (liste con tracce generiche).
+- [docs/specs/base-items-e-varianti-followup.md](docs/specs/base-items-e-varianti-followup.md) — Follow-up Base Items Studio, Dettaglio Oggetto e Ricerche Armi Amplificate.
 - [docs/specs/gameplay-tips-and-strategies.md](docs/specs/gameplay-tips-and-strategies.md) — Suggerimenti e strategie per la gestione delle risorse di gioco.
 
 ### Decisioni Architetturali (`docs/adrs/`)
