@@ -147,3 +147,56 @@ export function getSuggestedVariants(
     return normId.includes(query) || normName.includes(query);
   });
 }
+
+/**
+ * Recupera l'oggetto prodotto (o il Base Item collegato) da un Blueprint.
+ * Supporta:
+ * 1. Mappatura esplicita blueprintItemId nei Base Items.
+ * 2. Risoluzione euristica su ID (es. anvil-recipe -> anvil-i o anvil).
+ * 3. Risoluzione euristica per nome.
+ */
+export function getProducedItemForBlueprint(
+  blueprintId: string,
+  itemsInfo: Record<string, ItemInfo>,
+): ItemInfo | undefined {
+  const baseMap = getBaseItemsMap();
+
+  // 1. Cerca nei Base Items configurati
+  for (const base of Object.values(baseMap)) {
+    if (base.blueprintItemId === blueprintId) {
+      const tier1 = base.variantItemIds.find((vId) => vId.endsWith('-i') && itemsInfo[vId]);
+      if (tier1) return itemsInfo[tier1];
+      const anyVariant = base.variantItemIds.find((vId) => itemsInfo[vId]);
+      if (anyVariant) return itemsInfo[anyVariant];
+      if (itemsInfo[base.id]) return itemsInfo[base.id];
+      return baseItemToItemInfo(base);
+    }
+  }
+
+  // 2. Risoluzione euristica su ID
+  const bpItem = itemsInfo[blueprintId];
+  const strippedId = blueprintId.replace(/-(recipe|blueprint|bp)$/i, '');
+  if (itemsInfo[strippedId]) return itemsInfo[strippedId];
+  if (itemsInfo[`${strippedId}-i`]) return itemsInfo[`${strippedId}-i`];
+
+  // 3. Risoluzione euristica per nome
+  if (bpItem) {
+    const cleanName = bpItem.name.replace(/\s+(Blueprint|Recipe|Schema)$/i, '').trim().toLowerCase();
+    for (const item of Object.values(itemsInfo)) {
+      if (item.id === blueprintId) continue;
+      if (item.item_type === 'Blueprint' || item.subcategory === 'Blueprint') continue;
+      if (item.name.toLowerCase() === cleanName) {
+        return item;
+      }
+    }
+    for (const item of Object.values(itemsInfo)) {
+      if (item.id === blueprintId) continue;
+      if (item.item_type === 'Blueprint' || item.subcategory === 'Blueprint') continue;
+      if (item.name.toLowerCase().startsWith(cleanName)) {
+        return item;
+      }
+    }
+  }
+
+  return undefined;
+}

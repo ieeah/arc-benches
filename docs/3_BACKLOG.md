@@ -24,7 +24,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #126 [Fix HTML: `lang` dinamico, titolo e meta description in `index.html`](https://github.com/ieeah/arc-benches/issues/126)
 - [ ] #149 [Refactor i18n: rimozione assunzioni binarie ('it' vs 'en') ed estensione traduzioni in Dev Studio](https://github.com/ieeah/arc-benches/issues/149) — elimina controlli rigidi e assicura che nel Dev Studio sia possibile inserire/modificare traduzioni per tutte le lingue supportate.
 - [ ] #150 [UX Card: background grafici dedicati per Armi amplificate, Stencil e Design](https://github.com/ieeah/arc-benches/issues/150) — background e cornici visive distinte su modello dei blueprint.
-- [ ] Refactor & Follow-up: Base Items Studio, Dettaglio Oggetto e Ricerche Armi Amplificate — combobox blueprint, reset sottocategoria, traduzioni multi-lingua scalabili, focus management icon picker, navigazione bidirezionale blueprint/oggetto, raggruppamento "Craft e Potenziamenti" e dati ricerche amplificazioni. *Specifica tecnica*: [docs/specs/base-items-e-varianti-followup.md](specs/base-items-e-varianti-followup.md).
+- [x] Refactor & Follow-up: Base Items Studio, Dettaglio Oggetto e Ricerche Armi Amplificate — combobox blueprint, reset sottocategoria, traduzioni multi-lingua scalabili, focus management icon picker, navigazione bidirezionale blueprint/oggetto, raggruppamento "Craft e Potenziamenti" e dati ricerche amplificazioni. *Specifica tecnica*: [docs/specs/base-items-e-varianti-followup.md](specs/base-items-e-varianti-followup.md).
 - [ ] #127 [Build: passare a `@tailwindcss/vite` e rimuovere PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
 
 ---

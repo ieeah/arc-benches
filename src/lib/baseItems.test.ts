@@ -7,6 +7,7 @@ import {
   getBaseItemForVariant,
   baseItemToItemInfo,
   getSuggestedVariants,
+  getProducedItemForBlueprint,
   saveItemVariantsDraft,
   clearItemVariantsDraft,
   hasItemVariantsDraft,
@@ -122,5 +123,22 @@ describe('baseItems logic', () => {
     clearItemVariantsDraft();
     expect(hasItemVariantsDraft()).toBe(false);
     expect(getBaseItem('test')).toBeUndefined();
+  });
+
+  it('resolves produced item for a blueprint bidirectionally', () => {
+    const itemsMap: Record<string, ItemInfo> = {
+      'anvil-i': mockItem('anvil-i', 'Anvil I'),
+      'anvil-recipe': mockItem('anvil-recipe', 'Anvil Blueprint', 'Blueprint'),
+      'advanced-camera': mockItem('advanced-camera', 'Advanced Camera', 'Tool'),
+      'advanced-camera-blueprint': mockItem('advanced-camera-blueprint', 'Advanced Camera Blueprint', 'Blueprint'),
+    };
+
+    // Via baseItem.blueprintItemId
+    const anvilProduced = getProducedItemForBlueprint('anvil-recipe', itemsMap);
+    expect(anvilProduced?.id).toBe('anvil-i');
+
+    // Via ID stripping
+    const cameraProduced = getProducedItemForBlueprint('advanced-camera-blueprint', itemsMap);
+    expect(cameraProduced?.id).toBe('advanced-camera');
   });
 });

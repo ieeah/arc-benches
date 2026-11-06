@@ -14,7 +14,7 @@ import {
   getItemDescription,
   getRarityLabel,
 } from "@/i18n";
-import { getBaseItem, getBaseItemForVariant } from "@/lib/baseItems";
+import { getBaseItem, getBaseItemForVariant, getProducedItemForBlueprint } from "@/lib/baseItems";
 
 export const ItemDetailSheet = ({
   item: initialItem,
@@ -54,6 +54,17 @@ export const ItemDetailSheet = ({
   const isWeapon = activeItem.item_type === 'Weapon' || activeItem.subcategory?.toLowerCase().includes('weapon');
   const isHigherWeaponLevel = isWeapon && /-(ii|iii|iv|v)$/i.test(activeItem.id);
   const isAmplifiedWeapon = isWeapon && (activeItem.rarity === 'Amplified' || /^amplified-/i.test(activeItem.id));
+  const isBlueprint =
+    activeItem.item_type === 'Blueprint' ||
+    activeItem.subcategory === 'Blueprint' ||
+    activeItem.id.endsWith('-recipe') ||
+    activeItem.id.endsWith('-blueprint');
+
+  // Risoluzione bidirezionale Blueprint -> Oggetto Prodotto (#143 followup)
+  const producedItem = useMemo(() => {
+    if (!isBlueprint) return undefined;
+    return getProducedItemForBlueprint(activeItem.id, itemsInfo);
+  }, [isBlueprint, activeItem.id, itemsInfo]);
 
   // Riconoscimento Base Item e varianti collegate (#143)
   const baseDef = useMemo(() => {
@@ -246,6 +257,46 @@ export const ItemDetailSheet = ({
         </div>
       )}
 
+      {/* Navigazione inversa: Blueprint -> Oggetto Prodotto (#143 followup) */}
+      {producedItem && (
+        <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-800 rounded-2xl space-y-2">
+          <div className="flex items-center justify-between pb-1.5 border-b border-gray-200/60 dark:border-gray-700/60">
+            <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+              {t("itemDetail.producedItem")}
+            </span>
+            <span className="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase">
+              Blueprint
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setActiveItem(producedItem)}
+            className="w-full flex items-center justify-between gap-2 p-2 rounded-xl text-xs font-bold bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-600 cursor-pointer transition-all text-left shadow-xs group"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <ItemCardFrameV2
+                icon={producedItem.icon}
+                alt={getItemName(producedItem, language)}
+                rarity={producedItem.rarity}
+                className="w-8 h-8 shrink-0"
+              />
+              <div className="min-w-0">
+                <p className="font-bold text-xs truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  {getItemName(producedItem, language)}
+                </p>
+                <p className="text-[10px] text-gray-400 font-normal truncate">
+                  {producedItem.item_type}
+                  {producedItem.subcategory ? ` · ${producedItem.subcategory}` : ''}
+                </p>
+              </div>
+            </div>
+            <span className="text-xs text-indigo-600 dark:text-indigo-400 shrink-0 font-bold">
+              Visualizza →
+            </span>
+          </button>
+        </div>
+      )}
+
       <div className="space-y-2 text-sm">
         <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
           <span className="text-gray-400 font-medium">
@@ -282,50 +333,67 @@ export const ItemDetailSheet = ({
           </div>
         )}
 
-        {/* Fabbricazione Lvl 1 o Base Item */}
-        {craftResult.craftInfo !== null && (
-          <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-gray-400 font-medium">{t("itemDetail.craft")}</span>
-            <span
-              className={`flex items-center gap-1.5 font-semibold ${craftResult.status === 'craftable' ? "text-emerald-500" : "text-amber-500"}`}
-            >
-              <Hammer size={14} />
-              <span>
-                {craftResult.status === 'craftable'
-                  ? (craftResult.craftInfo.workbenchId === 'workbench'
-                      ? t("stash.craftableNowBasic")
-                      : `${t("stash.craftableNow")} (${getWorkbenchShortName(craftResult.craftInfo.workbenchId, t)} Lvl ${craftResult.craftInfo.levelRequired})`)
-                  : craftResult.status === 'needs_project'
-                    ? (craftResult.craftInfo.recipeId && itemsInfo[craftResult.craftInfo.recipeId]
-                        ? t('stash.requiresBlueprintShort', { name: getItemName(itemsInfo[craftResult.craftInfo.recipeId], language) })
-                        : t('stash.requiresBlueprintShort', { name: 'Blueprint' }))
-                    : craftResult.craftInfo.workbenchId === 'workbench'
-                      ? t('stash.craftableNowBasic')
-                      : `${getWorkbenchShortName(craftResult.craftInfo.workbenchId, t)} Lvl ${craftResult.craftInfo.levelRequired}`}
+        {/* Sezione Unificata: Craft e Potenziamenti (#143 followup) */}
+        {(craftResult.craftInfo !== null || isHigherWeaponLevel || isAmplifiedWeapon) && (
+          <div className="py-2.5 border-b border-gray-100 dark:border-gray-800 space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-400 font-medium">
+                {t("itemDetail.craftAndUpgrades")}
               </span>
-            </span>
-          </div>
-        )}
+              {/* Se c'è craftResult, mostriamo lo status principale a destra */}
+              {craftResult.craftInfo !== null && (
+                <span
+                  className={`flex items-center gap-1.5 font-semibold text-xs ${
+                    craftResult.status === 'craftable' ? "text-emerald-500" : "text-amber-500"
+                  }`}
+                >
+                  <Hammer size={13} />
+                  <span>
+                    {craftResult.status === 'craftable'
+                      ? (craftResult.craftInfo.workbenchId === 'workbench'
+                          ? t("stash.craftableNowBasic")
+                          : `${t("stash.craftableNow")} (${getWorkbenchShortName(craftResult.craftInfo.workbenchId, t)} Lvl ${craftResult.craftInfo.levelRequired})`)
+                      : craftResult.status === 'needs_project'
+                        ? (craftResult.craftInfo.recipeId && itemsInfo[craftResult.craftInfo.recipeId]
+                            ? t('stash.requiresBlueprintShort', { name: getItemName(itemsInfo[craftResult.craftInfo.recipeId], language) })
+                            : t('stash.requiresBlueprintShort', { name: 'Blueprint' }))
+                        : craftResult.craftInfo.workbenchId === 'workbench'
+                          ? t('stash.craftableNowBasic')
+                          : `${getWorkbenchShortName(craftResult.craftInfo.workbenchId, t)} Lvl ${craftResult.craftInfo.levelRequired}`}
+                  </span>
+                </span>
+              )}
+            </div>
 
-        {/* Note potenziamento per armi Lvl II-IV */}
-        {isHigherWeaponLevel && (
-          <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-gray-400 font-medium">Potenziamento</span>
-            <span className="flex items-center gap-1.5 font-semibold text-blue-500 dark:text-blue-400 text-xs">
-              <Hammer size={14} />
-              <span>Potenziabile al banco Gunsmith</span>
-            </span>
-          </div>
-        )}
+            {/* Dettaglio Potenziamento Gunsmith per livelli II-IV */}
+            {isHigherWeaponLevel && (
+              <div className="flex items-center justify-between text-xs p-2 bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-900/40 rounded-xl">
+                <span className="flex items-center gap-1.5 text-blue-700 dark:text-blue-300 font-semibold">
+                  <Hammer size={13} />
+                  <span>{t("itemDetail.gunsmithUpgrade")}</span>
+                </span>
+                <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 font-mono">
+                  {(() => {
+                    const match = activeItem.id.match(/-(ii|iii|iv|v)$/i);
+                    return match ? `Gunsmith Lvl ${match[1].toUpperCase() === 'II' ? '2' : match[1].toUpperCase() === 'III' ? '3' : '4'}` : 'Gunsmith';
+                  })()}
+                </span>
+              </div>
+            )}
 
-        {/* Note per armi amplificate */}
-        {isAmplifiedWeapon && (
-          <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-gray-400 font-medium">Amplificazione</span>
-            <span className="flex items-center gap-1.5 font-semibold text-amber-500 dark:text-amber-400 text-xs">
-              <Zap size={14} />
-              <span>Richiede arma Lvl IV + Modulo Amplificazione</span>
-            </span>
+            {/* Dettaglio Amplificazione e Ricerca Research Station */}
+            {isAmplifiedWeapon && (
+              <div className="text-xs p-2.5 bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-800/60 rounded-xl space-y-1.5">
+                <div className="flex items-center gap-1.5 font-bold text-amber-700 dark:text-amber-300">
+                  <Zap size={14} className="shrink-0 text-amber-500" />
+                  <span>{t("itemDetail.amplifiedWeaponReq")}</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-[11px] text-amber-600/90 dark:text-amber-400/90 pl-5">
+                  <span>🔬</span>
+                  <span>{t("itemDetail.researchStationReq")}</span>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

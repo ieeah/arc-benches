@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import {
   Boxes,
   Plus,
@@ -12,15 +12,17 @@ import {
   RotateCcw,
   Check,
   Image as ImageIcon,
+  Globe,
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
+import { BlueprintCombobox } from '@/components/dev/BlueprintCombobox';
 import { downloadTextFile } from '@/lib/devI18n';
 import { getRarityText } from '@/lib/rarity';
-import { getItemName } from '@/i18n';
+import { useTranslation, getItemName, getItemSearchFields, SUPPORTED_LANGUAGES } from '@/i18n';
 import { cn } from '@/lib/cn';
 import {
   type BaseItemDefinition,
@@ -41,6 +43,7 @@ type DevBaseItemsPageProps = {
 const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] as const;
 
 export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
+  const { language } = useTranslation();
   const itemsInfo = useAppStore((s) => s.itemsInfo);
   const allCatalogItems = useMemo(() => Object.values(itemsInfo), [itemsInfo]);
 
@@ -51,11 +54,21 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
   const [variantSearchQuery, setVariantSearchQuery] = useState('');
   const [iconCatalogSearch, setIconCatalogSearch] = useState('');
   const [showIconPicker, setShowIconPicker] = useState(false);
+  const [selectedTransLang, setSelectedTransLang] = useState<string>(() => (language !== 'en' ? language : 'it'));
+  const iconPickerTriggerRef = useRef<HTMLButtonElement>(null);
+  const iconPickerInputRef = useRef<HTMLInputElement>(null);
   const [confirmModal, setConfirmModal] = useState<{
     title: string;
     message: string;
     onConfirm: () => void;
   } | null>(null);
+
+  // Focus automatico sull'input di ricerca icona alla comparsa del picker
+  useEffect(() => {
+    if (showIconPicker) {
+      iconPickerInputRef.current?.focus();
+    }
+  }, [showIconPicker]);
 
   // Sincronizzazione con storage / eventi esterni
   useEffect(() => {
@@ -69,20 +82,21 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
 
   const baseItemsList = useMemo(() => {
     const list = Object.values(data.baseItems);
-    list.sort((a, b) => a.name.localeCompare(b.name));
+    list.sort((a, b) => a.name.localeCompare(b.name, language));
     return list;
-  }, [data.baseItems]);
+  }, [data.baseItems, language]);
 
   const filteredBaseItems = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     if (!q) return baseItemsList;
     return baseItemsList.filter((b) => {
-      const itName = b.translations?.it?.name?.toLowerCase() || '';
-      return (
-        b.name.toLowerCase().includes(q) ||
-        b.id.toLowerCase().includes(q) ||
-        itName.includes(q)
-      );
+      if (b.name.toLowerCase().includes(q) || b.id.toLowerCase().includes(q)) return true;
+      if (b.translations) {
+        return Object.values(b.translations).some(
+          (t) => t.name && t.name.toLowerCase().includes(q)
+        );
+      }
+      return false;
     });
   }, [baseItemsList, searchQuery]);
 
@@ -121,6 +135,11 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [allCatalogItems]);
 
+  const AVAILABLE_TRANSLATION_LANGUAGES = useMemo(
+    () => SUPPORTED_LANGUAGES.filter((l) => l.code !== 'en'),
+    [],
+  );
+
   const updateData = (newData: ItemVariantsFile) => {
     setData(newData);
     saveItemVariantsDraft(newData);
@@ -143,18 +162,44 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
     });
   };
 
+  // Reset automatico della sottocategoria al cambio del tipo oggetto (#143 followup)
+  const handleUpdateItemType = (newType: string) => {
+    if (!selectedBaseItem) return;
+    const updated: BaseItemDefinition = {
+      ...selectedBaseItem,
+      item_type: newType,
+      subcategory: null,
+    };
+    updateData({
+      baseItems: {
+        ...data.baseItems,
+        [selectedBaseItem.id]: updated,
+      },
+    });
+  };
+
+  // Gestione traduzioni multi-lingua scalabile (salva solo se valorizzate)
   const handleUpdateTranslation = (lang: string, field: 'name' | 'description', val: string) => {
     if (!selectedBaseItem) return;
     const existingTrans = selectedBaseItem.translations || {};
-    const langTrans = existingTrans[lang] || {};
-    const updatedTrans = {
-      ...existingTrans,
-      [lang]: {
-        ...langTrans,
-        [field]: val,
-      },
-    };
-    handleUpdateField('translations', updatedTrans);
+    const langObj = { ...(existingTrans[lang] || {}), [field]: val };
+
+    const nextTrans = { ...existingTrans };
+    if (!langObj.name?.trim() && !langObj.description?.trim()) {
+      delete nextTrans[lang];
+    } else {
+      nextTrans[lang] = langObj;
+    }
+    handleUpdateField('translations', Object.keys(nextTrans).length > 0 ? nextTrans : undefined);
+  };
+
+  const handleClearTranslation = (lang: string) => {
+    if (!selectedBaseItem) return;
+    const existingTrans = selectedBaseItem.translations || {};
+    if (!existingTrans[lang]) return;
+    const nextTrans = { ...existingTrans };
+    delete nextTrans[lang];
+    handleUpdateField('translations', Object.keys(nextTrans).length > 0 ? nextTrans : undefined);
   };
 
   // Creazione nuovo Base Item
@@ -286,7 +331,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
     handleUpdateField('variantItemIds', Array.from(set));
   };
 
-  // Ricerca manuale da catalogo
+  // Ricerca manuale da catalogo con supporto a tutte le lingue
   const manualCatalogCandidates = useMemo(() => {
     if (!selectedBaseItem || !variantSearchQuery.trim()) return [];
     const q = variantSearchQuery.trim().toLowerCase();
@@ -295,12 +340,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
     return allCatalogItems
       .filter((item) => {
         if (assignedSet.has(item.id)) return false;
-        const itName = item.translations?.it?.name?.toLowerCase() || '';
-        return (
-          item.id.toLowerCase().includes(q) ||
-          item.name.toLowerCase().includes(q) ||
-          itName.includes(q)
-        );
+        return getItemSearchFields(item).some((f) => f.toLowerCase().includes(q));
       })
       .slice(0, 15);
   }, [selectedBaseItem, variantSearchQuery, allCatalogItems]);
@@ -384,7 +424,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
           <div className="flex-1 overflow-y-auto space-y-1.5 pr-1">
             {filteredBaseItems.map((base) => {
               const isSel = base.id === selectedId;
-              const itName = base.translations?.it?.name;
+              const localizedName = base.translations?.[language]?.name || base.name;
               return (
                 <div
                   key={base.id}
@@ -404,7 +444,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                   />
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-xs truncate">
-                      {itName || base.name}
+                      {localizedName}
                     </p>
                     <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">
                       {base.id} · <span className="font-semibold">{base.variantItemIds.length} var.</span>
@@ -430,7 +470,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <h2 className="text-base font-black truncate">
-                  {selectedBaseItem.translations?.it?.name || selectedBaseItem.name}
+                  {selectedBaseItem.translations?.[language]?.name || selectedBaseItem.name}
                 </h2>
                 <span
                   className={cn(
@@ -467,7 +507,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">
-                  Nome (Inglese)
+                  Nome Base (Inglese)
                 </label>
                 <input
                   type="text"
@@ -479,23 +519,11 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
 
               <div>
                 <label className="block text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">
-                  Nome (Italiano)
-                </label>
-                <input
-                  type="text"
-                  value={selectedBaseItem.translations?.it?.name || ''}
-                  onChange={(e) => handleUpdateTranslation('it', 'name', e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs focus:ring-1 focus:ring-indigo-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">
                   Tipo Oggetto
                 </label>
                 <select
                   value={selectedBaseItem.item_type}
-                  onChange={(e) => handleUpdateField('item_type', e.target.value)}
+                  onChange={(e) => handleUpdateItemType(e.target.value)}
                   className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs focus:ring-1 focus:ring-indigo-500 cursor-pointer"
                 >
                   {itemTypes.map((t) => (
@@ -546,14 +574,35 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                 </select>
               </div>
 
-              <div>
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">
+                  Descrizione Base (Inglese)
+                </label>
+                <textarea
+                  rows={2}
+                  value={selectedBaseItem.description || ''}
+                  onChange={(e) => handleUpdateField('description', e.target.value)}
+                  placeholder="Descrizione base in lingua inglese..."
+                  className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs focus:ring-1 focus:ring-indigo-500"
+                />
+              </div>
+
+              <div className="md:col-span-2">
                 <div className="flex items-center justify-between mb-1">
                   <label className="text-xs font-bold text-gray-600 dark:text-gray-300">
                     Icona Oggetto
                   </label>
                   <button
+                    ref={iconPickerTriggerRef}
                     type="button"
-                    onClick={() => setShowIconPicker(!showIconPicker)}
+                    onClick={() => {
+                      if (showIconPicker) {
+                        setShowIconPicker(false);
+                        setTimeout(() => iconPickerTriggerRef.current?.focus(), 0);
+                      } else {
+                        setShowIconPicker(true);
+                      }
+                    }}
                     className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <ImageIcon size={12} />
@@ -608,10 +657,17 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                     <div className="relative">
                       <Search className="absolute left-2.5 top-2 w-3.5 h-3.5 text-gray-400" />
                       <input
+                        ref={iconPickerInputRef}
                         type="text"
                         value={iconCatalogSearch}
                         onChange={(e) => setIconCatalogSearch(e.target.value)}
-                        placeholder="Cerca oggetto per prenderne l'icona..."
+                        onKeyDown={(e) => {
+                          if (e.key === 'Escape') {
+                            setShowIconPicker(false);
+                            setTimeout(() => iconPickerTriggerRef.current?.focus(), 0);
+                          }
+                        }}
+                        placeholder="Cerca oggetto per prenderne l'icona (Escape per chiudere)..."
                         className="w-full pl-8 pr-2 py-1 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-xl text-xs"
                       />
                     </div>
@@ -624,6 +680,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                             onClick={() => {
                               handleUpdateField('icon', cand.icon || '');
                               setShowIconPicker(false);
+                              setTimeout(() => iconPickerTriggerRef.current?.focus(), 0);
                             }}
                             className="flex flex-col items-center p-1 bg-white dark:bg-gray-900 rounded-xl border border-indigo-100 dark:border-indigo-900/40 hover:border-indigo-500 transition-all cursor-pointer"
                             title={`${cand.name} (${cand.id})`}
@@ -652,28 +709,128 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                 />
               </div>
 
+              {/* Blueprint / Schema Collegato con Autocomplete Combobox */}
               <div className="md:col-span-2">
                 <label className="block text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">
                   Blueprint / Schema Collegato
                 </label>
-                <select
-                  value={selectedBaseItem.blueprintItemId || ''}
-                  onChange={(e) => handleUpdateField('blueprintItemId', e.target.value || undefined)}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs focus:ring-1 focus:ring-indigo-500 cursor-pointer"
-                >
-                  <option value="">(Nessun blueprint collegato)</option>
-                  {blueprintItems.map((bp) => {
-                    const itName = getItemName(bp, 'it');
-                    const label = itName !== bp.name ? `${itName} (${bp.name})` : bp.name;
-                    return (
-                      <option key={bp.id} value={bp.id}>
-                        {label} · #{bp.id}
-                      </option>
-                    );
-                  })}
-                </select>
+                <BlueprintCombobox
+                  value={selectedBaseItem.blueprintItemId}
+                  onChange={(bpId) => handleUpdateField('blueprintItemId', bpId)}
+                  blueprints={blueprintItems}
+                />
               </div>
             </div>
+          </div>
+
+          {/* Traduzioni Multi-lingua */}
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-5 space-y-4 shadow-xs">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Globe className="w-4 h-4 text-indigo-500" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                  Traduzioni Multi-lingua
+                </h3>
+              </div>
+              <span className="text-[11px] font-bold text-gray-400">
+                {Object.keys(selectedBaseItem.translations || {}).filter(k => selectedBaseItem.translations?.[k]?.name).length} traduzioni attive
+              </span>
+            </div>
+
+            {/* Selettore lingua a pillole orizzontali */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+              {AVAILABLE_TRANSLATION_LANGUAGES.map((lang) => {
+                const isSelected = selectedTransLang === lang.code;
+                const hasTranslation = Boolean(selectedBaseItem.translations?.[lang.code]?.name);
+                return (
+                  <button
+                    key={lang.code}
+                    type="button"
+                    onClick={() => setSelectedTransLang(lang.code)}
+                    className={cn(
+                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95',
+                      isSelected
+                        ? 'bg-indigo-600 text-white shadow-xs'
+                        : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                    )}
+                  >
+                    <span>{lang.flag}</span>
+                    <span>{lang.label}</span>
+                    <span className="text-[10px] opacity-75 uppercase">({lang.code})</span>
+                    {hasTranslation && (
+                      <span
+                        className={cn(
+                          'w-2 h-2 rounded-full',
+                          isSelected ? 'bg-white' : 'bg-emerald-500',
+                        )}
+                        title="Traduzione presente"
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Form per la lingua selezionata */}
+            {(() => {
+              const currentLangObj = AVAILABLE_TRANSLATION_LANGUAGES.find((l) => l.code === selectedTransLang) || {
+                code: selectedTransLang,
+                label: selectedTransLang.toUpperCase(),
+                flag: '🌐',
+              };
+              const currentTrans = selectedBaseItem.translations?.[selectedTransLang] || {};
+              const hasTrans = Boolean(currentTrans.name || currentTrans.description);
+
+              return (
+                <div className="space-y-3 p-4 bg-gray-50 dark:bg-gray-800/40 border border-gray-200/80 dark:border-gray-700/80 rounded-2xl">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-gray-700 dark:text-gray-300">
+                      Campi per {currentLangObj.flag} {currentLangObj.label} ({currentLangObj.code.toUpperCase()})
+                    </span>
+                    {hasTrans && (
+                      <button
+                        type="button"
+                        onClick={() => handleClearTranslation(selectedTransLang)}
+                        className="text-[11px] font-bold text-rose-500 hover:underline cursor-pointer"
+                      >
+                        Svuota traduzione
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-bold mb-1 text-gray-600 dark:text-gray-300">
+                        Nome ({currentLangObj.label})
+                      </label>
+                      <input
+                        type="text"
+                        value={currentTrans.name || ''}
+                        onChange={(e) => handleUpdateTranslation(selectedTransLang, 'name', e.target.value)}
+                        placeholder={`Nome in ${currentLangObj.label}...`}
+                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs focus:ring-1 focus:ring-indigo-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold mb-1 text-gray-600 dark:text-gray-300">
+                        Descrizione ({currentLangObj.label})
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={currentTrans.description || ''}
+                        onChange={(e) => handleUpdateTranslation(selectedTransLang, 'description', e.target.value)}
+                        placeholder={`Descrizione opzionale in ${currentLangObj.label}...`}
+                        className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs focus:ring-1 focus:ring-indigo-500"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-gray-400">
+                    Se non compilata, l'app userà come ripiego il nome/descrizione base in inglese o i testi dal catalogo.
+                  </p>
+                </div>
+              );
+            })()}
           </div>
 
           {/* Varianti Collegate */}
@@ -697,7 +854,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
               <div className="space-y-2">
                 {selectedBaseItem.variantItemIds.map((vId, idx) => {
                   const item = itemsInfo[vId];
-                  const itName = item ? getItemName(item, 'it') : vId;
+                  const localizedName = item ? getItemName(item, language) : vId;
                   return (
                     <div
                       key={vId}
@@ -713,7 +870,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5">
                           <p className="font-bold text-xs truncate">
-                            {itName}
+                            {localizedName}
                           </p>
                           <span
                             className={cn(
@@ -801,7 +958,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                       />
                       <div className="min-w-0">
                         <p className="text-xs font-bold truncate">
-                          {getItemName(cand, 'it')}
+                          {getItemName(cand, language)}
                         </p>
                         <p className="text-[10px] text-gray-400 font-mono truncate">
                           {cand.id}
@@ -853,7 +1010,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                       />
                       <div className="min-w-0">
                         <p className="text-xs font-bold truncate">
-                          {getItemName(cand, 'it')}
+                          {getItemName(cand, language)}
                         </p>
                         <p className="text-[10px] text-gray-400 font-mono truncate">
                           {cand.id}

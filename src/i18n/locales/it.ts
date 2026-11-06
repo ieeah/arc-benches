@@ -424,6 +424,11 @@ export const it = {
     "type": "Tipo",
     "sources": "Origini e Fonti",
     "craft": "Craft",
+    "craftAndUpgrades": "Craft e Potenziamenti",
+    "gunsmithUpgrade": "Potenziabile al banco Gunsmith",
+    "amplifiedWeaponReq": "Richiede arma Lvl IV + Modulo di Amplificazione",
+    "researchStationReq": "Sbloccabile tramite Ricerca (Research Station)",
+    "producedItem": "Oggetto Prodotto",
     "shop": "Shop",
     "familyLevels": "Livelli disponibili",
     "amplifiedVariants": "Varianti Amplificate"
