@@ -54,7 +54,8 @@ export function parseImport(json: string): ListExportFile | MultiProfileExportFi
         const lists = Array.isArray(raw.lists)
           ? raw.lists.map(parseListEntry).filter((e): e is ListExportEntry => e !== null)
           : [];
-        return { profile, lists, inventory: sanitizeNumberRecord(raw.inventory) };
+        const enabledSections = isObject(raw.enabledSections) ? raw.enabledSections as Record<string, boolean> : undefined;
+        return { profile, lists, inventory: sanitizeNumberRecord(raw.inventory), enabledSections };
       })
       .filter((p): p is ProfileExportEntry => p !== null);
 

@@ -11,6 +11,7 @@ import type { PersistedState } from '@/store/persistence';
 import { applyIconFallbacks } from '@/lib/itemIcons';
 import { stripReview } from '@/lib/overrideConflicts';
 import { getBaseItemsMap, baseItemToItemInfo } from '@/lib/baseItems';
+import { getDefaultEnabledSections } from '@/lib/sections';
 
 // The Refiner bench gates item crafting (see refinerCraftLevel + the craftable-now badges).
 export const REFINER_ID = 'refiner';
@@ -213,6 +214,7 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   activeRewardPass: loaded.activeRewardPass ?? null,
   completedRewardPasses: loaded.completedRewardPasses ?? [],
   raidPlan: loaded.raidPlan ?? { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
+  enabledSections: loaded.enabledSections ?? getDefaultEnabledSections(),
   };
 };
 
@@ -237,4 +239,5 @@ export const freshProfile = (): PersistedState => ({
   activeRewardPass: null,
   completedRewardPasses: [],
   raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
+  enabledSections: getDefaultEnabledSections(),
 });

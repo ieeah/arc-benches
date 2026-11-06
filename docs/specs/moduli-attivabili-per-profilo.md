@@ -69,82 +69,117 @@ L'architettura adotta una **struttura ad albero gerarchica** composta da **Macro
 
 ```
 ARC Benches
-├── [core] Banchi del Rifugio (workbench) ── [SEMPRE ATTIVO — Infrastruttura base non disattivabile]
+├── [core] Banchi del Rifugio (workbench) ──── [SEMPRE ATTIVO — Card visibile, toggle bloccato on]
+├── [core] Stash & Inventario (stash) ──────── [SEMPRE ATTIVO — Card visibile, toggle bloccato on]
+├── [core] Impostazioni (settings) ─────────── [SEMPRE ATTIVO — Card visibile, toggle bloccato on]
+│
+├── 🎯 raid (Pianificazione Raid & Radar)
+│   └── 📋 raid-checklist (Checklist equipaggiamento da portare — 1.x #99)
 │
 ├── 📦 expeditions (Spedizioni e Carovane) [sistema: expeditions]
 │   └── 🔒 expeditions-vault (Vault Spedizione) [sistema: vault]
 │
 ├── 📋 projects (Progetti Speciali del Rifugio) [sistema: sempre true]
 │
-├── 🗂️ trackers (Registri e Collezioni) [sistema: trackers / blueprints]
+├── 📜 quests (Registro Missioni & Quest Tracker — 0.6.x #58)
+│
+├── 🌳 skill-tree (Albero delle Abilità del Raider — 0.6.0 #62)
+│
+├── 🗂️ trackers (Registri e Collezioni — 0.6.0 #145) [sistema: trackers / blueprints]
 │   ├── 📐 blueprints (Progetti e Blueprint Sbloccati) [sistema: blueprints]
 │   ├── 🪑 furniture-designs (Design Arredi Rifugio/Outpost #91) [sistema: furniture-designs]
 │   ├── 🎨 weapon-stencils (Stencil Cosmetici Armi #91) [sistema: weapon-stencils]
-│   └── 🦺 outfits (Outfit e Varianti #109) [sistema: outfits]
+│   ├── 🦺 outfits (Outfit e Guardaroba #109, #131) [sistema: outfits]
+│   └── 🏆 trophies (Bacheca dei Trofei & Archivio — 0.6.x #70)
 │
 ├── 🎟️ reward-pass (Reward Pass / Tracce di Progressione) [sistema: reward-pass]
 │
-├── 🎲 role-maker (Role Maker / Generatore Archetipi) [sistema: role-maker]
+├── 📖 codex (Codex di Speranza & Bestiario ARC — 1.0.0 #64, #57)
 │
-└── 🗺️ maps (Mappe Tattiche Interattive) [sistema: maps]
+├── 🗺️ maps (Mappe Tattiche Interattive — 1.0.0 #61, #55) [sistema: maps]
+│   └── 📍 maps-waypoints (Itinerari e Waypoint — 1.x #118)
+│
+└── 🎲 role-maker (Role Maker / Generatore Archetipi) [sistema: role-maker]
 ```
 
 ### Tabella Descrittiva dei Nodi
 
-| ID Modulo (`ModuleId`) | Genitore (`parentId`) | Feature Flag Sistema | Nodi Navigazione | Rotte | Impatto Liste / Stash |
+| ID Modulo (`SectionId`) | Genitore (`parentId`) | Feature Flag Sistema | Nodi Navigazione | Rotte | Impatto Liste / Stash |
 | :--- | :--- | :--- | :--- | :--- | :--- |
+| `workbench` | *nessuno (core)* | *(nessuno)* | `['workbench']` | `['benches', 'workbench']` | Banchi rifugio di base |
+| `stash` | *nessuno (core)* | *(nessuno)* | `['stash']` | `['stash']` | Inventario e fabbisogni |
+| `settings` | *nessuno (core)* | *(nessuno)* | `['settings']` | `['settings']` | Pagina impostazioni |
+| `raid` | *nessuno (macro)* | *(nessuno, sempre abilitato)* | `['raid']` | `['raid']` | Nasconde voce nav e disabilita radar in FloatingNav |
+| `raid-checklist` | `raid` | `raid-checklist` | — | — | Checklist oggetti da portare |
 | `expeditions` | *nessuno (macro)* | `expeditions` | `['expeditions']` | `['expeditions']` | Esclude carovana attiva dai requisiti Stash |
 | `expeditions-vault` | `expeditions` | `vault` | `['vault']` | `['vault']` | Nasconde voce/strumento Vault Spedizioni |
 | `projects` | *nessuno (macro)* | *(nessuno, sempre abilitato)* | *(incluso in liste)* | *(sottosezione liste)* | Esclude liste `listType: 'project'` dallo Stash |
+| `quests` | *nessuno (macro)* | `quests` | `['quests']` | `['quests']` | Registro missioni mercanti |
+| `skill-tree` | *nessuno (macro)* | `skill-tree` | `['skill-tree']` | `['skill-tree']` | Albero delle abilità |
 | `trackers` | *nessuno (macro)* | `trackers` | *(raggruppatore)* | — | Disattiva tutti i tracker figli |
 | `blueprints` | `trackers` | `blueprints` | `['blueprints']` | `['blueprints']` | Nasconde voce nav e rotta Blueprints |
 | `furniture-designs` | `trackers` | `furniture-designs` | `['furniture-designs']` | `['furniture-designs']` | Nasconde registro design arredi |
 | `weapon-stencils` | `trackers` | `weapon-stencils` | `['weapon-stencils']` | `['weapon-stencils']` | Nasconde registro stencil armi |
 | `outfits` | `trackers` | `outfits` | `['outfits']` | `['outfits']` | Nasconde registro outfit |
+| `trophies` | `trackers` | `trophies` | `['trophies']` | `['trophies']` | Bacheca trofei e archivio |
 | `reward-pass` | *nessuno (macro)* | `reward-pass` | `['reward-pass']` | `['reward-pass']` | Nasconde voce nav, rotta e avvisi pass |
+| `codex` | *nessuno (macro)* | `codex` | `['codex']` | `['codex']` | Enciclopedia lore e nemici ARC |
 | `role-maker` | *nessuno (macro)* | `role-maker` | `['role-maker']` | `['role-maker']` | Nasconde voce nav e trigger modal |
 | `maps` | *nessuno (macro)* | `maps` | `['maps']` | `['maps']` | Nasconde voce nav e rotte mappe |
+| `maps-waypoints` | `maps` | `maps-waypoints` | — | — | Itinerari tattici su mappa |
 
 ---
 
 ## 🛠️ 4. Tipi TypeScript e Persistenza
 
-### A. Tipi dei Moduli (`src/types.ts` o `src/lib/modules.ts`)
+### A. Tipi dei Moduli (`src/types.ts` o `src/lib/sections.ts`)
 
 ```typescript
-export type MacroModuleId =
+export type MacroSectionId =
+  | 'raid'
   | 'expeditions'
   | 'projects'
+  | 'quests'
+  | 'skill-tree'
   | 'trackers'
   | 'reward-pass'
-  | 'role-maker'
-  | 'maps';
+  | 'codex'
+  | 'maps'
+  | 'role-maker';
 
-export type SubModuleId =
+export type SubSectionId =
+  | 'raid-checklist'
   | 'expeditions-vault'
   | 'blueprints'
   | 'furniture-designs'
   | 'weapon-stencils'
-  | 'outfits';
+  | 'outfits'
+  | 'trophies'
+  | 'maps-waypoints';
 
-export type ModuleId = MacroModuleId | SubModuleId;
+export type CoreSectionId =
+  | 'workbench'
+  | 'stash'
+  | 'settings';
 
-export interface ModuleDefinition {
-  id: ModuleId;
-  parentId?: MacroModuleId;
+export type SectionId = MacroSectionId | SubSectionId | CoreSectionId;
+
+export type SectionDefinition = {
+  id: SectionId;
+  parentId?: MacroSectionId;
   nameKey: string;
   descriptionKey: string;
   systemFlag?: FeatureFlagId;
   navIds?: string[];
   routes?: string[];
-  listTypes?: ListType[];
+  isCore?: boolean;
   defaultEnabled: boolean;
-}
+};
 ```
 
 ### B. Persistenza nello Stato del Profilo (`PersistedState`)
 
-Nel profilo utente salviamo un dizionario `enabledModules: Record<ModuleId, boolean>`.
+Nel profilo utente salviamo un dizionario `enabledSections: Record<string, boolean>`.
 
 ```typescript
 export type PersistedState = Pick<AppState,
@@ -153,7 +188,7 @@ export type PersistedState = Pick<AppState,
   'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
   'consecutiveStreak' | 'departureWindowActive' | 'activeRewardPass' | 'completedRewardPasses' |
-  'enabledModules' // <-- Nuovo campo per-profilo
+  'enabledSections' // <-- Nuovo campo per-profilo
 > & { language?: AppLanguage };
 ```
 

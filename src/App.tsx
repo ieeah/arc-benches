@@ -29,11 +29,12 @@ import { RewardPassPage } from '@/pages/RewardPassPage';
 import { RaidPlanPage } from '@/pages/RaidPlanPage';
 import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
-import { useFeatureFlags } from '@/lib/featureFlags';
 import { hasUnsavedDevChanges } from '@/lib/devDrafts';
 import { AppFooter } from '@/components/AppFooter';
 import { InactivePassNotice } from '@/components/pass/InactivePassNotice';
 import { useRouter, type AppRoute } from '@/router';
+import { isSectionActive } from '@/lib/sections';
+import type { SectionId } from '@/types';
 
 const isDev = import.meta.env.DEV;
 
@@ -43,7 +44,6 @@ export default function App() {
   const activeTab = router.route;
   const detailListId = router.params.id || null;
   const devOverrideItemId = router.params.item || null;
-  const { isEnabled: isFeatureEnabled } = useFeatureFlags();
 
   const [listsAction, setListsAction] = useState<ListsPageAction>(null);
   const [raidAction, setRaidAction] = useState<'apply' | 'reset' | 'clear' | null>(null);
@@ -55,6 +55,23 @@ export default function App() {
   const filterHideOwnedBlueprints = useAppStore(s => s.filterHideOwnedBlueprints);
   const setFilterHideOwnedBlueprints = useAppStore(s => s.setFilterHideOwnedBlueprints);
   const resetProgress = useAppStore(s => s.resetProgress);
+  const enabledSections = useAppStore(s => s.enabledSections);
+
+  // Router guard (#102): if the active route belongs to a disabled section, redirect to stash
+  useEffect(() => {
+    const routeToSectionMap: Partial<Record<AppRoute, SectionId>> = {
+      blueprints: 'blueprints',
+      expeditions: 'expeditions',
+      'reward-pass': 'reward-pass',
+      raid: 'raid',
+      maps: 'maps',
+      'role-maker': 'role-maker',
+    };
+    const targetSection = routeToSectionMap[activeTab];
+    if (targetSection && !isSectionActive(targetSection, { enabledSections })) {
+      router.replace('stash');
+    }
+  }, [activeTab, enabledSections, router]);
 
   useEffect(() => {
     if (!isDev) return;
@@ -92,7 +109,7 @@ export default function App() {
         },
       ];
     }
-    if (activeTab === 'blueprints' && isFeatureEnabled('blueprints')) {
+    if (activeTab === 'blueprints' && isSectionActive('blueprints', { enabledSections })) {
       return [
         {
           icon: <EyeOff size={15} />,
@@ -191,16 +208,16 @@ export default function App() {
                   onOpenDetail={openListDetail}
                 />
               )}
-              {activeTab === 'blueprints' && isFeatureEnabled('blueprints') && <BlueprintsPage />}
-              {activeTab === 'expeditions' && isFeatureEnabled('expeditions') && <ExpeditionPage />}
-              {activeTab === 'reward-pass' && isFeatureEnabled('reward-pass') && (
+              {activeTab === 'blueprints' && isSectionActive('blueprints', { enabledSections }) && <BlueprintsPage />}
+              {activeTab === 'expeditions' && isSectionActive('expeditions', { enabledSections }) && <ExpeditionPage />}
+              {activeTab === 'reward-pass' && isSectionActive('reward-pass', { enabledSections }) && (
                 <RewardPassPage
                   passId={router.params.pass}
                   view={router.params.view}
                   onNavigate={(params) => router.push('reward-pass', params)}
                 />
               )}
-              {activeTab === 'raid' && (
+              {activeTab === 'raid' && isSectionActive('raid', { enabledSections }) && (
                 <RaidPlanPage
                   action={raidAction}
                   onActionHandled={() => setRaidAction(null)}
@@ -212,7 +229,7 @@ export default function App() {
                   onOpenOverrides={handleOpenOverrides}
                 />
               )}
-              {isDev && activeTab === 'maps' && (
+              {isDev && activeTab === 'maps' && isSectionActive('maps', { enabledSections }) && (
                 <MapsPage onBack={() => router.back()} />
               )}
               {isDev && activeTab === 'dev-lab' && (
@@ -248,9 +265,9 @@ export default function App() {
           </>
         )}
 
-        {isFeatureEnabled('reward-pass') && <InactivePassNotice />}
+        {isSectionActive('reward-pass', { enabledSections }) && <InactivePassNotice />}
 
-        {isFeatureEnabled('role-maker') && (
+        {isSectionActive('role-maker', { enabledSections }) && (
           <RoleMakerModal
             isOpen={activeTab === 'role-maker'}
             onClose={() => router.back()}

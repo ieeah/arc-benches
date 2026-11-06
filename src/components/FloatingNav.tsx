@@ -10,6 +10,7 @@ import { useScrollLock } from '@/hooks/useScrollLock';
 import { useTranslation } from '@/i18n';
 import { useNavTree } from '@/hooks/useNavTree';
 import type { NavItem } from '@/lib/navTree';
+import { isSectionActive } from '@/lib/sections';
 
 export type ContextAction = {
   icon: ReactNode;
@@ -52,10 +53,12 @@ export const FloatingNav = ({
     s => s.profiles.find(p => p.id === s.activeProfileId)?.name ?? 'Principale'
   );
 
-  // Stato Raid Plan (#117)
+  // Stato Raid Plan (#117, #102)
   const raidPlan = useAppStore(s => s.raidPlan);
-  const hasRaidElements = (raidPlan?.actions?.length ?? 0) > 0 || (raidPlan?.items?.length ?? 0) > 0;
-  const isRaidRunning = raidPlan?.isRaidRunning ?? false;
+  const enabledSections = useAppStore(s => s.enabledSections);
+  const isRaidActive = isSectionActive('raid', { enabledSections });
+  const hasRaidElements = isRaidActive && ((raidPlan?.actions?.length ?? 0) > 0 || (raidPlan?.items?.length ?? 0) > 0);
+  const isRaidRunning = isRaidActive && (raidPlan?.isRaidRunning ?? false);
 
   const [contextMenuOpen, setContextMenuOpen] = useState(false);
   const [profilesDrawerOpen, setProfilesDrawerOpen] = useState(false);

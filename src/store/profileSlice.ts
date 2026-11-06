@@ -1,10 +1,11 @@
 import type { StateCreator } from 'zustand';
-import type { AppState, List, MultiProfileExportFile, ProfileExportEntry } from '@/types';
+import type { AppState, List, MultiProfileExportFile, ProfileExportEntry, SectionId, MacroSectionId } from '@/types';
 import { bootActiveProfileId, bootProfiles } from '@/store/boot';
 import { freshProfile, hydrateProfile, migrateTargets } from '@/store/gameData';
 import type { PersistedState } from '@/store/persistence';
 import { loadProfileState, removeProfileKey, saveProfileState } from '@/store/persistence';
 import { generateUUID } from '@/lib/uuid';
+import { getDefaultEnabledSections, getSubSectionsForMacro } from '@/lib/sections';
 
 // A profile without an explicit language keeps whatever language is currently active
 // (which itself resolves from the global `language` setting at boot).
@@ -14,7 +15,8 @@ const withResolvedLanguage = (base: PersistedState, current: AppState['language'
 export type ProfileSlice = Pick<AppState,
   'profiles' | 'activeProfileId' |
   'createProfile' | 'switchProfile' | 'renameProfile' | 'deleteProfile' |
-  'buildExportData' | 'importMultiProfile'
+  'buildExportData' | 'importMultiProfile' |
+  'enabledSections' | 'setSectionEnabled' | 'setMacroSectionWithChildren' | 'resetSectionsToDefault'
 >;
 
 // The persistence subscriber (store/index.ts) writes the new active profile's state and the
@@ -23,6 +25,26 @@ export type ProfileSlice = Pick<AppState,
 export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = (set, get) => ({
   profiles: bootProfiles,
   activeProfileId: bootActiveProfileId,
+  enabledSections: getDefaultEnabledSections(),
+
+  setSectionEnabled: (sectionId: SectionId, enabled: boolean) => {
+    const s = get();
+    set({ enabledSections: { ...s.enabledSections, [sectionId]: enabled } });
+  },
+
+  setMacroSectionWithChildren: (macroId: MacroSectionId, enabled: boolean) => {
+    const s = get();
+    const children = getSubSectionsForMacro(macroId);
+    const updated = { ...s.enabledSections, [macroId]: enabled };
+    for (const child of children) {
+      updated[child.id] = enabled;
+    }
+    set({ enabledSections: updated });
+  },
+
+  resetSectionsToDefault: () => {
+    set({ enabledSections: getDefaultEnabledSections() });
+  },
 
   createProfile: (name: string) => {
     const s = get();
@@ -92,6 +114,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         profile,
         inventory,
         language: profileId === s.activeProfileId ? s.language : (loadProfileState(profileId).language ?? s.language),
+        enabledSections: profileId === s.activeProfileId ? s.enabledSections : (loadProfileState(profileId).enabledSections ?? getDefaultEnabledSections()),
         lists: allLists.map(list => ({
           list,
           currentLevel: currentLevels[list.id] ?? 0,
@@ -153,6 +176,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         activeRewardPass: null,
         completedRewardPasses: [],
         raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
+        enabledSections: entry.enabledSections ?? getDefaultEnabledSections(),
       };
 
       if (!profiles.some(p => p.id === entry.profile.id)) profiles = [...profiles, entry.profile];

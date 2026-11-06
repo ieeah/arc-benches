@@ -335,5 +335,28 @@ describe('useAppStore persistence boundary', () => {
     // Inventory must be wiped
     expect(after.inventory).toEqual({});
   });
+
+  it('automatically persists enabledSections modifications to localStorage', () => {
+    const store = useAppStore.getState();
+    store.setSectionEnabled('raid', false);
+
+    const activeId = useAppStore.getState().activeProfileId;
+    const raw = mockLocalStorage.getItem(profileKey(activeId));
+    expect(raw).toBeTruthy();
+    const parsed = JSON.parse(raw!);
+    expect(parsed.enabledSections.raid).toBe(false);
+
+    // Cascading macro toggle
+    store.setMacroSectionWithChildren('trackers', false);
+    const updatedState = useAppStore.getState();
+    expect(updatedState.enabledSections.trackers).toBe(false);
+    expect(updatedState.enabledSections.blueprints).toBe(false);
+
+    // Reset sections
+    store.resetSectionsToDefault();
+    const resetState = useAppStore.getState();
+    expect(resetState.enabledSections.raid).toBe(true);
+    expect(resetState.enabledSections.trackers).toBe(true);
+  });
 });
 

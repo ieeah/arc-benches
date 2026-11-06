@@ -5,6 +5,7 @@ import {
   Zap, ZapOff, Hammer
 } from 'lucide-react';
 import { RewardPassConfigSection } from '@/components/pass/RewardPassConfigSection';
+import { ProfileSectionsConfigSection } from '@/components/settings/ProfileSectionsConfigSection';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { useTheme } from '@/context/ThemeContext';
@@ -589,6 +590,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
           })}
         </div>
       </section>
+
+      <ProfileSectionsConfigSection />
 
       <RewardPassConfigSection />
 

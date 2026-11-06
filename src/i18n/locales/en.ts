@@ -693,4 +693,61 @@ export const en: LocaleSchema = {
     restore: 'Restore',
     dayShort: 'd',
   },
+  modules: {
+    settingsTitle: 'Profile Modules & Sections',
+    settingsSubtitle: "Customize this profile's experience by enabling or disabling features you don't need.",
+    coreBadge: 'Core — Always active',
+    resetDefaults: 'Reset sections to default',
+    resetConfirmTitle: 'Reset sections to default?',
+    resetConfirmDesc: 'All sections will be reset to their default state for this profile.',
+    parentDisabledHint: 'Disabled because parent module «{parent}» is turned off.',
+    workbench: {
+      name: 'Hideout Workbenches',
+      description: 'Calculation of workbench upgrade costs and level tracking.',
+    },
+    stash: {
+      name: 'Stash & Requirements',
+      description: 'Inventory management, aggregated materials requirements, and auto-completion.',
+    },
+    settings: {
+      name: 'Settings & Profiles',
+      description: 'Profile management, language switching, preferences, and backups.',
+    },
+    raid: {
+      name: 'Raid Planner',
+      description: 'Raid planner with quick radar button for gathering materials and priority objectives.',
+    },
+    expeditions: {
+      name: 'Expeditions',
+      description: 'Full expedition system: caravan, donations, prestige resets, and permanent skill points.',
+    },
+    vault: {
+      name: 'Expedition Vault',
+      description: 'Temporary storage to safeguard high-value materials prior to departure.',
+    },
+    projects: {
+      name: 'Projects',
+      description: 'Tracking of special projects, rooms, and upgrades beyond standard workbenches.',
+    },
+    trackers: {
+      name: 'Trackers & Collections',
+      description: 'Groups all secondary trackers: unlocked blueprints, designs, and collections.',
+    },
+    blueprints: {
+      name: 'Blueprints & Schematics',
+      description: 'Tracker for weapon and mod blueprints unlocked across raids.',
+    },
+    rewardPass: {
+      name: 'Reward Pass',
+      description: 'Seasonal reward pass tracking with multiple tracks and tiers.',
+    },
+    roleMaker: {
+      name: 'Role Maker (Archetypes)',
+      description: 'Aptitude quiz and archetype matrix to find your optimal playstyle.',
+    },
+    maps: {
+      name: 'Interactive Maps',
+      description: 'Interactive maps with extraction markers, crates, loot spawns, and ARC events.',
+    },
+  },
 };

@@ -10,6 +10,7 @@ import { createExpeditionsSlice } from '@/store/expeditionsSlice';
 import { createRewardPassSlice } from '@/store/rewardPassSlice';
 import { createRaidPlanSlice } from '@/store/raidPlanSlice';
 import { saveProfileState, saveProfilesMeta, saveSharedLists, saveSettings } from '@/store/persistence';
+import { setSectionsStoreGetter } from '@/lib/sections';
 
 // Domain slices (inventory / progress / lists / profile / personality / settings / expeditions / raidPlan) combined into one store.
 // Static game data (workbenches, itemsInfo, expeditions) lives in the slices; boot state is
@@ -25,6 +26,9 @@ export const useAppStore = create<AppState>()((...a) => ({
   ...createRewardPassSlice(...a),
   ...createRaidPlanSlice(...a),
 }));
+
+// Provide sections helper with store access without circular dependency
+setSectionsStoreGetter(() => useAppStore.getState().enabledSections);
 
 // ---------------------------------------------------------------------------
 // Persistence boundary — the single writer.
@@ -93,7 +97,8 @@ useAppStore.subscribe((state, prev) => {
     state.departureWindowActive !== prev.departureWindowActive ||
     state.activeRewardPass !== prev.activeRewardPass ||
     state.completedRewardPasses !== prev.completedRewardPasses ||
-    state.raidPlan !== prev.raidPlan;
+    state.raidPlan !== prev.raidPlan ||
+    state.enabledSections !== prev.enabledSections;
   // On a profile switch the active id changes together with all the slice refs:
   // we write the (new) active profile's state to its own key, never the old one.
   if (profileStateChanged || state.activeProfileId !== prev.activeProfileId) {

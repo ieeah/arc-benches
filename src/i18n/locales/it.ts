@@ -690,6 +690,63 @@ export const it = {
     "confirmAction": "Conferma Operazione",
     "restore": "Ripristina",
     "dayShort": "g"
+  },
+  "modules": {
+    "settingsTitle": "Moduli e Sezioni del Profilo",
+    "settingsSubtitle": "Personalizza l'esperienza di questo profilo attivando o disattivando le funzionalità non necessarie.",
+    "coreBadge": "Core — Sempre attivo",
+    "resetDefaults": "Ripristina sezioni predefinite",
+    "resetConfirmTitle": "Ripristinare le sezioni predefinite?",
+    "resetConfirmDesc": "Tutte le sezioni verranno reimpostate allo stato iniziale per questo profilo.",
+    "parentDisabledHint": "Disattivato perché il modulo principale «{parent}» è spento.",
+    "workbench": {
+      "name": "Banchi del Rifugio",
+      "description": "Calcolo dei costi di potenziamento dei banchi e tracciamento dei livelli."
+    },
+    "stash": {
+      "name": "Inventario & Fabbisogno",
+      "description": "Gestione dell'inventario, aggregazione fabbisogno materiali e completamento automatico."
+    },
+    "settings": {
+      "name": "Impostazioni & Profili",
+      "description": "Gestione profilo, cambio lingua, preferenze e backup."
+    },
+    "raid": {
+      "name": "Pianificazione Raid",
+      "description": "Pianificatore di incursione con pulsante rapido radar per raccogliere materiali e obiettivi prioritari."
+    },
+    "expeditions": {
+      "name": "Spedizioni",
+      "description": "Sistema completo delle spedizioni: carovana, donazioni, reset prestigio e punti abilità."
+    },
+    "vault": {
+      "name": "Vault Spedizione",
+      "description": "Deposito temporaneo per salvaguardare materiali di valore prima della partenza."
+    },
+    "projects": {
+      "name": "Progetti",
+      "description": "Tracciamento di progetti speciali, stanze e potenziamenti fuori dai banchi standard."
+    },
+    "trackers": {
+      "name": "Registri e Collezioni",
+      "description": "Raggruppa tutti i tracker secondari: progetti sbloccati, design e collezioni."
+    },
+    "blueprints": {
+      "name": "Progetti e Blueprint",
+      "description": "Registro dei blueprint di armi e mod sbloccati nel corso delle incursioni."
+    },
+    "rewardPass": {
+      "name": "Reward Pass",
+      "description": "Visualizzazione e tracciamento dei reward pass stagionali con tracce e livelli."
+    },
+    "roleMaker": {
+      "name": "Role Maker (Archetipi)",
+      "description": "Quiz attitudinale e matrice archetipi per identificare lo stile di gioco ottimale."
+    },
+    "maps": {
+      "name": "Mappe Interattive",
+      "description": "Mappe interattive con marker di estrazione, casse, loot spawn ed eventi ARC."
+    }
   }
 };
 

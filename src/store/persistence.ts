@@ -13,7 +13,7 @@ export const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
-/** The 18 keys persisted per profile.
+/** The 19 keys persisted per profile.
  *  `language` is optional on purpose: a profile that never set one explicitly leaves it
  *  absent, so boot/profile-switch fall back to the global `language` setting instead of
  *  a hard-coded 'en'. */
@@ -23,7 +23,7 @@ export type PersistedState = Pick<AppState,
   'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
   'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
   'consecutiveStreak' | 'departureWindowActive' | 'activeRewardPass' | 'completedRewardPasses' |
-  'raidPlan'
+  'raidPlan' | 'enabledSections'
 > & { language?: AppLanguage };
 
 export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
@@ -105,6 +105,9 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
     const validPlan = validateRaidPlan(raw.raidPlan);
     if (validPlan) out.raidPlan = validPlan;
   }
+  if (isObject(raw.enabledSections)) {
+    out.enabledSections = sanitizeBoolRecord(raw.enabledSections);
+  }
   return out;
 }
 
@@ -144,6 +147,7 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     activeRewardPass: s.activeRewardPass ?? null,
     completedRewardPasses: s.completedRewardPasses ?? [],
     raidPlan: s.raidPlan ?? { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
+    enabledSections: s.enabledSections ?? {},
   };
   safeLS(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }

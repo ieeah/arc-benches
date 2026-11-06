@@ -12,6 +12,7 @@ import { useTranslation } from '@/i18n';
 import { useNavTree } from '@/hooks/useNavTree';
 import type { NavItem } from '@/lib/navTree';
 import type { FloatingNavProps } from '@/components/FloatingNav';
+import { isSectionActive } from '@/lib/sections';
 
 type MorphMode = 'idle' | 'nav' | 'context';
 
@@ -37,10 +38,12 @@ export const MorphingFloatingNav = ({
     s => s.profiles.find(p => p.id === s.activeProfileId)?.name ?? 'Principale'
   );
 
-  // Stato Raid Plan (#117)
+  // Stato Raid Plan (#117, #102)
   const raidPlan = useAppStore(s => s.raidPlan);
-  const hasRaidElements = (raidPlan?.actions?.length ?? 0) > 0 || (raidPlan?.items?.length ?? 0) > 0;
-  const isRaidRunning = raidPlan?.isRaidRunning ?? false;
+  const enabledSections = useAppStore(s => s.enabledSections);
+  const isRaidActive = isSectionActive('raid', { enabledSections });
+  const hasRaidElements = isRaidActive && ((raidPlan?.actions?.length ?? 0) > 0 || (raidPlan?.items?.length ?? 0) > 0);
+  const isRaidRunning = isRaidActive && (raidPlan?.isRaidRunning ?? false);
 
   const [mode, setMode] = useState<MorphMode>('idle');
   const [profilesDrawerOpen, setProfilesDrawerOpen] = useState(false);

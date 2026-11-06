@@ -3,7 +3,7 @@ import type { AppState, List, ListExportFile } from '@/types';
 import { bootProfileState, bootSharedLists } from '@/store/boot';
 import { computeEffectiveItemsInfo, itemsInfo, levelsAbove, projects, REFINER_ID, workbenches } from '@/store/gameData';
 import { generateUUID } from '@/lib/uuid';
-import { isFeatureEnabled } from '@/lib/featureFlags';
+import { isSectionActive } from '@/lib/sections';
 import {
   getAllListsPure,
   getOrderedListsPure,
@@ -16,6 +16,12 @@ import {
   getAvailableUpgradesPure,
   getActiveExpeditionPure,
   } from '@/store/selectors';
+
+const resolveActiveExpedition = (s: AppState) =>
+  isSectionActive('expeditions', s) ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
+
+const resolveProjects = (s: AppState) =>
+  isSectionActive('projects', s) ? s.projects : [];
 
 export type ListsSlice = Pick<AppState,
   'workbenches' | 'projects' | 'itemsInfo' | 'customLists' | 'sharedCustomLists' |
@@ -127,15 +133,13 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getAllLists: () => {
     const s = get();
-    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
-    return getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition);
+    return getAllListsPure(s.workbenches, resolveProjects(s), s.sharedCustomLists, s.customLists, resolveActiveExpedition(s));
   },
 
   getOrderedLists: () => {
     const s = get();
-    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     return getOrderedListsPure(
-      getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
+      getAllListsPure(s.workbenches, resolveProjects(s), s.sharedCustomLists, s.customLists, resolveActiveExpedition(s)),
       s.listOrder,
     );
   },
@@ -144,27 +148,24 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getActiveLists: () => {
     const s = get();
-    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     return getActiveListsPure(
-      getOrderedListsPure(getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition), s.listOrder),
+      getOrderedListsPure(getAllListsPure(s.workbenches, resolveProjects(s), s.sharedCustomLists, s.customLists, resolveActiveExpedition(s)), s.listOrder),
       s.currentLevels,
     );
   },
 
   getMaxedLists: () => {
     const s = get();
-    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     return getMaxedListsPure(
-      getOrderedListsPure(getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition), s.listOrder),
+      getOrderedListsPure(getAllListsPure(s.workbenches, resolveProjects(s), s.sharedCustomLists, s.customLists, resolveActiveExpedition(s)), s.listOrder),
       s.currentLevels,
     );
   },
 
   getTotalRequiredMaterials: (excludeModuleId) => {
     const s = get();
-    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     return getTotalRequiredMaterialsPure(
-      getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
+      getAllListsPure(s.workbenches, resolveProjects(s), s.sharedCustomLists, s.customLists, resolveActiveExpedition(s)),
       s.activeModules,
       s.currentLevels,
       s.targetLevels,
@@ -176,9 +177,8 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getMissingMaterials: () => {
     const s = get();
-    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     const total = getTotalRequiredMaterialsPure(
-      getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
+      getAllListsPure(s.workbenches, resolveProjects(s), s.sharedCustomLists, s.customLists, resolveActiveExpedition(s)),
       s.activeModules,
       s.currentLevels,
       s.targetLevels,
@@ -191,9 +191,8 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getMissingActions: () => {
     const s = get();
-    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     return getMissingActionsPure(
-      getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
+      getAllListsPure(s.workbenches, resolveProjects(s), s.sharedCustomLists, s.customLists, resolveActiveExpedition(s)),
       s.activeModules,
       s.currentLevels,
       s.targetLevels,
@@ -203,9 +202,8 @@ export const createListsSlice: StateCreator<AppState, [], [], ListsSlice> = (set
 
   getAvailableUpgrades: () => {
     const s = get();
-    const activeExpedition = isFeatureEnabled('expeditions') ? getActiveExpeditionPure(s.expeditions, s.completedExpeditionsCount) : undefined;
     return getAvailableUpgradesPure(
-      getAllListsPure(s.workbenches, s.projects, s.sharedCustomLists, s.customLists, activeExpedition),
+      getAllListsPure(s.workbenches, resolveProjects(s), s.sharedCustomLists, s.customLists, resolveActiveExpedition(s)),
       s.activeModules,
       s.currentLevels,
       s.inventory,

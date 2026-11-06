@@ -1,4 +1,49 @@
 import type { AppLanguage } from '@/i18n/types';
+import type { FeatureFlagId } from '@/lib/featureFlags';
+
+/** Macro-moduli di 1° livello configurabili dall'utente (#102) */
+export type MacroSectionId =
+  | 'raid'
+  | 'expeditions'
+  | 'projects'
+  | 'quests'
+  | 'skill-tree'
+  | 'trackers'
+  | 'reward-pass'
+  | 'codex'
+  | 'maps'
+  | 'role-maker';
+
+/** Sotto-moduli granulari dipendenti da un macro-modulo (#102) */
+export type SubSectionId =
+  | 'raid-checklist'
+  | 'expeditions-vault'
+  | 'blueprints'
+  | 'furniture-designs'
+  | 'weapon-stencils'
+  | 'outfits'
+  | 'trophies'
+  | 'maps-waypoints';
+
+/** Sezioni infrastrutturali core sempre attive e non disattivabili (#102) */
+export type CoreSectionId =
+  | 'workbench'
+  | 'stash'
+  | 'settings';
+
+export type SectionId = MacroSectionId | SubSectionId | CoreSectionId;
+
+export type SectionDefinition = {
+  id: SectionId;
+  parentId?: MacroSectionId;
+  nameKey: string;
+  descriptionKey: string;
+  systemFlag?: FeatureFlagId;
+  navIds?: string[];
+  routes?: string[];
+  isCore?: boolean;
+  defaultEnabled: boolean;
+};
 
 /** A reward is always a catalog item (currencies such as coins, XP and Reward Points are items too). */
 export interface Reward {
@@ -247,6 +292,7 @@ export interface ProfileExportEntry {
   lists: ListExportEntry[];
   inventory: Record<string, number>;
   language?: AppLanguage;
+  enabledSections?: Record<SectionId, boolean>;
 }
 
 /** Version 3 export: always multi-profile, even when exporting a single profile. */
@@ -317,6 +363,11 @@ export interface AppState {
   /** Levels selected as objectives, per list. A level is tracked only if selected AND > current. */
   targetLevels: Record<string, number[]>;
   activeModules: Record<string, boolean>;
+  /** Moduli e sezioni attive per il profilo (#102) */
+  enabledSections: Record<string, boolean>;
+  setSectionEnabled: (sectionId: SectionId, enabled: boolean) => void;
+  setMacroSectionWithChildren: (macroId: MacroSectionId, enabled: boolean) => void;
+  resetSectionsToDefault: () => void;
   inventory: Record<string, number>;
   filterHideCompleted: boolean;
   listOrder: string[];
