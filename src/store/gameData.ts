@@ -214,7 +214,10 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
   activeRewardPass: loaded.activeRewardPass ?? null,
   completedRewardPasses: loaded.completedRewardPasses ?? [],
   raidPlan: loaded.raidPlan ?? { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
-  enabledSections: loaded.enabledSections ?? getDefaultEnabledSections(),
+  enabledSections: {
+    ...getDefaultEnabledSections(),
+    ...(loaded.enabledSections ?? {}),
+  },
   };
 };
 

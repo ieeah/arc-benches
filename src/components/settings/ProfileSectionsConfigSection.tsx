@@ -136,7 +136,8 @@ export const ProfileSectionsConfigSection = () => {
                     {subSections.map(sub => {
                       const subTitle = getSectionTitle(sub);
                       const subDesc = getSectionDesc(sub);
-                      const subChecked = isMacroActive && (enabledSections[sub.id] ?? sub.defaultEnabled);
+                      const subSetting = enabledSections[sub.id] ?? sub.defaultEnabled;
+                      const subChecked = isMacroActive && subSetting;
                       const subDisabled = !isMacroActive;
 
                       return (
@@ -166,7 +167,7 @@ export const ProfileSectionsConfigSection = () => {
                           <ToggleSwitch
                             checked={subChecked}
                             disabled={subDisabled}
-                            onChange={() => setSectionEnabled(sub.id, !subChecked)}
+                            onChange={() => setSectionEnabled(sub.id, !subSetting)}
                             ariaLabel={subTitle}
                           />
                         </div>

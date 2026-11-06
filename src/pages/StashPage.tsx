@@ -31,8 +31,8 @@ import type { FilterCategory, SortOption } from '@/hooks/useListManager';
 import { useRetainedItems } from '@/hooks/useRetainedItems';
 import { ListControls } from '@/components/ListControls';
 import { useTranslation, getItemName, getItemSearchFields, getActionLabel, getListName } from '@/i18n';
-import { useFeatureFlags } from '@/lib/featureFlags';
 import { StickyHeader } from '@/components/StickyHeader';
+import { isSectionActive } from '@/lib/sections';
 
 const STASH_SORT_IDS = [
   'priority_asc', 'priority_desc',
@@ -57,7 +57,6 @@ export const StashPage = ({
   onOpenOverrides?: (itemId: string) => void;
 } = {}) => {
   const { t, language } = useTranslation();
-  const { isEnabled: isFeatureEnabled } = useFeatureFlags();
   // Selettori mirati — re-render solo quando la slice pertinente cambia
   const inventory = useAppStore(s => s.inventory);
   const currentLevels = useAppStore(s => s.currentLevels);
@@ -73,11 +72,14 @@ export const StashPage = ({
   const [selectedItemForDetail, setSelectedItemForDetail] = useState<ItemInfo | null>(null);
   const [showActions, setShowActions] = useState(true);
 
+  const isProjectsActive = useAppStore(s => isSectionActive('projects', s));
+  const isExpeditionsActive = useAppStore(s => isSectionActive('expeditions', s));
+
   // Liste — cambiano raramente, mai su tap +/-
-  const { workbenches, projects, customLists, sharedCustomLists, listOrder, expeditions, completedExpeditionsCount } = useAppStore(
+  const { workbenches, rawProjects, customLists, sharedCustomLists, listOrder, expeditions, completedExpeditionsCount } = useAppStore(
     useShallow(s => ({
       workbenches: s.workbenches,
-      projects: s.projects,
+      rawProjects: s.projects,
       customLists: s.customLists,
       sharedCustomLists: s.sharedCustomLists,
       listOrder: s.listOrder,
@@ -86,6 +88,8 @@ export const StashPage = ({
     })),
   );
 
+  const projects = useMemo(() => isProjectsActive ? rawProjects : [], [isProjectsActive, rawProjects]);
+
   // Action refs — reference-stabili in Zustand, non causano re-render
   const incrementItem = useAppStore(s => s.incrementItem);
   const decrementItem = useAppStore(s => s.decrementItem);
@@ -93,8 +97,8 @@ export const StashPage = ({
   const toggleAction = useAppStore(s => s.toggleAction);
 
   const activeExpedition = useMemo(
-    () => isFeatureEnabled('expeditions') ? getActiveExpeditionPure(expeditions, completedExpeditionsCount) : undefined,
-    [expeditions, completedExpeditionsCount, isFeatureEnabled],
+    () => isExpeditionsActive ? getActiveExpeditionPure(expeditions, completedExpeditionsCount) : undefined,
+    [expeditions, completedExpeditionsCount, isExpeditionsActive],
   );
 
   const allLists = useMemo(

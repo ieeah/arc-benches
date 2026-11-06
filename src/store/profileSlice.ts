@@ -1,11 +1,11 @@
 import type { StateCreator } from 'zustand';
 import type { AppState, List, MultiProfileExportFile, ProfileExportEntry, SectionId, MacroSectionId } from '@/types';
-import { bootActiveProfileId, bootProfiles } from '@/store/boot';
+import { bootActiveProfileId, bootProfiles, bootProfileState } from '@/store/boot';
 import { freshProfile, hydrateProfile, migrateTargets } from '@/store/gameData';
 import type { PersistedState } from '@/store/persistence';
 import { loadProfileState, removeProfileKey, saveProfileState } from '@/store/persistence';
 import { generateUUID } from '@/lib/uuid';
-import { getDefaultEnabledSections, getSubSectionsForMacro } from '@/lib/sections';
+import { getDefaultEnabledSections } from '@/lib/sections';
 
 // A profile without an explicit language keeps whatever language is currently active
 // (which itself resolves from the global `language` setting at boot).
@@ -25,7 +25,7 @@ export type ProfileSlice = Pick<AppState,
 export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = (set, get) => ({
   profiles: bootProfiles,
   activeProfileId: bootActiveProfileId,
-  enabledSections: getDefaultEnabledSections(),
+  enabledSections: bootProfileState.enabledSections,
 
   setSectionEnabled: (sectionId: SectionId, enabled: boolean) => {
     const s = get();
@@ -34,12 +34,9 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
 
   setMacroSectionWithChildren: (macroId: MacroSectionId, enabled: boolean) => {
     const s = get();
-    const children = getSubSectionsForMacro(macroId);
-    const updated = { ...s.enabledSections, [macroId]: enabled };
-    for (const child of children) {
-      updated[child.id] = enabled;
-    }
-    set({ enabledSections: updated });
+    // Non sovrascrive le scelte individuali dei sotto-moduli:
+    // isSectionActive propaga già a cascata lo stato spento del genitore (#102).
+    set({ enabledSections: { ...s.enabledSections, [macroId]: enabled } });
   },
 
   resetSectionsToDefault: () => {

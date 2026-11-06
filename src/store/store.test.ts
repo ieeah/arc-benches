@@ -346,17 +346,40 @@ describe('useAppStore persistence boundary', () => {
     const parsed = JSON.parse(raw!);
     expect(parsed.enabledSections.raid).toBe(false);
 
-    // Cascading macro toggle
-    store.setMacroSectionWithChildren('trackers', false);
-    const updatedState = useAppStore.getState();
-    expect(updatedState.enabledSections.trackers).toBe(false);
-    expect(updatedState.enabledSections.blueprints).toBe(false);
+    // Sub-module preservation when parent macro is toggled
+    store.setSectionEnabled('expeditions-vault', false);
+    expect(useAppStore.getState().enabledSections['expeditions-vault']).toBe(false);
+
+    // Turn off parent macro
+    store.setMacroSectionWithChildren('expeditions', false);
+    expect(useAppStore.getState().enabledSections.expeditions).toBe(false);
+    expect(useAppStore.getState().enabledSections['expeditions-vault']).toBe(false);
+
+    // Turn on parent macro
+    store.setMacroSectionWithChildren('expeditions', true);
+    expect(useAppStore.getState().enabledSections.expeditions).toBe(true);
+    // Sub-module is STILL false (preserved, not overwritten to true)
+    expect(useAppStore.getState().enabledSections['expeditions-vault']).toBe(false);
+
+    // Profile switching preserves enabledSections
+    const p1Id = useAppStore.getState().activeProfileId;
+    store.setSectionEnabled('raid', false);
+
+    store.createProfile('Profile Two');
+    const p2Id = useAppStore.getState().activeProfileId;
+    expect(p2Id).not.toBe(p1Id);
+    expect(useAppStore.getState().enabledSections.raid).toBe(true);
+
+    // Switch back to p1
+    useAppStore.getState().switchProfile(p1Id);
+    expect(useAppStore.getState().activeProfileId).toBe(p1Id);
+    expect(useAppStore.getState().enabledSections.raid).toBe(false);
 
     // Reset sections
     store.resetSectionsToDefault();
     const resetState = useAppStore.getState();
     expect(resetState.enabledSections.raid).toBe(true);
-    expect(resetState.enabledSections.trackers).toBe(true);
+    expect(resetState.enabledSections['expeditions-vault']).toBe(true);
   });
 });
 

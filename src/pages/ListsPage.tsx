@@ -32,6 +32,7 @@ import { downloadExport, parseImport } from '@/lib/listIO';
 import { v } from '@/lib/validate';
 import { cascadeEffects, describeRequirements, levelBlocker } from '@/lib/levelRequirements';
 import { safeLS } from '@/lib/safeStorage';
+import { isSectionActive } from '@/lib/sections';
 import type { List, ListExportFile, MultiProfileExportFile } from '@/types';
 import { StickyHeader } from '@/components/StickyHeader';
 
@@ -68,10 +69,9 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   const activeModules = useAppStore(s => s.activeModules);
   const checkedActions = useAppStore(s => s.checkedActions);
 
-  const { workbenches, projects, customLists, sharedCustomLists, listOrder, itemsInfo, profiles, activeProfileId } = useAppStore(
+  const { workbenches, customLists, sharedCustomLists, listOrder, itemsInfo, profiles, activeProfileId } = useAppStore(
     useShallow(s => ({
       workbenches: s.workbenches,
-      projects: s.projects,
       customLists: s.customLists,
       sharedCustomLists: s.sharedCustomLists,
       listOrder: s.listOrder,
@@ -80,6 +80,9 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
       activeProfileId: s.activeProfileId,
     })),
   );
+  const isProjectsActive = useAppStore(s => isSectionActive('projects', s));
+  const rawProjects = useAppStore(s => s.projects);
+  const projects = useMemo(() => isProjectsActive ? rawProjects : [], [isProjectsActive, rawProjects]);
 
   // Action refs — reference-stabili, non causano re-render
   const setListOrder = useAppStore(s => s.setListOrder);
