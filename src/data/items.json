@@ -2287,7 +2287,8 @@
         "name": "Spaccaincudini",
         "description": "Mod tecnica per l'Incudine che scambia i suoi proiettili con altri che si dividono in 4 proiettili più deboli."
       }
-    }
+    },
+    "deprecated": true
   },
   "aphelion-rifle": {
     "id": "aphelion-rifle",
@@ -5386,8 +5387,8 @@
     "description": "Used to buy gear from Traders. Earned by selling loot and completing quests.",
     "icon": "icons/items/coins.webp",
     "rarity": "Common",
-    "item_type": "Misc",
-    "subcategory": "",
+    "item_type": "Currency",
+    "subcategory": null,
     "value": 0,
     "workbench": null,
     "loot_area": "",
@@ -5857,8 +5858,8 @@
     "description": "Crimson Racer (Aviator Colour) is a quest reward from Communication Hideout",
     "icon": "icons/items/crimson-racer-aviator-colour.webp",
     "rarity": "Common",
-    "item_type": "Misc",
-    "subcategory": "",
+    "item_type": "Cosmetic",
+    "subcategory": "Outfit Color",
     "value": null,
     "workbench": null,
     "loot_area": "",
@@ -7362,8 +7363,8 @@
     "description": "A portable analyzer from the world before, complete with several spare tubes.",
     "icon": "icons/items/esr-analyzer.webp",
     "rarity": "Common",
-    "item_type": "Trinket",
-    "subcategory": "Misc",
+    "item_type": "Quest Item",
+    "subcategory": null,
     "value": 100,
     "workbench": null,
     "loot_area": null,
@@ -8358,7 +8359,7 @@
     "description": "A pungent key used to operate the Flushing Terminals in the tunnels below Spaceport.",
     "icon": "icons/items/flushing-terminal-key.webp",
     "rarity": "Common",
-    "item_type": "Trinket",
+    "item_type": "Quest Item",
     "subcategory": "Key",
     "value": 100,
     "workbench": null,
@@ -17879,8 +17880,8 @@
     "description": "Used to purchase decks and cosmetics.",
     "icon": "icons/items/raider-tokens.webp",
     "rarity": "Common",
-    "item_type": "Misc",
-    "subcategory": "",
+    "item_type": "Currency",
+    "subcategory": null,
     "value": 0,
     "workbench": null,
     "loot_area": "",
@@ -22117,25 +22118,6 @@
       }
     }
   },
-  "torch-ginger": {
-    "id": "torch-ginger",
-    "name": "Torch Ginger",
-    "description": "A plant used to craft medical supplies.",
-    "icon": "icons/items/torch-ginger.webp",
-    "rarity": "Uncommon",
-    "item_type": "Material",
-    "subcategory": null,
-    "value": 300,
-    "workbench": null,
-    "loot_area": "Nature",
-    "stack_size": 15,
-    "translations": {
-      "it": {
-        "name": "Grande Verbasco",
-        "description": "Si usa per creare forniture mediche."
-      }
-    }
-  },
   "torn-blanket": {
     "id": "torn-blanket",
     "name": "Torn Blanket",
@@ -22944,8 +22926,8 @@
     "description": "Can be thrown.",
     "icon": "icons/items/volcanic-rock.webp",
     "rarity": "Common",
-    "item_type": "Misc",
-    "subcategory": "",
+    "item_type": "Nature",
+    "subcategory": "Nature",
     "value": 270,
     "workbench": null,
     "loot_area": "Nature",

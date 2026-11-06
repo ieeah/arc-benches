@@ -434,6 +434,7 @@ export const en: LocaleSchema = {
     Rare: 'Rare',
     Epic: 'Epic',
     Legendary: 'Legendary',
+    Amplified: 'Amplified',
   },
   catalog: {
     title: 'Items Catalog',

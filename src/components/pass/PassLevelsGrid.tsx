@@ -12,7 +12,7 @@ import { ItemDetailSheet } from '@/components/ItemDetailSheet';
 import { getTrackName } from '@/lib/rewardPass';
 import { cn } from '@/lib/cn';
 
-interface PassLevelsGridProps {
+type PassLevelsGridProps = {
   pass: PassList;
   /** Tier raggiunto: i livelli fino a questo sono mostrati disabilitati. 0 in anteprima. */
   reached: number;
@@ -52,7 +52,7 @@ const tierOf = (level: number, maxLevel: number) =>
 
 /**
  * Vista del pass come nel gioco: scorrimento verticale con i livelli numerati sulla sinistra (il più
- * alto in cima) e le tracce affiancate, ogni ricompensa come icona dell'oggetto; quelle delle tracce
+ * livello 1 in cima) e le tracce affiancate, ogni ricompensa come icona dell'oggetto; quelle delle tracce
  * a pagamento hanno il lucchetto. I livelli già raggiunti sono disabilitati, il prossimo è evidenziato.
  */
 export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollToNext = false }: PassLevelsGridProps) => {
@@ -61,12 +61,12 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
   const refinerLevel = useAppStore((s) => s.getRefinerLevel());
   const [detail, setDetail] = useState<ItemInfo | null>(null);
   const tracks = useMemo(() => pass.tracks.filter((tr) => !hiddenTracks.has(tr.id)), [pass.tracks, hiddenTracks]);
-  const levels = useMemo(() => [...pass.levels].sort((a, b) => b.level - a.level), [pass.levels]);
+  const levels = useMemo(() => [...pass.levels].sort((a, b) => a.level - b.level), [pass.levels]);
   const nextLevel = Math.min(reached + 1, pass.maxLevel);
   const nextRef = useRef<HTMLDivElement | null>(null);
   const firstTrackId = pass.tracks[0]?.id;
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [activeTier, setActiveTier] = useState(() => tierOf(pass.maxLevel, pass.maxLevel));
+  const [activeTier, setActiveTier] = useState(() => tierOf(1, pass.maxLevel));
 
   useEffect(() => {
     if (scrollToNext) nextRef.current?.scrollIntoView({ block: 'center' });
@@ -181,7 +181,7 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
             {tracks.map((track) => {
               const rewards = (lvl.rewards ?? []).filter((r) => (r.track ?? firstTrackId) === track.id);
               return (
-                <div key={track.id} className={cn('flex-1 min-w-0 flex flex-wrap gap-1.5', done && 'opacity-40')}>
+                <div key={track.id} className={cn('flex-1 min-w-0 flex flex-wrap gap-3', done && 'opacity-40')}>
                   {rewards.length === 0 && <span className="text-xs text-white/20 px-1">—</span>}
                   {rewards.map((reward, i) => {
                     const info = itemsInfo[reward.itemId];

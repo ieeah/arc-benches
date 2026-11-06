@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
-interface StickyHeaderProps {
+type StickyHeaderProps = {
   children: ReactNode;
   /** Padding ridotto in basso (pagine con controlli compatti). */
   compact?: boolean;
-  /** Sopra gli altri sticky della pagina (z-20 invece di z-10). */
+  /** Sopra gli altri sticky della pagina (z-30 invece di z-20). */
   elevated?: boolean;
   className?: string;
 }
@@ -20,7 +20,7 @@ export const StickyHeader = ({ children, compact = false, elevated = false, clas
     className={cn(
       'sticky top-0 bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800',
       compact ? 'px-4 pt-4 pb-3' : 'p-4',
-      elevated ? 'z-20' : 'z-10',
+      elevated ? 'z-30' : 'z-20',
       className,
     )}
   >

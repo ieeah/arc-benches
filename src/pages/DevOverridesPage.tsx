@@ -104,7 +104,7 @@ const SUGGESTED_LOOT_AREAS = [
   'Security', 'Technological'
 ];
 
-export interface ItemOverrideData {
+export type ItemOverrideData = {
   name?: string; // Default (English) override if different from MetaForge
   description?: string; // Default (English) override
   translations?: Record<string, ItemTranslation>; // e.g. { it: { name: "...", description: "..." } }
@@ -116,7 +116,8 @@ export interface ItemOverrideData {
   loot_area?: string | null;
   stack_size?: number | null;
   hidden?: boolean;
-}
+  deprecated?: boolean;
+};
 
 type ItemOverrideMap = Record<string, ItemOverrideData>;
 
@@ -300,6 +301,8 @@ export const DevOverridesPage = ({
     }, 250);
     return () => clearTimeout(timer);
   }, [overrides, syncItemsOverrides]);
+
+  const hasChanges = useMemo(() => JSON.stringify(overrides) !== JSON.stringify(initialOverrides), [overrides]);
 
   const selectedItemBase = useMemo(() => {
     return (itemsDataBase as Record<string, ItemInfo>)[selectedItemId] || allItems[0];
@@ -691,7 +694,16 @@ export const DevOverridesPage = ({
             <span>Scarica JSON</span>
           </button>
 
-          <ApplyToProjectButton artifactIds={['items-overrides']} label="Applica al file" />
+          {hasChanges && (
+            <span
+              className="px-2 py-1 rounded-lg text-[11px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
+              title="Le modifiche restano in bozza nel browser finché non le applichi al file"
+            >
+              Non applicato: items-overrides.json
+            </span>
+          )}
+
+          <ApplyToProjectButton artifactIds={['items-overrides']} label="Applica al file" disabled={!hasChanges} />
 
           <button
             onClick={handleResetAllOverrides}
@@ -1013,31 +1025,60 @@ export const DevOverridesPage = ({
                   <span className="text-[11px] text-gray-400">Valori base di gioco da MetaForge</span>
                 </div>
 
-                {/* Switch Visibilità (Hidden) */}
-                <div className={`grid grid-cols-12 gap-3 items-center p-3 rounded-2xl border transition-all ${
+                {/* Sezione Visibilità & Stato */}
+                <div className={`grid grid-cols-12 gap-3 items-start p-3.5 rounded-2xl border transition-all ${
                   currentItemOverride.hidden
                     ? 'bg-red-50/50 dark:bg-red-950/20 border-red-200 dark:border-red-900/40'
+                    : currentItemOverride.deprecated
+                    ? 'bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/40'
                     : 'bg-gray-50 dark:bg-gray-800/50 border-gray-200/60 dark:border-gray-700/60'
                 }`}>
-                  <label className="col-span-3 text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1.5">
-                    <EyeOff size={14} className={currentItemOverride.hidden ? 'text-red-500' : 'text-gray-400'} />
+                  <label className="col-span-3 text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1.5 pt-0.5">
+                    {currentItemOverride.hidden ? (
+                      <EyeOff size={14} className="text-red-500 shrink-0" />
+                    ) : currentItemOverride.deprecated ? (
+                      <AlertTriangle size={14} className="text-amber-500 shrink-0" />
+                    ) : (
+                      <EyeOff size={14} className="text-gray-400 shrink-0" />
+                    )}
                     Visibilità
                   </label>
-                  <div className="col-span-9 flex items-center justify-between">
-                    <label className="flex items-center gap-2 text-xs font-bold text-gray-800 dark:text-gray-200 cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        checked={Boolean(currentItemOverride.hidden)}
-                        onChange={e => handleFieldChange('hidden', e.target.checked ? true : undefined)}
-                        className="w-4 h-4 rounded text-red-500 focus:ring-red-400 cursor-pointer"
-                      />
-                      <span>Nascondi oggetto (escludi completamente dall'app)</span>
-                    </label>
-                    {currentItemOverride.hidden && (
-                      <span className="text-[10px] font-mono text-red-500 font-bold">
-                        hidden: true
-                      </span>
-                    )}
+                  <div className="col-span-9 space-y-2.5">
+                    {/* Switch Hidden */}
+                    <div className="flex items-center justify-between">
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-800 dark:text-gray-200 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={Boolean(currentItemOverride.hidden)}
+                          onChange={e => handleFieldChange('hidden', e.target.checked ? true : undefined)}
+                          className="w-4 h-4 rounded text-red-500 focus:ring-red-400 cursor-pointer"
+                        />
+                        <span>Nascondi oggetto (escludi completamente dall'app)</span>
+                      </label>
+                      {currentItemOverride.hidden && (
+                        <span className="text-[10px] font-mono text-red-500 font-bold">
+                          hidden: true
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Switch Deprecated */}
+                    <div className="flex items-center justify-between">
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-800 dark:text-gray-200 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={Boolean(currentItemOverride.deprecated)}
+                          onChange={e => handleFieldChange('deprecated', e.target.checked ? true : undefined)}
+                          className="w-4 h-4 rounded text-amber-500 focus:ring-amber-400 cursor-pointer"
+                        />
+                        <span>Deprecato (visibile nel catalogo, escluso da ItemPicker)</span>
+                      </label>
+                      {currentItemOverride.deprecated && (
+                        <span className="text-[10px] font-mono text-amber-500 font-bold">
+                          deprecated: true
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 

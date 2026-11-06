@@ -4,6 +4,7 @@ export const rarityOrder: Record<string, number> = {
   rare: 2,
   epic: 3,
   legendary: 4,
+  amplified: 5,
 };
 
 export const rarityHex: Record<string, string> = {
@@ -12,6 +13,7 @@ export const rarityHex: Record<string, string> = {
   rare: "#00A8F2",
   epic: "#CC3099",
   legendary: "#ffc600",
+  amplified: "#f59e0b",
 };
 
 export const getRarityHex = (rarity?: string): string =>
@@ -23,6 +25,7 @@ export const rarityGlowPresets: Record<string, string> = {
   rare: "shadow-[0_8px_20px_-4px_rgba(0,168,242,0.5)]",
   epic: "shadow-[0_8px_20px_-4px_rgba(204,48,153,0.5)]",
   legendary: "shadow-[0_8px_20px_-4px_rgba(255,198,0,0.5)]",
+  amplified: "shadow-[0_8px_20px_-4px_rgba(245,158,11,0.5)]",
 };
 
 export const rarityStyles: Record<
@@ -59,6 +62,12 @@ export const rarityStyles: Record<
     glow: "",
     hex: "#ffc600",
   },
+  amplified: {
+    color: "bg-[#f59e0b]",
+    border: "border-[#f59e0b]/40",
+    glow: "",
+    hex: "#f59e0b",
+  },
 };
 
 const rarityText: Record<string, string> = {
@@ -67,6 +76,7 @@ const rarityText: Record<string, string> = {
   rare: "text-[#00A8F2]",
   epic: "text-[#CC3099]",
   legendary: "text-[#ffc600]",
+  amplified: "text-[#f59e0b]",
 };
 
 export const getRarityStyles = (rarity?: string) =>

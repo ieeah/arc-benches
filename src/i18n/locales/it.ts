@@ -431,7 +431,8 @@ export const it = {
     "Uncommon": "Non comune",
     "Rare": "Raro",
     "Epic": "Epico",
-    "Legendary": "Leggendario"
+    "Legendary": "Leggendario",
+    "Amplified": "Amplificato"
   },
   "catalog": {
     "title": "Catalogo Oggetti",

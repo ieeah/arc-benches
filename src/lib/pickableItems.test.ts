@@ -20,8 +20,10 @@ describe('isPickableItem', () => {
     }
   });
 
-  it('always excludes hidden and already chosen items', () => {
+  it('always excludes hidden, deprecated, and already chosen items', () => {
     expect(isPickableItem(item({ hidden: true }), { includeAll: true })).toBe(false);
+    expect(isPickableItem(item({ deprecated: true }))).toBe(false);
+    expect(isPickableItem(item({ deprecated: true }), { includeAll: true })).toBe(false);
     expect(isPickableItem(item({ id: 'a' }), { includeAll: true, excludedIds: new Set(['a']) })).toBe(false);
   });
 });

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { suppressUnappliedWarning } from '@/lib/devUnapplied';
 import {
-  ArrowLeft, Archive, Code2, Download, FileJson, FlaskConical, Flag, Languages, PackagePlus, Trash2, Layers, RotateCcw, Route, Timer,
+  ArrowLeft, Home, Archive, Code2, Download, FileJson, FlaskConical, Flag, Languages, PackagePlus, Trash2, Layers, RotateCcw, Route, Timer,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { AppRoute } from '@/router';
@@ -13,14 +13,16 @@ import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 import { createZip } from '@/lib/zip';
 import { getDevArtifacts, type DevArtifact } from '@/lib/devArtifacts';
 import { downloadTextFile } from '@/lib/devI18n';
+import { useRouter } from '@/router';
+import { useAppStore } from '@/store';
 import { cn } from '@/lib/cn';
 
-interface DevDashboardPageProps {
+type DevDashboardPageProps = {
   onBack: () => void;
   onNavigate: (route: AppRoute) => void;
 }
 
-interface DevTool {
+type DevTool = {
   route: AppRoute;
   title: string;
   description: string;
@@ -52,6 +54,9 @@ function downloadBlob(filename: string, bytes: Uint8Array) {
 type Confirm = { title: string; message: string; description: string; confirmText: string; onConfirm: () => void } | null;
 
 export function DevDashboardPage({ onBack, onNavigate }: DevDashboardPageProps) {
+  const router = useRouter();
+  const quickFavorites = useAppStore((s) => s.quickFavorites);
+  const homeRoute = (quickFavorites?.[0] || 'stash') as AppRoute;
   // Lo stato delle bozze vive in localStorage: si rilegge alla prima visualizzazione.
   const artifacts = useMemo(
     () => getDevArtifacts().map((artifact) => ({ artifact, modified: artifact.isModified() })),
@@ -85,9 +90,14 @@ export function DevDashboardPage({ onBack, onNavigate }: DevDashboardPageProps) 
         <SectionHeader
           title="Dev Studio"
           leading={
-            <IconButton onClick={onBack} title="Indietro">
-              <ArrowLeft size={16} />
-            </IconButton>
+            <div className="flex items-center gap-1.5">
+              <IconButton onClick={onBack} title="Indietro">
+                <ArrowLeft size={16} />
+              </IconButton>
+              <IconButton onClick={() => router.push(homeRoute)} title="Home">
+                <Home size={16} />
+              </IconButton>
+            </div>
           }
           actions={
             <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 flex items-center gap-1">

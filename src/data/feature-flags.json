@@ -3,6 +3,6 @@
   "vault": false,
   "role-maker": false,
   "blueprints": true,
-  "reward-pass": false,
+  "reward-pass": true,
   "maps": false
 }

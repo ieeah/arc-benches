@@ -46,6 +46,15 @@
       "detectedAt": "2026-10-12"
     },
     {
+      "id": "coins",
+      "key": "subcategory",
+      "kind": "redundant",
+      "oldUpstream": null,
+      "newUpstream": "",
+      "overrideVal": null,
+      "detectedAt": "2026-11-06"
+    },
+    {
       "id": "crash-mat",
       "key": "subcategory",
       "kind": "changed",
@@ -251,6 +260,15 @@
       "newUpstream": "",
       "overrideVal": "Trap",
       "detectedAt": "2026-10-12"
+    },
+    {
+      "id": "raider-tokens",
+      "key": "subcategory",
+      "kind": "redundant",
+      "oldUpstream": null,
+      "newUpstream": "",
+      "overrideVal": null,
+      "detectedAt": "2026-11-06"
     },
     {
       "id": "remote-raider-flare",

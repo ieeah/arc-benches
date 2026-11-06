@@ -15,6 +15,7 @@ import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 import {
   useHoldConfig,
+  hasCustomHoldConfig,
   setHoldConfigOverride,
   resetHoldConfigOverride,
   type HoldConfig,
@@ -142,6 +143,8 @@ export function DevHoldPage({ onBack }: DevHoldPageProps) {
   const totalHoldExitMs = localConfig.holdExit.feedbackMs + localConfig.holdExit.settleMs + localConfig.holdExit.fadeMs;
   const totalStepperExitMs = localConfig.stepperExit.feedbackMs + localConfig.stepperExit.settleMs + localConfig.stepperExit.fadeMs;
 
+  const hasChanges = hasCustomHoldConfig();
+
   return (
     <DevStudioLayout
       title="Tempi Interazioni & Uscita"
@@ -150,7 +153,15 @@ export function DevHoldPage({ onBack }: DevHoldPageProps) {
       onBack={onBack}
       headerActions={
         <div className="flex items-center gap-2">
-          <ApplyToProjectButton artifactIds={['hold-config']} />
+          {hasChanges && (
+            <span
+              className="px-2 py-1 rounded-lg text-[11px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
+              title="Le modifiche restano in bozza nel browser finché non le applichi al file"
+            >
+              Non applicato: hold-config.json
+            </span>
+          )}
+          <ApplyToProjectButton artifactIds={['hold-config']} disabled={!hasChanges} />
           <button
             type="button"
             onClick={() => {

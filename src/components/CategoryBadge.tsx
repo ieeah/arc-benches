@@ -2,7 +2,7 @@ import React from 'react';
 import { getCategoryIconPath } from '@/lib/categoryIcons';
 import { useAppStore } from '@/store';
 
-export interface CategoryBadgeProps {
+export type CategoryBadgeProps = {
   itemType?: string | null;
   subcategory?: string | null;
   className?: string;

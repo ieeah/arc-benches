@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { ArrowLeft, Monitor, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, GripVertical } from 'lucide-react';
+import { ArrowLeft, Home, Monitor, PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen, GripVertical } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 import { useUnappliedChangesWarning } from '@/hooks/useUnappliedChangesWarning';
+import { useRouter, type AppRoute } from '@/router';
+import { useAppStore } from '@/store';
 
-export interface DevStudioLayoutProps {
+export type DevStudioLayoutProps = {
   title: string;
   subtitle?: React.ReactNode;
   icon: React.ReactNode;
@@ -35,6 +37,9 @@ export function DevStudioLayout({
   previewContent,
 }: DevStudioLayoutProps) {
   useUnappliedChangesWarning();
+  const router = useRouter();
+  const quickFavorites = useAppStore(s => s.quickFavorites);
+  const homeRoute = (quickFavorites?.[0] || 'stash') as AppRoute;
   // Load saved preferences
   const [layoutPrefs, setLayoutPrefs] = useState<{
     sidebarWidth: number;
@@ -147,9 +152,14 @@ export function DevStudioLayout({
       {/* ── HEADER SUPERIORE ── */}
       <header className="shrink-0 px-6 py-3.5 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between z-30 shadow-xs">
         <div className="flex items-center gap-4">
-          <IconButton onClick={onBack} title="Torna all'App">
-            <ArrowLeft size={18} />
-          </IconButton>
+          <div className="flex items-center gap-1.5">
+            <IconButton onClick={onBack} title="Indietro">
+              <ArrowLeft size={18} />
+            </IconButton>
+            <IconButton onClick={() => router.push(homeRoute)} title="Home">
+              <Home size={18} />
+            </IconButton>
+          </div>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-base font-black tracking-tight text-gray-900 dark:text-white flex items-center gap-2">

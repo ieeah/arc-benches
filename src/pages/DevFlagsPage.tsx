@@ -7,6 +7,7 @@ import {
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import {
   FEATURE_FLAGS_DEFINITIONS,
+  hasCustomFeatureFlags,
   useFeatureFlags,
   type FeatureFlagId,
   type FeatureFlagsState,
@@ -62,6 +63,8 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
   const activeCount = useMemo(() => {
     return Object.values(flags).filter(Boolean).length;
   }, [flags]);
+
+  const hasChanges = hasCustomFeatureFlags();
 
   const disabledCount = useMemo(() => {
     return FEATURE_FLAGS_DEFINITIONS.length - activeCount;
@@ -149,7 +152,16 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
             <Download size={14} /> feature-flags.json
           </button>
 
-          <ApplyToProjectButton artifactIds={['feature-flags']} label="Applica al file" />
+          {hasChanges && (
+            <span
+              className="px-2 py-1 rounded-lg text-[11px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
+              title="Le modifiche restano in bozza nel browser finché non le applichi al file"
+            >
+              Non applicato: feature-flags.json
+            </span>
+          )}
+
+          <ApplyToProjectButton artifactIds={['feature-flags']} label="Applica al file" disabled={!hasChanges} />
         </>
       }
       sidebar={

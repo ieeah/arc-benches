@@ -67,7 +67,25 @@ const EVENT_NAME = 'arc-benches:hold-config-changed';
 export function hasCustomHoldConfig(): boolean {
   return safeLS(() => {
     if (typeof localStorage === 'undefined') return false;
-    return localStorage.getItem(STORAGE_KEY) !== null;
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const current = getHoldConfig();
+    if (
+      current.deadzoneMs === holdConfigSeed.deadzoneMs &&
+      current.completeDurationMs === holdConfigSeed.completeDurationMs &&
+      current.uncompleteDurationMs === holdConfigSeed.uncompleteDurationMs &&
+      current.touchMoveThresholdPx === holdConfigSeed.touchMoveThresholdPx &&
+      current.holdExit.feedbackMs === holdConfigSeed.holdExit.feedbackMs &&
+      current.holdExit.settleMs === holdConfigSeed.holdExit.settleMs &&
+      current.holdExit.fadeMs === holdConfigSeed.holdExit.fadeMs &&
+      current.stepperExit.feedbackMs === holdConfigSeed.stepperExit.feedbackMs &&
+      current.stepperExit.settleMs === holdConfigSeed.stepperExit.settleMs &&
+      current.stepperExit.fadeMs === holdConfigSeed.stepperExit.fadeMs
+    ) {
+      localStorage.removeItem(STORAGE_KEY);
+      return false;
+    }
+    return true;
   }, false);
 }
 

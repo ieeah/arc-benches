@@ -116,6 +116,16 @@ function listsArtifact({ type, file, label }: (typeof LIST_FILES)[number]): DevA
         else localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(next));
       } catch { /* ignore */ }
     },
+    afterApply: () => {
+      const draft = listsDraft();
+      if (!draft) return;
+      const next = { ...draft, [type]: baseline() };
+      const allDefault = LIST_FILES.every(f => JSON.stringify(next[f.type]) === JSON.stringify(getInitialData()[f.type]));
+      try {
+        if (allDefault && !(next.custom && next.custom.length)) localStorage.removeItem(DRAFT_STORAGE_KEY);
+        else localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(next));
+      } catch { /* ignore */ }
+    },
   };
 }
 
@@ -133,6 +143,9 @@ const overridesArtifact: DevArtifact = {
   build: () => json(readJson<unknown>(OVERRIDES_DRAFT_KEY) ?? itemsOverridesData),
   baseline: () => JSON.stringify(itemsOverridesData),
   reset: () => {
+    try { localStorage.removeItem(OVERRIDES_DRAFT_KEY); } catch { /* ignore */ }
+  },
+  afterApply: () => {
     try { localStorage.removeItem(OVERRIDES_DRAFT_KEY); } catch { /* ignore */ }
   },
 };
@@ -166,6 +179,7 @@ const navArtifact: DevArtifact = {
   build: () => json(readNavDraft() ?? getSeedNavConfig()),
   baseline: () => JSON.stringify(getSeedNavConfig()),
   reset: clearNavDraft,
+  afterApply: clearNavDraft,
 };
 
 const flagsArtifact: DevArtifact = {
@@ -177,6 +191,7 @@ const flagsArtifact: DevArtifact = {
   build: () => json(getFeatureFlags()),
   baseline: () => JSON.stringify(featureFlagsSeed),
   reset: resetFeatureFlags,
+  afterApply: resetFeatureFlags,
 };
 
 const holdConfigArtifact: DevArtifact = {
@@ -188,6 +203,7 @@ const holdConfigArtifact: DevArtifact = {
   build: () => json(getHoldConfigSerializable()),
   baseline: () => JSON.stringify(holdConfigSeed),
   reset: resetHoldConfigOverride,
+  afterApply: resetHoldConfigOverride,
 };
 
 function localeArtifact(lang: I18nLang): DevArtifact {
@@ -200,6 +216,7 @@ function localeArtifact(lang: I18nLang): DevArtifact {
     build: () => buildLocaleFileSource(lang),
     baseline: () => buildLocaleFileSource(lang, DEFAULT_FLAT[lang]),
     reset: () => clearI18nDraft(lang),
+    afterApply: () => clearI18nDraft(lang),
   };
 }
 

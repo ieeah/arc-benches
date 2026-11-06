@@ -16,7 +16,7 @@ import { usePassViewPrefs } from '@/lib/passViewPrefs';
 import { getCompletedPassIds, getTrackName, isPassAvailable, resolveActivePass, splitPassesByCompletion } from '@/lib/rewardPass';
 import { cn } from '@/lib/cn';
 
-interface RewardPassPageProps {
+type RewardPassPageProps = {
   /** Pass di cui mostrare l'anteprima (parametro `pass` della rotta). */
   passId?: string;
   /** `levels`: dettaglio di livelli e tracce del pass indicato. */
