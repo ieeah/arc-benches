@@ -127,7 +127,7 @@ Changelog (bozza in lavorazione): [changelog/0.5.0.md](../changelog/0.5.0.md)
 - [x] #138 [Fix liste: computo materiali a scalare per livello nelle barre di progresso (#130)](https://github.com/ieeah/arc-benches/issues/138)
 - [x] #139 [Fix Stash: la pill del filtro "Completati" include le azioni permettendone l'annullamento](https://github.com/ieeah/arc-benches/issues/139)
 - [x] #140 [Refactor i18n: internazionalizzazione testi residui hardcoded e attributi a11y nel JSX](https://github.com/ieeah/arc-benches/issues/140)
-- [ ] #143 [Catalogo: gestione e raggruppamento estetico/algoritmico di varianti d'arma, livelli (I-IV) e schemi omonimi](https://github.com/ieeah/arc-benches/issues/143) — bloccante per #88
+- [x] #143 [Catalogo: gestione e raggruppamento estetico/algoritmico di varianti d'arma, livelli (I-IV) e schemi omonimi](https://github.com/ieeah/arc-benches/issues/143) — bloccante per #88
 - [ ] #88 [UX `ItemPicker`: pool di oggetti contestuali, relevance ranking e cap risultati](https://github.com/ieeah/arc-benches/issues/88) — dopo #143
 - [x] #75 [Badge di craftabilità sulle card degli oggetti (estensione a tutti i banchi)](https://github.com/ieeah/arc-benches/issues/75)
 - [ ] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102)
