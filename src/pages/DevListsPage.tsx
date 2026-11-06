@@ -2458,6 +2458,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       {/* Item Picker (Standard bottom sheet modal across the app) */}
       {isPickerOpen && (
         <ItemPicker
+          context="dev_list"
           excludeIds={activeLevel?.requirementItemIds.map((r) => r.itemId)}
           onPick={(item) => {
             setIsPickerOpen(false);

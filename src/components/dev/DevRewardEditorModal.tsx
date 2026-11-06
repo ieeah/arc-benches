@@ -244,7 +244,7 @@ export const DevRewardEditorModal: React.FC<DevRewardEditorModalProps> = ({
       {/* Item Picker Overlay */}
       {itemPickerOpen && (
         <ItemPicker
-          includeAll
+          context="reward"
           onPick={(item) => {
             setSelectedItemId(item.id);
             setItemPickerOpen(false);

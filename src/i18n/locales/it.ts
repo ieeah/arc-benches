@@ -250,7 +250,8 @@ export const it = {
   },
   "itemPicker": {
     "searchPrompt": "Cerca un oggetto per aggiungerlo",
-    "noItemsFound": "Nessun oggetto trovato."
+    "noItemsFound": "Nessun oggetto trovato.",
+    "cappedNotice": "Mostrati i primi {count} di {total} risultati. Affina la ricerca per trovare altri oggetti."
   },
   "quantityStepper": {
     "increase": "Aumenta quantità {name}",

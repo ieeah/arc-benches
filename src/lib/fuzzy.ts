@@ -1,5 +1,5 @@
 /** Minuscolo e senza accenti, così «gia» trova «Già» (era già promesso dalla documentazione). */
-const normalize = (value: string) => value.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+export const normalize = (value: string) => value.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
 
 /**
  * Returns true if every word of `query` is found, in order of its characters, within at least one

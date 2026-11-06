@@ -125,6 +125,7 @@ export function DevActionContextModal({ title, subtitle, maps = [], carryItems =
 
       {pickerOpen && (
         <ItemPicker
+          context="dev_action"
           excludeIds={carry.map((c) => c.itemId)}
           onPick={(item) => {
             setCarry((prev) => [...prev, { itemId: item.id, quantity: 1 }]);

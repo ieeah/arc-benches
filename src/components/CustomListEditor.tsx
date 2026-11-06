@@ -642,6 +642,7 @@ export const CustomListEditor = ({ listId, onClose }: {
 
       {pickerLevel !== null && (
         <ItemPicker
+          context="custom_list"
           excludeIds={levels.find(l => l.level === pickerLevel)?.requirementItemIds.map(r => r.itemId)}
           onPick={item => {
             const lvl = levels.find(l => l.level === pickerLevel);

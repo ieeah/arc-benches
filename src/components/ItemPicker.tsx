@@ -7,18 +7,24 @@ import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { useListManager } from '@/hooks/useListManager';
 import { useTranslation, getItemName, getItemSearchFields, getRarityLabel, getItemSearchMatch } from '@/i18n';
-import { isPickableItem } from '@/lib/pickableItems';
+import {
+  getItemPoolTier,
+  rankItemsByRelevance,
+  MAX_VISIBLE_RESULTS,
+  type ItemPickerContext,
+} from '@/lib/pickableItems';
 import {
   getBaseItem,
   getBaseItemForVariant,
-  isVariantItem,
 } from '@/lib/baseItems';
 
 type ItemPickerProps = {
   excludeIds?: string[];
-  /** Rewards can be any catalog item (blueprints, cosmetics, currencies…); deliveries can't. */
+  /** Contesto semantico dell'ItemPicker (raid, custom_list, dev_action, dev_list, reward) */
+  context?: ItemPickerContext;
+  /** Deprecato: sostituito da context="reward" */
   includeAll?: boolean;
-  /** Permetti la selezione di blueprint (es. raid plan). */
+  /** Deprecato: sostituito da context="raid" */
   includeBlueprints?: boolean;
   onPick: (item: ItemInfo) => void;
   onClose: () => void;
@@ -26,6 +32,7 @@ type ItemPickerProps = {
 
 export const ItemPicker = ({
   excludeIds,
+  context,
   includeAll = false,
   includeBlueprints = false,
   onPick,
@@ -36,24 +43,20 @@ export const ItemPicker = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const { t, language } = useTranslation();
 
-  // Lista oggetti selezionabili:
-  // - in modalità standard (fabbisogno utente / raid):
-  //     mostriamo i Base Items (es. 'anvil' -> 'Incudine') e gli oggetti indipendenti.
-  //     Le varianti specifiche (es. 'anvil-i', 'anvil-iv', 'amplified-anvil'...) sono nascoste.
-  // - in modalità includeAll (ricompense pass/quest/backoffice):
-  //     tutto è visibile e selezionabile.
+  const effectiveContext: ItemPickerContext = useMemo(() => {
+    if (context) return context;
+    if (includeAll) return 'reward';
+    if (includeBlueprints) return 'raid';
+    return 'custom_list';
+  }, [context, includeAll, includeBlueprints]);
+
+  // Lista oggetti selezionabili filtrata per pool contestuale (Pool 1 e Pool 2 ammessi, Pool 3 escluso)
   const pickableItems = useMemo(() => {
     const all = Object.values(itemsInfo);
     return all.filter((item) => {
-      if (!isPickableItem(item, { includeAll, includeBlueprints, excludedIds: exclude })) {
-        return false;
-      }
-      if (!includeAll && isVariantItem(item.id)) {
-        return false;
-      }
-      return true;
+      return getItemPoolTier(item, effectiveContext, exclude) !== null;
     });
-  }, [itemsInfo, exclude, includeAll, includeBlueprints]);
+  }, [itemsInfo, effectiveContext, exclude]);
 
   // Campi di ricerca multi-lingua con estensione ai Base Items e alle loro varianti
   const getSearchFields = useCallback(
@@ -97,13 +100,26 @@ export const ItemPicker = ({
     },
   });
 
+  const hasQuery = debouncedQuery.trim().length > 0;
+
+  // Ordina per pertinenza rispetto al contesto e alla query, e applica il cap DOM a MAX_VISIBLE_RESULTS
+  const rankedItems = useMemo(() => {
+    if (!hasQuery) return [];
+    return rankItemsByRelevance(
+      processedItems,
+      debouncedQuery,
+      effectiveContext,
+      language,
+      itemsInfo,
+      MAX_VISIBLE_RESULTS,
+    );
+  }, [processedItems, hasQuery, debouncedQuery, effectiveContext, language, itemsInfo]);
+
   // First tap on backdrop: dismiss keyboard (blur). Second tap: close picker.
   const handleBackdropClick = () => {
     if (document.activeElement === inputRef.current) inputRef.current?.blur();
     else onClose();
   };
-
-  const hasQuery = debouncedQuery.trim().length > 0;
 
   return (
     <BottomSheet
@@ -155,7 +171,7 @@ export const ItemPicker = ({
       {/* Results */}
       {hasQuery && (
         <div data-list-container="compact">
-          {processedItems.map((item) => {
+          {rankedItems.map((item) => {
             const displayName = getItemName(item, language);
             const match = getItemSearchMatch(item, debouncedQuery, displayName);
             const baseDef = getBaseItem(item.id);
@@ -189,12 +205,12 @@ export const ItemPicker = ({
                           {getRarityLabel(item.rarity, language)}
                         </span>{' '}
                         · {item.item_type}
-                        {baseDef && baseDef.variantItemIds.length > 0 && !includeAll && (
+                        {baseDef && baseDef.variantItemIds.length > 0 && effectiveContext !== 'reward' && (
                           <span className="ml-1 text-gray-500 font-semibold">
                             ({baseDef.variantItemIds.length} varianti)
                           </span>
                         )}
-                        {includeAll && parentBase && (
+                        {effectiveContext === 'reward' && parentBase && (
                           <span className="ml-1 text-indigo-500 font-semibold">
                             (Variante di {parentBase.name})
                           </span>
@@ -219,35 +235,24 @@ export const ItemPicker = ({
                       )}
                     </div>
                   </button>
-
-                  {/* Nel backoffice / includeAll, se è un Base Item possiamo mostrare direttamente i pulsanti per le sue varianti */}
-                  {includeAll && baseDef && baseDef.variantItemIds.length > 0 && (
-                    <div className="flex flex-wrap gap-1 max-w-[150px] justify-end">
-                      {baseDef.variantItemIds.slice(0, 4).map((vId) => {
-                        const vItem = itemsInfo[vId];
-                        if (!vItem) return null;
-                        return (
-                          <button
-                            key={vId}
-                            type="button"
-                            onClick={() => onPick(vItem)}
-                            className="px-1.5 py-0.5 text-[10px] font-bold rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors cursor-pointer truncate max-w-[70px]"
-                            title={getItemName(vItem, language)}
-                          >
-                            {vId.replace(`${baseDef.id}-`, '')}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
                 </div>
               </div>
             );
           })}
+
+          {/* Avviso cap di sicurezza DOM */}
+          {processedItems.length > MAX_VISIBLE_RESULTS && (
+            <p className="py-3 text-center text-xs text-gray-400 dark:text-gray-500">
+              {t('itemPicker.cappedNotice', {
+                count: MAX_VISIBLE_RESULTS,
+                total: processedItems.length,
+              })}
+            </p>
+          )}
         </div>
       )}
 
-      {hasQuery && processedItems.length === 0 && (
+      {hasQuery && rankedItems.length === 0 && (
         <p className="p-10 text-center text-gray-500 italic text-sm">{t('itemPicker.noItemsFound')}</p>
       )}
     </BottomSheet>

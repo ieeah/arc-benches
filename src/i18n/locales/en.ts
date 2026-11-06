@@ -253,6 +253,7 @@ export const en: LocaleSchema = {
   itemPicker: {
     searchPrompt: 'Search for an item to add it',
     noItemsFound: 'No items found.',
+    cappedNotice: 'Showing top {count} of {total} results. Refine your search to find more items.',
   },
   quantityStepper: {
     increase: 'Increase quantity {name}',
