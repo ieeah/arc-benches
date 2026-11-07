@@ -699,6 +699,18 @@ export const it = {
     "resetConfirmTitle": "Ripristinare le sezioni predefinite?",
     "resetConfirmDesc": "Tutte le sezioni verranno reimpostate allo stato iniziale per questo profilo.",
     "parentDisabledHint": "Disattivato perché il modulo principale «{parent}» è spento.",
+    "deactivateConfirm": {
+      "title": "Disattivare «{module}»?",
+      "message": "Questo modulo contiene progressi o dati attivi per questo profilo.",
+      "confirm": "Disattiva comunque",
+      "raid": "La pianificazione del raid corrente e i materiali impostati come prioritari verranno nascosti.",
+      "expeditions": "I progressi delle spedizioni, la serie di estrazioni e i punti abilità guadagnati verranno nascosti.",
+      "projects": "I livelli raggiunti e le azioni completate nei progetti speciali non saranno più visibili.",
+      "rewardPass": "Il pass attivo e i progressi stagionali accumulati non saranno più visibili.",
+      "blueprints": "I progetti e blueprint contrassegnati come sbloccati non saranno più visibili.",
+      "roleMaker": "L'archetipo selezionato e il profilo attitudinale non saranno più visibili.",
+      "generic": "I dati associati a questo modulo non saranno più accessibili finché non verrà riattivato."
+    },
     "workbench": {
       "name": "Banchi del Rifugio",
       "description": "Calcolo dei costi di potenziamento dei banchi e tracciamento dei livelli."

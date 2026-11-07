@@ -45,6 +45,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
 
   createProfile: (name: string) => {
     const s = get();
+    saveProfileState(s.activeProfileId, s);
     const id = generateUUID();
     set({ profiles: [...s.profiles, { id, name }], activeProfileId: id, ...withResolvedLanguage(freshProfile(), s.language) });
   },
@@ -52,6 +53,7 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
   switchProfile: (newProfileId: string) => {
     const s = get();
     if (s.activeProfileId === newProfileId) return;
+    saveProfileState(s.activeProfileId, s);
     set({ activeProfileId: newProfileId, ...withResolvedLanguage(hydrateProfile(loadProfileState(newProfileId)), s.language) });
   },
 

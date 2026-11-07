@@ -4,6 +4,7 @@ import type {
   SectionDefinition,
 } from '@/types';
 import { isFeatureEnabled } from '@/lib/featureFlags';
+import projectsData from '@/data/projects.json';
 
 export const SECTIONS_REGISTRY: readonly SectionDefinition[] = [
   // --- Core (Sempre attive, card visibili in impostazioni ma bloccate) ---
@@ -214,4 +215,100 @@ export function getVisibleSectionsForConfig(): SectionDefinition[] {
 /** Restituisce i sotto-moduli figli registrati per un macro-modulo */
 export function getSubSectionsForMacro(macroId: MacroSectionId): SectionDefinition[] {
   return SECTIONS_REGISTRY.filter((s) => s.parentId === macroId && isSystemSectionEnabled(s.id));
+}
+
+export type SectionDeactivationWarning = {
+  hasProgress: boolean;
+  descriptionKey?: string;
+};
+
+/**
+ * Rileva in modo centralizzato se la disattivazione di un modulo o sottomodulo
+ * comporta la perdita o l'occultamento di progressi e dati attivi per il profilo.
+ */
+export function getSectionDeactivationWarning(
+  sectionId: SectionId,
+  state: {
+    raidPlan?: {
+      isRaidRunning?: boolean;
+      actions?: unknown[];
+      items?: unknown[];
+    };
+    completedExpeditionsCount?: number;
+    earnedPermanentSkillPoints?: number;
+    consecutiveStreak?: number;
+    departureWindowActive?: boolean;
+    currentLevels?: Record<string, number>;
+    checkedActions?: Record<string, boolean>;
+    activeRewardPass?: string | null;
+    completedRewardPasses?: unknown[];
+    ownedBlueprints?: Record<string, boolean>;
+    activePersonalityId?: string | null;
+  },
+): SectionDeactivationWarning {
+  if (sectionId === 'raid') {
+    const rp = state.raidPlan;
+    if (rp && (rp.isRaidRunning || (rp.actions && rp.actions.length > 0) || (rp.items && rp.items.length > 0))) {
+      return { hasProgress: true, descriptionKey: 'modules.deactivateConfirm.raid' };
+    }
+  }
+
+  if (sectionId === 'expeditions') {
+    if (
+      (typeof state.completedExpeditionsCount === 'number' && state.completedExpeditionsCount > 0) ||
+      (typeof state.earnedPermanentSkillPoints === 'number' && state.earnedPermanentSkillPoints > 0) ||
+      (typeof state.consecutiveStreak === 'number' && state.consecutiveStreak > 0) ||
+      state.departureWindowActive
+    ) {
+      return { hasProgress: true, descriptionKey: 'modules.deactivateConfirm.expeditions' };
+    }
+  }
+
+  if (sectionId === 'projects') {
+    const projectList = (projectsData.lists as { id: string }[]);
+    const hasProjectProgress = projectList.some((p) => {
+      const lvl = state.currentLevels?.[p.id];
+      if (typeof lvl === 'number' && lvl > 0) return true;
+      if (state.checkedActions) {
+        const prefix = `${p.id}:`;
+        return Object.entries(state.checkedActions).some(([k, v]) => v && k.startsWith(prefix));
+      }
+      return false;
+    });
+    if (hasProjectProgress) {
+      return { hasProgress: true, descriptionKey: 'modules.deactivateConfirm.projects' };
+    }
+  }
+
+  if (sectionId === 'reward-pass') {
+    if (
+      (state.activeRewardPass !== null && state.activeRewardPass !== undefined) ||
+      (state.completedRewardPasses && state.completedRewardPasses.length > 0)
+    ) {
+      return { hasProgress: true, descriptionKey: 'modules.deactivateConfirm.rewardPass' };
+    }
+  }
+
+  if (sectionId === 'blueprints') {
+    if (state.ownedBlueprints && Object.values(state.ownedBlueprints).some(Boolean)) {
+      return { hasProgress: true, descriptionKey: 'modules.deactivateConfirm.blueprints' };
+    }
+  }
+
+  if (sectionId === 'role-maker') {
+    if (state.activePersonalityId !== null && state.activePersonalityId !== undefined) {
+      return { hasProgress: true, descriptionKey: 'modules.deactivateConfirm.roleMaker' };
+    }
+  }
+
+  // Se è un macro-modulo, verifica a cascata se uno qualsiasi dei sotto-moduli ha progressi
+  const subSections = getSubSectionsForMacro(sectionId as MacroSectionId);
+  for (const sub of subSections) {
+    const subWarning = getSectionDeactivationWarning(sub.id, state);
+    if (subWarning.hasProgress) {
+      return subWarning;
+    }
+  }
+
+  return { hasProgress: false };
 }

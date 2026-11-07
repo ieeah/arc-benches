@@ -7,6 +7,7 @@ import {
   isNavIdActive,
   getVisibleSectionsForConfig,
   getSubSectionsForMacro,
+  getSectionDeactivationWarning,
 } from './sections';
 
 describe('sections logic', () => {
@@ -123,5 +124,56 @@ describe('sections logic', () => {
   it('retrieves sub-sections for a macro-module', () => {
     const trackerChildren = getSubSectionsForMacro('trackers');
     expect(trackerChildren.map((c) => c.id)).toContain('blueprints');
+  });
+
+  describe('getSectionDeactivationWarning', () => {
+    it('detects active progress in raid planning', () => {
+      // Empty plan -> no warning
+      expect(getSectionDeactivationWarning('raid', { raidPlan: { isRaidRunning: false, actions: [], items: [] } }).hasProgress).toBe(false);
+
+      // Running raid -> warning
+      expect(getSectionDeactivationWarning('raid', { raidPlan: { isRaidRunning: true, actions: [], items: [] } }).hasProgress).toBe(true);
+
+      // Items in plan -> warning
+      expect(getSectionDeactivationWarning('raid', { raidPlan: { isRaidRunning: false, actions: [], items: [{ itemId: 'item-1', targetQuantity: 2 }] } }).hasProgress).toBe(true);
+    });
+
+    it('detects active progress in expeditions', () => {
+      expect(getSectionDeactivationWarning('expeditions', {}).hasProgress).toBe(false);
+      expect(getSectionDeactivationWarning('expeditions', { consecutiveStreak: 3 }).hasProgress).toBe(true);
+      expect(getSectionDeactivationWarning('expeditions', { earnedPermanentSkillPoints: 1 }).hasProgress).toBe(true);
+      expect(getSectionDeactivationWarning('expeditions', { departureWindowActive: true }).hasProgress).toBe(true);
+      expect(getSectionDeactivationWarning('expeditions', { completedExpeditionsCount: 2 }).hasProgress).toBe(true);
+    });
+
+    it('detects active progress in projects', () => {
+      expect(getSectionDeactivationWarning('projects', {}).hasProgress).toBe(false);
+
+      // Level > 0 on a project
+      expect(getSectionDeactivationWarning('projects', { currentLevels: { 'trophy-display': 1 } }).hasProgress).toBe(true);
+
+      // Checked action on a project
+      expect(getSectionDeactivationWarning('projects', { checkedActions: { 'trophy-display:1:action-1': true } }).hasProgress).toBe(true);
+    });
+
+    it('detects active progress in reward pass', () => {
+      expect(getSectionDeactivationWarning('reward-pass', {}).hasProgress).toBe(false);
+      expect(getSectionDeactivationWarning('reward-pass', { activeRewardPass: 's1-pass' }).hasProgress).toBe(true);
+      expect(getSectionDeactivationWarning('reward-pass', { completedRewardPasses: [{ passId: 's1-pass', completedAt: 123 }] }).hasProgress).toBe(true);
+    });
+
+    it('detects active progress in blueprints and cascades to trackers macro', () => {
+      expect(getSectionDeactivationWarning('blueprints', {}).hasProgress).toBe(false);
+      expect(getSectionDeactivationWarning('blueprints', { ownedBlueprints: { 'bp-1': true } }).hasProgress).toBe(true);
+
+      // Trackers macro detects blueprints progress
+      expect(getSectionDeactivationWarning('trackers', { ownedBlueprints: { 'bp-1': true } }).hasProgress).toBe(true);
+      expect(getSectionDeactivationWarning('trackers', { ownedBlueprints: { 'bp-1': false } }).hasProgress).toBe(false);
+    });
+
+    it('detects active personality in role maker', () => {
+      expect(getSectionDeactivationWarning('role-maker', {}).hasProgress).toBe(false);
+      expect(getSectionDeactivationWarning('role-maker', { activePersonalityId: 'sentinel' }).hasProgress).toBe(true);
+    });
   });
 });

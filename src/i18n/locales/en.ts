@@ -701,6 +701,18 @@ export const en: LocaleSchema = {
     resetConfirmTitle: 'Reset sections to default?',
     resetConfirmDesc: 'All sections will be reset to their default state for this profile.',
     parentDisabledHint: 'Disabled because parent module «{parent}» is turned off.',
+    deactivateConfirm: {
+      title: 'Disable «{module}»?',
+      message: 'This module contains active progress or data for this profile.',
+      confirm: 'Disable anyway',
+      raid: 'Your current raid plan and priority materials will no longer be visible.',
+      expeditions: 'Expedition progress, extraction streak, and earned skill points will be hidden.',
+      projects: 'Reached levels and completed actions for special projects will no longer be visible.',
+      rewardPass: 'Your active pass and accumulated seasonal progress will no longer be visible.',
+      blueprints: 'Blueprints and schematics marked as unlocked will no longer be visible.',
+      roleMaker: 'Your selected archetype and aptitude profile will no longer be visible.',
+      generic: 'Data associated with this module will not be accessible until re-enabled.',
+    },
     workbench: {
       name: 'Hideout Workbenches',
       description: 'Calculation of workbench upgrade costs and level tracking.',

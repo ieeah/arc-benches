@@ -6,17 +6,18 @@ import {
   getVisibleSectionsForConfig,
   isCoreSection,
   getSubSectionsForMacro,
+  getSectionDeactivationWarning,
 } from '@/lib/sections';
 import type { SectionDefinition, MacroSectionId } from '@/types';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { cn } from '@/lib/cn';
 
-interface ToggleSwitchProps {
+type ToggleSwitchProps = {
   checked: boolean;
   disabled?: boolean;
   onChange?: () => void;
   ariaLabel: string;
-}
+};
 
 const ToggleSwitch = ({ checked, disabled, onChange, ariaLabel }: ToggleSwitchProps) => (
   <button
@@ -49,6 +50,11 @@ export const ProfileSectionsConfigSection = () => {
   const resetSectionsToDefault = useAppStore(s => s.resetSectionsToDefault);
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [pendingDeactivation, setPendingDeactivation] = useState<{
+    sectionName: string;
+    descriptionKey: string;
+    onConfirm: () => void;
+  } | null>(null);
 
   const visibleSections = getVisibleSectionsForConfig();
   const topLevelSections = visibleSections.filter(s => !s.parentId);
@@ -59,6 +65,50 @@ export const ProfileSectionsConfigSection = () => {
 
   const getSectionDesc = (sec: SectionDefinition): string => {
     return t(sec.descriptionKey);
+  };
+
+  const handleToggleMacro = (section: SectionDefinition, currentActive: boolean) => {
+    const nextValue = !currentActive;
+    if (nextValue) {
+      setMacroSectionWithChildren(section.id as MacroSectionId, true);
+      return;
+    }
+
+    const warning = getSectionDeactivationWarning(section.id, useAppStore.getState());
+    if (warning.hasProgress) {
+      setPendingDeactivation({
+        sectionName: getSectionTitle(section),
+        descriptionKey: warning.descriptionKey || 'modules.deactivateConfirm.generic',
+        onConfirm: () => {
+          setMacroSectionWithChildren(section.id as MacroSectionId, false);
+          setPendingDeactivation(null);
+        },
+      });
+    } else {
+      setMacroSectionWithChildren(section.id as MacroSectionId, false);
+    }
+  };
+
+  const handleToggleSub = (sub: SectionDefinition, currentSetting: boolean) => {
+    const nextValue = !currentSetting;
+    if (nextValue) {
+      setSectionEnabled(sub.id, true);
+      return;
+    }
+
+    const warning = getSectionDeactivationWarning(sub.id, useAppStore.getState());
+    if (warning.hasProgress) {
+      setPendingDeactivation({
+        sectionName: getSectionTitle(sub),
+        descriptionKey: warning.descriptionKey || 'modules.deactivateConfirm.generic',
+        onConfirm: () => {
+          setSectionEnabled(sub.id, false);
+          setPendingDeactivation(null);
+        },
+      });
+    } else {
+      setSectionEnabled(sub.id, false);
+    }
   };
 
   return (
@@ -125,7 +175,7 @@ export const ProfileSectionsConfigSection = () => {
                   <ToggleSwitch
                     checked={isMacroActive}
                     disabled={isCore}
-                    onChange={() => setMacroSectionWithChildren(section.id as MacroSectionId, !isMacroActive)}
+                    onChange={() => handleToggleMacro(section, isMacroActive)}
                     ariaLabel={title}
                   />
                 </div>
@@ -167,7 +217,7 @@ export const ProfileSectionsConfigSection = () => {
                           <ToggleSwitch
                             checked={subChecked}
                             disabled={subDisabled}
-                            onChange={() => setSectionEnabled(sub.id, !subSetting)}
+                            onChange={() => handleToggleSub(sub, subSetting)}
                             ariaLabel={subTitle}
                           />
                         </div>
@@ -180,6 +230,19 @@ export const ProfileSectionsConfigSection = () => {
           })}
         </div>
       </section>
+
+      {pendingDeactivation && (
+        <ConfirmActionModal
+          title={t('modules.deactivateConfirm.title', { module: pendingDeactivation.sectionName })}
+          message={t('modules.deactivateConfirm.message')}
+          description={t(pendingDeactivation.descriptionKey)}
+          confirmText={t('modules.deactivateConfirm.confirm')}
+          cancelText={t('common.cancel')}
+          variant="danger"
+          onConfirm={pendingDeactivation.onConfirm}
+          onClose={() => setPendingDeactivation(null)}
+        />
+      )}
 
       {showResetConfirm && (
         <ConfirmActionModal
