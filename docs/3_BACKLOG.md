@@ -37,6 +37,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 
 ## 0.6.0 "Archivio del Rifugio" — Dati di 2° Livello (Refactor UI Liste)
 - [ ] #114 [UX Liste: elenco unico senza raggruppamento per tipo, card differenziate e più intuitive](https://github.com/ieeah/arc-benches/issues/114) — la priorità si esprime con la posizione; correlata a #69.
+- [ ] #156 [Gestione azioni liste: riordinamento e azioni composte (sotto-azioni lineari o libere)](https://github.com/ieeah/arc-benches/issues/156) — riordinamento touch-first (Dnd + controlli touch) e macro-azioni con sotto-azioni lineari o libere.
 
 ---
 
