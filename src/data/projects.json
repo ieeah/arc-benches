@@ -877,6 +877,15 @@
                   "quantity": 1
                 }
               ]
+            },
+            {
+              "id": "ea1bc334-1f6b-41d8-aaa4-25e72eef3814",
+              "label": "Deal damage (300) to ARCs in Santa Maria Houses",
+              "translations": {
+                "it": {
+                  "label": "Infliggi (300) punti danno agli ARC nelle Residenze Santa Maria"
+                }
+              }
             }
           ],
           "rewards": [

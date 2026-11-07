@@ -1,9 +1,9 @@
 {
-  "acoustic-guitar": {
+  "surveyor-vault": {
     "translations": {
       "it": {
-        "name": "Chitarra Acustica",
-        "description": "Una Chitarra acustica suonabile per attrare l'attenzione e impressionare gli altri Raiders"
+        "name": "Cassaforte del supervisore",
+        "description": "Può essere riciclato in materiali"
       }
     }
   }

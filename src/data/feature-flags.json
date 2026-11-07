@@ -1,6 +1,6 @@
 {
-  "expeditions": false,
-  "vault": false,
+  "expeditions": true,
+  "vault": true,
   "role-maker": false,
   "blueprints": true,
   "reward-pass": true,
