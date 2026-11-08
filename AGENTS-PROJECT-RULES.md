@@ -1,6 +1,6 @@
 # AGENTS-PROJECT-RULES
 
-_Scritto per ARC Benches, ultimo aggiornamento 2026-11-06_
+_Scritto per ARC Benches, ultimo aggiornamento 2026-11-08_
 _Se cambi una regola, usa la data di oggi; se la leggi solo, non modificare la data._
 
 Questo file contiene tutte le regole, convenzioni e vincoli vincolanti che gli agenti AI devono rispettare prima di qualunque operazione su questo progetto.
@@ -51,7 +51,7 @@ Questo file contiene tutte le regole, convenzioni e vincoli vincolanti che gli a
 
 ## 4. Interfaccia Utente (UI)
 
-- **Lingua UI**: Tutta l'interfaccia utente è rigorosamente in italiano.
+- **Internazionalizzazione (i18n)**: Nessun testo visibile o attributo di accessibilità va hardcodato nel JSX. Tutti i testi passano dal sistema i18n (`t(...)`), con l'italiano come lingua di riferimento primaria (`it.ts`) e traduzione allineata in inglese (`en.ts`).
 - **Abbreviazione Livelli**: Utilizzare sempre **"Lvl"** (mai "Lv" o "Lvl.").
 - **Superellissi**: Card e contenitori principali utilizzano raggio di curvatura `rounded-[24px]` o `rounded-[28px]`.
 - **Direzione dei Drawer**: Un drawer deve aprirsi sempre dal lato del pulsante trigger (trigger in alto → `from="top"`, trigger in basso → `from="bottom"`).
