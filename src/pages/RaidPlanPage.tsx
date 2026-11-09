@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus, LayoutGrid, List as ListIcon, Pencil, Play, Square
 } from 'lucide-react';
+import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
 import { StickyHeader } from '@/components/StickyHeader';
@@ -11,7 +12,8 @@ import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { RaidItemCard } from '@/components/RaidItemCard';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
-import { useEffect } from 'react';
+import { getAllListsPure, getTotalRequiredMaterialsPure, getActiveExpeditionPure } from '@/store/selectors';
+import { isSectionActive } from '@/lib/sections';
 import type { ItemInfo } from '@/types';
 
 export type RaidPlanPageProps = {
@@ -40,6 +42,51 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   const resetRaidPlanProgress = useAppStore(s => s.resetRaidPlanProgress);
   const clearRaidPlan = useAppStore(s => s.clearRaidPlan);
   const setRaidPreferredViewMode = useAppStore(s => s.setRaidPreferredViewMode);
+
+  // Stato e calcolo fabbisogno globale dello Stash per contesto raid
+  const inventory = useAppStore(s => s.inventory);
+  const currentLevels = useAppStore(s => s.currentLevels);
+  const targetLevels = useAppStore(s => s.targetLevels);
+  const activeModules = useAppStore(s => s.activeModules);
+  const checkedActions = useAppStore(s => s.checkedActions);
+  const isProjectsActive = useAppStore(s => isSectionActive('projects', s));
+  const isExpeditionsActive = useAppStore(s => isSectionActive('expeditions', s));
+
+  const { workbenches, rawProjects, customLists, sharedCustomLists, expeditions, completedExpeditionsCount } = useAppStore(
+    useShallow(s => ({
+      workbenches: s.workbenches,
+      rawProjects: s.projects,
+      customLists: s.customLists,
+      sharedCustomLists: s.sharedCustomLists,
+      expeditions: s.expeditions,
+      completedExpeditionsCount: s.completedExpeditionsCount,
+    })),
+  );
+
+  const projects = useMemo(() => isProjectsActive ? rawProjects : [], [isProjectsActive, rawProjects]);
+
+  const activeExpedition = useMemo(
+    () => isExpeditionsActive ? getActiveExpeditionPure(expeditions, completedExpeditionsCount) : undefined,
+    [expeditions, completedExpeditionsCount, isExpeditionsActive],
+  );
+
+  const allLists = useMemo(
+    () => getAllListsPure(workbenches, projects, sharedCustomLists, customLists, activeExpedition),
+    [workbenches, projects, sharedCustomLists, customLists, activeExpedition],
+  );
+
+  const totalMaterials = useMemo(
+    () => getTotalRequiredMaterialsPure(
+      allLists,
+      activeModules,
+      currentLevels,
+      targetLevels,
+      undefined,
+      Date.now(),
+      checkedActions,
+    ),
+    [allLists, activeModules, currentLevels, targetLevels, checkedActions],
+  );
 
   // Stato locale
   const [newActionText, setNewActionText] = useState('');
@@ -356,12 +403,16 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
               {items.map(raidItem => {
                 const info = itemsInfo[raidItem.itemId];
+                const stashOwned = inventory[raidItem.itemId] ?? 0;
+                const stashRequired = totalMaterials[raidItem.itemId] ?? 0;
 
                 return (
                   <RaidItemCard
                     key={raidItem.id}
                     raidItem={raidItem}
                     itemInfo={info}
+                    stashOwned={stashOwned}
+                    stashRequired={stashRequired}
                     hideDelete={isRaidRunning}
                     onIncrementFound={() => updateRaidItemFound(raidItem.id, 1)}
                     onDecrementFound={() => updateRaidItemFound(raidItem.id, -1)}
@@ -388,6 +439,10 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                 const info = itemsInfo[raidItem.itemId];
                 const itemName = info ? getItemName(info, language) : raidItem.itemId;
                 const isComplete = raidItem.foundQuantity >= raidItem.targetQuantity;
+                const stashOwned = inventory[raidItem.itemId] ?? 0;
+                const stashRequired = totalMaterials[raidItem.itemId] ?? 0;
+                const isStashCovered = stashRequired > 0 && stashOwned >= stashRequired;
+                const isStashCoveredWithRaid = stashRequired > 0 && !isStashCovered && (stashOwned + raidItem.foundQuantity >= stashRequired);
 
                 return (
                   <div
@@ -414,7 +469,7 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                         <p className="text-xs font-bold text-gray-900 dark:text-gray-100 truncate">
                           {itemName}
                         </p>
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center gap-2 mt-1 flex-wrap">
                           <span
                             className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-md ${
                               isComplete
@@ -424,11 +479,25 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                           >
                             {raidItem.foundQuantity} / {raidItem.targetQuantity}
                           </span>
-                          {isComplete && (
-                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                              <Check size={12} className="stroke-[3]" /> Completo
+                          {stashRequired > 0 && (
+                            <span className="text-[10px] font-mono text-gray-400">
+                              • {t('raid.stashProgress', { owned: stashOwned, required: stashRequired })}
                             </span>
                           )}
+                          {isComplete && (
+                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                              <Check size={12} className="stroke-[3]" /> {t('raid.foundAll')}
+                            </span>
+                          )}
+                          {isStashCovered ? (
+                            <span className="text-[9px] font-sans font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                              {t('raid.stashCoveredShort')}
+                            </span>
+                          ) : isStashCoveredWithRaid ? (
+                            <span className="text-[9px] font-sans font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                              {t('raid.stashCoveredWithRaid')}
+                            </span>
+                          ) : null}
                         </div>
                       </div>
 

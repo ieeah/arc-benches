@@ -74,6 +74,8 @@ export const StashPage = ({
 
   const isProjectsActive = useAppStore(s => isSectionActive('projects', s));
   const isExpeditionsActive = useAppStore(s => isSectionActive('expeditions', s));
+  const isRaidActive = useAppStore(s => isSectionActive('raid', s));
+  const raidPlan = useAppStore(s => s.raidPlan);
 
   // Liste — cambiano raramente, mai su tap +/-
   const { workbenches, rawProjects, customLists, sharedCustomLists, listOrder, expeditions, completedExpeditionsCount } = useAppStore(
@@ -207,6 +209,16 @@ export const StashPage = ({
     return map;
   }, [orderedLists, activeModules, currentLevels, targetLevels]);
 
+  // Map pre-calcolata per gli oggetti inclusi nella pianificazione raid attiva
+  const plannedMap = useMemo(() => {
+    if (!isRaidActive) return new Map<string, number>();
+    const map = new Map<string, number>();
+    for (const item of raidPlan.items) {
+      map.set(item.itemId, item.targetQuantity);
+    }
+    return map;
+  }, [isRaidActive, raidPlan.items]);
+
   // Categorie di filtro statiche
   const filterCategories = useMemo<FilterCategory<StashMaterial>[]>(() => [
     {
@@ -214,6 +226,12 @@ export const StashPage = ({
       label: t('stash.filterAll'),
       predicate: item => (filterHideCompleted ? (!item.isCompleted || isRetained(item.itemId)) : true),
     },
+    ...(isRaidActive ? [{
+      id: 'planned',
+      label: t('stash.filterPlanned'),
+      predicate: (item: StashMaterial) => plannedMap.has(item.itemId) && (filterHideCompleted ? (!item.isCompleted || isRetained(item.itemId)) : true),
+      countResolver: (materials: StashMaterial[]) => materials.filter(m => plannedMap.has(m.itemId) && (filterHideCompleted ? (!m.isCompleted || isRetained(m.itemId)) : true)).length,
+    }] : []),
     {
       id: 'missing',
       label: t('stash.filterMissing'),
@@ -246,7 +264,7 @@ export const StashPage = ({
         return completedMaterials + completedActions;
       },
     },
-  ], [itemsInfo, filterHideCompleted, isRetained, allStashActions, t]);
+  ], [itemsInfo, filterHideCompleted, isRetained, allStashActions, plannedMap, isRaidActive, t]);
 
   // Opzioni di ordinamento statiche con label fissa e indicatore di direzione
   const sortOptions = useMemo<SortOption<StashMaterial>[]>(() => [
@@ -531,6 +549,7 @@ export const StashPage = ({
                         {...mat}
                         itemInfo={itemsInfo[mat.itemId]}
                         refinerLevel={refinerLevel}
+                        plannedQuantity={plannedMap.get(mat.itemId)}
                         isExiting={isExiting(mat.itemId)}
                         onHoldStart={() => handleHoldStart(mat.itemId)}
                         onHoldEnd={() => handleHoldEnd(mat.itemId)}
@@ -565,6 +584,7 @@ export const StashPage = ({
                         itemInfo={itemsInfo[mat.itemId]}
                         refinerLevel={refinerLevel}
                         dependencies={dependenciesMap.get(mat.itemId) ?? []}
+                        plannedQuantity={plannedMap.get(mat.itemId)}
                         isExiting={isExiting(mat.itemId)}
                         onHoldStart={() => handleHoldStart(mat.itemId)}
                         onHoldEnd={() => handleHoldEnd(mat.itemId)}
@@ -608,6 +628,7 @@ export const StashPage = ({
               {...mat}
               itemInfo={itemsInfo[mat.itemId]}
               refinerLevel={refinerLevel}
+              plannedQuantity={plannedMap.get(mat.itemId)}
               isExiting={isExiting(mat.itemId)}
               onHoldStart={() => handleHoldStart(mat.itemId)}
               onHoldEnd={() => handleHoldEnd(mat.itemId)}
@@ -642,6 +663,7 @@ export const StashPage = ({
               itemInfo={itemsInfo[mat.itemId]}
               refinerLevel={refinerLevel}
               dependencies={dependenciesMap.get(mat.itemId) ?? []}
+              plannedQuantity={plannedMap.get(mat.itemId)}
               isExiting={isExiting(mat.itemId)}
               onHoldStart={() => handleHoldStart(mat.itemId)}
               onHoldEnd={() => handleHoldEnd(mat.itemId)}

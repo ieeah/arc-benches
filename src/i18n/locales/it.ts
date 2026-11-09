@@ -28,6 +28,7 @@ export const it = {
     "purchasable": "Acquistabili",
     "completed": "Completati",
     "filterAll": "Tutti",
+    "filterPlanned": "Nel Piano",
     "filterMissing": "Mancanti",
     "filterCraftable": "Craftabili",
     "filterPurchasable": "Acquistabili",
@@ -88,7 +89,20 @@ export const it = {
     "actionCompleted": "Completata",
     "reopenAction": "Riapri azione",
     "holdToComplete": "Tieni premuto per completare",
-    "holdToReset": "Tieni premuto per azzerare"
+    "holdToReset": "Tieni premuto per azzerare",
+    "raidPlanSectionTitle": "Pianificazione Raid",
+    "inRaidPlanBadge": "Nel Piano",
+    "plannedTargetLabel": "Quantità nel raid",
+    "foundInRaid": "trovati: {count}",
+    "decreaseRaidTarget": "Diminuisci quantità raid",
+    "increaseRaidTarget": "Aumenta quantità raid",
+    "removeFromRaidPlan": "Rimuovi dal piano raid",
+    "planMissingInRaid": "Pianifica nel Raid (+{count})",
+    "planMissingAria": "Pianifica {count} unità di {name} nel raid",
+    "planExtraInRaid": "Aggiungi al Raid (+1)",
+    "planExtraAria": "Aggiungi 1 unità di {name} al raid",
+    "plannedInRaidCount": "Nel Raid: {count}",
+    "openItemDetail": "Apri dettagli di {name}"
   },
   "benches": {
     "title": "Banchi del Rifugio",
@@ -641,7 +655,10 @@ export const it = {
     "clearTitle": "Elimina intera pianificazione",
     "clearMessage": "Svuotare tutte le azioni e gli oggetti programmati e spegnere l'incursione?",
     "decreaseFound": "Decrementa trovato",
-    "increaseFound": "Incrementa trovato"
+    "increaseFound": "Incrementa trovato",
+    "stashProgress": "Stash: {owned}/{required}",
+    "stashCoveredShort": "Fabbisogno coperto",
+    "stashCoveredWithRaid": "Coperto con raid"
   },
   "maps": {
     "title": "Mappe Tattiche",

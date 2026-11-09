@@ -1,4 +1,4 @@
-import { CheckCircle2, Hammer, ShoppingCart, ClipboardList, FileJson, Clock } from 'lucide-react';
+import { CheckCircle2, Hammer, ShoppingCart, ClipboardList, FileJson, Clock, Radar, Minus, Plus, Trash2 } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
 import { getItemCraftStatus, getWorkbenchName } from '@/lib/craft';
@@ -12,6 +12,7 @@ import { CategoryBadge } from '@/components/CategoryBadge';
 import { BottomSheet } from '@/components/BottomSheet';
 import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
+import { isSectionActive } from '@/lib/sections';
 
 interface StashItemDetailSheetProps {
   item: ItemInfo;
@@ -37,6 +38,12 @@ export const StashItemDetailSheet = ({
   const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
   const craftMode = useAppStore(s => s.craftMode);
   const itemsInfo = useAppStore(s => s.itemsInfo);
+  const raidPlan = useAppStore(s => s.raidPlan);
+  const isRaidActive = useAppStore(s => isSectionActive('raid', s));
+  const addRaidItem = useAppStore(s => s.addRaidItem);
+  const updateRaidItemTarget = useAppStore(s => s.updateRaidItemTarget);
+  const removeRaidItem = useAppStore(s => s.removeRaidItem);
+
   const craftResult = getItemCraftStatus(item, currentLevels, ownedBlueprints, craftMode, itemsInfo);
   const traderPurchase = getTraderPurchase(item.id);
   const lootAreas = getLootAreas(item.loot_area, 15);
@@ -45,6 +52,8 @@ export const StashItemDetailSheet = ({
   const progressPercent = required > 0 ? Math.min(100, Math.round((owned / required) * 100)) : 100;
   const displayName = getItemName(item, language);
   const displayDesc = getItemDescription(item, language);
+
+  const plannedItem = raidPlan.items.find(i => i.itemId === item.id);
 
   return (
     <BottomSheet
@@ -131,6 +140,110 @@ export const StashItemDetailSheet = ({
           </div>
         </div>
       </div>
+
+      {/* ── SEZIONE PIANIFICAZIONE RAID (Interoperabilità Stash ↔ Raid) ── */}
+      {isRaidActive && (
+        <div className="p-3.5 rounded-[22px] bg-amber-500/5 dark:bg-amber-950/20 border border-amber-500/20">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-500 shrink-0">
+                <Radar size={15} />
+              </div>
+              <span className="text-xs font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wide">
+                {t('stash.raidPlanSectionTitle')}
+              </span>
+            </div>
+            {plannedItem && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 bg-amber-500/15 px-2 py-0.5 rounded-full border border-amber-500/30">
+                <span>{t('stash.inRaidPlanBadge')}</span>
+              </span>
+            )}
+          </div>
+
+          {plannedItem ? (
+            <div className="flex items-center justify-between gap-3 pt-1">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
+                  {t('stash.plannedTargetLabel')}
+                </p>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-lg font-black font-mono text-gray-900 dark:text-gray-100">
+                    ×{plannedItem.targetQuantity}
+                  </span>
+                  {plannedItem.foundQuantity > 0 && (
+                    <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold font-mono">
+                      ({t('stash.foundInRaid', { count: plannedItem.foundQuantity })})
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Stepper +/- e rimozione */}
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (plannedItem.targetQuantity <= 1) {
+                      removeRaidItem(plannedItem.id);
+                    } else {
+                      updateRaidItemTarget(plannedItem.id, plannedItem.targetQuantity - 1);
+                    }
+                  }}
+                  className="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-95 transition-all cursor-pointer shadow-xs focus-visible:ring-2 focus-visible:ring-amber-500"
+                  aria-label={t('stash.decreaseRaidTarget')}
+                  title={t('stash.decreaseRaidTarget')}
+                >
+                  <Minus size={16} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => updateRaidItemTarget(plannedItem.id, plannedItem.targetQuantity + 1)}
+                  className="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-95 transition-all cursor-pointer shadow-xs focus-visible:ring-2 focus-visible:ring-amber-500"
+                  aria-label={t('stash.increaseRaidTarget')}
+                  title={t('stash.increaseRaidTarget')}
+                >
+                  <Plus size={16} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => removeRaidItem(plannedItem.id)}
+                  className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-600 dark:text-red-400 flex items-center justify-center hover:bg-red-100 dark:hover:bg-red-900/60 active:scale-95 transition-all cursor-pointer shadow-xs ml-1 focus-visible:ring-2 focus-visible:ring-red-500"
+                  aria-label={t('stash.removeFromRaidPlan')}
+                  title={t('stash.removeFromRaidPlan')}
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="pt-1">
+              {missing > 0 ? (
+                <button
+                  type="button"
+                  onClick={() => addRaidItem(item.id, missing)}
+                  className="w-full h-11 px-4 rounded-[18px] bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 active:scale-98 transition-all shadow-xs cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
+                  aria-label={t('stash.planMissingAria', { count: missing, name: displayName })}
+                >
+                  <Radar size={16} className="shrink-0 stroke-[2.5]" />
+                  <span>{t('stash.planMissingInRaid', { count: missing })}</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => addRaidItem(item.id, 1)}
+                  className="w-full h-11 px-4 rounded-[18px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
+                  aria-label={t('stash.planExtraAria', { name: displayName })}
+                >
+                  <Radar size={16} className="shrink-0" />
+                  <span>{t('stash.planExtraInRaid')}</span>
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* ── SEZIONE 2: FABBRICAZIONE NEL BANCO (se craftabile) ── */}
       {craftResult.craftInfo !== null && (() => {

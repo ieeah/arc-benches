@@ -12,6 +12,8 @@ import { HoldProgressOverlay, BurstPing } from "@/components/HoldProgressOverlay
 export type RaidItemCardProps = {
   raidItem: RaidItem;
   itemInfo?: ItemInfo;
+  stashOwned?: number;
+  stashRequired?: number;
   onIncrementFound: () => void;
   onDecrementFound: () => void;
   onSetFound: (val: number) => void;
@@ -26,6 +28,8 @@ export type RaidItemCardProps = {
 export const RaidItemCard = ({
   raidItem,
   itemInfo,
+  stashOwned,
+  stashRequired,
   onIncrementFound,
   onDecrementFound,
   onSetFound,
@@ -126,6 +130,20 @@ export const RaidItemCard = ({
         >
           {displayName}
         </h4>
+        {stashRequired !== undefined && stashRequired > 0 && (
+          <div className="flex items-center justify-center gap-1.5 mt-0.5 text-[10px] text-gray-400 font-mono">
+            <span>{t('raid.stashProgress', { owned: stashOwned ?? 0, required: stashRequired })}</span>
+            {(stashOwned ?? 0) >= stashRequired ? (
+              <span className="text-[9px] font-sans font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1 rounded border border-emerald-500/20">
+                {t('raid.stashCoveredShort')}
+              </span>
+            ) : (stashOwned ?? 0) + raidItem.foundQuantity >= stashRequired ? (
+              <span className="text-[9px] font-sans font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1 rounded border border-emerald-500/20">
+                {t('raid.stashCoveredWithRaid')}
+              </span>
+            ) : null}
+          </div>
+        )}
       </div>
 
       {/* ── STEPPER NUMERICO IDENTICO ALLO STASH ── */}

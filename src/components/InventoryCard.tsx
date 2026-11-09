@@ -20,6 +20,7 @@ export type InventoryCardProps = {
   required: number;
   itemInfo: ItemInfo | undefined;
   refinerLevel: number;
+  plannedQuantity?: number;
   onIncrement: () => void;
   onDecrement: () => void;
   onSet: (val: number) => void;
@@ -35,6 +36,7 @@ export const InventoryCard = ({
   owned,
   required,
   itemInfo,
+  plannedQuantity,
   onIncrement,
   onDecrement,
   onSet,
@@ -129,7 +131,7 @@ export const InventoryCard = ({
         ...(isExiting ? { transitionDuration: `${effectiveHoldConfig.holdExit.fadeMs}ms` } : {}),
         ...(showBurst ? { animationDuration: `${effectiveHoldConfig.holdExit.feedbackMs}ms` } : {}),
       }}
-    className={`relative flex flex-col p-2.5 rounded-[28px] card-concentric-28 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all select-none overflow-hidden ${
+      className={`relative flex flex-col p-2.5 rounded-[28px] card-concentric-28 squircle border-2 ${border} bg-white dark:bg-gray-900 transition-all select-none overflow-hidden ${
         isCompleted ? 'opacity-60 grayscale-[0.45]' : ''
       } ${isHolding && holdProgress > 0.1 ? 'animate-pulse' : ''} ${
         showBurst ? 'scale-[1.03] ring-4 ring-emerald-400/50' : ''
@@ -138,68 +140,101 @@ export const InventoryCard = ({
       {/* ── BAGLIORE ESPLOSIONE FINALE (BURST) ── */}
       <BurstPing bursting={showBurst} durationMs={effectiveHoldConfig.holdExit.feedbackMs} className="rounded-[28px]" />
 
-      {/* ── AREA ICONA OGGETTO (INTERATTIVA: PRESSIONE PROLUNGATA) ── */}
+      {/* ── AREA CLICCABILE: ICONA + NOME (ACCESSIBILE DA TASTIERA PER APRIRE DETTAGLIO) ── */}
       <div
-        className="relative cursor-pointer touch-pan-y active:scale-[0.98] transition-transform"
-        {...holdProps}
-        title={
-          isCompleted
-            ? t('stash.holdToReset')
-            : t('stash.holdToComplete')
-        }
-      >
-        <ItemCardFrameV2
-          icon={itemInfo?.icon}
-          alt={displayName}
-          rarity={itemInfo?.rarity}
-          fallbackText={itemId.replace(/-/g, ' ')}
-          className={`mb-2 ${!isCompleted ? glow : ''}`}
-          imgClassName="max-w-full max-h-full object-contain"
-          topLeftSlot={
-            (craftResult.craftInfo !== null || traderPurchase !== null) ? (
-              <div className="flex items-center gap-1 max-w-[calc(100%-1.5rem)]">
-                {craftResult.craftInfo !== null && (
-                  <CraftBadge
-                    workbenchId={craftResult.craftInfo.workbenchId}
-                    levelRequired={craftResult.craftInfo.levelRequired}
-                    status={craftResult.status}
-                    shortLabel={traderPurchase !== null}
-                    title={craftTooltip}
-                  />
-                )}
-                {traderPurchase !== null && (
-                  <TraderBadge
-                    trader={traderPurchase.trader}
-                    price={traderPurchase.price}
-                    title={t('stash.purchasableFromTrader', {
-                      trader: traderPurchase.trader,
-                      price: traderPurchase.price.toLocaleString(),
-                    })}
-                  />
-                )}
-              </div>
-            ) : undefined
-          }
-          categoryBadge={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} bare />}
-          completed={isCompleted && !isHolding}
-          overlay={
-            <HoldProgressOverlay
-              isHolding={isHolding}
-              holdProgress={holdProgress}
-              isComplete={isCompleted}
-            />
-          }
-        />
-      </div>
-
-      <div
+        role="button"
+        tabIndex={0}
         onClick={onOpenDetail}
-        className="flex-1 min-w-0 mb-2 text-center cursor-pointer"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onOpenDetail?.();
+          }
+        }}
+        className="flex-1 flex flex-col items-stretch cursor-pointer rounded-[22px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-all group"
+        aria-label={t('stash.openItemDetail', { name: displayName })}
       >
-        <h4 className="text-[13px] sm:text-sm font-bold truncate capitalize leading-tight mb-1 hover:text-blue-500 transition-colors">
-          {displayName}
-        </h4>
-        <p className="text-[10px] text-gray-400 font-bold font-mono">{owned}/{required}</p>
+        {/* ── AREA ICONA OGGETTO (INTERATTIVA: PRESSIONE PROLUNGATA) ── */}
+        <div
+          className="relative touch-pan-y active:scale-[0.98] transition-transform"
+          {...holdProps}
+          title={
+            isCompleted
+              ? t('stash.holdToReset')
+              : t('stash.holdToComplete')
+          }
+        >
+          <ItemCardFrameV2
+            icon={itemInfo?.icon}
+            alt={displayName}
+            rarity={itemInfo?.rarity}
+            fallbackText={itemId.replace(/-/g, ' ')}
+            className={`mb-2 ${!isCompleted ? glow : ''}`}
+            imgClassName="max-w-full max-h-full object-contain"
+            topLeftSlot={
+              (craftResult.craftInfo !== null || traderPurchase !== null) ? (
+                <div className="flex items-center gap-1 max-w-[calc(100%-1.5rem)]">
+                  {craftResult.craftInfo !== null && (
+                    <CraftBadge
+                      workbenchId={craftResult.craftInfo.workbenchId}
+                      levelRequired={craftResult.craftInfo.levelRequired}
+                      status={craftResult.status}
+                      shortLabel={traderPurchase !== null}
+                      title={craftTooltip}
+                    />
+                  )}
+                  {traderPurchase !== null && (
+                    <TraderBadge
+                      trader={traderPurchase.trader}
+                      price={traderPurchase.price}
+                      title={t('stash.purchasableFromTrader', {
+                        trader: traderPurchase.trader,
+                        price: traderPurchase.price.toLocaleString(),
+                      })}
+                    />
+                  )}
+                </div>
+              ) : undefined
+            }
+            categoryBadge={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} bare />}
+            barRightSlot={
+              plannedQuantity ? (
+                <span
+                  className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[10px] font-bold font-mono bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30"
+                  title={t('stash.plannedInRaidCount', { count: plannedQuantity })}
+                  aria-label={t('stash.plannedInRaidCount', { count: plannedQuantity })}
+                >
+                  🎯 {plannedQuantity}
+                </span>
+              ) : undefined
+            }
+            completed={isCompleted && !isHolding}
+            overlay={
+              <HoldProgressOverlay
+                isHolding={isHolding}
+                holdProgress={holdProgress}
+                isComplete={isCompleted}
+              />
+            }
+          />
+        </div>
+
+        <div className="flex-1 min-w-0 mb-2 text-center">
+          <h4 className="text-[13px] sm:text-sm font-bold truncate capitalize leading-tight mb-1 group-hover:text-blue-500 transition-colors">
+            {displayName}
+          </h4>
+          <p className="text-[10px] text-gray-400 font-bold font-mono flex items-center justify-center gap-1">
+            <span>{owned}/{required}</span>
+            {plannedQuantity ? (
+              <span
+                className="text-amber-600 dark:text-amber-400 font-sans font-bold"
+                title={t('stash.plannedInRaidCount', { count: plannedQuantity })}
+              >
+                • 🎯 {plannedQuantity}
+              </span>
+            ) : null}
+          </p>
+        </div>
       </div>
 
       {/* ── CONTENITORE UNIFICATO STEPPER (Orizzontale Concentrico con Rarity Border Tint) ── */}
