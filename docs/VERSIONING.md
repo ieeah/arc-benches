@@ -132,7 +132,7 @@ Changelog (bozza in lavorazione): [changelog/0.5.0.md](../changelog/0.5.0.md)
 - [x] #75 [Badge di craftabilità sulle card degli oggetti (estensione a tutti i banchi)](https://github.com/ieeah/arc-benches/issues/75)
 - [x] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102)
 - [ ] #74 [Export/import completo del profilo](https://github.com/ieeah/arc-benches/issues/74) — dopo #102
-- [ ] #157 [Aggiunta rapida materiali mancanti alla pianificazione raid (da dettaglio o card)](https://github.com/ieeah/arc-benches/issues/157)
+- [x] #157 [Aggiunta rapida materiali mancanti alla pianificazione raid (da dettaglio o card)](https://github.com/ieeah/arc-benches/issues/157)
 - [x] #144 [Consolidamento, bugfix e rifiniture pre-rilascio 0.5.0](https://github.com/ieeah/arc-benches/issues/144)
 
 ---
@@ -172,6 +172,7 @@ Obiettivo: riunire in una pagina **Collezioni** tutti i tracker di sblocco (Blue
 - [ ] #113 [Costruzione, miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
 - [ ] #114 [Elenco unico delle liste senza raggruppamento per tipo e card differenziate](https://github.com/ieeah/arc-benches/issues/114)
 - [ ] #156 [Gestione azioni liste: riordinamento e azioni composte (sotto-azioni lineari o libere)](https://github.com/ieeah/arc-benches/issues/156)
+- [ ] #159 [Pianificazione massiva da banchi/progetti e salvataggio slice come lista custom](https://github.com/ieeah/arc-benches/issues/159) — follow-up di #157
 - [ ] #89 [Estrazione dati Skill Tree da MetaForge (`svelte-flow`)](https://github.com/ieeah/arc-benches/issues/89)
 - [ ] #62 [Skill Tree dei Raiders: albero delle abilità, sinergie e contatore punti abilità](https://github.com/ieeah/arc-benches/issues/62) — dopo #89
 

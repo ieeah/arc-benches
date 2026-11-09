@@ -10,7 +10,7 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [x] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102) — toggle nelle impostazioni per spegnere sezioni non usate (Spedizioni, Progetti, Pass).
   - *Specifica tecnica*: [docs/specs/moduli-attivabili-per-profilo.md](specs/moduli-attivabili-per-profilo.md)
 - [ ] #74 [Export/import completo: tutti i campi del profilo inclusi nel backup](https://github.com/ieeah/arc-benches/issues/74) — dopo #102, include moduli attivi, pass completati con timestamp, livelli attivi e azioni.
-- [ ] #157 [Aggiunta rapida materiali mancanti alla pianificazione raid (da dettaglio o card)](https://github.com/ieeah/arc-benches/issues/157) — trasferimento rapido del fabbisogno mancante dallo Stash al Raid Plan; richiede analisi preventiva tra pulsante nel dettaglio ed dropdown azioni su card.
+- [x] #157 [Aggiunta rapida materiali mancanti alla pianificazione raid (da dettaglio o card)](https://github.com/ieeah/arc-benches/issues/157) — trasferimento rapido del fabbisogno mancante dallo Stash al Raid Plan; richiede analisi preventiva tra pulsante nel dettaglio ed dropdown azioni su card.
 - [x] #144 [Consolidamento, bugfix e rifiniture pre-rilascio 0.5.0](https://github.com/ieeah/arc-benches/issues/144) — bugfix «Applica» override in Dev, bonifica categorie errate nel catalogo tramite override, icone Raider Token/Emote, rifiniture UI Pass e Blueprint (dettagli in [consolidamento-0.5.0.md](consolidamento-0.5.0.md)).
 - [ ] Fix/Raffinamento: calibrazione dissolvenza di uscita (`fadeMs`) da Hold — uniformare l'aggancio di `transitionDuration` inline/Tailwind su `holdExit.fadeMs`.
 
