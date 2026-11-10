@@ -7,10 +7,12 @@ Il piano completo (con dipendenze, ordine di lavoro e stato di ogni versione) vi
 
 ## Versione 0.5.0 "Segnale Radio" — Gestione dei Dati di 1° Livello
 - [x] #75 [Badge di craftabilità sulle card degli oggetti (estensione a tutti i banchi)](https://github.com/ieeah/arc-benches/issues/75)
-- [ ] #102 [Moduli attivabili per profilo (`isSectionActive`, feature flags utente)](https://github.com/ieeah/arc-benches/issues/102)
+- [x] #102 [Moduli attivabili per profilo (`isSectionActive`, feature flags utente)](https://github.com/ieeah/arc-benches/issues/102)
   - *Specifica tecnica*: [docs/specs/moduli-attivabili-per-profilo.md](specs/moduli-attivabili-per-profilo.md)
+- [x] #74 [Export/import completo: tutti i campi del profilo inclusi nel backup](https://github.com/ieeah/arc-benches/issues/74)
+- [x] #160 [Rendere riconoscibili le liste disattivate in Banchi e Liste anche a card chiusa](https://github.com/ieeah/arc-benches/issues/160)
 
-Le altre voci aperte della `0.5.0` (#143, #88, #74, #144) riguardano refactor e consolidamento su sistemi già esistenti: vedi [3_BACKLOG.md](3_BACKLOG.md).
+Tutte le voci della `0.5.0` sono completate e rilasciate in `v0.5.0`.
 
 ---
 

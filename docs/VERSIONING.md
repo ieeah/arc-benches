@@ -7,7 +7,7 @@ Il contenuto testuale del cosa-è-cambiato per versione non vive qui — per que
 
 ## Versione corrente
 
-**0.4.0** ("Mappa di Spedizione"), determinata dal tag Git `v0.4.0` e da `package.json`. In corso di completamento la **0.5.0** ("Segnale Radio").
+**0.5.0** ("Segnale Radio"), determinata dal tag Git `v0.5.0` e da `package.json`. In corso di consolidamento la **0.5.1** ("Taratura del Segnale").
 
 > **Nota su v0.3.0**: Include consolidamento architetturale (validazione Zod, persistence boundary, WASM lockfile check, performance content-visibility), Role Maker, Tracker Blueprints, Pagina Impostazioni & Gestione Globale, Viste/Densità Stash, Supporto Tablet e la pipeline MetaForge con Studio Overrides.
 
@@ -94,9 +94,9 @@ Changelog: [changelog/0.4.0.md](../changelog/0.4.0.md)
 
 ---
 
-## 0.5.0 "Segnale Radio" — Gestione dei Dati di 1° Livello — In corso
+## 0.5.0 "Segnale Radio" — Gestione dei Dati di 1° Livello — Raggiunta
 Obiettivo: definire tutti i dati di 1° livello (oggetti in-game non puramente cosmetici, banchi, progetti, spedizioni base, pass), gli strumenti Dev di catalogo/liste e i flussi core di selezione e craftabilità.
-Changelog (bozza in lavorazione): [changelog/0.5.0.md](../changelog/0.5.0.md)
+Changelog: [changelog/0.5.0.md](../changelog/0.5.0.md)
 - [x] #63 [Feature Flags Utente: Attivazione e disattivazione modulare delle sezioni dell'app](https://github.com/ieeah/arc-benches/issues/63)
 - [x] #72 [Tipi liste: `listType` required e type guard](https://github.com/ieeah/arc-benches/issues/72)
 - [x] #73 [Tipi liste: discriminated union completa (Opzione A)](https://github.com/ieeah/arc-benches/issues/73) — dopo #72
@@ -131,8 +131,9 @@ Changelog (bozza in lavorazione): [changelog/0.5.0.md](../changelog/0.5.0.md)
 - [x] #88 [UX `ItemPicker`: pool di oggetti contestuali, relevance ranking e cap risultati](https://github.com/ieeah/arc-benches/issues/88) — dopo #143
 - [x] #75 [Badge di craftabilità sulle card degli oggetti (estensione a tutti i banchi)](https://github.com/ieeah/arc-benches/issues/75)
 - [x] #102 [Moduli attivabili per profilo (`isSectionActive`)](https://github.com/ieeah/arc-benches/issues/102)
-- [ ] #74 [Export/import completo del profilo](https://github.com/ieeah/arc-benches/issues/74) — dopo #102
+- [x] #74 [Export/import completo del profilo](https://github.com/ieeah/arc-benches/issues/74) — dopo #102
 - [x] #157 [Aggiunta rapida materiali mancanti alla pianificazione raid (da dettaglio o card)](https://github.com/ieeah/arc-benches/issues/157)
+- [x] #160 [Rendere riconoscibili le liste disattivate in Banchi e Liste anche a card chiusa](https://github.com/ieeah/arc-benches/issues/160)
 - [x] #144 [Consolidamento, bugfix e rifiniture pre-rilascio 0.5.0](https://github.com/ieeah/arc-benches/issues/144)
 
 ---
