@@ -229,7 +229,9 @@ export const UnifiedListCard = ({
     setPendingLevel(null);
   };
 
-  const cardBorder = expired
+  const cardBorder = !isActive
+    ? 'border-dashed border-amber-500/30 dark:border-amber-400/25 bg-white/70 dark:bg-gray-900/70 opacity-80'
+    : expired
     ? 'border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 opacity-80'
     : canUpgrade && !expanded
     ? 'border-green-500 bg-green-50 dark:bg-green-900/10'
@@ -246,6 +248,11 @@ export const UnifiedListCard = ({
           >
             <div className="flex-1 flex items-center gap-1.5 min-w-0 overflow-hidden">
               <span className="font-bold text-base truncate">{listName}</span>
+              {!isActive && (
+                <span className="shrink-0 text-[9px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/40 dark:border-amber-700/40 px-1.5 py-0.5 rounded-full">
+                  {t('lists.inactive')}
+                </span>
+              )}
               {list.custom && (
                 <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">
                   {t('lists.customBadge')}
@@ -392,14 +399,16 @@ export const UnifiedListCard = ({
             )}
           </div>
           {nextLevelData && nextLevelData.requirementItemIds.length > 0 && (
-            <RequirementsGrid
-              levelData={nextLevelData}
-              currentLevelNum={current}
-              itemsInfo={itemsInfo}
-              refinerLevel={refinerLevel}
-              inventory={inventory}
-              totalRequired={totalRequired}
-            />
+            <div className={!isActive ? 'opacity-70 grayscale-[0.35]' : undefined}>
+              <RequirementsGrid
+                levelData={nextLevelData}
+                currentLevelNum={current}
+                itemsInfo={itemsInfo}
+                refinerLevel={refinerLevel}
+                inventory={inventory}
+                totalRequired={totalRequired}
+              />
+            </div>
           )}
           {canUpgrade && (
             <button onClick={onUpgrade}
@@ -459,7 +468,10 @@ export const UnifiedListCard = ({
             />
           </div>
           {actionLevels.length > 0 && onToggleAction && (
-            <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2.5">
+            <div className={cn(
+              'pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2.5',
+              !isActive && 'opacity-70 grayscale-[0.35]'
+            )}>
               {actionLevels.map(lvl => (
                 <div key={lvl.level} className="space-y-2">
                   <p className="text-[10px] font-bold uppercase text-gray-400 mb-1.5">
@@ -501,7 +513,10 @@ export const UnifiedListCard = ({
             <RequirementChips requirements={nextLevelRequirements} className="pt-2 border-t border-gray-100 dark:border-gray-800" />
           )}
           {!isMaxed && (nextLevelData?.requirementItemIds.length ?? 0) > 0 && (
-            <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+            <div className={cn(
+              'pt-2 border-t border-gray-100 dark:border-gray-800',
+              !isActive && 'opacity-70 grayscale-[0.35]'
+            )}>
               <RequirementsGrid
                 levelData={nextLevelData!}
                 currentLevelNum={current}

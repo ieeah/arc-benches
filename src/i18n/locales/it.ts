@@ -196,7 +196,8 @@ export const it = {
     "progressBarLabel": "Avanzamento {name}: Lvl {current} di {max}, {percent}% verso il prossimo livello",
     "progressBarLabelMaxed": "Avanzamento {name}: Lvl {max} di {max} (Completato)",
     "progressBarLabelReady": "Avanzamento {name}: Lvl {current} di {max}, pronto per il potenziamento",
-    "customBadge": "Personalizzata"
+    "customBadge": "Personalizzata",
+    "inactive": "Inattivo"
   },
   "listDetail": {
     "backToLists": "Torna alle liste",

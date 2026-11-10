@@ -199,6 +199,7 @@ export const en: LocaleSchema = {
     progressBarLabelMaxed: '{name} progress: Lvl {max} of {max} (Completed)',
     progressBarLabelReady: '{name} progress: Lvl {current} of {max}, ready to upgrade',
     customBadge: 'Custom',
+    inactive: 'Inactive',
   },
   listDetail: {
     backToLists: 'Back to lists',
