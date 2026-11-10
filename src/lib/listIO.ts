@@ -1,5 +1,6 @@
+import type { AppLanguage } from '@/i18n/types';
 import type { List, ListExportEntry, ListExportFile, MultiProfileExportFile, ProfileExportEntry } from '@/types';
-import { isObject, sanitizeNumberRecord, validateList, validateProfile } from '@/lib/validate';
+import { isObject, sanitizeBoolRecord, sanitizeNumberRecord, validateList, validateProfile } from '@/lib/validate';
 
 export function downloadExport(data: ListExportFile | MultiProfileExportFile): void {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -55,7 +56,47 @@ export function parseImport(json: string): ListExportFile | MultiProfileExportFi
           ? raw.lists.map(parseListEntry).filter((e): e is ListExportEntry => e !== null)
           : [];
         const enabledSections = isObject(raw.enabledSections) ? raw.enabledSections as Record<string, boolean> : undefined;
-        return { profile, lists, inventory: sanitizeNumberRecord(raw.inventory), enabledSections };
+        const language = typeof raw.language === 'string' ? raw.language as AppLanguage : undefined;
+        const checkedActions = isObject(raw.checkedActions) ? sanitizeBoolRecord(raw.checkedActions) : undefined;
+        const listOrder = Array.isArray(raw.listOrder)
+          ? raw.listOrder.filter((s): s is string => typeof s === 'string' && s.length > 0)
+          : undefined;
+        const completedExpeditionsCount = typeof raw.completedExpeditionsCount === 'number' && Number.isFinite(raw.completedExpeditionsCount) && raw.completedExpeditionsCount >= 0
+          ? Math.floor(raw.completedExpeditionsCount)
+          : undefined;
+        const earnedPermanentSkillPoints = typeof raw.earnedPermanentSkillPoints === 'number' && Number.isFinite(raw.earnedPermanentSkillPoints) && raw.earnedPermanentSkillPoints >= 0
+          ? Math.floor(raw.earnedPermanentSkillPoints)
+          : undefined;
+        const consecutiveStreak = typeof raw.consecutiveStreak === 'number' && Number.isFinite(raw.consecutiveStreak) && raw.consecutiveStreak >= 0
+          ? Math.floor(raw.consecutiveStreak)
+          : undefined;
+        const departureWindowActive = typeof raw.departureWindowActive === 'boolean' ? raw.departureWindowActive : undefined;
+        const ownedBlueprints = isObject(raw.ownedBlueprints) ? sanitizeBoolRecord(raw.ownedBlueprints) : undefined;
+        const filterHideCompleted = typeof raw.filterHideCompleted === 'boolean' ? raw.filterHideCompleted : undefined;
+        const filterHideOwnedBlueprints = typeof raw.filterHideOwnedBlueprints === 'boolean' ? raw.filterHideOwnedBlueprints : undefined;
+        const activePersonalityId = typeof raw.activePersonalityId === 'string' && raw.activePersonalityId.length > 0
+          ? raw.activePersonalityId
+          : raw.activePersonalityId === null
+            ? null
+            : undefined;
+
+        return {
+          profile,
+          lists,
+          inventory: sanitizeNumberRecord(raw.inventory),
+          language,
+          enabledSections,
+          checkedActions,
+          listOrder,
+          completedExpeditionsCount,
+          earnedPermanentSkillPoints,
+          consecutiveStreak,
+          departureWindowActive,
+          ownedBlueprints,
+          filterHideCompleted,
+          filterHideOwnedBlueprints,
+          activePersonalityId,
+        };
       })
       .filter((p): p is ProfileExportEntry => p !== null);
 

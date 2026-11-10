@@ -86,4 +86,91 @@ describe('parseImport — v3 (multi-profile)', () => {
   it('throws when profiles/sharedLists are not arrays', () => {
     expect(() => parseImport(str({ version: 3, sharedLists: {}, profiles: [] }))).toThrow();
   });
+
+  it('parses and preserves all new profile fields in a v3 payload', () => {
+    const out = parseImport(str({
+      version: 3,
+      sharedLists: [],
+      profiles: [
+        {
+          profile: { id: 'p1', name: 'Profile 1' },
+          lists: [],
+          inventory: {},
+          checkedActions: { 'bench:1:act1': true, 'exp:key': false },
+          listOrder: ['custom:1', 'scrappy'],
+          completedExpeditionsCount: 5,
+          earnedPermanentSkillPoints: 10,
+          consecutiveStreak: 3,
+          departureWindowActive: true,
+          ownedBlueprints: { bp1: true, bp2: false },
+          filterHideCompleted: false,
+          filterHideOwnedBlueprints: true,
+          activePersonalityId: 'scrapper',
+        },
+      ],
+    })) as MultiProfileExportFile;
+
+    const p = out.profiles[0];
+    expect(p.checkedActions).toEqual({ 'bench:1:act1': true, 'exp:key': false });
+    expect(p.listOrder).toEqual(['custom:1', 'scrappy']);
+    expect(p.completedExpeditionsCount).toBe(5);
+    expect(p.earnedPermanentSkillPoints).toBe(10);
+    expect(p.consecutiveStreak).toBe(3);
+    expect(p.departureWindowActive).toBe(true);
+    expect(p.ownedBlueprints).toEqual({ bp1: true, bp2: false });
+    expect(p.filterHideCompleted).toBe(false);
+    expect(p.filterHideOwnedBlueprints).toBe(true);
+    expect(p.activePersonalityId).toBe('scrapper');
+  });
+
+  it('preserves activePersonalityId null', () => {
+    const out = parseImport(str({
+      version: 3,
+      sharedLists: [],
+      profiles: [
+        {
+          profile: { id: 'p1', name: 'Profile 1' },
+          lists: [],
+          activePersonalityId: null,
+        },
+      ],
+    })) as MultiProfileExportFile;
+
+    expect(out.profiles[0].activePersonalityId).toBeNull();
+  });
+
+  it('sanitizes invalid or malformed values for the new profile fields', () => {
+    const out = parseImport(str({
+      version: 3,
+      sharedLists: [],
+      profiles: [
+        {
+          profile: { id: 'p1', name: 'Profile 1' },
+          lists: [],
+          checkedActions: { valid: true, invalid: 'yes', notBool: 123 },
+          listOrder: ['custom:1', '', 123, null, 'scrappy'],
+          completedExpeditionsCount: -1,
+          earnedPermanentSkillPoints: -5,
+          consecutiveStreak: 'three',
+          departureWindowActive: 'true',
+          ownedBlueprints: { bp1: true, bp2: 'false' },
+          filterHideCompleted: 'false',
+          filterHideOwnedBlueprints: 1,
+          activePersonalityId: '',
+        },
+      ],
+    })) as MultiProfileExportFile;
+
+    const p = out.profiles[0];
+    expect(p.checkedActions).toEqual({ valid: true });
+    expect(p.listOrder).toEqual(['custom:1', 'scrappy']);
+    expect(p.completedExpeditionsCount).toBeUndefined();
+    expect(p.earnedPermanentSkillPoints).toBeUndefined();
+    expect(p.consecutiveStreak).toBeUndefined();
+    expect(p.departureWindowActive).toBeUndefined();
+    expect(p.ownedBlueprints).toEqual({ bp1: true });
+    expect(p.filterHideCompleted).toBeUndefined();
+    expect(p.filterHideOwnedBlueprints).toBeUndefined();
+    expect(p.activePersonalityId).toBeUndefined();
+  });
 });

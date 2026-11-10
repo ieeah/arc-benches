@@ -287,13 +287,23 @@ export interface ListExportFile {
 }
 
 /** State snapshot for one profile inside a v3 multi-profile export. */
-export interface ProfileExportEntry {
+export type ProfileExportEntry = {
   profile: Profile;
   lists: ListExportEntry[];
   inventory: Record<string, number>;
   language?: AppLanguage;
   enabledSections?: Record<SectionId, boolean>;
-}
+  checkedActions?: Record<string, boolean>;
+  listOrder?: string[];
+  completedExpeditionsCount?: number;
+  earnedPermanentSkillPoints?: number;
+  consecutiveStreak?: number;
+  departureWindowActive?: boolean;
+  ownedBlueprints?: Record<string, boolean>;
+  filterHideCompleted?: boolean;
+  filterHideOwnedBlueprints?: boolean;
+  activePersonalityId?: string | null;
+};
 
 /** Version 3 export: always multi-profile, even when exporting a single profile. */
 export interface MultiProfileExportFile {

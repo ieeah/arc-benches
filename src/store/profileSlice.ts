@@ -84,36 +84,47 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
       const profile = s.profiles.find(p => p.id === profileId);
       if (!profile) continue;
 
-      let customLists: List[];
-      let currentLevels: Record<string, number>;
-      let targetLevels: Record<string, number[]>;
-      let activeModules: Record<string, boolean>;
-      let inventory: Record<string, number>;
+      const isActive = profileId === s.activeProfileId;
+      const state = isActive ? null : loadProfileState(profileId);
 
-      if (profileId === s.activeProfileId) {
-        customLists = s.customLists;
-        currentLevels = s.currentLevels;
-        targetLevels = s.targetLevels;
-        activeModules = s.activeModules;
-        inventory = s.inventory;
-      } else {
-        const state = loadProfileState(profileId);
-        customLists = state.customLists ?? [];
-        currentLevels = state.currentLevels ?? {};
-        targetLevels = migrateTargets(
-          state.targetLevels as Record<string, number | number[]> | undefined,
-          state.currentLevels,
-        );
-        activeModules = state.activeModules ?? {};
-        inventory = state.inventory ?? {};
-      }
+      const customLists = isActive ? s.customLists : (state?.customLists ?? []);
+      const currentLevels = isActive ? s.currentLevels : (state?.currentLevels ?? {});
+      const targetLevels = isActive ? s.targetLevels : migrateTargets(
+        state?.targetLevels as Record<string, number | number[]> | undefined,
+        state?.currentLevels,
+      );
+      const activeModules = isActive ? s.activeModules : (state?.activeModules ?? {});
+      const inventory = isActive ? s.inventory : (state?.inventory ?? {});
+      const language = isActive ? s.language : (state?.language ?? s.language);
+      const enabledSections = isActive ? s.enabledSections : (state?.enabledSections ?? getDefaultEnabledSections());
+
+      const checkedActions = isActive ? s.checkedActions : (state?.checkedActions ?? {});
+      const listOrder = isActive ? s.listOrder : state?.listOrder;
+      const completedExpeditionsCount = isActive ? s.completedExpeditionsCount : (state?.completedExpeditionsCount ?? 0);
+      const earnedPermanentSkillPoints = isActive ? s.earnedPermanentSkillPoints : (state?.earnedPermanentSkillPoints ?? 0);
+      const consecutiveStreak = isActive ? s.consecutiveStreak : (state?.consecutiveStreak ?? 0);
+      const departureWindowActive = isActive ? s.departureWindowActive : (state?.departureWindowActive ?? false);
+      const ownedBlueprints = isActive ? s.ownedBlueprints : (state?.ownedBlueprints ?? {});
+      const filterHideCompleted = isActive ? s.filterHideCompleted : (state?.filterHideCompleted ?? true);
+      const filterHideOwnedBlueprints = isActive ? s.filterHideOwnedBlueprints : (state?.filterHideOwnedBlueprints ?? false);
+      const activePersonalityId = isActive ? s.activePersonalityId : (state?.activePersonalityId ?? null);
 
       const allLists: List[] = [...s.workbenches, ...s.sharedCustomLists, ...customLists];
       exported.push({
         profile,
         inventory,
-        language: profileId === s.activeProfileId ? s.language : (loadProfileState(profileId).language ?? s.language),
-        enabledSections: profileId === s.activeProfileId ? s.enabledSections : (loadProfileState(profileId).enabledSections ?? getDefaultEnabledSections()),
+        language,
+        enabledSections,
+        checkedActions,
+        listOrder,
+        completedExpeditionsCount,
+        earnedPermanentSkillPoints,
+        consecutiveStreak,
+        departureWindowActive,
+        ownedBlueprints,
+        filterHideCompleted,
+        filterHideOwnedBlueprints,
+        activePersonalityId,
         lists: allLists.map(list => ({
           list,
           currentLevel: currentLevels[list.id] ?? 0,
@@ -163,15 +174,18 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
       const profileState: PersistedState = {
         currentLevels, targetLevels, activeModules,
         inventory: entry.inventory,
-        filterHideCompleted: true, listOrder, customLists, checkedActions: {},
-        activePersonalityId: null,
-        ownedBlueprints: {},
-        filterHideOwnedBlueprints: false,
+        filterHideCompleted: entry.filterHideCompleted ?? true,
+        listOrder: entry.listOrder ?? listOrder,
+        customLists,
+        checkedActions: entry.checkedActions ?? {},
+        activePersonalityId: entry.activePersonalityId ?? null,
+        ownedBlueprints: entry.ownedBlueprints ?? {},
+        filterHideOwnedBlueprints: entry.filterHideOwnedBlueprints ?? false,
         language: entry.language,
-        completedExpeditionsCount: 0,
-        earnedPermanentSkillPoints: 0,
-        consecutiveStreak: 0,
-        departureWindowActive: false,
+        completedExpeditionsCount: entry.completedExpeditionsCount ?? 0,
+        earnedPermanentSkillPoints: entry.earnedPermanentSkillPoints ?? 0,
+        consecutiveStreak: entry.consecutiveStreak ?? 0,
+        departureWindowActive: entry.departureWindowActive ?? false,
         activeRewardPass: null,
         completedRewardPasses: [],
         raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
