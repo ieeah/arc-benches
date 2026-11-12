@@ -23,8 +23,6 @@ describe('Test Plan 2.x — Manual/Integration Collaudo Export/Import Profilo (#
   });
 
   it('Test 2.1 & 2.2 — Genera payload di export con tutti i 10 campi densi popolati', () => {
-    const store = useAppStore.getState();
-
     // 2.1: Configurazione profilo con dati densi
     useAppStore.setState({
       checkedActions: { 'workbench:1:act1': true, 'expedition:damage|phase1': true },
