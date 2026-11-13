@@ -117,9 +117,53 @@ describe('action window', () => {
 
   it('detects a deduction conflict only for owned items that other lists also need', () => {
     expect(hasDeductionConflict(list, 0, 1, { a: 3 }, { a: 1 })).toBe(true);
+    expect(hasDeductionConflict(list, 0, 1, { a: 3 }, { a: 1 }, { 'bench|1|item_a': true })).toBe(false);
     expect(hasDeductionConflict(list, 0, 1, { a: 0 }, { a: 1 })).toBe(false);
     expect(hasDeductionConflict(list, 0, 1, { a: 3 }, {})).toBe(false);
     expect(hasDeductionConflict(list, 1, 3, { a: 3 }, { a: 1 })).toBe(false); // il livello 1 è già superato
+  });
+});
+
+describe('getBaseLevel action parity (#158)', () => {
+  it('returns 0 when level 1 has checkbox actions or tieredActions despite empty materials', () => {
+    const actionFirst: List = {
+      id: 'retreat',
+      name: 'Rifugio protetto',
+      listType: 'project',
+      maxLevel: 3,
+      levels: [
+        { level: 1, requirementItemIds: [], actions: [{ id: 'snap', label: 'Take photo' }] },
+        { level: 2, requirementItemIds: [{ itemId: 'wood', quantity: 4 }] },
+        { level: 3, requirementItemIds: [{ itemId: 'iron', quantity: 2 }], actions: [{ id: 'finish', label: 'Finish' }] },
+      ],
+    };
+    const tieredFirst: List = {
+      id: 'tiered-first',
+      name: 'Tiered First',
+      listType: 'custom',
+      custom: true,
+      maxLevel: 1,
+      levels: [
+        {
+          level: 1,
+          requirementItemIds: [],
+          tieredActions: [{ id: 't1', label: 'Deal damage', steps: [{ id: 's1', label: '100' }] }],
+        },
+      ],
+    };
+
+    expect(getBaseLevel(actionFirst)).toBe(0);
+    expect(getBaseLevel(tieredFirst)).toBe(0);
+    expect(getBaseLevel({
+      id: 'scrappy',
+      name: 'Scrappy',
+      listType: 'workbench',
+      maxLevel: 2,
+      levels: [
+        { level: 1, requirementItemIds: [] },
+        { level: 2, requirementItemIds: [{ itemId: 'seeds', quantity: 5 }] },
+      ],
+    })).toBe(1);
   });
 });
 
@@ -390,5 +434,34 @@ describe('calculateListProgress', () => {
     );
     expect(resDelivered.segments[0]).toEqual({ level: 1, status: 'in-progress', percent: 100, isTarget: true });
     expect(resDelivered.segments[1]).toEqual({ level: 2, status: 'in-progress', percent: 100, isTarget: false });
+  });
+
+  it('keeps all 3 segments for lists with action-only level 1 and keeps future actions at 0% (#158)', () => {
+    const retreat: List = {
+      id: 'sheltered-retreat',
+      name: 'Rifugio protetto',
+      listType: 'project',
+      maxLevel: 3,
+      levels: [
+        { level: 1, requirementItemIds: [], actions: [{ id: 'photo', label: 'Photo' }] },
+        { level: 2, requirementItemIds: [{ itemId: 'cloth', quantity: 2 }] },
+        { level: 3, requirementItemIds: [{ itemId: 'metal', quantity: 2 }], actions: [{ id: 'build', label: 'Build' }] },
+      ],
+    };
+
+    const res = calculateListProgress(
+      retreat,
+      0,
+      { cloth: 2, metal: 2 },
+      // Anche con una eventuale spunta residua sul livello 3, fuori finestra le azioni future valgono 0%
+      { 'sheltered-retreat|3|build': true },
+      false,
+    );
+    expect(res.baseLevel).toBe(0);
+    expect(res.segments).toEqual([
+      { level: 1, status: 'in-progress', percent: 0, isTarget: true },
+      { level: 2, status: 'in-progress', percent: 100, isTarget: false },
+      { level: 3, status: 'in-progress', percent: 50, isTarget: false },
+    ]);
   });
 });

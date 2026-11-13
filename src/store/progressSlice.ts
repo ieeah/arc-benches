@@ -4,7 +4,7 @@ import { bootProfileState } from '@/store/boot';
 import {
   levelsAbove,
 } from '@/store/gameData';
-import { currentLevelOf, getCascadeLowering, isActionWindowOpen, levelActionKeys, maxReachableLevel, unmetRequirements } from '@/lib/lists';
+import { currentLevelOf, getBaseLevel, getCascadeLowering, isActionWindowOpen, levelActionKeys, maxReachableLevel, unmetRequirements } from '@/lib/lists';
 
 export type ProgressSlice = Pick<AppState,
   'currentLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
@@ -37,7 +37,7 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
     const s = get();
     const allLists = s.getAllLists();
     const list = allLists.find(w => w.id === moduleId);
-    const prevLevel = s.currentLevels[moduleId] ?? 0;
+    const prevLevel = list ? currentLevelOf(list, s.currentLevels) : (s.currentLevels[moduleId] ?? 0);
     // Un livello con un requisito su un'altra lista (es. Research Station Lvl 2 → Outpost Lvl 2) non si raggiunge
     // finché non è soddisfatto: salendo si ferma al livello appena sotto (#87).
     const level = list && requestedLevel > prevLevel
@@ -54,6 +54,7 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
         .filter(l => l.level > prevLevel && l.level <= level)
         .forEach(l => {
           if (deductMaterials) l.requirementItemIds.forEach(req => {
+            if (checkedActions[`${moduleId}|${l.level}|item_${req.itemId}`]) return;
             inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);
           });
           // Salendo, le azioni e i passi delle azioni a livelli dei livelli superati risultano completati.
@@ -165,13 +166,14 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
     const s = get();
     const list = s.getAllLists().find(w => w.id === moduleId);
     if (!list) return;
-    const currentLevel = s.currentLevels[moduleId] ?? 0;
+    const currentLevel = currentLevelOf(list, s.currentLevels);
     if (currentLevel >= list.maxLevel) return;
     const nextLevel = list.levels.find(l => l.level === currentLevel + 1);
     if (!nextLevel) return;
     if (unmetRequirements(nextLevel, s.currentLevels).length > 0) return;
     const inventory = { ...s.inventory };
     nextLevel.requirementItemIds.forEach(req => {
+      if (s.checkedActions[`${moduleId}|${nextLevel.level}|item_${req.itemId}`]) return;
       inventory[req.itemId] = Math.max(0, (inventory[req.itemId] ?? 0) - req.quantity);
     });
     const newLevel = currentLevel + 1;
@@ -202,8 +204,9 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
       seenIds.add(l.id);
 
       if (l.extractionWiped) {
-        currentLevels[l.id] = 0;
-        targetLevels[l.id] = levelsAbove(0, l.maxLevel);
+        const baseLevel = getBaseLevel(l);
+        currentLevels[l.id] = baseLevel;
+        targetLevels[l.id] = levelsAbove(baseLevel, l.maxLevel);
         activeModules[l.id] = true;
 
         Object.keys(checkedActions).forEach(k => {

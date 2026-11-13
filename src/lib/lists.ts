@@ -6,8 +6,14 @@ import type { CustomList, ExpeditionList, LevelRequirement, List, ListLevel, Lis
  */
 export const getBaseLevel = (list: List): number => {
   const first = list.levels.find(l => l.level === 1);
-  // Con un requisito su un'altra lista (es. Outpost Lvl 1) il livello 1 non è «già sbloccato».
-  return first?.requirementItemIds.length === 0 && !first.requires?.length ? 1 : 0;
+  if (!first) return 0;
+  // Un livello 1 è pre-sbloccato (es. Scrappy) solo se non richiede né oggetti, né azioni, né prerequisiti su altre liste (#158).
+  return (
+    first.requirementItemIds.length === 0 &&
+    (first.actions?.length ?? 0) === 0 &&
+    (first.tieredActions?.length ?? 0) === 0 &&
+    !first.requires?.length
+  ) ? 1 : 0;
 };
 
 // Type guard per restringere la union `List` sul tipo di lista (`listType`).
@@ -121,10 +127,15 @@ export function hasDeductionConflict(
   level: number,
   inventory: Record<string, number>,
   otherNeeds: Record<string, number>,
+  checkedActions?: Record<string, boolean>,
 ): boolean {
   return list.levels.some(
     l => l.level > current && l.level <= level &&
-      l.requirementItemIds.some(req => (inventory[req.itemId] ?? 0) > 0 && (otherNeeds[req.itemId] ?? 0) > 0),
+      l.requirementItemIds.some(req =>
+        !checkedActions?.[`${list.id}|${l.level}|item_${req.itemId}`] &&
+        (inventory[req.itemId] ?? 0) > 0 &&
+        (otherNeeds[req.itemId] ?? 0) > 0,
+      ),
   );
 }
 
@@ -217,6 +228,7 @@ export function calculateLevelRequirementsPercent(
   levelNum: number,
   inventory: Record<string, number> = {},
   checkedActions?: Record<string, boolean>,
+  includeActions: boolean = true,
 ): number {
   const levelData = list.levels.find(l => l.level === levelNum);
   if (!levelData) return 0;
@@ -250,12 +262,14 @@ export function calculateLevelRequirementsPercent(
 
   if (totalActions > 0) {
     let completedActions = 0;
-    for (const a of actions) {
-      if (checkedActions?.[`${list.id}|${levelNum}|${a.id}`]) completedActions++;
-    }
-    for (const t of tieredActions) {
-      for (const s of t.steps ?? []) {
-        if (checkedActions?.[`${list.id}|${levelNum}|${t.id}:${s.id}`]) completedActions++;
+    if (includeActions) {
+      for (const a of actions) {
+        if (checkedActions?.[`${list.id}|${levelNum}|${a.id}`]) completedActions++;
+      }
+      for (const t of tieredActions) {
+        for (const s of t.steps ?? []) {
+          if (checkedActions?.[`${list.id}|${levelNum}|${t.id}:${s.id}`]) completedActions++;
+        }
       }
     }
     hasActions = true;
@@ -280,8 +294,9 @@ export function calculateListProgress(
   canUpgrade: boolean = false,
 ): ListProgress {
   const baseLevel = getBaseLevel(list);
+  const clampedCurrent = Math.max(baseLevel, current);
   const maxLevel = list.maxLevel;
-  const isMaxed = current >= maxLevel;
+  const isMaxed = clampedCurrent >= maxLevel;
   const totalLevels = Math.max(1, maxLevel - baseLevel);
 
   if (isMaxed) {
@@ -295,7 +310,7 @@ export function calculateListProgress(
     return {
       baseLevel,
       maxLevel,
-      currentLevel: current,
+      currentLevel: clampedCurrent,
       isMaxed: true,
       canUpgrade: false,
       overallPercent: 100,
@@ -304,13 +319,13 @@ export function calculateListProgress(
     };
   }
 
-  const targetLevel = current + 1;
+  const targetLevel = clampedCurrent + 1;
 
-  // Ottimizzazione issue #138: estraiamo unicamente gli item richiesti dai livelli pendenti (> current)
+  // Ottimizzazione issue #138: estraiamo unicamente gli item richiesti dai livelli pendenti (> clampedCurrent)
   // anziché clonare l'intero inventario Stash, e allochiamo a cascata (waterfall) dal livello attivo in su.
   const remainingInventory: Record<string, number> = {};
   for (const lvl of list.levels) {
-    if (lvl.level > current && lvl.requirementItemIds) {
+    if (lvl.level > clampedCurrent && lvl.requirementItemIds) {
       for (const req of lvl.requirementItemIds) {
         if (remainingInventory[req.itemId] === undefined) {
           const count = inventory[req.itemId];
@@ -343,13 +358,13 @@ export function calculateListProgress(
   };
 
   const targetAllocated = allocateForLevel(targetLevel);
-  const targetReqPercent = calculateLevelRequirementsPercent(list, targetLevel, targetAllocated, checkedActions);
+  const targetReqPercent = calculateLevelRequirementsPercent(list, targetLevel, targetAllocated, checkedActions, true);
   const nextLevelPercent = canUpgrade ? 100 : targetReqPercent;
 
   const segments: ListProgressSegment[] = [];
   for (let lvl = baseLevel + 1; lvl <= maxLevel; lvl++) {
     const isTarget = lvl === targetLevel;
-    if (lvl <= current) {
+    if (lvl <= clampedCurrent) {
       segments.push({ level: lvl, status: 'completed', percent: 100, isTarget: false });
     } else if (isTarget) {
       segments.push({
@@ -359,9 +374,9 @@ export function calculateListProgress(
         isTarget: true,
       });
     } else {
-      // Livelli futuri oltre il target corrente: calcoliamo il progresso reale in base ai componenti allocati a cascata
+      // Livelli futuri oltre il target corrente: calcoliamo materiali allocati a cascata, ma azioni sempre a 0 (finestra chiusa, #158)
       const lvlAllocated = allocateForLevel(lvl);
-      const lvlPercent = calculateLevelRequirementsPercent(list, lvl, lvlAllocated, checkedActions);
+      const lvlPercent = calculateLevelRequirementsPercent(list, lvl, lvlAllocated, checkedActions, false);
       segments.push({
         level: lvl,
         status: lvlPercent > 0 ? 'in-progress' : 'future',
@@ -371,7 +386,7 @@ export function calculateListProgress(
     }
   }
 
-  const completedCount = Math.max(0, current - baseLevel);
+  const completedCount = Math.max(0, clampedCurrent - baseLevel);
   const overallPercent = Math.min(
     100,
     Math.max(0, Math.round(((completedCount * 100) + nextLevelPercent) / totalLevels))
@@ -380,7 +395,7 @@ export function calculateListProgress(
   return {
     baseLevel,
     maxLevel,
-    currentLevel: current,
+    currentLevel: clampedCurrent,
     isMaxed: false,
     canUpgrade,
     overallPercent,

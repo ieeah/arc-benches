@@ -438,6 +438,28 @@ describe('getOtherNeedsPure', () => {
     getOtherNeedsPure(total, bench1, { 'wb:1': 0 }, { 'wb:1': [1, 2, 3] });
     expect(total).toEqual(copy);
   });
+
+  it('skips already delivered requirements when checkedActions is passed (#158)', () => {
+    const total = getTotalRequiredMaterialsPure(
+      [bench1, bench2],
+      activeModules,
+      currentLevels,
+      targetLevels,
+      undefined,
+      Date.now(),
+      { 'wb:1|1|item_metal-parts': true },
+    );
+    const other = getOtherNeedsPure(
+      total,
+      bench1,
+      currentLevels,
+      targetLevels,
+      Date.now(),
+      { 'wb:1|1|item_metal-parts': true },
+    );
+    // Only bench2 needs should remain: metal-parts×4, arc-alloy×3
+    expect(other).toEqual({ 'metal-parts': 4, 'arc-alloy': 3 });
+  });
 });
 
 describe('getAllBlueprintsPure', () => {

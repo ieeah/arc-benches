@@ -1,5 +1,5 @@
 import type { ExpeditionList, ItemInfo, List, PassList, TieredAction } from '@/types';
-import { isPass, pruneOutOfWindowChecks } from '@/lib/lists';
+import { getBaseLevel, isPass, pruneOutOfWindowChecks } from '@/lib/lists';
 import { applyCustomItemsDraft } from '@/lib/customItems';
 import workbenchesData from '@/data/workbenches.json';
 import expeditionsData from '@/data/expeditions.json';
@@ -164,21 +164,11 @@ export const migrateTargets = (
 export const defaultCurrentLevels: Record<string, number> = {};
 export const defaultTargetLevels: Record<string, number[]> = {};
 export const defaultActiveModules: Record<string, boolean> = {};
-workbenches.forEach(w => {
-  const cur = w.id === 'scrappy' ? 1 : 0;
-  defaultCurrentLevels[w.id] = cur;
-  defaultTargetLevels[w.id] = levelsAbove(cur, w.maxLevel);
-  defaultActiveModules[w.id] = true;
-});
-expeditions.forEach(e => {
-  defaultCurrentLevels[e.id] = 0;
-  defaultTargetLevels[e.id] = levelsAbove(0, e.maxLevel);
-  defaultActiveModules[e.id] = true;
-});
-projects.forEach(p => {
-  defaultCurrentLevels[p.id] = 0;
-  defaultTargetLevels[p.id] = levelsAbove(0, p.maxLevel);
-  defaultActiveModules[p.id] = true;
+[...workbenches, ...expeditions, ...projects].forEach(list => {
+  const cur = getBaseLevel(list);
+  defaultCurrentLevels[list.id] = cur;
+  defaultTargetLevels[list.id] = levelsAbove(cur, list.maxLevel);
+  defaultActiveModules[list.id] = true;
 });
 
 /** Build the full in-memory state for a profile from its (partial) persisted slice. */

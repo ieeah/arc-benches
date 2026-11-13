@@ -1,5 +1,5 @@
 import type { ExpeditionList, List, CheckboxAction, TieredAction } from '@/types';
-import { isActionWindowOpen, unmetRequirements } from '@/lib/lists';
+import { currentLevelOf, isActionWindowOpen, unmetRequirements } from '@/lib/lists';
 import { isListExpired } from '@/lib/expiration';
 
 export { isListExpired };
@@ -46,14 +46,14 @@ export function getActiveListsPure(
   orderedLists: List[],
   currentLevels: Record<string, number>,
 ): List[] {
-  return orderedLists.filter(l => (currentLevels[l.id] ?? 0) < l.maxLevel);
+  return orderedLists.filter(l => currentLevelOf(l, currentLevels) < l.maxLevel);
 }
 
 export function getMaxedListsPure(
   orderedLists: List[],
   currentLevels: Record<string, number>,
 ): List[] {
-  return orderedLists.filter(l => (currentLevels[l.id] ?? 0) >= l.maxLevel);
+  return orderedLists.filter(l => currentLevelOf(l, currentLevels) >= l.maxLevel);
 }
 
 export function getTotalRequiredMaterialsPure(
@@ -68,7 +68,7 @@ export function getTotalRequiredMaterialsPure(
   const total: Record<string, number> = {};
   for (const list of allLists) {
     if (list.id === excludeModuleId || !activeModules[list.id] || isListExpired(list, now)) continue;
-    const current = currentLevels[list.id] ?? 0;
+    const current = currentLevelOf(list, currentLevels);
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
       if (lvl.level > current && selected.includes(lvl.level)) {
@@ -117,12 +117,13 @@ export function getAvailableUpgradesPure(
   return allLists
     .filter(list => {
       if (!activeModules[list.id] || isListExpired(list, now)) return false;
-      const current = currentLevels[list.id] ?? 0;
+      const current = currentLevelOf(list, currentLevels);
       if (current >= list.maxLevel) return false;
       const nextLevel = list.levels.find(l => l.level === current + 1);
       if (!nextLevel) return false;
       const materialsReady = nextLevel.requirementItemIds.every(
-        req => (inventory[req.itemId] ?? 0) >= req.quantity,
+        req => Boolean(checkedActions[`${list.id}|${nextLevel.level}|item_${req.itemId}`]) ||
+          (inventory[req.itemId] ?? 0) >= req.quantity,
       );
       const actionsDone = (nextLevel.actions ?? []).every(
         action => checkedActions[`${list.id}|${nextLevel.level}|${action.id}`],
@@ -152,7 +153,7 @@ export function getOtherNeedsPure(
     return { ...totalRequired };
   }
   const result = { ...totalRequired };
-  const current = currentLevels[list.id] ?? 0;
+  const current = currentLevelOf(list, currentLevels);
   const selected = targetLevels[list.id] ?? [];
   for (const lvl of list.levels) {
     if (lvl.level > current && selected.includes(lvl.level)) {
@@ -212,7 +213,7 @@ export function getItemDependenciesPure(
   const deps: ItemListDependency[] = [];
   for (const list of allLists) {
     if (!activeModules[list.id] || isListExpired(list, now)) continue;
-    const current = currentLevels[list.id] ?? 0;
+    const current = currentLevelOf(list, currentLevels);
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
       if (lvl.level > current && selected.includes(lvl.level)) {
@@ -267,7 +268,7 @@ export function getStashActionsPure(
   const actions: StashAction[] = [];
   for (const list of allLists) {
     if (!activeModules[list.id] || isListExpired(list, now)) continue;
-    const current = currentLevels[list.id] ?? 0;
+    const current = currentLevelOf(list, currentLevels);
     const selected = targetLevels[list.id] ?? [];
     for (const lvl of list.levels) {
       if (isActionWindowOpen(lvl.level, current) && selected.includes(lvl.level)) {
