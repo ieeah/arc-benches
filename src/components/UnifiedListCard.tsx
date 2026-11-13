@@ -59,7 +59,6 @@ type RequirementsGridProps = {
   itemsInfo: Record<string, ItemInfo>;
   refinerLevel: number;
   inventory: Record<string, number>;
-  totalRequired: Record<string, number>;
 };
 
 const RequirementsGrid = ({
@@ -67,7 +66,6 @@ const RequirementsGrid = ({
   currentLevelNum,
   itemsInfo,
   inventory,
-  totalRequired,
 }: RequirementsGridProps) => {
   const { t, language } = useTranslation();
   const currentLevels = useAppStore(s => s.currentLevels);
@@ -85,7 +83,7 @@ const RequirementsGrid = ({
         const craftResult = getItemCraftStatus(item, currentLevels, ownedBlueprints, craftMode, itemsInfo);
         const traderPurchase = getTraderPurchase(req.itemId);
         const owned = inventory[req.itemId] ?? 0;
-        const collected = owned >= req.quantity && owned >= (totalRequired[req.itemId] ?? 0);
+        const collected = owned >= req.quantity;
         return (
           <div key={req.itemId}
             className={`text-[10px] flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-xl gap-1 min-w-0 overflow-hidden ${collected ? 'opacity-65' : ''}`}>
@@ -178,7 +176,6 @@ export const UnifiedListCard = ({
   checkedActions,
   itemsInfo,
   refinerLevel = 0,
-  totalRequired = {},
   canUpgrade,
   onUpgrade,
   onToggle,
@@ -246,7 +243,7 @@ export const UnifiedListCard = ({
     };
   }, [menuOpen, updateMenuPosition]);
 
-  const hasConflict = (level: number) => hasDeductionConflict(list, current, level, inventory, otherNeeds);
+  const hasConflict = (level: number) => hasDeductionConflict(list, current, level, inventory, otherNeeds, checkedActions);
 
   const guard = useLevelGuard({
     current,
@@ -279,6 +276,73 @@ export const UnifiedListCard = ({
     : canUpgrade && !isExpanded
     ? 'border-green-500 bg-green-50 dark:bg-green-900/10'
     : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900';
+
+  const inactiveDimClass = !isActive ? 'opacity-70 grayscale-[0.35]' : undefined;
+
+  const nextLevelDetails = (
+    <>
+      {actionLevels.length > 0 && onToggleAction && (
+        <div className={cn('pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2.5', inactiveDimClass)}>
+          {actionLevels.map(lvl => (
+            <div key={lvl.level} className="space-y-2">
+              <p className="text-[10px] font-bold uppercase text-gray-400 mb-1.5">
+                {t('benches.actions')} — {t('benches.lvl')} {lvl.level}
+              </p>
+              {(lvl.actions?.length ?? 0) > 0 && (
+                <div className="space-y-1">
+                  {lvl.actions!.map(action => (
+                    <ActionCheckbox
+                      key={action.id}
+                      label={getActionLabel(action, language)}
+                      checked={checkedActions?.[`${list.id}|${lvl.level}|${action.id}`] ?? false}
+                      onToggle={() => onToggleAction(lvl.level, action.id)}
+                      maps={action.maps}
+                      carryItems={action.carryItems}
+                    />
+                  ))}
+                </div>
+              )}
+              {(lvl.tieredActions?.length ?? 0) > 0 && (
+                <div className="space-y-2">
+                  {lvl.tieredActions!.map(tiered => (
+                    <TieredActionTimeline
+                      key={tiered.id}
+                      tieredAction={tiered}
+                      listId={list.id}
+                      levelNum={lvl.level}
+                      checkedActions={checkedActions}
+                      compact
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      {!isMaxed && nextLevelRequirements.length > 0 && (
+        <RequirementChips requirements={nextLevelRequirements} className="pt-2 border-t border-gray-100 dark:border-gray-800" />
+      )}
+      {!isMaxed && (nextLevelData?.requirementItemIds.length ?? 0) > 0 && (
+        <div className={cn('pt-2 border-t border-gray-100 dark:border-gray-800', inactiveDimClass)}>
+          <RequirementsGrid
+            levelData={nextLevelData!}
+            currentLevelNum={current}
+            itemsInfo={itemsInfo}
+            refinerLevel={refinerLevel}
+            inventory={inventory}
+          />
+        </div>
+      )}
+      {!isMaxed && canUpgrade && (
+        <button onClick={onUpgrade}
+          className="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98] text-sm">
+          <CheckCircle2 size={16} />
+          {t('benches.upgrade')}
+        </button>
+      )}
+    </>
+  );
 
   return (
     <div className={`mb-3 rounded-[24px] border-2 transition-colors w-full min-w-0 overflow-hidden box-border ${cardBorder}`}>
@@ -445,25 +509,7 @@ export const UnifiedListCard = ({
               </div>
             )}
           </div>
-          {nextLevelData && nextLevelData.requirementItemIds.length > 0 && (
-            <div className={!isActive ? 'opacity-70 grayscale-[0.35]' : undefined}>
-              <RequirementsGrid
-                levelData={nextLevelData}
-                currentLevelNum={current}
-                itemsInfo={itemsInfo}
-                refinerLevel={refinerLevel}
-                inventory={inventory}
-                totalRequired={totalRequired}
-              />
-            </div>
-          )}
-          {canUpgrade && (
-            <button onClick={onUpgrade}
-              className="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98] text-sm">
-              <CheckCircle2 size={16} />
-              {t('benches.upgrade')}
-            </button>
-          )}
+          {nextLevelDetails}
         </div>
       )}
 
@@ -514,73 +560,7 @@ export const UnifiedListCard = ({
               className="w-5 h-5 rounded border-gray-300 text-blue-500 focus:ring-blue-500 cursor-pointer"
             />
           </div>
-          {actionLevels.length > 0 && onToggleAction && (
-            <div className={cn(
-              'pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2.5',
-              !isActive && 'opacity-70 grayscale-[0.35]'
-            )}>
-              {actionLevels.map(lvl => (
-                <div key={lvl.level} className="space-y-2">
-                  <p className="text-[10px] font-bold uppercase text-gray-400 mb-1.5">
-                    {t('benches.actions')} — {t('benches.lvl')} {lvl.level}
-                  </p>
-                  {(lvl.actions?.length ?? 0) > 0 && (
-                    <div className="space-y-1">
-                      {lvl.actions!.map(action => (
-                        <ActionCheckbox
-                          key={action.id}
-                          label={getActionLabel(action, language)}
-                          checked={checkedActions?.[`${list.id}|${lvl.level}|${action.id}`] ?? false}
-                          onToggle={() => onToggleAction(lvl.level, action.id)}
-                          maps={action.maps}
-                          carryItems={action.carryItems}
-                        />
-                      ))}
-                    </div>
-                  )}
-                  {(lvl.tieredActions?.length ?? 0) > 0 && (
-                    <div className="space-y-2">
-                      {lvl.tieredActions!.map(tiered => (
-                        <TieredActionTimeline
-                          key={tiered.id}
-                          tieredAction={tiered}
-                          listId={list.id}
-                          levelNum={lvl.level}
-                          checkedActions={checkedActions}
-                          compact
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-          {!isMaxed && nextLevelRequirements.length > 0 && (
-            <RequirementChips requirements={nextLevelRequirements} className="pt-2 border-t border-gray-100 dark:border-gray-800" />
-          )}
-          {!isMaxed && (nextLevelData?.requirementItemIds.length ?? 0) > 0 && (
-            <div className={cn(
-              'pt-2 border-t border-gray-100 dark:border-gray-800',
-              !isActive && 'opacity-70 grayscale-[0.35]'
-            )}>
-              <RequirementsGrid
-                levelData={nextLevelData!}
-                currentLevelNum={current}
-                itemsInfo={itemsInfo}
-                refinerLevel={refinerLevel}
-                inventory={inventory}
-                totalRequired={totalRequired}
-              />
-            </div>
-          )}
-          {!isMaxed && canUpgrade && (
-            <button onClick={onUpgrade}
-              className="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98] text-sm">
-              <CheckCircle2 size={16} />
-              {t('benches.upgrade')}
-            </button>
-          )}
+          {nextLevelDetails}
         </div>
       )}
       {guard.dialogs}
