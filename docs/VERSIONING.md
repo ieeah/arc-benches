@@ -157,9 +157,9 @@ Obiettivo: consolidare la `0.5.0` standardizzando il layout su tutte le pagine, 
 - [ ] #154 [Decomposizione modulare di `SettingsPage.tsx` in sezioni atomiche](https://github.com/ieeah/arc-benches/issues/154)
 - [ ] #155 [Estrazione di componenti riutilizzabili per le pagine Dev Studio (de-inlineing JSX)](https://github.com/ieeah/arc-benches/issues/155)
 - [x] #158 [Parità tra azioni e oggetti in tutti i calcoli di progresso e fix `getBaseLevel`](https://github.com/ieeah/arc-benches/issues/158)
-- [ ] #119 [Code-splitting delle pagine con `React.lazy` e rimozione pagine Dev dalla build di produzione](https://github.com/ieeah/arc-benches/issues/119) — anticipato da 0.9.0
+- [x] #119 [Code-splitting delle pagine con `React.lazy` e rimozione pagine Dev dalla build di produzione](https://github.com/ieeah/arc-benches/issues/119) — anticipato da 0.9.0
 - [x] Refactor & Follow-up: Base Items Studio, Dettaglio Oggetto e Ricerche Armi Amplificate ([base-items-e-varianti-followup.md](specs/base-items-e-varianti-followup.md))
-- [ ] #127 [Passare a `@tailwindcss/vite` e rimuovere PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
+- [x] #127 [Passare a `@tailwindcss/vite` e rimuovere PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
 - [x] #114 [Elenco unico delle liste senza raggruppamento per tipo e card differenziate](https://github.com/ieeah/arc-benches/issues/114) — anticipato da 0.6.0
 
 ---

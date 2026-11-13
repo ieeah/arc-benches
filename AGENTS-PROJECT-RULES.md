@@ -1,6 +1,6 @@
 # AGENTS-PROJECT-RULES
 
-_Scritto per ARC Benches, ultimo aggiornamento 2026-11-08_
+_Scritto per ARC Benches, ultimo aggiornamento 2026-11-13_
 _Se cambi una regola, usa la data di oggi; se la leggi solo, non modificare la data._
 
 Questo file contiene tutte le regole, convenzioni e vincoli vincolanti che gli agenti AI devono rispettare prima di qualunque operazione su questo progetto.
@@ -40,6 +40,7 @@ Questo file contiene tutte le regole, convenzioni e vincoli vincolanti che gli a
 - **Riutilizzo Componenti e Composizione**: Cercare sempre di riutilizzare i componenti già esistenti nel progetto (`src/components/`), ricorrendo a composizione o derivazioni quando sensato invece di ricostruire varianti isolate o duplicare logica UI/comportamentale da zero.
 - **Stato e Persistenza**: Gestione dello stato tramite Zustand con slice per dominio; la persistenza in `localStorage` avviene tramite wrapper custom `safeLS` (non middleware persist nativo di Zustand, vedi ADR 001).
 - **TypeScript: sempre `type`, mai `interface`**: Utilizzare tassativamente `type` (e mai `interface`) per la definizione di modelli, DTO, tipi di stato e props dei componenti.
+- **Performance & Code-Splitting di Default**: Il caricamento dinamico (`React.lazy` + `Suspense` con fallback sobrio e coerente) è obbligatorio di default per tutte le rotte/pagine dell'applicazione, per i modali pesanti di secondo livello e per librerie esterne voluminose (es. Leaflet). Le pagine e gli strumenti del Dev Studio (`Dev*Page`) devono essere condizionati tassativamente dietro `import.meta.env.DEV` affinché la build di produzione li escluda integralmente (tree-shaking reale a beneficio di LCP, bundle size e navigazione mobile), senza richiedere successivi interventi correttivi o di refactor.
 - **Modularità Obbligatoria delle Feature (`isSectionActive`)**: Per qualsiasi nuova funzionalità, pagina o strumento introdotto nella codebase, l'agente deve verificare preventivamente a quale macro-modulo o sotto-modulo appartenga, o se richieda un proprio modulo dedicato. È obbligatorio implementare sempre tutti i relativi controlli ed "interruttori" su quattro livelli:
   1. *Gating di Sistema*: aggancio a un eventuale `systemFlag` (`featureFlags.json`) per funzioni non ancora pronte in produzione.
   2. *Stato del Profilo*: registrazione dell'ID sezione in `enabledSections` del `PersistedState` con persistenza e default.
