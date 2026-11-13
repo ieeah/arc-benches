@@ -1,4 +1,4 @@
-import type { ExpeditionList, List, CheckboxAction, TieredAction } from '@/types';
+import type { ExpeditionList, List, CheckboxAction, TieredAction, StashPriorityMode } from '@/types';
 import { currentLevelOf, isActionWindowOpen, unmetRequirements } from '@/lib/lists';
 import { isListExpired } from '@/lib/expiration';
 
@@ -236,6 +236,43 @@ export function getItemDependenciesPure(
     }
   }
   return deps;
+}
+
+/**
+ * Calcola il punteggio di priorità di ciascun oggetto richiesto nello Stash (#69):
+ * - `list-first` (Lista → Livello): priorità alla lista in `orderedLists`, poi al livello crescente.
+ * - `level-first` (Livello → Lista): priorità al passo relativo imminente (`lvl.level - current`), poi all'ordine delle liste.
+ */
+export function getItemPriorityMapPure(
+  orderedLists: List[],
+  activeModules: Record<string, boolean>,
+  currentLevels: Record<string, number>,
+  targetLevels: Record<string, number[]>,
+  mode: StashPriorityMode = 'list-first',
+  now: number = Date.now(),
+  checkedActions: Record<string, boolean> = {},
+): Map<string, number> {
+  const map = new Map<string, number>();
+  orderedLists.forEach((list, listIndex) => {
+    if (!activeModules[list.id] || isListExpired(list, now)) return;
+    const current = currentLevelOf(list, currentLevels);
+    const selected = targetLevels[list.id] ?? [];
+    list.levels.forEach(lvl => {
+      if (lvl.level <= current || !selected.includes(lvl.level)) return;
+      const stepDelta = Math.max(1, lvl.level - current);
+      const score = mode === 'level-first'
+        ? stepDelta * 1000 + listIndex
+        : listIndex * 1000 + lvl.level;
+      lvl.requirementItemIds.forEach(req => {
+        if (checkedActions[`${list.id}|${lvl.level}|item_${req.itemId}`]) return;
+        const prev = map.get(req.itemId);
+        if (prev === undefined || score < prev) {
+          map.set(req.itemId, score);
+        }
+      });
+    });
+  });
+  return map;
 }
 
 export interface StashAction {

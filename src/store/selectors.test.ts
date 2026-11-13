@@ -12,6 +12,7 @@ import {
   getAllBlueprintsPure,
   getBlueprintProgressPure,
   getItemDependenciesPure,
+  getItemPriorityMapPure,
   isListExpired,
   getMissingActionsPure,
   getStashActionsPure,
@@ -903,5 +904,74 @@ describe('isExpeditionPhaseReady', () => {
     expect(isExpeditionPhaseReady(caravan, 2, {}, {})).toBe(false);
     expect(isExpeditionPhaseReady(caravan, 2, {}, { 'exp|2|sign': true })).toBe(true);
     expect(isExpeditionPhaseReady(caravan, 9, {}, {})).toBe(false);
+  });
+});
+
+describe('getItemPriorityMapPure (#69)', () => {
+  const listA: List = {
+    id: 'list-a',
+    name: 'List A',
+    listType: 'workbench',
+    maxLevel: 2,
+    levels: [
+      { level: 1, requirementItemIds: [{ itemId: 'item-a1', quantity: 1 }] },
+      { level: 2, requirementItemIds: [{ itemId: 'item-a2', quantity: 1 }, { itemId: 'item-shared', quantity: 1 }] },
+    ],
+  };
+  const listB: List = {
+    id: 'list-b',
+    name: 'List B',
+    listType: 'project',
+    maxLevel: 2,
+    levels: [
+      { level: 1, requirementItemIds: [{ itemId: 'item-b1', quantity: 1 }, { itemId: 'item-shared', quantity: 1 }] },
+      { level: 2, requirementItemIds: [{ itemId: 'item-b2', quantity: 1 }] },
+    ],
+  };
+
+  it('orders by List -> Level in list-first mode', () => {
+    const map = getItemPriorityMapPure(
+      [listA, listB],
+      { 'list-a': true, 'list-b': true },
+      { 'list-a': 0, 'list-b': 0 },
+      { 'list-a': [1, 2], 'list-b': [1, 2] },
+      'list-first',
+    );
+    expect(map.get('item-a1')!).toBeLessThan(map.get('item-a2')!);
+    expect(map.get('item-a2')!).toBeLessThan(map.get('item-b1')!);
+    expect(map.get('item-b1')!).toBeLessThan(map.get('item-b2')!);
+    // Shared item takes the best (lowest) score: list-a level 2 < list-b level 1 in list-first
+    expect(map.get('item-shared')).toBe(map.get('item-a2'));
+  });
+
+  it('orders by Next Level step -> List in level-first mode', () => {
+    const map = getItemPriorityMapPure(
+      [listA, listB],
+      { 'list-a': true, 'list-b': true },
+      { 'list-a': 0, 'list-b': 0 },
+      { 'list-a': [1, 2], 'list-b': [1, 2] },
+      'level-first',
+    );
+    expect(map.get('item-a1')!).toBeLessThan(map.get('item-b1')!);
+    expect(map.get('item-b1')!).toBeLessThan(map.get('item-a2')!);
+    expect(map.get('item-a2')!).toBeLessThan(map.get('item-b2')!);
+    // Shared item takes the best (lowest) score: list-b level 1 (step +1) < list-a level 2 (step +2)
+    expect(map.get('item-shared')).toBe(map.get('item-b1'));
+  });
+
+  it('ignores inactive, expired and already-delivered requirements', () => {
+    const expired: List = { ...listB, expirationDate: '2020-01-01T00:00:00Z' };
+    const map = getItemPriorityMapPure(
+      [listA, expired],
+      { 'list-a': true, 'list-b': true },
+      { 'list-a': 0, 'list-b': 0 },
+      { 'list-a': [1, 2], 'list-b': [1, 2] },
+      'list-first',
+      new Date('2026-01-01').getTime(),
+      { 'list-a|1|item_item-a1': true },
+    );
+    expect(map.has('item-a1')).toBe(false);
+    expect(map.has('item-a2')).toBe(true);
+    expect(map.has('item-b1')).toBe(false);
   });
 });

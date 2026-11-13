@@ -230,6 +230,8 @@ export interface Profile {
 
 export type CraftMode = 'strict' | 'level-only';
 
+export type StashPriorityMode = 'list-first' | 'level-first';
+
 export type CraftStatus = 'craftable' | 'needs_level' | 'needs_project' | 'not_craftable';
 
 export type CraftInfo = {
@@ -395,6 +397,7 @@ export interface AppState {
   stashViewMode: 'grid' | 'list';
   stashGridDensity: 'comfortable' | 'compact';
   craftMode: CraftMode;
+  stashPriorityMode: StashPriorityMode;
   setLanguage: (lang: AppLanguage) => void;
   setNavSide: (side: 'left' | 'right') => void;
   setNavVariant: (variant: 'classic' | 'morphing') => void;
@@ -407,6 +410,7 @@ export interface AppState {
   setStashViewMode: (mode: 'grid' | 'list') => void;
   setStashGridDensity: (density: 'comfortable' | 'compact') => void;
   setCraftMode: (mode: CraftMode) => void;
+  setStashPriorityMode: (mode: StashPriorityMode) => void;
 
   /** Active Role Maker personality for the active profile */
   activePersonalityId: string | null;

@@ -59,7 +59,9 @@ useAppStore.subscribe((state, prev) => {
     state.startupProfileOption !== prev.startupProfileOption ||
     state.theme !== prev.theme ||
     state.stashViewMode !== prev.stashViewMode ||
-    state.stashGridDensity !== prev.stashGridDensity
+    state.stashGridDensity !== prev.stashGridDensity ||
+    state.craftMode !== prev.craftMode ||
+    state.stashPriorityMode !== prev.stashPriorityMode
   ) {
     if (typeof document !== 'undefined' && state.reducedMotion !== prev.reducedMotion) {
       document.documentElement.dataset.reducedMotion = state.reducedMotion;
@@ -76,6 +78,8 @@ useAppStore.subscribe((state, prev) => {
       theme: state.theme,
       stashViewMode: state.stashViewMode,
       stashGridDensity: state.stashGridDensity,
+      craftMode: state.craftMode,
+      stashPriorityMode: state.stashPriorityMode,
     });
   }
   const profileStateChanged =

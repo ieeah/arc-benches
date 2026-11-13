@@ -1,4 +1,4 @@
-import type { AppState, CompletedRewardPass, CraftMode, List, Profile } from '@/types';
+import type { AppState, CompletedRewardPass, CraftMode, List, Profile, StashPriorityMode } from '@/types';
 import type { AppLanguage } from '@/i18n/types';
 import { safeLS } from '@/lib/safeStorage';
 import {
@@ -194,6 +194,7 @@ export type AppSettingsData = {
   stashViewMode: 'grid' | 'list';
   stashGridDensity: 'comfortable' | 'compact';
   craftMode?: CraftMode;
+  stashPriorityMode?: StashPriorityMode;
 };
 
 export function loadSettings(): AppSettingsData {
@@ -210,6 +211,7 @@ export function loadSettings(): AppSettingsData {
     const legacyStashView = localStorage.getItem('stash-view-mode') as 'grid' | 'list' | null;
     const legacyStashDensity = localStorage.getItem('stash-grid-density') as 'comfortable' | 'compact' | null;
     const legacyCraftMode = localStorage.getItem('craft-mode') as CraftMode | null;
+    const legacyStashPriorityMode = localStorage.getItem('stash-priority-mode') as StashPriorityMode | null;
 
     let parsed: Partial<AppSettingsData> = {};
     if (raw) {
@@ -253,6 +255,10 @@ export function loadSettings(): AppSettingsData {
       ? parsed.craftMode
       : (legacyCraftMode === 'strict' || legacyCraftMode === 'level-only' ? legacyCraftMode : 'level-only');
 
+    const initialStashPriorityMode: StashPriorityMode = (parsed.stashPriorityMode === 'list-first' || parsed.stashPriorityMode === 'level-first')
+      ? parsed.stashPriorityMode
+      : (legacyStashPriorityMode === 'list-first' || legacyStashPriorityMode === 'level-first' ? legacyStashPriorityMode : 'list-first');
+
     if (typeof document !== 'undefined') {
       document.documentElement.dataset.reducedMotion = reducedMotion;
     }
@@ -270,6 +276,7 @@ export function loadSettings(): AppSettingsData {
       stashViewMode: initialStashView,
       stashGridDensity: initialStashDensity,
       craftMode: initialCraftMode,
+      stashPriorityMode: initialStashPriorityMode,
     };
   }, {
     language: 'en',
@@ -284,6 +291,7 @@ export function loadSettings(): AppSettingsData {
     stashViewMode: 'grid',
     stashGridDensity: 'comfortable',
     craftMode: 'level-only',
+    stashPriorityMode: 'list-first',
   });
 }
 
@@ -301,5 +309,6 @@ export function saveSettings(settings: AppSettingsData) {
     localStorage.setItem('stash-view-mode', settings.stashViewMode);
     localStorage.setItem('stash-grid-density', settings.stashGridDensity);
     if (settings.craftMode) localStorage.setItem('craft-mode', settings.craftMode);
+    if (settings.stashPriorityMode) localStorage.setItem('stash-priority-mode', settings.stashPriorityMode);
   }, undefined);
 }
