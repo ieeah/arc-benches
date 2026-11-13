@@ -5,14 +5,14 @@ import { iconUrl } from '@/lib/icons';
 import { getCategoryIconPath } from '@/lib/categoryIcons';
 import { useTranslation, getItemName } from '@/i18n';
 
-interface BlueprintCardProps {
+type BlueprintCardProps = {
   blueprint: ItemInfo;
   isOwned: boolean;
   onToggleOwned: () => void;
   /** Opzionale per futura integrazione Vault Spedizione (Issue #34) */
   onAddToVault?: () => void;
   showVaultAction?: boolean;
-}
+};
 
 export const BlueprintCard = ({
   blueprint,

@@ -2,11 +2,14 @@ import React from "react";
 import { CheckCircle2 } from "lucide-react";
 import { ItemIcon } from "@/components/ItemIcon";
 import { getRarityHex } from "@/lib/rarity";
+import { iconUrl } from "@/lib/icons";
 
-export interface ItemCardFrameV2Props {
+export type ItemCardFrameV2Props = {
   icon?: string | null;
   alt?: string;
   rarity?: string;
+  itemType?: string | null;
+  subcategory?: string | null;
   fallbackText?: string;
   className?: string;
   innerClassName?: string;
@@ -29,25 +32,61 @@ export interface ItemCardFrameV2Props {
   thumb?: boolean;
   onClick?: () => void;
   children?: React.ReactNode;
+};
+
+type CardBgVariant = "amplified" | "blueprint" | "design" | "default";
+
+const AMPLIFIED_BG =
+  "linear-gradient(to top, #F08524 0% 8%, #B46624 8% 16%, #894F26 16% 24%, #693E25 24% 32%, #563427 32%, #1C1A25 100%)";
+
+const DESIGN_GRID_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11 0h2v8h-2zM11 16h2v8h-2zM0 11h8v2H0zM16 11h8v2h-8z" fill="rgb(133 149 177 / 0.18)"/><path d="M11 8h2v3h3v2h-3v3h-2v-3H8v-2h3z" fill="rgb(133 149 177 / 0.58)"/></svg>`;
+const DESIGN_GRID_URI = `url("data:image/svg+xml,${encodeURIComponent(DESIGN_GRID_SVG)}")`;
+
+function resolveCardBgVariant(
+  rarity?: string,
+  itemType?: string | null,
+  subcategory?: string | null,
+): CardBgVariant {
+  if (rarity?.toLowerCase().trim() === "amplified") return "amplified";
+  const normType = itemType?.toLowerCase().trim();
+  const normSub = subcategory?.toLowerCase().trim();
+  if (normType === "blueprint" || normSub === "blueprint") return "blueprint";
+  if (normType === "design" || normSub === "design") return "design";
+  return "default";
+}
+
+function getContentBackground(
+  bgVariant: CardBgVariant,
+  hex: string,
+): string {
+  switch (bgVariant) {
+    case "amplified":
+      return AMPLIFIED_BG;
+    case "blueprint":
+      return `url("${iconUrl("blueprint-bg.jpg")}") center / cover no-repeat, #0a0f1e`;
+    case "design":
+      return `radial-gradient(circle at 0% 100%, ${hex}45 0%, transparent 82%), ${DESIGN_GRID_URI} center / 24px 24px repeat, #182336`;
+    default:
+      return `radial-gradient(circle at 0% 100%, ${hex}40 0%, transparent 85%)`;
+  }
 }
 
 /**
- * Variante sperimentale di ItemCardFrame che replica più da vicino la card di gioco.
+ * Frame standard delle card oggetto che replica fedelmente la card di gioco.
  * Struttura a 3 livelli:
  * - container: solo bordo (colore rarità) e border-radius (squircle) — nessuno sfondo.
- * - contenuto: bagliore di rarità come vero `background` CSS (non un layer assoluto
- *   separato), immagine oggetto centrata, badge angolare solido (SVG) in basso a
- *   sinistra — tutto scalato sulla sua sola altezza, la barra è una sorella, non ci
- *   rientra.
+ * - contenuto: bagliore di rarità (o background dedicato per Amplificati, Blueprint e Design)
+ *   come vero `background` CSS, immagine oggetto centrata, badge angolare solido (SVG) in basso a
+ *   sinistra — tutto scalato sulla sua sola altezza, la barra è una sorella, non ci rientra.
  * - barra: sfondo trasparente (mostra ciò che sta dietro la card), solo l'icona
  *   categoria (la variante del tema corrente viene scelta da CategoryBadge, senza filtri CSS).
- *
- * Non sostituisce ItemCardFrame — coesistono per confronto visivo.
  */
 export const ItemCardFrameV2 = ({
   icon,
   alt = "",
   rarity,
+  itemType,
+  subcategory,
   fallbackText,
   className = "",
   innerClassName = "",
@@ -67,7 +106,11 @@ export const ItemCardFrameV2 = ({
   children,
 }: ItemCardFrameV2Props) => {
   const hex = getRarityHex(rarity);
+  const bgVariant = resolveCardBgVariant(rarity, itemType, subcategory);
+  const contentBackground = getContentBackground(bgVariant, hex);
   const showCategoryBar = !compact && Boolean(categoryBadge || barRightSlot);
+  const showCornerArc =
+    showCategoryBar && bgVariant !== "amplified" && bgVariant !== "blueprint";
 
   const radiusValue =
     typeof borderRadius === "number"
@@ -89,12 +132,12 @@ export const ItemCardFrameV2 = ({
           "sconfinare" nella barra sottostante perché è una sorella nel flex-col) */}
       <div
         style={{
-          background: `radial-gradient(circle at 0% 100%, ${hex}40 0%, transparent 85%)`,
+          background: contentBackground,
         }}
         className="relative flex-1 min-h-0 overflow-clip flex items-center justify-center"
       >
         {/* Badge angolare solido della rarità, dentro il box del contenuto */}
-        {showCategoryBar && (
+        {showCornerArc && (
           <svg
             aria-hidden
             width="100%"

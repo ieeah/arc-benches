@@ -434,6 +434,8 @@ export const ExpeditionPage = () => {
                                 icon={item?.icon}
                                 alt={req.itemId}
                                 rarity={item?.rarity}
+                                itemType={item?.item_type}
+                                subcategory={item?.subcategory}
                                 fallbackText={req.itemId}
                                 className="w-8 h-8 rounded-lg shrink-0"
                               />

@@ -1395,6 +1395,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                   <ItemCardFrameV2
                                     icon={item?.icon}
                                     rarity={item?.rarity || "Common"}
+                                    itemType={item?.item_type}
+                                    subcategory={item?.subcategory}
                                     compact
                                     borderRadius={12}
                                   />

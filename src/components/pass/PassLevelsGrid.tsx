@@ -202,6 +202,8 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
                           icon={info?.icon}
                           alt={name}
                           rarity={info?.rarity}
+                          itemType={info?.item_type}
+                          subcategory={info?.subcategory}
                           fallbackText={reward.itemId}
                           thumb
                           borderRadius={14}

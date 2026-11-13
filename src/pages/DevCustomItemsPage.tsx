@@ -313,6 +313,8 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
               icon={previewIcon}
               alt={selected.name}
               rarity={selected.rarity}
+              itemType={selected.item_type}
+              subcategory={selected.subcategory}
               fallbackText={selected.id}
               className="w-16 h-16 shrink-0"
               imgClassName="max-w-[85%] max-h-[85%] object-contain"

@@ -142,6 +142,8 @@ export const ItemDetailSheet = ({
         icon={activeItem.icon}
         alt={displayName}
         rarity={activeItem.rarity}
+        itemType={activeItem.item_type}
+        subcategory={activeItem.subcategory}
         fallbackText={activeItem.id}
         className={`mx-auto w-40 h-40 mb-4 shrink-0 ${glow}`}
         imgClassName="max-w-[95%] max-h-[95%] object-contain"
@@ -278,6 +280,8 @@ export const ItemDetailSheet = ({
                 icon={producedItem.icon}
                 alt={getItemName(producedItem, language)}
                 rarity={producedItem.rarity}
+                itemType={producedItem.item_type}
+                subcategory={producedItem.subcategory}
                 className="w-8 h-8 shrink-0"
               />
               <div className="min-w-0">

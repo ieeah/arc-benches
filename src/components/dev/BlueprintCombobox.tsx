@@ -71,6 +71,8 @@ export function BlueprintCombobox({ value, onChange, blueprints }: BlueprintComb
               icon={selectedItem.icon || 'icons/default.webp'}
               alt={selectedItem.name}
               rarity={selectedItem.rarity || 'Common'}
+              itemType={selectedItem.item_type || 'Blueprint'}
+              subcategory={selectedItem.subcategory}
               className="w-10 h-10 shrink-0"
             />
             <div className="min-w-0">
@@ -203,6 +205,8 @@ export function BlueprintCombobox({ value, onChange, blueprints }: BlueprintComb
                           icon={bp.icon || 'icons/default.webp'}
                           alt={bp.name}
                           rarity={bp.rarity || 'Common'}
+                          itemType={bp.item_type || 'Blueprint'}
+                          subcategory={bp.subcategory}
                           className="w-8 h-8 shrink-0"
                         />
                         <div className="flex-1 min-w-0">

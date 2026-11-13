@@ -440,6 +440,8 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                     icon={base.icon || 'icons/default.webp'}
                     alt={base.name}
                     rarity={base.rarity || 'Common'}
+                    itemType={base.item_type}
+                    subcategory={base.subcategory}
                     className="w-10 h-10 shrink-0"
                   />
                   <div className="flex-1 min-w-0">
@@ -465,6 +467,8 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
               icon={selectedBaseItem.icon || 'icons/default.webp'}
               alt={selectedBaseItem.name}
               rarity={selectedBaseItem.rarity || 'Common'}
+              itemType={selectedBaseItem.item_type}
+              subcategory={selectedBaseItem.subcategory}
               className="w-16 h-16 shrink-0"
             />
             <div className="flex-1 min-w-0">
@@ -864,6 +868,8 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                         icon={item?.icon || 'icons/default.webp'}
                         alt={item?.name || vId}
                         rarity={item?.rarity || 'Common'}
+                        itemType={item?.item_type}
+                        subcategory={item?.subcategory}
                         className="w-10 h-10 shrink-0"
                       />
 
@@ -954,6 +960,8 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                         icon={cand.icon || 'icons/default.webp'}
                         alt={cand.name}
                         rarity={cand.rarity}
+                        itemType={cand.item_type}
+                        subcategory={cand.subcategory}
                         className="w-8 h-8 shrink-0"
                       />
                       <div className="min-w-0">
@@ -1006,6 +1014,8 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
                         icon={cand.icon || 'icons/default.webp'}
                         alt={cand.name}
                         rarity={cand.rarity}
+                        itemType={cand.item_type}
+                        subcategory={cand.subcategory}
                         className="w-8 h-8 shrink-0"
                       />
                       <div className="min-w-0">

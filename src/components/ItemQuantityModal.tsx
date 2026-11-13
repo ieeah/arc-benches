@@ -101,6 +101,8 @@ export function ItemQuantityModal({
               icon={item.icon}
               alt={itemName}
               rarity={item.rarity}
+              itemType={item.item_type}
+              subcategory={item.subcategory}
               fallbackText={item.id}
               className="w-14 h-14 shrink-0 rounded-2xl shadow-2xs"
               imgClassName="max-w-[85%] max-h-[85%] object-contain"

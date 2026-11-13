@@ -459,6 +459,8 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                         <ItemCardFrameV2
                           icon={info?.icon}
                           rarity={info?.rarity}
+                          itemType={info?.item_type}
+                          subcategory={info?.subcategory}
                           compact
                           thumb
                         />
