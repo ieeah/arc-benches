@@ -10,6 +10,7 @@ import {
 } from '@/lib/sections';
 import type { SectionDefinition, MacroSectionId } from '@/types';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
+import { Switch } from '@/components/ui';
 import { cn } from '@/lib/cn';
 
 type ToggleSwitchProps = {
@@ -20,26 +21,12 @@ type ToggleSwitchProps = {
 };
 
 const ToggleSwitch = ({ checked, disabled, onChange, ariaLabel }: ToggleSwitchProps) => (
-  <button
-    type="button"
-    role="switch"
-    aria-checked={checked}
-    aria-label={ariaLabel}
+  <Switch
+    checked={checked}
+    onChange={disabled ? () => {} : (onChange ?? (() => {}))}
     disabled={disabled}
-    onClick={disabled ? undefined : onChange}
-    className={cn(
-      'relative w-9 h-5 rounded-full transition-colors shrink-0',
-      disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
-      checked ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-700'
-    )}
-  >
-    <div
-      className={cn(
-        'absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform',
-        checked ? 'translate-x-[1.125rem]' : 'translate-x-0.5'
-      )}
-    />
-  </button>
+    aria-label={ariaLabel}
+  />
 );
 
 export const ProfileSectionsConfigSection = () => {

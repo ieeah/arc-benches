@@ -10,6 +10,7 @@ import { IconButton } from '@/components/IconButton';
 import { StickyHeader } from '@/components/StickyHeader';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
+import { Button } from '@/components/ui';
 import { createZip } from '@/lib/zip';
 import { getDevArtifacts, type DevArtifact } from '@/lib/devArtifacts';
 import { downloadTextFile } from '@/lib/devI18n';
@@ -148,17 +149,19 @@ export function DevDashboardPage({ onBack, onNavigate }: DevDashboardPageProps) 
                 label={`Applica al progetto (${modified.length})`}
                 disabled={modified.length === 0}
               />
-              <button
-                type="button"
+              <Button
+                size="sm"
+                variant="primary"
                 disabled={modified.length === 0}
                 onClick={downloadZip}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                leftIcon={<Archive size={13} />}
                 title="Un unico ZIP con i file modificati, ciascuno nel suo percorso del repository"
               >
-                <Archive size={13} /> Scarica ZIP ({modified.length})
-              </button>
-              <button
-                type="button"
+                Scarica ZIP ({modified.length})
+              </Button>
+              <Button
+                size="sm"
+                variant="danger"
                 disabled={modified.length === 0}
                 onClick={() =>
                   setConfirm({
@@ -169,10 +172,10 @@ export function DevDashboardPage({ onBack, onNavigate }: DevDashboardPageProps) 
                     onConfirm: () => resetAndReload(modified.map((m) => m.artifact)),
                   })
                 }
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-red-200 dark:border-red-900/50 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                leftIcon={<RotateCcw size={13} />}
               >
-                <RotateCcw size={13} /> Scarta bozze
-              </button>
+                Scarta bozze
+              </Button>
             </div>
           </div>
 
