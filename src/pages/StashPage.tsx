@@ -10,6 +10,7 @@ import {
   getMissingMaterialsPure,
   getStashActionsPure,
   getItemDependenciesPure,
+  getItemPriorityMapPure,
   getActiveExpeditionPure,
 } from '@/store/selectors';
 import { REFINER_ID } from '@/store/gameData';
@@ -66,6 +67,7 @@ export const StashPage = ({
   const filterHideCompleted = useAppStore(s => s.filterHideCompleted);
   const itemsInfo = useAppStore(s => s.itemsInfo);
   const stashGridDensity = useAppStore(s => s.stashGridDensity);
+  const stashPriorityMode = useAppStore(s => s.stashPriorityMode);
   const stashViewMode = useAppStore(s => s.stashViewMode);
   const setStashViewMode = useAppStore(s => s.setStashViewMode);
 
@@ -120,7 +122,7 @@ export const StashPage = ({
       currentLevels,
       targetLevels,
       undefined,
-      Date.now(),
+      undefined,
       checkedActions,
     ),
     [allLists, activeModules, currentLevels, targetLevels, checkedActions],
@@ -132,8 +134,8 @@ export const StashPage = ({
   );
 
   const allStashActions = useMemo(
-    () => getStashActionsPure(allLists, activeModules, currentLevels, targetLevels, checkedActions),
-    [allLists, activeModules, currentLevels, targetLevels, checkedActions],
+    () => getStashActionsPure(orderedLists, activeModules, currentLevels, targetLevels, checkedActions),
+    [orderedLists, activeModules, currentLevels, targetLevels, checkedActions],
   );
 
   const refinerLevel = useMemo(
@@ -185,29 +187,17 @@ export const StashPage = ({
     for (const mat of missingMaterials) {
       map.set(
         mat.itemId,
-        getItemDependenciesPure(mat.itemId, allLists, activeModules, currentLevels, targetLevels, Date.now(), checkedActions),
+        getItemDependenciesPure(mat.itemId, orderedLists, activeModules, currentLevels, targetLevels, undefined, checkedActions),
       );
     }
     return map;
-  }, [missingMaterials, allLists, activeModules, currentLevels, targetLevels, checkedActions]);
+  }, [missingMaterials, orderedLists, activeModules, currentLevels, targetLevels, checkedActions]);
 
   // Map pre-calcolata per priority sort: O(n) invece di O(n²) nel comparatore
-  const priorityMap = useMemo(() => {
-    const map = new Map<string, number>();
-    orderedLists.forEach((list, i) => {
-      if (activeModules[list.id] === false) return;
-      const current = currentLevels[list.id] ?? 0;
-      const selected = targetLevels[list.id] ?? list.levels.map(l => l.level);
-      list.levels.forEach(lvl => {
-        if (lvl.level > current && selected.includes(lvl.level)) {
-          lvl.requirementItemIds.forEach(req => {
-            if (!map.has(req.itemId)) map.set(req.itemId, i);
-          });
-        }
-      });
-    });
-    return map;
-  }, [orderedLists, activeModules, currentLevels, targetLevels]);
+  const priorityMap = useMemo(
+    () => getItemPriorityMapPure(orderedLists, activeModules, currentLevels, targetLevels, stashPriorityMode, undefined, checkedActions),
+    [orderedLists, activeModules, currentLevels, targetLevels, stashPriorityMode, checkedActions],
+  );
 
   // Map pre-calcolata per gli oggetti inclusi nella pianificazione raid attiva
   const plannedMap = useMemo(() => {
@@ -273,7 +263,7 @@ export const StashPage = ({
       label: t('stash.sortPriority'),
       direction: 'asc',
       toggleId: 'priority_desc',
-      compare: (a, b) => (priorityMap.get(a.itemId) ?? 999) - (priorityMap.get(b.itemId) ?? 999),
+      compare: (a, b) => (priorityMap.get(a.itemId) ?? Number.MAX_SAFE_INTEGER) - (priorityMap.get(b.itemId) ?? Number.MAX_SAFE_INTEGER),
     },
     {
       id: 'priority_desc',
@@ -281,7 +271,7 @@ export const StashPage = ({
       direction: 'desc',
       toggleId: 'priority_asc',
       hideFromUi: true,
-      compare: (a, b) => (priorityMap.get(b.itemId) ?? 999) - (priorityMap.get(a.itemId) ?? 999),
+      compare: (a, b) => (priorityMap.get(b.itemId) ?? Number.MAX_SAFE_INTEGER) - (priorityMap.get(a.itemId) ?? Number.MAX_SAFE_INTEGER),
     },
     {
       id: 'name_asc',
