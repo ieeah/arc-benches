@@ -92,6 +92,11 @@ export function getVariantToBaseItemMap(): Map<string, BaseItemDefinition> {
   return map;
 }
 
+/** Verifica se un ID oggetto corrisponde a un Base Item che raggruppa varianti. */
+export function isBaseItem(itemId: string): boolean {
+  return Boolean(getBaseItem(itemId)?.variantItemIds?.length);
+}
+
 /** Verifica se un ID oggetto è registrato come variante di un qualsiasi Base Item. */
 export function isVariantItem(itemId: string): boolean {
   return getVariantToBaseItemMap().has(itemId);
@@ -138,6 +143,7 @@ export function getSuggestedVariants(
 
   return allItems.filter((item) => {
     if (alreadyAssigned.has(item.id)) return false;
+    if (isBaseItem(item.id)) return false;
     if (item.item_type === 'Blueprint') return false;
 
     const normId = item.id.toLowerCase().replace(/[^a-z0-9]+/g, '');

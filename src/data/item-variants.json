@@ -641,7 +641,7 @@
       "name": "Amplification Module",
       "item_type": "Topside Material",
       "subcategory": null,
-      "rarity": "Rare",
+      "rarity": "Amplified",
       "icon": "icons/items/amplification-module-mk-i.webp",
       "description": "Advanced ARC technology that unlocks common weapon Amplification.",
       "translations": {

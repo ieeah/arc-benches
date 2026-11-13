@@ -10,9 +10,11 @@ import { IconButton } from '@/components/IconButton';
 import { ItemDetailSheet } from '@/components/ItemDetailSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { StickyHeader } from '@/components/StickyHeader';
+import { isBaseItem } from '@/lib/baseItems';
 
-const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] as const;
+const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Amplified'] as const;
 const RARITY_WEIGHTS: Record<string, number> = {
+  amplified: 6,
   legendary: 5,
   epic: 4,
   rare: 3,
@@ -42,7 +44,10 @@ export const DevCatalogLabPage = ({
   onOpenOverrides?: (itemId: string) => void;
 }) => {
   const store = useAppStore();
-  const allItems = useMemo(() => Object.values(store.itemsInfo), [store.itemsInfo]);
+  const allItems = useMemo(
+    () => Object.values(store.itemsInfo).filter((item) => !isBaseItem(item.id)),
+    [store.itemsInfo],
+  );
   const refinerLevel = store.getRefinerLevel();
 
   const [selectedItem, setSelectedItem] = useState<ItemInfo | null>(null);

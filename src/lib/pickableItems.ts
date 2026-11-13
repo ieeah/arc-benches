@@ -1,7 +1,7 @@
 import type { ItemInfo } from '@/types';
 import type { AppLanguage } from '@/i18n/types';
 import { getItemName } from '@/i18n';
-import { isVariantItem, getBaseItem, getBaseItemForVariant } from '@/lib/baseItems';
+import { isVariantItem, isBaseItem, getBaseItem, getBaseItemForVariant } from '@/lib/baseItems';
 import { fuzzyMatch, normalize } from '@/lib/fuzzy';
 
 /**
@@ -178,7 +178,7 @@ export function getItemPoolTier(
   if (context !== 'reward' && isVariantItem(item.id)) return null;
   // Al contrario, nelle ricompense si ottiene sempre un livello o variante specifica (es. Anvil IV);
   // il Base Item astratto/aggregatore non è un oggetto di gioco ottenibile ed è quindi escluso.
-  if (context === 'reward' && Boolean(getBaseItem(item.id)?.variantItemIds?.length)) return null;
+  if (context === 'reward' && isBaseItem(item.id)) return null;
 
   const config = CONTEXT_POOLS[context];
   if (!config) return null;

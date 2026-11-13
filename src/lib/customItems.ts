@@ -10,7 +10,7 @@ export const CUSTOM_ITEMS_FILE = 'scripts/data/custom-items/items.json';
 export const CUSTOM_ITEMS_ICONS_DIR = 'scripts/data/custom-items';
 const DRAFT_KEY = 'dev_custom_items_draft';
 
-export const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] as const;
+export const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Amplified'] as const;
 export const ICON_EXTENSIONS = ['png', 'svg', 'webp'] as const;
 export const MAX_ICON_BYTES = 512 * 1024;
 

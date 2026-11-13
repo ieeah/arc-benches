@@ -40,7 +40,7 @@ type DevBaseItemsPageProps = {
   onBack: () => void;
 };
 
-const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] as const;
+const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Amplified'] as const;
 
 export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
   const { language } = useTranslation();
@@ -339,11 +339,11 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
 
     return allCatalogItems
       .filter((item) => {
-        if (assignedSet.has(item.id)) return false;
+        if (assignedSet.has(item.id) || data.baseItems[item.id]?.variantItemIds?.length) return false;
         return getItemSearchFields(item).some((f) => f.toLowerCase().includes(q));
       })
       .slice(0, 15);
-  }, [selectedBaseItem, variantSearchQuery, allCatalogItems]);
+  }, [selectedBaseItem, variantSearchQuery, allCatalogItems, data.baseItems]);
 
   // Ricerca icona da catalogo
   const iconCatalogCandidates = useMemo(() => {

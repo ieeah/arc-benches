@@ -27,8 +27,8 @@ import {
 } from '@/lib/overrideConflicts';
 import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
-type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary';
-const RARITIES: ItemRarity[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
+type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Amplified';
+const RARITIES: ItemRarity[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Amplified'];
 
 // Stato + wiring (click esterno, Escape) per un menu a comparsa custom, usato dalle
 // select con icona di "Tipo Oggetto" e "Sottocategoria" (un <select> nativo non può

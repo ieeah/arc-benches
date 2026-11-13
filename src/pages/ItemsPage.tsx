@@ -15,10 +15,12 @@ import { StickyHeader } from '@/components/StickyHeader';
 import {
   getBaseItem,
   getBaseItemForVariant,
+  isBaseItem,
   isVariantItem,
 } from "@/lib/baseItems";
 
 const RARITY_WEIGHTS: Record<string, number> = {
+  amplified: 6,
   legendary: 5,
   epic: 4,
   rare: 3,
@@ -200,9 +202,11 @@ export const ItemsPage = ({
     [itemsInfo],
   );
 
-  // Elementi esposti: se collapseVariants è attivo, mostriamo i Base Items e nascondiamo le singole varianti
+  // Elementi esposti:
+  // - se collapseVariants è attivo, mostriamo i Base Items e nascondiamo le singole varianti
+  // - se collapseVariants è disattivato ("Tutte le varianti"), mostriamo le singole varianti e nascondiamo i Base Items
   const displayedItems = useMemo(() => {
-    if (!collapseVariants) return allItems;
+    if (!collapseVariants) return allItems.filter((item) => !isBaseItem(item.id));
     return allItems.filter((item) => !isVariantItem(item.id));
   }, [allItems, collapseVariants]);
 
@@ -294,7 +298,7 @@ export const ItemsPage = ({
             sortOptions={sortOptions}
             showGroupingToggle={true}
             sortType="pills"
-            items={allItems}
+            items={displayedItems}
             extraActions={
               <button
                 type="button"

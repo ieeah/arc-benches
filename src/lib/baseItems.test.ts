@@ -3,6 +3,7 @@ import type { ItemInfo } from '@/types';
 import {
   getBaseItem,
   getBaseItemsMap,
+  isBaseItem,
   isVariantItem,
   getBaseItemForVariant,
   baseItemToItemInfo,
@@ -54,9 +55,15 @@ describe('baseItems logic', () => {
     expect(map['anvil'].name).toBe('Anvil');
     expect(map['anvil'].variantItemIds).toContain('anvil-i');
     expect(map['anvil'].variantItemIds).toContain('anvil-iv');
+    expect(map['amplification-module']?.rarity).toBe('Amplified');
   });
 
-  it('identifies variant items and resolves their base item', () => {
+  it('identifies base items and variant items and resolves their base item', () => {
+    expect(isBaseItem('anvil')).toBe(true);
+    expect(isBaseItem('amplification-module')).toBe(true);
+    expect(isBaseItem('anvil-i')).toBe(false);
+    expect(isBaseItem('dolabra')).toBe(false);
+
     expect(isVariantItem('anvil-i')).toBe(true);
     expect(isVariantItem('anvil-iv')).toBe(true);
     expect(isVariantItem('amplified-anvil')).toBe(true);
