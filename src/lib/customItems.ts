@@ -164,7 +164,7 @@ export function isCustomItemsModified(): boolean {
 
 // ── serializzazione ──────────────────────────────────────────────────────────
 
-function cleanTranslations(translations?: Record<string, ItemTranslation>): Record<string, ItemTranslation> | undefined {
+export function cleanTranslations(translations?: Record<string, ItemTranslation>): Record<string, ItemTranslation> | undefined {
   if (!translations) return undefined;
   const entries = Object.entries(translations)
     .map(([lang, t]) => [lang, { name: (t.name ?? '').trim(), description: (t.description ?? '').trim() }] as const)

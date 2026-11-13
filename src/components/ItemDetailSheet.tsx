@@ -131,7 +131,7 @@ export const ItemDetailSheet = ({
             </p>
             {activeItem.deprecated && (
               <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
-                {language === 'it' ? 'Deprecato' : 'Deprecated'}
+                {t('common.deprecated')}
               </span>
             )}
           </div>

@@ -14,7 +14,7 @@ import itemsDataBase from '@/data/items.json';
 import initialOverrides from '@/data/items-overrides.json';
 import conflictsData from '@/data/overrides-conflicts.json';
 import { getRarityText } from '@/lib/rarity';
-import { SUPPORTED_LANGUAGES, getItemSearchFields, getItemSearchMatch } from '@/i18n';
+import { KNOWN_LANGUAGES, getItemSearchFields, getItemSearchMatch } from '@/i18n';
 import { fuzzyMatch } from '@/lib/fuzzy';
 import {
   CONFLICT_KIND_LABELS,
@@ -57,7 +57,7 @@ function useDropdownMenu(ref: React.RefObject<HTMLDivElement | null>) {
   return { open, setOpen };
 }
 
-const AVAILABLE_LANGUAGES = SUPPORTED_LANGUAGES.filter(l => l.code !== 'en');
+const AVAILABLE_LANGUAGES = KNOWN_LANGUAGES.filter(l => l.code !== 'en');
 
 // Tipi oggetto e sottocategorie derivati dal catalogo EFFETTIVO (items.json + le
 // correzioni già presenti in items-overrides.json), non dal solo dato grezzo MetaForge:

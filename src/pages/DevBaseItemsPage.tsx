@@ -19,7 +19,7 @@ import { DevStickyActionBar, DevDiffModal, DevSearchFilterBar } from '@/componen
 import { BlueprintCombobox } from '@/components/dev/BlueprintCombobox';
 import { downloadTextFile } from '@/lib/devI18n';
 import { getRarityText } from '@/lib/rarity';
-import { useTranslation, getItemName, getItemSearchFields, SUPPORTED_LANGUAGES } from '@/i18n';
+import { useTranslation, getItemName, getItemSearchFields, KNOWN_LANGUAGES } from '@/i18n';
 import { cn } from '@/lib/cn';
 import {
   type BaseItemDefinition,
@@ -134,7 +134,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
   }, [allCatalogItems]);
 
   const AVAILABLE_TRANSLATION_LANGUAGES = useMemo(
-    () => SUPPORTED_LANGUAGES.filter((l) => l.code !== 'en'),
+    () => KNOWN_LANGUAGES.filter((l) => l.code !== 'en'),
     [],
   );
 
@@ -722,7 +722,10 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
               {AVAILABLE_TRANSLATION_LANGUAGES.map((lang) => {
                 const isSelected = selectedTransLang === lang.code;
-                const hasTranslation = Boolean(selectedBaseItem.translations?.[lang.code]?.name);
+                const hasTranslation = Boolean(
+                  selectedBaseItem.translations?.[lang.code]?.name ||
+                  selectedBaseItem.translations?.[lang.code]?.description,
+                );
                 return (
                   <button
                     key={lang.code}

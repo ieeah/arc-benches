@@ -104,6 +104,39 @@ describe('validateList', () => {
     expect(out!.maxLevel).toBe(2);
   });
 
+  it('preserves description and multi-language translations', () => {
+    const out = validateList({
+      ...valid,
+      description: 'Default English description',
+      translations: {
+        it: { name: 'Nome Italiano', description: 'Descrizione Italiana' },
+        de: { name: 'Deutscher Name' },
+        fr: { description: 'Description Française' },
+        es: { name: '', description: '' },
+      },
+    });
+    expect(out).not.toBeNull();
+    expect(out!.description).toBe('Default English description');
+    expect(out!.translations).toEqual({
+      it: { name: 'Nome Italiano', description: 'Descrizione Italiana' },
+      de: { name: 'Deutscher Name' },
+      fr: { description: 'Description Française' },
+    });
+  });
+
+  it('drops empty description and empty translations object', () => {
+    const out = validateList({
+      ...valid,
+      description: '',
+      translations: {
+        it: { name: '', description: '' },
+      },
+    });
+    expect(out).not.toBeNull();
+    expect(out!.description).toBeUndefined();
+    expect(out!.translations).toBeUndefined();
+  });
+
   it('forces custom listType for custom lists and preserves non-custom listType and expeditionIndex', () => {
     const customOut = validateList({ ...valid, custom: true, shared: true, listType: 'project' });
     expect(customOut!.custom).toBe(true);

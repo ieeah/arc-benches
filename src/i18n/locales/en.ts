@@ -723,6 +723,7 @@ export const en: LocaleSchema = {
     confirmAction: 'Confirm Action',
     restore: 'Restore',
     dayShort: 'd',
+    deprecated: 'Deprecated',
   },
   modules: {
     settingsTitle: 'Profile Modules & Sections',

@@ -576,7 +576,7 @@ export const ExpeditionPage = () => {
             <div className="space-y-2">
               <div className="p-2.5 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/40 rounded-2xl text-xs font-semibold text-blue-800 dark:text-blue-300">
                 {t('expeditions.catchup.costAdvisory', {
-                  cost: catchupCost.toLocaleString(),
+                  cost: catchupCost.toLocaleString(language),
                   count: catchupSP,
                 })}
               </div>

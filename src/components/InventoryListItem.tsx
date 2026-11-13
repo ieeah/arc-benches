@@ -196,7 +196,7 @@ export const InventoryListItem = ({
                       price={traderPurchase.price}
                       title={t('stash.purchasableFromTrader', {
                         trader: traderPurchase.trader,
-                        price: traderPurchase.price.toLocaleString(),
+                        price: traderPurchase.price.toLocaleString(language),
                       })}
                     />
                   )}

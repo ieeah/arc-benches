@@ -331,7 +331,7 @@ export const StashPage = ({
       compare: (a, b) => {
         const tA = itemsInfo[a.itemId]?.item_type ?? '';
         const tB = itemsInfo[b.itemId]?.item_type ?? '';
-        return tA.localeCompare(tB);
+        return tA.localeCompare(tB, language);
       },
     },
     {
@@ -343,7 +343,7 @@ export const StashPage = ({
       compare: (a, b) => {
         const tA = itemsInfo[a.itemId]?.item_type ?? '';
         const tB = itemsInfo[b.itemId]?.item_type ?? '';
-        return tB.localeCompare(tA);
+        return tB.localeCompare(tA, language);
       },
     },
   ], [itemsInfo, priorityMap, language, t]);

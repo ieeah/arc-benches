@@ -26,6 +26,7 @@ import {
 import type {
   List,
   CheckboxAction,
+  ActionTranslation,
   Reward,
   ListType,
   ItemInfo,
@@ -41,7 +42,7 @@ import { ConfirmDeleteItemModal } from "@/components/ConfirmDeleteItemModal";
 import { ConfirmActionModal } from "@/components/ConfirmActionModal";
 import { IsoDateTimeField } from "@/components/IsoDateTimeField";
 import { TieredActionTimeline } from "@/components/TieredActionTimeline";
-import { useTranslation, getItemName, getListName, getListSearchFields } from "@/i18n";
+import { useTranslation, getItemName, getListName, getListSearchFields, KNOWN_LANGUAGES, getActionLabel } from "@/i18n";
 import { fuzzyMatch } from "@/lib/fuzzy";
 import { validateExpeditionIndex } from "@/lib/validate";
 import { isExpedition, isPass, isProject, withListType } from "@/lib/lists";
@@ -64,6 +65,8 @@ import { DevPassPreview } from "@/components/dev/DevPassPreview";
 import { DevPassSection } from "@/components/dev/DevPassSection";
 import { DevActionContextModal } from "@/components/dev/DevActionContextModal";
 import { ActionContextChips } from "@/components/ActionContextChips";
+
+const LIST_TRANSLATION_LANGUAGES = KNOWN_LANGUAGES.filter((l) => l.code !== 'en');
 
 /** Step in modifica: etichette separate per lingua, più ricompense e vincoli di contesto. */
 type DevStepDraft = { id: string; labelEn: string; labelIt: string; rewards?: Reward[] } & ActionContext;
@@ -175,24 +178,29 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     name: string;
     info?: ItemInfo;
   } | null>(null);
+  const [selectedListTransLang, setSelectedListTransLang] = useState<string>("it");
+  const [actionTransLang, setActionTransLang] = useState<string>("it");
   const [editingAction, setEditingAction] = useState<{
     id: string;
     labelEn: string;
-    labelIt: string;
+    translations: Record<string, string>;
   } | null>(null);
   const [isAddingAction, setIsAddingAction] = useState(false);
   const [newActionEn, setNewActionEn] = useState("");
-  const [newActionIt, setNewActionIt] = useState("");
+  const [newActionTranslations, setNewActionTranslations] = useState<Record<string, string>>({});
 
   // Tiered Actions state
+  const [tieredActionTransLang, setTieredActionTransLang] = useState<string>("it");
   const [editingTieredAction, setEditingTieredAction] = useState<{
     id: string;
     labelEn: string;
+    translations: Record<string, string>;
     labelIt: string;
     steps: Array<DevStepDraft>;
   } | null>(null);
   const [isAddingTieredAction, setIsAddingTieredAction] = useState(false);
   const [newTieredEn, setNewTieredEn] = useState("");
+  const [newTieredTranslations, setNewTieredTranslations] = useState<Record<string, string>>({});
   const [newTieredIt, setNewTieredIt] = useState("");
   const [newTieredSteps, setNewTieredSteps] = useState<
     Array<DevStepDraft>
@@ -365,23 +373,27 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   const handleStartAddAction = () => {
     setIsAddingAction(true);
     setNewActionEn("");
-    setNewActionIt("");
+    setNewActionTranslations({});
   };
 
   const handleSaveNewAction = () => {
     if (!selectedList || !activeLevel) return;
     const cleanEn = newActionEn.trim();
-    const cleanIt = newActionIt.trim();
     if (!cleanEn) {
       setIsAddingAction(false);
       setNewActionEn("");
-      setNewActionIt("");
+      setNewActionTranslations({});
       return;
+    }
+    const translations: Record<string, ActionTranslation> = {};
+    for (const [code, val] of Object.entries(newActionTranslations)) {
+      const trimmed = val.trim();
+      if (trimmed) translations[code] = { label: trimmed };
     }
     const newAction: CheckboxAction = {
       id: crypto.randomUUID(),
       label: cleanEn,
-      ...(cleanIt ? { translations: { it: { label: cleanIt } } } : {}),
+      ...(Object.keys(translations).length > 0 ? { translations } : {}),
     };
     updateSelectedList((prev) => {
       const levels = prev.levels.map((lvl) => {
@@ -394,7 +406,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       return { ...prev, levels };
     });
     setNewActionEn("");
-    setNewActionIt("");
+    setNewActionTranslations({});
     setIsAddingAction(false);
   };
 
@@ -418,10 +430,14 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   const handleSaveEditedAction = () => {
     if (!selectedList || !activeLevel || !editingAction) return;
     const cleanEn = editingAction.labelEn.trim();
-    const cleanIt = editingAction.labelIt.trim();
     if (!cleanEn) {
       setEditingAction(null);
       return;
+    }
+    const cleanTranslations: Record<string, ActionTranslation> = {};
+    for (const [code, val] of Object.entries(editingAction.translations)) {
+      const trimmed = val.trim();
+      if (trimmed) cleanTranslations[code] = { label: trimmed };
     }
     updateSelectedList((prev) => {
       const levels = prev.levels.map((lvl) => {
@@ -430,17 +446,11 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           ...lvl,
           actions: (lvl.actions || []).map((a) => {
             if (a.id !== editingAction.id) return a;
-            const updatedTr = { ...(a.translations || {}) };
-            if (cleanIt) {
-              updatedTr.it = { ...(updatedTr.it || {}), label: cleanIt };
-            } else {
-              delete updatedTr.it;
-            }
             return {
               ...a,
               label: cleanEn,
-              ...(Object.keys(updatedTr).length > 0
-                ? { translations: updatedTr }
+              ...(Object.keys(cleanTranslations).length > 0
+                ? { translations: cleanTranslations }
                 : { translations: undefined }),
             };
           }),
@@ -455,6 +465,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   const handleStartAddTieredAction = () => {
     setIsAddingTieredAction(true);
     setNewTieredEn("");
+    setNewTieredTranslations({});
     setNewTieredIt("");
     setNewTieredSteps([
       { id: generateUUID(), labelEn: "Tier 1", labelIt: "Fase 1" },
@@ -465,13 +476,22 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   const handleSaveNewTieredAction = () => {
     if (!selectedList || !activeLevel) return;
     const cleanEn = newTieredEn.trim();
-    const cleanIt = newTieredIt.trim();
     if (!cleanEn) {
       setIsAddingTieredAction(false);
       setNewTieredEn("");
+      setNewTieredTranslations({});
       setNewTieredIt("");
       setNewTieredSteps([]);
       return;
+    }
+
+    const translations: Record<string, ActionTranslation> = {};
+    for (const [code, val] of Object.entries(newTieredTranslations)) {
+      const trimmed = val.trim();
+      if (trimmed) translations[code] = { label: trimmed };
+    }
+    if (newTieredIt.trim() && !translations.it) {
+      translations.it = { label: newTieredIt.trim() };
     }
 
     const validSteps: ActionStep[] = newTieredSteps
@@ -493,14 +513,14 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       validSteps.push({
         id: generateUUID(),
         label: cleanEn,
-        ...(cleanIt ? { translations: { it: { label: cleanIt } } } : {}),
+        ...(Object.keys(translations).length > 0 ? { translations } : {}),
       });
     }
 
     const newTieredAction: TieredAction = {
       id: generateUUID(),
       label: cleanEn,
-      ...(cleanIt ? { translations: { it: { label: cleanIt } } } : {}),
+      ...(Object.keys(translations).length > 0 ? { translations } : {}),
       steps: validSteps,
     };
 
@@ -516,6 +536,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
     });
 
     setNewTieredEn("");
+    setNewTieredTranslations({});
     setNewTieredIt("");
     setNewTieredSteps([]);
     setIsAddingTieredAction(false);
@@ -543,10 +564,18 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
   const handleSaveEditedTieredAction = () => {
     if (!selectedList || !activeLevel || !editingTieredAction) return;
     const cleanEn = editingTieredAction.labelEn.trim();
-    const cleanIt = editingTieredAction.labelIt.trim();
     if (!cleanEn) {
       setEditingTieredAction(null);
       return;
+    }
+
+    const cleanTranslations: Record<string, ActionTranslation> = {};
+    for (const [code, val] of Object.entries(editingTieredAction.translations)) {
+      const trimmed = val.trim();
+      if (trimmed) cleanTranslations[code] = { label: trimmed };
+    }
+    if (editingTieredAction.labelIt?.trim() && !cleanTranslations.it) {
+      cleanTranslations.it = { label: editingTieredAction.labelIt.trim() };
     }
 
     const validSteps: ActionStep[] = editingTieredAction.steps
@@ -568,7 +597,9 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       validSteps.push({
         id: generateUUID(),
         label: cleanEn,
-        ...(cleanIt ? { translations: { it: { label: cleanIt } } } : {}),
+        ...(Object.keys(cleanTranslations).length > 0
+          ? { translations: cleanTranslations }
+          : {}),
       });
     }
 
@@ -579,17 +610,11 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
           ...lvl,
           tieredActions: (lvl.tieredActions || []).map((a) => {
             if (a.id !== editingTieredAction.id) return a;
-            const updatedTr = { ...(a.translations || {}) };
-            if (cleanIt) {
-              updatedTr.it = { ...(updatedTr.it || {}), label: cleanIt };
-            } else {
-              delete updatedTr.it;
-            }
             return {
               ...a,
               label: cleanEn,
-              ...(Object.keys(updatedTr).length > 0
-                ? { translations: updatedTr }
+              ...(Object.keys(cleanTranslations).length > 0
+                ? { translations: cleanTranslations }
                 : { translations: undefined }),
               steps: validSteps,
             };
@@ -1080,38 +1105,102 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                 />
               </div>
 
-              {/* Multilingua: Traduzione IT */}
-              <div className="sm:col-span-2">
-                <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center justify-between mb-1">
-                  <span className="flex items-center gap-1">
-                    <Languages size={13} className="text-blue-500" />
-                    Traduzione Nome (Italiano)
-                  </span>
-                  <span className="text-[10px] font-mono text-blue-500 font-bold">
-                    it
-                  </span>
+              {/* Multilingua: Selettore lingua a pillole orizzontali */}
+              <div className="sm:col-span-2 space-y-1.5">
+                <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                  <Languages size={13} className="text-blue-500" />
+                  Lingua di Traduzione
                 </label>
-                <input
-                  type="text"
-                  placeholder={selectedList.name}
-                  value={selectedList.translations?.it?.name || ""}
-                  onChange={(e) =>
-                    updateSelectedList((prev) => ({
-                      ...prev,
-                      translations: {
-                        ...(prev.translations || {}),
-                        it: {
-                          ...(prev.translations?.it || {}),
-                          name: e.target.value.trim()
-                            ? e.target.value
-                            : undefined,
-                        },
-                      },
-                    }))
-                  }
-                  className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium"
-                />
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+                  {LIST_TRANSLATION_LANGUAGES.map((lang) => {
+                    const isSelected = selectedListTransLang === lang.code;
+                    const hasTranslation = Boolean(
+                      selectedList.translations?.[lang.code]?.name ||
+                      selectedList.translations?.[lang.code]?.description,
+                    );
+                    return (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        onClick={() => setSelectedListTransLang(lang.code)}
+                        className={cn(
+                          'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95',
+                          isSelected
+                            ? 'bg-blue-600 text-white shadow-xs'
+                            : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                        )}
+                      >
+                        <span>{lang.flag}</span>
+                        <span>{lang.label}</span>
+                        <span className="text-[10px] opacity-75 uppercase">({lang.code})</span>
+                        {hasTranslation && (
+                          <span
+                            className={cn(
+                              'w-2 h-2 rounded-full',
+                              isSelected ? 'bg-white' : 'bg-emerald-500',
+                            )}
+                            title="Traduzione presente"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
+
+              {/* Multilingua: Traduzione Nome per la lingua selezionata */}
+              {(() => {
+                const currentLangObj = LIST_TRANSLATION_LANGUAGES.find((l) => l.code === selectedListTransLang) || {
+                  code: selectedListTransLang,
+                  label: selectedListTransLang.toUpperCase(),
+                  flag: '🌐',
+                };
+                return (
+                  <div className="sm:col-span-2">
+                    <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center justify-between mb-1">
+                      <span className="flex items-center gap-1">
+                        <Languages size={13} className="text-blue-500" />
+                        Traduzione Nome ({currentLangObj.flag} {currentLangObj.label})
+                      </span>
+                      <span className="text-[10px] font-mono text-blue-500 font-bold uppercase">
+                        {currentLangObj.code}
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder={selectedList.name}
+                      value={selectedList.translations?.[selectedListTransLang]?.name || ""}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        updateSelectedList((prev) => {
+                          const prevTr = prev.translations || {};
+                          const currentLangTr = prevTr[selectedListTransLang] || {};
+                          const nextLangTr = {
+                            ...currentLangTr,
+                            name: val.trim() ? val : undefined,
+                          };
+                          if (!nextLangTr.name && !nextLangTr.description) {
+                            const { [selectedListTransLang]: _dropped, ...rest } = prevTr;
+                            void _dropped;
+                            return {
+                              ...prev,
+                              translations: Object.keys(rest).length > 0 ? rest : undefined,
+                            };
+                          }
+                          return {
+                            ...prev,
+                            translations: {
+                              ...prevTr,
+                              [selectedListTransLang]: nextLangTr,
+                            },
+                          };
+                        });
+                      }}
+                      className="w-full px-3 py-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium"
+                    />
+                  </div>
+                );
+              })()}
 
               {/* Multilingua: Descrizione EN */}
               <div className="sm:col-span-2">
@@ -1131,33 +1220,54 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                 />
               </div>
 
-              {/* Multilingua: Descrizione IT */}
-              <div className="sm:col-span-2">
-                <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1 mb-1">
-                  <Languages size={13} className="text-blue-500" />
-                  Descrizione (Italiano)
-                </label>
-                <textarea
-                  rows={2}
-                  placeholder={selectedList.description || ""}
-                  value={selectedList.translations?.it?.description || ""}
-                  onChange={(e) =>
-                    updateSelectedList((prev) => ({
-                      ...prev,
-                      translations: {
-                        ...(prev.translations || {}),
-                        it: {
-                          ...(prev.translations?.it || {}),
-                          description: e.target.value.trim()
-                            ? e.target.value
-                            : undefined,
-                        },
-                      },
-                    }))
-                  }
-                  className="w-full px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium resize-none"
-                />
-              </div>
+              {/* Multilingua: Descrizione per la lingua selezionata */}
+              {(() => {
+                const currentLangObj = LIST_TRANSLATION_LANGUAGES.find((l) => l.code === selectedListTransLang) || {
+                  code: selectedListTransLang,
+                  label: selectedListTransLang.toUpperCase(),
+                  flag: '🌐',
+                };
+                return (
+                  <div className="sm:col-span-2">
+                    <label className="text-[11px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1 mb-1">
+                      <Languages size={13} className="text-blue-500" />
+                      Descrizione ({currentLangObj.flag} {currentLangObj.label})
+                    </label>
+                    <textarea
+                      rows={2}
+                      placeholder={selectedList.description || ""}
+                      value={selectedList.translations?.[selectedListTransLang]?.description || ""}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        updateSelectedList((prev) => {
+                          const prevTr = prev.translations || {};
+                          const currentLangTr = prevTr[selectedListTransLang] || {};
+                          const nextLangTr = {
+                            ...currentLangTr,
+                            description: val.trim() ? val : undefined,
+                          };
+                          if (!nextLangTr.name && !nextLangTr.description) {
+                            const { [selectedListTransLang]: _dropped, ...rest } = prevTr;
+                            void _dropped;
+                            return {
+                              ...prev,
+                              translations: Object.keys(rest).length > 0 ? rest : undefined,
+                            };
+                          }
+                          return {
+                            ...prev,
+                            translations: {
+                              ...prevTr,
+                              [selectedListTransLang]: nextLangTr,
+                            },
+                          };
+                        });
+                      }}
+                      className="w-full px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl font-medium resize-none"
+                    />
+                  </div>
+                );
+              })()}
 
               {selectedList.listType === "pass" && (
                 <DevPassSection
@@ -1531,7 +1641,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                             onClick={() => {
                               setIsAddingAction(false);
                               setNewActionEn("");
-                              setNewActionIt("");
+                              setNewActionTranslations({});
                             }}
                             className="w-7 h-7 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex items-center justify-center cursor-pointer"
                             title="Annulla"
@@ -1539,6 +1649,34 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                             <X size={13} />
                           </button>
                         </div>
+                      </div>
+                      {/* Pillole lingua per l'azione */}
+                      <div className="flex items-center gap-1 overflow-x-auto pb-1">
+                        {LIST_TRANSLATION_LANGUAGES.map((lang) => {
+                          const isSelected = actionTransLang === lang.code;
+                          const hasTranslation = Boolean(newActionTranslations[lang.code]?.trim());
+                          return (
+                            <button
+                              key={lang.code}
+                              type="button"
+                              onClick={() => setActionTransLang(lang.code)}
+                              className={cn(
+                                'inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all shrink-0 cursor-pointer',
+                                isSelected
+                                  ? 'bg-blue-600 text-white shadow-2xs'
+                                  : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                              )}
+                            >
+                              <span>{lang.flag}</span>
+                              <span className="uppercase">{lang.code}</span>
+                              {hasTranslation && (
+                                <span
+                                  className={cn('w-1.5 h-1.5 rounded-full', isSelected ? 'bg-white' : 'bg-emerald-500')}
+                                />
+                              )}
+                            </button>
+                          );
+                        })}
                       </div>
                       <div className="grid grid-cols-1 gap-2">
                         <div>
@@ -1555,7 +1693,7 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                               if (e.key === "Escape") {
                                 setIsAddingAction(false);
                                 setNewActionEn("");
-                                setNewActionIt("");
+                                setNewActionTranslations({});
                               }
                             }}
                             className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-blue-300 dark:border-blue-700 rounded-xl text-xs text-gray-800 dark:text-gray-100 font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-500"
@@ -1565,22 +1703,27 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                         <div>
                           <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 flex items-center gap-1 mb-0.5">
                             <Languages size={11} className="text-blue-500" />
-                            Traduzione Italiano (IT)
+                            Traduzione ({actionTransLang.toUpperCase()})
                           </label>
                           <input
                             type="text"
-                            value={newActionIt}
-                            onChange={(e) => setNewActionIt(e.target.value)}
+                            value={newActionTranslations[actionTransLang] || ""}
+                            onChange={(e) =>
+                              setNewActionTranslations((prev) => ({
+                                ...prev,
+                                [actionTransLang]: e.target.value,
+                              }))
+                            }
                             onKeyDown={(e) => {
                               if (e.key === "Enter") handleSaveNewAction();
                               if (e.key === "Escape") {
                                 setIsAddingAction(false);
                                 setNewActionEn("");
-                                setNewActionIt("");
+                                setNewActionTranslations({});
                               }
                             }}
                             className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-blue-300 dark:border-blue-700 rounded-xl text-xs text-gray-800 dark:text-gray-100 font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-                            placeholder="es. Deposita 100 Semi"
+                            placeholder={newActionEn ? `Traduzione di "${newActionEn}" in ${actionTransLang.toUpperCase()}` : `es. Traduzione in ${actionTransLang.toUpperCase()}`}
                           />
                         </div>
                       </div>
@@ -1628,6 +1771,34 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                   </button>
                                 </div>
                               </div>
+                              {/* Pillole lingua per la modifica dell'azione */}
+                              <div className="flex items-center gap-1 overflow-x-auto pb-1">
+                                {LIST_TRANSLATION_LANGUAGES.map((lang) => {
+                                  const isSelected = actionTransLang === lang.code;
+                                  const hasTranslation = Boolean(editingAction.translations[lang.code]?.trim());
+                                  return (
+                                    <button
+                                      key={lang.code}
+                                      type="button"
+                                      onClick={() => setActionTransLang(lang.code)}
+                                      className={cn(
+                                        'inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all shrink-0 cursor-pointer',
+                                        isSelected
+                                          ? 'bg-blue-600 text-white shadow-2xs'
+                                          : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                                      )}
+                                    >
+                                      <span>{lang.flag}</span>
+                                      <span className="uppercase">{lang.code}</span>
+                                      {hasTranslation && (
+                                        <span
+                                          className={cn('w-1.5 h-1.5 rounded-full', isSelected ? 'bg-white' : 'bg-emerald-500')}
+                                        />
+                                      )}
+                                    </button>
+                                  );
+                                })}
+                              </div>
                               <div className="grid grid-cols-1 gap-2">
                                 <div>
                                   <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
@@ -1658,16 +1829,19 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                       size={11}
                                       className="text-blue-500"
                                     />
-                                    Traduzione Italiano (IT)
+                                    Traduzione ({actionTransLang.toUpperCase()})
                                   </label>
                                   <input
                                     type="text"
-                                    value={editingAction.labelIt}
+                                    value={editingAction.translations[actionTransLang] || ""}
                                     placeholder={editingAction.labelEn}
                                     onChange={(e) =>
                                       setEditingAction({
                                         ...editingAction,
-                                        labelIt: e.target.value,
+                                        translations: {
+                                          ...editingAction.translations,
+                                          [actionTransLang]: e.target.value,
+                                        },
                                       })
                                     }
                                     onKeyDown={(e) => {
@@ -1694,17 +1868,22 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                 <span className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />
                                 <div className="min-w-0 flex-1">
                                   <p className="text-xs text-gray-800 dark:text-gray-200 font-medium truncate">
-                                    {action.label}
+                                    {getActionLabel(action, language)}
                                   </p>
-                                  {action.translations?.it?.label && (
-                                    <p className="text-[11px] text-blue-600 dark:text-blue-400 flex items-center gap-1 mt-0.5">
-                                      <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
-                                        IT
-                                      </span>
-                                      <span className="truncate">
-                                        {action.translations.it.label}
-                                      </span>
-                                    </p>
+                                  {action.translations && Object.keys(action.translations).length > 0 && (
+                                    <div className="flex items-center gap-1 mt-0.5 flex-wrap">
+                                      {Object.entries(action.translations).map(([langCode, tr]) =>
+                                        tr.label ? (
+                                          <span
+                                            key={langCode}
+                                            className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300"
+                                            title={tr.label}
+                                          >
+                                            {langCode}: {tr.label}
+                                          </span>
+                                        ) : null,
+                                      )}
+                                    </div>
                                   )}
                                 </div>
                               </div>
@@ -1762,14 +1941,19 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                 </button>
                                 <button
                                   type="button"
-                                  onClick={() =>
+                                  onClick={() => {
+                                    const translations: Record<string, string> = {};
+                                    if (action.translations) {
+                                      for (const [code, tr] of Object.entries(action.translations)) {
+                                        if (tr.label) translations[code] = tr.label;
+                                      }
+                                    }
                                     setEditingAction({
                                       id: action.id,
                                       labelEn: action.label,
-                                      labelIt:
-                                        action.translations?.it?.label || "",
-                                    })
-                                  }
+                                      translations,
+                                    });
+                                  }}
                                   className="w-7 h-7 rounded-full bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
                                   title="Modifica azione"
                                 >
@@ -1861,6 +2045,35 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                         </div>
                       </div>
 
+                      {/* Pillole lingua per l'obiettivo a scaglioni */}
+                      <div className="flex items-center gap-1 overflow-x-auto pb-1">
+                        {LIST_TRANSLATION_LANGUAGES.map((lang) => {
+                          const isSelected = tieredActionTransLang === lang.code;
+                          const hasTranslation = Boolean(newTieredTranslations[lang.code]?.trim() || (lang.code === 'it' && newTieredIt.trim()));
+                          return (
+                            <button
+                              key={lang.code}
+                              type="button"
+                              onClick={() => setTieredActionTransLang(lang.code)}
+                              className={cn(
+                                'inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all shrink-0 cursor-pointer',
+                                isSelected
+                                  ? 'bg-amber-600 text-white shadow-2xs'
+                                  : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                              )}
+                            >
+                              <span>{lang.flag}</span>
+                              <span className="uppercase">{lang.code}</span>
+                              {hasTranslation && (
+                                <span
+                                  className={cn('w-1.5 h-1.5 rounded-full', isSelected ? 'bg-white' : 'bg-emerald-500')}
+                                />
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+
                       {/* Main Action Labels */}
                       <div className="grid grid-cols-1 gap-2">
                         <div>
@@ -1879,14 +2092,25 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                         <div>
                           <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 flex items-center gap-1 mb-0.5">
                             <Languages size={11} className="text-amber-500" />
-                            Traduzione Italiano (IT)
+                            Traduzione ({tieredActionTransLang.toUpperCase()})
                           </label>
                           <input
                             type="text"
-                            value={newTieredIt}
-                            onChange={(e) => setNewTieredIt(e.target.value)}
+                            value={
+                              tieredActionTransLang === 'it'
+                                ? (newTieredTranslations.it ?? newTieredIt)
+                                : (newTieredTranslations[tieredActionTransLang] || '')
+                            }
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              if (tieredActionTransLang === 'it') setNewTieredIt(val);
+                              setNewTieredTranslations((prev) => ({
+                                ...prev,
+                                [tieredActionTransLang]: val,
+                              }));
+                            }}
                             className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-amber-300 dark:border-amber-700 rounded-xl text-xs text-gray-800 dark:text-gray-100 font-medium focus:outline-hidden focus:ring-2 focus:ring-amber-500"
-                            placeholder="es. Sfida Danni"
+                            placeholder={newTieredEn ? `Traduzione di "${newTieredEn}" in ${tieredActionTransLang.toUpperCase()}` : `es. Traduzione in ${tieredActionTransLang.toUpperCase()}`}
                           />
                         </div>
                       </div>
@@ -2070,6 +2294,35 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                 </div>
                               </div>
 
+                              {/* Pillole lingua per la modifica dell'obiettivo a scaglioni */}
+                              <div className="flex items-center gap-1 overflow-x-auto pb-1">
+                                {LIST_TRANSLATION_LANGUAGES.map((lang) => {
+                                  const isSelected = tieredActionTransLang === lang.code;
+                                  const hasTranslation = Boolean(editingTieredAction.translations[lang.code]?.trim() || (lang.code === 'it' && editingTieredAction.labelIt?.trim()));
+                                  return (
+                                    <button
+                                      key={lang.code}
+                                      type="button"
+                                      onClick={() => setTieredActionTransLang(lang.code)}
+                                      className={cn(
+                                        'inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all shrink-0 cursor-pointer',
+                                        isSelected
+                                          ? 'bg-amber-600 text-white shadow-2xs'
+                                          : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                                      )}
+                                    >
+                                      <span>{lang.flag}</span>
+                                      <span className="uppercase">{lang.code}</span>
+                                      {hasTranslation && (
+                                        <span
+                                          className={cn('w-1.5 h-1.5 rounded-full', isSelected ? 'bg-white' : 'bg-emerald-500')}
+                                        />
+                                      )}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+
                               <div className="grid grid-cols-1 gap-2">
                                 <div>
                                   <label className="text-[10px] font-bold text-gray-600 dark:text-gray-400 block mb-0.5">
@@ -2094,17 +2347,27 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                       size={11}
                                       className="text-amber-500"
                                     />
-                                    Traduzione Italiano (IT)
+                                    Traduzione ({tieredActionTransLang.toUpperCase()})
                                   </label>
                                   <input
                                     type="text"
-                                    value={editingTieredAction.labelIt}
-                                    onChange={(e) =>
+                                    value={
+                                      tieredActionTransLang === 'it'
+                                        ? (editingTieredAction.translations.it ?? editingTieredAction.labelIt ?? '')
+                                        : (editingTieredAction.translations[tieredActionTransLang] || '')
+                                    }
+                                    placeholder={editingTieredAction.labelEn}
+                                    onChange={(e) => {
+                                      const val = e.target.value;
                                       setEditingTieredAction({
                                         ...editingTieredAction,
-                                        labelIt: e.target.value,
-                                      })
-                                    }
+                                        ...(tieredActionTransLang === 'it' ? { labelIt: val } : {}),
+                                        translations: {
+                                          ...editingTieredAction.translations,
+                                          [tieredActionTransLang]: val,
+                                        },
+                                      });
+                                    }}
                                     className="w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-amber-300 dark:border-amber-700 rounded-xl text-xs text-gray-800 dark:text-gray-100 font-medium focus:outline-hidden focus:ring-2 focus:ring-amber-500"
                                   />
                                 </div>
@@ -2298,17 +2561,22 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                 />
                                 <div className="min-w-0 flex-1">
                                   <p className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
-                                    {tieredAction.label}
+                                    {getActionLabel(tieredAction, language)}
                                   </p>
-                                  {tieredAction.translations?.it?.label && (
-                                    <p className="text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1 mt-0.5">
-                                      <span className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">
-                                        IT
-                                      </span>
-                                      <span className="truncate">
-                                        {tieredAction.translations.it.label}
-                                      </span>
-                                    </p>
+                                  {tieredAction.translations && Object.keys(tieredAction.translations).length > 0 && (
+                                    <div className="flex items-center gap-1 mt-0.5 flex-wrap">
+                                      {Object.entries(tieredAction.translations).map(([langCode, tr]) =>
+                                        tr.label ? (
+                                          <span
+                                            key={langCode}
+                                            className="text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300"
+                                            title={tr.label}
+                                          >
+                                            {langCode}: {tr.label}
+                                          </span>
+                                        ) : null,
+                                      )}
+                                    </div>
                                   )}
                                 </div>
                               </div>
@@ -2319,10 +2587,17 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                 </span>
                                 <button
                                   type="button"
-                                  onClick={() =>
+                                  onClick={() => {
+                                    const translations: Record<string, string> = {};
+                                    if (tieredAction.translations) {
+                                      for (const [code, tr] of Object.entries(tieredAction.translations)) {
+                                        if (tr.label) translations[code] = tr.label;
+                                      }
+                                    }
                                     setEditingTieredAction({
                                       id: tieredAction.id,
                                       labelEn: tieredAction.label,
+                                      translations,
                                       labelIt:
                                         tieredAction.translations?.it?.label ||
                                         "",
@@ -2335,8 +2610,8 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
                                         maps: s.maps ? [...s.maps] : undefined,
                                         carryItems: s.carryItems ? s.carryItems.map((c) => ({ ...c })) : undefined,
                                       })),
-                                    })
-                                  }
+                                    });
+                                  }}
                                   className="w-7 h-7 rounded-full bg-amber-50/80 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/60 transition-colors flex items-center justify-center cursor-pointer shadow-2xs"
                                   title="Modifica obiettivo a scaglioni"
                                 >

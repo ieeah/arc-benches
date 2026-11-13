@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  cleanTranslations,
   emptyCustomItem,
   isMetaForgeCollision,
   isValidItemId,
@@ -68,5 +69,20 @@ describe('serializeCustomItems', () => {
     expect(out['new-thing'].name).toBe('New Thing');
     expect('translations' in out['new-thing']).toBe(false);
     expect(Object.keys(out['new-thing']).slice(0, 4)).toEqual(['id', 'name', 'description', 'icon']);
+  });
+});
+
+describe('cleanTranslations', () => {
+  it('cleans and trims translations across any language', () => {
+    expect(cleanTranslations(undefined)).toBeUndefined();
+    expect(cleanTranslations({})).toBeUndefined();
+    expect(cleanTranslations({
+      it: { name: '  Cosa ', description: ' ' },
+      de: { name: ' ', description: ' Beschreibung ' },
+      fr: { name: '  ', description: '  ' },
+    })).toEqual({
+      it: { name: 'Cosa', description: '' },
+      de: { name: '', description: 'Beschreibung' },
+    });
   });
 });

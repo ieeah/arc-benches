@@ -8,7 +8,7 @@ import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { DevStickyActionBar, DevDiffModal, DevSearchFilterBar } from '@/components/dev';
 import itemsData from '@/data/items.json';
-import { SUPPORTED_LANGUAGES } from '@/i18n';
+import { KNOWN_LANGUAGES, useTranslation, getItemName, getItemSearchFields } from '@/i18n';
 import { downloadTextFile } from '@/lib/devI18n';
 import { getCategoryIconPath, getFallbackItemIcon } from '@/lib/categoryIcons';
 import { getRarityText } from '@/lib/rarity';
@@ -39,7 +39,7 @@ type DevCustomItemsPageProps = {
 const catalog = itemsData as unknown as Record<string, ItemInfo>;
 const CATALOG_IDS: ReadonlySet<string> = new Set(Object.keys(catalog));
 const BASELINE_IDS: ReadonlySet<string> = new Set(Object.keys(baselineCustomItems));
-const LANGUAGES = SUPPORTED_LANGUAGES.filter((l) => l.code !== 'en');
+const LANGUAGES = KNOWN_LANGUAGES.filter((l) => l.code !== 'en');
 
 const distinct = (values: (string | null | undefined)[]) =>
   Array.from(new Set(values.map((v) => v?.trim()).filter((v): v is string => Boolean(v)))).sort((a, b) => a.localeCompare(b));
@@ -90,9 +90,11 @@ function Field({ label, children, hint }: { label: string; children: React.React
 }
 
 export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
+  const { language } = useTranslation();
   const [items, setItems] = useState<CustomItemsMap>(() => readCustomItemsDraft()?.items ?? baselineCustomItems);
   const [icons, setIcons] = useState<Record<string, string>>(() => readCustomItemsDraft()?.icons ?? {});
   const [selectedId, setSelectedId] = useState<string | null>(() => Object.keys(readCustomItemsDraft()?.items ?? baselineCustomItems)[0] ?? null);
+  const [selectedTransLang, setSelectedTransLang] = useState<string>('it');
   const [search, setSearch] = useState('');
   const [newId, setNewId] = useState('');
   const [uploadError, setUploadError] = useState('');
@@ -110,10 +112,16 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
     syncItemsOverrides?.();
   }, [items, icons, syncItemsOverrides]);
 
-  const ids = useMemo(
-    () => Object.keys(items).filter((id) => !search.trim() || `${id} ${items[id].name}`.toLowerCase().includes(search.trim().toLowerCase())),
-    [items, search],
-  );
+  const ids = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return Object.keys(items);
+    return Object.keys(items).filter((id) => {
+      const def = items[id];
+      const searchFields = getItemSearchFields(def as unknown as ItemInfo);
+      const descFields = Object.values(def.translations ?? {}).map((tr) => tr.description).filter(Boolean);
+      return [...searchFields, ...descFields].some((val) => val?.toLowerCase().includes(q));
+    });
+  }, [items, search]);
   const selected: CustomItemDef | null = selectedId ? items[selectedId] ?? null : null;
   const issues = useMemo(
     () => Object.fromEntries(Object.values(items).map((def) => [def.id, validateCustomItem(def, CATALOG_IDS, BASELINE_IDS)])),
@@ -274,7 +282,9 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
                     )}
                   >
                     <span className="flex-1 min-w-0">
-                      <span className="block font-bold truncate">{def.name || id}</span>
+                      <span className="block font-bold truncate">
+                        {getItemName(def as unknown as ItemInfo, language) || def.name || id}
+                      </span>
                       <span className="block text-[10px] font-mono text-gray-400 truncate">{id}</span>
                     </span>
                     {!BASELINE_IDS.has(id) && <span className="text-[9px] font-black uppercase text-emerald-600">nuovo</span>}
@@ -313,7 +323,9 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
             />
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-base font-black truncate">{selected.name || selected.id}</h2>
+                <h2 className="text-base font-black truncate">
+                  {getItemName(selected as unknown as ItemInfo, language) || selected.name || selected.id}
+                </h2>
                 <span className={cn('text-xs font-bold', getRarityText(selected.rarity))}>{selected.rarity}</span>
               </div>
               <p className="text-[11px] text-gray-500 dark:text-gray-400">
@@ -416,16 +428,72 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
 
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-5 space-y-4">
             <h3 className={labelClass}>Traduzioni</h3>
-            {LANGUAGES.map((lang) => (
-              <div key={lang.code} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Field label={`Nome (${lang.code.toUpperCase()})`}>
-                  <input value={selected.translations?.[lang.code]?.name ?? ''} onChange={(e) => updateTranslation(selected.id, lang.code, { name: e.target.value })} className={inputClass} />
-                </Field>
-                <Field label={`Descrizione (${lang.code.toUpperCase()})`}>
-                  <textarea rows={2} value={selected.translations?.[lang.code]?.description ?? ''} onChange={(e) => updateTranslation(selected.id, lang.code, { description: e.target.value })} className={inputClass} />
-                </Field>
-              </div>
-            ))}
+            {/* Selettore lingua a pillole orizzontali */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+              {LANGUAGES.map((lang) => {
+                const isSelected = selectedTransLang === lang.code;
+                const hasTranslation = Boolean(
+                  selected.translations?.[lang.code]?.name ||
+                  selected.translations?.[lang.code]?.description,
+                );
+                return (
+                  <button
+                    key={lang.code}
+                    type="button"
+                    onClick={() => setSelectedTransLang(lang.code)}
+                    className={cn(
+                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95',
+                      isSelected
+                        ? 'bg-rose-500 text-white shadow-xs'
+                        : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                    )}
+                  >
+                    <span>{lang.flag}</span>
+                    <span>{lang.label}</span>
+                    <span className="text-[10px] opacity-75 uppercase">({lang.code})</span>
+                    {hasTranslation && (
+                      <span
+                        className={cn(
+                          'w-2 h-2 rounded-full',
+                          isSelected ? 'bg-white' : 'bg-emerald-500',
+                        )}
+                        title="Traduzione presente"
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Form per la lingua selezionata */}
+            {(() => {
+              const currentLangObj = LANGUAGES.find((l) => l.code === selectedTransLang) || {
+                code: selectedTransLang,
+                label: selectedTransLang.toUpperCase(),
+                flag: '🌐',
+              };
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Field label={`Nome (${currentLangObj.flag} ${currentLangObj.code.toUpperCase()})`}>
+                    <input
+                      value={selected.translations?.[selectedTransLang]?.name ?? ''}
+                      onChange={(e) => updateTranslation(selected.id, selectedTransLang, { name: e.target.value })}
+                      className={inputClass}
+                      placeholder={selected.name}
+                    />
+                  </Field>
+                  <Field label={`Descrizione (${currentLangObj.flag} ${currentLangObj.code.toUpperCase()})`}>
+                    <textarea
+                      rows={2}
+                      value={selected.translations?.[selectedTransLang]?.description ?? ''}
+                      onChange={(e) => updateTranslation(selected.id, selectedTransLang, { description: e.target.value })}
+                      className={inputClass}
+                      placeholder={selected.description}
+                    />
+                  </Field>
+                </div>
+              );
+            })()}
           </div>
 
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-5 space-y-3">
@@ -442,7 +510,13 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
                 placeholder="id-oggetto"
                 className={cn(inputClass, 'font-mono')}
               />
-              <datalist id="custom-item-icon-sources">{ICON_SOURCE_IDS.map((id) => <option key={id} value={id} />)}</datalist>
+              <datalist id="custom-item-icon-sources">
+                {ICON_SOURCE_IDS.map((id) => (
+                  <option key={id} value={id}>
+                    {getItemName(catalog[id], language)} ({id})
+                  </option>
+                ))}
+              </datalist>
             </Field>
             <div className="flex items-center gap-2 flex-wrap">
               <label className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold cursor-pointer">

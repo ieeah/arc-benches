@@ -1,5 +1,5 @@
 import { DEFAULT_PASS_TRACKS, isExpedition } from '@/lib/lists';
-import type { CompletedRewardPass, LevelRequirement, PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListLevel, ListType, Profile, Reward, TieredAction, RaidPlanState, RaidAction, RaidItem } from '@/types';
+import type { CompletedRewardPass, LevelRequirement, PassTrackDef, ActionContext, ActionStep, ActionTranslation, CarryItem, CheckboxAction, ItemRequirement, List, ListBase, ListLevel, ListTranslation, ListType, Profile, Reward, TieredAction, RaidPlanState, RaidAction, RaidItem } from '@/types';
 
 /**
  * Runtime validation / sanitization at the deserialization boundary.
@@ -271,7 +271,28 @@ export const validateList = (v: unknown): List | null => {
   const maxFromLevels = Math.max(...levels.map(l => l.level));
   const maxLevel = asNonNegInt(v.maxLevel, 1) ?? maxFromLevels;
 
-  const base = { id, name, maxLevel, levels };
+  const base: ListBase = { id, name, maxLevel, levels };
+  const description = asNonEmptyString(v.description);
+  if (description !== null) base.description = description;
+
+  if (isObject(v.translations)) {
+    const translations: Record<string, ListTranslation> = {};
+    for (const [lang, tr] of Object.entries(v.translations)) {
+      if (isObject(tr)) {
+        const trName = asNonEmptyString(tr.name);
+        const trDesc = asNonEmptyString(tr.description);
+        if (trName !== null || trDesc !== null) {
+          translations[lang] = {
+            ...(trName !== null ? { name: trName } : {}),
+            ...(trDesc !== null ? { description: trDesc } : {}),
+          };
+        }
+      }
+    }
+    if (Object.keys(translations).length > 0) {
+      base.translations = translations;
+    }
+  }
   // `listType` è obbligatorio: senza un tipo valido (e non custom) la lista è un banco ('workbench').
   const listType: ListType =
     v.custom === true

@@ -720,7 +720,8 @@ export const it = {
     "coins": "Monete",
     "confirmAction": "Conferma Operazione",
     "restore": "Ripristina",
-    "dayShort": "g"
+    "dayShort": "g",
+    "deprecated": "Deprecato"
   },
   "modules": {
     "settingsTitle": "Moduli e Sezioni del Profilo",
