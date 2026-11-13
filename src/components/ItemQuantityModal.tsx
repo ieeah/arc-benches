@@ -5,6 +5,7 @@ import { useTranslation, getItemName, getItemDescription, getRarityLabel } from 
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { QuantityStepper } from '@/components/QuantityStepper';
+import { Button, Field } from '@/components/ui';
 import { getRarityText } from '@/lib/rarity';
 
 export type ItemQuantityModalProps = {
@@ -126,46 +127,45 @@ export function ItemQuantityModal({
           </div>
 
           {onChangeItem && (
-            <button
-              type="button"
+            <Button
+              size="sm"
+              variant="outline"
               onClick={() => onChangeItem(quantity)}
-              className="px-3 py-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-200 dark:border-blue-800 rounded-xl transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer shadow-2xs"
+              leftIcon={<RefreshCw size={13} />}
               title={t('quantityModal.changeItemTitle')}
             >
-              <RefreshCw size={13} />
-              <span>{t('quantityModal.changeItem')}</span>
-            </button>
+              {t('quantityModal.changeItem')}
+            </Button>
           )}
         </div>
 
         {/* Quantity selector with Reset button on the right */}
         <div className="w-full flex flex-col items-center gap-3 pt-1">
-          <label className="text-xs font-bold uppercase tracking-wider text-gray-400">
-            {t('quantityModal.requiredQty')}
-          </label>
-          <div className="flex items-center gap-2">
-            <div className="w-48">
-              <QuantityStepper
-                orientation="horizontal"
-                tempValue={tempValue}
-                onTempValueChange={handleTempValueChange}
-                onBlur={handleBlur}
-                onIncrement={() => adjustQty(1)}
-                onDecrement={() => adjustQty(-1)}
-                rarity={item.rarity}
-                itemName={itemName}
-              />
+          <Field label={t('quantityModal.requiredQty')}>
+            <div className="flex items-center gap-2">
+              <div className="w-48">
+                <QuantityStepper
+                  orientation="horizontal"
+                  tempValue={tempValue}
+                  onTempValueChange={handleTempValueChange}
+                  onBlur={handleBlur}
+                  onIncrement={() => adjustQty(1)}
+                  onDecrement={() => adjustQty(-1)}
+                  rarity={item.rarity}
+                  itemName={itemName}
+                />
+              </div>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => setExact(0)}
+                leftIcon={<RotateCcw size={13} />}
+                title={t('quantityModal.reset')}
+              >
+                0
+              </Button>
             </div>
-            <button
-              type="button"
-              onClick={() => setExact(0)}
-              className="h-8 px-2.5 flex items-center justify-center gap-1 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl border border-gray-200/80 dark:border-gray-700/80 transition-colors cursor-pointer shadow-2xs"
-              title={t('quantityModal.reset')}
-            >
-              <RotateCcw size={13} />
-              <span>0</span>
-            </button>
-          </div>
+          </Field>
 
           {/* Additive Quick addition buttons */}
           <div className="flex flex-wrap justify-center gap-1.5 pt-1">

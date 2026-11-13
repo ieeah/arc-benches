@@ -10,6 +10,7 @@ import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { getBaseLevel, isActionWindowOpen } from '@/lib/lists';
+import { Switch, Field, Input } from '@/components/ui';
 
 const toInputDateTime = (isoString?: string): string => {
   if (!isoString) return '';
@@ -295,8 +296,7 @@ export const CustomListEditor = ({ listId, onClose }: {
         {/* Optional: Copy from existing list template */}
         {!existing && (
           <div className="mb-4 space-y-2">
-            <button
-              type="button"
+            <div
               onClick={() => {
                 const next = !copyFromExisting;
                 setCopyFromExisting(next);
@@ -306,15 +306,15 @@ export const CustomListEditor = ({ listId, onClose }: {
               }}
               className="w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left cursor-pointer transition-colors"
             >
-              <div
-                className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${
-                  copyFromExisting ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'
-                }`}
-              >
-                <div
-                  className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
-                    copyFromExisting ? 'translate-x-[1.125rem]' : 'translate-x-0.5'
-                  }`}
+              <div onClick={(e) => e.stopPropagation()}>
+                <Switch
+                  checked={copyFromExisting}
+                  onChange={(next) => {
+                    setCopyFromExisting(next);
+                    if (!next) {
+                      setSelectedSourceId('');
+                    }
+                  }}
                 />
               </div>
               <div className="flex-1 min-w-0">
@@ -326,7 +326,7 @@ export const CustomListEditor = ({ listId, onClose }: {
                   {t('customLists.copyDesc')}
                 </p>
               </div>
-            </button>
+            </div>
 
             {copyFromExisting && (
               <div className="p-3 bg-gray-50/80 dark:bg-gray-800/60 rounded-2xl border border-gray-100 dark:border-gray-800 space-y-1.5">
@@ -384,26 +384,31 @@ export const CustomListEditor = ({ listId, onClose }: {
           </div>
         )}
 
-        <div className="mb-4">
-          <label className="text-[10px] font-bold uppercase text-gray-400 mb-1.5 block">{t('customLists.nameLabel')}</label>
-          <input type="text" value={name} onChange={e => setName(e.target.value)} autoFocus
+        <Field label={t('customLists.nameLabel')} className="mb-4">
+          <Input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            autoFocus
             placeholder={t('customLists.namePlaceholder')}
-            className="w-full px-3 py-2 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-1 focus:ring-blue-400" />
-        </div>
+          />
+        </Field>
 
         {/* Shared toggle — immutable after creation */}
         {!existing ? (
           <div className="mb-4">
-            <button type="button" onClick={() => setShared(v => !v)}
-              className="w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left">
-              <div className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${shared ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}>
-                <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${shared ? 'translate-x-[1.125rem]' : 'translate-x-0.5'}`} />
+            <div
+              onClick={() => setShared(v => !v)}
+              className="w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left cursor-pointer"
+            >
+              <div onClick={(e) => e.stopPropagation()}>
+                <Switch checked={shared} onChange={setShared} />
               </div>
               <div>
                 <p className="text-sm font-semibold">{t('customLists.sharedWithProfiles')}</p>
                 <p className="text-[10px] text-gray-400">{t('customLists.sharedDesc')}</p>
               </div>
-            </button>
+            </div>
             {shared && (
               <p className="mt-1.5 px-1 text-[11px] text-amber-500 dark:text-amber-400">
                 {t('customLists.sharedWarning')}
@@ -482,21 +487,12 @@ export const CustomListEditor = ({ listId, onClose }: {
 
         {/* Toggle extractionWiped */}
         <div className="mb-4">
-          <button
-            type="button"
+          <div
             onClick={() => setExtractionWiped(v => !v)}
             className="w-full flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 text-left cursor-pointer transition-colors"
           >
-            <div
-              className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${
-                extractionWiped ? 'bg-amber-500' : 'bg-gray-300 dark:bg-gray-600'
-              }`}
-            >
-              <div
-                className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
-                  extractionWiped ? 'translate-x-[1.125rem]' : 'translate-x-0.5'
-                }`}
-              />
+            <div onClick={(e) => e.stopPropagation()}>
+              <Switch checked={extractionWiped} onChange={setExtractionWiped} />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-1.5">
@@ -507,7 +503,7 @@ export const CustomListEditor = ({ listId, onClose }: {
                 {t('customLists.extractionWipedDesc')}
               </p>
             </div>
-          </button>
+          </div>
         </div>
 
         {/* Insert before the first level */}

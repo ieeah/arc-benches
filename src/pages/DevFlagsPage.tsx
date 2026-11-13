@@ -14,6 +14,7 @@ import {
   type FeatureFlagsState,
 } from '@/lib/featureFlags';
 import { DevStickyActionBar, DevDiffModal, DevSearchFilterBar } from '@/components/dev';
+import { StatCard, Switch } from '@/components/ui';
 
 type DevFlagsPageProps = {
   onBack: () => void;
@@ -149,14 +150,8 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
         <div className="p-4 space-y-5 text-xs text-gray-600 dark:text-gray-400">
           {/* Statistiche Riassuntive */}
           <div className="grid grid-cols-2 gap-2">
-            <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 text-center">
-              <span className="block text-xl font-black text-emerald-600 dark:text-emerald-400">{activeCount}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Flag Attivi</span>
-            </div>
-            <div className="p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/60 text-center">
-              <span className="block text-xl font-black text-rose-600 dark:text-rose-400">{disabledCount}</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">Disattivati</span>
-            </div>
+            <StatCard value={activeCount} label="Flag Attivi" color="emerald" />
+            <StatCard value={disabledCount} label="Disattivati" color="rose" />
           </div>
 
           {/* Ricerca */}
@@ -293,21 +288,11 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
                     }`}>
                       {enabled ? 'Attivo' : 'Disattivato'}
                     </span>
-                    <button
-                      type="button"
-                      role="switch"
-                      aria-checked={enabled}
-                      onClick={() => setFlag(def.id, !enabled)}
-                      className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                        enabled ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-700'
-                      }`}
-                    >
-                      <span
-                        className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
-                          enabled ? 'translate-x-7' : 'translate-x-0'
-                        }`}
-                      />
-                    </button>
+                    <Switch
+                      checked={enabled}
+                      onChange={(val) => setFlag(def.id, val)}
+                      size="md"
+                    />
                   </div>
 
                   <span className="text-[10px] text-gray-400 font-medium">
