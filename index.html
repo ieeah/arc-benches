@@ -1,30 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="it">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>ARC Benches — Companion Tracker</title>
+    <meta name="description" content="Companion Tracker per ARC Raiders: calcolo fabbisogni materiali, potenziamenti banchi del rifugio, gestione inventario e pianificazione raid." />
+    <meta name="theme-color" content="#000000" id="theme-color-meta" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <title>arc-benches</title>
     <script>
       (function () {
         try {
-          var isDark = false;
-          try {
-            var t = window.localStorage ? window.localStorage.getItem('theme') : null;
-            if (t === 'dark') isDark = true;
-            else if (t === 'light') isDark = false;
-            else isDark = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          } catch (_) {
-            isDark = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          }
-          if (isDark) {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
-          }
+          var theme = localStorage.getItem('theme');
+          var isDark = theme === 'dark' || (theme !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', Boolean(isDark));
+          var meta = document.getElementById('theme-color-meta');
+          if (meta) meta.setAttribute('content', isDark ? '#000000' : '#f9fafb');
         } catch (_) {}
       })();
     </script>

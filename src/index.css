@@ -7,6 +7,23 @@
   padding-bottom: max(env(safe-area-inset-bottom, 0px), --spacing(2));
 }
 
+/* ── Scrollbar Hiding Utilities ── */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* ── Squircle Continuous Corner Smoothing ── */
 @utility squircle {
   corner-shape: squircle;
@@ -77,6 +94,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  accent-color: #0284c7;
 }
 
 html.dark,
@@ -84,6 +102,7 @@ html.dark body {
   background-color: #000000;
   color: #f3f4f6;
   color-scheme: dark;
+  scrollbar-color: #374151 #111827;
 }
 
 html:not(.dark),
@@ -91,6 +110,7 @@ html:not(.dark) body {
   background-color: #f9fafb;
   color: #111827;
   color-scheme: light;
+  scrollbar-color: #d1d5db #f9fafb;
 }
 
 html, body {
