@@ -200,6 +200,12 @@ export const en: LocaleSchema = {
     progressBarLabelReady: '{name} progress: Lvl {current} of {max}, ready to upgrade',
     customBadge: 'Custom',
     inactive: 'Inactive',
+    typeBadgeWorkbench: 'Bench',
+    typeBadgeProject: 'Project',
+    priorityRankLabel: 'Priority #{rank}',
+    filteredGhostHint: 'Filtered',
+    hiddenByFilterNotice: '{count} hidden (visible while dragging)',
+    emptyActiveLists: 'No active goals for the selected filters.',
   },
   listDetail: {
     backToLists: 'Back to lists',

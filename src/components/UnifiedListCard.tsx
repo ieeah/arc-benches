@@ -1,9 +1,9 @@
 import { useAppStore } from '@/store';
 import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, ChevronDown, Clock, Hammer, ShoppingCart, MoreHorizontal, Pencil, Trash2, Info } from 'lucide-react';
+import { CheckCircle2, ChevronDown, Clock, Hammer, ShoppingCart, MoreHorizontal, Pencil, Trash2, Info, ScrollText, ListTodo } from 'lucide-react';
 import type { ItemInfo, List } from '@/types';
-import { getBaseLevel, hasDeductionConflict, isActionWindowOpen, calculateListProgress } from '@/lib/lists';
+import { getBaseLevel, hasDeductionConflict, isActionWindowOpen, calculateListProgress, isProject, isCustom } from '@/lib/lists';
 import { ListProgressBar } from '@/components/ListProgressBar';
 import type { LevelBlocker } from '@/lib/levelRequirements';
 import { RequirementChips } from '@/components/RequirementChips';
@@ -19,20 +19,56 @@ import { LevelPills } from '@/components/LevelPills';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
 
 
-const RequirementsGrid = ({
-  levelData,
-  currentLevelNum,
-  itemsInfo,
-  inventory,
-  totalRequired,
-}: {
+type ListTypeBadgeProps = {
+  list: List;
+};
+
+/** Badge visivo uniforme per distinguere Banchi, Progetti e Liste personalizzate. */
+export const ListTypeBadge = ({ list }: ListTypeBadgeProps) => {
+  const { t } = useTranslation();
+  const listIsCustom = isCustom(list) || Boolean(list.custom);
+  const listIsProject = !listIsCustom && isProject(list);
+
+  if (listIsCustom) {
+    return (
+      <span className="shrink-0 inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide text-violet-600 dark:text-violet-400 bg-violet-100/80 dark:bg-violet-950/50 border border-violet-200/60 dark:border-violet-800/60 px-1.5 py-0.5 rounded-full">
+        <ListTodo size={10} />
+        {t('lists.customBadge')}
+      </span>
+    );
+  }
+  if (listIsProject) {
+    return (
+      <span className="shrink-0 inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 bg-indigo-100/80 dark:bg-indigo-950/50 border border-indigo-200/60 dark:border-indigo-800/60 px-1.5 py-0.5 rounded-full">
+        <ScrollText size={10} />
+        {t('lists.typeBadgeProject')}
+      </span>
+    );
+  }
+  return (
+    <span className="shrink-0 inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide text-sky-600 dark:text-sky-400 bg-sky-100/80 dark:bg-sky-950/50 border border-sky-200/60 dark:border-sky-800/60 px-1.5 py-0.5 rounded-full">
+      <Hammer size={10} />
+      {t('lists.typeBadgeWorkbench')}
+    </span>
+  );
+};
+
+type RequirementsGridProps = {
   levelData: List['levels'][number];
   currentLevelNum: number;
   itemsInfo: Record<string, ItemInfo>;
   refinerLevel: number;
   inventory: Record<string, number>;
   totalRequired: Record<string, number>;
-}) => {
+};
+
+const RequirementsGrid = ({
+  levelData,
+  currentLevelNum,
+  itemsInfo,
+  inventory,
+  totalRequired,
+}: RequirementsGridProps) => {
   const { t, language } = useTranslation();
   const currentLevels = useAppStore(s => s.currentLevels);
   const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
@@ -98,6 +134,37 @@ const RequirementsGrid = ({
   );
 };
 
+type UnifiedListCardProps = {
+  list: List;
+  current: number;
+  isActive: boolean;
+  inventory: Record<string, number>;
+  otherNeeds: Record<string, number>;
+  dragHandle?: ReactNode;
+  forceCollapsed?: boolean;
+  priorityRank?: number;
+  selectedTargets?: number[];
+  checkedActions?: Record<string, boolean>;
+  itemsInfo: Record<string, ItemInfo>;
+  refinerLevel?: number;
+  totalRequired?: Record<string, number>;
+  canUpgrade: boolean;
+  onUpgrade: () => void;
+  onToggle: () => void;
+  onCurrentLevel: (v: number, deductMaterials: boolean) => void;
+  onToggleTarget: (level: number) => void;
+  onToggleAction?: (level: number, actionId: string) => void;
+  onOpenDetail?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  /** Requisiti su altre liste del livello successivo, con lo stato attuale (#87). */
+  nextLevelRequirements?: { name: string; level: number; met: boolean }[];
+  /** Cosa impedisce di salire a un livello (requisito su un'altra lista non soddisfatto). */
+  levelBlocker?: (level: number) => LevelBlocker | null;
+  /** Liste che scenderebbero a catena abbassando questa al livello indicato. */
+  cascadeFor?: (level: number) => { name: string; from: number; to: number }[];
+};
+
 export const UnifiedListCard = ({
   list,
   current,
@@ -105,6 +172,8 @@ export const UnifiedListCard = ({
   inventory,
   otherNeeds,
   dragHandle,
+  forceCollapsed = false,
+  priorityRank,
   selectedTargets = [],
   checkedActions,
   itemsInfo,
@@ -122,36 +191,10 @@ export const UnifiedListCard = ({
   nextLevelRequirements = [],
   levelBlocker,
   cascadeFor,
-}: {
-  list: List;
-  current: number;
-  isActive: boolean;
-  inventory: Record<string, number>;
-  otherNeeds: Record<string, number>;
-  dragHandle?: ReactNode;
-  selectedTargets: number[];
-  checkedActions?: Record<string, boolean>;
-  itemsInfo: Record<string, ItemInfo>;
-  refinerLevel: number;
-  totalRequired: Record<string, number>;
-  canUpgrade: boolean;
-  onUpgrade: () => void;
-  onToggle: () => void;
-  onCurrentLevel: (v: number, deductMaterials: boolean) => void;
-  onToggleTarget: (level: number) => void;
-  onToggleAction?: (level: number, actionId: string) => void;
-  onOpenDetail?: () => void;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  /** Requisiti su altre liste del livello successivo, con lo stato attuale (#87). */
-  nextLevelRequirements?: { name: string; level: number; met: boolean }[];
-  /** Cosa impedisce di salire a un livello (requisito su un'altra lista non soddisfatto). */
-  levelBlocker?: (level: number) => LevelBlocker | null;
-  /** Liste che scenderebbero a catena abbassando questa al livello indicato. */
-  cascadeFor?: (level: number) => { name: string; from: number; to: number }[];
-}) => {
+}: UnifiedListCardProps) => {
   const { t, language } = useTranslation();
   const [expanded, setExpanded] = useState(false);
+  const isExpanded = expanded && !forceCollapsed;
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [pendingLevel, setPendingLevel] = useState<number | null>(null);
@@ -233,7 +276,7 @@ export const UnifiedListCard = ({
     ? 'border-dashed border-amber-500/30 dark:border-amber-400/25 bg-white/70 dark:bg-gray-900/70 opacity-80'
     : expired
     ? 'border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 opacity-80'
-    : canUpgrade && !expanded
+    : canUpgrade && !isExpanded
     ? 'border-green-500 bg-green-50 dark:bg-green-900/10'
     : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900';
 
@@ -242,6 +285,14 @@ export const UnifiedListCard = ({
       <div className="flex flex-col w-full min-w-0 pt-2.5 pb-2">
         <div className="flex items-center gap-1.5 px-3 w-full min-w-0 overflow-hidden">
           {dragHandle}
+          {priorityRank !== undefined && (
+            <span
+              className="shrink-0 font-mono text-[11px] font-extrabold tabular-nums px-1.5 py-0.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200/70 dark:border-gray-700/70"
+              title={t('lists.priorityRankLabel', { rank: priorityRank })}
+            >
+              #{priorityRank}
+            </span>
+          )}
           <button
             onClick={() => setExpanded(e => !e)}
             className="flex-1 flex items-center gap-2 min-w-0 text-left overflow-hidden py-1"
@@ -253,11 +304,7 @@ export const UnifiedListCard = ({
                   {t('lists.inactive')}
                 </span>
               )}
-              {list.custom && (
-                <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-violet-500 bg-violet-100 dark:bg-violet-900/30 px-1.5 py-0.5 rounded-full">
-                  {t('lists.customBadge')}
-                </span>
-              )}
+              <ListTypeBadge list={list} />
               {remaining && (
                 <span className={cn(
                   'shrink-0 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full flex items-center gap-1',
@@ -277,7 +324,7 @@ export const UnifiedListCard = ({
             <LevelBadge current={current} max={list.maxLevel} state={isMaxed ? 'maxed' : canUpgrade ? 'ready' : 'default'} />
             <ChevronDown
               size={16}
-              className={`shrink-0 text-gray-400 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+              className={`shrink-0 text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
             />
           </button>
 
@@ -372,7 +419,7 @@ export const UnifiedListCard = ({
         </div>
       </div>
 
-      {!expanded && hasCollapsedBody && (
+      {!forceCollapsed && !expanded && hasCollapsedBody && (
         <div className="px-4 pb-3 space-y-3 border-t border-gray-100 dark:border-gray-800 pt-3">
           <div>
             <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">{t('benches.current')}</p>
@@ -420,7 +467,7 @@ export const UnifiedListCard = ({
         </div>
       )}
 
-      {expanded && (
+      {isExpanded && (
         <div className="px-4 pb-3 space-y-3 border-t border-gray-100 dark:border-gray-800 pt-3">
           <div>
             <LevelPills

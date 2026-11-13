@@ -197,7 +197,13 @@ export const it = {
     "progressBarLabelMaxed": "Avanzamento {name}: Lvl {max} di {max} (Completato)",
     "progressBarLabelReady": "Avanzamento {name}: Lvl {current} di {max}, pronto per il potenziamento",
     "customBadge": "Personalizzata",
-    "inactive": "Inattivo"
+    "inactive": "Inattivo",
+    "typeBadgeWorkbench": "Banco",
+    "typeBadgeProject": "Progetto",
+    "priorityRankLabel": "Priorità #{rank}",
+    "filteredGhostHint": "Filtrato",
+    "hiddenByFilterNotice": "{count} nascoste (visibili trascinando)",
+    "emptyActiveLists": "Nessun obiettivo attivo per i filtri selezionati."
   },
   "listDetail": {
     "backToLists": "Torna alle liste",
