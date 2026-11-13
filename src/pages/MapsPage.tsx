@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Map, ArrowLeft, Layers, Compass } from 'lucide-react';
 import { MapViewer } from '@/components/MapViewer';
+import { ScrollableFadeContainer } from '@/components/ScrollableFadeContainer';
 import { GAME_MAPS } from '@/lib/maps';
 import { useTranslation } from '@/i18n';
 
@@ -47,15 +48,22 @@ export const MapsPage = ({ onBack }: MapsPageProps) => {
         </div>
       </header>
 
-      {/* Selettore Orizzontale delle Mappe (Pill a scorrimento) */}
-      <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar -mx-4 px-4">
+      {/* Selettore Orizzontale delle Mappe (Pill a scorrimento con affordance visiva) */}
+      <ScrollableFadeContainer
+        bleedType="none"
+        wrapperClassName="-mx-4"
+        containerClassName="gap-2 px-4 py-1"
+        ariaLabel={t('maps.title')}
+      >
         {MAP_LIST.map(map => {
           const isSelected = map.id === selectedMapId;
           return (
             <button
               key={map.id}
+              type="button"
+              aria-pressed={isSelected}
               onClick={() => setSelectedMapId(map.id)}
-              className={`shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
+              className={`shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 ${
                 isSelected
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
                   : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700'
@@ -66,7 +74,7 @@ export const MapsPage = ({ onBack }: MapsPageProps) => {
             </button>
           );
         })}
-      </div>
+      </ScrollableFadeContainer>
 
       {/* Visualizzatore Mappa */}
       <section className="flex flex-col gap-2">

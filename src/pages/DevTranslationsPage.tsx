@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
+import { ScrollableFadeContainer } from '@/components/ScrollableFadeContainer';
 import { useTranslation, SUPPORTED_LANGUAGES } from '@/i18n';
 import { fuzzyMatch } from '@/lib/fuzzy';
 import {
@@ -232,10 +233,16 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
               />
             </div>
 
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            <ScrollableFadeContainer
+              bleedType="none"
+              containerClassName="gap-1.5 py-1"
+              ariaLabel={language === 'en' ? 'Filter by namespace' : 'Filtra per namespace'}
+            >
               <button
+                type="button"
+                aria-pressed={selectedNamespace === 'all'}
                 onClick={() => setSelectedNamespace('all')}
-                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold shrink-0 transition-all cursor-pointer ${
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold shrink-0 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900 ${
                   selectedNamespace === 'all'
                     ? 'bg-blue-500 text-white shadow-2xs'
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
@@ -246,8 +253,10 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
               {namespaces.map(ns => (
                 <button
                   key={ns}
+                  type="button"
+                  aria-pressed={selectedNamespace === ns}
                   onClick={() => setSelectedNamespace(ns)}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold font-mono shrink-0 transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold font-mono shrink-0 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900 ${
                     selectedNamespace === ns
                       ? 'bg-blue-500 text-white shadow-2xs'
                       : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
@@ -256,7 +265,7 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
                   {ns}
                 </button>
               ))}
-            </div>
+            </ScrollableFadeContainer>
           </div>
 
           {/* Elenco Chiavi */}
