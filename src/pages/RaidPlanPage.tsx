@@ -12,6 +12,7 @@ import { ActionCheckbox } from '@/components/ActionCheckbox';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { RaidItemCard } from '@/components/RaidItemCard';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
+import { Button, Callout, EmptyState } from '@/components/ui';
 import { getAllListsPure, getTotalRequiredMaterialsPure, getActiveExpeditionPure } from '@/store/selectors';
 import { isSectionActive } from '@/lib/sections';
 import type { ItemInfo } from '@/types';
@@ -245,45 +246,49 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
         {/* ── 3 PULSANTI AZIONE COMPATTI E DISCRETI (Nascosti in Focus Mode) ── */}
         {!isRaidRunning && (
           <div className="flex items-center justify-between gap-2 pt-1 animate-in fade-in duration-150">
-            <button
+            <Button
+              size="sm"
+              variant="outline"
               onClick={() => setModalType('apply')}
               disabled={actions.length === 0 && items.length === 0}
-              className="flex-1 h-8.5 px-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800/60 disabled:opacity-30 disabled:pointer-events-none text-xs font-bold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
+              leftIcon={<PackageCheck size={14} />}
+              className="flex-1"
             >
-              <PackageCheck size={14} />
-              <span className="truncate">{t('raid.apply')}</span>
-            </button>
+              {t('raid.apply')}
+            </Button>
 
-            <button
+            <Button
+              size="sm"
+              variant="secondary"
               onClick={() => setModalType('reset')}
               disabled={actions.length === 0 && items.length === 0}
-              className="h-8.5 px-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 disabled:opacity-30 disabled:pointer-events-none text-xs font-semibold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+              leftIcon={<RotateCcw size={13} />}
               title={t('raid.reset')}
               aria-label={t('raid.reset')}
             >
-              <RotateCcw size={13} />
               <span className="hidden sm:inline text-[11px]">{t('raid.reset')}</span>
-            </button>
+            </Button>
 
-            <button
+            <Button
+              size="sm"
+              variant="outline"
               onClick={() => setModalType('clear')}
               disabled={actions.length === 0 && items.length === 0}
-              className="h-8.5 px-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 border border-rose-200 dark:border-rose-800/50 disabled:opacity-30 disabled:pointer-events-none text-xs font-semibold transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+              leftIcon={<Trash2 size={13} />}
               title={t('raid.clear')}
               aria-label={t('raid.clear')}
+              className="text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 hover:bg-rose-50 dark:hover:bg-rose-950/30"
             >
-              <Trash2 size={13} />
               <span className="hidden sm:inline text-[11px]">{t('raid.clear')}</span>
-            </button>
+            </Button>
           </div>
         )}
       </StickyHeader>
 
       {/* Notifica feedback */}
       {notification && (
-        <div className="mx-4 mt-3 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
-          <PackageCheck size={16} className="shrink-0" />
-          <span>{notification}</span>
+        <div className="mx-4 mt-3">
+          <Callout variant="success">{notification}</Callout>
         </div>
       )}
 
@@ -383,21 +388,20 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                   {t('raid.itemsToFindDesc')}
                 </p>
               </div>
-              <button
+              <Button
+                size="sm"
+                variant="primary"
                 onClick={() => setPickerOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+                leftIcon={<Plus size={14} />}
               >
-                <Plus size={14} />
-                <span>{t('raid.addItem')}</span>
-              </button>
+                {t('raid.addItem')}
+              </Button>
             </div>
           )}
 
           {items.length === 0 ? (
             !isRaidRunning ? (
-              <div className="p-4 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
-                {t('raid.noItems')}
-              </div>
+              <EmptyState title={t('raid.noItems')} compact />
             ) : null
           ) : activeViewMode === 'grid' ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">

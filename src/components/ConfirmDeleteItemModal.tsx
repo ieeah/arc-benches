@@ -1,6 +1,7 @@
 import type { ItemInfo } from '@/types';
 import { useTranslation, getItemName } from '@/i18n';
 import { BottomSheet } from '@/components/BottomSheet';
+import { Button } from '@/components/ui';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 
 export type ConfirmDeleteItemModalProps = {
@@ -34,20 +35,12 @@ export function ConfirmDeleteItemModal({
       overlayZ="z-60"
       footer={
         <div className="p-4 pt-2 border-t border-gray-100 dark:border-gray-800 flex gap-2.5">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex-1 py-3 text-xs font-bold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer"
-          >
+          <Button variant="secondary" onClick={onClose} fullWidth>
             {t('common.cancel')}
-          </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            className="flex-1 py-3 text-xs font-bold text-white bg-red-500 hover:bg-red-600 rounded-full shadow-xs transition-colors cursor-pointer"
-          >
+          </Button>
+          <Button variant="danger" onClick={onConfirm} fullWidth>
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       }
     >
