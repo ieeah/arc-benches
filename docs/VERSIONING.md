@@ -199,13 +199,15 @@ Obiettivo: consolidare la `0.6.0` e completare gli ultimi domini dati pre-`1.0.0
 ## 0.7.0 "Guida di Speranza" — Preparazione UI/UX, Base UI & Struttura Pagine (Pre-Migrazione) — Non ancora raggiunta
 Obiettivo: creare il laboratorio UI Kit Dev, migrare i componenti e i dialog a **Base UI**, definire il nuovo design visivo e riorganizzare le pagine (dettaglio lista e Outpost) così da avere componenti e gerarchia delle viste pronti per diventare rotte dell'App Router di Next.js nella `0.8.0`.
 Ordine di lavoro vincolato:
-1. [ ] #141 [Dev Studio: UI Kit & Component Playground con vista comparativa e adozione incrementale Base UI](https://github.com/ieeah/arc-benches/issues/141) — **1° step obbligatorio prima di toccare Base UI**
-2. [ ] #121 [Migrare Drawer, BottomSheet e modali a `<dialog>` nativo / Base UI Dialog](https://github.com/ieeah/arc-benches/issues/121) — dopo #141
-3. [ ] #122 [Rimuovere lo scroll lock su html/body e usare `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121
-4. [ ] #60 [Refactor UI/UX Globale: consolidamento componenti, modali, drawer e densità visiva con Base UI](https://github.com/ieeah/arc-benches/issues/60) — dopo #141, #121
-5. [ ] #115 [Valutare e applicare un redesign dell'app (meno «Tailwind generico»)](https://github.com/ieeah/arc-benches/issues/115) — insieme a #60
-6. [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
-7. [ ] #116 [Pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116) — chiude la preparazione strutturale pre-Next.js
+1. [ ] #162 [Estrazione componenti primitivi di controllo e form (Button, Field, Input, Textarea, Switch, Checkbox, Select, SegmentedControl, Callout) propedeutici a Base UI](https://github.com/ieeah/arc-benches/issues/162) — **Fase 0: astrazione controlli per disaccoppiare il layout prima di Base UI**
+2. [ ] #163 [Estrazione componenti di presentazione e feedback (StatCard, Chip, EmptyState, Skeleton)](https://github.com/ieeah/arc-benches/issues/163) — unificazione riquadri metriche, tag con rimozione, stati vuoti e placeholder
+3. [ ] #141 [Dev Studio: UI Kit & Component Playground con vista comparativa e adozione incrementale Base UI](https://github.com/ieeah/arc-benches/issues/141) — **1° step obbligatorio per l'esposizione, comparazione e tooltip**
+4. [ ] #121 [Migrare Drawer, BottomSheet e modali a `<dialog>` nativo / Base UI Dialog](https://github.com/ieeah/arc-benches/issues/121) — dopo #141; unifica `Modal` centrato
+5. [ ] #122 [Rimuovere lo scroll lock su html/body e usare `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121
+6. [ ] #60 [Refactor UI/UX Globale: consolidamento componenti, modali, drawer e densità visiva con Base UI](https://github.com/ieeah/arc-benches/issues/60) — dopo #141, #121
+7. [ ] #115 [Valutare e applicare un redesign dell'app (meno «Tailwind generico»)](https://github.com/ieeah/arc-benches/issues/115) — insieme a #60
+8. [ ] #4 [Supporto Tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
+9. [ ] #116 [Pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116) — chiude la preparazione strutturale pre-Next.js
 
 ---
 

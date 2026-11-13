@@ -53,14 +53,16 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 ---
 
 ## 0.7.0 "Guida di Speranza" — Preparazione UI/UX, Base UI & Struttura Pagine (Pre-Migrazione)
-Ordine di lavoro vincolato (**#141 prima del passaggio a Base UI**):
-1. [ ] #141 [Dev Studio: UI Kit & Component Playground con vista comparativa e adozione incrementale Base UI](https://github.com/ieeah/arc-benches/issues/141)
-2. [ ] #121 [Refactor UI: migrare Drawer, BottomSheet e modali a `<dialog>` nativo / Base UI Dialog](https://github.com/ieeah/arc-benches/issues/121) — elimina il focus trap manuale di `useDialog`; correlata a ADR 003 e #60.
-3. [ ] #122 [Refactor UI: rimuovere lo scroll lock su html/body e usare `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121.
-4. [ ] #60 [Refactor UI/UX Globale: consolidamento componenti, modali, drawer e densità visiva con Base UI](https://github.com/ieeah/arc-benches/issues/60)
-5. [ ] #115 [UX Design: valutare e applicare un redesign dell'app, oggi troppo «Tailwind generico»](https://github.com/ieeah/arc-benches/issues/115) — insieme a #60.
-6. [ ] #4 [Accessibilità: supporto tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
-7. [ ] #116 [UX Pagine: pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116) — prepara la gerarchia delle viste per l'App Router di Next.js (#28).
+Ordine di lavoro vincolato (**#162, #163 e #141 prima del passaggio a Base UI**):
+1. [ ] #162 [Refactor UI: estrazione componenti primitivi di controllo e form (Button, Field, Input, Textarea, Switch, Checkbox, Select, SegmentedControl, Callout) propedeutici a Base UI](https://github.com/ieeah/arc-benches/issues/162) — astrazione dei controlli dell'app in `src/components/ui/` per disaccoppiare il layout dal markup grezzo prima dell'adozione di Base UI.
+2. [ ] #163 [Refactor UI: estrazione componenti di presentazione e feedback (StatCard, Chip, EmptyState, Skeleton)](https://github.com/ieeah/arc-benches/issues/163) — unificazione delle metriche, tag rimovibili, stati vuoti e placeholder di caricamento.
+3. [ ] #141 [Dev Studio: UI Kit & Component Playground con vista comparativa e adozione incrementale Base UI](https://github.com/ieeah/arc-benches/issues/141) — primo step di visualizzazione ed esecuzione comparativa dei primitivi e tooltip.
+4. [ ] #121 [Refactor UI: migrare Drawer, BottomSheet e modali a `<dialog>` nativo / Base UI Dialog](https://github.com/ieeah/arc-benches/issues/121) — elimina il focus trap manuale di `useDialog`; unifica `Modal` centrato; correlata a ADR 003 e #60.
+5. [ ] #122 [Refactor UI: rimuovere lo scroll lock su html/body e usare `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121.
+6. [ ] #60 [Refactor UI/UX Globale: consolidamento componenti, modali, drawer e densità visiva con Base UI](https://github.com/ieeah/arc-benches/issues/60)
+7. [ ] #115 [UX Design: valutare e applicare un redesign dell'app, oggi troppo «Tailwind generico»](https://github.com/ieeah/arc-benches/issues/115) — insieme a #60.
+8. [ ] #4 [Accessibilità: supporto tastiera per Drag & Drop](https://github.com/ieeah/arc-benches/issues/4)
+9. [ ] #116 [UX Pagine: pagina di dettaglio per ogni lista, pagina dell'Outpost e riorganizzazione delle pagine](https://github.com/ieeah/arc-benches/issues/116) — prepara la gerarchia delle viste per l'App Router di Next.js (#28).
 
 ---
 
