@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { GripVertical, Upload, Check, Eye, EyeOff } from 'lucide-react';
 import {
-  DndContext, closestCenter, PointerSensor, TouchSensor,
+  DndContext, closestCenter, MeasuringStrategy, PointerSensor, TouchSensor,
   useSensor, useSensors,
 } from '@dnd-kit/core';
-import type { DragEndEvent } from '@dnd-kit/core';
+import type { CollisionDetection, DragEndEvent, DragStartEvent, Modifier, UniqueIdentifier } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store';
@@ -54,11 +54,11 @@ const SECTION_KEYS: SectionKey[] = ['workbench', 'project', 'custom', 'completat
 
 export type ListsPageAction = 'create' | 'export' | 'import' | null;
 
-interface ListsPageProps {
+type ListsPageProps = {
   onOpenDetail: (listId: string) => void;
   action?: ListsPageAction;
   onActionHandled?: () => void;
-}
+};
 
 export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPageProps) => {
   const { t, language } = useTranslation();
@@ -103,6 +103,8 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   const [importSelectedIds, setImportSelectedIds] = useState<Set<string>>(new Set());
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportSelectedIds, setExportSelectedIds] = useState<Set<string>>(new Set());
+  const [activeDragId, setActiveDragId] = useState<string | null>(null);
+  const [peekGhosts, setPeekGhosts] = useState(false);
   const [sectionsOpen, setSectionsOpen] = useState<SectionsOpen>(() => {
     const fallback: SectionsOpen = { workbench: true, project: true, custom: true, completati: false };
     const SectionsSchema = v.object({
@@ -140,6 +142,8 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const preDragTopRef = useRef<number | null>(null);
+  const postDragTopRef = useRef<number | null>(null);
 
   useScrollLock(Boolean(importPending || showExportModal));
 
@@ -181,7 +185,24 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   const activeWorkbenches = activeLists.filter(l => !l.custom && !projectIds.has(l.id) && keepByExpiry(l));
   const activeProjects = activeLists.filter(l => projectIds.has(l.id) && keepByExpiry(l));
   const activeCustom = activeLists.filter(l => l.custom && keepByExpiry(l));
+  const activePriorityLists = useMemo(() => activeLists.filter(keepByExpiry), [activeLists, keepByExpiry]);
   const visibleMaxedLists = maxedLists.filter(keepByExpiry);
+
+  const isListFilteredOut = (list: List): boolean => {
+    if (list.custom) return !viewPrefs.show_custom;
+    if (projectIds.has(list.id)) return !viewPrefs.show_project;
+    return !viewPrefs.show_workbench;
+  };
+
+  const hiddenActiveCount = activePriorityLists.filter(isListFilteredOut).length;
+  const visibleActiveCount = activePriorityLists.length - hiddenActiveCount;
+
+  const sectionCounts: Record<SectionKey, number> = {
+    workbench: activeWorkbenches.length,
+    project: activeProjects.length,
+    custom: activeCustom.length,
+    completati: visibleMaxedLists.length,
+  };
 
   const toggleSection = (key: keyof SectionsOpen) => {
     const next = { ...sectionsOpen, [key]: !sectionsOpen[key] };
@@ -194,13 +215,36 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
   );
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const id = String(event.active.id);
+    const el = document.querySelector<HTMLElement>(`[data-sortable-id="${CSS.escape(id)}"]`);
+    preDragTopRef.current = el ? el.getBoundingClientRect().top : null;
+    postDragTopRef.current = null;
+    setActiveDragId(id);
+  };
+
+  const handleDragCancel = () => {
+    preDragTopRef.current = null;
+    postDragTopRef.current = null;
+    setActiveDragId(null);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
+    preDragTopRef.current = null;
+    postDragTopRef.current = null;
+    setActiveDragId(null);
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    const oldIndex = listOrder.indexOf(active.id as string);
-    const newIndex = listOrder.indexOf(over.id as string);
-    if (oldIndex !== -1 && newIndex !== -1)
-      setListOrder(arrayMove(listOrder, oldIndex, newIndex));
+    const currentOrderIds = orderedLists.map(l => l.id);
+    const fullOrder = [
+      ...currentOrderIds,
+      ...listOrder.filter(id => !currentOrderIds.includes(id)),
+    ];
+    const oldIndex = fullOrder.indexOf(active.id as string);
+    const newIndex = fullOrder.indexOf(over.id as string);
+    if (oldIndex !== -1 && newIndex !== -1) {
+      setListOrder(arrayMove(fullOrder, oldIndex, newIndex));
+    }
   };
 
   const handleCurrentLevel = (listId: string, maxLevel: number) => (v: number, deduct: boolean) => {
@@ -310,12 +354,70 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
     onDelete: list.custom ? () => deleteCustomList(list.id) : undefined,
   });
 
-  const renderDndSection = (lists: List[]) => (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={lists.map(l => l.id)} strategy={verticalListSortingStrategy}>
-        <div data-list-container="benches" className="w-full flex flex-col gap-3">
-          {lists.map(list => (
-            <SortableUnifiedListCard key={list.id} {...sharedCardProps(list)} />
+  const lockToInitialTopModifier: Modifier = ({ transform, activeNodeRect }) => {
+    if (!activeNodeRect || preDragTopRef.current === null) {
+      return { ...transform, x: 0 };
+    }
+    if (postDragTopRef.current === null) {
+      postDragTopRef.current = activeNodeRect.top;
+    }
+    const initialShiftY = preDragTopRef.current - postDragTopRef.current;
+    return {
+      ...transform,
+      x: 0,
+      y: transform.y + initialShiftY,
+    };
+  };
+
+  const slotCenterCollision: CollisionDetection = (args) => {
+    if (!args.collisionRect) return closestCenter(args);
+    const activeHeight = args.collisionRect.height || 58;
+    const activeCenterY = args.collisionRect.top + activeHeight / 2;
+    const activeIndex = activePriorityLists.findIndex(l => l.id === String(args.active.id));
+
+    let closestId: UniqueIdentifier | null = null;
+    let minDistance = Infinity;
+
+    for (const container of args.droppableContainers) {
+      if (container.disabled) continue;
+      const rect = args.droppableRects.get(container.id);
+      if (!rect) continue;
+      const itemIndex = activePriorityLists.findIndex(l => l.id === String(container.id));
+      const slotHeight = Math.min(activeHeight, rect.height);
+      const slotCenterY =
+        activeIndex !== -1 && itemIndex > activeIndex
+          ? rect.bottom - slotHeight / 2
+          : rect.top + slotHeight / 2;
+      const dist = Math.abs(activeCenterY - slotCenterY);
+      if (dist < minDistance) {
+        minDistance = dist;
+        closestId = container.id;
+      }
+    }
+
+    return closestId !== null ? [{ id: closestId }] : closestCenter(args);
+  };
+
+  const renderPriorityList = () => (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={slotCenterCollision}
+      modifiers={[lockToInitialTopModifier]}
+      measuring={{ droppable: { strategy: MeasuringStrategy.WhileDragging } }}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
+    >
+      <SortableContext items={activePriorityLists.map(l => l.id)} strategy={verticalListSortingStrategy}>
+        <div data-list-container="benches" className="w-full flex flex-col">
+          {activePriorityLists.map((list, index) => (
+            <SortableUnifiedListCard
+              key={list.id}
+              {...sharedCardProps(list)}
+              priorityRank={index + 1}
+              isFilteredOut={isListFilteredOut(list)}
+              showGhost={activeDragId !== null || peekGhosts}
+            />
           ))}
         </div>
       </SortableContext>
@@ -340,14 +442,32 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
           </div>
         )}
 
-        <p className="text-[11px] text-gray-400 mb-2 flex items-center gap-1">
-          <GripVertical size={13} />
-          {t('benches.prioritize')}
-        </p>
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-[11px] text-gray-400 flex items-center gap-1">
+            <GripVertical size={13} />
+            {t('benches.prioritize')}
+          </p>
+          {hiddenActiveCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setPeekGhosts(p => !p)}
+              aria-pressed={peekGhosts}
+              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold transition-colors cursor-pointer ${
+                peekGhosts
+                  ? 'bg-indigo-100 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border border-transparent hover:text-gray-700 dark:hover:text-gray-200'
+              }`}
+            >
+              {peekGhosts ? <Eye size={11} /> : <EyeOff size={11} />}
+              {t('lists.hiddenByFilterNotice', { count: hiddenActiveCount })}
+            </button>
+          )}
+        </div>
 
         {/* Preferenze di vista: mostra/nascondi sezioni + filtro scaduti */}
         <div className="mb-3 flex flex-wrap items-center gap-1.5">
           {SECTION_KEYS.map(key => {
+            if (key === 'project' && projects.length === 0) return null;
             const shown = viewPrefs[`show_${key}`];
             return (
               <button
@@ -361,7 +481,8 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
                 }`}
               >
                 {shown ? <Eye size={12} /> : <EyeOff size={12} />}
-                {t(`lists.section_${key}` as 'lists.section_workbench')}
+                <span>{t(`lists.section_${key}` as 'lists.section_workbench')}</span>
+                <span className="text-[10px] opacity-75 tabular-nums">({sectionCounts[key]})</span>
               </button>
             );
           })}
@@ -379,45 +500,12 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
           </button>
         </div>
 
-        {viewPrefs.show_workbench && (
-          <CollapsibleSection
-            title={t('lists.sectionWorkbench')}
-            count={activeWorkbenches.length}
-            open={sectionsOpen.workbench}
-            onToggle={() => toggleSection('workbench')}
-          >
-            {renderDndSection(activeWorkbenches)}
-          </CollapsibleSection>
-        )}
+        {activePriorityLists.length > 0 && renderPriorityList()}
 
-        {viewPrefs.show_project && projects.length > 0 && (
-          <CollapsibleSection
-            title={t('lists.sectionProject')}
-            count={activeProjects.length}
-            open={sectionsOpen.project}
-            onToggle={() => toggleSection('project')}
-          >
-            {activeProjects.length === 0 ? (
-              <p className="text-[11px] text-gray-400 italic px-1 pb-2">
-                {t('lists.emptyProject')}
-              </p>
-            ) : renderDndSection(activeProjects)}
-          </CollapsibleSection>
-        )}
-
-        {viewPrefs.show_custom && (
-          <CollapsibleSection
-            title={t('lists.sectionCustom')}
-            count={activeCustom.length}
-            open={sectionsOpen.custom}
-            onToggle={() => toggleSection('custom')}
-          >
-            {activeCustom.length === 0 ? (
-              <p className="text-[11px] text-gray-400 italic px-1 pb-2">
-                {t('lists.emptyCustom')}
-              </p>
-            ) : renderDndSection(activeCustom)}
-          </CollapsibleSection>
+        {visibleActiveCount === 0 && !peekGhosts && activeDragId === null && (
+          <p className="text-xs text-gray-400 dark:text-gray-500 italic px-1 py-4 text-center">
+            {t('lists.emptyActiveLists')}
+          </p>
         )}
 
         {viewPrefs.show_completati && visibleMaxedLists.length > 0 && (
