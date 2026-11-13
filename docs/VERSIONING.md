@@ -149,12 +149,12 @@ Obiettivo: consolidare la `0.5.0` standardizzando il layout su tutte le pagine, 
 - [x] #124 [`color-scheme`, `theme-color` e `accent-color` per la UI nativa del browser](https://github.com/ieeah/arc-benches/issues/124)
 - [x] #125 [Scrollbar nascosta nelle liste di pill orizzontali: affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
 - [x] #126 [`lang` dinamico, titolo e meta description in `index.html`](https://github.com/ieeah/arc-benches/issues/126)
-- [ ] #149 [Rimozione assunzioni binarie ('it' vs 'en') ed estensione traduzioni in Dev Studio](https://github.com/ieeah/arc-benches/issues/149)
+- [x] #149 [Rimozione assunzioni binarie ('it' vs 'en') ed estensione traduzioni in Dev Studio](https://github.com/ieeah/arc-benches/issues/149)
 - [x] #150 [Background grafici dedicati per Armi amplificate, Stencil e Design](https://github.com/ieeah/arc-benches/issues/150)
 - [x] #151 [Decomposizione modulare di `src/types.ts` in `src/types/` con barrel export](https://github.com/ieeah/arc-benches/issues/151)
-- [ ] #152 [Estrazione logica condivisa tra `FloatingNav` e `MorphingFloatingNav` (hook e componenti atomici)](https://github.com/ieeah/arc-benches/issues/152)
+- [x] #152 [Estrazione logica condivisa tra `FloatingNav` e `MorphingFloatingNav` (hook e componenti atomici)](https://github.com/ieeah/arc-benches/issues/152)
 - [x] #153 [Pulizia configurazione Vite, rimozione avvisi native config e conformità ESM](https://github.com/ieeah/arc-benches/issues/153)
-- [ ] #154 [Decomposizione modulare di `SettingsPage.tsx` in sezioni atomiche](https://github.com/ieeah/arc-benches/issues/154)
+- [x] #154 [Decomposizione modulare di `SettingsPage.tsx` in sezioni atomiche](https://github.com/ieeah/arc-benches/issues/154)
 - [x] #155 [Estrazione di componenti riutilizzabili per le pagine Dev Studio (de-inlineing JSX)](https://github.com/ieeah/arc-benches/issues/155)
 - [x] #158 [Parità tra azioni e oggetti in tutti i calcoli di progresso e fix `getBaseLevel`](https://github.com/ieeah/arc-benches/issues/158)
 - [x] #119 [Code-splitting delle pagine con `React.lazy` e rimozione pagine Dev dalla build di produzione](https://github.com/ieeah/arc-benches/issues/119) — anticipato da 0.9.0
@@ -199,8 +199,8 @@ Obiettivo: consolidare la `0.6.0` e completare gli ultimi domini dati pre-`1.0.0
 ## 0.7.0 "Guida di Speranza" — Preparazione UI/UX, Base UI & Struttura Pagine (Pre-Migrazione) — Non ancora raggiunta
 Obiettivo: creare il laboratorio UI Kit Dev, migrare i componenti e i dialog a **Base UI**, definire il nuovo design visivo e riorganizzare le pagine (dettaglio lista e Outpost) così da avere componenti e gerarchia delle viste pronti per diventare rotte dell'App Router di Next.js nella `0.8.0`.
 Ordine di lavoro vincolato:
-1. [ ] #162 [Estrazione componenti primitivi di controllo e form (Button, Field, Input, Textarea, Switch, Checkbox, Select, SegmentedControl, Callout) propedeutici a Base UI](https://github.com/ieeah/arc-benches/issues/162) — **Fase 0: astrazione controlli per disaccoppiare il layout prima di Base UI**
-2. [ ] #163 [Estrazione componenti di presentazione e feedback (StatCard, Chip, EmptyState, Skeleton)](https://github.com/ieeah/arc-benches/issues/163) — unificazione riquadri metriche, tag con rimozione, stati vuoti e placeholder
+1. [ ] #162 [Estrazione componenti primitivi di controllo e form (Button, Field, Input, Textarea, Switch, Checkbox, Select, SegmentedControl, Callout) propedeutici a Base UI](https://github.com/ieeah/arc-benches/issues/162) — **Fase 0: astrazione controlli per disaccoppiare il layout prima di Base UI** (suite creata, test varianti a 10/10, adozione pilota e progressiva avviata)
+2. [ ] #163 [Estrazione componenti di presentazione e feedback (StatCard, Chip, EmptyState, Skeleton)](https://github.com/ieeah/arc-benches/issues/163) — unificazione riquadri metriche, tag con rimozione, stati vuoti e placeholder (creati StatCard ed EmptyState, in arrivo Chip e Skeleton)
 3. [ ] #141 [Dev Studio: UI Kit & Component Playground con vista comparativa e adozione incrementale Base UI](https://github.com/ieeah/arc-benches/issues/141) — **1° step obbligatorio per l'esposizione, comparazione e tooltip**
 4. [ ] #121 [Migrare Drawer, BottomSheet e modali a `<dialog>` nativo / Base UI Dialog](https://github.com/ieeah/arc-benches/issues/121) — dopo #141; unifica `Modal` centrato
 5. [ ] #122 [Rimuovere lo scroll lock su html/body e usare `overscroll-behavior` sul dialog](https://github.com/ieeah/arc-benches/issues/122) — dopo #121
