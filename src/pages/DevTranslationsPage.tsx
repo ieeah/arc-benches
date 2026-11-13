@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import {
-  Globe, Search, Download, Copy, Check, RotateCcw,
+  Globe, RotateCcw,
   Languages, FileCode, CheckCircle2, AlertCircle, Sparkles
 } from 'lucide-react';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
@@ -12,7 +12,7 @@ import {
   DEFAULT_FLAT, readI18nDraft, writeI18nDraft, clearI18nDraft,
   buildLocaleFileSource, buildCombinedLocalesJson, downloadTextFile,
 } from '@/lib/devI18n';
-import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
+import { DevStickyActionBar, DevSearchFilterBar } from '@/components/dev';
 
 type DevTranslationsPageProps = {
   onBack: () => void;
@@ -178,95 +178,85 @@ export function DevTranslationsPage({ onBack }: DevTranslationsPageProps) {
       icon={<Globe size={18} className="text-blue-500" />}
       onBack={onBack}
       headerActions={
-        <>
-          <div className="px-3 py-1 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 rounded-xl text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5">
-            <Languages size={13} />
-            <span>{allKeys.length} {language === 'en' ? 'Keys' : 'Stringhe'}</span>
-          </div>
+        <DevStickyActionBar
+          variant="header"
+          onResetDraft={handleResetAll}
+          resetLabel={language === 'en' ? 'Reset All' : 'Ripristina'}
+          resetTitle={language === 'en' ? 'Reset default translations' : 'Ripristina traduzioni predefinite'}
+          onCopyJson={handleCopy}
+          copied={copyFeedback}
+          onDownload={handleDownload}
+          downloadLabel={`${language === 'en' ? 'Download' : 'Scarica'} ${previewTab.toUpperCase()}`}
+          downloadTitle={`${language === 'en' ? 'Download' : 'Scarica'} ${previewTab.toUpperCase()}`}
+          downloadColor="blue"
+          isModified={modifiedKeysCount > 0}
+          unappliedFilename={modifiedKeysCount > 0 ? ['it.ts', 'en.ts'] : undefined}
+          applyArtifactIds={['locale-it', 'locale-en']}
+          applyLabel="Applica it.ts e en.ts"
+          extraActions={
+            <>
+              <div className="px-3 py-1 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 rounded-xl text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5">
+                <Languages size={13} />
+                <span>{allKeys.length} {language === 'en' ? 'Keys' : 'Stringhe'}</span>
+              </div>
 
-          {modifiedKeysCount > 0 && (
-            <div className="px-3 py-1 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
-              <Sparkles size={13} />
-              <span>{modifiedKeysCount} {language === 'en' ? 'Modified' : 'Modificate'}</span>
-            </div>
-          )}
-
-          <button
-            onClick={handleCopy}
-            className="px-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
-          >
-            {copyFeedback ? <Check size={13} className="text-emerald-500" /> : <Copy size={13} />}
-            <span>{copyFeedback ? (language === 'en' ? 'Copied!' : 'Copiato!') : `${language === 'en' ? 'Copy' : 'Copia'} ${previewTab.toUpperCase()}`}</span>
-          </button>
-
-          <button
-            onClick={handleDownload}
-            className="px-3.5 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-all cursor-pointer"
-          >
-            <Download size={13} />
-            <span>{language === 'en' ? 'Download' : 'Scarica'} {previewTab.toUpperCase()}</span>
-          </button>
-
-          <ApplyToProjectButton artifactIds={['locale-it', 'locale-en']} label="Applica it.ts e en.ts" />
-
-          <button
-            onClick={handleResetAll}
-            className="p-1.5 rounded-xl border border-red-200 dark:border-red-900/50 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all cursor-pointer"
-            title={language === 'en' ? 'Reset default translations' : 'Ripristina traduzioni predefinite'}
-          >
-            <RotateCcw size={15} />
-          </button>
-        </>
+              {modifiedKeysCount > 0 && (
+                <div className="px-3 py-1 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
+                  <Sparkles size={13} />
+                  <span>{modifiedKeysCount} {language === 'en' ? 'Modified' : 'Modificate'}</span>
+                </div>
+              )}
+            </>
+          }
+        />
       }
       sidebar={
         <>
-          {/* Ricerca e Filtri */}
-          <div className="shrink-0 p-3 border-b border-gray-100 dark:border-gray-800 space-y-2">
-            <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder={language === 'en' ? 'Search key or text…' : 'Cerca per chiave o testo…'}
-                className="w-full pl-9 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-
-            <ScrollableFadeContainer
-              bleedType="none"
-              containerClassName="gap-1.5 py-1"
-              ariaLabel={language === 'en' ? 'Filter by namespace' : 'Filtra per namespace'}
-            >
-              <button
-                type="button"
-                aria-pressed={selectedNamespace === 'all'}
-                onClick={() => setSelectedNamespace('all')}
-                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold shrink-0 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900 ${
-                  selectedNamespace === 'all'
-                    ? 'bg-blue-500 text-white shadow-2xs'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                {t('common.all')}
-              </button>
-              {namespaces.map(ns => (
-                <button
-                  key={ns}
-                  type="button"
-                  aria-pressed={selectedNamespace === ns}
-                  onClick={() => setSelectedNamespace(ns)}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold font-mono shrink-0 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900 ${
-                    selectedNamespace === ns
-                      ? 'bg-blue-500 text-white shadow-2xs'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
+          <DevSearchFilterBar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            placeholder={language === 'en' ? 'Search key or text…' : 'Cerca per chiave o testo…'}
+            count={filteredKeys.length}
+            countLabel={language === 'en' ? (filteredKeys.length === 1 ? 'key' : 'keys') : (filteredKeys.length === 1 ? 'chiave' : 'chiavi')}
+            className="shrink-0"
+            filters={
+              <div className="w-full overflow-hidden">
+                <ScrollableFadeContainer
+                  bleedType="none"
+                  containerClassName="gap-1.5 py-0.5"
+                  ariaLabel={language === 'en' ? 'Filter by namespace' : 'Filtra per namespace'}
                 >
-                  {ns}
-                </button>
-              ))}
-            </ScrollableFadeContainer>
-          </div>
+                  <button
+                    type="button"
+                    aria-pressed={selectedNamespace === 'all'}
+                    onClick={() => setSelectedNamespace('all')}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-bold shrink-0 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900 ${
+                      selectedNamespace === 'all'
+                        ? 'bg-blue-500 text-white shadow-2xs'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    {t('common.all')}
+                  </button>
+                  {namespaces.map(ns => (
+                    <button
+                      key={ns}
+                      type="button"
+                      aria-pressed={selectedNamespace === ns}
+                      onClick={() => setSelectedNamespace(ns)}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold font-mono shrink-0 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-gray-900 ${
+                        selectedNamespace === ns
+                          ? 'bg-blue-500 text-white shadow-2xs'
+                          : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      {ns}
+                    </button>
+                  ))}
+                </ScrollableFadeContainer>
+              </div>
+            }
+          />
 
           {/* Elenco Chiavi */}
           <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1">

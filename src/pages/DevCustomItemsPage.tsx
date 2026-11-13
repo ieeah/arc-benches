@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { suppressUnappliedWarning } from '@/lib/devUnapplied';
-import { AlertTriangle, Copy, Check, Download, ImageOff, PackagePlus, Plus, RotateCcw, Search, Trash2, Upload } from 'lucide-react';
+import { AlertTriangle, Download, ImageOff, PackagePlus, Plus, Trash2, Upload } from 'lucide-react';
 import type { ItemInfo, ItemTranslation } from '@/types';
 import { useAppStore } from '@/store';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
-import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
+import { DevStickyActionBar, DevDiffModal, DevSearchFilterBar } from '@/components/dev';
 import itemsData from '@/data/items.json';
 import { SUPPORTED_LANGUAGES } from '@/i18n';
 import { downloadTextFile } from '@/lib/devI18n';
@@ -98,6 +98,7 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
   const [uploadError, setUploadError] = useState('');
   const [copied, setCopied] = useState(false);
   const [confirm, setConfirm] = useState<'delete' | 'reset' | null>(null);
+  const [showDiff, setShowDiff] = useState(false);
 
   const syncItemsOverrides = useAppStore((s) => s.syncItemsOverrides);
 
@@ -206,40 +207,31 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
       icon={<PackagePlus size={20} className="text-rose-500" />}
       onBack={onBack}
       headerActions={
-        <>
-          <button
-            type="button"
-            onClick={() => setConfirm('reset')}
-            disabled={!modified}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors cursor-pointer disabled:opacity-40"
-          >
-            <RotateCcw size={14} /> Ripristina
-          </button>
-          <button
-            type="button"
-            onClick={copyJson}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors cursor-pointer"
-          >
-            {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
-            {copied ? 'Copiato!' : 'Copia'}
-          </button>
-          <button
-            type="button"
-            onClick={() => downloadTextFile('items.json', json, 'application/json')}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-500 hover:bg-blue-600 rounded-xl transition-colors cursor-pointer shadow-sm"
-            title="Scarica items.json: va in scripts/data/custom-items/ insieme alle icone"
-          >
-            <Download size={14} /> items.json
-          </button>
-          <ApplyToProjectButton artifactIds={['custom-items']} label="Applica al file" disabled={!modified} />
-        </>
+        <DevStickyActionBar
+          variant="header"
+          onResetDraft={() => setConfirm('reset')}
+          onViewDiff={() => setShowDiff(true)}
+          onCopyJson={copyJson}
+          copied={copied}
+          onDownload={() => downloadTextFile('items.json', json, 'application/json')}
+          downloadLabel="items.json"
+          downloadTitle="Scarica items.json: va in scripts/data/custom-items/ insieme alle icone"
+          downloadColor="blue"
+          isModified={modified}
+          applyArtifactIds={['custom-items']}
+          applyLabel="Applica al file"
+        />
       }
       sidebar={
         <div className="p-4 space-y-4 text-xs">
-          <div className="space-y-1.5">
-            <span className={cn(labelClass, 'flex items-center gap-1')}><Search size={11} /> Cerca</span>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Id o nome…" className={inputClass} />
-          </div>
+          <DevSearchFilterBar
+            searchQuery={search}
+            onSearchChange={setSearch}
+            placeholder="Id o nome…"
+            count={ids.length}
+            countLabel={ids.length === 1 ? 'oggetto' : 'oggetti'}
+            className="p-0 border-0 bg-transparent space-y-1.5"
+          />
 
           <div className="space-y-1.5">
             <span className={labelClass}>Nuovo oggetto</span>
@@ -503,6 +495,15 @@ export function DevCustomItemsPage({ onBack }: DevCustomItemsPageProps) {
           onClose={() => setConfirm(null)}
         />
       )}
+
+      <DevDiffModal
+        isOpen={showDiff}
+        onClose={() => setShowDiff(false)}
+        title="Confronto Oggetti Custom"
+        filename="items.json"
+        originalValue={baselineCustomItems}
+        modifiedValue={items}
+      />
     </DevStudioLayout>
   );
 }

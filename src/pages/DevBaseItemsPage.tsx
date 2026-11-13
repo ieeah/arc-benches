@@ -1,15 +1,12 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import {
   Boxes,
-  Plus,
   Trash2,
   Search,
   ArrowUp,
   ArrowDown,
   X,
   Sparkles,
-  Download,
-  RotateCcw,
   Check,
   Image as ImageIcon,
   Globe,
@@ -18,7 +15,7 @@ import { useAppStore } from '@/store';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
-import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
+import { DevStickyActionBar, DevDiffModal, DevSearchFilterBar } from '@/components/dev';
 import { BlueprintCombobox } from '@/components/dev/BlueprintCombobox';
 import { downloadTextFile } from '@/lib/devI18n';
 import { getRarityText } from '@/lib/rarity';
@@ -62,6 +59,7 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
     message: string;
     onConfirm: () => void;
   } | null>(null);
+  const [showDiff, setShowDiff] = useState(false);
 
   // Focus automatico sull'input di ricerca icona alla comparsa del picker
   useEffect(() => {
@@ -371,55 +369,34 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
       icon={<Boxes className="w-5 h-5 text-indigo-500" />}
       onBack={onBack}
       headerActions={
-        <div className="flex items-center gap-2">
-          {isModified && (
-            <button
-              type="button"
-              onClick={handleDiscardChanges}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-all cursor-pointer"
-            >
-              <RotateCcw size={14} />
-              Scarta modifiche
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={handleDownload}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-all cursor-pointer"
-            title="Scarica item-variants.json"
-          >
-            <Download size={14} />
-            Scarica JSON
-          </button>
-          <ApplyToProjectButton artifactIds={['item-variants']} />
-        </div>
+        <DevStickyActionBar
+          variant="header"
+          onResetDraft={handleDiscardChanges}
+          resetLabel="Scarta modifiche"
+          resetTitle="Scarta modifiche locali e ripristina il file originale"
+          onViewDiff={() => setShowDiff(true)}
+          onDownload={handleDownload}
+          downloadLabel="Scarica JSON"
+          downloadTitle="Scarica item-variants.json"
+          downloadColor="gray"
+          isModified={isModified}
+          unappliedFilename="item-variants.json"
+          applyArtifactIds={['item-variants']}
+          applyLabel="Applica al file"
+        />
       }
       sidebar={
         <div className="flex flex-col h-full p-4 space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cerca base item..."
-                className="w-full pl-8 pr-3 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"
-              />
-            </div>
-            <button
-              type="button"
-              onClick={handleCreateNew}
-              className="p-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-xs transition-all cursor-pointer shrink-0"
-              title="Nuovo Base Item"
-            >
-              <Plus size={16} />
-            </button>
-          </div>
-
-          <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider px-1">
-            {filteredBaseItems.length} Base Items
-          </div>
+          <DevSearchFilterBar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            placeholder="Cerca base item..."
+            count={filteredBaseItems.length}
+            countLabel={filteredBaseItems.length === 1 ? 'Base Item' : 'Base Items'}
+            onCreateNew={handleCreateNew}
+            createTitle="Nuovo Base Item"
+            className="p-0 border-0 bg-transparent space-y-2 mb-2"
+          />
 
           <div className="flex-1 overflow-y-auto space-y-1.5 pr-1">
             {filteredBaseItems.map((base) => {
@@ -1059,6 +1036,15 @@ export function DevBaseItemsPage({ onBack }: DevBaseItemsPageProps) {
           onClose={() => setConfirmModal(null)}
         />
       )}
+
+      <DevDiffModal
+        isOpen={showDiff}
+        onClose={() => setShowDiff(false)}
+        title="Confronto Base Items e Varianti"
+        filename="item-variants.json"
+        originalValue={itemVariantsSeed}
+        modifiedValue={data}
+      />
     </DevStudioLayout>
   );
 }

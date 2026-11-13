@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from "react";
 import {
   Layers,
-  Search,
   Plus,
   Trash2,
   Copy,
-  Download,
   RotateCcw,
   Check,
   Package,
@@ -49,7 +47,7 @@ import { validateExpeditionIndex } from "@/lib/validate";
 import { isExpedition, isPass, isProject, withListType } from "@/lib/lists";
 import { buildListsFileContent } from "@/lib/devArtifacts";
 import { listFilesToApply } from "@/lib/devListFiles";
-import { ApplyToProjectButton } from "@/components/dev/ApplyToProjectButton";
+import { DevStickyActionBar, DevSearchFilterBar } from "@/components/dev";
 import itemsDatabase from "@/data/items.json";
 import { generateUUID } from "@/lib/uuid";
 import { cn } from "@/lib/cn";
@@ -736,52 +734,34 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
       icon={<Layers size={20} className="text-purple-500" />}
       onBack={onBack}
       headerActions={
-        <>
-          <DevListsTrash refreshKey={trashVersion} onRestore={handleRestoreFromTrash} />
-          <button
-            type="button"
-            onClick={handleResetDraft}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors cursor-pointer"
-            title="Ripristina tutte le bozze ai file baseline"
-          >
-            <RotateCcw size={14} />
-            <span>Reset Tutte le Bozze</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleCopyJson}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-xl transition-colors cursor-pointer shadow-xs"
-          >
-            {copied ? <Check size={14} /> : <Copy size={14} />}
-            <span>{copied ? "Copiato!" : "Copia JSON"}</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleDownloadFile}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors cursor-pointer shadow-xs"
-          >
-            <Download size={14} />
-            <span>Scarica {LIST_TYPE_CONFIG[targetCategory].filename}</span>
-          </button>
-          {modifiedTypes.length > 0 && (
-            <span
-              className="px-2 py-1 rounded-lg text-[11px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
-              title="Le modifiche restano in bozza nel browser finché non le applichi ai file"
-            >
-              Non applicato: {modifiedTypes.map((type) => LIST_TYPE_CONFIG[type].filename).join(", ")}
-            </span>
-          )}
-          {targetCategory !== "custom" && (
-            <ApplyToProjectButton
-              artifactIds={(modifiedTypes.length > 0 ? modifiedTypes : [targetCategory]).map((type) => `lists-${type}`)}
-              label={
-                modifiedTypes.length > 1
-                  ? `Applica ${modifiedTypes.length} file`
-                  : `Applica ${LIST_TYPE_CONFIG[targetCategory].filename}`
-              }
-            />
-          )}
-        </>
+        <DevStickyActionBar
+          variant="header"
+          onResetDraft={handleResetDraft}
+          resetLabel="Reset Tutte le Bozze"
+          resetTitle="Ripristina tutte le bozze ai file baseline"
+          onCopyJson={handleCopyJson}
+          copied={copied}
+          onDownload={handleDownloadFile}
+          downloadLabel={`Scarica ${LIST_TYPE_CONFIG[targetCategory].filename}`}
+          downloadTitle={`Scarica ${LIST_TYPE_CONFIG[targetCategory].filename}`}
+          downloadColor="emerald"
+          isModified={modifiedTypes.length > 0}
+          unappliedFilename={modifiedTypes.map((type) => LIST_TYPE_CONFIG[type].filename)}
+          applyArtifactIds={
+            targetCategory !== "custom"
+              ? (modifiedTypes.length > 0 ? modifiedTypes : [targetCategory]).map((type) => `lists-${type}`)
+              : undefined
+          }
+          applyLabel={
+            modifiedTypes.length > 1
+              ? `Applica ${modifiedTypes.length} file`
+              : `Applica ${LIST_TYPE_CONFIG[targetCategory].filename}`
+          }
+          applyDisabled={modifiedTypes.length === 0}
+          extraActions={
+            <DevListsTrash refreshKey={trashVersion} onRestore={handleRestoreFromTrash} />
+          }
+        />
       }
       sidebar={
         <div className="flex flex-col h-full">
@@ -815,33 +795,18 @@ export function DevListsPage({ onBack }: DevListsPageProps) {
             </div>
 
             {/* Search and Add */}
-            <div className="flex gap-1.5">
-              <div className="relative flex-1">
-                <Search
-                  size={14}
-                  className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400"
-                />
-                <input
-                  type="text"
-                  placeholder="Cerca lista…"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-500"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={() =>
-                  handleCreateList(
-                    activeFilter === "all" ? "project" : activeFilter,
-                  )
-                }
-                className="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors shadow-xs"
-                title="Crea nuova lista"
-              >
-                <Plus size={14} />
-              </button>
-            </div>
+            <DevSearchFilterBar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              placeholder="Cerca lista…"
+              onCreateNew={() =>
+                handleCreateList(
+                  activeFilter === "all" ? "project" : activeFilter,
+                )
+              }
+              createTitle="Crea nuova lista"
+              className="p-0 border-0 bg-transparent space-y-1.5"
+            />
           </div>
 
           {/* List Items (Grouped by Category) */}

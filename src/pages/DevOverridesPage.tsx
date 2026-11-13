@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import {
-  Search, Download, Copy, Check, Sparkles,
-  Trash2, RotateCcw, FileJson, Edit3, Globe,
+  Sparkles,
+  Trash2, FileJson, Edit3, Globe,
   EyeOff, ChevronDown, AlertTriangle
 } from 'lucide-react';
 import type { ItemInfo, ItemTranslation } from '@/types';
@@ -25,7 +25,7 @@ import {
   type ConflictKind,
   type OverrideConflict,
 } from '@/lib/overrideConflicts';
-import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
+import { DevStickyActionBar, DevDiffModal, DevSearchFilterBar } from '@/components/dev';
 
 type ItemRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Amplified';
 const RARITIES: ItemRarity[] = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Amplified'];
@@ -274,12 +274,15 @@ export const DevOverridesPage = ({
     onConfirm: () => void;
   } | null>(null);
   const [copyFeedback, setCopyFeedback] = useState(false);
+  const [showDiff, setShowDiff] = useState(false);
+  const [prevInitialId, setPrevInitialId] = useState(initialSelectedItemId);
 
-  useEffect(() => {
+  if (initialSelectedItemId !== prevInitialId) {
+    setPrevInitialId(initialSelectedItemId);
     if (initialSelectedItemId && (itemsDataBase as Record<string, ItemInfo>)[initialSelectedItemId]) {
       setSelectedItemId(initialSelectedItemId);
     }
-  }, [initialSelectedItemId]);
+  }
 
   // Serializzazione JSON non bloccante tramite concurrent rendering di React 19
   const deferredOverrides = React.useDeferredValue(overrides);
@@ -667,68 +670,50 @@ export const DevOverridesPage = ({
       icon={<FileJson size={18} className="text-blue-500" />}
       onBack={onBack}
       headerActions={
-        <>
-          <div className="px-3 py-1 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
-            <Sparkles size={13} />
-            <span>{totalOverriddenItems} Override</span>
-          </div>
+        <DevStickyActionBar
+          variant="header"
+          onResetDraft={handleResetAllOverrides}
+          resetLabel="Ripristina file iniziale"
+          resetTitle="Ripristina tutti gli override allo stato iniziale"
+          onViewDiff={() => setShowDiff(true)}
+          onCopyJson={handleCopyJson}
+          copied={copyFeedback}
+          onDownload={handleDownloadJson}
+          downloadLabel="Scarica JSON"
+          downloadTitle="Scarica items-overrides.json"
+          downloadColor="blue"
+          isModified={hasChanges}
+          unappliedFilename={hasChanges ? 'items-overrides.json' : undefined}
+          applyArtifactIds={['items-overrides']}
+          applyLabel="Applica al file"
+          extraActions={
+            <>
+              <div className="px-3 py-1 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
+                <Sparkles size={13} />
+                <span>{totalOverriddenItems} Override</span>
+              </div>
 
-          {totalHiddenItems > 0 && (
-            <div className="px-3 py-1 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl text-xs font-bold text-red-700 dark:text-red-300 flex items-center gap-1.5">
-              <EyeOff size={13} />
-              <span>{totalHiddenItems} Nascosti</span>
-            </div>
-          )}
-
-          <button
-            onClick={handleCopyJson}
-            className="px-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
-          >
-            {copyFeedback ? <Check size={13} className="text-emerald-500" /> : <Copy size={13} />}
-            <span>{copyFeedback ? 'Copiato!' : 'Copia JSON'}</span>
-          </button>
-
-          <button
-            onClick={handleDownloadJson}
-            className="px-3.5 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-all cursor-pointer"
-          >
-            <Download size={13} />
-            <span>Scarica JSON</span>
-          </button>
-
-          {hasChanges && (
-            <span
-              className="px-2 py-1 rounded-lg text-[11px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
-              title="Le modifiche restano in bozza nel browser finché non le applichi al file"
-            >
-              Non applicato: items-overrides.json
-            </span>
-          )}
-
-          <ApplyToProjectButton artifactIds={['items-overrides']} label="Applica al file" disabled={!hasChanges} />
-
-          <button
-            onClick={handleResetAllOverrides}
-            className="p-1.5 rounded-xl border border-red-200 dark:border-red-900/50 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all cursor-pointer"
-            title="Ripristina file iniziale"
-          >
-            <RotateCcw size={15} />
-          </button>
-        </>
+              {totalHiddenItems > 0 && (
+                <div className="px-3 py-1 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl text-xs font-bold text-red-700 dark:text-red-300 flex items-center gap-1.5">
+                  <EyeOff size={13} />
+                  <span>{totalHiddenItems} Nascosti</span>
+                </div>
+              )}
+            </>
+          }
+        />
       }
       sidebar={
         <>
           <div className="shrink-0 p-3 border-b border-gray-100 dark:border-gray-800 space-y-2">
-            <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Cerca per nome o ID…"
-                className="w-full pl-9 pr-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
+            <DevSearchFilterBar
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              placeholder="Cerca per nome o ID…"
+              count={filteredItems.length}
+              countLabel={filteredItems.length === 1 ? 'oggetto' : 'oggetti'}
+              className="p-0 border-0 bg-transparent space-y-1.5"
+            />
             <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300">
               <label className="flex items-center gap-1.5 cursor-pointer select-none">
                 <input
@@ -1568,6 +1553,15 @@ export const DevOverridesPage = ({
           onClose={() => setConfirmModalConfig(null)}
         />
       )}
+
+      <DevDiffModal
+        isOpen={showDiff}
+        onClose={() => setShowDiff(false)}
+        title="Confronto Overrides Catalogo"
+        filename="items-overrides.json"
+        originalValue={initialOverrides}
+        modifiedValue={overrides}
+      />
     </DevStudioLayout>
   );
 };

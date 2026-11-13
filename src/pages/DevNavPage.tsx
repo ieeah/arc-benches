@@ -24,7 +24,7 @@ import {
   getTranslationValue, getDefaultTranslationValue, hasTranslationOverride, setTranslationValue,
   countModifiedKeys, downloadLocaleFile,
 } from '@/lib/devI18n';
-import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
+import { DevStickyActionBar, DevDiffModal } from '@/components/dev';
 
 const I18N_LANGS = ['it', 'en'] as const;
 
@@ -195,11 +195,23 @@ function ItemRow({
 }
 
 export function DevNavPage({ onBack }: DevNavPageProps) {
-  const { config, setConfig, resetDraft, isDirty } = useDevNavDraft();
+  const { config, setConfig, resetDraft, seed, isDirty } = useDevNavDraft();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [translationsDirty, setTranslationsDirty] = useState(false);
+  const [showDiff, setShowDiff] = useState(false);
+  const [copied, setCopied] = useState(false);
   // Recomputed every render — cheap (a few hundred string compares) and always current.
   const modifiedI18nCount = countModifiedKeys();
+
+  const handleCopyJson = async () => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(config, null, 2) + '\n');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback
+    }
+  };
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
@@ -306,36 +318,35 @@ export function DevNavPage({ onBack }: DevNavPageProps) {
       icon={<Route size={20} className="text-purple-500" />}
       onBack={onBack}
       headerActions={
-        <>
-          {translationsDirty && (
-            <button
-              type="button"
-              onClick={() => { suppressUnappliedWarning(); window.location.reload(); }}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/50 hover:bg-amber-200 dark:hover:bg-amber-900/60 rounded-xl transition-colors cursor-pointer"
-              title="Ricarica per applicare le traduzioni modificate"
-            >
-              <RefreshCw size={14} /> Ricarica
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={resetDraft}
-            disabled={!isDirty}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors cursor-pointer disabled:opacity-40"
-            title="Ripristina la bozza a nav.json"
-          >
-            <RotateCcw size={14} /> Ripristina
-          </button>
-          <button
-            type="button"
-            onClick={() => download(config)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-500 hover:bg-blue-600 rounded-xl transition-colors cursor-pointer"
-            title="Scarica nav.json"
-          >
-            <Download size={14} /> nav.json
-          </button>
-          <ApplyToProjectButton artifactIds={['nav', 'locale-it', 'locale-en']} label="Applica menu e traduzioni" />
-        </>
+        <DevStickyActionBar
+          variant="header"
+          onResetDraft={resetDraft}
+          resetLabel="Ripristina"
+          resetTitle="Ripristina la bozza a nav.json"
+          onViewDiff={() => setShowDiff(true)}
+          onCopyJson={handleCopyJson}
+          copied={copied}
+          onDownload={() => download(config)}
+          downloadLabel="nav.json"
+          downloadTitle="Scarica nav.json"
+          downloadColor="blue"
+          isModified={isDirty}
+          unappliedFilename={isDirty ? 'nav.json' : undefined}
+          applyArtifactIds={['nav', 'locale-it', 'locale-en']}
+          applyLabel="Applica menu e traduzioni"
+          extraActions={
+            translationsDirty ? (
+              <button
+                type="button"
+                onClick={() => { suppressUnappliedWarning(); window.location.reload(); }}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/50 hover:bg-amber-200 dark:hover:bg-amber-900/60 rounded-xl transition-colors cursor-pointer"
+                title="Ricarica per applicare le traduzioni modificate"
+              >
+                <RefreshCw size={14} /> Ricarica
+              </button>
+            ) : null
+          }
+        />
       }
       sidebar={
         <div className="p-4 text-xs text-gray-500 dark:text-gray-400 space-y-2">
@@ -397,6 +408,15 @@ export function DevNavPage({ onBack }: DevNavPageProps) {
           )}
         </DragOverlay>
       </DndContext>
+
+      <DevDiffModal
+        isOpen={showDiff}
+        onClose={() => setShowDiff(false)}
+        title="Confronto Navigazione"
+        filename="nav.json"
+        originalValue={seed}
+        modifiedValue={config}
+      />
     </DevStudioLayout>
   );
 }

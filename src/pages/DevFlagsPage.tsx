@@ -1,18 +1,19 @@
 import { useState, useMemo } from 'react';
 import {
-  Flag, RotateCcw, Download, Copy, Check, Sparkles,
-  CheckCircle2, XCircle, Search, Compass, ShieldAlert,
+  Flag, Check, Sparkles,
+  CheckCircle2, XCircle, Compass, ShieldAlert,
   Dice5, Map as MapIcon, ScrollText, Ticket, AlertTriangle, ShieldCheck, Filter,
 } from 'lucide-react';
 import { DevStudioLayout } from '@/components/DevStudioLayout';
 import {
   FEATURE_FLAGS_DEFINITIONS,
+  getDefaultFeatureFlags,
   hasCustomFeatureFlags,
   useFeatureFlags,
   type FeatureFlagId,
   type FeatureFlagsState,
 } from '@/lib/featureFlags';
-import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
+import { DevStickyActionBar, DevDiffModal, DevSearchFilterBar } from '@/components/dev';
 
 type DevFlagsPageProps = {
   onBack: () => void;
@@ -59,6 +60,7 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'core' | 'tools'>('all');
   const [copied, setCopied] = useState(false);
+  const [showDiff, setShowDiff] = useState(false);
 
   const activeCount = useMemo(() => {
     return Object.values(flags).filter(Boolean).length;
@@ -104,65 +106,44 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
       icon={<Flag size={20} className="text-purple-500" />}
       onBack={onBack}
       headerActions={
-        <>
-          <button
-            type="button"
-            onClick={reset}
-            disabled={!isDirty}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors cursor-pointer disabled:opacity-40"
-            title="Ripristina tutte le impostazioni ai valori di fabbrica (tutti attivi)"
-          >
-            <RotateCcw size={14} /> Ripristina Default
-          </button>
+        <DevStickyActionBar
+          variant="header"
+          onResetDraft={reset}
+          resetLabel="Ripristina Default"
+          resetTitle="Ripristina tutte le impostazioni ai valori di fabbrica (tutti attivi)"
+          onViewDiff={() => setShowDiff(true)}
+          onCopyJson={handleCopyJson}
+          copied={copied}
+          onDownload={() => downloadFlagsJson(flags)}
+          downloadLabel="feature-flags.json"
+          downloadTitle="Scarica feature-flags.json"
+          downloadColor="blue"
+          isModified={hasChanges}
+          unappliedFilename={hasChanges ? 'feature-flags.json' : undefined}
+          applyArtifactIds={['feature-flags']}
+          applyLabel="Applica al file"
+          extraActions={
+            <>
+              <button
+                type="button"
+                onClick={() => setAll(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 rounded-xl transition-colors cursor-pointer"
+                title="Attiva tutti i flag contemporaneamente"
+              >
+                <CheckCircle2 size={14} /> Attiva Tutti
+              </button>
 
-          <button
-            type="button"
-            onClick={() => setAll(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 rounded-xl transition-colors cursor-pointer"
-            title="Attiva tutti i flag contemporaneamente"
-          >
-            <CheckCircle2 size={14} /> Attiva Tutti
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setAll(false)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 rounded-xl transition-colors cursor-pointer"
-            title="Disattiva tutti i flag per test di isolamento"
-          >
-            <XCircle size={14} /> Disattiva Tutti
-          </button>
-
-          <button
-            type="button"
-            onClick={handleCopyJson}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors cursor-pointer"
-            title="Copia configurazione JSON negli appunti"
-          >
-            {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
-            {copied ? 'Copiato!' : 'Copia'}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => downloadFlagsJson(flags)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-500 hover:bg-blue-600 rounded-xl transition-colors cursor-pointer shadow-sm"
-            title="Scarica feature-flags.json"
-          >
-            <Download size={14} /> feature-flags.json
-          </button>
-
-          {hasChanges && (
-            <span
-              className="px-2 py-1 rounded-lg text-[11px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300"
-              title="Le modifiche restano in bozza nel browser finché non le applichi al file"
-            >
-              Non applicato: feature-flags.json
-            </span>
-          )}
-
-          <ApplyToProjectButton artifactIds={['feature-flags']} label="Applica al file" disabled={!hasChanges} />
-        </>
+              <button
+                type="button"
+                onClick={() => setAll(false)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 rounded-xl transition-colors cursor-pointer"
+                title="Disattiva tutti i flag per test di isolamento"
+              >
+                <XCircle size={14} /> Disattiva Tutti
+              </button>
+            </>
+          }
+        />
       }
       sidebar={
         <div className="p-4 space-y-5 text-xs text-gray-600 dark:text-gray-400">
@@ -179,28 +160,14 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
           </div>
 
           {/* Ricerca */}
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 flex items-center gap-1">
-              <Search size={11} /> Cerca Flag
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Filtra per nome, id, rotta…"
-                className="w-full bg-gray-50 dark:bg-gray-800/70 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-xs text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
-                >
-                  &times;
-                </button>
-              )}
-            </div>
-          </div>
+          <DevSearchFilterBar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            placeholder="Filtra per nome, id, rotta…"
+            count={filteredDefinitions.length}
+            countLabel={filteredDefinitions.length === 1 ? 'flag' : 'flag'}
+            className="p-0 border-0 bg-transparent space-y-1.5"
+          />
 
           {/* Categorie */}
           <div className="space-y-1.5">
@@ -360,6 +327,15 @@ export function DevFlagsPage({ onBack }: DevFlagsPageProps) {
           })
         )}
       </div>
+
+      <DevDiffModal
+        isOpen={showDiff}
+        onClose={() => setShowDiff(false)}
+        title="Confronto Feature Flags"
+        filename="feature-flags.json"
+        originalValue={getDefaultFeatureFlags()}
+        modifiedValue={flags}
+      />
     </DevStudioLayout>
   );
 }
