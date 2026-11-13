@@ -35,11 +35,11 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 - [ ] #119 [Perf Build: code-splitting delle pagine con `React.lazy` e rimozione pagine Dev dalla build di produzione](https://github.com/ieeah/arc-benches/issues/119) — anticipato da 0.9.0 a 0.5.1; riduce drasticamente il chunk principale (~1.53 MB).
 - [x] Refactor & Follow-up: Base Items Studio, Dettaglio Oggetto e Ricerche Armi Amplificate — combobox blueprint, reset sottocategoria, traduzioni multi-lingua scalabili, focus management icon picker, navigazione bidirezionale blueprint/oggetto, raggruppamento "Craft e Potenziamenti" e dati ricerche amplificazioni. *Specifica tecnica*: [docs/specs/base-items-e-varianti-followup.md](specs/base-items-e-varianti-followup.md).
 - [ ] #127 [Build: passare a `@tailwindcss/vite` e rimuovere PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
+- [x] #114 [UX Liste: elenco unico senza raggruppamento per tipo, card differenziate e più intuitive](https://github.com/ieeah/arc-benches/issues/114) — elenco unico per priorità globale in ListsPage con ListTypeBadge, rango #N e ghost card Drag-Reveal per le liste filtrate.
 
 ---
 
 ## 0.6.0 "Archivio del Rifugio" — Dati di 2° Livello (Refactor UI Liste)
-- [ ] #114 [UX Liste: elenco unico senza raggruppamento per tipo, card differenziate e più intuitive](https://github.com/ieeah/arc-benches/issues/114) — la priorità si esprime con la posizione; correlata a #69.
 - [ ] #156 [Gestione azioni liste: riordinamento e azioni composte (sotto-azioni lineari o libere)](https://github.com/ieeah/arc-benches/issues/156) — riordinamento touch-first (Dnd + controlli touch) e macro-azioni con sotto-azioni lineari o libere.
 
 ---

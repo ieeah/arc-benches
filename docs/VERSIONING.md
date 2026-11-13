@@ -160,6 +160,7 @@ Obiettivo: consolidare la `0.5.0` standardizzando il layout su tutte le pagine, 
 - [ ] #119 [Code-splitting delle pagine con `React.lazy` e rimozione pagine Dev dalla build di produzione](https://github.com/ieeah/arc-benches/issues/119) — anticipato da 0.9.0
 - [x] Refactor & Follow-up: Base Items Studio, Dettaglio Oggetto e Ricerche Armi Amplificate ([base-items-e-varianti-followup.md](specs/base-items-e-varianti-followup.md))
 - [ ] #127 [Passare a `@tailwindcss/vite` e rimuovere PostCSS/autoprefixer e config Tailwind legacy](https://github.com/ieeah/arc-benches/issues/127)
+- [x] #114 [Elenco unico delle liste senza raggruppamento per tipo e card differenziate](https://github.com/ieeah/arc-benches/issues/114) — anticipato da 0.6.0
 
 ---
 
@@ -171,7 +172,6 @@ Obiettivo: riunire in una pagina **Collezioni** tutti i tracker di sblocco (Blue
   - [ ] #109 [Outfit sbloccati a pezzi: distinguere completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109)
 - [ ] #92 [Armi amplificate (Weapon Amplification) e gestione ricerche Research Bench](https://github.com/ieeah/arc-benches/issues/92)
 - [ ] #113 [Costruzione, miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
-- [ ] #114 [Elenco unico delle liste senza raggruppamento per tipo e card differenziate](https://github.com/ieeah/arc-benches/issues/114)
 - [ ] #156 [Gestione azioni liste: riordinamento e azioni composte (sotto-azioni lineari o libere)](https://github.com/ieeah/arc-benches/issues/156)
 - [ ] #159 [Pianificazione massiva da banchi/progetti e salvataggio slice come lista custom](https://github.com/ieeah/arc-benches/issues/159) — follow-up di #157
 - [ ] #89 [Estrazione dati Skill Tree da MetaForge (`svelte-flow`)](https://github.com/ieeah/arc-benches/issues/89)
