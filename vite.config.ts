@@ -2,10 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
-import { devApplyPlugin } from "./vite-plugins/dev-apply";
+import { devApplyPlugin } from "./vite-plugins/dev-apply.ts";
 
 // La versione mostrata nell'app (Impostazioni) e' quella di package.json: nessun valore da aggiornare a mano.
-const { version } = JSON.parse(fs.readFileSync(path.resolve(__dirname, "package.json"), "utf-8")) as { version: string };
+const { version } = JSON.parse(fs.readFileSync(path.resolve(import.meta.dirname, "package.json"), "utf-8")) as { version: string };
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -17,7 +17,7 @@ export default defineConfig({
   plugins: [react(), devApplyPlugin()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
   server: {

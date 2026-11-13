@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
-import { addTrashEntry, clearTrash, readTrash, removeTrashEntry } from './dev-trash';
+import { addTrashEntry, clearTrash, readTrash, removeTrashEntry } from './dev-trash.ts';
 
 /** Gli unici file scrivibili (percorsi relativi alla radice, in formato POSIX). */
 export const APPLY_ALLOWED_FILES = [
