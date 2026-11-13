@@ -150,7 +150,7 @@ Obiettivo: consolidare la `0.5.0` standardizzando il layout su tutte le pagine, 
 - [ ] #125 [Scrollbar nascosta nelle liste di pill orizzontali: affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
 - [ ] #126 [`lang` dinamico, titolo e meta description in `index.html`](https://github.com/ieeah/arc-benches/issues/126)
 - [ ] #149 [Rimozione assunzioni binarie ('it' vs 'en') ed estensione traduzioni in Dev Studio](https://github.com/ieeah/arc-benches/issues/149)
-- [ ] #150 [Background grafici dedicati per Armi amplificate, Stencil e Design](https://github.com/ieeah/arc-benches/issues/150)
+- [x] #150 [Background grafici dedicati per Armi amplificate, Stencil e Design](https://github.com/ieeah/arc-benches/issues/150)
 - [ ] #151 [Decomposizione modulare di `src/types.ts` in `src/types/` con barrel export](https://github.com/ieeah/arc-benches/issues/151)
 - [ ] #152 [Estrazione logica condivisa tra `FloatingNav` e `MorphingFloatingNav` (hook e componenti atomici)](https://github.com/ieeah/arc-benches/issues/152)
 - [ ] #153 [Pulizia configurazione Vite, rimozione avvisi native config e conformità ESM](https://github.com/ieeah/arc-benches/issues/153)
