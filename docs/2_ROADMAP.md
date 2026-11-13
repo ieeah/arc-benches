@@ -17,7 +17,7 @@ Tutte le voci della `0.5.0` sono completate e rilasciate in `v0.5.0`.
 ---
 
 ## Versione 0.5.1 "Taratura del Segnale" — Consolidamento 0.5.0 & Tooling Vite
-- [ ] #124 [Tema del browser: `color-scheme`, `theme-color` e `accent-color`](https://github.com/ieeah/arc-benches/issues/124)
+- [x] #124 [Tema del browser: `color-scheme`, `theme-color` e `accent-color`](https://github.com/ieeah/arc-benches/issues/124)
 
 Il resto della `0.5.1` (migrazione `PageLayout`, `type`, ordinamento priorità Stash #69, `@tailwindcss/vite` #127) è in [3_BACKLOG.md](3_BACKLOG.md).
 
@@ -41,6 +41,7 @@ Il resto della `0.5.1` (migrazione `PageLayout`, `type`, ordinamento priorità S
 ## Versione 0.6.x "Consolidamento & Dati Estesi" — Consolidamento 0.6.0 & Dati Pre-1.0.0
 - [ ] #58 [Quest Tracker utente (condivide l'architettura mobile-first di #76)](https://github.com/ieeah/arc-benches/issues/58)
   - *Comportamento con le Spedizioni (reset opzionale)*: in gioco il Raider può scegliere se azzerare o conservare i progressi delle quest alla partenza; il flusso di chiusura/partenza richiederà la scelta all'utente prima del wipe.
+- [ ] #161 [Visualizzazione oggetti per quest nello Stash con orizzonte per ramo e distinzione carry/consegna](https://github.com/ieeah/arc-benches/issues/161) — collegata a #58 e #76
 - [ ] #94 [Commercianti: limiti giornalieri statici ("Ne puoi comprare X al giorno"), countdown reset e scheda informativa Cassio/Ermal](https://github.com/ieeah/arc-benches/issues/94)
 - [ ] #26 [Vista Aggregata per Banco/Lista nello Stash con accesso rapido al dettaglio lista per livelli](https://github.com/ieeah/arc-benches/issues/26)
 - [ ] #59 [Spawn Tips "Dove trovo questo oggetto" basati sulle Zone di Loot (`loot_area`)](https://github.com/ieeah/arc-benches/issues/59)
