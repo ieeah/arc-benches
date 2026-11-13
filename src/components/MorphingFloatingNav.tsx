@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import {
   MoreHorizontal, Check, Users, X,
-  ChevronRight, ChevronLeft, Radar
+  ChevronRight, ChevronLeft,
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
@@ -12,7 +12,11 @@ import { useTranslation } from '@/i18n';
 import { useNavTree } from '@/hooks/useNavTree';
 import type { NavItem } from '@/lib/navTree';
 import type { FloatingNavProps } from '@/components/FloatingNav';
-import { isSectionActive } from '@/lib/sections';
+import {
+  useFloatingNavState,
+  useQuickFavoritesNav,
+  RaidNavRadarButton,
+} from '@/components/nav';
 
 type MorphMode = 'idle' | 'nav' | 'context';
 
@@ -32,21 +36,24 @@ export const MorphingFloatingNav = ({
   const resolvedNavTree = useNavTree();
   const navTree: NavItem[] = items ?? resolvedNavTree;
 
-  const quickFavorites = useAppStore(s => s.quickFavorites) ?? ['stash', 'liste'];
-  const activeProfileId = useAppStore(s => s.activeProfileId);
-  const activeProfileName = useAppStore(
-    s => s.profiles.find(p => p.id === s.activeProfileId)?.name ?? 'Principale'
-  );
+  // Stato Profilo e Stato Raid (#117, #102)
+  const {
+    activeProfileId,
+    activeProfileName,
+    profilesDrawerOpen,
+    setProfilesDrawerOpen,
+    hasRaidElements,
+    isRaidRunning,
+  } = useFloatingNavState();
 
-  // Stato Raid Plan (#117, #102)
-  const raidPlan = useAppStore(s => s.raidPlan);
-  const enabledSections = useAppStore(s => s.enabledSections);
-  const isRaidActive = isSectionActive('raid', { enabledSections });
-  const hasRaidElements = isRaidActive && ((raidPlan?.actions?.length ?? 0) > 0 || (raidPlan?.items?.length ?? 0) > 0);
-  const isRaidRunning = isRaidActive && (raidPlan?.isRaidRunning ?? false);
+  // Pagine preferite per navigazione rapida (default: stash / liste)
+  const {
+    nextTargetPage,
+    nextTargetItem,
+    triggerHaptic,
+  } = useQuickFavoritesNav({ activePage, navTree });
 
   const [mode, setMode] = useState<MorphMode>('idle');
-  const [profilesDrawerOpen, setProfilesDrawerOpen] = useState(false);
   const [navStack, setNavStack] = useState<NavItem[]>([]);
   const [transitionState, setTransitionState] = useState<{
     prevItems: NavItem[] | null;
@@ -114,29 +121,6 @@ export const MorphingFloatingNav = ({
     setTransitionState({ prevItems: currentItems, direction: 'backward' });
     setNavStack(prev => prev.slice(0, -1));
     triggerHaptic(15);
-  };
-
-  const fav1 = quickFavorites[0] ?? 'stash';
-  const fav2 = quickFavorites[1] ?? 'liste';
-  const nextTargetPage = activePage === fav1 ? fav2 : fav1;
-
-  const findItemById = (id: string, list: NavItem[]): NavItem | null => {
-    for (const item of list) {
-      if (item.id === id) return item;
-      if (item.children) {
-        const found = findItemById(id, item.children);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
-
-  const nextTargetItem = findItemById(nextTargetPage, navTree) ?? navTree[0];
-
-  const triggerHaptic = (ms = 15) => {
-    if (typeof navigator !== 'undefined' && navigator.vibrate) {
-      try { navigator.vibrate(ms); } catch { /* ignore */ }
-    }
   };
 
   const closeMenu = useCallback(() => {
@@ -305,34 +289,11 @@ export const MorphingFloatingNav = ({
                   </button>
 
                   {/* Tasto Centrale Raid (se presenti elementi) */}
-                  {hasRaidElements && (
-                    <div className="relative flex items-center justify-center">
-                      {isRaidRunning && (
-                        <>
-                          <span className="arc-magic-glow-blur" />
-                          <span className="arc-magic-glow" />
-                        </>
-                      )}
-                      <button
-                        onClick={() => {
-                          onNavigate('raid');
-                          triggerHaptic(20);
-                        }}
-                        className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer select-none ${
-                          isRaidRunning
-                            ? 'bg-gray-950 text-white shadow-inner'
-                            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
-                        }`}
-                        aria-label={t('nav.raidPlan')}
-                        title={t('nav.raidPlan')}
-                      >
-                        <Radar
-                          size={20}
-                          className={isRaidRunning ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)] stroke-[2.3]' : ''}
-                        />
-                      </button>
-                    </div>
-                  )}
+                  <RaidNavRadarButton
+                    hasRaidElements={hasRaidElements}
+                    isRaidRunning={isRaidRunning}
+                    onNavigate={onNavigate}
+                  />
 
                   {/* Tasto Primario (Toggle / Morph Long Press) - Circolare */}
                   <button
@@ -341,10 +302,10 @@ export const MorphingFloatingNav = ({
                     onPointerUp={handlePointerUp}
                     onPointerCancel={closeMenu}
                     className="w-13 h-13 rounded-full text-white flex items-center justify-center shadow-lg bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all select-none touch-none cursor-pointer"
-                    aria-label={t('nav.quickNavAria', { target: nextTargetItem.label })}
-                    title={t('nav.quickNavTitle', { target: nextTargetItem.label })}
+                    aria-label={t('nav.quickNavAria', { target: nextTargetItem?.label ?? '' })}
+                    title={t('nav.quickNavTitle', { target: nextTargetItem?.label ?? '' })}
                   >
-                    {nextTargetItem.icon}
+                    {nextTargetItem?.icon}
                   </button>
                 </>
               ) : (
@@ -356,41 +317,18 @@ export const MorphingFloatingNav = ({
                     onPointerUp={handlePointerUp}
                     onPointerCancel={closeMenu}
                     className="w-13 h-13 rounded-full text-white flex items-center justify-center shadow-lg bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all select-none touch-none cursor-pointer"
-                    aria-label={t('nav.quickNavAria', { target: nextTargetItem.label })}
-                    title={t('nav.quickNavTitle', { target: nextTargetItem.label })}
+                    aria-label={t('nav.quickNavAria', { target: nextTargetItem?.label ?? '' })}
+                    title={t('nav.quickNavTitle', { target: nextTargetItem?.label ?? '' })}
                   >
-                    {nextTargetItem.icon}
+                    {nextTargetItem?.icon}
                   </button>
 
                   {/* Tasto Centrale Raid (se presenti elementi) */}
-                  {hasRaidElements && (
-                    <div className="relative flex items-center justify-center">
-                      {isRaidRunning && (
-                        <>
-                          <span className="arc-magic-glow-blur" />
-                          <span className="arc-magic-glow" />
-                        </>
-                      )}
-                      <button
-                        onClick={() => {
-                          onNavigate('raid');
-                          triggerHaptic(20);
-                        }}
-                        className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer select-none ${
-                          isRaidRunning
-                            ? 'bg-gray-950 text-white shadow-inner'
-                            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700'
-                        }`}
-                        aria-label={t('nav.raidPlan')}
-                        title={t('nav.raidPlan')}
-                      >
-                        <Radar
-                          size={20}
-                          className={isRaidRunning ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)] stroke-[2.3]' : ''}
-                        />
-                      </button>
-                    </div>
-                  )}
+                  <RaidNavRadarButton
+                    hasRaidElements={hasRaidElements}
+                    isRaidRunning={isRaidRunning}
+                    onNavigate={onNavigate}
+                  />
 
                   {/* Tasto Secondario (...) - Circolare */}
                   <button
