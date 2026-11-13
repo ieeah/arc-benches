@@ -7,7 +7,7 @@ import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import { getRarityText } from '@/lib/rarity';
 
-export interface ItemQuantityModalProps {
+export type ItemQuantityModalProps = {
   item: ItemInfo;
   initialQuantity?: number;
   onConfirm: (quantity: number) => void;
@@ -15,7 +15,7 @@ export interface ItemQuantityModalProps {
   onChangeItem?: (currentQuantity: number) => void;
   title?: string;
   confirmLabel?: string;
-}
+};
 
 export function ItemQuantityModal({
   item,

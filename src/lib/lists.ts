@@ -161,12 +161,12 @@ export function maxReachableLevel(list: List, currentLevels: Record<string, numb
   return blocked ? Math.max(current, blocked.level - 1) : list.maxLevel;
 }
 
-export interface CascadeStep {
+export type CascadeStep = {
   listId: string;
   /** Livello corrente della lista dipendente e quello a cui dovrebbe scendere. */
   from: number;
   to: number;
-}
+};
 
 /**
  * Portando `listId` a `newLevel` (più basso), le liste i cui livelli già raggiunti lo richiedono a un livello

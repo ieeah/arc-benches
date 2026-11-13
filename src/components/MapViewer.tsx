@@ -4,12 +4,12 @@ import 'leaflet/dist/leaflet.css';
 import { ZoomIn, ZoomOut, Maximize2, RotateCcw } from 'lucide-react';
 import { useTranslation } from '@/i18n';
 
-interface MapViewerProps {
+type MapViewerProps = {
   mapId: string;
   minZoom?: number;
   maxZoom?: number;
   className?: string;
-}
+};
 
 const MAP_CENTERS: Record<string, [number, number]> = {
   'buried-city': [0.7158, -0.8273],

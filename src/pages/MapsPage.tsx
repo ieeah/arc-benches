@@ -5,9 +5,9 @@ import { ScrollableFadeContainer } from '@/components/ScrollableFadeContainer';
 import { GAME_MAPS } from '@/lib/maps';
 import { useTranslation } from '@/i18n';
 
-interface MapsPageProps {
+type MapsPageProps = {
   onBack?: () => void;
-}
+};
 
 const MAP_LIST = GAME_MAPS;
 

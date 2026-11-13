@@ -4,7 +4,7 @@ import defaultFeatureFlagsSeed from '@/data/feature-flags.json';
 
 export type FeatureFlagId = 'expeditions' | 'vault' | 'role-maker' | 'blueprints' | 'maps' | 'reward-pass';
 
-export interface FeatureFlagDefinition {
+export type FeatureFlagDefinition = {
   id: FeatureFlagId;
   name: string;
   description: string;
@@ -12,7 +12,7 @@ export interface FeatureFlagDefinition {
   defaultValue: boolean;
   navIds: string[];
   routes: string[];
-}
+};
 
 const SEED_FLAGS = defaultFeatureFlagsSeed as Record<FeatureFlagId, boolean>;
 

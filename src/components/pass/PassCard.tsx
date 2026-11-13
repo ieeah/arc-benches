@@ -4,7 +4,7 @@ import { useTranslation, getListName } from '@/i18n';
 import { getTrackName } from '@/lib/rewardPass';
 import { cn } from '@/lib/cn';
 
-interface PassCardProps {
+type PassCardProps = {
   pass: PassList;
   onOpen: () => void;
   /** Pass già concluso: card più discreta, con la data di conclusione. */
@@ -13,7 +13,7 @@ interface PassCardProps {
   active?: boolean;
   /** Livello raggiunto sul pass (se ha progressi): es. «Lvl 12/60». */
   levelLabel?: string;
-}
+};
 
 /** Card di un pass nell'elenco di selezione: porta alla pagina di anteprima. */
 export const PassCard = ({ pass, onOpen, completedAt, active = false, levelLabel }: PassCardProps) => {

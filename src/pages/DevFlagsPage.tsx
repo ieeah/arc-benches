@@ -14,9 +14,9 @@ import {
 } from '@/lib/featureFlags';
 import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
-interface DevFlagsPageProps {
+type DevFlagsPageProps = {
   onBack: () => void;
-}
+};
 
 const CATEGORY_LABELS: Record<'all' | 'core' | 'tools', string> = {
   all: 'Tutti i Flag',

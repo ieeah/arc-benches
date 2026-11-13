@@ -2,14 +2,14 @@ import type { PassList } from '@/types';
 import { BottomSheet } from '@/components/BottomSheet';
 import { useTranslation, getListName } from '@/i18n';
 
-interface ChoosePassModalProps {
+type ChoosePassModalProps = {
   /** Pass appena completato. */
   completed: PassList;
   /** Pass tra cui scegliere (più di uno). */
   choices: PassList[];
   onChoose: (passId: string) => void;
   onSkip: () => void;
-}
+};
 
 /** Dopo il completamento del pass attivo, se restano più pass da fare chiede quale attivare. */
 export const ChoosePassModal = ({ completed, choices, onChoose, onSkip }: ChoosePassModalProps) => {

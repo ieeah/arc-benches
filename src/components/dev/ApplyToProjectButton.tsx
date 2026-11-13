@@ -6,13 +6,13 @@ import { applyArtifacts } from '@/lib/devApply';
 import { suppressUnappliedWarning } from '@/lib/devUnapplied';
 import { cn } from '@/lib/cn';
 
-interface ApplyToProjectButtonProps {
+type ApplyToProjectButtonProps = {
   /** Id degli artefatti (vedi `getDevArtifacts`) che questo pulsante scrive nel progetto. */
   artifactIds: string[];
   label?: string;
   disabled?: boolean;
   className?: string;
-}
+};
 
 type Status = 'idle' | 'busy' | 'done' | 'nothing' | 'error';
 

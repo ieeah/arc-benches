@@ -14,7 +14,7 @@ import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
 import { isSectionActive } from '@/lib/sections';
 
-interface StashItemDetailSheetProps {
+type StashItemDetailSheetProps = {
   item: ItemInfo;
   owned: number;
   required: number;
@@ -22,7 +22,7 @@ interface StashItemDetailSheetProps {
   dependencies: ItemListDependency[];
   onClose: () => void;
   onOpenOverrides?: (itemId: string) => void;
-}
+};
 
 export const StashItemDetailSheet = ({
   item,

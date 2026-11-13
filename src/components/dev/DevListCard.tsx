@@ -5,14 +5,14 @@ import { validateExpeditionIndex } from '@/lib/validate';
 import { getListName } from '@/i18n';
 import { useTranslation } from '@/i18n';
 
-interface DevListCardProps {
+type DevListCardProps = {
   list: List;
   isSelected: boolean;
   expeditionLists: List[];
   typeIcon: React.ReactNode;
   onSelect: () => void;
   onDuplicate: (e: React.MouseEvent) => void;
-}
+};
 
 /** Card singola lista nella sidebar del Dev Studio Liste. */
 export const DevListCard = ({

@@ -13,10 +13,10 @@ import {
   type PassTrackTrashPayload,
 } from '@/lib/devTrash';
 
-interface DevPassSectionProps {
+type DevPassSectionProps = {
   selectedList: PassList;
   updateSelectedList: (updater: (prev: List) => List) => void;
-}
+};
 
 const inputClass =
   'w-full px-2.5 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-xs font-medium focus:outline-hidden focus:ring-2 focus:ring-purple-500';

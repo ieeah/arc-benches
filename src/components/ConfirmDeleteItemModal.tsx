@@ -3,7 +3,7 @@ import { useTranslation, getItemName } from '@/i18n';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 
-export interface ConfirmDeleteItemModalProps {
+export type ConfirmDeleteItemModalProps = {
   itemName: string;
   itemId: string;
   itemInfo?: ItemInfo;
@@ -12,7 +12,7 @@ export interface ConfirmDeleteItemModalProps {
   onClose: () => void;
   title?: string;
   message?: string;
-}
+};
 
 export function ConfirmDeleteItemModal({
   itemName,

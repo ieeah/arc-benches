@@ -129,7 +129,7 @@ const CONFLICT_KIND_STYLES: Record<ConflictKind, string> = {
   orphan: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
 };
 
-interface SidebarItemRowProps {
+type SidebarItemRowProps = {
   item: ItemInfo;
   isSelected: boolean;
   hasOverride: boolean;
@@ -142,7 +142,7 @@ interface SidebarItemRowProps {
   conflictCount?: number;
   checked?: boolean;
   onToggleChecked?: (id: string) => void;
-}
+};
 
 const SidebarItemRow = React.memo(({
   item,

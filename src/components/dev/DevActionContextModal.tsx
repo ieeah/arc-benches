@@ -8,12 +8,12 @@ import { ItemPicker } from '@/components/ItemPicker';
 import { GAME_MAPS } from '@/lib/maps';
 import { cn } from '@/lib/cn';
 
-export interface DevActionContextModalProps extends ActionContext {
+export type DevActionContextModalProps = ActionContext & {
   title: string;
   subtitle?: string;
   onSave: (context: ActionContext) => void;
   onClose: () => void;
-}
+};
 
 /** Mappe in cui compiere un'azione (o uno step) e oggetti da portare in mappa. */
 export function DevActionContextModal({ title, subtitle, maps = [], carryItems = [], onSave, onClose }: DevActionContextModalProps) {

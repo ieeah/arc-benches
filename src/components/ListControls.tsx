@@ -5,7 +5,7 @@ import { ScrollablePillList } from '@/components/ScrollablePillList';
 import type { PillItem } from '@/components/ScrollablePillList';
 import { useTranslation } from '@/i18n';
 
-interface ListControlsProps<T> {
+type ListControlsProps<T> = {
   query: string;
   setQuery: (q: string) => void;
   activeCategoryId: string;
@@ -27,7 +27,7 @@ interface ListControlsProps<T> {
   
   // Custom styling hooks
   searchRef?: React.RefObject<HTMLInputElement | null>;
-}
+};
 
 export const ListControls = <T,>({
   query,

@@ -18,7 +18,7 @@ export type NavItem = {
 };
 
 /** Serializable navigation entry as stored in `nav.json` / the dev draft. */
-export interface NavConfigItem {
+export type NavConfigItem = {
   id: string;
   /** i18n key, resolved via `t()`. Preferred over `label`. */
   labelKey?: string;
@@ -31,11 +31,11 @@ export interface NavConfigItem {
   /** `'dev'` = shown only when `import.meta.env.DEV`. Default `'always'`. */
   visibility?: 'always' | 'dev';
   children?: NavConfigItem[];
-}
+};
 
-export interface NavConfig {
+export type NavConfig = {
   tree: NavConfigItem[];
-}
+};
 
 const SEED: NavConfig = navConfigSeed as NavConfig;
 
@@ -88,11 +88,11 @@ export function hasNavDraftChanges(): boolean {
   return JSON.stringify(draft) !== JSON.stringify(SEED);
 }
 
-interface BuildOpts {
+type BuildOpts = {
   isDev: boolean;
   t: (key: string) => string;
   isNavIdEnabled?: (id: string) => boolean;
-}
+};
 
 function resolveLabel(item: NavConfigItem, t: BuildOpts['t']): string {
   // A literal `label` is an explicit, untranslated override — it wins when set.

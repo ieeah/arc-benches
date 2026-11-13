@@ -4,11 +4,11 @@ import personalitiesData from '@/data/personalities.json';
 
 export const personalities: PersonalityProfile[] = personalitiesData as PersonalityProfile[];
 
-export interface PersonalitySlice {
+export type PersonalitySlice = {
   activePersonalityId: string | null;
   rollPersonality: () => PersonalityProfile;
   clearPersonality: () => void;
-}
+};
 
 export const createPersonalitySlice: StateCreator<AppState, [], [], PersonalitySlice> = (set) => ({
   activePersonalityId: null,

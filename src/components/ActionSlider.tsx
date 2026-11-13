@@ -5,7 +5,7 @@ import { useTranslation } from '@/i18n';
 import type { ActionContext } from '@/types';
 import { ActionContextChips } from '@/components/ActionContextChips';
 
-interface ActionSliderProps extends ActionContext {
+type ActionSliderProps = ActionContext & {
   label: string;
   listName?: string;
   level?: number;
@@ -13,7 +13,7 @@ interface ActionSliderProps extends ActionContext {
   onComplete: () => void;
   onToggle?: () => void;
   disabled?: boolean;
-}
+};
 
 const THUMB_WIDTH = 44;
 const ACTIVATION_THRESHOLD = 0.85;

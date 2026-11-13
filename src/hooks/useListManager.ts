@@ -1,17 +1,17 @@
 import { useState, useMemo, useEffect } from 'react';
 import { fuzzyMatch } from '@/lib/fuzzy';
 
-export interface FilterCategory<T> {
+export type FilterCategory<T> = {
   id: string;
   label: string;
   predicate: (item: T) => boolean;
   /** Opzionale: calcolo o contributo personalizzato/multi-fonte per il conteggio della categoria */
   countResolver?: (items: T[]) => number;
-}
+};
 
 export type SortIndicatorType = 'arrow' | 'text';
 
-export interface SortOption<T> {
+export type SortOption<T> = {
   id: string;
   label: string;
   compare: (a: T, b: T) => number;
@@ -20,9 +20,9 @@ export interface SortOption<T> {
   direction?: 'asc' | 'desc';
   indicatorType?: SortIndicatorType;
   indicatorText?: string;
-}
+};
 
-export interface ListManagerConfig<T> {
+export type ListManagerConfig<T> = {
   items: T[];
   search?: {
     fields: (item: T) => string[];
@@ -42,7 +42,7 @@ export interface ListManagerConfig<T> {
     groupSort?: (a: string, b: string) => number;
     defaultEnabled?: boolean;
   };
-}
+};
 
 export const useListManager = <T>({
   items,

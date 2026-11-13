@@ -7,12 +7,12 @@ import { iconUrl } from '@/lib/icons';
 import { cn } from '@/lib/cn';
 import { Check } from 'lucide-react';
 
-export interface RewardBadgeProps {
+export type RewardBadgeProps = {
   reward: Reward;
   size?: 'xs' | 'sm' | 'md';
   obtained?: boolean;
   className?: string;
-}
+};
 
 export const RewardBadge: React.FC<RewardBadgeProps> = ({
   reward,

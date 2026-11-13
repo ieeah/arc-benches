@@ -3,12 +3,12 @@ import { Calendar, X, Check, AlertCircle } from 'lucide-react';
 import { formatTimeRemaining } from '@/lib/expiration';
 import { useTranslation } from '@/i18n';
 
-interface IsoDateTimeFieldProps {
+type IsoDateTimeFieldProps = {
   label: string;
   value?: string;
   onChange: (value?: string) => void;
   className?: string;
-}
+};
 
 /** Estrae la parte YYYY-MM-DD da una stringa ISO, senza considerare l'orario. */
 const toDateInput = (isoString?: string): string => {

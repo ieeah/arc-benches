@@ -8,14 +8,14 @@ import { getGameMap } from '@/lib/maps';
 
 export type IssueSeverity = 'error' | 'warning' | 'info';
 
-export interface ListIssue {
+export type ListIssue = {
   severity: IssueSeverity;
   message: string;
   /** Livelli coinvolti (assente = riguarda l'intera lista). */
   levels?: number[];
   /** Oggetto coinvolto, se c'è. */
   itemId?: string;
-}
+};
 
 const referencedItems = (level: ListLevel): { itemId: string; where: string }[] => {
   const refs: { itemId: string; where: string }[] = [];

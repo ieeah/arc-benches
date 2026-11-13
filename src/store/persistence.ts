@@ -26,7 +26,7 @@ export type PersistedState = Pick<AppState,
   'raidPlan' | 'enabledSections'
 > & { language?: AppLanguage };
 
-export interface ProfilesMeta { profiles: Profile[]; activeProfileId: string; }
+export type ProfilesMeta = { profiles: Profile[]; activeProfileId: string; };
 
 export function loadProfilesMeta(): ProfilesMeta | null {
   return safeLS(() => {

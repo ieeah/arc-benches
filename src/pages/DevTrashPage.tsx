@@ -20,9 +20,9 @@ import { artifactIdForBucket, restoreEntryToDraft } from '@/lib/devTrashRestore'
 import { getDevArtifacts } from '@/lib/devArtifacts';
 import { applyArtifacts } from '@/lib/devApply';
 
-interface DevTrashPageProps {
+type DevTrashPageProps = {
   onBack: () => void;
-}
+};
 
 type Pending =
   | { kind: 'restore'; entry: DevTrashEntry }

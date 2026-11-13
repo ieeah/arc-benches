@@ -72,7 +72,7 @@ type DevStepDraft = { id: string; labelEn: string; labelIt: string; rewards?: Re
 
 type GranularTargetType = "level" | "requirement" | "action" | "tieredStep" | "newTieredStep" | "editingTieredStep";
 
-interface GranularTarget {
+type GranularTarget = {
   type: GranularTargetType;
   title: string;
   subtitle?: string;
@@ -81,11 +81,11 @@ interface GranularTarget {
   tieredId?: string;
   stepId?: string;
   stepIndex?: number;
-}
+};
 
-interface DevListsPageProps {
+type DevListsPageProps = {
   onBack: () => void;
-}
+};
 
 type FilterType = "all" | ListType;
 

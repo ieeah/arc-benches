@@ -1,10 +1,10 @@
 export type AppLanguage = 'it' | 'en' | string;
 
-export interface LanguageOption {
+export type LanguageOption = {
   code: string;
   label: string;
   flag: string;
-}
+};
 
 /** Currently active and supported languages in the UI */
 export const SUPPORTED_LANGUAGES: LanguageOption[] = [

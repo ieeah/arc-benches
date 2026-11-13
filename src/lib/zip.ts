@@ -20,10 +20,10 @@ export function crc32(bytes: Uint8Array): number {
   return (crc ^ 0xffffffff) >>> 0;
 }
 
-export interface ZipEntry {
+export type ZipEntry = {
   path: string;
   content: string;
-}
+};
 
 // MS-DOS date/time as required by the ZIP format.
 function dosDateTime(d: Date): { time: number; date: number } {

@@ -44,13 +44,13 @@ const STASH_SORT_IDS = [
 const StashSortIdSchema = v.oneOf(STASH_SORT_IDS);
 type StashSortId = typeof STASH_SORT_IDS[number];
 
-interface StashMaterial {
+type StashMaterial = {
   itemId: string;
   owned: number;
   required: number;
   missing: number;
   isCompleted: boolean;
-}
+};
 
 export const StashPage = ({
   onOpenOverrides,

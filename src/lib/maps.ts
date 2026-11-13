@@ -1,10 +1,10 @@
 import mapsData from '@/data/maps.json';
 
-export interface GameMap {
+export type GameMap = {
   id: string;
   name: string;
   badge?: string;
-}
+};
 
 /**
  * Catalogo globale delle mappe di gioco, definito una sola volta in `src/data/maps.json`.

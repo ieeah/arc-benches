@@ -4,14 +4,14 @@ import { cn } from '@/lib/cn';
 export type BadgeVariant = 'sky' | 'emerald' | 'amber' | 'violet' | 'red' | 'gray' | 'neutral';
 export type BadgeSize = 'xs' | 'sm' | 'md';
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
+export type BadgeProps = React.HTMLAttributes<HTMLDivElement> & {
   variant?: BadgeVariant;
   size?: BadgeSize;
   icon?: React.ReactNode;
   children: React.ReactNode;
   title?: string;
   className?: string;
-}
+};
 
 const VARIANT_STYLES: Record<BadgeVariant, string> = {
   sky: 'bg-sky-500 dark:bg-sky-600 text-white',

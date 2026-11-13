@@ -4,7 +4,7 @@
 
 export type ConflictKind = 'changed' | 'redundant' | 'orphan';
 
-export interface OverrideConflict {
+export type OverrideConflict = {
   id: string;
   /** Campo in conflitto; '*' per un override il cui oggetto non esiste più upstream. */
   key: string;
@@ -13,7 +13,7 @@ export interface OverrideConflict {
   newUpstream: unknown;
   overrideVal: unknown;
   detectedAt: string;
-}
+};
 
 type OverrideEntry = Record<string, unknown>;
 type OverrideMap = Record<string, OverrideEntry>;

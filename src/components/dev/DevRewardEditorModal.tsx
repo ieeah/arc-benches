@@ -10,7 +10,7 @@ import { getRarityStyles } from '@/lib/rarity';
 import { iconUrl } from '@/lib/icons';
 import { cn } from '@/lib/cn';
 
-export interface DevRewardEditorModalProps {
+export type DevRewardEditorModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -19,7 +19,7 @@ export interface DevRewardEditorModalProps {
   /** Tracce del Reward Pass: se presenti, ogni ricompensa appartiene a una traccia. */
   tracks?: PassTrackDef[];
   onSave: (rewards: Reward[]) => void;
-}
+};
 
 export const DevRewardEditorModal: React.FC<DevRewardEditorModalProps> = ({
   isOpen,

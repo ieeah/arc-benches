@@ -11,12 +11,12 @@ export function isListExpired(list: Pick<List, 'expirationDate'>, now: number = 
   return exp <= now;
 }
 
-export interface TimeRemainingInfo {
+export type TimeRemainingInfo = {
   isExpired: boolean;
   text: string;
   urgent: boolean;  // < 24h
   warning: boolean; // <= 3d
-}
+};
 
 /**
  * Formats the time remaining before a given ISO date expiration.

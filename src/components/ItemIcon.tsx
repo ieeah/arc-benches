@@ -1,6 +1,6 @@
 import { iconUrl } from '@/lib/icons';
 
-interface ItemIconProps {
+type ItemIconProps = {
   icon?: string | null;
   alt?: string;
   fallbackText?: string;
@@ -8,7 +8,7 @@ interface ItemIconProps {
   imgClassName?: string;
   /** Variante 128px per righe di lista piccole. */
   thumb?: boolean;
-}
+};
 
 export const ItemIcon = ({
   icon,

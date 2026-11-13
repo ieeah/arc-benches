@@ -5,12 +5,12 @@ import { Drawer } from '@/components/Drawer';
 import { isListEntry, isListStillInFile, listTrash, removeFromTrash, type DevTrashEntry } from '@/lib/devTrash';
 import { getInitialData } from '@/hooks/dev/useDevListDrafts';
 
-interface DevListsTrashProps {
+type DevListsTrashProps = {
   /** Cambia quando il cestino viene modificato da fuori (es. una lista appena eliminata). */
   refreshKey: number;
   /** Rimette la lista nei dati di lavoro; restituisce un messaggio d'errore se non è possibile. */
   onRestore: (list: List) => string | null;
-}
+};
 
 /** Cestino delle liste eliminate dall'editor (`dev-trash/trash.json`): elenco, ripristino ed eliminazione definitiva. */
 export const DevListsTrash = ({ refreshKey, onRestore }: DevListsTrashProps) => {

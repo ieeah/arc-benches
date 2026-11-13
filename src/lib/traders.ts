@@ -2,10 +2,10 @@ import tradersData from '@/data/traders.json';
 
 export type TraderId = 'celeste' | 'shani' | 'apollo' | 'tian-wen' | 'lance' | 'ermal';
 
-export interface TraderItemPurchase {
+export type TraderItemPurchase = {
   trader: TraderId;
   price: number;
-}
+};
 
 const traderItemMap = new Map<string, TraderItemPurchase>();
 

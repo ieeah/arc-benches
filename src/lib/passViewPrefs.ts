@@ -3,10 +3,10 @@ import { safeLS } from '@/lib/safeStorage';
 
 const STORAGE_KEY = 'arc_benches_pass_view_prefs_v1';
 
-export interface PassViewPrefs {
+export type PassViewPrefs = {
   /** Id delle tracce nascoste nella vista a griglia (valgono per tutti i pass che le dichiarano). */
   hiddenTracks: string[];
-}
+};
 
 const DEFAULT_PREFS: PassViewPrefs = { hiddenTracks: [] };
 

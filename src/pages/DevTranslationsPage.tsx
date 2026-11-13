@@ -14,9 +14,9 @@ import {
 } from '@/lib/devI18n';
 import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
-interface DevTranslationsPageProps {
+type DevTranslationsPageProps = {
   onBack: () => void;
-}
+};
 
 type PreviewTab = 'it' | 'en' | 'json';
 

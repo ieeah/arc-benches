@@ -14,7 +14,7 @@ export const RARITIES = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Amp
 export const ICON_EXTENSIONS = ['png', 'svg', 'webp'] as const;
 export const MAX_ICON_BYTES = 512 * 1024;
 
-export interface CustomItemDef {
+export type CustomItemDef = {
   id: string;
   name: string;
   description: string;
@@ -35,15 +35,15 @@ export interface CustomItemDef {
    * `fetch-items` le scarta, quindi non finiscono nel catalogo distribuito.
    */
   review?: string[];
-}
+};
 
 export type CustomItemsMap = Record<string, CustomItemDef>;
 
 /** Bozza: gli oggetti e le icone appena caricate (nome file -> data URL), non ancora nel repo. */
-export interface CustomItemsDraft {
+export type CustomItemsDraft = {
   items: CustomItemsMap;
   icons: Record<string, string>;
-}
+};
 
 export const baselineCustomItems = customItemsBaseline as unknown as CustomItemsMap;
 
@@ -74,12 +74,12 @@ export function emptyCustomItem(id = ''): CustomItemDef {
  * esplicite), mai una copia completa. Così una bozza non può cancellare né oscurare gli oggetti aggiunti al
  * file dopo che è stata creata (es. da un import o da un altro strumento).
  */
-interface StoredCustomItemsDraft {
+type StoredCustomItemsDraft = {
   version: 2;
   upserts: CustomItemsMap;
   removed: string[];
   icons: Record<string, string>;
-}
+};
 
 const entryJson = (id: string, def: CustomItemDef) => JSON.stringify(serializeCustomItems({ [id]: def })[id]);
 
@@ -203,10 +203,10 @@ export function buildCustomItemsFileContent(items: CustomItemsMap): string {
 
 // ── validazione ──────────────────────────────────────────────────────────────
 
-export interface CustomItemIssues {
+export type CustomItemIssues = {
   errors: string[];
   warnings: string[];
-}
+};
 
 /**
  * `catalogIds`: id del catalogo generato (items.json). Un id presente nel catalogo ma non nel file

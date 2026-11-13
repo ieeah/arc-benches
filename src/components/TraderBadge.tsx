@@ -5,13 +5,13 @@ import { getTraderDisplayName, type TraderId } from '@/lib/traders';
 import { useTranslation } from '@/i18n';
 import { cn } from '@/lib/cn';
 
-export interface TraderBadgeProps {
+export type TraderBadgeProps = {
   trader: TraderId | string;
   price?: number;
   title?: string;
   size?: BadgeSize;
   className?: string;
-}
+};
 
 /**
  * Badge derivato per indicare la disponibilità d'acquisto da un commerciante di Speranza.

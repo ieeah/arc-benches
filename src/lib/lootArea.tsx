@@ -12,11 +12,11 @@ import {
   MapPin,
 } from 'lucide-react';
 
-export interface LootAreaInfo {
+export type LootAreaInfo = {
   id: string;
   label: string;
   icon: ReactNode;
-}
+};
 
 function parseSingleLootArea(area: string, iconSize = 13): LootAreaInfo {
   const normalized = area.trim().toLowerCase();

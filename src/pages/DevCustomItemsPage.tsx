@@ -32,9 +32,9 @@ import {
 } from '@/lib/customItems';
 import { cn } from '@/lib/cn';
 
-interface DevCustomItemsPageProps {
+type DevCustomItemsPageProps = {
   onBack: () => void;
-}
+};
 
 const catalog = itemsData as unknown as Record<string, ItemInfo>;
 const CATALOG_IDS: ReadonlySet<string> = new Set(Object.keys(catalog));

@@ -5,11 +5,11 @@ import { useTranslation, getItemName } from '@/i18n';
 import { getMapName } from '@/lib/maps';
 import { cn } from '@/lib/cn';
 
-interface ActionContextChipsProps extends ActionContext {
+type ActionContextChipsProps = ActionContext & {
   className?: string;
   /** Righe strette (step di una timeline): chip più piccoli. */
   compact?: boolean;
-}
+};
 
 /**
  * Vincoli di contesto di un'azione: mappe in cui va compiuta e oggetti da portare in mappa.

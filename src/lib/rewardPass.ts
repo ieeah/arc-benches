@@ -3,14 +3,14 @@ import type { ItemInfo, PassList, PassTrackDef, Reward } from '@/types';
 /** Tipo mostrato per le ricompense il cui oggetto non è (più) nel catalogo. */
 export const UNKNOWN_REWARD_TYPE = 'Other';
 
-export interface PassRewardSummary {
+export type PassRewardSummary = {
   /** Valute (`item_type: 'Currency'`): quantità totale per oggetto, dalla più alta. */
   currencies: { itemId: string; quantity: number }[];
   /** Tutte le altre ricompense: quantità totale per tipo di oggetto (blueprint, outfit…), dalla più alta. */
   types: { type: string; quantity: number }[];
   /** Quantità complessiva di ricompense considerate. */
   total: number;
-}
+};
 
 /** Ricompense di tutti i livelli del pass, eventualmente solo di una traccia. */
 export function getPassRewards(pass: PassList, trackId?: string): Reward[] {

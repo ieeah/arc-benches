@@ -7,7 +7,7 @@ import { RewardBadge } from '@/components/RewardBadge';
 import { ActionContextChips } from '@/components/ActionContextChips';
 import { cn } from '@/lib/cn';
 
-interface TieredActionTimelineProps {
+type TieredActionTimelineProps = {
   tieredAction: TieredAction;
   listId: string;
   levelNum: number;
@@ -16,7 +16,7 @@ interface TieredActionTimelineProps {
   disabled?: boolean;
   className?: string;
   compact?: boolean;
-}
+};
 
 export const TieredActionTimeline: React.FC<TieredActionTimelineProps> = ({
   tieredAction,

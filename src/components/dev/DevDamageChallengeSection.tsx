@@ -5,10 +5,10 @@ import { TieredActionTimeline } from '@/components/TieredActionTimeline';
 import { generateUUID } from '@/lib/uuid';
 import { DEFAULT_EXPEDITION_DAMAGE } from '@/store/gameData';
 
-interface DevDamageChallengeSectionProps {
+type DevDamageChallengeSectionProps = {
   selectedList: ExpeditionList;
   updateSelectedList: (updater: (prev: List) => List) => void;
-}
+};
 
 /**
  * Sezione Damage Challenge nell'editor di una spedizione.

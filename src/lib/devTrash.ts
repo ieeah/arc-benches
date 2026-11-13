@@ -4,25 +4,25 @@
  */
 import type { List, ListType, PassTrackDef, Reward } from '@/types';
 
-export interface DevTrashEntry {
+export type DevTrashEntry = {
   id: string;
   kind: string;
   label: string;
   deletedAt: string;
   payload: unknown;
-}
+};
 
-export interface PassTrackTrashPayload {
+export type PassTrackTrashPayload = {
   listId: string;
   track: PassTrackDef;
   /** Posizione che la traccia aveva nell'elenco, per rimetterla al suo posto. */
   trackIndex: number;
   rewards: { level: number; reward: Reward }[];
-}
+};
 
-export interface ListTrashPayload {
+export type ListTrashPayload = {
   list: List;
-}
+};
 
 /**
  * `true` se la lista eliminata è ancora nel file del suo tipo: l'eliminazione è solo una bozza e il file cambierà

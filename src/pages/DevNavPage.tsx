@@ -28,9 +28,9 @@ import { ApplyToProjectButton } from '@/components/dev/ApplyToProjectButton';
 
 const I18N_LANGS = ['it', 'en'] as const;
 
-interface DevNavPageProps {
+type DevNavPageProps = {
   onBack: () => void;
-}
+};
 
 function download(config: NavConfig) {
   const blob = new Blob([JSON.stringify(config, null, 2) + '\n'], { type: 'application/json' });

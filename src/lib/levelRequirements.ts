@@ -2,13 +2,13 @@ import type { LevelRequirement, List } from '@/types';
 import { getCascadeLowering, unmetRequirements } from '@/lib/lists';
 
 /** Primo requisito su un'altra lista che impedisce di raggiungere il livello richiesto. */
-export interface LevelBlocker {
+export type LevelBlocker = {
   /** Livello (oltre al corrente) che non si può raggiungere finché il requisito non è soddisfatto. */
   blockedLevel: number;
   /** Nome della lista richiesta e livello che deve raggiungere. */
   requiredList: string;
   requiredLevel: number;
-}
+};
 
 /**
  * Se salire a `targetLevel` è impedito da un requisito su un'altra lista: restituisce il primo livello bloccato

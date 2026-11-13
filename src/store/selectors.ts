@@ -4,13 +4,13 @@ import { isListExpired } from '@/lib/expiration';
 
 export { isListExpired };
 
-export interface MissingMaterial {
+export type MissingMaterial = {
   itemId: string;
   owned: number;
   required: number;
   missing: number;
   isCompleted: boolean;
-}
+};
 
 export function getAllListsPure(
   workbenches: List[],
@@ -192,14 +192,14 @@ export function getBlueprintProgressPure(
   return { ownedCount, totalCount, percentage };
 }
 
-export interface ItemListDependency {
+export type ItemListDependency = {
   listId: string;
   listName: string;
   level: number;
   quantity: number;
   isCustom?: boolean;
   expirationDate?: string;
-}
+};
 
 export function getItemDependenciesPure(
   itemId: string,
@@ -275,7 +275,7 @@ export function getItemPriorityMapPure(
   return map;
 }
 
-export interface StashAction {
+export type StashAction = {
   listId: string;
   listName: string;
   list?: List;
@@ -285,7 +285,7 @@ export interface StashAction {
   action?: CheckboxAction;
   isCustom?: boolean;
   isCompleted: boolean;
-}
+};
 
 export type MissingAction = StashAction;
 
@@ -453,11 +453,11 @@ export function getExpeditionCatchupSPPure(
   return count;
 }
 
-export interface ExpeditionRewardEstimate {
+export type ExpeditionRewardEstimate = {
   skillPoints: number;
   tokenReward: number;
   blueprintReward: number;
-}
+};
 
 /**
  * Calculates estimated prestige rewards based on expedition index and checked challenge tiers.

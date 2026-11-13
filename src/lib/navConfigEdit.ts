@@ -2,11 +2,11 @@ import type { NavConfig, NavConfigItem } from '@/lib/navTree';
 
 export const ROOT_CONTAINER = '__root__';
 
-export interface Located {
+export type Located = {
   item: NavConfigItem;
   container: string; // ROOT_CONTAINER or a category id
   index: number;
-}
+};
 
 /** All draggable item ids grouped by container. Categories live in root alongside leaves. */
 export function containersOf(config: NavConfig): Record<string, string[]> {

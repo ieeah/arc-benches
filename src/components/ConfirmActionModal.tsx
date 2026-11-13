@@ -5,7 +5,7 @@ import { cn } from '@/lib/cn';
 
 export type ConfirmVariant = 'danger' | 'warning' | 'primary';
 
-export interface ConfirmActionModalProps {
+export type ConfirmActionModalProps = {
   title?: string;
   message: string;
   description?: string;
@@ -14,7 +14,7 @@ export interface ConfirmActionModalProps {
   variant?: ConfirmVariant;
   onConfirm: () => void;
   onClose: () => void;
-}
+};
 
 export function ConfirmActionModal({
   title,

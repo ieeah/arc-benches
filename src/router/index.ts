@@ -75,12 +75,12 @@ export const UNRELEASED_ROUTES: readonly AppRoute[] = [
 /** Rotte non disponibili in produzione (tooling dev + feature non rilasciate). */
 const NON_PROD_ROUTES: readonly AppRoute[] = [...DEV_ROUTES, ...UNRELEASED_ROUTES];
 
-export interface RouteLocation {
+export type RouteLocation = {
   route: AppRoute;
   params: Record<string, string>;
-}
+};
 
-export interface AppRouter {
+export type AppRouter = {
   route: AppRoute;
   pathname: AppRoute;
   params: Record<string, string>;
@@ -88,7 +88,7 @@ export interface AppRouter {
   push: (route: AppRoute, params?: Record<string, string>) => void;
   replace: (route: AppRoute, params?: Record<string, string>) => void;
   back: () => void;
-}
+};
 
 /**
  * Converte una stringa hash (es. "#/list-detail?id=weapons" o "#settings") in un oggetto RouteLocation.

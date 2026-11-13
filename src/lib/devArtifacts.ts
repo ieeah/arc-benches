@@ -44,7 +44,7 @@ import {
 
 const OVERRIDES_DRAFT_KEY = 'dev_items_overrides_draft';
 
-export interface DevArtifact {
+export type DevArtifact = {
   id: string;
   /** Percorso nel repo (relativo alla radice): lo ZIP lo usa come percorso interno. */
   file: string;
@@ -64,7 +64,7 @@ export interface DevArtifact {
   binaryFiles?: () => { path: string; base64: string }[];
   /** Eseguito dopo una scrittura riuscita nel progetto (es. per svuotare i dati che hanno solo valore di bozza). */
   afterApply?: () => void;
-}
+};
 
 const json = (value: unknown) => JSON.stringify(value, null, 2) + '\n';
 

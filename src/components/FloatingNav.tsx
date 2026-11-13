@@ -21,13 +21,13 @@ export type ContextAction = {
   dividerBefore?: boolean;
 };
 
-export interface FloatingNavProps {
+export type FloatingNavProps = {
   activePage: string;
   onNavigate: (pageId: string) => void;
   contextActions: ContextAction[];
   items?: NavItem[];
   navSide?: 'left' | 'right';
-}
+};
 
 export const FloatingNav = ({
   activePage,

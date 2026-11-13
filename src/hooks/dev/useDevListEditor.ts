@@ -5,7 +5,7 @@ import { addToTrash } from '@/lib/devTrash';
 import { DEFAULT_PASS_TRACKS, isExpedition } from '@/lib/lists';
 import type { ListsDataMap } from './useDevListDrafts';
 
-interface UseDevListEditorOptions {
+type UseDevListEditorOptions = {
   listsData: ListsDataMap;
   setListsData: React.Dispatch<React.SetStateAction<ListsDataMap>>;
   initialData: ListsDataMap;
@@ -23,7 +23,7 @@ interface UseDevListEditorOptions {
     variant?: 'danger' | 'warning' | 'primary';
     onConfirm: () => void;
   } | null) => void;
-}
+};
 
 /**
  * Espone le operazioni CRUD sulle liste dev:
