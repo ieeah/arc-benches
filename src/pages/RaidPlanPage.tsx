@@ -5,7 +5,7 @@ import {
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
-import { StickyHeader } from '@/components/StickyHeader';
+import { PageLayout } from '@/components/PageLayout';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ItemQuantityModal } from '@/components/ItemQuantityModal';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
@@ -171,128 +171,129 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   };
 
   return (
-    <div className="pb-32 min-h-dvh">
-      {/* ── HEADER STICKY ── */}
-      <StickyHeader elevated className="space-y-2 px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
-              <Radar size={20} />
-            </div>
-            <div>
-              <h1 className="text-base font-bold text-gray-900 dark:text-white leading-tight">
-                {t('raid.title')}
-              </h1>
-              <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                {t('raid.subtitle')}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Toggle Stato Incursione: Player style Play / Stop */}
-            <button
-              onClick={() => setIsRaidRunning(!isRaidRunning)}
-              disabled={actions.length === 0 && items.length === 0}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
-                isRaidRunning
-                  ? 'bg-emerald-500 text-white border-emerald-400 shadow-md shadow-emerald-500/25 hover:bg-emerald-600'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
-              title={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
-              aria-label={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
-            >
-              {isRaidRunning ? (
-                <Square size={16} className="fill-current" />
-              ) : (
-                <Play size={17} className="fill-current translate-x-0.5" />
-              )}
-            </button>
-
-            {/* Toggle Vista Griglia / Lista (Visibile e selezionabile solo in Incursione Attiva) */}
-            {isRaidRunning && (
-              <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-0.5 rounded-xl border border-gray-200 dark:border-gray-700 animate-in fade-in duration-200">
-                <button
-                  type="button"
-                  onClick={() => setRaidPreferredViewMode('grid')}
-                  className={`p-2 rounded-lg transition-all cursor-pointer ${
-                    activeViewMode === 'grid'
-                      ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
-                      : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                  }`}
-                  title={t('stash.viewGrid')}
-                  aria-label={t('stash.viewGrid')}
-                >
-                  <LayoutGrid size={16} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRaidPreferredViewMode('list')}
-                  className={`p-2 rounded-lg transition-all cursor-pointer ${
-                    activeViewMode === 'list'
-                      ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
-                      : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                  }`}
-                  title={t('stash.viewList')}
-                  aria-label={t('stash.viewList')}
-                >
-                  <ListIcon size={16} />
-                </button>
+    <PageLayout
+      headerSlot={
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
+                <Radar size={20} />
               </div>
-            )}
+              <div>
+                <h1 className="text-base font-bold text-gray-900 dark:text-white leading-tight">
+                  {t('raid.title')}
+                </h1>
+                <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                  {t('raid.subtitle')}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Toggle Stato Incursione: Player style Play / Stop */}
+              <button
+                onClick={() => setIsRaidRunning(!isRaidRunning)}
+                disabled={actions.length === 0 && items.length === 0}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
+                  isRaidRunning
+                    ? 'bg-emerald-500 text-white border-emerald-400 shadow-md shadow-emerald-500/25 hover:bg-emerald-600'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+                title={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
+                aria-label={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
+              >
+                {isRaidRunning ? (
+                  <Square size={16} className="fill-current" />
+                ) : (
+                  <Play size={17} className="fill-current translate-x-0.5" />
+                )}
+              </button>
+
+              {/* Toggle Vista Griglia / Lista (Visibile e selezionabile solo in Incursione Attiva) */}
+              {isRaidRunning && (
+                <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-0.5 rounded-xl border border-gray-200 dark:border-gray-700 animate-in fade-in duration-200">
+                  <button
+                    type="button"
+                    onClick={() => setRaidPreferredViewMode('grid')}
+                    className={`p-2 rounded-lg transition-all cursor-pointer ${
+                      activeViewMode === 'grid'
+                        ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
+                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                    }`}
+                    title={t('stash.viewGrid')}
+                    aria-label={t('stash.viewGrid')}
+                  >
+                    <LayoutGrid size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRaidPreferredViewMode('list')}
+                    className={`p-2 rounded-lg transition-all cursor-pointer ${
+                      activeViewMode === 'list'
+                        ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
+                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                    }`}
+                    title={t('stash.viewList')}
+                    aria-label={t('stash.viewList')}
+                  >
+                    <ListIcon size={16} />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
+
+          {/* ── 3 PULSANTI AZIONE COMPATTI E DISCRETI (Nascosti in Focus Mode) ── */}
+          {!isRaidRunning && (
+            <div className="flex items-center justify-between gap-2 pt-1 animate-in fade-in duration-150">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setModalType('apply')}
+                disabled={actions.length === 0 && items.length === 0}
+                leftIcon={<PackageCheck size={14} />}
+                className="flex-1"
+              >
+                {t('raid.apply')}
+              </Button>
+
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => setModalType('reset')}
+                disabled={actions.length === 0 && items.length === 0}
+                leftIcon={<RotateCcw size={13} />}
+                title={t('raid.reset')}
+                aria-label={t('raid.reset')}
+              >
+                <span className="hidden sm:inline text-[11px]">{t('raid.reset')}</span>
+              </Button>
+
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setModalType('clear')}
+                disabled={actions.length === 0 && items.length === 0}
+                leftIcon={<Trash2 size={13} />}
+                title={t('raid.clear')}
+                aria-label={t('raid.clear')}
+                className="text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 hover:bg-rose-50 dark:hover:bg-rose-950/30"
+              >
+                <span className="hidden sm:inline text-[11px]">{t('raid.clear')}</span>
+              </Button>
+            </div>
+          )}
         </div>
-
-        {/* ── 3 PULSANTI AZIONE COMPATTI E DISCRETI (Nascosti in Focus Mode) ── */}
-        {!isRaidRunning && (
-          <div className="flex items-center justify-between gap-2 pt-1 animate-in fade-in duration-150">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setModalType('apply')}
-              disabled={actions.length === 0 && items.length === 0}
-              leftIcon={<PackageCheck size={14} />}
-              className="flex-1"
-            >
-              {t('raid.apply')}
-            </Button>
-
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => setModalType('reset')}
-              disabled={actions.length === 0 && items.length === 0}
-              leftIcon={<RotateCcw size={13} />}
-              title={t('raid.reset')}
-              aria-label={t('raid.reset')}
-            >
-              <span className="hidden sm:inline text-[11px]">{t('raid.reset')}</span>
-            </Button>
-
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setModalType('clear')}
-              disabled={actions.length === 0 && items.length === 0}
-              leftIcon={<Trash2 size={13} />}
-              title={t('raid.clear')}
-              aria-label={t('raid.clear')}
-              className="text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 hover:bg-rose-50 dark:hover:bg-rose-950/30"
-            >
-              <span className="hidden sm:inline text-[11px]">{t('raid.clear')}</span>
-            </Button>
-          </div>
-        )}
-      </StickyHeader>
-
+      }
+    >
       {/* Notifica feedback */}
       {notification && (
-        <div className="mx-4 mt-3">
+        <div className="mb-4">
           <Callout variant="success">{notification}</Callout>
         </div>
       )}
 
-      <div className="p-4 space-y-6">
+      <div className="space-y-6">
         {/* ── SEZIONE 1: AZIONI SPOT ── */}
         <section className="space-y-3">
           {/* Header e Form Aggiunta: Nascosti in Focus Mode */}
@@ -652,6 +653,6 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
           onClose={() => setModalType(null)}
         />
       )}
-    </div>
+    </PageLayout>
   );
 };

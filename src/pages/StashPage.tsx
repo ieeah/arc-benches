@@ -32,7 +32,7 @@ import type { FilterCategory, SortOption } from '@/hooks/useListManager';
 import { useRetainedItems } from '@/hooks/useRetainedItems';
 import { ListControls } from '@/components/ListControls';
 import { useTranslation, getItemName, getItemSearchFields, getActionLabel, getListName } from '@/i18n';
-import { StickyHeader } from '@/components/StickyHeader';
+import { PageLayout } from '@/components/PageLayout';
 import { isSectionActive } from '@/lib/sections';
 
 const STASH_SORT_IDS = [
@@ -418,60 +418,62 @@ export const StashPage = ({
   }, [activeSortId]);
 
   return (
-    <div className="pb-28">
-      <StickyHeader>
-        <div className="mb-3">
-          <SectionHeader
-            title="Stash"
-            actions={
-              <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-0.5 rounded-xl border border-gray-200 dark:border-gray-700">
-                <button
-                  onClick={() => setStashViewMode('grid')}
-                  className={`p-1.5 rounded-lg transition-all ${
-                    stashViewMode === 'grid'
-                      ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
-                      : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                  }`}
-                  title={t('stash.viewGrid')}
-                  aria-label={t('stash.viewGrid')}
-                >
-                  <LayoutGrid size={16} />
-                </button>
-                <button
-                  onClick={() => setStashViewMode('list')}
-                  className={`p-1.5 rounded-lg transition-all ${
-                    stashViewMode === 'list'
-                      ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
-                      : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                  }`}
-                  title={t('stash.viewList')}
-                  aria-label={t('stash.viewList')}
-                >
-                  <ListIcon size={16} />
-                </button>
-              </div>
-            }
+    <PageLayout
+      headerSlot={
+        <>
+          <div className="mb-3">
+            <SectionHeader
+              title="Stash"
+              actions={
+                <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-0.5 rounded-xl border border-gray-200 dark:border-gray-700">
+                  <button
+                    onClick={() => setStashViewMode('grid')}
+                    className={`p-1.5 rounded-lg transition-all ${
+                      stashViewMode === 'grid'
+                        ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
+                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                    }`}
+                    title={t('stash.viewGrid')}
+                    aria-label={t('stash.viewGrid')}
+                  >
+                    <LayoutGrid size={16} />
+                  </button>
+                  <button
+                    onClick={() => setStashViewMode('list')}
+                    className={`p-1.5 rounded-lg transition-all ${
+                      stashViewMode === 'list'
+                        ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
+                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                    }`}
+                    title={t('stash.viewList')}
+                    aria-label={t('stash.viewList')}
+                  >
+                    <ListIcon size={16} />
+                  </button>
+                </div>
+              }
+            />
+          </div>
+          <ListControls
+            query={query}
+            setQuery={setQuery}
+            activeCategoryId={activeCategoryId}
+            setActiveCategoryId={handleCategorySelect}
+            activeSortId={activeSortId}
+            setActiveSortId={setActiveSortId}
+            groupByEnabled={false}
+            setGroupByEnabled={() => {}}
+            searchPlaceholder={t('stash.searchPlaceholder')}
+            categories={filterCategories}
+            sortOptions={sortOptions}
+            sortType="pills" // Utilizza le pillole per l'ordinamento
+            items={missingMaterials} // Calcola i badge sul totale reale dei materiali tracciati
           />
-        </div>
-        <ListControls
-          query={query}
-          setQuery={setQuery}
-          activeCategoryId={activeCategoryId}
-          setActiveCategoryId={handleCategorySelect}
-          activeSortId={activeSortId}
-          setActiveSortId={setActiveSortId}
-          groupByEnabled={false}
-          setGroupByEnabled={() => {}}
-          searchPlaceholder={t('stash.searchPlaceholder')}
-          categories={filterCategories}
-          sortOptions={sortOptions}
-          sortType="pills" // Utilizza le pillole per l'ordinamento
-          items={missingMaterials} // Calcola i badge sul totale reale dei materiali tracciati
-        />
-      </StickyHeader>
-
+        </>
+      }
+    >
       {visibleActions.length > 0 && (
-        <div className="mx-3 mt-3 mb-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-2xl space-y-2.5">
+        <div className="mb-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-2xl space-y-2.5">
           <button
             onClick={() => setShowActions(prev => !prev)}
             className="w-full flex items-center justify-between text-left cursor-pointer"
@@ -512,7 +514,7 @@ export const StashPage = ({
       )}
 
       {activeCategoryId === 'purchasable' && groupedItems ? (
-        <div className="p-2 space-y-5">
+        <div className="space-y-5">
           {groupKeys.map(groupName => {
             const groupList = groupedItems[groupName] || [];
             if (groupList.length === 0) return null;
@@ -608,7 +610,7 @@ export const StashPage = ({
       ) : stashViewMode === 'grid' ? (
         <div
           data-list-container
-          className={`p-2 grid gap-2.5 ${
+          className={`grid gap-2.5 ${
             stashGridDensity === 'compact' ? 'grid-stash-compact' : 'grid-stash-comfortable'
           }`}
         >
@@ -645,7 +647,7 @@ export const StashPage = ({
           ))}
         </div>
       ) : (
-        <div data-list-container="compact" className="p-2 flex flex-col gap-2">
+        <div data-list-container="compact" className="flex flex-col gap-2">
           {processedItems.map(mat => (
             <InventoryListItem
               key={mat.itemId}
@@ -682,7 +684,7 @@ export const StashPage = ({
       )}
 
       {processedItems.length === 0 && visibleActions.length === 0 && (
-        <div className="p-20 text-center text-gray-500 italic text-sm">
+        <div className="py-20 text-center text-gray-500 italic text-sm">
           {t('stash.noMaterialsFound')}
         </div>
       )}
@@ -699,6 +701,6 @@ export const StashPage = ({
           onOpenOverrides={onOpenOverrides}
         />
       )}
-    </div>
+    </PageLayout>
   );
 };

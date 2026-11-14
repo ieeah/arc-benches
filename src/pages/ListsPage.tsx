@@ -35,7 +35,7 @@ import { currentLevelOf } from '@/lib/lists';
 import { safeLS } from '@/lib/safeStorage';
 import { isSectionActive } from '@/lib/sections';
 import type { List, ListExportFile, MultiProfileExportFile } from '@/types';
-import { StickyHeader } from '@/components/StickyHeader';
+import { PageLayout } from '@/components/PageLayout';
 
 type SectionKey = 'workbench' | 'project' | 'custom' | 'completati';
 type SectionsOpen = Record<SectionKey, boolean>;
@@ -429,15 +429,53 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
   );
 
   return (
-    <div className="pb-28 w-full min-w-0">
-      {/* Sticky header */}
-      <StickyHeader compact>
-        <SectionHeader title={t('lists.title')} />
-      </StickyHeader>
+    <PageLayout
+      headerSlot={
+        <div className="space-y-2.5">
+          <SectionHeader title={t('lists.title')} />
 
+          {/* Preferenze di vista: mostra/nascondi sezioni + filtro scaduti */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            {SECTION_KEYS.map(key => {
+              if (key === 'project' && projects.length === 0) return null;
+              const shown = viewPrefs[`show_${key}`];
+              return (
+                <button
+                  key={key}
+                  onClick={() => patchViewPrefs({ [`show_${key}`]: !shown } as Partial<ViewPrefs>)}
+                  aria-pressed={shown}
+                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold transition-colors cursor-pointer ${
+                    shown
+                      ? 'bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border border-transparent'
+                  }`}
+                >
+                  {shown ? <Eye size={12} /> : <EyeOff size={12} />}
+                  <span>{t(`lists.section_${key}` as 'lists.section_workbench')}</span>
+                  <span className="text-[10px] opacity-75 tabular-nums">({sectionCounts[key]})</span>
+                </button>
+              );
+            })}
+            <button
+              onClick={() => patchViewPrefs({ hideExpired: !viewPrefs.hideExpired })}
+              aria-pressed={viewPrefs.hideExpired}
+              className={`flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold transition-colors cursor-pointer ${
+                viewPrefs.hideExpired
+                  ? 'bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border border-transparent'
+              }`}
+            >
+              {viewPrefs.hideExpired ? <EyeOff size={12} /> : <Eye size={12} />}
+              {t('lists.hideExpired')}
+            </button>
+          </div>
+        </div>
+      }
+      className="w-full min-w-0"
+    >
       <input ref={fileInputRef} type="file" accept=".json,application/json" className="hidden" onChange={handleImportFile} />
 
-      <div className="p-4 w-full min-w-0">
+      <div className="w-full min-w-0">
         {importError && (
           <div className="mb-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl flex items-center justify-between gap-2">
             <p className="text-[11px] text-red-600 dark:text-red-400">{importError}</p>
@@ -466,42 +504,6 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
               {t('lists.hiddenByFilterNotice', { count: hiddenActiveCount })}
             </button>
           )}
-        </div>
-
-        {/* Preferenze di vista: mostra/nascondi sezioni + filtro scaduti */}
-        <div className="mb-3 flex flex-wrap items-center gap-1.5">
-          {SECTION_KEYS.map(key => {
-            if (key === 'project' && projects.length === 0) return null;
-            const shown = viewPrefs[`show_${key}`];
-            return (
-              <button
-                key={key}
-                onClick={() => patchViewPrefs({ [`show_${key}`]: !shown } as Partial<ViewPrefs>)}
-                aria-pressed={shown}
-                className={`flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold transition-colors cursor-pointer ${
-                  shown
-                    ? 'bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border border-transparent'
-                }`}
-              >
-                {shown ? <Eye size={12} /> : <EyeOff size={12} />}
-                <span>{t(`lists.section_${key}` as 'lists.section_workbench')}</span>
-                <span className="text-[10px] opacity-75 tabular-nums">({sectionCounts[key]})</span>
-              </button>
-            );
-          })}
-          <button
-            onClick={() => patchViewPrefs({ hideExpired: !viewPrefs.hideExpired })}
-            aria-pressed={viewPrefs.hideExpired}
-            className={`flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold transition-colors cursor-pointer ${
-              viewPrefs.hideExpired
-                ? 'bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border border-transparent'
-            }`}
-          >
-            {viewPrefs.hideExpired ? <EyeOff size={12} /> : <Eye size={12} />}
-            {t('lists.hideExpired')}
-          </button>
         </div>
 
         {activePriorityLists.length > 0 && renderPriorityList()}
@@ -706,6 +708,6 @@ export const ListsPage = ({ onOpenDetail, action, onActionHandled }: ListsPagePr
           </div>
         </div>
       )}
-    </div>
+    </PageLayout>
   );
 };

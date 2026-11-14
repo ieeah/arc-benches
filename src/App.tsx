@@ -9,7 +9,6 @@ import type { ListsPageAction } from '@/pages/ListsPage';
 import { useAppStore } from '@/store';
 import { useTranslation } from '@/i18n';
 import { hasUnsavedDevChanges } from '@/lib/devDrafts';
-import { AppFooter } from '@/components/AppFooter';
 import { InactivePassNotice } from '@/components/pass/InactivePassNotice';
 import { useRouter, type AppRoute } from '@/router';
 import { isSectionActive } from '@/lib/sections';
@@ -71,13 +70,11 @@ type PageLoadingFallbackProps = {
 function PageLoadingFallback({ className = '' }: PageLoadingFallbackProps) {
   const { t } = useTranslation();
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className={`min-h-[50dvh] flex flex-col items-center justify-center gap-3 text-neutral-400 dark:text-neutral-500 ${className}`}
-    >
-      <Loader2 size={24} className="animate-spin text-neutral-500 dark:text-neutral-400" />
-      <span className="text-xs font-medium tracking-wide">{t('common.loading')}</span>
+    <div className="min-h-dvh flex flex-col bg-gray-50/50 dark:bg-black text-gray-900 dark:text-gray-100">
+      <div className={`flex-1 w-full max-w-md md:max-w-3xl mx-auto px-4 py-20 flex flex-col items-center justify-center gap-3 text-neutral-400 dark:text-neutral-500 ${className}`}>
+        <Loader2 size={24} className="animate-spin text-neutral-500 dark:text-neutral-400" />
+        <span className="text-xs font-medium tracking-wide">{t('common.loading')}</span>
+      </div>
     </div>
   );
 }
@@ -263,55 +260,52 @@ export default function App() {
           </Suspense>
         ) : (
           <>
-            <main className="max-w-md md:max-w-3xl w-full mx-auto min-h-dvh">
-              <Suspense fallback={<PageLoadingFallback />}>
-                {activeTab === 'stash' && <StashPage onOpenOverrides={handleOpenOverrides} />}
-                {activeTab === 'liste' && (
-                  <ListsPage
-                    action={listsAction}
-                    onActionHandled={() => setListsAction(null)}
-                    onOpenDetail={openListDetail}
-                  />
-                )}
-                {activeTab === 'blueprints' && isSectionActive('blueprints', { enabledSections }) && <BlueprintsPage />}
-                {activeTab === 'expeditions' && isSectionActive('expeditions', { enabledSections }) && <ExpeditionPage />}
-                {activeTab === 'reward-pass' && isSectionActive('reward-pass', { enabledSections }) && (
-                  <RewardPassPage
-                    passId={router.params.pass}
-                    view={router.params.view}
-                    onNavigate={(params) => router.push('reward-pass', params)}
-                  />
-                )}
-                {activeTab === 'raid' && isSectionActive('raid', { enabledSections }) && (
-                  <RaidPlanPage
-                    action={raidAction}
-                    onActionHandled={() => setRaidAction(null)}
-                  />
-                )}
-                {activeTab === 'items' && (
-                  <ItemsPage
-                    onBack={() => router.back()}
-                    onOpenOverrides={handleOpenOverrides}
-                  />
-                )}
-                {isDev && activeTab === 'maps' && isSectionActive('maps', { enabledSections }) && (
-                  <MapsPage onBack={() => router.back()} />
-                )}
-                {isDev && activeTab === 'dev-lab' && (
-                  <DevCatalogLabPage
-                    onBack={() => router.back()}
-                    onOpenOverrides={handleOpenOverrides}
-                  />
-                )}
-                {activeTab === 'settings' && (
-                  <SettingsPage onBack={() => router.back()} />
-                )}
-                {activeTab === 'list-detail' && detailListId && (
-                  <ListDetailPage listId={detailListId} onBack={() => router.back()} />
-                )}
-              </Suspense>
-              <AppFooter />
-            </main>
+            <Suspense fallback={<PageLoadingFallback />}>
+              {activeTab === 'stash' && <StashPage onOpenOverrides={handleOpenOverrides} />}
+              {activeTab === 'liste' && (
+                <ListsPage
+                  action={listsAction}
+                  onActionHandled={() => setListsAction(null)}
+                  onOpenDetail={openListDetail}
+                />
+              )}
+              {activeTab === 'blueprints' && isSectionActive('blueprints', { enabledSections }) && <BlueprintsPage />}
+              {activeTab === 'expeditions' && isSectionActive('expeditions', { enabledSections }) && <ExpeditionPage />}
+              {activeTab === 'reward-pass' && isSectionActive('reward-pass', { enabledSections }) && (
+                <RewardPassPage
+                  passId={router.params.pass}
+                  view={router.params.view}
+                  onNavigate={(params) => router.push('reward-pass', params)}
+                />
+              )}
+              {activeTab === 'raid' && isSectionActive('raid', { enabledSections }) && (
+                <RaidPlanPage
+                  action={raidAction}
+                  onActionHandled={() => setRaidAction(null)}
+                />
+              )}
+              {activeTab === 'items' && (
+                <ItemsPage
+                  onBack={() => router.back()}
+                  onOpenOverrides={handleOpenOverrides}
+                />
+              )}
+              {isDev && activeTab === 'maps' && isSectionActive('maps', { enabledSections }) && (
+                <MapsPage onBack={() => router.back()} />
+              )}
+              {isDev && activeTab === 'dev-lab' && (
+                <DevCatalogLabPage
+                  onBack={() => router.back()}
+                  onOpenOverrides={handleOpenOverrides}
+                />
+              )}
+              {activeTab === 'settings' && (
+                <SettingsPage onBack={() => router.back()} />
+              )}
+              {activeTab === 'list-detail' && detailListId && (
+                <ListDetailPage listId={detailListId} onBack={() => router.back()} />
+              )}
+            </Suspense>
 
             {activeTab !== 'list-detail' && activeTab !== 'role-maker' && (
               navVariant === 'morphing' ? (

@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { PageLayout } from '@/components/PageLayout';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
 import { useTranslation } from '@/i18n';
@@ -31,29 +32,34 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   }, []);
 
   return (
-    <div className="pb-36 p-4 w-full space-y-6">
-      <SectionHeader
-        title={t('settings.title')}
-        leading={
-          <IconButton onClick={onBack} title={t('common.back')}>
-            <ArrowLeft size={18} />
-          </IconButton>
-        }
-      />
+    <PageLayout
+      headerSticky={true}
+      headerSlot={
+        <SectionHeader
+          title={t('settings.title')}
+          leading={
+            <IconButton onClick={onBack} title={t('common.back')}>
+              <ArrowLeft size={18} />
+            </IconButton>
+          }
+        />
+      }
+    >
+      <div className="space-y-6">
+        {feedbackMsg && (
+          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 rounded-2xl text-xs text-emerald-800 dark:text-emerald-200 font-semibold animate-in fade-in">
+            {feedbackMsg}
+          </div>
+        )}
 
-      {feedbackMsg && (
-        <div className="p-3 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 rounded-2xl text-xs text-emerald-800 dark:text-emerald-200 font-semibold animate-in fade-in">
-          {feedbackMsg}
-        </div>
-      )}
-
-      <AppearanceConfigSection onFeedback={handleFeedback} />
-      <NavigationErgonomicsSection onFeedback={handleFeedback} />
-      <ProfilesManagerSection onFeedback={handleFeedback} />
-      <ProfileSectionsConfigSection />
-      <RewardPassConfigSection />
-      <BackupPortabilitySection />
-      <AppInfoSection />
-    </div>
+        <AppearanceConfigSection onFeedback={handleFeedback} />
+        <NavigationErgonomicsSection onFeedback={handleFeedback} />
+        <ProfilesManagerSection onFeedback={handleFeedback} />
+        <ProfileSectionsConfigSection />
+        <RewardPassConfigSection />
+        <BackupPortabilitySection />
+        <AppInfoSection />
+      </div>
+    </PageLayout>
   );
 };

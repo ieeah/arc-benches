@@ -16,7 +16,7 @@ import { RequirementChips } from '@/components/RequirementChips';
 import { useLevelGuard } from '@/hooks/useLevelGuard';
 import { isListExpired } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
-import { StickyHeader } from '@/components/StickyHeader';
+import { PageLayout } from '@/components/PageLayout';
 
 /** Full-screen overview of one list: every level, its items and actions. */
 export const ListDetailPage = ({ listId, onBack }: {
@@ -29,10 +29,20 @@ export const ListDetailPage = ({ listId, onBack }: {
 
   if (!list) {
     return (
-      <div className="p-4">
-        <SectionHeader title={t('lists.notFound')}
-          leading={<IconButton onClick={onBack} title={t('common.back')}><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
-      </div>
+      <PageLayout
+        headerSlot={
+          <SectionHeader
+            title={t('lists.notFound')}
+            leading={
+              <IconButton onClick={onBack} title={t('common.back')}>
+                <ArrowLeft size={14} className="text-gray-500" />
+              </IconButton>
+            }
+          />
+        }
+      >
+        <div />
+      </PageLayout>
     );
   }
 
@@ -65,32 +75,39 @@ const ListDetailBody = ({ list, onBack }: { list: List; onBack: () => void }) =>
   };
 
   return (
-    <div className="pb-28">
-      <StickyHeader compact>
-        <SectionHeader title={getListName(list, language)}
-          leading={<IconButton onClick={onBack} title={t('common.back')}><ArrowLeft size={14} className="text-gray-500" /></IconButton>} />
-        <div className="mt-3">
-          <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">{t('benches.current')}</p>
-          <LevelPills min={baseLevel} max={list.maxLevel} value={current}
-            activeClass="bg-blue-500 text-white"
-            ariaLabel={lvl => `${t('benches.current')} ${lvl}`}
-            onChange={setCurrent} />
-        </div>
-      </StickyHeader>
-
-      {expired && (
-        <div className="mx-4 mt-4 p-3.5 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-2xl flex items-start gap-2.5">
-          <AlertTriangle size={18} className="text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-red-700 dark:text-red-300">{t('lists.expired')}</p>
-            <p className="text-[11px] text-red-600/90 dark:text-red-400/90 mt-0.5 leading-relaxed">
-              {t('lists.expiredNotice')}
-            </p>
+    <PageLayout
+      headerSlot={
+        <>
+          <SectionHeader
+            title={getListName(list, language)}
+            leading={<IconButton onClick={onBack} title={t('common.back')}><ArrowLeft size={14} className="text-gray-500" /></IconButton>}
+          />
+          <div className="mt-3">
+            <p className="text-[10px] font-bold uppercase text-gray-400 mb-2">{t('benches.current')}</p>
+            <LevelPills
+              min={baseLevel}
+              max={list.maxLevel}
+              value={current}
+              activeClass="bg-blue-500 text-white"
+              ariaLabel={lvl => `${t('benches.current')} ${lvl}`}
+              onChange={setCurrent}
+            />
           </div>
-        </div>
-      )}
-
-      <div className="p-4 space-y-3">
+        </>
+      }
+    >
+      <div className="space-y-3">
+        {expired && (
+          <div className="p-3.5 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 rounded-2xl flex items-start gap-2.5">
+            <AlertTriangle size={18} className="text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-bold text-red-700 dark:text-red-300">{t('lists.expired')}</p>
+              <p className="text-[11px] text-red-600/90 dark:text-red-400/90 mt-0.5 leading-relaxed">
+                {t('lists.expiredNotice')}
+              </p>
+            </div>
+          </div>
+        )}
         {levels.map(lvl => {
           const done = lvl.level <= current;
           const inWindow = isActionWindowOpen(lvl.level, current);
@@ -217,7 +234,7 @@ const ListDetailBody = ({ list, onBack }: { list: List; onBack: () => void }) =>
           );
         })}
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

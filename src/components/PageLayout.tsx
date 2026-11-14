@@ -1,24 +1,35 @@
 import type { ReactNode } from 'react';
 import { AppFooter } from '@/components/AppFooter';
+import { cn } from '@/lib/cn';
+
+export type PageLayoutWidth = 'default' | 'wide' | 'full';
+
+export const PAGE_LAYOUT_WIDTH_CLASSES: Record<PageLayoutWidth, string> = {
+  default: 'max-w-md md:max-w-3xl',
+  wide: 'max-w-5xl',
+  full: 'w-full',
+};
 
 export type PageLayoutProps = {
-  /** Testo o titolo della pagina */
+  /** Titolo testuale standard (utilizzato se headerSlot non è specificato) */
   title?: string;
-  /** Slot opzionale per header personalizzato (o controlli a destra) */
+  /** Slot per header personalizzato o toolbar complesse */
   headerSlot?: ReactNode;
-  /** Rende l'header sticky in cima (default: true) */
+  /** Rende l'header fisso in cima durante lo scroll (default: true) */
   headerSticky?: boolean;
-  /** Variante del layout: 'default' con header standard e footer o 'fullscreen' per viste edge-to-edge (es. mappe) */
+  /** Variante strutturale: 'default' con contenimento o 'fullscreen' per mappe/edge-to-edge */
   variant?: 'default' | 'fullscreen';
+  /** Larghezza massima del contenitore centrale (default: 'default' -> max-w-md md:max-w-3xl) */
+  contentWidth?: PageLayoutWidth;
   /** Contenuto principale della pagina */
   children: ReactNode;
-  /** Action bar opzionale (es. pulsanti di azione in fondo) */
+  /** Barra di azioni secondaria in fondo (RISERVATA a pagine prive di FloatingNav) */
   actionBar?: ReactNode;
-  /** Rende l'action bar sticky/incollata in fondo alla finestra (default: true se actionBar è presente) */
+  /** Rende l'action bar sticky sul fondo sopra la safe area (default: true) */
   actionBarSticky?: boolean;
-  /** Mostrare o meno il footer di disclaimer/copyright (default: true per default, false per fullscreen) */
+  /** Visibilità del footer disclaimer/copyright (default: true per variant='default') */
   showCopyright?: boolean;
-  /** Classi CSS aggiuntive per il container o il wrapper principale */
+  /** Classi CSS addizionali applicate al wrapper radice */
   className?: string;
 };
 
@@ -27,6 +38,7 @@ export const PageLayout = ({
   headerSlot,
   headerSticky = true,
   variant = 'default',
+  contentWidth = 'default',
   children,
   actionBar,
   actionBarSticky = true,
@@ -37,9 +49,9 @@ export const PageLayout = ({
 
   if (variant === 'fullscreen') {
     return (
-      <div className={`relative w-full h-dvh overflow-hidden flex flex-col ${className}`}>
+      <div className={cn('relative w-full h-dvh overflow-hidden flex flex-col', className)}>
         {headerSlot && (
-          <header className={`z-20 shrink-0 ${headerSticky ? 'sticky top-0' : ''}`}>
+          <header className={cn('z-20 shrink-0', headerSticky && 'sticky top-0')}>
             {headerSlot}
           </header>
         )}
@@ -47,7 +59,7 @@ export const PageLayout = ({
           {children}
         </main>
         {actionBar && (
-          <div className={`z-30 shrink-0 ${actionBarSticky ? 'sticky bottom-0 pb-safe' : ''}`}>
+          <div className={cn('z-30 shrink-0', actionBarSticky && 'sticky bottom-0 pb-safe')}>
             {actionBar}
           </div>
         )}
@@ -56,39 +68,41 @@ export const PageLayout = ({
   }
 
   return (
-    <div className={`min-h-dvh flex flex-col bg-gray-50/50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 ${className}`}>
+    <div className={cn('min-h-dvh flex flex-col bg-gray-50/50 dark:bg-black text-gray-900 dark:text-gray-100', className)}>
       {/* Header Slot o Titolo Standard */}
       {(headerSlot || title) && (
         <header
-          className={`z-20 border-b border-gray-200/80 dark:border-gray-800/80 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md px-4 py-3 sm:px-6 transition-all ${
-            headerSticky ? 'sticky top-0' : ''
-          }`}
-        >
-          {headerSlot ?? (
-            <div className="flex items-center justify-between">
-              <h1 className="text-lg font-bold tracking-tight text-gray-900 dark:text-gray-100">
-                {title}
-              </h1>
-            </div>
+          className={cn(
+            'z-20 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black transition-all',
+            headerSticky && 'sticky top-0'
           )}
+        >
+          <div className={cn('w-full mx-auto px-4 py-3 sm:px-6', PAGE_LAYOUT_WIDTH_CLASSES[contentWidth])}>
+            {headerSlot ?? (
+              <div className="flex items-center justify-between">
+                <h1 className="text-lg font-bold tracking-tight text-gray-900 dark:text-gray-100">
+                  {title}
+                </h1>
+              </div>
+            )}
+          </div>
         </header>
       )}
 
       {/* Main Content Area */}
-      <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-5 sm:px-6 pb-24">
+      <main className={cn('flex-1 w-full mx-auto px-4 py-4 sm:px-6 pb-28', PAGE_LAYOUT_WIDTH_CLASSES[contentWidth])}>
         {children}
       </main>
 
       {/* Action Bar (Sticky o Statica) */}
       {actionBar && (
         <div
-          className={`z-30 w-full transition-all ${
-            actionBarSticky
-              ? 'sticky bottom-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200/80 dark:border-gray-800/80 px-4 py-3 sm:px-6 pb-safe shadow-lg'
-              : 'px-4 py-3 sm:px-6'
-          }`}
+          className={cn(
+            'z-30 w-full transition-all bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800',
+            actionBarSticky && 'sticky bottom-0 pb-safe shadow-lg'
+          )}
         >
-          <div className="max-w-4xl mx-auto">
+          <div className={cn('w-full mx-auto px-4 py-3 sm:px-6', PAGE_LAYOUT_WIDTH_CLASSES[contentWidth])}>
             {actionBar}
           </div>
         </div>
@@ -96,7 +110,7 @@ export const PageLayout = ({
 
       {/* Copyright Disclaimer Spinto sempre in Fondo */}
       {shouldShowCopyright && (
-        <div className="mt-auto shrink-0">
+        <div className="mt-auto shrink-0 pb-safe">
           <AppFooter />
         </div>
       )}

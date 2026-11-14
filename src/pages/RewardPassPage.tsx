@@ -5,7 +5,7 @@ import { useAppStore } from '@/store';
 import { useTranslation, getListName } from '@/i18n';
 import { SectionHeader } from '@/components/SectionHeader';
 import { IconButton } from '@/components/IconButton';
-import { StickyHeader } from '@/components/StickyHeader';
+import { PageLayout } from '@/components/PageLayout';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { Drawer } from '@/components/Drawer';
 import { PassCard } from '@/components/pass/PassCard';
@@ -79,49 +79,49 @@ const ActivePassView = ({ pass, onShowAll, onCompleted }: { pass: PassList; onSh
   };
 
   return (
-    <div className="pb-28">
-      <StickyHeader compact>
-        <SectionHeader
-          title={getListName(pass, language)}
-          actions={
-            <>
-              <IconButton onClick={onShowAll} title={t('rewardPass.backToPasses')}>
-                <LayoutGrid size={16} />
+    <PageLayout
+      headerSlot={
+        <>
+          <SectionHeader
+            title={getListName(pass, language)}
+            actions={
+              <>
+                <IconButton onClick={onShowAll} title={t('rewardPass.backToPasses')}>
+                  <LayoutGrid size={16} />
+                </IconButton>
+                <IconButton onClick={() => setOptionsOpen(true)} title={t('rewardPass.viewOptions')}>
+                  <SlidersHorizontal size={16} />
+                </IconButton>
+              </>
+            }
+          />
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-bold uppercase text-gray-400">{t('rewardPass.tierReached')}</p>
+              <p className="text-lg font-black">
+                {reached}<span className="text-gray-400 font-bold"> / {pass.maxLevel}</span>
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <IconButton onClick={() => changeLevel(reached - 1)} title={t('rewardPass.decreaseTier')} disabled={reached <= 0}>
+                <Minus size={16} />
               </IconButton>
-              <IconButton onClick={() => setOptionsOpen(true)} title={t('rewardPass.viewOptions')}>
-                <SlidersHorizontal size={16} />
+              <IconButton onClick={() => changeLevel(reached + 1)} title={t('rewardPass.increaseTier')} disabled={reached >= pass.maxLevel}>
+                <Plus size={16} />
               </IconButton>
-            </>
-          }
-        />
-        <div className="mt-3 flex items-center justify-between gap-3">
-          <div>
-            <p className="text-[10px] font-bold uppercase text-gray-400">{t('rewardPass.tierReached')}</p>
-            <p className="text-lg font-black">
-              {reached}<span className="text-gray-400 font-bold"> / {pass.maxLevel}</span>
-            </p>
+              <button
+                type="button"
+                onClick={() => setConfirmConclude(true)}
+                className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold cursor-pointer"
+              >
+                {t('rewardPass.concludePass')}
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <IconButton onClick={() => changeLevel(reached - 1)} title={t('rewardPass.decreaseTier')} disabled={reached <= 0}>
-              <Minus size={16} />
-            </IconButton>
-            <IconButton onClick={() => changeLevel(reached + 1)} title={t('rewardPass.increaseTier')} disabled={reached >= pass.maxLevel}>
-              <Plus size={16} />
-            </IconButton>
-            <button
-              type="button"
-              onClick={() => setConfirmConclude(true)}
-              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold cursor-pointer"
-            >
-              {t('rewardPass.concludePass')}
-            </button>
-          </div>
-        </div>
-      </StickyHeader>
-
-      <div className="p-4">
-        <PassLevelsGrid pass={pass} reached={reached} hiddenTracks={hidden} onSetTier={changeLevel} scrollToNext />
-      </div>
+        </>
+      }
+    >
+      <PassLevelsGrid pass={pass} reached={reached} hiddenTracks={hidden} onSetTier={changeLevel} scrollToNext />
 
       {optionsOpen && <ViewOptions pass={pass} onClose={() => setOptionsOpen(false)} />}
       {confirmConclude && (
@@ -138,7 +138,7 @@ const ActivePassView = ({ pass, onShowAll, onCompleted }: { pass: PassList; onSh
           onClose={() => setConfirmConclude(false)}
         />
       )}
-    </div>
+    </PageLayout>
   );
 };
 
@@ -148,8 +148,8 @@ const PassLevelsPreview = ({ pass, onBack }: { pass: PassList; onBack: () => voi
   const { prefs } = usePassViewPrefs();
   const [optionsOpen, setOptionsOpen] = useState(false);
   return (
-    <div className="pb-28">
-      <StickyHeader compact>
+    <PageLayout
+      headerSlot={
         <SectionHeader
           title={getListName(pass, language)}
           leading={<BackButton onClick={onBack} label={t('common.back')} />}
@@ -159,12 +159,11 @@ const PassLevelsPreview = ({ pass, onBack }: { pass: PassList; onBack: () => voi
             </IconButton>
           }
         />
-      </StickyHeader>
-      <div className="p-4">
-        <PassLevelsGrid pass={pass} reached={0} hiddenTracks={new Set(prefs.hiddenTracks)} />
-      </div>
+      }
+    >
+      <PassLevelsGrid pass={pass} reached={0} hiddenTracks={new Set(prefs.hiddenTracks)} />
       {optionsOpen && <ViewOptions pass={pass} onClose={() => setOptionsOpen(false)} />}
-    </div>
+    </PageLayout>
   );
 };
 
@@ -181,12 +180,12 @@ const PassPreview = ({ pass, onBack, onViewLevels }: { pass: PassList; onBack: (
   const disabledReason = isActive ? t('rewardPass.active') : '';
 
   return (
-    <div className="pb-28">
-      <StickyHeader compact>
+    <PageLayout
+      headerSlot={
         <SectionHeader title={getListName(pass, language)} leading={<BackButton onClick={onBack} label={t('rewardPass.backToPasses')} />} />
-      </StickyHeader>
-
-      <div className="p-4 space-y-4">
+      }
+    >
+      <div className="space-y-4">
         <PassDetailSummary pass={pass} />
 
         <button
@@ -225,7 +224,7 @@ const PassPreview = ({ pass, onBack, onViewLevels }: { pass: PassList; onBack: (
           onClose={() => setConfirmOpen(false)}
         />
       )}
-    </div>
+    </PageLayout>
   );
 };
 
@@ -244,15 +243,15 @@ const PassSelection = ({ passes, onOpen, onBack }: { passes: PassList[]; onOpen:
   };
 
   return (
-    <div className="pb-28">
-      <StickyHeader compact>
+    <PageLayout
+      headerSlot={
         <SectionHeader
           title={t('rewardPass.title')}
           leading={onBack ? <BackButton onClick={onBack} label={t('common.back')} /> : undefined}
         />
-      </StickyHeader>
-
-      <div className="p-4 space-y-6">
+      }
+    >
+      <div className="space-y-6">
         {passes.length === 0 ? (
           <div className="p-10 text-center space-y-2 bg-white dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-700 rounded-[28px]">
             <Ticket size={28} className="mx-auto text-gray-400" />
@@ -291,7 +290,7 @@ const PassSelection = ({ passes, onOpen, onBack }: { passes: PassList[]; onOpen:
           </section>
         )}
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

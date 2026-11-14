@@ -28,6 +28,7 @@ import {
 import { hasDeductionConflict } from '@/lib/lists';
 import { MAX_EXTRA_SKILL_POINTS, DEFAULT_EXPEDITION_DAMAGE } from '@/store/gameData';
 import { SectionHeader } from '@/components/SectionHeader';
+import { PageLayout } from '@/components/PageLayout';
 import { Drawer } from '@/components/Drawer';
 import { BottomSheet } from '@/components/BottomSheet';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
@@ -176,21 +177,26 @@ export const ExpeditionPage = () => {
   };
 
   return (
-    <div className="pb-32 px-4 pt-4 space-y-5">
-      <SectionHeader
-        title={t('expeditions.title')}
-        actions={
-          <button
-            type="button"
-            onClick={openConfigDrawer}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full shadow-2xs hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 transition-colors cursor-pointer"
-            title={t('expeditions.manualSetup')}
-          >
-            <Sliders size={14} />
-            <span>{t('expeditions.manualSetup')}</span>
-          </button>
-        }
-      />
+    <PageLayout
+      headerSticky={true}
+      headerSlot={
+        <SectionHeader
+          title={t('expeditions.title')}
+          actions={
+            <button
+              type="button"
+              onClick={openConfigDrawer}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full shadow-2xs hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 transition-colors cursor-pointer"
+              title={t('expeditions.manualSetup')}
+            >
+              <Sliders size={14} />
+              <span>{t('expeditions.manualSetup')}</span>
+            </button>
+          }
+        />
+      }
+    >
+      <div className="space-y-5">
 
       {/* Profile Prestige Dashboard Card */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] p-4.5 shadow-xs space-y-4">
@@ -878,6 +884,7 @@ export const ExpeditionPage = () => {
           </div>
         </BottomSheet>
       )}
-    </div>
+      </div>
+    </PageLayout>
   );
 };

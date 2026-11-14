@@ -9,7 +9,7 @@ import type { SortOption } from '@/hooks/useListManager';
 import { getAllBlueprintsPure, getBlueprintProgressPure } from '@/store/selectors';
 import type { ItemInfo } from '@/types';
 import { useTranslation, getItemName, getItemSearchFields } from '@/i18n';
-import { StickyHeader } from '@/components/StickyHeader';
+import { PageLayout } from '@/components/PageLayout';
 
 export const BlueprintsPage = () => {
   const itemsInfo = useAppStore(s => s.itemsInfo);
@@ -109,70 +109,72 @@ export const BlueprintsPage = () => {
   });
 
   return (
-    <div className="pb-36 w-full min-w-0">
-      {/* ── HEADER STICKY CON TITOLO, PROGRESSO COMPATTO E CONTROLLI ── */}
-      <StickyHeader className="space-y-2.5">
-        <SectionHeader
-          title={t('blueprints.title')}
-          actions={
-            <button
-              onClick={() => setFilterHideOwned(!filterHideOwned)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-bold transition-all border shadow-xs cursor-pointer active:scale-95 ${
-                filterHideOwned
-                  ? 'bg-blue-500 text-white border-blue-500 shadow-blue-500/20'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700'
-              }`}
-              title={filterHideOwned ? t('blueprints.showOwned') : t('blueprints.hideOwned')}
-              aria-label={filterHideOwned ? t('blueprints.showOwned') : t('blueprints.hideOwned')}
-            >
-              {filterHideOwned ? <EyeOff size={14} /> : <Eye size={14} />}
-              <span className="hidden sm:inline">{filterHideOwned ? t('stash.filterMissing') : t('stash.filterAll')}</span>
-            </button>
-          }
-        />
+    <PageLayout
+      headerSlot={
+        <div className="space-y-2.5">
+          <SectionHeader
+            title={t('blueprints.title')}
+            actions={
+              <button
+                onClick={() => setFilterHideOwned(!filterHideOwned)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-bold transition-all border shadow-xs cursor-pointer active:scale-95 ${
+                  filterHideOwned
+                    ? 'bg-blue-500 text-white border-blue-500 shadow-blue-500/20'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700'
+                }`}
+                title={filterHideOwned ? t('blueprints.showOwned') : t('blueprints.hideOwned')}
+                aria-label={filterHideOwned ? t('blueprints.showOwned') : t('blueprints.hideOwned')}
+              >
+                {filterHideOwned ? <EyeOff size={14} /> : <Eye size={14} />}
+                <span className="hidden sm:inline">{filterHideOwned ? t('stash.filterMissing') : t('stash.filterAll')}</span>
+              </button>
+            }
+          />
 
-        {/* ── PROGRESSO COMPATTO NELL'HEADER ── */}
-        <div className="space-y-1">
-          <div className="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden p-0.5 shadow-inner">
-            <div
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${percentage}%` }}
-            />
+          {/* ── PROGRESSO COMPATTO NELL'HEADER ── */}
+          <div className="space-y-1">
+            <div className="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden p-0.5 shadow-inner">
+              <div
+                className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
+                style={{ width: `${percentage}%` }}
+              />
+            </div>
+            <div className="flex items-center justify-between text-[11px] font-medium text-gray-400">
+              <span className="font-semibold text-gray-700 dark:text-gray-200">
+                <strong className="text-blue-500 font-bold font-mono text-xs">{ownedCount}</strong> / {totalCount} {t('nav.blueprints')}
+              </span>
+              <span>
+                {ownedCount === totalCount && totalCount > 0 ? (
+                  <span className="text-emerald-500 font-bold flex items-center gap-1">
+                    <CheckCircle2 size={12} /> {t('common.done')}!
+                  </span>
+                ) : (
+                  `${totalCount - ownedCount} ${t('stash.filterMissing').toLowerCase()}`
+                )}
+              </span>
+            </div>
           </div>
-          <div className="flex items-center justify-between text-[11px] font-medium text-gray-400">
-            <span className="font-semibold text-gray-700 dark:text-gray-200">
-              <strong className="text-blue-500 font-bold font-mono text-xs">{ownedCount}</strong> / {totalCount} {t('nav.blueprints')}
-            </span>
-            <span>
-              {ownedCount === totalCount && totalCount > 0 ? (
-                <span className="text-emerald-500 font-bold flex items-center gap-1">
-                  <CheckCircle2 size={12} /> {t('common.done')}!
-                </span>
-              ) : (
-                `${totalCount - ownedCount} ${t('stash.filterMissing').toLowerCase()}`
-              )}
-            </span>
-          </div>
+
+          <ListControls
+            query={query}
+            setQuery={setQuery}
+            activeCategoryId=""
+            setActiveCategoryId={() => {}}
+            activeSortId={activeSortId}
+            setActiveSortId={setActiveSortId}
+            groupByEnabled={false}
+            setGroupByEnabled={() => {}}
+            categories={[]}
+            sortOptions={sortOptions}
+            searchPlaceholder={t('blueprints.searchPlaceholder')}
+            items={displayedBlueprints}
+            sortType="pills"
+          />
         </div>
-
-        <ListControls
-          query={query}
-          setQuery={setQuery}
-          activeCategoryId=""
-          setActiveCategoryId={() => {}}
-          activeSortId={activeSortId}
-          setActiveSortId={setActiveSortId}
-          groupByEnabled={false}
-          setGroupByEnabled={() => {}}
-          categories={[]}
-          sortOptions={sortOptions}
-          searchPlaceholder={t('blueprints.searchPlaceholder')}
-          items={displayedBlueprints}
-          sortType="pills"
-        />
-      </StickyHeader>
-
-      <div className="p-4 w-full">
+      }
+      className="w-full min-w-0"
+    >
+      <div className="w-full">
         {/* ── GRIGLIA BLUEPRINTS (Con Content-Visibility Ottimizzata #39) ── */}
         {processedItems.length === 0 ? (
           <div className="p-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[28px] text-center space-y-2">
@@ -199,6 +201,6 @@ export const BlueprintsPage = () => {
           </div>
         )}
       </div>
-    </div>
+    </PageLayout>
   );
 };

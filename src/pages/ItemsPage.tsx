@@ -11,7 +11,7 @@ import type { FilterCategory, SortOption } from "@/hooks/useListManager";
 import { ListControls } from "@/components/ListControls";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
 import { useTranslation, getItemName, getItemSearchFields, getRarityLabel } from "@/i18n";
-import { StickyHeader } from '@/components/StickyHeader';
+import { PageLayout } from '@/components/PageLayout';
 import {
   getBaseItem,
   getBaseItemForVariant,
@@ -270,59 +270,61 @@ export const ItemsPage = ({
   });
 
   return (
-    <div className="pb-24">
-      <StickyHeader>
-        <SectionHeader
-          title={t('catalog.title')}
-          leading={
-            onBack ? (
-              <IconButton onClick={onBack}>
-                <ArrowLeft size={16} />
-              </IconButton>
-            ) : undefined
-          }
-        />
-
-        <div className="pt-1.5 pb-2">
-          <ListControls
-            query={query}
-            setQuery={setQuery}
-            activeCategoryId={activeCategoryId}
-            setActiveCategoryId={setActiveCategoryId}
-            activeSortId={activeSortId}
-            setActiveSortId={setActiveSortId}
-            groupByEnabled={groupByEnabled}
-            setGroupByEnabled={setGroupByEnabled}
-            searchPlaceholder={t('catalog.searchPlaceholder')}
-            categories={filterCategories}
-            sortOptions={sortOptions}
-            showGroupingToggle={true}
-            sortType="pills"
-            items={displayedItems}
-            extraActions={
-              <button
-                type="button"
-                onClick={() => setCollapseVariants(!collapseVariants)}
-                className={`flex items-center gap-1 shrink-0 cursor-pointer transition-colors py-1.5 px-1.5 rounded-lg ${
-                  collapseVariants
-                    ? 'text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50 dark:bg-indigo-950/40'
-                    : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 font-medium'
-                }`}
-                title="Raggruppa i livelli e le varianti dello stesso oggetto in una sola card"
-              >
-                <Layers size={14} />
-                <span className="text-xs">
-                  {collapseVariants
-                    ? (t('catalog.groupVariants') || 'Varianti')
-                    : (t('catalog.showAllVariants') || 'Tutte')}
-                </span>
-              </button>
+    <PageLayout
+      headerSlot={
+        <>
+          <SectionHeader
+            title={t('catalog.title')}
+            leading={
+              onBack ? (
+                <IconButton onClick={onBack}>
+                  <ArrowLeft size={16} />
+                </IconButton>
+              ) : undefined
             }
           />
-        </div>
-      </StickyHeader>
 
-      <div data-list-container="compact" className="p-3 pt-4">
+          <div className="pt-1.5 pb-2">
+            <ListControls
+              query={query}
+              setQuery={setQuery}
+              activeCategoryId={activeCategoryId}
+              setActiveCategoryId={setActiveCategoryId}
+              activeSortId={activeSortId}
+              setActiveSortId={setActiveSortId}
+              groupByEnabled={groupByEnabled}
+              setGroupByEnabled={setGroupByEnabled}
+              searchPlaceholder={t('catalog.searchPlaceholder')}
+              categories={filterCategories}
+              sortOptions={sortOptions}
+              showGroupingToggle={true}
+              sortType="pills"
+              items={displayedItems}
+              extraActions={
+                <button
+                  type="button"
+                  onClick={() => setCollapseVariants(!collapseVariants)}
+                  className={`flex items-center gap-1 shrink-0 cursor-pointer transition-colors py-1.5 px-1.5 rounded-lg ${
+                    collapseVariants
+                      ? 'text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50 dark:bg-indigo-950/40'
+                      : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 font-medium'
+                  }`}
+                  title="Raggruppa i livelli e le varianti dello stesso oggetto in una sola card"
+                >
+                  <Layers size={14} />
+                  <span className="text-xs">
+                    {collapseVariants
+                      ? (t('catalog.groupVariants') || 'Varianti')
+                      : (t('catalog.showAllVariants') || 'Tutte')}
+                  </span>
+                </button>
+              }
+            />
+          </div>
+        </>
+      }
+    >
+      <div data-list-container="compact" className="w-full">
         {groupByEnabled
           ? groupKeys.map((groupName) => (
               <div key={groupName} className="mb-6">
@@ -453,6 +455,6 @@ export const ItemsPage = ({
           onOpenOverrides={onOpenOverrides}
         />
       )}
-    </div>
+    </PageLayout>
   );
 };
