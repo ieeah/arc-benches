@@ -9,10 +9,11 @@ import { createSettingsSlice } from '@/store/settingsSlice';
 import { createExpeditionsSlice } from '@/store/expeditionsSlice';
 import { createRewardPassSlice } from '@/store/rewardPassSlice';
 import { createRaidPlanSlice } from '@/store/raidPlanSlice';
+import { createSkillTreeSlice } from '@/store/skillTreeSlice';
 import { saveProfileState, saveProfilesMeta, saveSharedLists, saveSettings } from '@/store/persistence';
 import { setSectionsStoreGetter } from '@/lib/sections';
 
-// Domain slices (inventory / progress / lists / profile / personality / settings / expeditions / raidPlan) combined into one store.
+// Domain slices (inventory / progress / lists / profile / personality / settings / expeditions / raidPlan / skillTree) combined into one store.
 // Static game data (workbenches, itemsInfo, expeditions) lives in the slices; boot state is
 // seeded per-slice from store/boot.ts.
 export const useAppStore = create<AppState>()((...a) => ({
@@ -25,6 +26,7 @@ export const useAppStore = create<AppState>()((...a) => ({
   ...createExpeditionsSlice(...a),
   ...createRewardPassSlice(...a),
   ...createRaidPlanSlice(...a),
+  ...createSkillTreeSlice(...a),
 }));
 
 // Provide sections helper with store access without circular dependency
@@ -107,7 +109,11 @@ useAppStore.subscribe((state, prev) => {
     state.activeRewardPass !== prev.activeRewardPass ||
     state.completedRewardPasses !== prev.completedRewardPasses ||
     state.raidPlan !== prev.raidPlan ||
-    state.enabledSections !== prev.enabledSections;
+    state.enabledSections !== prev.enabledSections ||
+    state.skillAllocations !== prev.skillAllocations ||
+    state.raiderLevel !== prev.raiderLevel ||
+    state.useExpeditionBonus !== prev.useExpeditionBonus ||
+    state.sandboxMode !== prev.sandboxMode;
   // On a profile switch the active id changes together with all the slice refs:
   // we write the (new) active profile's state to its own key, never the old one.
   if (profileStateChanged || state.activeProfileId !== prev.activeProfileId) {

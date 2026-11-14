@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import { safeLS } from '@/lib/safeStorage';
 import defaultFeatureFlagsSeed from '@/data/feature-flags.json';
 
-export type FeatureFlagId = 'expeditions' | 'vault' | 'role-maker' | 'blueprints' | 'maps' | 'reward-pass';
+export type FeatureFlagId = 'expeditions' | 'vault' | 'role-maker' | 'blueprints' | 'maps' | 'reward-pass' | 'skill-tree';
 
 export type FeatureFlagDefinition = {
   id: FeatureFlagId;
@@ -70,6 +70,15 @@ export const FEATURE_FLAGS_DEFINITIONS: readonly FeatureFlagDefinition[] = [
     defaultValue: SEED_FLAGS.maps ?? false,
     navIds: ['maps'],
     routes: ['maps'],
+  },
+  {
+    id: 'skill-tree',
+    name: 'Albero delle Abilità',
+    description: 'Skill Tree interattivo dei Raiders con progressione a tridente e calcolatore build',
+    category: 'core',
+    defaultValue: SEED_FLAGS['skill-tree'] ?? true,
+    navIds: ['skills', 'skill-tree'],
+    routes: ['skills', 'skill-tree'],
   },
 ] as const;
 

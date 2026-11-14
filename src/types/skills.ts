@@ -22,3 +22,19 @@ export type SkillNode = {
   iconName: string;
   icon: string;
 };
+
+export type SkillTreeState = {
+  skillAllocations: Record<string, number>;
+  raiderLevel: number;
+  useExpeditionBonus: boolean;
+  sandboxMode: boolean;
+
+  allocateSkillPoint: (nodeId: string) => boolean;
+  decrementSkillPoint: (nodeId: string) => boolean;
+  setSkillPoints: (nodeId: string, points: number) => boolean;
+  autoAllocatePath: (targetNodeId: string) => boolean;
+  resetSkillTree: (branch?: SkillCategory) => void;
+  setRaiderLevel: (level: number) => void;
+  setUseExpeditionBonus: (use: boolean) => void;
+  setSandboxMode: (sandbox: boolean) => void;
+};

@@ -18,6 +18,7 @@ import type {
 } from './export';
 import type { PersonalityProfile } from './personality';
 import type { RaidPlanState } from './raid';
+import type { SkillTreeState } from './skills';
 
 export type { AppLanguage };
 
@@ -57,7 +58,7 @@ export type ProgressState = {
   setCollectionsViewMode: (mode: 'grid' | 'list') => void;
 };
 
-export type AppState = ProgressState & {
+export type AppState = ProgressState & SkillTreeState & {
   /** Game-seed lists (the hideout workbenches), read-only — never persisted. */
   workbenches: List[];
   /** Game-seed project lists (`listType: 'project'`), read-only — never persisted. */

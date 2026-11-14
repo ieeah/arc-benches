@@ -7,6 +7,7 @@ export const en: LocaleSchema = {
     catalog: 'Catalog',
     blueprints: 'Blueprints',
     collections: 'Collections',
+    skills: 'Skills',
     expeditions: 'Expeditions',
     rewardPass: 'Reward Pass',
     roleMaker: 'Role Maker',
@@ -865,6 +866,10 @@ export const en: LocaleSchema = {
     maps: {
       name: 'Interactive Maps',
       description: 'Interactive maps with extraction markers, crates, loot spawns, and ARC events.',
+    },
+    skillTree: {
+      name: 'Skill Tree',
+      description: 'Interactive trident Raider skill tree, branch synergies, milestones, and build calculator.',
     },
   },
 };

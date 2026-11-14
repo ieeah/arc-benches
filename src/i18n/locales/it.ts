@@ -5,6 +5,7 @@ export const it = {
     "catalog": "Catalogo",
     "blueprints": "Blueprints",
     "collections": "Collezioni",
+    "skills": "Abilità",
     "expeditions": "Spedizioni",
     "rewardPass": "Reward Pass",
     "roleMaker": "Role Maker",
@@ -863,6 +864,10 @@ export const it = {
     "maps": {
       "name": "Mappe Interattive",
       "description": "Mappe interattive con marker di estrazione, casse, loot spawn ed eventi ARC."
+    },
+    "skillTree": {
+      "name": "Albero delle Abilità",
+      "description": "Skill tree a tridente dei Raiders, sinergie di ramo, milestone e calcolatore build."
     }
   }
 };

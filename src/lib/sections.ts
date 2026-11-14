@@ -107,6 +107,15 @@ export const SECTIONS_REGISTRY: readonly SectionDefinition[] = [
     navIds: ['role-maker'],
   },
   {
+    id: 'skill-tree',
+    nameKey: 'modules.skillTree.name',
+    descriptionKey: 'modules.skillTree.description',
+    systemFlag: 'skill-tree',
+    defaultEnabled: true,
+    routes: ['skills', 'skill-tree'],
+    navIds: ['skills', 'skill-tree'],
+  },
+  {
     id: 'maps',
     nameKey: 'modules.maps.name',
     descriptionKey: 'modules.maps.description',

@@ -9,6 +9,7 @@ export type AppRoute =
   | 'liste'
   | 'collections'
   | 'blueprints'
+  | 'skills'
   | 'expeditions'
   | 'reward-pass'
   | 'raid'
@@ -34,6 +35,7 @@ export const VALID_ROUTES: readonly AppRoute[] = [
   'liste',
   'collections',
   'blueprints',
+  'skills',
   'expeditions',
   'reward-pass',
   'raid',

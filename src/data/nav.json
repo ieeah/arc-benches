@@ -3,6 +3,7 @@
     { "id": "stash", "labelKey": "nav.stash", "icon": "backpack" },
     { "id": "liste", "labelKey": "nav.benches", "icon": "layout-list" },
     { "id": "collections", "labelKey": "nav.collections", "icon": "boxes" },
+    { "id": "skills", "labelKey": "nav.skills", "icon": "git-fork" },
     { "id": "expeditions", "labelKey": "nav.expeditions", "icon": "compass" },
     { "id": "reward-pass", "labelKey": "nav.rewardPass", "icon": "ticket" },
     {

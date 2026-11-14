@@ -26,6 +26,7 @@ const ListDetailPage = lazy(() => import('@/pages/ListDetailPage').then(m => ({ 
 const ExpeditionPage = lazy(() => import('@/pages/ExpeditionPage').then(m => ({ default: m.ExpeditionPage })));
 const RewardPassPage = lazy(() => import('@/pages/RewardPassPage').then(m => ({ default: m.RewardPassPage })));
 const RaidPlanPage = lazy(() => import('@/pages/RaidPlanPage').then(m => ({ default: m.RaidPlanPage })));
+const SkillTreePage = lazy(() => import('@/pages/SkillTreePage').then(m => ({ default: m.SkillTreePage })));
 const RoleMakerModal = lazy(() => import('@/components/RoleMakerModal').then(m => ({ default: m.RoleMakerModal })));
 
 // Pagine Dev Studio (escluse completamente dalla build di produzione via dead-code elimination)
@@ -299,6 +300,7 @@ export default function App() {
                 />
               )}
               {(activeTab === 'collections' || activeTab === 'blueprints') && isSectionActive('blueprints', { enabledSections }) && <CollectionsPage />}
+              {activeTab === 'skills' && isSectionActive('skill-tree', { enabledSections }) && <SkillTreePage />}
               {activeTab === 'expeditions' && isSectionActive('expeditions', { enabledSections }) && <ExpeditionPage />}
               {activeTab === 'reward-pass' && isSectionActive('reward-pass', { enabledSections }) && (
                 <RewardPassPage

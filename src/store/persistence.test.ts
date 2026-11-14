@@ -107,6 +107,10 @@ describe('persistence.ts', () => {
       completedRewardPasses: [{ id: 'legacy', completedAt: '2026-10-09T10:00:00.000Z' }],
       raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: 123456789 },
       enabledSections: { workbench: true, stash: true, settings: true, raid: true },
+      skillAllocations: { cond_1: 5, mob_1: 2 },
+      raiderLevel: 50,
+      useExpeditionBonus: true,
+      sandboxMode: false,
     };
 
     it('saves and loads active profile state with per-profile language', () => {
@@ -274,6 +278,10 @@ describe('persistence.ts', () => {
         completedRewardPasses: [],
         raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: 123456789 },
         enabledSections: {},
+        skillAllocations: {},
+        raiderLevel: 75,
+        useExpeditionBonus: true,
+        sandboxMode: false,
       });
 
       // Simulate browser reload
