@@ -175,7 +175,7 @@ Changelog (bozza): [changelog/0.6.0.md](../changelog/0.6.0.md)
 - [ ] #113 [Costruzione, miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
 - [ ] #156 [Gestione azioni liste: riordinamento e azioni composte (sotto-azioni lineari o libere)](https://github.com/ieeah/arc-benches/issues/156)
 - [ ] #159 [Pianificazione massiva da banchi/progetti e salvataggio slice come lista custom](https://github.com/ieeah/arc-benches/issues/159) — follow-up di #157
-- [ ] #89 [Estrazione dati Skill Tree da MetaForge (`svelte-flow`)](https://github.com/ieeah/arc-benches/issues/89)
+- [x] #89 [Estrazione dati Skill Tree da MetaForge (`svelte-flow`)](https://github.com/ieeah/arc-benches/issues/89)
 - [ ] #62 [Skill Tree dei Raiders: albero delle abilità, sinergie e contatore punti abilità](https://github.com/ieeah/arc-benches/issues/62) — dopo #89
 
 ---
