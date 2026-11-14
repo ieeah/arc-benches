@@ -192,6 +192,75 @@ export function getBlueprintProgressPure(
   return { ownedCount, totalCount, percentage };
 }
 
+export function getAllDesignsPure(itemsInfo: Record<string, import('@/types').ItemInfo>): import('@/types').ItemInfo[] {
+  return Object.values(itemsInfo).filter(
+    item => !item.hidden && (item.item_type === 'Design' || item.subcategory === 'Design')
+  );
+}
+
+export function getDesignProgressPure(
+  designs: import('@/types').ItemInfo[],
+  ownedDesigns: Record<string, boolean>,
+): { ownedCount: number; totalCount: number; percentage: number } {
+  const totalCount = designs.length;
+  let ownedCount = 0;
+  for (const d of designs) {
+    if (ownedDesigns[d.id]) ownedCount++;
+  }
+  const percentage = totalCount > 0 ? Math.round((ownedCount / totalCount) * 100) : 0;
+  return { ownedCount, totalCount, percentage };
+}
+
+export function getAllStencilsPure(itemsInfo: Record<string, import('@/types').ItemInfo>): import('@/types').ItemInfo[] {
+  return Object.values(itemsInfo).filter(
+    item => !item.hidden && (item.item_type === 'Stencil' || item.subcategory === 'Stencil')
+  );
+}
+
+export function getStencilProgressPure(
+  stencils: import('@/types').ItemInfo[],
+  ownedStencils: Record<string, boolean>,
+): { ownedCount: number; totalCount: number; percentage: number } {
+  const totalCount = stencils.length;
+  let ownedCount = 0;
+  for (const s of stencils) {
+    if (ownedStencils[s.id]) ownedCount++;
+  }
+  const percentage = totalCount > 0 ? Math.round((ownedCount / totalCount) * 100) : 0;
+  return { ownedCount, totalCount, percentage };
+}
+
+export function getGlobalCollectionsProgressPure(
+  itemsInfo: Record<string, import('@/types').ItemInfo>,
+  ownedBlueprints: Record<string, boolean>,
+  ownedDesigns: Record<string, boolean>,
+  ownedStencils: Record<string, boolean>,
+): {
+  blueprints: { ownedCount: number; totalCount: number; percentage: number };
+  designs: { ownedCount: number; totalCount: number; percentage: number };
+  stencils: { ownedCount: number; totalCount: number; percentage: number };
+  total: { ownedCount: number; totalCount: number; percentage: number };
+} {
+  const blueprints = getAllBlueprintsPure(itemsInfo);
+  const designs = getAllDesignsPure(itemsInfo);
+  const stencils = getAllStencilsPure(itemsInfo);
+
+  const bpProgress = getBlueprintProgressPure(blueprints, ownedBlueprints);
+  const desProgress = getDesignProgressPure(designs, ownedDesigns);
+  const stenProgress = getStencilProgressPure(stencils, ownedStencils);
+
+  const totalCount = bpProgress.totalCount + desProgress.totalCount + stenProgress.totalCount;
+  const ownedCount = bpProgress.ownedCount + desProgress.ownedCount + stenProgress.ownedCount;
+  const percentage = totalCount > 0 ? Math.round((ownedCount / totalCount) * 100) : 0;
+
+  return {
+    blueprints: bpProgress,
+    designs: desProgress,
+    stencils: stenProgress,
+    total: { ownedCount, totalCount, percentage },
+  };
+}
+
 export type ItemListDependency = {
   listId: string;
   listName: string;

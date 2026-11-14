@@ -38,10 +38,14 @@ export type ProfileExportEntry = {
   consecutiveStreak?: number;
   departureWindowActive?: boolean;
   ownedBlueprints?: Record<string, boolean>;
+  ownedDesigns?: Record<string, boolean>;
+  ownedStencils?: Record<string, boolean>;
   filterHideCompleted?: boolean;
   filterHideOwnedBlueprints?: boolean;
   activePersonalityId?: string | null;
 };
+
+export type ExportProfileDataV3 = ProfileExportEntry;
 
 /** Version 3 export: always multi-profile, even when exporting a single profile. */
 export type MultiProfileExportFile = {

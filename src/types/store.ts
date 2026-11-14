@@ -30,7 +30,34 @@ export type StashGridDensity = 'comfortable' | 'compact';
 export type CraftMode = 'strict' | 'level-only';
 export type StashPriorityMode = 'list-first' | 'level-first';
 
-export type AppState = {
+export type ProgressState = {
+  /** Blueprint Tracker state for the active profile */
+  ownedBlueprints: Record<string, boolean>;
+  filterHideOwnedBlueprints: boolean;
+  toggleBlueprintOwned: (id: string) => void;
+  setBlueprintOwned: (id: string, owned: boolean) => void;
+  setFilterHideOwnedBlueprints: (hide: boolean) => void;
+
+  /** Design Tracker state for the active profile */
+  ownedDesigns: Record<string, boolean>;
+  filterHideOwnedDesigns: boolean;
+  toggleDesignOwned: (id: string) => void;
+  setDesignOwned: (id: string, owned: boolean) => void;
+  setFilterHideOwnedDesigns: (hide: boolean) => void;
+
+  /** Stencil Tracker state for the active profile */
+  ownedStencils: Record<string, boolean>;
+  filterHideOwnedStencils: boolean;
+  toggleStencilOwned: (id: string) => void;
+  setStencilOwned: (id: string, owned: boolean) => void;
+  setFilterHideOwnedStencils: (hide: boolean) => void;
+
+  /** Collections view mode preference */
+  collectionsViewMode: 'grid' | 'list';
+  setCollectionsViewMode: (mode: 'grid' | 'list') => void;
+};
+
+export type AppState = ProgressState & {
   /** Game-seed lists (the hideout workbenches), read-only — never persisted. */
   workbenches: List[];
   /** Game-seed project lists (`listType: 'project'`), read-only — never persisted. */
@@ -151,12 +178,6 @@ export type AppState = {
   /** Il pass attivo non è più disponibile (tolto dal gioco): dopo l'avviso all'utente lo si toglie, il livello resta. */
   acknowledgeInactiveRewardPass: () => void;
 
-  /** Blueprint Tracker state for the active profile */
-  ownedBlueprints: Record<string, boolean>;
-  filterHideOwnedBlueprints: boolean;
-  toggleBlueprintOwned: (id: string) => void;
-  setBlueprintOwned: (id: string, owned: boolean) => void;
-  setFilterHideOwnedBlueprints: (hide: boolean) => void;
   syncItemsOverrides?: () => void;
 
   /** Raid Plan state for the active profile (#117) */

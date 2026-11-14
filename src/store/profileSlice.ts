@@ -105,6 +105,8 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
       const consecutiveStreak = isActive ? s.consecutiveStreak : (state?.consecutiveStreak ?? 0);
       const departureWindowActive = isActive ? s.departureWindowActive : (state?.departureWindowActive ?? false);
       const ownedBlueprints = isActive ? s.ownedBlueprints : (state?.ownedBlueprints ?? {});
+      const ownedDesigns = isActive ? s.ownedDesigns : (state?.ownedDesigns ?? {});
+      const ownedStencils = isActive ? s.ownedStencils : (state?.ownedStencils ?? {});
       const filterHideCompleted = isActive ? s.filterHideCompleted : (state?.filterHideCompleted ?? true);
       const filterHideOwnedBlueprints = isActive ? s.filterHideOwnedBlueprints : (state?.filterHideOwnedBlueprints ?? false);
       const activePersonalityId = isActive ? s.activePersonalityId : (state?.activePersonalityId ?? null);
@@ -122,6 +124,8 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         consecutiveStreak,
         departureWindowActive,
         ownedBlueprints,
+        ownedDesigns,
+        ownedStencils,
         filterHideCompleted,
         filterHideOwnedBlueprints,
         activePersonalityId,
@@ -181,6 +185,11 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         activePersonalityId: entry.activePersonalityId ?? null,
         ownedBlueprints: entry.ownedBlueprints ?? {},
         filterHideOwnedBlueprints: entry.filterHideOwnedBlueprints ?? false,
+        ownedDesigns: entry.ownedDesigns ?? {},
+        filterHideOwnedDesigns: false,
+        ownedStencils: entry.ownedStencils ?? {},
+        filterHideOwnedStencils: false,
+        collectionsViewMode: 'grid',
         language: entry.language,
         completedExpeditionsCount: entry.completedExpeditionsCount ?? 0,
         earnedPermanentSkillPoints: entry.earnedPermanentSkillPoints ?? 0,

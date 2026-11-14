@@ -29,6 +29,8 @@ describe('categoryIcons', () => {
   it('maps keys, blueprints, shields, augments, trinkets, gadgets and throwables', () => {
     expect(getCategoryIconPath('Key')).toContain('key.webp');
     expect(getCategoryIconPath('Blueprint')).toContain('blueprint.webp');
+    expect(getCategoryIconPath('Design')).toContain('design.webp');
+    expect(getCategoryIconPath('Stencil')).toContain('stencil.webp');
     expect(getCategoryIconPath('Shield')).toContain('shield.webp');
     expect(getCategoryIconPath('Augment')).toContain('augment.webp');
     expect(getCategoryIconPath('Trinket')).toContain('trinket.webp');

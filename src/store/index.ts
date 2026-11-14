@@ -94,6 +94,11 @@ useAppStore.subscribe((state, prev) => {
     state.activePersonalityId !== prev.activePersonalityId ||
     state.ownedBlueprints !== prev.ownedBlueprints ||
     state.filterHideOwnedBlueprints !== prev.filterHideOwnedBlueprints ||
+    state.ownedDesigns !== prev.ownedDesigns ||
+    state.filterHideOwnedDesigns !== prev.filterHideOwnedDesigns ||
+    state.ownedStencils !== prev.ownedStencils ||
+    state.filterHideOwnedStencils !== prev.filterHideOwnedStencils ||
+    state.collectionsViewMode !== prev.collectionsViewMode ||
     state.language !== prev.language ||
     state.completedExpeditionsCount !== prev.completedExpeditionsCount ||
     state.earnedPermanentSkillPoints !== prev.earnedPermanentSkillPoints ||

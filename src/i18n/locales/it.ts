@@ -4,6 +4,7 @@ export const it = {
     "stash": "Stash",
     "catalog": "Catalogo",
     "blueprints": "Blueprints",
+    "collections": "Collezioni",
     "expeditions": "Spedizioni",
     "rewardPass": "Reward Pass",
     "roleMaker": "Role Maker",
@@ -321,6 +322,78 @@ export const it = {
     "addToVault": "Aggiungi al Vault Spedizione",
     "sortName": "Nome",
     "sortStatus": "Stato Sblocco"
+  },
+  "collections": {
+    "title": "Collezioni",
+    "subtitle": "Archivio del Rifugio",
+    "globalProgress": "Progresso Globale",
+    "backToHub": "Collezioni",
+    "viewGrid": "Griglia",
+    "viewList": "Lista",
+    "hideOwned": "Nascondi posseduti",
+    "showOwned": "Mostra posseduti",
+    "sortName": "Nome",
+    "sortStatus": "Stato Sblocco",
+    "sortRarity": "Rarità",
+    "hub": {
+      "blueprintsTitle": "Progetti & Blueprint",
+      "blueprintsDesc": "Schemi di fabbricazione per armi, modifiche, gadget e innesti",
+      "designsTitle": "Design & Arredi",
+      "designsDesc": "Progetti d'arredo per personalizzare il rifugio e l'avamposto",
+      "stencilsTitle": "Stencil Armi",
+      "stencilsDesc": "Verniciature e pattern per personalizzare le armi da fuoco"
+    },
+    "blueprints": {
+      "title": "Progetti & Blueprint",
+      "searchPlaceholder": "Cerca progetti…",
+      "filterAll": "Tutti",
+      "modeCategory": "Per Categoria",
+      "modeWorkbench": "Per Banco"
+    },
+    "designs": {
+      "title": "Design & Arredi",
+      "searchPlaceholder": "Cerca design d'arredo…",
+      "furnitureUnlocked": "Arredo sbloccato"
+    },
+    "stencils": {
+      "title": "Stencil Armi",
+      "searchPlaceholder": "Cerca stencil…"
+    },
+    "categories": {
+      "all": "Tutti",
+      "weapon": "Armi",
+      "modification": "Modifiche Armi",
+      "explosive": "Esplosivi & Ordigni",
+      "utility": "Dispositivi & Utilità",
+      "medical": "Medicina",
+      "augment": "Innesti & Scudi",
+      "material": "Materiali",
+      "other": "Altri",
+      "storage": "Contenitori",
+      "seating": "Sedute",
+      "tables": "Tavoli",
+      "lighting": "Illuminazione",
+      "beds": "Letti",
+      "decoration": "Decorazioni"
+    },
+    "workbenches": {
+      "all": "Tutti i banchi",
+      "weapon-bench": "Armiere",
+      "equipment-bench": "Equipaggiamento",
+      "explosives-bench": "Esplosivi",
+      "med-station": "Medica",
+      "utility-bench": "Utilità",
+      "refiner": "Raffineria",
+      "other": "Altri"
+    },
+    "rarity": {
+      "all": "Tutte le rarità",
+      "common": "Comune",
+      "uncommon": "Non comune",
+      "rare": "Raro",
+      "epic": "Epico",
+      "legendary": "Leggendario"
+    }
   },
   "roleMaker": {
     "title": "Role Maker — Ruolo Comportamentale",

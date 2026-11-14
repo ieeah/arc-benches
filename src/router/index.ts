@@ -7,6 +7,7 @@ const LAST_ROUTE_KEY = 'arc_benches_last_route_v1';
 export type AppRoute =
   | 'stash'
   | 'liste'
+  | 'collections'
   | 'blueprints'
   | 'expeditions'
   | 'reward-pass'
@@ -31,6 +32,7 @@ export type AppRoute =
 export const VALID_ROUTES: readonly AppRoute[] = [
   'stash',
   'liste',
+  'collections',
   'blueprints',
   'expeditions',
   'reward-pass',
@@ -100,20 +102,7 @@ export function parseHash(hash: string): RouteLocation {
   }
 
   const [pathPart, queryPart] = clean.split('?');
-  const normalizedRoute = pathPart.toLowerCase() as AppRoute;
-
-  const isValid = VALID_ROUTES.includes(normalizedRoute);
-  let route: AppRoute = isValid ? normalizedRoute : 'stash';
-
-  // Se non siamo in DEV, blocca l'accesso diretto a rotte dev e feature non rilasciate
-  if (!isDev && NON_PROD_ROUTES.includes(route)) {
-    route = 'stash';
-  }
-
-  // Se la rotta è disabilitata dalle feature flags, reindirizza a stash
-  if (!isRouteEnabled(route)) {
-    route = 'stash';
-  }
+  let rawRoute = pathPart.toLowerCase();
 
   const params: Record<string, string> = {};
   if (queryPart) {
@@ -121,6 +110,33 @@ export function parseHash(hash: string): RouteLocation {
     searchParams.forEach((value, key) => {
       params[key] = value;
     });
+  }
+
+  // Backward compatibility: normalize 'blueprints' route to 'collections' with tab='blueprints'
+  if (rawRoute === 'blueprints') {
+    rawRoute = 'collections';
+    if (!params.tab) {
+      params.tab = 'blueprints';
+    }
+  }
+
+  const normalizedRoute = rawRoute as AppRoute;
+
+  const isValid = VALID_ROUTES.includes(normalizedRoute);
+  const route: AppRoute = isValid ? normalizedRoute : 'stash';
+
+  // Se non siamo in DEV, blocca l'accesso diretto a rotte dev e feature non rilasciate
+  if (!isDev && NON_PROD_ROUTES.includes(route)) {
+    return { route: 'stash', params: {} };
+  }
+
+  // Se la rotta è disabilitata dalle feature flags, reindirizza a stash
+  if (!isRouteEnabled(route)) {
+    return { route: 'stash', params: {} };
+  }
+
+  if (route === 'stash' && !isValid) {
+    return { route: 'stash', params: {} };
   }
 
   return { route, params };

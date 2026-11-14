@@ -16,7 +16,8 @@ describe('Router hash parsing & building', () => {
     expect(parseHash('#stash')).toEqual({ route: 'stash', params: {} });
     expect(parseHash('#/stash')).toEqual({ route: 'stash', params: {} });
     expect(parseHash('#/liste')).toEqual({ route: 'liste', params: {} });
-    expect(parseHash('#/blueprints')).toEqual({ route: 'blueprints', params: {} });
+    expect(parseHash('#/collections')).toEqual({ route: 'collections', params: {} });
+    expect(parseHash('#/blueprints')).toEqual({ route: 'collections', params: { tab: 'blueprints' } });
     expect(parseHash('#/expeditions')).toEqual({ route: 'expeditions', params: {} });
     expect(parseHash('#/items')).toEqual({ route: 'items', params: {} });
     expect(parseHash('#/maps')).toEqual({ route: 'maps', params: {} });
@@ -67,7 +68,11 @@ describe('Router hash parsing & building', () => {
   it('supports all valid routes when flags are active', () => {
     VALID_ROUTES.forEach((r) => {
       const loc = parseHash(`#/${r}`);
-      expect(loc.route).toBe(r);
+      if (r === 'blueprints') {
+        expect(loc).toEqual({ route: 'collections', params: { tab: 'blueprints' } });
+      } else {
+        expect(loc.route).toBe(r);
+      }
     });
   });
 });

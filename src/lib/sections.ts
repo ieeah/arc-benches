@@ -85,8 +85,8 @@ export const SECTIONS_REGISTRY: readonly SectionDefinition[] = [
     descriptionKey: 'modules.blueprints.description',
     systemFlag: 'blueprints',
     defaultEnabled: true,
-    routes: ['blueprints'],
-    navIds: ['blueprints'],
+    routes: ['blueprints', 'collections'],
+    navIds: ['blueprints', 'collections'],
   },
   {
     id: 'reward-pass',
@@ -189,6 +189,7 @@ export function isSectionActive(
 
 const NAV_TO_SECTION_MAP: Record<string, SectionId> = {
   blueprints: 'blueprints',
+  collections: 'blueprints',
   expeditions: 'expeditions',
   'reward-pass': 'reward-pass',
   raid: 'raid',

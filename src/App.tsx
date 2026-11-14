@@ -18,7 +18,7 @@ const isDev = import.meta.env.DEV;
 
 // Pagine normali con code-splitting
 const ListsPage = lazy(() => import('@/pages/ListsPage').then(m => ({ default: m.ListsPage })));
-const BlueprintsPage = lazy(() => import('@/pages/BlueprintsPage').then(m => ({ default: m.BlueprintsPage })));
+const CollectionsPage = lazy(() => import('@/pages/CollectionsPage').then(m => ({ default: m.CollectionsPage })));
 const ItemsPage = lazy(() => import('@/pages/ItemsPage').then(m => ({ default: m.ItemsPage })));
 const MapsPage = lazy(() => import('@/pages/MapsPage').then(m => ({ default: m.MapsPage })));
 const SettingsPage = lazy(() => import('@/pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
@@ -95,12 +95,17 @@ export default function App() {
   const setFilterHideCompleted = useAppStore(s => s.setFilterHideCompleted);
   const filterHideOwnedBlueprints = useAppStore(s => s.filterHideOwnedBlueprints);
   const setFilterHideOwnedBlueprints = useAppStore(s => s.setFilterHideOwnedBlueprints);
+  const filterHideOwnedDesigns = useAppStore(s => s.filterHideOwnedDesigns);
+  const setFilterHideOwnedDesigns = useAppStore(s => s.setFilterHideOwnedDesigns);
+  const filterHideOwnedStencils = useAppStore(s => s.filterHideOwnedStencils);
+  const setFilterHideOwnedStencils = useAppStore(s => s.setFilterHideOwnedStencils);
   const resetProgress = useAppStore(s => s.resetProgress);
   const enabledSections = useAppStore(s => s.enabledSections);
 
   // Router guard (#102): if the active route belongs to a disabled section, redirect to stash
   useEffect(() => {
     const routeToSectionMap: Partial<Record<AppRoute, SectionId>> = {
+      collections: 'blueprints',
       blueprints: 'blueprints',
       expeditions: 'expeditions',
       'reward-pass': 'reward-pass',
@@ -150,15 +155,39 @@ export default function App() {
         },
       ];
     }
-    if (activeTab === 'blueprints' && isSectionActive('blueprints', { enabledSections })) {
-      return [
-        {
-          icon: <EyeOff size={15} />,
-          label: t('blueprints.hideOwned'),
-          onClick: () => setFilterHideOwnedBlueprints(!filterHideOwnedBlueprints),
-          checked: filterHideOwnedBlueprints,
-        },
-      ];
+    if ((activeTab === 'collections' || activeTab === 'blueprints') && isSectionActive('blueprints', { enabledSections })) {
+      const tab = router.params.tab;
+      if (tab === 'designs') {
+        return [
+          {
+            icon: <EyeOff size={15} />,
+            label: t('collections.hideOwned'),
+            onClick: () => setFilterHideOwnedDesigns(!filterHideOwnedDesigns),
+            checked: filterHideOwnedDesigns,
+          },
+        ];
+      }
+      if (tab === 'stencils') {
+        return [
+          {
+            icon: <EyeOff size={15} />,
+            label: t('collections.hideOwned'),
+            onClick: () => setFilterHideOwnedStencils(!filterHideOwnedStencils),
+            checked: filterHideOwnedStencils,
+          },
+        ];
+      }
+      if (tab === 'blueprints') {
+        return [
+          {
+            icon: <EyeOff size={15} />,
+            label: t('collections.hideOwned'),
+            onClick: () => setFilterHideOwnedBlueprints(!filterHideOwnedBlueprints),
+            checked: filterHideOwnedBlueprints,
+          },
+        ];
+      }
+      return [];
     }
     if (activeTab === 'raid') {
       return [
@@ -269,7 +298,7 @@ export default function App() {
                   onOpenDetail={openListDetail}
                 />
               )}
-              {activeTab === 'blueprints' && isSectionActive('blueprints', { enabledSections }) && <BlueprintsPage />}
+              {(activeTab === 'collections' || activeTab === 'blueprints') && isSectionActive('blueprints', { enabledSections }) && <CollectionsPage />}
               {activeTab === 'expeditions' && isSectionActive('expeditions', { enabledSections }) && <ExpeditionPage />}
               {activeTab === 'reward-pass' && isSectionActive('reward-pass', { enabledSections }) && (
                 <RewardPassPage

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import {
   Backpack, LayoutList, ScrollText, Compass, Wrench, ShieldAlert, Database,
   Dice5, Map, Layers, FlaskConical, FileJson, Languages, Settings, Route,
-  Flag, CircleHelp, Code2, Ticket, Radar,
+  Flag, CircleHelp, Code2, Ticket, Radar, Boxes,
 } from 'lucide-react';
 
 /**
@@ -13,6 +13,7 @@ const REGISTRY: Record<string, typeof Backpack> = {
   backpack: Backpack,
   'layout-list': LayoutList,
   'scroll-text': ScrollText,
+  boxes: Boxes,
   compass: Compass,
   wrench: Wrench,
   'shield-alert': ShieldAlert,

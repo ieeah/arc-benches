@@ -72,6 +72,8 @@ export function parseImport(json: string): ListExportFile | MultiProfileExportFi
           : undefined;
         const departureWindowActive = typeof raw.departureWindowActive === 'boolean' ? raw.departureWindowActive : undefined;
         const ownedBlueprints = isObject(raw.ownedBlueprints) ? sanitizeBoolRecord(raw.ownedBlueprints) : undefined;
+        const ownedDesigns = isObject(raw.ownedDesigns) ? sanitizeBoolRecord(raw.ownedDesigns) : undefined;
+        const ownedStencils = isObject(raw.ownedStencils) ? sanitizeBoolRecord(raw.ownedStencils) : undefined;
         const filterHideCompleted = typeof raw.filterHideCompleted === 'boolean' ? raw.filterHideCompleted : undefined;
         const filterHideOwnedBlueprints = typeof raw.filterHideOwnedBlueprints === 'boolean' ? raw.filterHideOwnedBlueprints : undefined;
         const activePersonalityId = typeof raw.activePersonalityId === 'string' && raw.activePersonalityId.length > 0
@@ -93,6 +95,8 @@ export function parseImport(json: string): ListExportFile | MultiProfileExportFi
           consecutiveStreak,
           departureWindowActive,
           ownedBlueprints,
+          ownedDesigns,
+          ownedStencils,
           filterHideCompleted,
           filterHideOwnedBlueprints,
           activePersonalityId,

@@ -23,6 +23,8 @@ const SUBCATEGORY_ICON_MAP: Record<string, string> = {
   outfit: 'outfit.webp',
   'outfit variant': 'outfit-variant.webp',
   'outfit color': 'outfit-color.webp',
+  design: 'design.webp',
+  stencil: 'stencil.webp',
 };
 
 const ICONS_DIR = 'icons/categories';
@@ -82,6 +84,12 @@ function resolveCategoryIconFile(itemType?: string | null, subcategory?: string 
   }
   if (t.includes('outfit')) {
     return 'outfit.webp';
+  }
+  if (t.includes('design')) {
+    return 'design.webp';
+  }
+  if (t.includes('stencil')) {
+    return 'stencil.webp';
   }
   if (t.includes('gift')) {
     return 'gift.webp';

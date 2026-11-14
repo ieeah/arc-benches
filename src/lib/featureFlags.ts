@@ -50,8 +50,8 @@ export const FEATURE_FLAGS_DEFINITIONS: readonly FeatureFlagDefinition[] = [
     description: 'Registro e tracciamento progetti/blueprint del rifugio',
     category: 'core',
     defaultValue: SEED_FLAGS.blueprints ?? true,
-    navIds: ['blueprints'],
-    routes: ['blueprints'],
+    navIds: ['blueprints', 'collections'],
+    routes: ['blueprints', 'collections'],
   },
   {
     id: 'reward-pass',

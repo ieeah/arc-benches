@@ -9,9 +9,15 @@ import { currentLevelOf, getBaseLevel, getCascadeLowering, isActionWindowOpen, l
 export type ProgressSlice = Pick<AppState,
   'currentLevels' | 'targetLevels' | 'activeModules' | 'checkedActions' | 'filterHideCompleted' | 'listOrder' |
   'ownedBlueprints' | 'filterHideOwnedBlueprints' |
+  'ownedDesigns' | 'filterHideOwnedDesigns' |
+  'ownedStencils' | 'filterHideOwnedStencils' |
+  'collectionsViewMode' |
   'setModuleCurrentLevel' | 'toggleTargetLevel' | 'toggleModuleActive' | 'setFilterHideCompleted' |
   'setListOrder' | 'toggleAction' | 'setLevelActionsBatch' | 'setTieredActionStep' | 'upgradeModule' | 'resetProgress' |
-  'toggleBlueprintOwned' | 'setBlueprintOwned' | 'setFilterHideOwnedBlueprints'
+  'toggleBlueprintOwned' | 'setBlueprintOwned' | 'setFilterHideOwnedBlueprints' |
+  'toggleDesignOwned' | 'setDesignOwned' | 'setFilterHideOwnedDesigns' |
+  'toggleStencilOwned' | 'setStencilOwned' | 'setFilterHideOwnedStencils' |
+  'setCollectionsViewMode'
 >;
 
 /**
@@ -32,6 +38,11 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
   listOrder: bootProfileState.listOrder,
   ownedBlueprints: bootProfileState.ownedBlueprints,
   filterHideOwnedBlueprints: bootProfileState.filterHideOwnedBlueprints,
+  ownedDesigns: bootProfileState.ownedDesigns,
+  filterHideOwnedDesigns: bootProfileState.filterHideOwnedDesigns,
+  ownedStencils: bootProfileState.ownedStencils,
+  filterHideOwnedStencils: bootProfileState.filterHideOwnedStencils,
+  collectionsViewMode: bootProfileState.collectionsViewMode,
 
   setModuleCurrentLevel: (moduleId, requestedLevel, deductMaterials = false) => {
     const s = get();
@@ -235,6 +246,11 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
       checkedActions,
       ownedBlueprints: s.ownedBlueprints,
       filterHideOwnedBlueprints: false,
+      ownedDesigns: s.ownedDesigns,
+      filterHideOwnedDesigns: false,
+      ownedStencils: s.ownedStencils,
+      filterHideOwnedStencils: false,
+      collectionsViewMode: s.collectionsViewMode,
     });
   },
 
@@ -250,5 +266,37 @@ export const createProgressSlice: StateCreator<AppState, [], [], ProgressSlice> 
 
   setFilterHideOwnedBlueprints: (hide) => {
     set({ filterHideOwnedBlueprints: hide });
+  },
+
+  toggleDesignOwned: (id) => {
+    const s = get();
+    set({ ownedDesigns: { ...s.ownedDesigns, [id]: !s.ownedDesigns[id] } });
+  },
+
+  setDesignOwned: (id, owned) => {
+    const s = get();
+    set({ ownedDesigns: { ...s.ownedDesigns, [id]: owned } });
+  },
+
+  setFilterHideOwnedDesigns: (hide) => {
+    set({ filterHideOwnedDesigns: hide });
+  },
+
+  toggleStencilOwned: (id) => {
+    const s = get();
+    set({ ownedStencils: { ...s.ownedStencils, [id]: !s.ownedStencils[id] } });
+  },
+
+  setStencilOwned: (id, owned) => {
+    const s = get();
+    set({ ownedStencils: { ...s.ownedStencils, [id]: owned } });
+  },
+
+  setFilterHideOwnedStencils: (hide) => {
+    set({ filterHideOwnedStencils: hide });
+  },
+
+  setCollectionsViewMode: (mode) => {
+    set({ collectionsViewMode: mode });
   },
 });

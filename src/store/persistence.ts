@@ -13,7 +13,19 @@ export const SHARED_LISTS_KEY = 'arc-raiders-tracker-shared-lists';
 const LEGACY_KEY = 'arc-raiders-tracker-storage'; // migrated from single-profile era
 export const profileKey = (id: string) => `arc-raiders-tracker-${id}`;
 
-/** The 19 keys persisted per profile.
+export const PERSISTED_PROGRESS_KEYS = [
+  'currentLevels', 'targetLevels', 'activeModules', 'inventory',
+  'filterHideCompleted', 'listOrder', 'customLists', 'checkedActions',
+  'activePersonalityId', 'ownedBlueprints', 'filterHideOwnedBlueprints',
+  'ownedDesigns', 'filterHideOwnedDesigns',
+  'ownedStencils', 'filterHideOwnedStencils',
+  'collectionsViewMode',
+  'completedExpeditionsCount', 'earnedPermanentSkillPoints',
+  'consecutiveStreak', 'departureWindowActive', 'activeRewardPass', 'completedRewardPasses',
+  'raidPlan', 'enabledSections'
+] as const;
+
+/** The keys persisted per profile.
  *  `language` is optional on purpose: a profile that never set one explicitly leaves it
  *  absent, so boot/profile-switch fall back to the global `language` setting instead of
  *  a hard-coded 'en'. */
@@ -21,6 +33,9 @@ export type PersistedState = Pick<AppState,
   'currentLevels' | 'targetLevels' | 'activeModules' | 'inventory' |
   'filterHideCompleted' | 'listOrder' | 'customLists' | 'checkedActions' |
   'activePersonalityId' | 'ownedBlueprints' | 'filterHideOwnedBlueprints' |
+  'ownedDesigns' | 'filterHideOwnedDesigns' |
+  'ownedStencils' | 'filterHideOwnedStencils' |
+  'collectionsViewMode' |
   'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
   'consecutiveStreak' | 'departureWindowActive' | 'activeRewardPass' | 'completedRewardPasses' |
   'raidPlan' | 'enabledSections'
@@ -80,6 +95,13 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
   }
   if (isObject(raw.ownedBlueprints)) out.ownedBlueprints = sanitizeBoolRecord(raw.ownedBlueprints);
   if (typeof raw.filterHideOwnedBlueprints === 'boolean') out.filterHideOwnedBlueprints = raw.filterHideOwnedBlueprints;
+  if (isObject(raw.ownedDesigns)) out.ownedDesigns = sanitizeBoolRecord(raw.ownedDesigns);
+  if (typeof raw.filterHideOwnedDesigns === 'boolean') out.filterHideOwnedDesigns = raw.filterHideOwnedDesigns;
+  if (isObject(raw.ownedStencils)) out.ownedStencils = sanitizeBoolRecord(raw.ownedStencils);
+  if (typeof raw.filterHideOwnedStencils === 'boolean') out.filterHideOwnedStencils = raw.filterHideOwnedStencils;
+  if (raw.collectionsViewMode === 'grid' || raw.collectionsViewMode === 'list') {
+    out.collectionsViewMode = raw.collectionsViewMode;
+  }
   if (typeof raw.language === 'string') out.language = raw.language as AppLanguage;
   if (typeof raw.completedExpeditionsCount === 'number' && Number.isFinite(raw.completedExpeditionsCount)) {
     out.completedExpeditionsCount = Math.max(0, Math.floor(raw.completedExpeditionsCount));
@@ -137,6 +159,11 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     activePersonalityId: s.activePersonalityId ?? null,
     ownedBlueprints: s.ownedBlueprints ?? {},
     filterHideOwnedBlueprints: s.filterHideOwnedBlueprints ?? false,
+    ownedDesigns: s.ownedDesigns ?? {},
+    filterHideOwnedDesigns: s.filterHideOwnedDesigns ?? false,
+    ownedStencils: s.ownedStencils ?? {},
+    filterHideOwnedStencils: s.filterHideOwnedStencils ?? false,
+    collectionsViewMode: s.collectionsViewMode ?? 'grid',
     // Only persist an explicit per-profile language; undefined is dropped by JSON.stringify
     // so the profile keeps deferring to the global `language` setting.
     language: s.language,

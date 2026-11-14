@@ -93,6 +93,11 @@ describe('persistence.ts', () => {
       activePersonalityId: 'persona-1',
       ownedBlueprints: { 'bp-1': true },
       filterHideOwnedBlueprints: false,
+      ownedDesigns: { 'design-1': true },
+      filterHideOwnedDesigns: false,
+      ownedStencils: { 'stencil-1': true },
+      filterHideOwnedStencils: false,
+      collectionsViewMode: 'grid',
       language: 'it',
       completedExpeditionsCount: 1,
       earnedPermanentSkillPoints: 3,
@@ -132,6 +137,7 @@ describe('persistence.ts', () => {
 
     it('omits language from the persisted slice when the profile never set one', () => {
       const { language: _drop, ...noLang } = sampleState;
+      void _drop;
       saveProfileState('p-nolang', noLang);
 
       const raw = JSON.parse(localStorage.getItem(profileKey('p-nolang'))!);
@@ -254,6 +260,11 @@ describe('persistence.ts', () => {
         activePersonalityId: null,
         ownedBlueprints: {},
         filterHideOwnedBlueprints: false,
+        ownedDesigns: {},
+        filterHideOwnedDesigns: false,
+        ownedStencils: {},
+        filterHideOwnedStencils: false,
+        collectionsViewMode: 'grid',
         language: 'it',
         completedExpeditionsCount: 0,
         earnedPermanentSkillPoints: 0,
