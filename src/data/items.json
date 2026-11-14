@@ -295,7 +295,8 @@
         "name": "Design guardaroba alpino",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "alpine-wardrobe"
   },
   "alpino-outfit": {
     "id": "alpino-outfit",
@@ -2649,7 +2650,8 @@
         "name": "Design lampada da terra archivio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "archive-floor-lamp"
   },
   "arpeggio-i": {
     "id": "arpeggio-i",
@@ -3006,7 +3008,8 @@
         "name": "Design tavolo bar",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "bar-table"
   },
   "barricade-kit": {
     "id": "barricade-kit",
@@ -3063,7 +3066,8 @@
         "name": "Design sgabello da bar",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "barstool"
   },
   "bastion-part": {
     "id": "bastion-part",
@@ -3120,7 +3124,8 @@
         "name": "Design tavolo voliera malconcio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-aviary-table"
   },
   "battered-bureau-chair": {
     "id": "battered-bureau-chair",
@@ -3158,7 +3163,8 @@
         "name": "Design sedia da ufficio malconcia",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-bureau-chair"
   },
   "battered-bureau-sofa": {
     "id": "battered-bureau-sofa",
@@ -3196,7 +3202,8 @@
         "name": "Design divano da ufficio malconcio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-bureau-sofa"
   },
   "battered-den-bed": {
     "id": "battered-den-bed",
@@ -3234,7 +3241,8 @@
         "name": "Design letto tana malconcio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-den-bed"
   },
   "battered-den-shelf": {
     "id": "battered-den-shelf",
@@ -3272,7 +3280,8 @@
         "name": "Design mensola tana malconcia",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-den-shelf"
   },
   "battered-diner-chair": {
     "id": "battered-diner-chair",
@@ -3310,7 +3319,8 @@
         "name": "Design sedia diner malconcia",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-diner-chair"
   },
   "battered-faculty-table": {
     "id": "battered-faculty-table",
@@ -3348,7 +3358,8 @@
         "name": "Design tavolo facoltà malconcio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-faculty-table"
   },
   "battered-lab-cabinet": {
     "id": "battered-lab-cabinet",
@@ -3386,7 +3397,8 @@
         "name": "Design armadio laboratorio malconcio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-lab-cabinet"
   },
   "battered-lab-cabinet-wide": {
     "id": "battered-lab-cabinet-wide",
@@ -3424,7 +3436,8 @@
         "name": "Design armadio laboratorio malconcio (largo)",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-lab-cabinet-wide"
   },
   "battered-lab-chair": {
     "id": "battered-lab-chair",
@@ -3462,7 +3475,8 @@
         "name": "Design sedia laboratorio malconcia",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-lab-chair"
   },
   "battered-paperback": {
     "id": "battered-paperback",
@@ -3519,7 +3533,8 @@
         "name": "Design mensola malconcia",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-shelf"
   },
   "battered-stash": {
     "id": "battered-stash",
@@ -3557,7 +3572,8 @@
         "name": "Design deposito malconcio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-stash"
   },
   "battered-weapon-rack": {
     "id": "battered-weapon-rack",
@@ -3595,7 +3611,8 @@
         "name": "Design rastrelliera per armi malconcia",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "battered-weapon-rack"
   },
   "battery": {
     "id": "battery",
@@ -4009,7 +4026,8 @@
         "name": "Design armadio laboratorio blu",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "blue-lab-cabinet"
   },
   "blue-light-stick": {
     "id": "blue-light-stick",
@@ -4456,7 +4474,8 @@
         "name": "Design lampada da soffitto ufficio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "bureau-ceiling-lamp"
   },
   "bureau-desk-lamp": {
     "id": "bureau-desk-lamp",
@@ -4754,7 +4773,8 @@
         "name": "Design tavolo mensa",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "cafeteria-table"
   },
   "calculator": {
     "id": "calculator",
@@ -5137,7 +5157,8 @@
         "name": "Design lampada camera",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "chambers-lamp"
   },
   "chambers-nightstand": {
     "id": "chambers-nightstand",
@@ -5175,7 +5196,8 @@
         "name": "Design comodino camera",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "chambers-nightstand"
   },
   "chambers-shelf": {
     "id": "chambers-shelf",
@@ -5213,7 +5235,8 @@
         "name": "Design mensola camera",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "chambers-shelf"
   },
   "chandelier": {
     "id": "chandelier",
@@ -5251,7 +5274,8 @@
         "name": "Design lampadario",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "chandelier"
   },
   "chap-outfit": {
     "id": "chap-outfit",
@@ -5360,7 +5384,8 @@
         "name": "Design armadietto medico clinica",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "clinic-medical-cabinet"
   },
   "coffee-pot": {
     "id": "coffee-pot",
@@ -5690,7 +5715,8 @@
         "name": "Design console",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "console-chest"
   },
   "coolant": {
     "id": "coolant",
@@ -6435,7 +6461,8 @@
         "name": "Design lampada da soffitto diner",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "diner-ceiling-lamp"
   },
   "diner-cupboard": {
     "id": "diner-cupboard",
@@ -6473,7 +6500,8 @@
         "name": "Design credenza diner",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "diner-cupboard"
   },
   "diner-shelf": {
     "id": "diner-shelf",
@@ -6511,7 +6539,8 @@
         "name": "Design mensola diner",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "diner-shelf"
   },
   "diner-sofa": {
     "id": "diner-sofa",
@@ -6549,7 +6578,8 @@
         "name": "Design divano diner",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "diner-sofa"
   },
   "diner-stool": {
     "id": "diner-stool",
@@ -6587,7 +6617,8 @@
         "name": "Design sgabello diner",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "diner-stool"
   },
   "diner-table": {
     "id": "diner-table",
@@ -6625,7 +6656,8 @@
         "name": "Design tavolo diner",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "diner-table"
   },
   "diving-googles": {
     "id": "diving-googles",
@@ -6809,7 +6841,8 @@
         "name": "Design detriti drappeggiati A",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "draped-debris-a"
   },
   "draped-debris-b": {
     "id": "draped-debris-b",
@@ -6847,7 +6880,8 @@
         "name": "Design detriti drappeggiati B",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "draped-debris-b"
   },
   "draped-debris-c": {
     "id": "draped-debris-c",
@@ -6885,7 +6919,8 @@
         "name": "Design detriti drappeggiati C",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "draped-debris-c"
   },
   "draped-debris-e": {
     "id": "draped-debris-e",
@@ -6923,7 +6958,8 @@
         "name": "Design detriti drappeggiati E",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "draped-debris-e"
   },
   "draped-debris-f": {
     "id": "draped-debris-f",
@@ -6961,7 +6997,8 @@
         "name": "Design detriti drappeggiati F",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "draped-debris-f"
   },
   "draped-debris-g": {
     "id": "draped-debris-g",
@@ -6999,7 +7036,8 @@
         "name": "Design detriti drappeggiati G",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "draped-debris-g"
   },
   "dried-out-arc-resin": {
     "id": "dried-out-arc-resin",
@@ -7843,7 +7881,8 @@
         "name": "Design armadio facoltà",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "faculty-closet"
   },
   "faculty-dresser": {
     "id": "faculty-dresser",
@@ -7881,7 +7920,8 @@
         "name": "Design comò facoltà",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "faculty-dresser"
   },
   "faded-flush-aviator-color": {
     "id": "faded-flush-aviator-color",
@@ -8332,7 +8372,8 @@
         "name": "Design lampada da terra",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "floor-lamp"
   },
   "flow-controller": {
     "id": "flow-controller",
@@ -13171,7 +13212,8 @@
         "name": "Design sedia in tessuto geometrico",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "geometric-fabric-chair"
   },
   "glacier-smasher-raider-tool": {
     "id": "glacier-smasher-raider-tool",
@@ -13222,7 +13264,8 @@
         "name": "Design lampada da soffitto in vetro",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "glass-ceiling-lamp"
   },
   "glitched-arc-circuitry": {
     "id": "glitched-arc-circuitry",
@@ -13432,7 +13475,8 @@
         "name": "Design sedia geometrica verde",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "green-geometric-chair"
   },
   "green-geometric-sofa": {
     "id": "green-geometric-sofa",
@@ -13470,7 +13514,8 @@
         "name": "Design divano geometrico verde",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "green-geometric-sofa"
   },
   "green-lab-sofa": {
     "id": "green-lab-sofa",
@@ -13508,7 +13553,8 @@
         "name": "Design divano laboratorio verde",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "green-lab-sofa"
   },
   "green-light-stick": {
     "id": "green-light-stick",
@@ -13935,7 +13981,8 @@
         "name": "Design cespuglio agrifoglio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "holly-bush"
   },
   "horizontal-grip": {
     "id": "horizontal-grip",
@@ -14024,7 +14071,8 @@
         "name": "Design sedia hotel",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "hotel-chair"
   },
   "household-cleaner": {
     "id": "household-cleaner",
@@ -14713,7 +14761,8 @@
         "name": "Design lampada da soffitto laboratorio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "lab-ceiling-light"
   },
   "lab-stool": {
     "id": "lab-stool",
@@ -14751,7 +14800,8 @@
         "name": "Design sgabello laboratorio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "lab-stool"
   },
   "laboratory-reagents": {
     "id": "laboratory-reagents",
@@ -15928,7 +15978,8 @@
         "name": "Design divano geometrico multicolore",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "multicolored-geometric-sofa"
   },
   "mushroom": {
     "id": "mushroom",
@@ -16189,7 +16240,8 @@
         "name": "Design tavolo espositivo offerte",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "offering-display-table"
   },
   "official-shutdown-documentation": {
     "id": "official-shutdown-documentation",
@@ -16342,7 +16394,8 @@
         "name": "Design letto tana decorato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "ornate-den-bed"
   },
   "ornate-den-shelf": {
     "id": "ornate-den-shelf",
@@ -16380,7 +16433,8 @@
         "name": "Design mensola tana decorata",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "ornate-den-shelf"
   },
   "ornate-stash": {
     "id": "ornate-stash",
@@ -16418,7 +16472,8 @@
         "name": "Design deposito decorato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "ornate-stash"
   },
   "ornate-wardrobe": {
     "id": "ornate-wardrobe",
@@ -16456,7 +16511,8 @@
         "name": "Design guardaroba decorato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "ornate-wardrobe"
   },
   "osprey-i": {
     "id": "osprey-i",
@@ -16921,7 +16977,8 @@
         "name": "Design letto tana levigato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-den-bed"
   },
   "polished-den-shelf": {
     "id": "polished-den-shelf",
@@ -16959,7 +17016,8 @@
         "name": "Design mensola tana lucida",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-den-shelf"
   },
   "polished-diner-chair": {
     "id": "polished-diner-chair",
@@ -16997,7 +17055,8 @@
         "name": "Design sedia diner lucidata",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-diner-chair"
   },
   "polished-faculty-chair": {
     "id": "polished-faculty-chair",
@@ -17035,7 +17094,8 @@
         "name": "Design sedia facoltà lucidata",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-faculty-chair"
   },
   "polished-faculty-table": {
     "id": "polished-faculty-table",
@@ -17073,7 +17133,8 @@
         "name": "Design tavolo facoltà lucidato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-faculty-table"
   },
   "polished-round-sofa": {
     "id": "polished-round-sofa",
@@ -17111,7 +17172,8 @@
         "name": "Design divano rotondo lucidato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-round-sofa"
   },
   "polished-stash": {
     "id": "polished-stash",
@@ -17149,7 +17211,8 @@
         "name": "Design deposito lucidato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-stash"
   },
   "polished-study-sofa": {
     "id": "polished-study-sofa",
@@ -17187,7 +17250,8 @@
         "name": "Design divano studio lucidato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-study-sofa"
   },
   "polished-wardrobe": {
     "id": "polished-wardrobe",
@@ -17225,7 +17289,8 @@
         "name": "Design guardaroba lucidato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-wardrobe"
   },
   "polished-weapon-rack": {
     "id": "polished-weapon-rack",
@@ -17263,7 +17328,8 @@
         "name": "Design rastrelliera per armi lucidata",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "polished-weapon-rack"
   },
   "polluted-air-filter": {
     "id": "polluted-air-filter",
@@ -17567,7 +17633,8 @@
         "name": "Design sedia in tessuto stampato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "printed-fabric-chair"
   },
   "printed-lab-sofa": {
     "id": "printed-lab-sofa",
@@ -17605,7 +17672,8 @@
         "name": "Design divano laboratorio stampato",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "printed-lab-sofa"
   },
   "processor": {
     "id": "processor",
@@ -18216,7 +18284,8 @@
         "name": "Design divano studio rosso",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "red-study-sofa"
   },
   "reinforced-reception-security-code": {
     "id": "reinforced-reception-security-code",
@@ -18464,7 +18533,8 @@
         "name": "Design tavolo ristorante",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "restaurant-table"
   },
   "riot-outfit": {
     "id": "riot-outfit",
@@ -19348,7 +19418,8 @@
         "name": "Design sedia di sicurezza",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "security-chair"
   },
   "seed-vault-box-key": {
     "id": "seed-vault-box-key",
@@ -19984,7 +20055,8 @@
         "name": "Design armadio laboratorio piccolo",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "small-lab-cabinet"
   },
   "smelly-emote": {
     "id": "smelly-emote",
@@ -20162,7 +20234,8 @@
         "name": "Design sedia verde a tinta unita",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "solid-green-chair"
   },
   "spacecraft-module-backpack-attachment": {
     "id": "spacecraft-module-backpack-attachment",
@@ -20835,7 +20908,8 @@
         "name": "Design poltrona studio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "study-armchair-design-res-armchair-01-a"
   },
   "study-armchair-design-res-sofa-01-y150-a": {
     "id": "study-armchair-design-res-sofa-01-y150-a",
@@ -20854,7 +20928,8 @@
         "name": "Design poltrona studio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "study-armchair-design-res-sofa-01-y150-a"
   },
   "study-armchair-res-armchair-01-a": {
     "id": "study-armchair-res-armchair-01-a",
@@ -20911,7 +20986,8 @@
         "name": "Design lampada da soffitto studio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "study-ceiling-lamp"
   },
   "study-piano": {
     "id": "study-piano",
@@ -20949,7 +21025,8 @@
         "name": "Design piano studio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "study-piano"
   },
   "study-tv-stand": {
     "id": "study-tv-stand",
@@ -20987,7 +21064,8 @@
         "name": "Design mobile TV studio",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "study-tv-stand"
   },
   "sturdy-aviary-table": {
     "id": "sturdy-aviary-table",
@@ -21025,7 +21103,8 @@
         "name": "Design tavolo voliera robusto",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-aviary-table"
   },
   "sturdy-bureau-chair": {
     "id": "sturdy-bureau-chair",
@@ -21063,7 +21142,8 @@
         "name": "Design sedia da ufficio robusta",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-bureau-chair"
   },
   "sturdy-bureau-sofa": {
     "id": "sturdy-bureau-sofa",
@@ -21101,7 +21181,8 @@
         "name": "Design divano da ufficio robusto",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-bureau-sofa"
   },
   "sturdy-den-bed": {
     "id": "sturdy-den-bed",
@@ -21139,7 +21220,8 @@
         "name": "Design letto tana robusto",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-den-bed"
   },
   "sturdy-den-shelf": {
     "id": "sturdy-den-shelf",
@@ -21177,7 +21259,8 @@
         "name": "Design mensola tana robusta",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-den-shelf"
   },
   "sturdy-faculty-chair": {
     "id": "sturdy-faculty-chair",
@@ -21215,7 +21298,8 @@
         "name": "Design sedia facoltà robusta",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-faculty-chair"
   },
   "sturdy-faculty-table": {
     "id": "sturdy-faculty-table",
@@ -21253,7 +21337,8 @@
         "name": "Design tavolo facoltà robusto",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-faculty-table"
   },
   "sturdy-lab-cabinet": {
     "id": "sturdy-lab-cabinet",
@@ -21291,7 +21376,8 @@
         "name": "Design armadio laboratorio robusto",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-lab-cabinet"
   },
   "sturdy-lab-cabinet-wide": {
     "id": "sturdy-lab-cabinet-wide",
@@ -21329,7 +21415,8 @@
         "name": "Design armadio laboratorio robusto (largo)",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-lab-cabinet-wide"
   },
   "sturdy-lab-chair": {
     "id": "sturdy-lab-chair",
@@ -21367,7 +21454,8 @@
         "name": "Design sedia laboratorio robusta",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-lab-chair"
   },
   "sturdy-shelf": {
     "id": "sturdy-shelf",
@@ -21405,7 +21493,8 @@
         "name": "Design mensola robusta",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-shelf"
   },
   "sturdy-stash": {
     "id": "sturdy-stash",
@@ -21443,7 +21532,8 @@
         "name": "Design deposito robusto",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-stash"
   },
   "sturdy-wardrobe": {
     "id": "sturdy-wardrobe",
@@ -21481,7 +21571,8 @@
         "name": "Design guardaroba robusto",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-wardrobe"
   },
   "sturdy-weapon-rack": {
     "id": "sturdy-weapon-rack",
@@ -21519,7 +21610,8 @@
         "name": "Design rastrelliera per armi robusta",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "sturdy-weapon-rack"
   },
   "subterranean-outfit": {
     "id": "subterranean-outfit",
@@ -22454,7 +22546,8 @@
         "name": "Design divano capitonné",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "tufted-sofa"
   },
   "turbine-compressor": {
     "id": "turbine-compressor",
@@ -22759,7 +22852,8 @@
         "name": "Design comò veneziano",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "venetian-dresser"
   },
   "verdigris-stencil": {
     "id": "verdigris-stencil",
@@ -23109,7 +23203,8 @@
         "name": "Design sedia magazzino",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "warehouse-chair"
   },
   "warehouse-desk": {
     "id": "warehouse-desk",
@@ -23147,7 +23242,8 @@
         "name": "Design scrivania magazzino",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "warehouse-desk"
   },
   "warehouse-dresser": {
     "id": "warehouse-dresser",
@@ -23185,7 +23281,8 @@
         "name": "Design comò magazzino",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "warehouse-dresser"
   },
   "wasp-driver": {
     "id": "wasp-driver",
@@ -23306,7 +23403,8 @@
         "name": "Design sedia stazione meteorologica",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "weather-station-chair"
   },
   "weather-station-table": {
     "id": "weather-station-table",
@@ -23344,7 +23442,8 @@
         "name": "Design tavolo stazione meteorologica",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "weather-station-table"
   },
   "welded-pickaxe-raider-tool": {
     "id": "welded-pickaxe-raider-tool",
@@ -23459,7 +23558,8 @@
         "name": "Design tavolo invernale",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "winter-table"
   },
   "wires": {
     "id": "wires",
@@ -23535,7 +23635,8 @@
         "name": "Design luce di lavoro",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "work-light"
   },
   "wreck-helmet": {
     "id": "wreck-helmet",
@@ -23663,7 +23764,8 @@
         "name": "Progetto Fotocamera avanzata",
         "description": "Ti permette di creare una Fotocamera avanzata"
       }
-    }
+    },
+    "unlocks_item_id": "advanced-camera"
   },
   "angled-grip-ii-recipe": {
     "id": "angled-grip-ii-recipe",
@@ -23682,7 +23784,8 @@
         "name": "Progetto Impugnatura angolata II",
         "description": "Riduce moderatamente il rinculo orizzontale. Compatibile con: Arpeggio, Ferro, Il Toro, Stitcher"
       }
-    }
+    },
+    "unlocks_item_id": "angled-grip-ii"
   },
   "angled-grip-iii-recipe": {
     "id": "angled-grip-iii-recipe",
@@ -23701,7 +23804,8 @@
         "name": "Progetto Impugnatura angolata III",
         "description": "Riduce significativamente il rinculo orizzontale. Compatibile con: Arpeggio, Ferro, Venator, Il Toro, Stitcher"
       }
-    }
+    },
+    "unlocks_item_id": "angled-grip-iii"
   },
   "anvil-recipe": {
     "id": "anvil-recipe",
@@ -23720,7 +23824,8 @@
         "name": "Progetto Incudine",
         "description": "Ha alto Danni e Danni da colpo alla testa, ma maneggevolezza lenta."
       }
-    }
+    },
+    "unlocks_item_id": "anvil-i"
   },
   "aphelion-rifle-blueprint": {
     "id": "aphelion-rifle-blueprint",
@@ -23739,7 +23844,8 @@
         "name": "Progetto Aphelion",
         "description": "Spara proiettili energetici ad alta velocità."
       }
-    }
+    },
+    "unlocks_item_id": "amplified-aphelion"
   },
   "banjo-blueprint": {
     "id": "banjo-blueprint",
@@ -23758,7 +23864,8 @@
         "name": "Progetto Banjo",
         "description": ""
       }
-    }
+    },
+    "unlocks_item_id": "banjo"
   },
   "bantam-blueprint": {
     "id": "bantam-blueprint",
@@ -23777,7 +23884,8 @@
         "name": "Progetto Bantam",
         "description": "Ti permette di creare un Bantam"
       }
-    }
+    },
+    "unlocks_item_id": "bantam-ii"
   },
   "barricade-kit-recipe": {
     "id": "barricade-kit-recipe",
@@ -23796,7 +23904,8 @@
         "name": "Progetto kit barricata",
         "description": "Una copertura schierabile che può bloccare i danni in arrivo finché non si rompe."
       }
-    }
+    },
+    "unlocks_item_id": "barricade-kit"
   },
   "bettina-blueprint": {
     "id": "bettina-blueprint",
@@ -23815,7 +23924,8 @@
         "name": "Progetto Bettina",
         "description": "Ha una cadenza di fuoco lenta e un'alta produzione di danni."
       }
-    }
+    },
+    "unlocks_item_id": "bettina-i"
   },
   "blaze-grenade-blueprint": {
     "id": "blaze-grenade-blueprint",
@@ -23834,7 +23944,8 @@
         "name": "Progetto granata incendiaria",
         "description": "Una granata che detona all'impatto, coprendo un'area di fuoco che infligge danni nel tempo."
       }
-    }
+    },
+    "unlocks_item_id": "blaze-grenade"
   },
   "blue-light-stick-blueprint": {
     "id": "blue-light-stick-blueprint",
@@ -23853,7 +23964,8 @@
         "name": "Progetto bastoncino luminoso blu",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
       }
-    }
+    },
+    "unlocks_item_id": "blue-light-stick"
   },
   "bobcat-i-recipe": {
     "id": "bobcat-i-recipe",
@@ -23872,7 +23984,8 @@
         "name": "Lince I",
         "description": "Ha un'alta cadenza di fuoco ma bassa precisione."
       }
-    }
+    },
+    "unlocks_item_id": "bobcat-i"
   },
   "burltetta-recipe": {
     "id": "burltetta-recipe",
@@ -23891,7 +24004,8 @@
         "name": "Progetto Burletta",
         "description": "Un progetto per creare l'arma Burletta."
       }
-    }
+    },
+    "unlocks_item_id": "burletta-i"
   },
   "canto-blueprint": {
     "id": "canto-blueprint",
@@ -23910,7 +24024,8 @@
         "name": "Canto Progetto",
         "description": "Pistola mitragliatrice completamente automatica con un calibro maggiore."
       }
-    }
+    },
+    "unlocks_item_id": "amplified-canto"
   },
   "combat-mk-3-flanking": {
     "id": "combat-mk-3-flanking",
@@ -23929,7 +24044,8 @@
         "name": "Progetto Combattimento Mk. 3 (Fiancheggiamento)",
         "description": "Una versione migliorata dell'aumento Combattimento II. Progettato per manovre di fiancheggiamento con mobilita migliorata."
       }
-    }
+    },
+    "unlocks_item_id": "combat-mk-3-aggressive"
   },
   "combat-mk3-aggressive-blueprint": {
     "id": "combat-mk3-aggressive-blueprint",
@@ -23948,7 +24064,8 @@
         "name": "Progetto Combattimento Mk. 3 (Aggressivo)",
         "description": "Una versione migliorata dell'aumento Combattimento II. Supporta più tipi di scudi e include spazio extra per le granate."
       }
-    }
+    },
+    "unlocks_item_id": "combat-mk-3-aggressive"
   },
   "compensator-ii-recipe": {
     "id": "compensator-ii-recipe",
@@ -23967,7 +24084,8 @@
         "name": "Progetto compensatore II",
         "description": "Riduce moderatamente la dispersione per colpo."
       }
-    }
+    },
+    "unlocks_item_id": "compensator-ii"
   },
   "compensator-iii-recipe": {
     "id": "compensator-iii-recipe",
@@ -23986,7 +24104,8 @@
         "name": "Progetto Compensatore III",
         "description": "Riduce moderatamente la dispersione per colpo. Compatibile con: Arpeggio, Ferro, Renegade, Anvil, Stitcher"
       }
-    }
+    },
+    "unlocks_item_id": "compensator-iii"
   },
   "complex-gun-parts-blueprint": {
     "id": "complex-gun-parts-blueprint",
@@ -24005,7 +24124,8 @@
         "name": "Progetto parti di armi complesse",
         "description": "Si usa per creare armi avanzate."
       }
-    }
+    },
+    "unlocks_item_id": "complex-gun-parts"
   },
   "crash-mat-blueprint": {
     "id": "crash-mat-blueprint",
@@ -24024,7 +24144,8 @@
         "name": "Progetto materasso d'atterraggio",
         "description": "Un dispositivo di atterraggio d'emergenza lanciabile, per attutire gli atterraggi più pesanti"
       }
-    }
+    },
+    "unlocks_item_id": "crash-mat"
   },
   "deadline-blueprint": {
     "id": "deadline-blueprint",
@@ -24043,7 +24164,8 @@
         "name": "Progetto Deadline",
         "description": "Una mina che infligge danni a tutto ciò che si trova nel suo raggio d'azione una volta scaduto il timer."
       }
-    }
+    },
+    "unlocks_item_id": "deadline"
   },
   "defibrillator-recipe": {
     "id": "defibrillator-recipe",
@@ -24062,7 +24184,8 @@
         "name": "Progetto defibrillatore",
         "description": "Un'iniezione che riporta rapidamente in vita i predoni abbattuti e ripristina un po' di salute."
       }
-    }
+    },
+    "unlocks_item_id": "defibrillator"
   },
   "dolabra-blueprint": {
     "id": "dolabra-blueprint",
@@ -24081,7 +24204,8 @@
         "name": "Dolabra Progetto",
         "description": "Un'arma sperimentale che può sparare un'ampia scarica a corto raggio o essere focalizzata per sparare un raggio di calore concentrato a medio raggio."
       }
-    }
+    },
+    "unlocks_item_id": "dolabra"
   },
   "emperor-gateway-conduit-blueprint": {
     "id": "emperor-gateway-conduit-blueprint",
@@ -24100,7 +24224,8 @@
         "name": "Progetto Condotto dell'Imperatore",
         "description": "CollectorKey Blueprint Description"
       }
-    }
+    },
+    "unlocks_item_id": "emperor-gateway-conduit"
   },
   "equalizer-recipe": {
     "id": "equalizer-recipe",
@@ -24119,7 +24244,8 @@
         "name": "Progetto Equalizzatore",
         "description": "Un fucile a raggi sperimentale ad alta capacità."
       }
-    }
+    },
+    "unlocks_item_id": "equalizer-i"
   },
   "explosive-mine-blueprint": {
     "id": "explosive-mine-blueprint",
@@ -24138,7 +24264,8 @@
         "name": "Progetto Mina esplosiva",
         "description": "Un dispositivo esplosivo attivato dalla prossimita che detona quando i nemici si avvicinano."
       }
-    }
+    },
+    "unlocks_item_id": "explosive-mine"
   },
   "extended-barrel-ii-blueprint": {
     "id": "extended-barrel-ii-blueprint",
@@ -24157,7 +24284,8 @@
         "name": "Progetto Canna estesa II",
         "description": "Ti permette di creare una Canna allungata II"
       }
-    }
+    },
+    "unlocks_item_id": "extended-barrel-ii"
   },
   "extended-barrel-recipe": {
     "id": "extended-barrel-recipe",
@@ -24176,7 +24304,8 @@
         "name": "Progetto Canna estesa III",
         "description": "Aumenta moderatamente la velocita dei proiettili. Compatibile con: Tempest, Arpeggio, Ferro, Renegade, Anvil"
       }
-    }
+    },
+    "unlocks_item_id": "extended-barrel"
   },
   "extended-light-mag-ii-recipe": {
     "id": "extended-light-mag-ii-recipe",
@@ -24195,7 +24324,8 @@
         "name": "Progetto Caricatore leggero esteso II",
         "description": "Estende moderatamente la capacita di munizioni delle armi compatibili che usano munizioni leggere."
       }
-    }
+    },
+    "unlocks_item_id": "extended-light-mag-ii"
   },
   "extended-light-mag-iii-recipe": {
     "id": "extended-light-mag-iii-recipe",
@@ -24214,7 +24344,8 @@
         "name": "Progetto Caricatore leggero esteso III",
         "description": "Estende significativamente la capacita di munizioni delle armi compatibili che usano munizioni leggere."
       }
-    }
+    },
+    "unlocks_item_id": "extended-light-mag-iii"
   },
   "extended-medium-mag-ii-recipe": {
     "id": "extended-medium-mag-ii-recipe",
@@ -24233,7 +24364,8 @@
         "name": "Progetto caricatore medio esteso II",
         "description": "Estende moderatamente la capacità di munizioni delle armi compatibili che usano munizioni medie."
       }
-    }
+    },
+    "unlocks_item_id": "extended-medium-mag-ii"
   },
   "extended-medium-mag-iii-blueprint": {
     "id": "extended-medium-mag-iii-blueprint",
@@ -24252,7 +24384,8 @@
         "name": "Progetto caricatore medio esteso III",
         "description": "Estende significativamente la capacità di munizioni delle armi compatibili che usano munizioni medie."
       }
-    }
+    },
+    "unlocks_item_id": "extended-medium-mag-iii"
   },
   "extended-shotgun-mag-ii-recipe": {
     "id": "extended-shotgun-mag-ii-recipe",
@@ -24271,7 +24404,8 @@
         "name": "Progetto caricatore fucile esteso II",
         "description": "Estende moderatamente la capacità di munizioni dei fucili."
       }
-    }
+    },
+    "unlocks_item_id": "extended-shotgun-mag-ii"
   },
   "extended-shotgun-mag-iii-recipe": {
     "id": "extended-shotgun-mag-iii-recipe",
@@ -24290,7 +24424,8 @@
         "name": "Progetto Caricatore esteso per fucile III",
         "description": "Estende significativamente la capacità di munizioni dei fucili."
       }
-    }
+    },
+    "unlocks_item_id": "extended-shotgun-mag-iii"
   },
   "fireworks-box-blueprint": {
     "id": "fireworks-box-blueprint",
@@ -24309,7 +24444,8 @@
         "name": "Progetto scatola di fuochi d'artificio",
         "description": "Sblocca il progetto di creazione per la Scatola di fuochi d'artificio."
       }
-    }
+    },
+    "unlocks_item_id": "fireworks-box"
   },
   "gas-mine-blueprint": {
     "id": "gas-mine-blueprint",
@@ -24328,7 +24464,8 @@
         "name": "Progetto Mina a gas",
         "description": "Una mina attivata dalla prossimità che emerge e rilascia una nube di gas che drena rapidamente la resistenza."
       }
-    }
+    },
+    "unlocks_item_id": "gas-mine"
   },
   "grappling-hook-blueprint": {
     "id": "grappling-hook-blueprint",
@@ -24347,7 +24484,8 @@
         "name": "Progetto Rampino",
         "description": "Ti permette di creare un Rampino"
       }
-    }
+    },
+    "unlocks_item_id": "grappling-hook"
   },
   "green-light-stick-blueprint": {
     "id": "green-light-stick-blueprint",
@@ -24366,7 +24504,8 @@
         "name": "Progetto bastoncino luminoso verde",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
       }
-    }
+    },
+    "unlocks_item_id": "green-light-stick"
   },
   "heavy-gun-parts-recipe": {
     "id": "heavy-gun-parts-recipe",
@@ -24385,7 +24524,8 @@
         "name": "Progetto di parti di arma pesante",
         "description": "Usato per fabbricare armi."
       }
-    }
+    },
+    "unlocks_item_id": "heavy-gun-parts"
   },
   "hullcracker-blueprint": {
     "id": "hullcracker-blueprint",
@@ -24404,7 +24544,8 @@
         "name": "Progetto Spaccascudi",
         "description": "Carichi anti-ARC utilizzati principalmente dall'Hullcracker."
       }
-    }
+    },
+    "unlocks_item_id": "hullcracker-i"
   },
   "il-toro-recipe": {
     "id": "il-toro-recipe",
@@ -24423,7 +24564,8 @@
         "name": "Progetto Il Toro",
         "description": "Ha un'ampia dispersione dei proiettili, caduta netta e alto Danni."
       }
-    }
+    },
+    "unlocks_item_id": "il-toro-i"
   },
   "jolt-mine-recipe": {
     "id": "jolt-mine-recipe",
@@ -24442,7 +24584,8 @@
         "name": "Progetto mina stordente",
         "description": "Una mina attivata dalla prossimità che salta su e stordisce qualsiasi cosa nel suo raggio."
       }
-    }
+    },
+    "unlocks_item_id": "jolt-mine"
   },
   "jupiter-i-recipe": {
     "id": "jupiter-i-recipe",
@@ -24461,7 +24604,8 @@
         "name": "Progetto Giove",
         "description": "Lancia proiettili a incredibile velocità, in grado di danneggiare diversi bersagli con un colpo solo."
       }
-    }
+    },
+    "unlocks_item_id": "jupiter-i"
   },
   "light-gun-parts-recipe": {
     "id": "light-gun-parts-recipe",
@@ -24480,7 +24624,8 @@
         "name": "Progetto parti di armi leggere",
         "description": "Parti di ricambio assortite usate per pistole e mitra."
       }
-    }
+    },
+    "unlocks_item_id": "light-gun-parts"
   },
   "lightweight-stock-recipe": {
     "id": "lightweight-stock-recipe",
@@ -24499,7 +24644,8 @@
         "name": "Progetto calcio leggero",
         "description": "Migliora moderatamente la velocità di mira e estrazione."
       }
-    }
+    },
+    "unlocks_item_id": "lightweight-stock"
   },
   "looting-mk-3-safekeeper-blueprint": {
     "id": "looting-mk-3-safekeeper-blueprint",
@@ -24518,7 +24664,8 @@
         "name": "Progetto Saccheggio Mk. 3 (Custode)",
         "description": "Un potenziamento per il saccheggio che sacrifica peso e utilità per un maggiore potenziale di raccolta. Una Tasca Sicura che permette di custodire qualsiasi oggetto."
       }
-    }
+    },
+    "unlocks_item_id": "looting-mk-3-safekeeper"
   },
   "looting-mk-3-survivor-blueprint": {
     "id": "looting-mk-3-survivor-blueprint",
@@ -24537,7 +24684,8 @@
         "name": "Progetto Saccheggio Mk. 3 (Sopravvissuto)",
         "description": "Un potenziamento da mulo da soma resistente. Grande capacità di peso e grande spazio zaino."
       }
-    }
+    },
+    "unlocks_item_id": "looting-mk-3-survivor"
   },
   "lure-grenade-recipe": {
     "id": "lure-grenade-recipe",
@@ -24556,7 +24704,8 @@
         "name": "Progetto granata esca",
         "description": "Un dispositivo rumoroso che si attacca alle superfici, distraendo le macchine ARC vicine e attirando il loro fuoco."
       }
-    }
+    },
+    "unlocks_item_id": "lure-grenade"
   },
   "medium-gun-parts-recipe": {
     "id": "medium-gun-parts-recipe",
@@ -24575,7 +24724,8 @@
         "name": "Progetto parti arma medie",
         "description": "Parti di ricambio assortite usate per i fucili."
       }
-    }
+    },
+    "unlocks_item_id": "medium-gun-parts"
   },
   "muzzle-brake-ii-recipe": {
     "id": "muzzle-brake-ii-recipe",
@@ -24594,7 +24744,8 @@
         "name": "Progetto freno di bocca II",
         "description": "Riduce moderatamente sia il rinculo verticale che quello orizzontale."
       }
-    }
+    },
+    "unlocks_item_id": "muzzle-brake-ii"
   },
   "muzzle-brake-iii-recipe": {
     "id": "muzzle-brake-iii-recipe",
@@ -24613,7 +24764,8 @@
         "name": "Progetto Freno di bocca III",
         "description": "Riduce significativamente sia il rinculo verticale che quello orizzontale. Compatibile con: Arpeggio, Ferro, Renegade, Anvil, Stitcher"
       }
-    }
+    },
+    "unlocks_item_id": "muzzle-brake-iii"
   },
   "osprey-recipe": {
     "id": "osprey-recipe",
@@ -24632,7 +24784,8 @@
         "name": "Progetto Falco Pescatore",
         "description": "Ha Danni e precisione affidabili."
       }
-    }
+    },
+    "unlocks_item_id": "osprey-i"
   },
   "padded-stock-recipe": {
     "id": "padded-stock-recipe",
@@ -24651,7 +24804,8 @@
         "name": "Progetto: Calcio imbottito",
         "description": "Migliora significativamente la stabilità. Compatibile con: Arpeggio, Rattler, Ferro, Renegade, Torrente"
       }
-    }
+    },
+    "unlocks_item_id": "padded-stock"
   },
   "powered-descender-blueprint": {
     "id": "powered-descender-blueprint",
@@ -24670,7 +24824,8 @@
         "name": "Progetto discensore motorizzato",
         "description": "Riduce la velocità di caduta quando viene usato in aria, ma richiede un tempo di avvio prima di raggiungere la piena potenza. Si spegne quando esaurisce l'energia"
       }
-    }
+    },
+    "unlocks_item_id": "powered-descender"
   },
   "project-heartwood-blueprints": {
     "id": "project-heartwood-blueprints",
@@ -24708,7 +24863,8 @@
         "name": "Progetto mina a impulsi",
         "description": "Una mina attivata dalla prossimità che salta fuori e respinge tutto nel suo raggio."
       }
-    }
+    },
+    "unlocks_item_id": "pulse-mine"
   },
   "purification-system-blueprint": {
     "id": "purification-system-blueprint",
@@ -24746,7 +24902,8 @@
         "name": "Disegno tecnico Rascal",
         "description": "Spara proiettili esplosivi che detonano solo colpendo ARC."
       }
-    }
+    },
+    "unlocks_item_id": "amplified-rascal"
   },
   "red-light-stick-blueprint": {
     "id": "red-light-stick-blueprint",
@@ -24765,7 +24922,8 @@
         "name": "Progetto bastoncino luminoso rosso",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
       }
-    }
+    },
+    "unlocks_item_id": "red-light-stick"
   },
   "remote-raider-flare-blueprint": {
     "id": "remote-raider-flare-blueprint",
@@ -24784,7 +24942,8 @@
         "name": "Progetto Razzo segnalatore predone remoto",
         "description": "Un dispositivo schierabile che, quando attivato manualmente, lancia un razzo di soccorso predone."
       }
-    }
+    },
+    "unlocks_item_id": "remote-raider-flare"
   },
   "seeker-grenade-blueprint": {
     "id": "seeker-grenade-blueprint",
@@ -24803,7 +24962,8 @@
         "name": "Progetto granata cercatrice",
         "description": "Sblocca il progetto di creazione per la Granata cercatrice."
       }
-    }
+    },
+    "unlocks_item_id": "seeker-grenade"
   },
   "shotgun-choke-ii-recipe": {
     "id": "shotgun-choke-ii-recipe",
@@ -24822,7 +24982,8 @@
         "name": "Progetto Strozzatore per fucile II",
         "description": "Riduce moderatamente la dispersione base. Compatibile con: Il Toro, Vulcano"
       }
-    }
+    },
+    "unlocks_item_id": "shotgun-choke-ii"
   },
   "shotgun-choke-iii-recipe": {
     "id": "shotgun-choke-iii-recipe",
@@ -24841,7 +25002,8 @@
         "name": "Progetto Strozzatore fucile III",
         "description": "Riduce significativamente la dispersione base."
       }
-    }
+    },
+    "unlocks_item_id": "shotgun-choke-iii"
   },
   "shotgun-silencer-blueprint": {
     "id": "shotgun-silencer-blueprint",
@@ -24860,7 +25022,8 @@
         "name": "Progetto Silenziatore per fucile a pompa",
         "description": "Riduce moderatamente la quantita di rumore prodotto durante lo sparo."
       }
-    }
+    },
+    "unlocks_item_id": "shotgun-silencer"
   },
   "showstopper-blueprint": {
     "id": "showstopper-blueprint",
@@ -24879,7 +25042,8 @@
         "name": "Progetto Showstopper",
         "description": "Una granata che detona dopo un ritardo, stordendo i nemici nel suo raggio."
       }
-    }
+    },
+    "unlocks_item_id": "showstopper"
   },
   "silencer-i-recipe": {
     "id": "silencer-i-recipe",
@@ -24898,7 +25062,8 @@
         "name": "Progetto Silenziatore I",
         "description": "Un progetto per creare il Silenziatore I."
       }
-    }
+    },
+    "unlocks_item_id": "silencer-i"
   },
   "silencer-ii-recipe": {
     "id": "silencer-ii-recipe",
@@ -24917,7 +25082,8 @@
         "name": "Progetto Silenziatore II",
         "description": "Un progetto per creare il Silenziatore II."
       }
-    }
+    },
+    "unlocks_item_id": "silencer-ii"
   },
   "smoke-grenade-blueprint": {
     "id": "smoke-grenade-blueprint",
@@ -24936,7 +25102,8 @@
         "name": "Progetto Granata fumogena",
         "description": "Una granata che crea una nuvola di fumo persistente all'impatto, bloccando la visibilita di ARC e altri Predoni."
       }
-    }
+    },
+    "unlocks_item_id": "smoke-grenade"
   },
   "snap-hook-recipe": {
     "id": "snap-hook-recipe",
@@ -24955,7 +25122,8 @@
         "name": "Progetto Gancio a scatto",
         "description": "Un gadget che permette a chi lo usa di scalare strutture e coprire grandi distanze."
       }
-    }
+    },
+    "unlocks_item_id": "snap-hook"
   },
   "stable-stock-ii-recipe": {
     "id": "stable-stock-ii-recipe",
@@ -24974,7 +25142,8 @@
         "name": "Progetto Calcio stabile II",
         "description": "Migliora moderatamente la dispersione e il tempo di recupero del rinculo."
       }
-    }
+    },
+    "unlocks_item_id": "stable-stock-ii"
   },
   "stable-stock-iii-recipe": {
     "id": "stable-stock-iii-recipe",
@@ -24993,7 +25162,8 @@
         "name": "Progetto Calcio stabile III",
         "description": "Migliora significativamente la dispersione e il tempo di recupero del rinculo."
       }
-    }
+    },
+    "unlocks_item_id": "stable-stock-iii"
   },
   "stiletto-blueprint": {
     "id": "stiletto-blueprint",
@@ -25012,7 +25182,8 @@
         "name": "Progetto Stiletto",
         "description": "Ti permette di creare uno Stiletto"
       }
-    }
+    },
+    "unlocks_item_id": "stiletto-ii"
   },
   "surge-coil-blueprint": {
     "id": "surge-coil-blueprint",
@@ -25031,7 +25202,8 @@
         "name": "Surge Coil Progetto",
         "description": "Un dispositivo dispiegabile che elettrizza periodicamente l'area circostante e stordisce brevemente chiunque vi rimanga intrappolato."
       }
-    }
+    },
+    "unlocks_item_id": "surge-coil"
   },
   "tacical-mk3-healing-blueprint": {
     "id": "tacical-mk3-healing-blueprint",
@@ -25050,7 +25222,8 @@
         "name": "Progetto Tattico Mk. 3 (Cura)",
         "description": "Un potenziamento incentrato sulla cura che aggiunge slot extra per oggetti curativi."
       }
-    }
+    },
+    "unlocks_item_id": "tactical-mk-3-healing"
   },
   "tactical-mk-3-revival-blueprint": {
     "id": "tactical-mk-3-revival-blueprint",
@@ -25069,7 +25242,8 @@
         "name": "Progetto Tattico Mk. 3 (Rianimazione)",
         "description": "Un potenziamento incentrato sulla rianimazione progettato per il supporto di squadra. Ripristina 1 punto salute ogni 5 secondi. Quando si subiscono danni, l'effetto viene sospeso per 30 secondi. Include un Defibrillatore integrato con usi infiniti e un tempo di ricarica di 240 secondi."
       }
-    }
+    },
+    "unlocks_item_id": "tactical-mk-3-revival"
   },
   "tactical-mk3-defensive-blueprint": {
     "id": "tactical-mk3-defensive-blueprint",
@@ -25088,7 +25262,8 @@
         "name": "Progetto Tattico Mk. 3 (Difensivo)",
         "description": "Un potenziamento incentrato sulla difesa per mantenere gli scudi al massimo."
       }
-    }
+    },
+    "unlocks_item_id": "tactical-mk3-defensive"
   },
   "tagging-grenade-recipe": {
     "id": "tagging-grenade-recipe",
@@ -25107,7 +25282,8 @@
         "name": "Progetto Granata marcatrice",
         "description": "Una granata che detona dopo un ritardo, marcando i predoni e i nemici ARC in un'area."
       }
-    }
+    },
+    "unlocks_item_id": "tagging-grenade"
   },
   "tempest-i-recipe": {
     "id": "tempest-i-recipe",
@@ -25126,7 +25302,8 @@
         "name": "Tempesta I",
         "description": "Fucile d'assalto completamente automatico con cadenza di fuoco e precisione moderate."
       }
-    }
+    },
+    "unlocks_item_id": "tempest-i"
   },
   "tether-launcher-blueprint": {
     "id": "tether-launcher-blueprint",
@@ -25145,7 +25322,8 @@
         "name": "Progetto Lanciafune",
         "description": "Ti permette di creare un Lanciafune"
       }
-    }
+    },
+    "unlocks_item_id": "tether-launcher"
   },
   "torrent-i-recipe": {
     "id": "torrent-i-recipe",
@@ -25164,7 +25342,8 @@
         "name": "Progetto Torrente",
         "description": "Ha una grande capacità di munizioni, ma è preciso solo accovacciato."
       }
-    }
+    },
+    "unlocks_item_id": "torrente-i"
   },
   "trailblazer-grenade-blueprint": {
     "id": "trailblazer-grenade-blueprint",
@@ -25183,7 +25362,8 @@
         "name": "Progetto Trailblazer",
         "description": "Sblocca il progetto di creazione per Trailblazer."
       }
-    }
+    },
+    "unlocks_item_id": "trailblazer-grenade"
   },
   "trigger-nade-recipe": {
     "id": "trigger-nade-recipe",
@@ -25202,7 +25382,8 @@
         "name": "Progetto granata ad attivazione",
         "description": "Una granata a detonazione remota che può attaccarsi a superfici e ARC, infliggendo danni esplosivi quando attivata."
       }
-    }
+    },
+    "unlocks_item_id": "trigger-nade"
   },
   "utility-augment-t3-smoke-blueprint": {
     "id": "utility-augment-t3-smoke-blueprint",
@@ -25221,7 +25402,8 @@
         "name": "Progetto Tattico Mk. 3 (Fumo)",
         "description": "Una versione migliorata del potenziamento Tattico MK. 2, che aggiunge capacità aumentata su tutta la linea."
       }
-    }
+    },
+    "unlocks_item_id": "tactical-mk-3-smoke"
   },
   "venator-recipe": {
     "id": "venator-recipe",
@@ -25240,7 +25422,8 @@
         "name": "Progetto Venator",
         "description": "Spara due colpi alla volta."
       }
-    }
+    },
+    "unlocks_item_id": "venator-i"
   },
   "vertical-grip-ii-recipe": {
     "id": "vertical-grip-ii-recipe",
@@ -25259,7 +25442,8 @@
         "name": "Progetto Impugnatura verticale II",
         "description": "Riduce moderatamente il rinculo verticale. Compatibile con: Arpeggio, Ferro, Venator, Il Toro, Stitcher"
       }
-    }
+    },
+    "unlocks_item_id": "vertical-grip-ii"
   },
   "vertical-grip-iii-recipe": {
     "id": "vertical-grip-iii-recipe",
@@ -25278,7 +25462,8 @@
         "name": "Progetto Impugnatura Verticale III",
         "description": "Riduce significativamente il rinculo verticale."
       }
-    }
+    },
+    "unlocks_item_id": "vertical-grip-iii"
   },
   "vita-shot-recipe": {
     "id": "vita-shot-recipe",
@@ -25297,7 +25482,8 @@
         "name": "Progetto Iniezione Vita",
         "description": "Un oggetto medico che ripristina una grande quantità di salute."
       }
-    }
+    },
+    "unlocks_item_id": "vita-shot"
   },
   "vita-spray-recipe": {
     "id": "vita-spray-recipe",
@@ -25316,7 +25502,8 @@
         "name": "Progetto spray Vita",
         "description": "Un oggetto medico che ripristina continuamente la salute durante l'uso. Può essere usato su te stesso o sui tuoi alleati."
       }
-    }
+    },
+    "unlocks_item_id": "vita-spray"
   },
   "vulcano-blueprint": {
     "id": "vulcano-blueprint",
@@ -25335,7 +25522,8 @@
         "name": "Progetto Vulcano",
         "description": "Fucile a pompa semiautomatico con buona dispersione ma calo netto."
       }
-    }
+    },
+    "unlocks_item_id": "vulcano-i"
   },
   "white-flag-blueprint": {
     "id": "white-flag-blueprint",
@@ -25354,7 +25542,8 @@
         "name": "Progetto bandiera bianca",
         "description": "Una bandiera bianca piazzabile"
       }
-    }
+    },
+    "unlocks_item_id": "white-flag"
   },
   "wolfpack-recipe": {
     "id": "wolfpack-recipe",
@@ -25373,7 +25562,8 @@
         "name": "Progetto Wolfpack",
         "description": "Una granata a detonazione remota che può attaccarsi a superfici e ARC, infliggendo danni esplosivi quando attivata."
       }
-    }
+    },
+    "unlocks_item_id": "wolfpack"
   },
   "yank-grenade-blueprint": {
     "id": "yank-grenade-blueprint",
@@ -25392,7 +25582,8 @@
         "name": "Progetto Granata a strappo",
         "description": "Ti permette di creare una Granata a strappo"
       }
-    }
+    },
+    "unlocks_item_id": "yank-grenade"
   },
   "yellow-light-stick-blueprint": {
     "id": "yellow-light-stick-blueprint",
@@ -25411,7 +25602,8 @@
         "name": "Bastoncino luminoso giallo",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
       }
-    }
+    },
+    "unlocks_item_id": "yellow-light-stick"
   },
   "reward-points": {
     "id": "reward-points",

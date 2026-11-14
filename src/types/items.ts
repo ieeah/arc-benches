@@ -37,4 +37,6 @@ export type ItemInfo = {
   craft_level_required?: number | null;
   /** ID dell'oggetto blueprint / recipe richiesto (opzionale). */
   craft_recipe_id?: string | null;
+  /** ID dell'oggetto sbloccato se questo oggetto è un blueprint o design (opzionale). */
+  unlocks_item_id?: string | null;
 };

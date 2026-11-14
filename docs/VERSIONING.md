@@ -166,11 +166,11 @@ Changelog: [changelog/0.5.1.md](../changelog/0.5.1.md)
 ---
 
 ## 0.6.0 "Archivio del Rifugio" — Gestione dei Dati di 2° Livello e Avanzati (Blocco Principale) — Non ancora raggiunta
-Obiettivo: riunire in una pagina **Collezioni** tutti i tracker di sblocco (Blueprint e cosmetici), introdurre le meccaniche avanzate degli oggetti (Armi amplificate, Ricerche del Research Bench, ricette di costruzione/upgrade/riparazione), l'elenco unico delle liste e lo Skill Tree.
-- [ ] #145 [Pagina unificata «Collezioni» (Blueprint, Cosmetici, Outfit, Stencil, Design, Arredi)](https://github.com/ieeah/arc-benches/issues/145) — issue wrapper di #91, #131, #109
-  - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
-  - [ ] #131 [Sezione Guardaroba e catalogo personalizzazioni (skin, zaini, cosmetici e Scrappy)](https://github.com/ieeah/arc-benches/issues/131)
-  - [ ] #109 [Outfit sbloccati a pezzi: distinguere completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109)
+Obiettivo: riunire in una pagina **Collezioni** tutti i tracker di sblocco trovati in-raid (Blueprint, Design Arredi e Stencil Armi), introdurre le meccaniche avanzate degli oggetti (Armi amplificate, Ricerche del Research Bench, ricette di costruzione/upgrade/riparazione) e lo Skill Tree.
+Changelog (bozza): [changelog/0.6.0.md](../changelog/0.6.0.md)
+- [x] #164 [Campo `unlocks_item_id` per blueprint e design e integrazione nella pipeline](https://github.com/ieeah/arc-benches/issues/164) — propedeutica a #145 e #91
+- [ ] #145 [Pagina unificata «Collezioni» in-raid (Blueprint, Design Arredi e Stencil Armi)](https://github.com/ieeah/arc-benches/issues/145) — issue wrapper di #91
+  - [ ] #91 [Tracker collezioni in-game (Design Arredi e Stencil Armi)](https://github.com/ieeah/arc-benches/issues/91)
 - [ ] #92 [Armi amplificate (Weapon Amplification) e gestione ricerche Research Bench](https://github.com/ieeah/arc-benches/issues/92)
 - [ ] #113 [Costruzione, miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
 - [ ] #156 [Gestione azioni liste: riordinamento e azioni composte (sotto-azioni lineari o libere)](https://github.com/ieeah/arc-benches/issues/156)
@@ -181,7 +181,9 @@ Obiettivo: riunire in una pagina **Collezioni** tutti i tracker di sblocco (Blue
 ---
 
 ## 0.6.x "Consolidamento & Dati Estesi" — Consolidamento 0.6.0 & Dati Pre-1.0.0 — Non ancora raggiunta
-Obiettivo: consolidare la `0.6.0` e completare gli ultimi domini dati pre-`1.0.0` (revisione Spedizioni, redesign mobile-first delle Quest Dev + Quest Tracker utente, limiti giornalieri statici dei Commercianti, viste/filtri avanzati Stash e Raid per zona di loot, Bacheca Trofei).
+Obiettivo: consolidare la `0.6.0` e completare gli ultimi domini dati pre-`1.0.0` (sezione Guardaroba cosmetici e Scartino, revisione Spedizioni, redesign mobile-first delle Quest Dev + Quest Tracker utente, limiti giornalieri statici dei Commercianti, viste/filtri avanzati Stash e Raid per zona di loot, Bacheca Trofei).
+- [ ] #131 [Sezione Guardaroba e catalogo personalizzazioni (Outfit, Aspetto Raider, Zaini, Scartino, Raider Tool)](https://github.com/ieeah/arc-benches/issues/131) — include #109
+  - [ ] #109 [Outfit sbloccati a pezzi: distinguere completo, toggle e colori subordinati al completo principale](https://github.com/ieeah/arc-benches/issues/109)
 - [ ] #146 [Revisione UX/UI e correzione logica pregresso, vincoli, requisiti e progressione delle spedizioni](https://github.com/ieeah/arc-benches/issues/146)
 - [ ] #76 [Redesign da zero pagina Dev gestione quest e visualizzazione dipendenze (mobile-first)](https://github.com/ieeah/arc-benches/issues/76)
 - [ ] #58 [Quest Tracker utente (condivide l'architettura mobile-first di #76)](https://github.com/ieeah/arc-benches/issues/58) — insieme a #76

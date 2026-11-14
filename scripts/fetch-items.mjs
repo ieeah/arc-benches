@@ -26,6 +26,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
 import sharp from 'sharp';
+import { resolveUnlocksItemId } from './lib/unlocks-resolver.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -406,6 +407,28 @@ async function main() {
   if (missing.length) {
     console.log(`\n⚠ ${missing.length} workbench item(s) NOT in catalog: ${missing.join(', ')}`);
   }
+
+  // Risoluzione campo unlocks_item_id per Blueprint e Design
+  const variantsPath = join(ROOT, 'src', 'data', 'item-variants.json');
+  let baseItems = {};
+  if (existsSync(variantsPath)) {
+    try {
+      const variantsData = JSON.parse(readFileSync(variantsPath, 'utf-8'));
+      baseItems = variantsData.baseItems ?? {};
+    } catch (e) {
+      console.warn('⚠ Impossibile leggere item-variants.json per baseItems:', e.message);
+    }
+  }
+
+  let unlockedCount = 0;
+  for (const item of Object.values(results)) {
+    const unlockedId = resolveUnlocksItemId(item, results, baseItems);
+    if (unlockedId) {
+      item.unlocks_item_id = unlockedId;
+      unlockedCount++;
+    }
+  }
+  console.log(`Unlocks resolved: ${unlockedCount} items set with unlocks_item_id.`);
 
   const outPath = join(ROOT, 'src', 'data', 'items.json');
   writeFileSync(outPath, JSON.stringify(results, null, 2), 'utf-8');

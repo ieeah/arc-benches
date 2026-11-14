@@ -24,10 +24,9 @@ Il resto della `0.5.1` (migrazione `PageLayout`, `type`, ordinamento priorità S
 ---
 
 ## Versione 0.6.0 "Archivio del Rifugio" — Gestione dei Dati di 2° Livello e Avanzati (Blocco Principale)
-- [ ] #145 [Pagina unificata «Collezioni» (Blueprint, Cosmetici, Outfit, Stencil, Design, Arredi)](https://github.com/ieeah/arc-benches/issues/145) — issue wrapper che riunisce:
-  - [ ] #91 [Tracker collezioni cosmetiche (stencil, outfit, design, arredi)](https://github.com/ieeah/arc-benches/issues/91)
-  - [ ] #131 [Sezione Guardaroba e catalogo personalizzazioni (skin, zaini, cosmetici e Scrappy)](https://github.com/ieeah/arc-benches/issues/131)
-  - [ ] #109 [Outfit sbloccati a pezzi: distinguere completo, toggle e colori](https://github.com/ieeah/arc-benches/issues/109)
+- [x] #164 [Campo `unlocks_item_id` per blueprint e design e integrazione nella pipeline](https://github.com/ieeah/arc-benches/issues/164) — propedeutica a #145 e #91
+- [ ] #145 [Pagina unificata «Collezioni» in-raid (Blueprint, Design Arredi e Stencil Armi)](https://github.com/ieeah/arc-benches/issues/145) — issue wrapper che include:
+  - [ ] #91 [Tracker collezioni in-game (Design Arredi e Stencil Armi)](https://github.com/ieeah/arc-benches/issues/91)
 - [ ] #92 [Armi amplificate (Weapon Amplification) e gestione ricerche Research Bench](https://github.com/ieeah/arc-benches/issues/92)
 - [ ] #113 [Costruzione, miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
 - [ ] #159 [Pianificazione massiva da banchi/progetti e salvataggio slice come lista custom](https://github.com/ieeah/arc-benches/issues/159)
@@ -39,6 +38,8 @@ Il resto della `0.5.1` (migrazione `PageLayout`, `type`, ordinamento priorità S
 ---
 
 ## Versione 0.6.x "Consolidamento & Dati Estesi" — Consolidamento 0.6.0 & Dati Pre-1.0.0
+- [ ] #131 [Sezione Guardaroba e catalogo personalizzazioni (Outfit, Aspetto Raider, Zaini, Scartino, Raider Tool)](https://github.com/ieeah/arc-benches/issues/131) — include #109
+  - [ ] #109 [Outfit sbloccati a pezzi: distinguere completo, toggle e colori subordinati al completo principale](https://github.com/ieeah/arc-benches/issues/109)
 - [ ] #58 [Quest Tracker utente (condivide l'architettura mobile-first di #76)](https://github.com/ieeah/arc-benches/issues/58)
   - *Comportamento con le Spedizioni (reset opzionale)*: in gioco il Raider può scegliere se azzerare o conservare i progressi delle quest alla partenza; il flusso di chiusura/partenza richiederà la scelta all'utente prima del wipe.
 - [ ] #161 [Visualizzazione oggetti per quest nello Stash con orizzonte per ramo e distinzione carry/consegna](https://github.com/ieeah/arc-benches/issues/161) — collegata a #58 e #76
