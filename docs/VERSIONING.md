@@ -7,7 +7,7 @@ Il contenuto testuale del cosa-è-cambiato per versione non vive qui — per que
 
 ## Versione corrente
 
-**0.5.0** ("Segnale Radio"), determinata dal tag Git `v0.5.0` e da `package.json`. In corso di consolidamento la **0.5.1** ("Taratura del Segnale").
+**0.5.1** ("Taratura del Segnale"), determinata dal tag Git `v0.5.1` e da `package.json`. In corso di pianificazione la **0.6.0** ("Archivio del Rifugio").
 
 > **Nota su v0.3.0**: Include consolidamento architetturale (validazione Zod, persistence boundary, WASM lockfile check, performance content-visibility), Role Maker, Tracker Blueprints, Pagina Impostazioni & Gestione Globale, Viste/Densità Stash, Supporto Tablet e la pipeline MetaForge con Studio Overrides.
 
@@ -138,12 +138,13 @@ Changelog: [changelog/0.5.0.md](../changelog/0.5.0.md)
 
 ---
 
-## 0.5.1 "Taratura del Segnale" — Consolidamento della 0.5.0 & Tooling Vite — Non ancora raggiunta
+## 0.5.1 "Taratura del Segnale" — Consolidamento della 0.5.0 & Tooling Vite — Raggiunta
 Obiettivo: consolidare la `0.5.0` standardizzando il layout su tutte le pagine, rifinendo l'ordinamento Stash, applicando i fix rapidi HTML/CSS/a11y e velocizzando il build Vite con `@tailwindcss/vite` prima di aprire il cantiere della `0.6.0`.
+Changelog: [changelog/0.5.1.md](../changelog/0.5.1.md)
 - [x] #123 [`dvh`/`svh` al posto di `vh`/`h-screen`](https://github.com/ieeah/arc-benches/issues/123)
 - [x] #128 [Adottare `modern-web-guidance` nel flusso di lavoro](https://github.com/ieeah/arc-benches/issues/128)
-- [ ] #135 [Migrazione pagine esistenti a `PageLayout` e testing layout/scroll](https://github.com/ieeah/arc-benches/issues/135) — dopo #134
-- [ ] #136 [Standardizzazione layout unificato `PageLayout` e fix retroattivo](https://github.com/ieeah/arc-benches/issues/136) — insieme a #135
+- [x] #135 [Migrazione pagine esistenti a `PageLayout` e testing layout/scroll](https://github.com/ieeah/arc-benches/issues/135) — dopo #134
+- [x] #136 [Standardizzazione layout unificato `PageLayout` e fix retroattivo](https://github.com/ieeah/arc-benches/issues/136) — insieme a #135
 - [x] #133 [Verifica retroattiva adozione `type` e standard mobile/touch-first](https://github.com/ieeah/arc-benches/issues/133)
 - [x] #69 [Ordinamento Stash per priorità multi-criterio (Banco + Livello)](https://github.com/ieeah/arc-benches/issues/69)
 - [x] #124 [`color-scheme`, `theme-color` e `accent-color` per la UI nativa del browser](https://github.com/ieeah/arc-benches/issues/124)

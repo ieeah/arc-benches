@@ -18,8 +18,8 @@ Elenco dei bug, debito tecnico, refactoring e miglioramenti su funzionalità esi
 ---
 
 ## 0.5.1 "Taratura del Segnale" — Consolidamento 0.5.0 & Tooling Vite
-- [ ] #135 [Refactor Layout: migrazione pagine esistenti a `PageLayout` e testing layout/scroll](https://github.com/ieeah/arc-benches/issues/135) — applica `PageLayout` (#134) a `StashPage`, `ListsPage`, `BlueprintsPage`, `PassPage` e `PassesOverviewPage`.
-- [ ] #136 [Refactor Layout: standardizzazione layout unificato `PageLayout` e fix retroattivo](https://github.com/ieeah/arc-benches/issues/136) — insieme a #135.
+- [x] #135 [Refactor Layout: migrazione pagine esistenti a `PageLayout` e testing layout/scroll](https://github.com/ieeah/arc-benches/issues/135) — applica `PageLayout` (#134) a `StashPage`, `ListsPage`, `BlueprintsPage`, `PassPage` e `PassesOverviewPage`.
+- [x] #136 [Refactor Layout: standardizzazione layout unificato `PageLayout` e fix retroattivo](https://github.com/ieeah/arc-benches/issues/136) — insieme a #135.
 - [x] #133 [Refactor Codice: verifica retroattiva adozione `type` e standard mobile/touch-first](https://github.com/ieeah/arc-benches/issues/133)
 - [x] #69 [UX Stash: ordinamento per priorità multi-criterio (Banco + Livello)](https://github.com/ieeah/arc-benches/issues/69) — selettore `getItemPriorityMapPure` con doppia modalità configurabile nelle Impostazioni (`Lista → Livello` / `Livello → Lista`), esclusione scaduti/consegnati e allineamento ordine azioni e dipendenze.
 - [x] #125 [A11y UI: scrollbar nascosta nelle liste di pill orizzontali senza altra affordance di scorrimento](https://github.com/ieeah/arc-benches/issues/125)
