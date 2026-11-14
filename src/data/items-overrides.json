@@ -1,4 +1,7 @@
 {
+  "bison-driver": {
+    "hidden": true
+  },
   "surveyor-vault": {
     "translations": {
       "it": {
@@ -6,5 +9,8 @@
         "description": "Può essere riciclato in materiali"
       }
     }
+  },
+  "torch-ginger": {
+    "hidden": true
   }
 }

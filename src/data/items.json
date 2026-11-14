@@ -10,13 +10,7 @@
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": null,
-    "translations": {
-      "it": {
-        "name": "Abisso (outfit)",
-        "description": ""
-      }
-    }
+    "stack_size": null
   },
   "acoustic-guitar": {
     "id": "acoustic-guitar",
@@ -25,15 +19,15 @@
     "icon": "icons/items/acoustic-guitar.webp",
     "rarity": "Legendary",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": "Quick Use",
     "value": 7000,
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Chitarra Acustica",
-        "description": "Una Chitarra Acustica suonabile, utilizzata per attirare gli Arc e fare colpo sugli altri Raider."
+        "name": "Chitarra acustica",
+        "description": "Una chitarra acustica suonabile, usata per attirare l'attenzione di ARC e impressionare gli altri Raiders."
       }
     }
   },
@@ -63,15 +57,15 @@
     "icon": "icons/items/adrenaline-shot.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": null,
     "value": 300,
     "workbench": "Med Stations 1",
     "loot_area": null,
     "stack_size": 5,
     "translations": {
       "it": {
-        "name": "Iniezione di Adrenalina",
-        "description": "Un siero che ripristina completamente l'energia e aumenta temporaneamente la rigenerazione dell'energia."
+        "name": "Iniezione di adrenalina",
+        "description": "Un siero che ripristina completamente la resistenza e aumenta temporaneamente la rigenerazione della resistenza."
       }
     }
   },
@@ -89,8 +83,8 @@
     "stack_size": 5,
     "translations": {
       "it": {
-        "name": "Cellula ARC Avanzata",
-        "description": "Risorsa molto preziosa rilasciata da alcuni nemici ARC"
+        "name": "Cellula ARC ARC avanzata",
+        "description": "Risorsa molto preziosa rilasciata da alcuni nemici ARC."
       }
     }
   },
@@ -108,8 +102,8 @@
     "stack_size": 1,
     "translations": {
       "it": {
-        "name": "Fotocamera Avanzata",
-        "description": "Una fotocamera avanzata con alcune funzionalità in più."
+        "name": "Fotocamera avanzata",
+        "description": "Una fotocamera avanzata con qualche funzionalità in più."
       }
     }
   },
@@ -127,8 +121,8 @@
     "stack_size": 5,
     "translations": {
       "it": {
-        "name": "Componenti Elettrici Avanzati",
-        "description": "Si usa per creare una vasta gamma di oggetti. Si può riciclare in materiali da creazione."
+        "name": "Componenti elettrici avanzati",
+        "description": "Si usa per creare una vasta gamma di oggetti. Si può riciclare in materiali da creazione. Si usa per creare: Tattico Mk. 3 (Difensivo), Combattimento Mk. 3 (Fiancheggiamento), Combattimento Mk. 3 (Aggressivo), Saccheggio Mk. 3 (Cauto), Tattico Mk. 3 (Guarigione)"
       }
     }
   },
@@ -146,8 +140,8 @@
     "stack_size": 5,
     "translations": {
       "it": {
-        "name": "Componenti Meccanici Avanzati",
-        "description": "Utile per creare armi avanzate. Si può riciclare in materiali da creazione."
+        "name": "Componenti meccanici avanzati",
+        "description": "Usato per fabbricare armi avanzate. Si può riciclare in materiali da creazione. Si usa per creare: Torrente, Venator, Osprey, Renegade, Bettina"
       }
     }
   },
@@ -190,7 +184,7 @@
     "icon": "icons/items/agave-juice.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": "Quick Use",
     "value": 1800,
     "workbench": null,
     "loot_area": null,
@@ -290,13 +284,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "alpine-wardrobe",
     "translations": {
       "it": {
         "name": "Design guardaroba alpino",
         "description": ""
       }
-    },
-    "unlocks_item_id": "alpine-wardrobe"
+    }
   },
   "alpino-outfit": {
     "id": "alpino-outfit",
@@ -2093,6 +2087,25 @@
     "loot_area": null,
     "stack_size": null
   },
+  "ancient-fort-security-code": {
+    "id": "ancient-fort-security-code",
+    "name": "Ancient Fort Security Code",
+    "description": "Temporary security code to unlock the main gate.",
+    "icon": "icons/items/ancient-fort-security-code.webp",
+    "rarity": "Common",
+    "item_type": "Key",
+    "subcategory": "Key",
+    "value": 0,
+    "workbench": null,
+    "loot_area": "",
+    "stack_size": 1,
+    "translations": {
+      "it": {
+        "name": "Codice di sicurezza di Ancient Fort",
+        "description": "Uno dei quattro codici di sicurezza necessari per sbloccare il cancello chiuso a Blue Gate. Trovato a Ancient Fort."
+      }
+    }
+  },
   "angled-grip-i": {
     "id": "angled-grip-i",
     "name": "Angled Grip I",
@@ -2288,8 +2301,7 @@
         "name": "Spaccaincudini",
         "description": "Mod tecnica per l'Incudine che scambia i suoi proiettili con altri che si dividono in 4 proiettili più deboli."
       }
-    },
-    "deprecated": true
+    }
   },
   "aphelion-rifle": {
     "id": "aphelion-rifle",
@@ -2302,13 +2314,7 @@
     "value": 27500,
     "workbench": null,
     "loot_area": "",
-    "stack_size": 1,
-    "translations": {
-      "it": {
-        "name": "Aphelion",
-        "description": "Fires high velocity energy rounds."
-      }
-    }
+    "stack_size": 1
   },
   "apricot": {
     "id": "apricot",
@@ -2362,7 +2368,7 @@
     "stack_size": 5,
     "translations": {
       "it": {
-        "name": "Circuito ARC",
+        "name": "Circuiti ARC",
         "description": "Ottenuto da nemici ARC o attività. Si usa per creare componenti. Si può riciclare in lega ARC. Si usa per creare: Scudo medio, Asta energetica"
       }
     }
@@ -2495,7 +2501,7 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Acciaio Performante ARC",
+        "name": "Acciaio ad alte prestazioni ARC",
         "description": "Si può riciclare in materiali di fabbricazione."
       }
     }
@@ -2533,7 +2539,7 @@
     "stack_size": 5,
     "translations": {
       "it": {
-        "name": "Cellula ARC",
+        "name": "Cella di energia ARC",
         "description": "Risorsa preziosa che cade da tutti i nemici ARC. Usata per creare: Ricaricatore di scudo Può essere usata per riparare scudi."
       }
     }
@@ -2552,7 +2558,7 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Resina Sintetica ARC",
+        "name": "Resina sintetica ARC",
         "description": "Si può riciclare in materiali da creazione."
       }
     }
@@ -2645,13 +2651,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "archive-floor-lamp",
     "translations": {
       "it": {
         "name": "Design lampada da terra archivio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "archive-floor-lamp"
+    }
   },
   "arpeggio-i": {
     "id": "arpeggio-i",
@@ -2839,7 +2845,7 @@
     "icon": "icons/items/bandage.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": null,
     "value": 250,
     "workbench": "Basic Bench or Med Station 1",
     "loot_area": null,
@@ -3003,13 +3009,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "bar-table",
     "translations": {
       "it": {
         "name": "Design tavolo bar",
         "description": ""
       }
-    },
-    "unlocks_item_id": "bar-table"
+    }
   },
   "barricade-kit": {
     "id": "barricade-kit",
@@ -3018,7 +3024,7 @@
     "icon": "icons/items/barricade-kit.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Utility",
+    "subcategory": null,
     "value": 640,
     "workbench": "Utility Bench 1",
     "loot_area": "",
@@ -3061,13 +3067,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "barstool",
     "translations": {
       "it": {
         "name": "Design sgabello da bar",
         "description": ""
       }
-    },
-    "unlocks_item_id": "barstool"
+    }
   },
   "bastion-part": {
     "id": "bastion-part",
@@ -3119,13 +3125,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-aviary-table",
     "translations": {
       "it": {
         "name": "Design tavolo voliera malconcio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-aviary-table"
+    }
   },
   "battered-bureau-chair": {
     "id": "battered-bureau-chair",
@@ -3158,13 +3164,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-bureau-chair",
     "translations": {
       "it": {
         "name": "Design sedia da ufficio malconcia",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-bureau-chair"
+    }
   },
   "battered-bureau-sofa": {
     "id": "battered-bureau-sofa",
@@ -3197,13 +3203,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-bureau-sofa",
     "translations": {
       "it": {
         "name": "Design divano da ufficio malconcio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-bureau-sofa"
+    }
   },
   "battered-den-bed": {
     "id": "battered-den-bed",
@@ -3236,13 +3242,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-den-bed",
     "translations": {
       "it": {
         "name": "Design letto tana malconcio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-den-bed"
+    }
   },
   "battered-den-shelf": {
     "id": "battered-den-shelf",
@@ -3275,13 +3281,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-den-shelf",
     "translations": {
       "it": {
         "name": "Design mensola tana malconcia",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-den-shelf"
+    }
   },
   "battered-diner-chair": {
     "id": "battered-diner-chair",
@@ -3314,13 +3320,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-diner-chair",
     "translations": {
       "it": {
         "name": "Design sedia diner malconcia",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-diner-chair"
+    }
   },
   "battered-faculty-table": {
     "id": "battered-faculty-table",
@@ -3353,13 +3359,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-faculty-table",
     "translations": {
       "it": {
         "name": "Design tavolo facoltà malconcio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-faculty-table"
+    }
   },
   "battered-lab-cabinet": {
     "id": "battered-lab-cabinet",
@@ -3392,13 +3398,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-lab-cabinet",
     "translations": {
       "it": {
         "name": "Design armadio laboratorio malconcio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-lab-cabinet"
+    }
   },
   "battered-lab-cabinet-wide": {
     "id": "battered-lab-cabinet-wide",
@@ -3431,13 +3437,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-lab-cabinet-wide",
     "translations": {
       "it": {
         "name": "Design armadio laboratorio malconcio (largo)",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-lab-cabinet-wide"
+    }
   },
   "battered-lab-chair": {
     "id": "battered-lab-chair",
@@ -3470,13 +3476,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-lab-chair",
     "translations": {
       "it": {
         "name": "Design sedia laboratorio malconcia",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-lab-chair"
+    }
   },
   "battered-paperback": {
     "id": "battered-paperback",
@@ -3528,13 +3534,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-shelf",
     "translations": {
       "it": {
         "name": "Design mensola malconcia",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-shelf"
+    }
   },
   "battered-stash": {
     "id": "battered-stash",
@@ -3567,13 +3573,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-stash",
     "translations": {
       "it": {
         "name": "Design deposito malconcio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-stash"
+    }
   },
   "battered-weapon-rack": {
     "id": "battered-weapon-rack",
@@ -3606,13 +3612,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "battered-weapon-rack",
     "translations": {
       "it": {
         "name": "Design rastrelliera per armi malconcia",
         "description": ""
       }
-    },
-    "unlocks_item_id": "battered-weapon-rack"
+    }
   },
   "battery": {
     "id": "battery",
@@ -3767,7 +3773,7 @@
     "icon": "icons/items/binoculars.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": "Quick Use",
     "value": 640,
     "workbench": "Utility Bench",
     "loot_area": null,
@@ -3825,7 +3831,7 @@
     "icon": "icons/items/blaze-grenade.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 1600,
     "workbench": "Explosive Bench 3",
     "loot_area": null,
@@ -3844,7 +3850,7 @@
     "icon": "icons/items/blaze-grenade-trap.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": "",
     "value": 1000,
     "workbench": null,
     "loot_area": "",
@@ -4021,13 +4027,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "blue-lab-cabinet",
     "translations": {
       "it": {
         "name": "Design armadio laboratorio blu",
         "description": ""
       }
-    },
-    "unlocks_item_id": "blue-lab-cabinet"
+    }
   },
   "blue-light-stick": {
     "id": "blue-light-stick",
@@ -4036,7 +4042,7 @@
     "icon": "icons/items/blue-light-stick.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "Quick Use",
     "value": 150,
     "workbench": null,
     "loot_area": "",
@@ -4469,13 +4475,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "bureau-ceiling-lamp",
     "translations": {
       "it": {
         "name": "Design lampada da soffitto ufficio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "bureau-ceiling-lamp"
+    }
   },
   "bureau-desk-lamp": {
     "id": "bureau-desk-lamp",
@@ -4768,13 +4774,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "cafeteria-table",
     "translations": {
       "it": {
         "name": "Design tavolo mensa",
         "description": ""
       }
-    },
-    "unlocks_item_id": "cafeteria-table"
+    }
   },
   "calculator": {
     "id": "calculator",
@@ -5152,13 +5158,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "chambers-lamp",
     "translations": {
       "it": {
         "name": "Design lampada camera",
         "description": ""
       }
-    },
-    "unlocks_item_id": "chambers-lamp"
+    }
   },
   "chambers-nightstand": {
     "id": "chambers-nightstand",
@@ -5191,13 +5197,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "chambers-nightstand",
     "translations": {
       "it": {
         "name": "Design comodino camera",
         "description": ""
       }
-    },
-    "unlocks_item_id": "chambers-nightstand"
+    }
   },
   "chambers-shelf": {
     "id": "chambers-shelf",
@@ -5230,13 +5236,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "chambers-shelf",
     "translations": {
       "it": {
         "name": "Design mensola camera",
         "description": ""
       }
-    },
-    "unlocks_item_id": "chambers-shelf"
+    }
   },
   "chandelier": {
     "id": "chandelier",
@@ -5269,13 +5275,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "chandelier",
     "translations": {
       "it": {
         "name": "Design lampadario",
         "description": ""
       }
-    },
-    "unlocks_item_id": "chandelier"
+    }
   },
   "chap-outfit": {
     "id": "chap-outfit",
@@ -5379,13 +5385,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "clinic-medical-cabinet",
     "translations": {
       "it": {
         "name": "Design armadietto medico clinica",
         "description": ""
       }
-    },
-    "unlocks_item_id": "clinic-medical-cabinet"
+    }
   },
   "coffee-pot": {
     "id": "coffee-pot",
@@ -5412,8 +5418,8 @@
     "description": "Used to buy gear from Traders. Earned by selling loot and completing quests.",
     "icon": "icons/items/coins.webp",
     "rarity": "Common",
-    "item_type": "Currency",
-    "subcategory": null,
+    "item_type": "Misc",
+    "subcategory": "",
     "value": 0,
     "workbench": null,
     "loot_area": "",
@@ -5430,13 +5436,7 @@
     "value": 10000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": 1,
-    "translations": {
-      "it": {
-        "name": "Scarpe Colorate",
-        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
-      }
-    }
+    "stack_size": 1
   },
   "colorful-shoes-epic": {
     "id": "colorful-shoes-epic",
@@ -5449,13 +5449,7 @@
     "value": 7000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": 1,
-    "translations": {
-      "it": {
-        "name": "Scarpe Colorate",
-        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
-      }
-    }
+    "stack_size": 1
   },
   "colorful-shoes-rare": {
     "id": "colorful-shoes-rare",
@@ -5468,13 +5462,7 @@
     "value": 3000,
     "workbench": null,
     "loot_area": "",
-    "stack_size": 3,
-    "translations": {
-      "it": {
-        "name": "Scarpe Colorate",
-        "description": "Questa calzatura specializzata è ornata da vivaci motivi cerimoniali ed è progettata per ancorare chi la indossa al suolo. Si ritiene che sia appartenuta ad antichi viandanti di grande fama."
-      }
-    }
+    "stack_size": 3
   },
   "combat-mk-1": {
     "id": "combat-mk-1",
@@ -5710,13 +5698,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "console-chest",
     "translations": {
       "it": {
         "name": "Design console",
         "description": ""
       }
-    },
-    "unlocks_item_id": "console-chest"
+    }
   },
   "coolant": {
     "id": "coolant",
@@ -5853,7 +5841,7 @@
     "icon": "icons/items/crash-mat.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "",
     "value": 1200,
     "workbench": "Utility Station II",
     "loot_area": "",
@@ -5884,8 +5872,8 @@
     "description": "Crimson Racer (Aviator Colour) is a quest reward from Communication Hideout",
     "icon": "icons/items/crimson-racer-aviator-colour.webp",
     "rarity": "Common",
-    "item_type": "Cosmetic",
-    "subcategory": "Outfit Color",
+    "item_type": "Misc",
+    "subcategory": "",
     "value": null,
     "workbench": null,
     "loot_area": "",
@@ -6031,7 +6019,7 @@
     "icon": "icons/items/buried-city-jkv-employee-access-card.webp",
     "rarity": "Uncommon",
     "item_type": "Quest Item",
-    "subcategory": "Key",
+    "subcategory": "",
     "value": 100,
     "workbench": null,
     "loot_area": "",
@@ -6279,7 +6267,7 @@
     "icon": "icons/items/deadline.webp",
     "rarity": "Epic",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": "",
     "value": 6000,
     "workbench": "Explosives Bench III",
     "loot_area": "",
@@ -6324,7 +6312,7 @@
     "icon": "icons/items/defibrillator.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": null,
     "value": 1000,
     "workbench": "Med Station 3",
     "loot_area": null,
@@ -6456,13 +6444,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "diner-ceiling-lamp",
     "translations": {
       "it": {
         "name": "Design lampada da soffitto diner",
         "description": ""
       }
-    },
-    "unlocks_item_id": "diner-ceiling-lamp"
+    }
   },
   "diner-cupboard": {
     "id": "diner-cupboard",
@@ -6495,13 +6483,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "diner-cupboard",
     "translations": {
       "it": {
         "name": "Design credenza diner",
         "description": ""
       }
-    },
-    "unlocks_item_id": "diner-cupboard"
+    }
   },
   "diner-shelf": {
     "id": "diner-shelf",
@@ -6534,13 +6522,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "diner-shelf",
     "translations": {
       "it": {
         "name": "Design mensola diner",
         "description": ""
       }
-    },
-    "unlocks_item_id": "diner-shelf"
+    }
   },
   "diner-sofa": {
     "id": "diner-sofa",
@@ -6573,13 +6561,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "diner-sofa",
     "translations": {
       "it": {
         "name": "Design divano diner",
         "description": ""
       }
-    },
-    "unlocks_item_id": "diner-sofa"
+    }
   },
   "diner-stool": {
     "id": "diner-stool",
@@ -6612,13 +6600,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "diner-stool",
     "translations": {
       "it": {
         "name": "Design sgabello diner",
         "description": ""
       }
-    },
-    "unlocks_item_id": "diner-stool"
+    }
   },
   "diner-table": {
     "id": "diner-table",
@@ -6651,13 +6639,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "diner-table",
     "translations": {
       "it": {
         "name": "Design tavolo diner",
         "description": ""
       }
-    },
-    "unlocks_item_id": "diner-table"
+    }
   },
   "diving-googles": {
     "id": "diving-googles",
@@ -6685,7 +6673,7 @@
     "icon": "icons/items/dockmasters-detector.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": "",
     "value": 1000,
     "workbench": null,
     "loot_area": "",
@@ -6780,7 +6768,7 @@
     "icon": "icons/items/door-blocker.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Utility",
+    "subcategory": null,
     "value": 270,
     "workbench": "Utility Bench I ",
     "loot_area": null,
@@ -6836,13 +6824,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "draped-debris-a",
     "translations": {
       "it": {
         "name": "Design detriti drappeggiati A",
         "description": ""
       }
-    },
-    "unlocks_item_id": "draped-debris-a"
+    }
   },
   "draped-debris-b": {
     "id": "draped-debris-b",
@@ -6875,13 +6863,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "draped-debris-b",
     "translations": {
       "it": {
         "name": "Design detriti drappeggiati B",
         "description": ""
       }
-    },
-    "unlocks_item_id": "draped-debris-b"
+    }
   },
   "draped-debris-c": {
     "id": "draped-debris-c",
@@ -6914,13 +6902,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "draped-debris-c",
     "translations": {
       "it": {
         "name": "Design detriti drappeggiati C",
         "description": ""
       }
-    },
-    "unlocks_item_id": "draped-debris-c"
+    }
   },
   "draped-debris-e": {
     "id": "draped-debris-e",
@@ -6953,13 +6941,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "draped-debris-e",
     "translations": {
       "it": {
         "name": "Design detriti drappeggiati E",
         "description": ""
       }
-    },
-    "unlocks_item_id": "draped-debris-e"
+    }
   },
   "draped-debris-f": {
     "id": "draped-debris-f",
@@ -6992,13 +6980,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "draped-debris-f",
     "translations": {
       "it": {
         "name": "Design detriti drappeggiati F",
         "description": ""
       }
-    },
-    "unlocks_item_id": "draped-debris-f"
+    }
   },
   "draped-debris-g": {
     "id": "draped-debris-g",
@@ -7031,13 +7019,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "draped-debris-g",
     "translations": {
       "it": {
         "name": "Design detriti drappeggiati G",
         "description": ""
       }
-    },
-    "unlocks_item_id": "draped-debris-g"
+    }
   },
   "dried-out-arc-resin": {
     "id": "dried-out-arc-resin",
@@ -7401,8 +7389,8 @@
     "description": "A portable analyzer from the world before, complete with several spare tubes.",
     "icon": "icons/items/esr-analyzer.webp",
     "rarity": "Common",
-    "item_type": "Quest Item",
-    "subcategory": null,
+    "item_type": "Trinket",
+    "subcategory": "Misc",
     "value": 100,
     "workbench": null,
     "loot_area": null,
@@ -7554,7 +7542,7 @@
     "icon": "icons/items/explosive-mine.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": null,
     "value": 1500,
     "workbench": "Explosives Bench 3",
     "loot_area": null,
@@ -7876,13 +7864,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "faculty-closet",
     "translations": {
       "it": {
         "name": "Design armadio facoltà",
         "description": ""
       }
-    },
-    "unlocks_item_id": "faculty-closet"
+    }
   },
   "faculty-dresser": {
     "id": "faculty-dresser",
@@ -7915,13 +7903,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "faculty-dresser",
     "translations": {
       "it": {
         "name": "Design comò facoltà",
         "description": ""
       }
-    },
-    "unlocks_item_id": "faculty-dresser"
+    }
   },
   "faded-flush-aviator-color": {
     "id": "faded-flush-aviator-color",
@@ -8191,7 +8179,7 @@
     "icon": "icons/items/firecracker.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "Quick Use",
     "value": 270,
     "workbench": null,
     "loot_area": "",
@@ -8229,7 +8217,7 @@
     "icon": "icons/items/fireworks-box.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Utility",
+    "subcategory": "Quick Use",
     "value": 2000,
     "workbench": null,
     "loot_area": "",
@@ -8305,7 +8293,7 @@
     "icon": "icons/items/flame-spray.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": "",
     "value": 2000,
     "workbench": null,
     "loot_area": "",
@@ -8367,13 +8355,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "floor-lamp",
     "translations": {
       "it": {
         "name": "Design lampada da terra",
         "description": ""
       }
-    },
-    "unlocks_item_id": "floor-lamp"
+    }
   },
   "flow-controller": {
     "id": "flow-controller",
@@ -8400,8 +8388,8 @@
     "description": "A pungent key used to operate the Flushing Terminals in the tunnels below Spaceport.",
     "icon": "icons/items/flushing-terminal-key.webp",
     "rarity": "Common",
-    "item_type": "Quest Item",
-    "subcategory": "Key",
+    "item_type": "Trinket",
+    "subcategory": "",
     "value": 100,
     "workbench": null,
     "loot_area": "",
@@ -8598,7 +8586,7 @@
     "icon": "icons/items/fruit-mix.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": null,
     "value": 1800,
     "workbench": null,
     "loot_area": null,
@@ -13062,7 +13050,7 @@
     "icon": "icons/items/gas-grenade.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 270,
     "workbench": "Explosive Bench 1",
     "loot_area": null,
@@ -13081,7 +13069,7 @@
     "icon": "icons/items/gas-grenade-trap.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": "",
     "value": 300,
     "workbench": null,
     "loot_area": "",
@@ -13100,7 +13088,7 @@
     "icon": "icons/items/gas-mine.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": "",
     "value": 270,
     "workbench": "Explosives Bench I",
     "loot_area": "",
@@ -13207,13 +13195,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "geometric-fabric-chair",
     "translations": {
       "it": {
         "name": "Design sedia in tessuto geometrico",
         "description": ""
       }
-    },
-    "unlocks_item_id": "geometric-fabric-chair"
+    }
   },
   "glacier-smasher-raider-tool": {
     "id": "glacier-smasher-raider-tool",
@@ -13259,13 +13247,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "glass-ceiling-lamp",
     "translations": {
       "it": {
         "name": "Design lampada da soffitto in vetro",
         "description": ""
       }
-    },
-    "unlocks_item_id": "glass-ceiling-lamp"
+    }
   },
   "glitched-arc-circuitry": {
     "id": "glitched-arc-circuitry",
@@ -13470,13 +13458,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "green-geometric-chair",
     "translations": {
       "it": {
         "name": "Design sedia geometrica verde",
         "description": ""
       }
-    },
-    "unlocks_item_id": "green-geometric-chair"
+    }
   },
   "green-geometric-sofa": {
     "id": "green-geometric-sofa",
@@ -13509,13 +13497,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "green-geometric-sofa",
     "translations": {
       "it": {
         "name": "Design divano geometrico verde",
         "description": ""
       }
-    },
-    "unlocks_item_id": "green-geometric-sofa"
+    }
   },
   "green-lab-sofa": {
     "id": "green-lab-sofa",
@@ -13548,13 +13536,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "green-lab-sofa",
     "translations": {
       "it": {
         "name": "Design divano laboratorio verde",
         "description": ""
       }
-    },
-    "unlocks_item_id": "green-lab-sofa"
+    }
   },
   "green-light-stick": {
     "id": "green-light-stick",
@@ -13563,7 +13551,7 @@
     "icon": "icons/items/green-light-stick.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "Quick Use",
     "value": 150,
     "workbench": null,
     "loot_area": "",
@@ -13799,7 +13787,7 @@
     "icon": "icons/items/heavy-fuze-grenade.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 1600,
     "workbench": "Explosives Bench",
     "loot_area": null,
@@ -13869,7 +13857,7 @@
     "icon": "icons/items/herbal-bandage.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": null,
     "value": 900,
     "workbench": "Med Station",
     "loot_area": null,
@@ -13976,13 +13964,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "holly-bush",
     "translations": {
       "it": {
         "name": "Design cespuglio agrifoglio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "holly-bush"
+    }
   },
   "horizontal-grip": {
     "id": "horizontal-grip",
@@ -14066,13 +14054,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "hotel-chair",
     "translations": {
       "it": {
         "name": "Design sedia hotel",
         "description": ""
       }
-    },
-    "unlocks_item_id": "hotel-chair"
+    }
   },
   "household-cleaner": {
     "id": "household-cleaner",
@@ -14534,7 +14522,7 @@
     "icon": "icons/items/jolt-mine.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": null,
     "value": 850,
     "workbench": "Explosives Bench II",
     "loot_area": null,
@@ -14756,13 +14744,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "lab-ceiling-light",
     "translations": {
       "it": {
         "name": "Design lampada da soffitto laboratorio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "lab-ceiling-light"
+    }
   },
   "lab-stool": {
     "id": "lab-stool",
@@ -14795,13 +14783,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "lab-stool",
     "translations": {
       "it": {
         "name": "Design sgabello laboratorio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "lab-stool"
+    }
   },
   "laboratory-reagents": {
     "id": "laboratory-reagents",
@@ -14867,7 +14855,7 @@
     "icon": "icons/items/laser-trap-lure.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": "",
     "value": null,
     "workbench": null,
     "loot_area": "",
@@ -14880,7 +14868,7 @@
     "icon": "icons/items/laser-trap-smoke.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": "",
     "value": 640,
     "workbench": null,
     "loot_area": "",
@@ -15083,7 +15071,7 @@
     "icon": "icons/items/light-impact-grenade.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 270,
     "workbench": "Explosive Bench 1 or Basic Bench",
     "loot_area": null,
@@ -15140,7 +15128,7 @@
     "icon": "icons/items/lil-smoke-grenade.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "",
     "value": 300,
     "workbench": "Utility Bench",
     "loot_area": "",
@@ -15293,7 +15281,7 @@
     "icon": "icons/items/lure-grenade.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 1000,
     "workbench": "Utility Bench 2",
     "loot_area": null,
@@ -15312,7 +15300,7 @@
     "icon": "icons/items/lure-grenade-trap.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": "",
     "value": 1000,
     "workbench": null,
     "loot_area": "",
@@ -15973,13 +15961,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "multicolored-geometric-sofa",
     "translations": {
       "it": {
         "name": "Design divano geometrico multicolore",
         "description": ""
       }
-    },
-    "unlocks_item_id": "multicolored-geometric-sofa"
+    }
   },
   "mushroom": {
     "id": "mushroom",
@@ -16115,7 +16103,7 @@
     "icon": "icons/items/noisemaker.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": "",
     "value": 640,
     "workbench": null,
     "loot_area": "",
@@ -16235,13 +16223,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "offering-display-table",
     "translations": {
       "it": {
         "name": "Design tavolo espositivo offerte",
         "description": ""
       }
-    },
-    "unlocks_item_id": "offering-display-table"
+    }
   },
   "official-shutdown-documentation": {
     "id": "official-shutdown-documentation",
@@ -16389,13 +16377,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "ornate-den-bed",
     "translations": {
       "it": {
         "name": "Design letto tana decorato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "ornate-den-bed"
+    }
   },
   "ornate-den-shelf": {
     "id": "ornate-den-shelf",
@@ -16428,13 +16416,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "ornate-den-shelf",
     "translations": {
       "it": {
         "name": "Design mensola tana decorata",
         "description": ""
       }
-    },
-    "unlocks_item_id": "ornate-den-shelf"
+    }
   },
   "ornate-stash": {
     "id": "ornate-stash",
@@ -16467,13 +16455,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "ornate-stash",
     "translations": {
       "it": {
         "name": "Design deposito decorato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "ornate-stash"
+    }
   },
   "ornate-wardrobe": {
     "id": "ornate-wardrobe",
@@ -16506,13 +16494,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "ornate-wardrobe",
     "translations": {
       "it": {
         "name": "Design guardaroba decorato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "ornate-wardrobe"
+    }
   },
   "osprey-i": {
     "id": "osprey-i",
@@ -16795,7 +16783,7 @@
     "icon": "icons/items/photoelectric-cloak.webp",
     "rarity": "Epic",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": null,
     "value": 5000,
     "workbench": "Utility Bench",
     "loot_area": null,
@@ -16972,13 +16960,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-den-bed",
     "translations": {
       "it": {
         "name": "Design letto tana levigato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-den-bed"
+    }
   },
   "polished-den-shelf": {
     "id": "polished-den-shelf",
@@ -17011,13 +16999,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-den-shelf",
     "translations": {
       "it": {
         "name": "Design mensola tana lucida",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-den-shelf"
+    }
   },
   "polished-diner-chair": {
     "id": "polished-diner-chair",
@@ -17050,13 +17038,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-diner-chair",
     "translations": {
       "it": {
         "name": "Design sedia diner lucidata",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-diner-chair"
+    }
   },
   "polished-faculty-chair": {
     "id": "polished-faculty-chair",
@@ -17089,13 +17077,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-faculty-chair",
     "translations": {
       "it": {
         "name": "Design sedia facoltà lucidata",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-faculty-chair"
+    }
   },
   "polished-faculty-table": {
     "id": "polished-faculty-table",
@@ -17128,13 +17116,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-faculty-table",
     "translations": {
       "it": {
         "name": "Design tavolo facoltà lucidato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-faculty-table"
+    }
   },
   "polished-round-sofa": {
     "id": "polished-round-sofa",
@@ -17167,13 +17155,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-round-sofa",
     "translations": {
       "it": {
         "name": "Design divano rotondo lucidato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-round-sofa"
+    }
   },
   "polished-stash": {
     "id": "polished-stash",
@@ -17206,13 +17194,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-stash",
     "translations": {
       "it": {
         "name": "Design deposito lucidato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-stash"
+    }
   },
   "polished-study-sofa": {
     "id": "polished-study-sofa",
@@ -17245,13 +17233,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-study-sofa",
     "translations": {
       "it": {
         "name": "Design divano studio lucidato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-study-sofa"
+    }
   },
   "polished-wardrobe": {
     "id": "polished-wardrobe",
@@ -17284,13 +17272,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-wardrobe",
     "translations": {
       "it": {
         "name": "Design guardaroba lucidato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-wardrobe"
+    }
   },
   "polished-weapon-rack": {
     "id": "polished-weapon-rack",
@@ -17323,13 +17311,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "polished-weapon-rack",
     "translations": {
       "it": {
         "name": "Design rastrelliera per armi lucidata",
         "description": ""
       }
-    },
-    "unlocks_item_id": "polished-weapon-rack"
+    }
   },
   "polluted-air-filter": {
     "id": "polluted-air-filter",
@@ -17364,7 +17352,7 @@
     "stack_size": 3,
     "translations": {
       "it": {
-        "name": "Detonatore Pop",
+        "name": "Grilletto pop",
         "description": "Si può riciclare in materiali da costruzione."
       }
     }
@@ -17528,7 +17516,7 @@
     "icon": "icons/items/powered-descender.webp",
     "rarity": "Epic",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": "",
     "value": 10000,
     "workbench": null,
     "loot_area": "",
@@ -17628,13 +17616,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "printed-fabric-chair",
     "translations": {
       "it": {
         "name": "Design sedia in tessuto stampato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "printed-fabric-chair"
+    }
   },
   "printed-lab-sofa": {
     "id": "printed-lab-sofa",
@@ -17667,13 +17655,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "printed-lab-sofa",
     "translations": {
       "it": {
         "name": "Design divano laboratorio stampato",
         "description": ""
       }
-    },
-    "unlocks_item_id": "printed-lab-sofa"
+    }
   },
   "processor": {
     "id": "processor",
@@ -17758,7 +17746,7 @@
     "icon": "icons/items/pulse-mine.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Trap",
+    "subcategory": "",
     "value": 470,
     "workbench": null,
     "loot_area": "",
@@ -17948,8 +17936,8 @@
     "description": "Used to purchase decks and cosmetics.",
     "icon": "icons/items/raider-tokens.webp",
     "rarity": "Common",
-    "item_type": "Currency",
-    "subcategory": null,
+    "item_type": "Misc",
+    "subcategory": "",
     "value": 0,
     "workbench": null,
     "loot_area": "",
@@ -17959,7 +17947,7 @@
     "id": "raiders-refuge-security-code",
     "name": "Raider's Refuge Security Code",
     "description": "Temporary security code to unlock the main gate.",
-    "icon": "icons/items/raiders-refuge-security-code.webp",
+    "icon": "icons/items/ancient-fort-security-code.webp",
     "rarity": "Common",
     "item_type": "Key",
     "subcategory": "Key",
@@ -18185,7 +18173,7 @@
     "icon": "icons/items/recorder.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": "Quick Use",
     "value": 1000,
     "workbench": null,
     "loot_area": "Residential",
@@ -18223,7 +18211,7 @@
     "icon": "icons/items/red-light-stick.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "Quick Use",
     "value": 150,
     "workbench": null,
     "loot_area": "",
@@ -18279,19 +18267,19 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "red-study-sofa",
     "translations": {
       "it": {
         "name": "Design divano studio rosso",
         "description": ""
       }
-    },
-    "unlocks_item_id": "red-study-sofa"
+    }
   },
   "reinforced-reception-security-code": {
     "id": "reinforced-reception-security-code",
     "name": "Reinforced Reception Security Code",
     "description": "Temporary security code to unlock the main gate.",
-    "icon": "icons/items/raiders-refuge-security-code.webp",
+    "icon": "icons/items/ancient-fort-security-code.webp",
     "rarity": "Common",
     "item_type": "Key",
     "subcategory": "Key",
@@ -18332,7 +18320,7 @@
     "icon": "icons/items/remote-raider-flare.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Utility",
+    "subcategory": null,
     "value": 270,
     "workbench": "",
     "loot_area": null,
@@ -18465,18 +18453,12 @@
     "description": "Research Points are used to craft Blueprints, Designs and to research Weapon Amplification",
     "icon": "icons/items/research-points.webp",
     "rarity": "Common",
-    "item_type": "Currency",
+    "item_type": "Misc",
     "subcategory": null,
     "value": null,
     "workbench": null,
     "loot_area": null,
-    "stack_size": 2000000000,
-    "translations": {
-      "it": {
-        "name": "Punti Ricerca",
-        "description": "I Punti Ricerca sono utilizzati per fabbricare Progetti, Design e per ricercare l'Amplificazione delle armi."
-      }
-    }
+    "stack_size": 2000000000
   },
   "resin": {
     "id": "resin",
@@ -18528,13 +18510,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "restaurant-table",
     "translations": {
       "it": {
         "name": "Design tavolo ristorante",
         "description": ""
       }
-    },
-    "unlocks_item_id": "restaurant-table"
+    }
   },
   "riot-outfit": {
     "id": "riot-outfit",
@@ -19413,13 +19395,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "security-chair",
     "translations": {
       "it": {
         "name": "Design sedia di sicurezza",
         "description": ""
       }
-    },
-    "unlocks_item_id": "security-chair"
+    }
   },
   "seed-vault-box-key": {
     "id": "seed-vault-box-key",
@@ -19447,7 +19429,7 @@
     "icon": "icons/items/seeker-grenade.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "",
     "value": 640,
     "workbench": "Explosives Bench I",
     "loot_area": "",
@@ -19549,7 +19531,7 @@
     "icon": "icons/items/shaker.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": "Quick Use",
     "value": 1000,
     "workbench": null,
     "loot_area": "Residential",
@@ -19613,7 +19595,7 @@
     "icon": "icons/items/shield-recharger.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": "Quick Use",
     "value": 520,
     "workbench": "Equipment Bench",
     "loot_area": null,
@@ -19759,7 +19741,7 @@
     "icon": "icons/items/showstopper.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 2100,
     "workbench": "Explosives Bench III",
     "loot_area": null,
@@ -19778,7 +19760,7 @@
     "icon": "icons/items/shrapnel-grenade.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "",
     "value": 800,
     "workbench": "Explosives Bench",
     "loot_area": "",
@@ -20050,13 +20032,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "small-lab-cabinet",
     "translations": {
       "it": {
         "name": "Design armadio laboratorio piccolo",
         "description": ""
       }
-    },
-    "unlocks_item_id": "small-lab-cabinet"
+    }
   },
   "smelly-emote": {
     "id": "smelly-emote",
@@ -20078,7 +20060,7 @@
     "icon": "icons/items/smoke-grenade.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 1000,
     "workbench": "Utility Bench 1 or Basic Bench",
     "loot_area": null,
@@ -20097,7 +20079,7 @@
     "icon": "icons/items/snap-blast-grenade.webp",
     "rarity": "Uncommon",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 800,
     "workbench": "Explosives Bench",
     "loot_area": null,
@@ -20116,7 +20098,7 @@
     "icon": "icons/items/snap-hook.webp",
     "rarity": "Legendary",
     "item_type": "Quick Use",
-    "subcategory": "Gadget",
+    "subcategory": null,
     "value": 14000,
     "workbench": "Utility Bench 3",
     "loot_area": null,
@@ -20229,13 +20211,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "solid-green-chair",
     "translations": {
       "it": {
         "name": "Design sedia verde a tinta unita",
         "description": ""
       }
-    },
-    "unlocks_item_id": "solid-green-chair"
+    }
   },
   "spacecraft-module-backpack-attachment": {
     "id": "spacecraft-module-backpack-attachment",
@@ -20682,7 +20664,7 @@
     "icon": "icons/items/sterilized-bandage.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": "Quick Use",
     "value": 2000,
     "workbench": "Med Station 2",
     "loot_area": null,
@@ -20903,13 +20885,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "study-armchair-design-res-armchair-01-a",
     "translations": {
       "it": {
         "name": "Design poltrona studio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "study-armchair-design-res-armchair-01-a"
+    }
   },
   "study-armchair-design-res-sofa-01-y150-a": {
     "id": "study-armchair-design-res-sofa-01-y150-a",
@@ -20923,13 +20905,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "study-armchair-design-res-sofa-01-y150-a",
     "translations": {
       "it": {
         "name": "Design poltrona studio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "study-armchair-design-res-sofa-01-y150-a"
+    }
   },
   "study-armchair-res-armchair-01-a": {
     "id": "study-armchair-res-armchair-01-a",
@@ -20981,13 +20963,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "study-ceiling-lamp",
     "translations": {
       "it": {
         "name": "Design lampada da soffitto studio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "study-ceiling-lamp"
+    }
   },
   "study-piano": {
     "id": "study-piano",
@@ -21020,13 +21002,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "study-piano",
     "translations": {
       "it": {
         "name": "Design piano studio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "study-piano"
+    }
   },
   "study-tv-stand": {
     "id": "study-tv-stand",
@@ -21059,13 +21041,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "study-tv-stand",
     "translations": {
       "it": {
         "name": "Design mobile TV studio",
         "description": ""
       }
-    },
-    "unlocks_item_id": "study-tv-stand"
+    }
   },
   "sturdy-aviary-table": {
     "id": "sturdy-aviary-table",
@@ -21098,13 +21080,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-aviary-table",
     "translations": {
       "it": {
         "name": "Design tavolo voliera robusto",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-aviary-table"
+    }
   },
   "sturdy-bureau-chair": {
     "id": "sturdy-bureau-chair",
@@ -21137,13 +21119,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-bureau-chair",
     "translations": {
       "it": {
         "name": "Design sedia da ufficio robusta",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-bureau-chair"
+    }
   },
   "sturdy-bureau-sofa": {
     "id": "sturdy-bureau-sofa",
@@ -21176,13 +21158,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-bureau-sofa",
     "translations": {
       "it": {
         "name": "Design divano da ufficio robusto",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-bureau-sofa"
+    }
   },
   "sturdy-den-bed": {
     "id": "sturdy-den-bed",
@@ -21215,13 +21197,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-den-bed",
     "translations": {
       "it": {
         "name": "Design letto tana robusto",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-den-bed"
+    }
   },
   "sturdy-den-shelf": {
     "id": "sturdy-den-shelf",
@@ -21254,13 +21236,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-den-shelf",
     "translations": {
       "it": {
         "name": "Design mensola tana robusta",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-den-shelf"
+    }
   },
   "sturdy-faculty-chair": {
     "id": "sturdy-faculty-chair",
@@ -21293,13 +21275,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-faculty-chair",
     "translations": {
       "it": {
         "name": "Design sedia facoltà robusta",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-faculty-chair"
+    }
   },
   "sturdy-faculty-table": {
     "id": "sturdy-faculty-table",
@@ -21332,13 +21314,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-faculty-table",
     "translations": {
       "it": {
         "name": "Design tavolo facoltà robusto",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-faculty-table"
+    }
   },
   "sturdy-lab-cabinet": {
     "id": "sturdy-lab-cabinet",
@@ -21371,13 +21353,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-lab-cabinet",
     "translations": {
       "it": {
         "name": "Design armadio laboratorio robusto",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-lab-cabinet"
+    }
   },
   "sturdy-lab-cabinet-wide": {
     "id": "sturdy-lab-cabinet-wide",
@@ -21410,13 +21392,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-lab-cabinet-wide",
     "translations": {
       "it": {
         "name": "Design armadio laboratorio robusto (largo)",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-lab-cabinet-wide"
+    }
   },
   "sturdy-lab-chair": {
     "id": "sturdy-lab-chair",
@@ -21449,13 +21431,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-lab-chair",
     "translations": {
       "it": {
         "name": "Design sedia laboratorio robusta",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-lab-chair"
+    }
   },
   "sturdy-shelf": {
     "id": "sturdy-shelf",
@@ -21488,13 +21470,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-shelf",
     "translations": {
       "it": {
         "name": "Design mensola robusta",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-shelf"
+    }
   },
   "sturdy-stash": {
     "id": "sturdy-stash",
@@ -21527,13 +21509,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-stash",
     "translations": {
       "it": {
         "name": "Design deposito robusto",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-stash"
+    }
   },
   "sturdy-wardrobe": {
     "id": "sturdy-wardrobe",
@@ -21566,13 +21548,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-wardrobe",
     "translations": {
       "it": {
         "name": "Design guardaroba robusto",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-wardrobe"
+    }
   },
   "sturdy-weapon-rack": {
     "id": "sturdy-weapon-rack",
@@ -21605,13 +21587,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "sturdy-weapon-rack",
     "translations": {
       "it": {
         "name": "Design rastrelliera per armi robusta",
         "description": ""
       }
-    },
-    "unlocks_item_id": "sturdy-weapon-rack"
+    }
   },
   "subterranean-outfit": {
     "id": "subterranean-outfit",
@@ -21646,7 +21628,7 @@
     "icon": "icons/items/surge-coil.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Utility",
+    "subcategory": "",
     "value": 2100,
     "workbench": "Explosives Bench III",
     "loot_area": "",
@@ -21665,7 +21647,7 @@
     "icon": "icons/items/surge-shield-recharger.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": "Quick Use",
     "value": 1200,
     "workbench": "Medical Lab II",
     "loot_area": "",
@@ -21868,7 +21850,7 @@
     "icon": "icons/items/tagging-grenade.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": null,
     "value": 1000,
     "workbench": "Utility Bench 3",
     "loot_area": null,
@@ -22383,7 +22365,7 @@
     "icon": "icons/items/trailblazer-grenade.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "",
     "value": 2200,
     "workbench": "Explosives Bench II",
     "loot_area": "",
@@ -22447,7 +22429,7 @@
     "icon": "icons/items/trigger-nade.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "",
     "value": 1000,
     "workbench": null,
     "loot_area": "",
@@ -22541,13 +22523,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "tufted-sofa",
     "translations": {
       "it": {
         "name": "Design divano capitonné",
         "description": ""
       }
-    },
-    "unlocks_item_id": "tufted-sofa"
+    }
   },
   "turbine-compressor": {
     "id": "turbine-compressor",
@@ -22847,13 +22829,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "venetian-dresser",
     "translations": {
       "it": {
         "name": "Design comò veneziano",
         "description": ""
       }
-    },
-    "unlocks_item_id": "venetian-dresser"
+    }
   },
   "verdigris-stencil": {
     "id": "verdigris-stencil",
@@ -22970,7 +22952,7 @@
     "icon": "icons/items/vita-shot.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": "",
     "value": 2200,
     "workbench": "Med Station 3",
     "loot_area": null,
@@ -22989,7 +22971,7 @@
     "icon": "icons/items/vita-spray.webp",
     "rarity": "Epic",
     "item_type": "Quick Use",
-    "subcategory": "Healing",
+    "subcategory": null,
     "value": 3400,
     "workbench": "Med Station",
     "loot_area": null,
@@ -23020,8 +23002,8 @@
     "description": "Can be thrown.",
     "icon": "icons/items/volcanic-rock.webp",
     "rarity": "Common",
-    "item_type": "Nature",
-    "subcategory": "Nature",
+    "item_type": "Misc",
+    "subcategory": "",
     "value": 270,
     "workbench": null,
     "loot_area": "Nature",
@@ -23198,13 +23180,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "warehouse-chair",
     "translations": {
       "it": {
         "name": "Design sedia magazzino",
         "description": ""
       }
-    },
-    "unlocks_item_id": "warehouse-chair"
+    }
   },
   "warehouse-desk": {
     "id": "warehouse-desk",
@@ -23237,13 +23219,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "warehouse-desk",
     "translations": {
       "it": {
         "name": "Design scrivania magazzino",
         "description": ""
       }
-    },
-    "unlocks_item_id": "warehouse-desk"
+    }
   },
   "warehouse-dresser": {
     "id": "warehouse-dresser",
@@ -23276,13 +23258,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "warehouse-dresser",
     "translations": {
       "it": {
         "name": "Design comò magazzino",
         "description": ""
       }
-    },
-    "unlocks_item_id": "warehouse-dresser"
+    }
   },
   "wasp-driver": {
     "id": "wasp-driver",
@@ -23398,13 +23380,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "weather-station-chair",
     "translations": {
       "it": {
         "name": "Design sedia stazione meteorologica",
         "description": ""
       }
-    },
-    "unlocks_item_id": "weather-station-chair"
+    }
   },
   "weather-station-table": {
     "id": "weather-station-table",
@@ -23437,13 +23419,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "weather-station-table",
     "translations": {
       "it": {
         "name": "Design tavolo stazione meteorologica",
         "description": ""
       }
-    },
-    "unlocks_item_id": "weather-station-table"
+    }
   },
   "welded-pickaxe-raider-tool": {
     "id": "welded-pickaxe-raider-tool",
@@ -23553,13 +23535,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "winter-table",
     "translations": {
       "it": {
         "name": "Design tavolo invernale",
         "description": ""
       }
-    },
-    "unlocks_item_id": "winter-table"
+    }
   },
   "wires": {
     "id": "wires",
@@ -23587,7 +23569,7 @@
     "icon": "icons/items/wolfpack.webp",
     "rarity": "Epic",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "Quick Use",
     "value": 6000,
     "workbench": "Explosives Bench III",
     "loot_area": null,
@@ -23630,13 +23612,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "work-light",
     "translations": {
       "it": {
         "name": "Design luce di lavoro",
         "description": ""
       }
-    },
-    "unlocks_item_id": "work-light"
+    }
   },
   "wreck-helmet": {
     "id": "wreck-helmet",
@@ -23690,7 +23672,7 @@
     "icon": "icons/items/yellow-light-stick.webp",
     "rarity": "Common",
     "item_type": "Quick Use",
-    "subcategory": "Grenade",
+    "subcategory": "Quick Use",
     "value": 150,
     "workbench": null,
     "loot_area": "",
@@ -23735,7 +23717,7 @@
     "icon": "icons/items/zipline.webp",
     "rarity": "Rare",
     "item_type": "Quick Use",
-    "subcategory": "Utility",
+    "subcategory": null,
     "value": 1000,
     "workbench": "Utility Station II",
     "loot_area": null,
@@ -23759,13 +23741,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "advanced-camera",
     "translations": {
       "it": {
         "name": "Progetto Fotocamera avanzata",
         "description": "Ti permette di creare una Fotocamera avanzata"
       }
-    },
-    "unlocks_item_id": "advanced-camera"
+    }
   },
   "angled-grip-ii-recipe": {
     "id": "angled-grip-ii-recipe",
@@ -23779,13 +23761,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "angled-grip-ii",
     "translations": {
       "it": {
         "name": "Progetto Impugnatura angolata II",
         "description": "Riduce moderatamente il rinculo orizzontale. Compatibile con: Arpeggio, Ferro, Il Toro, Stitcher"
       }
-    },
-    "unlocks_item_id": "angled-grip-ii"
+    }
   },
   "angled-grip-iii-recipe": {
     "id": "angled-grip-iii-recipe",
@@ -23799,13 +23781,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "angled-grip-iii",
     "translations": {
       "it": {
         "name": "Progetto Impugnatura angolata III",
         "description": "Riduce significativamente il rinculo orizzontale. Compatibile con: Arpeggio, Ferro, Venator, Il Toro, Stitcher"
       }
-    },
-    "unlocks_item_id": "angled-grip-iii"
+    }
   },
   "anvil-recipe": {
     "id": "anvil-recipe",
@@ -23819,13 +23801,13 @@
     "workbench": "Weapon Bench",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "anvil-i",
     "translations": {
       "it": {
         "name": "Progetto Incudine",
         "description": "Ha alto Danni e Danni da colpo alla testa, ma maneggevolezza lenta."
       }
-    },
-    "unlocks_item_id": "anvil-i"
+    }
   },
   "aphelion-rifle-blueprint": {
     "id": "aphelion-rifle-blueprint",
@@ -23839,13 +23821,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "amplified-aphelion",
     "translations": {
       "it": {
         "name": "Progetto Aphelion",
         "description": "Spara proiettili energetici ad alta velocità."
       }
-    },
-    "unlocks_item_id": "amplified-aphelion"
+    }
   },
   "banjo-blueprint": {
     "id": "banjo-blueprint",
@@ -23859,13 +23841,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "banjo",
     "translations": {
       "it": {
         "name": "Progetto Banjo",
         "description": ""
       }
-    },
-    "unlocks_item_id": "banjo"
+    }
   },
   "bantam-blueprint": {
     "id": "bantam-blueprint",
@@ -23879,13 +23861,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "bantam-ii",
     "translations": {
       "it": {
         "name": "Progetto Bantam",
         "description": "Ti permette di creare un Bantam"
       }
-    },
-    "unlocks_item_id": "bantam-ii"
+    }
   },
   "barricade-kit-recipe": {
     "id": "barricade-kit-recipe",
@@ -23899,13 +23881,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "barricade-kit",
     "translations": {
       "it": {
         "name": "Progetto kit barricata",
         "description": "Una copertura schierabile che può bloccare i danni in arrivo finché non si rompe."
       }
-    },
-    "unlocks_item_id": "barricade-kit"
+    }
   },
   "bettina-blueprint": {
     "id": "bettina-blueprint",
@@ -23919,13 +23901,13 @@
     "workbench": "Gunsmith III",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "bettina-i",
     "translations": {
       "it": {
         "name": "Progetto Bettina",
         "description": "Ha una cadenza di fuoco lenta e un'alta produzione di danni."
       }
-    },
-    "unlocks_item_id": "bettina-i"
+    }
   },
   "blaze-grenade-blueprint": {
     "id": "blaze-grenade-blueprint",
@@ -23939,13 +23921,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "blaze-grenade",
     "translations": {
       "it": {
         "name": "Progetto granata incendiaria",
         "description": "Una granata che detona all'impatto, coprendo un'area di fuoco che infligge danni nel tempo."
       }
-    },
-    "unlocks_item_id": "blaze-grenade"
+    }
   },
   "blue-light-stick-blueprint": {
     "id": "blue-light-stick-blueprint",
@@ -23959,13 +23941,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "blue-light-stick",
     "translations": {
       "it": {
         "name": "Progetto bastoncino luminoso blu",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
       }
-    },
-    "unlocks_item_id": "blue-light-stick"
+    }
   },
   "bobcat-i-recipe": {
     "id": "bobcat-i-recipe",
@@ -23979,13 +23961,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "bobcat-i",
     "translations": {
       "it": {
         "name": "Lince I",
         "description": "Ha un'alta cadenza di fuoco ma bassa precisione."
       }
-    },
-    "unlocks_item_id": "bobcat-i"
+    }
   },
   "burltetta-recipe": {
     "id": "burltetta-recipe",
@@ -23999,13 +23981,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "burletta-i",
     "translations": {
       "it": {
         "name": "Progetto Burletta",
         "description": "Un progetto per creare l'arma Burletta."
       }
-    },
-    "unlocks_item_id": "burletta-i"
+    }
   },
   "canto-blueprint": {
     "id": "canto-blueprint",
@@ -24019,13 +24001,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "amplified-canto",
     "translations": {
       "it": {
         "name": "Canto Progetto",
         "description": "Pistola mitragliatrice completamente automatica con un calibro maggiore."
       }
-    },
-    "unlocks_item_id": "amplified-canto"
+    }
   },
   "combat-mk-3-flanking": {
     "id": "combat-mk-3-flanking",
@@ -24039,13 +24021,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "combat-mk-3-aggressive",
     "translations": {
       "it": {
         "name": "Progetto Combattimento Mk. 3 (Fiancheggiamento)",
         "description": "Una versione migliorata dell'aumento Combattimento II. Progettato per manovre di fiancheggiamento con mobilita migliorata."
       }
-    },
-    "unlocks_item_id": "combat-mk-3-aggressive"
+    }
   },
   "combat-mk3-aggressive-blueprint": {
     "id": "combat-mk3-aggressive-blueprint",
@@ -24059,13 +24041,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "combat-mk-3-aggressive",
     "translations": {
       "it": {
         "name": "Progetto Combattimento Mk. 3 (Aggressivo)",
         "description": "Una versione migliorata dell'aumento Combattimento II. Supporta più tipi di scudi e include spazio extra per le granate."
       }
-    },
-    "unlocks_item_id": "combat-mk-3-aggressive"
+    }
   },
   "compensator-ii-recipe": {
     "id": "compensator-ii-recipe",
@@ -24079,13 +24061,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "compensator-ii",
     "translations": {
       "it": {
         "name": "Progetto compensatore II",
         "description": "Riduce moderatamente la dispersione per colpo."
       }
-    },
-    "unlocks_item_id": "compensator-ii"
+    }
   },
   "compensator-iii-recipe": {
     "id": "compensator-iii-recipe",
@@ -24099,13 +24081,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "compensator-iii",
     "translations": {
       "it": {
         "name": "Progetto Compensatore III",
         "description": "Riduce moderatamente la dispersione per colpo. Compatibile con: Arpeggio, Ferro, Renegade, Anvil, Stitcher"
       }
-    },
-    "unlocks_item_id": "compensator-iii"
+    }
   },
   "complex-gun-parts-blueprint": {
     "id": "complex-gun-parts-blueprint",
@@ -24119,13 +24101,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "complex-gun-parts",
     "translations": {
       "it": {
         "name": "Progetto parti di armi complesse",
         "description": "Si usa per creare armi avanzate."
       }
-    },
-    "unlocks_item_id": "complex-gun-parts"
+    }
   },
   "crash-mat-blueprint": {
     "id": "crash-mat-blueprint",
@@ -24139,13 +24121,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "crash-mat",
     "translations": {
       "it": {
         "name": "Progetto materasso d'atterraggio",
         "description": "Un dispositivo di atterraggio d'emergenza lanciabile, per attutire gli atterraggi più pesanti"
       }
-    },
-    "unlocks_item_id": "crash-mat"
+    }
   },
   "deadline-blueprint": {
     "id": "deadline-blueprint",
@@ -24159,13 +24141,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "deadline",
     "translations": {
       "it": {
         "name": "Progetto Deadline",
         "description": "Una mina che infligge danni a tutto ciò che si trova nel suo raggio d'azione una volta scaduto il timer."
       }
-    },
-    "unlocks_item_id": "deadline"
+    }
   },
   "defibrillator-recipe": {
     "id": "defibrillator-recipe",
@@ -24179,13 +24161,13 @@
     "workbench": "Medical Lab II",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "defibrillator",
     "translations": {
       "it": {
         "name": "Progetto defibrillatore",
         "description": "Un'iniezione che riporta rapidamente in vita i predoni abbattuti e ripristina un po' di salute."
       }
-    },
-    "unlocks_item_id": "defibrillator"
+    }
   },
   "dolabra-blueprint": {
     "id": "dolabra-blueprint",
@@ -24199,13 +24181,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "dolabra",
     "translations": {
       "it": {
         "name": "Dolabra Progetto",
         "description": "Un'arma sperimentale che può sparare un'ampia scarica a corto raggio o essere focalizzata per sparare un raggio di calore concentrato a medio raggio."
       }
-    },
-    "unlocks_item_id": "dolabra"
+    }
   },
   "emperor-gateway-conduit-blueprint": {
     "id": "emperor-gateway-conduit-blueprint",
@@ -24219,13 +24201,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "emperor-gateway-conduit",
     "translations": {
       "it": {
         "name": "Progetto Condotto dell'Imperatore",
         "description": "CollectorKey Blueprint Description"
       }
-    },
-    "unlocks_item_id": "emperor-gateway-conduit"
+    }
   },
   "equalizer-recipe": {
     "id": "equalizer-recipe",
@@ -24239,13 +24221,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "equalizer-i",
     "translations": {
       "it": {
         "name": "Progetto Equalizzatore",
         "description": "Un fucile a raggi sperimentale ad alta capacità."
       }
-    },
-    "unlocks_item_id": "equalizer-i"
+    }
   },
   "explosive-mine-blueprint": {
     "id": "explosive-mine-blueprint",
@@ -24259,13 +24241,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "explosive-mine",
     "translations": {
       "it": {
         "name": "Progetto Mina esplosiva",
         "description": "Un dispositivo esplosivo attivato dalla prossimita che detona quando i nemici si avvicinano."
       }
-    },
-    "unlocks_item_id": "explosive-mine"
+    }
   },
   "extended-barrel-ii-blueprint": {
     "id": "extended-barrel-ii-blueprint",
@@ -24279,13 +24261,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "extended-barrel-ii",
     "translations": {
       "it": {
         "name": "Progetto Canna estesa II",
         "description": "Ti permette di creare una Canna allungata II"
       }
-    },
-    "unlocks_item_id": "extended-barrel-ii"
+    }
   },
   "extended-barrel-recipe": {
     "id": "extended-barrel-recipe",
@@ -24299,13 +24281,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "extended-barrel",
     "translations": {
       "it": {
         "name": "Progetto Canna estesa III",
         "description": "Aumenta moderatamente la velocita dei proiettili. Compatibile con: Tempest, Arpeggio, Ferro, Renegade, Anvil"
       }
-    },
-    "unlocks_item_id": "extended-barrel"
+    }
   },
   "extended-light-mag-ii-recipe": {
     "id": "extended-light-mag-ii-recipe",
@@ -24319,13 +24301,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "extended-light-mag-ii",
     "translations": {
       "it": {
         "name": "Progetto Caricatore leggero esteso II",
         "description": "Estende moderatamente la capacita di munizioni delle armi compatibili che usano munizioni leggere."
       }
-    },
-    "unlocks_item_id": "extended-light-mag-ii"
+    }
   },
   "extended-light-mag-iii-recipe": {
     "id": "extended-light-mag-iii-recipe",
@@ -24339,13 +24321,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "extended-light-mag-iii",
     "translations": {
       "it": {
         "name": "Progetto Caricatore leggero esteso III",
         "description": "Estende significativamente la capacita di munizioni delle armi compatibili che usano munizioni leggere."
       }
-    },
-    "unlocks_item_id": "extended-light-mag-iii"
+    }
   },
   "extended-medium-mag-ii-recipe": {
     "id": "extended-medium-mag-ii-recipe",
@@ -24359,13 +24341,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "extended-medium-mag-ii",
     "translations": {
       "it": {
         "name": "Progetto caricatore medio esteso II",
         "description": "Estende moderatamente la capacità di munizioni delle armi compatibili che usano munizioni medie."
       }
-    },
-    "unlocks_item_id": "extended-medium-mag-ii"
+    }
   },
   "extended-medium-mag-iii-blueprint": {
     "id": "extended-medium-mag-iii-blueprint",
@@ -24379,13 +24361,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "extended-medium-mag-iii",
     "translations": {
       "it": {
         "name": "Progetto caricatore medio esteso III",
         "description": "Estende significativamente la capacità di munizioni delle armi compatibili che usano munizioni medie."
       }
-    },
-    "unlocks_item_id": "extended-medium-mag-iii"
+    }
   },
   "extended-shotgun-mag-ii-recipe": {
     "id": "extended-shotgun-mag-ii-recipe",
@@ -24399,13 +24381,13 @@
     "workbench": "Weapon Bench",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "extended-shotgun-mag-ii",
     "translations": {
       "it": {
         "name": "Progetto caricatore fucile esteso II",
         "description": "Estende moderatamente la capacità di munizioni dei fucili."
       }
-    },
-    "unlocks_item_id": "extended-shotgun-mag-ii"
+    }
   },
   "extended-shotgun-mag-iii-recipe": {
     "id": "extended-shotgun-mag-iii-recipe",
@@ -24419,13 +24401,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "extended-shotgun-mag-iii",
     "translations": {
       "it": {
         "name": "Progetto Caricatore esteso per fucile III",
         "description": "Estende significativamente la capacità di munizioni dei fucili."
       }
-    },
-    "unlocks_item_id": "extended-shotgun-mag-iii"
+    }
   },
   "fireworks-box-blueprint": {
     "id": "fireworks-box-blueprint",
@@ -24439,13 +24421,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "fireworks-box",
     "translations": {
       "it": {
         "name": "Progetto scatola di fuochi d'artificio",
         "description": "Sblocca il progetto di creazione per la Scatola di fuochi d'artificio."
       }
-    },
-    "unlocks_item_id": "fireworks-box"
+    }
   },
   "gas-mine-blueprint": {
     "id": "gas-mine-blueprint",
@@ -24459,13 +24441,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "gas-mine",
     "translations": {
       "it": {
         "name": "Progetto Mina a gas",
         "description": "Una mina attivata dalla prossimità che emerge e rilascia una nube di gas che drena rapidamente la resistenza."
       }
-    },
-    "unlocks_item_id": "gas-mine"
+    }
   },
   "grappling-hook-blueprint": {
     "id": "grappling-hook-blueprint",
@@ -24479,13 +24461,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "grappling-hook",
     "translations": {
       "it": {
         "name": "Progetto Rampino",
         "description": "Ti permette di creare un Rampino"
       }
-    },
-    "unlocks_item_id": "grappling-hook"
+    }
   },
   "green-light-stick-blueprint": {
     "id": "green-light-stick-blueprint",
@@ -24499,13 +24481,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "green-light-stick",
     "translations": {
       "it": {
         "name": "Progetto bastoncino luminoso verde",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
       }
-    },
-    "unlocks_item_id": "green-light-stick"
+    }
   },
   "heavy-gun-parts-recipe": {
     "id": "heavy-gun-parts-recipe",
@@ -24519,13 +24501,13 @@
     "workbench": "Refiner II",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "heavy-gun-parts",
     "translations": {
       "it": {
         "name": "Progetto di parti di arma pesante",
         "description": "Usato per fabbricare armi."
       }
-    },
-    "unlocks_item_id": "heavy-gun-parts"
+    }
   },
   "hullcracker-blueprint": {
     "id": "hullcracker-blueprint",
@@ -24539,13 +24521,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "hullcracker-i",
     "translations": {
       "it": {
         "name": "Progetto Spaccascudi",
         "description": "Carichi anti-ARC utilizzati principalmente dall'Hullcracker."
       }
-    },
-    "unlocks_item_id": "hullcracker-i"
+    }
   },
   "il-toro-recipe": {
     "id": "il-toro-recipe",
@@ -24559,13 +24541,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "il-toro-i",
     "translations": {
       "it": {
         "name": "Progetto Il Toro",
         "description": "Ha un'ampia dispersione dei proiettili, caduta netta e alto Danni."
       }
-    },
-    "unlocks_item_id": "il-toro-i"
+    }
   },
   "jolt-mine-recipe": {
     "id": "jolt-mine-recipe",
@@ -24579,13 +24561,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "jolt-mine",
     "translations": {
       "it": {
         "name": "Progetto mina stordente",
         "description": "Una mina attivata dalla prossimità che salta su e stordisce qualsiasi cosa nel suo raggio."
       }
-    },
-    "unlocks_item_id": "jolt-mine"
+    }
   },
   "jupiter-i-recipe": {
     "id": "jupiter-i-recipe",
@@ -24599,13 +24581,13 @@
     "workbench": "Gunsmith III",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "jupiter-i",
     "translations": {
       "it": {
         "name": "Progetto Giove",
         "description": "Lancia proiettili a incredibile velocità, in grado di danneggiare diversi bersagli con un colpo solo."
       }
-    },
-    "unlocks_item_id": "jupiter-i"
+    }
   },
   "light-gun-parts-recipe": {
     "id": "light-gun-parts-recipe",
@@ -24619,13 +24601,13 @@
     "workbench": "Refiner",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "light-gun-parts",
     "translations": {
       "it": {
         "name": "Progetto parti di armi leggere",
         "description": "Parti di ricambio assortite usate per pistole e mitra."
       }
-    },
-    "unlocks_item_id": "light-gun-parts"
+    }
   },
   "lightweight-stock-recipe": {
     "id": "lightweight-stock-recipe",
@@ -24639,13 +24621,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "lightweight-stock",
     "translations": {
       "it": {
         "name": "Progetto calcio leggero",
         "description": "Migliora moderatamente la velocità di mira e estrazione."
       }
-    },
-    "unlocks_item_id": "lightweight-stock"
+    }
   },
   "looting-mk-3-safekeeper-blueprint": {
     "id": "looting-mk-3-safekeeper-blueprint",
@@ -24659,13 +24641,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "looting-mk-3-safekeeper",
     "translations": {
       "it": {
         "name": "Progetto Saccheggio Mk. 3 (Custode)",
         "description": "Un potenziamento per il saccheggio che sacrifica peso e utilità per un maggiore potenziale di raccolta. Una Tasca Sicura che permette di custodire qualsiasi oggetto."
       }
-    },
-    "unlocks_item_id": "looting-mk-3-safekeeper"
+    }
   },
   "looting-mk-3-survivor-blueprint": {
     "id": "looting-mk-3-survivor-blueprint",
@@ -24679,13 +24661,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "looting-mk-3-survivor",
     "translations": {
       "it": {
         "name": "Progetto Saccheggio Mk. 3 (Sopravvissuto)",
         "description": "Un potenziamento da mulo da soma resistente. Grande capacità di peso e grande spazio zaino."
       }
-    },
-    "unlocks_item_id": "looting-mk-3-survivor"
+    }
   },
   "lure-grenade-recipe": {
     "id": "lure-grenade-recipe",
@@ -24699,13 +24681,13 @@
     "workbench": "Utility Bench",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "lure-grenade",
     "translations": {
       "it": {
         "name": "Progetto granata esca",
         "description": "Un dispositivo rumoroso che si attacca alle superfici, distraendo le macchine ARC vicine e attirando il loro fuoco."
       }
-    },
-    "unlocks_item_id": "lure-grenade"
+    }
   },
   "medium-gun-parts-recipe": {
     "id": "medium-gun-parts-recipe",
@@ -24719,13 +24701,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "medium-gun-parts",
     "translations": {
       "it": {
         "name": "Progetto parti arma medie",
         "description": "Parti di ricambio assortite usate per i fucili."
       }
-    },
-    "unlocks_item_id": "medium-gun-parts"
+    }
   },
   "muzzle-brake-ii-recipe": {
     "id": "muzzle-brake-ii-recipe",
@@ -24739,13 +24721,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "muzzle-brake-ii",
     "translations": {
       "it": {
         "name": "Progetto freno di bocca II",
         "description": "Riduce moderatamente sia il rinculo verticale che quello orizzontale."
       }
-    },
-    "unlocks_item_id": "muzzle-brake-ii"
+    }
   },
   "muzzle-brake-iii-recipe": {
     "id": "muzzle-brake-iii-recipe",
@@ -24759,13 +24741,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "muzzle-brake-iii",
     "translations": {
       "it": {
         "name": "Progetto Freno di bocca III",
         "description": "Riduce significativamente sia il rinculo verticale che quello orizzontale. Compatibile con: Arpeggio, Ferro, Renegade, Anvil, Stitcher"
       }
-    },
-    "unlocks_item_id": "muzzle-brake-iii"
+    }
   },
   "osprey-recipe": {
     "id": "osprey-recipe",
@@ -24779,13 +24761,13 @@
     "workbench": "Gunsmith II",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "osprey-i",
     "translations": {
       "it": {
         "name": "Progetto Falco Pescatore",
         "description": "Ha Danni e precisione affidabili."
       }
-    },
-    "unlocks_item_id": "osprey-i"
+    }
   },
   "padded-stock-recipe": {
     "id": "padded-stock-recipe",
@@ -24799,13 +24781,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "padded-stock",
     "translations": {
       "it": {
         "name": "Progetto: Calcio imbottito",
         "description": "Migliora significativamente la stabilità. Compatibile con: Arpeggio, Rattler, Ferro, Renegade, Torrente"
       }
-    },
-    "unlocks_item_id": "padded-stock"
+    }
   },
   "powered-descender-blueprint": {
     "id": "powered-descender-blueprint",
@@ -24819,13 +24801,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "powered-descender",
     "translations": {
       "it": {
         "name": "Progetto discensore motorizzato",
         "description": "Riduce la velocità di caduta quando viene usato in aria, ma richiede un tempo di avvio prima di raggiungere la piena potenza. Si spegne quando esaurisce l'energia"
       }
-    },
-    "unlocks_item_id": "powered-descender"
+    }
   },
   "project-heartwood-blueprints": {
     "id": "project-heartwood-blueprints",
@@ -24858,13 +24840,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "pulse-mine",
     "translations": {
       "it": {
         "name": "Progetto mina a impulsi",
         "description": "Una mina attivata dalla prossimità che salta fuori e respinge tutto nel suo raggio."
       }
-    },
-    "unlocks_item_id": "pulse-mine"
+    }
   },
   "purification-system-blueprint": {
     "id": "purification-system-blueprint",
@@ -24897,13 +24879,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "amplified-rascal",
     "translations": {
       "it": {
         "name": "Disegno tecnico Rascal",
         "description": "Spara proiettili esplosivi che detonano solo colpendo ARC."
       }
-    },
-    "unlocks_item_id": "amplified-rascal"
+    }
   },
   "red-light-stick-blueprint": {
     "id": "red-light-stick-blueprint",
@@ -24917,13 +24899,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "red-light-stick",
     "translations": {
       "it": {
         "name": "Progetto bastoncino luminoso rosso",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
       }
-    },
-    "unlocks_item_id": "red-light-stick"
+    }
   },
   "remote-raider-flare-blueprint": {
     "id": "remote-raider-flare-blueprint",
@@ -24937,13 +24919,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "remote-raider-flare",
     "translations": {
       "it": {
         "name": "Progetto Razzo segnalatore predone remoto",
         "description": "Un dispositivo schierabile che, quando attivato manualmente, lancia un razzo di soccorso predone."
       }
-    },
-    "unlocks_item_id": "remote-raider-flare"
+    }
   },
   "seeker-grenade-blueprint": {
     "id": "seeker-grenade-blueprint",
@@ -24957,13 +24939,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "seeker-grenade",
     "translations": {
       "it": {
         "name": "Progetto granata cercatrice",
         "description": "Sblocca il progetto di creazione per la Granata cercatrice."
       }
-    },
-    "unlocks_item_id": "seeker-grenade"
+    }
   },
   "shotgun-choke-ii-recipe": {
     "id": "shotgun-choke-ii-recipe",
@@ -24977,13 +24959,13 @@
     "workbench": "Weapon Bench",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "shotgun-choke-ii",
     "translations": {
       "it": {
         "name": "Progetto Strozzatore per fucile II",
         "description": "Riduce moderatamente la dispersione base. Compatibile con: Il Toro, Vulcano"
       }
-    },
-    "unlocks_item_id": "shotgun-choke-ii"
+    }
   },
   "shotgun-choke-iii-recipe": {
     "id": "shotgun-choke-iii-recipe",
@@ -24997,13 +24979,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "shotgun-choke-iii",
     "translations": {
       "it": {
         "name": "Progetto Strozzatore fucile III",
         "description": "Riduce significativamente la dispersione base."
       }
-    },
-    "unlocks_item_id": "shotgun-choke-iii"
+    }
   },
   "shotgun-silencer-blueprint": {
     "id": "shotgun-silencer-blueprint",
@@ -25017,13 +24999,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "shotgun-silencer",
     "translations": {
       "it": {
         "name": "Progetto Silenziatore per fucile a pompa",
         "description": "Riduce moderatamente la quantita di rumore prodotto durante lo sparo."
       }
-    },
-    "unlocks_item_id": "shotgun-silencer"
+    }
   },
   "showstopper-blueprint": {
     "id": "showstopper-blueprint",
@@ -25037,13 +25019,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "showstopper",
     "translations": {
       "it": {
         "name": "Progetto Showstopper",
         "description": "Una granata che detona dopo un ritardo, stordendo i nemici nel suo raggio."
       }
-    },
-    "unlocks_item_id": "showstopper"
+    }
   },
   "silencer-i-recipe": {
     "id": "silencer-i-recipe",
@@ -25057,13 +25039,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "silencer-i",
     "translations": {
       "it": {
         "name": "Progetto Silenziatore I",
         "description": "Un progetto per creare il Silenziatore I."
       }
-    },
-    "unlocks_item_id": "silencer-i"
+    }
   },
   "silencer-ii-recipe": {
     "id": "silencer-ii-recipe",
@@ -25077,13 +25059,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "silencer-ii",
     "translations": {
       "it": {
         "name": "Progetto Silenziatore II",
         "description": "Un progetto per creare il Silenziatore II."
       }
-    },
-    "unlocks_item_id": "silencer-ii"
+    }
   },
   "smoke-grenade-blueprint": {
     "id": "smoke-grenade-blueprint",
@@ -25097,13 +25079,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "smoke-grenade",
     "translations": {
       "it": {
         "name": "Progetto Granata fumogena",
         "description": "Una granata che crea una nuvola di fumo persistente all'impatto, bloccando la visibilita di ARC e altri Predoni."
       }
-    },
-    "unlocks_item_id": "smoke-grenade"
+    }
   },
   "snap-hook-recipe": {
     "id": "snap-hook-recipe",
@@ -25117,13 +25099,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "snap-hook",
     "translations": {
       "it": {
         "name": "Progetto Gancio a scatto",
         "description": "Un gadget che permette a chi lo usa di scalare strutture e coprire grandi distanze."
       }
-    },
-    "unlocks_item_id": "snap-hook"
+    }
   },
   "stable-stock-ii-recipe": {
     "id": "stable-stock-ii-recipe",
@@ -25137,13 +25119,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "stable-stock-ii",
     "translations": {
       "it": {
         "name": "Progetto Calcio stabile II",
         "description": "Migliora moderatamente la dispersione e il tempo di recupero del rinculo."
       }
-    },
-    "unlocks_item_id": "stable-stock-ii"
+    }
   },
   "stable-stock-iii-recipe": {
     "id": "stable-stock-iii-recipe",
@@ -25157,13 +25139,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "stable-stock-iii",
     "translations": {
       "it": {
         "name": "Progetto Calcio stabile III",
         "description": "Migliora significativamente la dispersione e il tempo di recupero del rinculo."
       }
-    },
-    "unlocks_item_id": "stable-stock-iii"
+    }
   },
   "stiletto-blueprint": {
     "id": "stiletto-blueprint",
@@ -25177,13 +25159,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "stiletto-ii",
     "translations": {
       "it": {
         "name": "Progetto Stiletto",
         "description": "Ti permette di creare uno Stiletto"
       }
-    },
-    "unlocks_item_id": "stiletto-ii"
+    }
   },
   "surge-coil-blueprint": {
     "id": "surge-coil-blueprint",
@@ -25197,13 +25179,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "surge-coil",
     "translations": {
       "it": {
         "name": "Surge Coil Progetto",
         "description": "Un dispositivo dispiegabile che elettrizza periodicamente l'area circostante e stordisce brevemente chiunque vi rimanga intrappolato."
       }
-    },
-    "unlocks_item_id": "surge-coil"
+    }
   },
   "tacical-mk3-healing-blueprint": {
     "id": "tacical-mk3-healing-blueprint",
@@ -25217,13 +25199,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "tactical-mk-3-healing",
     "translations": {
       "it": {
         "name": "Progetto Tattico Mk. 3 (Cura)",
         "description": "Un potenziamento incentrato sulla cura che aggiunge slot extra per oggetti curativi."
       }
-    },
-    "unlocks_item_id": "tactical-mk-3-healing"
+    }
   },
   "tactical-mk-3-revival-blueprint": {
     "id": "tactical-mk-3-revival-blueprint",
@@ -25237,13 +25219,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "tactical-mk-3-revival",
     "translations": {
       "it": {
         "name": "Progetto Tattico Mk. 3 (Rianimazione)",
         "description": "Un potenziamento incentrato sulla rianimazione progettato per il supporto di squadra. Ripristina 1 punto salute ogni 5 secondi. Quando si subiscono danni, l'effetto viene sospeso per 30 secondi. Include un Defibrillatore integrato con usi infiniti e un tempo di ricarica di 240 secondi."
       }
-    },
-    "unlocks_item_id": "tactical-mk-3-revival"
+    }
   },
   "tactical-mk3-defensive-blueprint": {
     "id": "tactical-mk3-defensive-blueprint",
@@ -25257,13 +25239,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "tactical-mk3-defensive",
     "translations": {
       "it": {
         "name": "Progetto Tattico Mk. 3 (Difensivo)",
         "description": "Un potenziamento incentrato sulla difesa per mantenere gli scudi al massimo."
       }
-    },
-    "unlocks_item_id": "tactical-mk3-defensive"
+    }
   },
   "tagging-grenade-recipe": {
     "id": "tagging-grenade-recipe",
@@ -25277,13 +25259,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "tagging-grenade",
     "translations": {
       "it": {
         "name": "Progetto Granata marcatrice",
         "description": "Una granata che detona dopo un ritardo, marcando i predoni e i nemici ARC in un'area."
       }
-    },
-    "unlocks_item_id": "tagging-grenade"
+    }
   },
   "tempest-i-recipe": {
     "id": "tempest-i-recipe",
@@ -25297,13 +25279,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "tempest-i",
     "translations": {
       "it": {
         "name": "Tempesta I",
         "description": "Fucile d'assalto completamente automatico con cadenza di fuoco e precisione moderate."
       }
-    },
-    "unlocks_item_id": "tempest-i"
+    }
   },
   "tether-launcher-blueprint": {
     "id": "tether-launcher-blueprint",
@@ -25317,13 +25299,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "tether-launcher",
     "translations": {
       "it": {
         "name": "Progetto Lanciafune",
         "description": "Ti permette di creare un Lanciafune"
       }
-    },
-    "unlocks_item_id": "tether-launcher"
+    }
   },
   "torrent-i-recipe": {
     "id": "torrent-i-recipe",
@@ -25337,13 +25319,13 @@
     "workbench": "Gunsmith II",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "torrente-i",
     "translations": {
       "it": {
         "name": "Progetto Torrente",
         "description": "Ha una grande capacità di munizioni, ma è preciso solo accovacciato."
       }
-    },
-    "unlocks_item_id": "torrente-i"
+    }
   },
   "trailblazer-grenade-blueprint": {
     "id": "trailblazer-grenade-blueprint",
@@ -25357,13 +25339,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "trailblazer-grenade",
     "translations": {
       "it": {
         "name": "Progetto Trailblazer",
         "description": "Sblocca il progetto di creazione per Trailblazer."
       }
-    },
-    "unlocks_item_id": "trailblazer-grenade"
+    }
   },
   "trigger-nade-recipe": {
     "id": "trigger-nade-recipe",
@@ -25377,13 +25359,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "trigger-nade",
     "translations": {
       "it": {
         "name": "Progetto granata ad attivazione",
         "description": "Una granata a detonazione remota che può attaccarsi a superfici e ARC, infliggendo danni esplosivi quando attivata."
       }
-    },
-    "unlocks_item_id": "trigger-nade"
+    }
   },
   "utility-augment-t3-smoke-blueprint": {
     "id": "utility-augment-t3-smoke-blueprint",
@@ -25397,13 +25379,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "tactical-mk-3-smoke",
     "translations": {
       "it": {
         "name": "Progetto Tattico Mk. 3 (Fumo)",
         "description": "Una versione migliorata del potenziamento Tattico MK. 2, che aggiunge capacità aumentata su tutta la linea."
       }
-    },
-    "unlocks_item_id": "tactical-mk-3-smoke"
+    }
   },
   "venator-recipe": {
     "id": "venator-recipe",
@@ -25417,13 +25399,13 @@
     "workbench": "Gunsmith II",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "venator-i",
     "translations": {
       "it": {
         "name": "Progetto Venator",
         "description": "Spara due colpi alla volta."
       }
-    },
-    "unlocks_item_id": "venator-i"
+    }
   },
   "vertical-grip-ii-recipe": {
     "id": "vertical-grip-ii-recipe",
@@ -25437,13 +25419,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "vertical-grip-ii",
     "translations": {
       "it": {
         "name": "Progetto Impugnatura verticale II",
         "description": "Riduce moderatamente il rinculo verticale. Compatibile con: Arpeggio, Ferro, Venator, Il Toro, Stitcher"
       }
-    },
-    "unlocks_item_id": "vertical-grip-ii"
+    }
   },
   "vertical-grip-iii-recipe": {
     "id": "vertical-grip-iii-recipe",
@@ -25457,13 +25439,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "vertical-grip-iii",
     "translations": {
       "it": {
         "name": "Progetto Impugnatura Verticale III",
         "description": "Riduce significativamente il rinculo verticale."
       }
-    },
-    "unlocks_item_id": "vertical-grip-iii"
+    }
   },
   "vita-shot-recipe": {
     "id": "vita-shot-recipe",
@@ -25477,13 +25459,13 @@
     "workbench": "Med Station",
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "vita-shot",
     "translations": {
       "it": {
         "name": "Progetto Iniezione Vita",
         "description": "Un oggetto medico che ripristina una grande quantità di salute."
       }
-    },
-    "unlocks_item_id": "vita-shot"
+    }
   },
   "vita-spray-recipe": {
     "id": "vita-spray-recipe",
@@ -25497,13 +25479,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "vita-spray",
     "translations": {
       "it": {
         "name": "Progetto spray Vita",
         "description": "Un oggetto medico che ripristina continuamente la salute durante l'uso. Può essere usato su te stesso o sui tuoi alleati."
       }
-    },
-    "unlocks_item_id": "vita-spray"
+    }
   },
   "vulcano-blueprint": {
     "id": "vulcano-blueprint",
@@ -25517,13 +25499,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "vulcano-i",
     "translations": {
       "it": {
         "name": "Progetto Vulcano",
         "description": "Fucile a pompa semiautomatico con buona dispersione ma calo netto."
       }
-    },
-    "unlocks_item_id": "vulcano-i"
+    }
   },
   "white-flag-blueprint": {
     "id": "white-flag-blueprint",
@@ -25537,13 +25519,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "white-flag",
     "translations": {
       "it": {
         "name": "Progetto bandiera bianca",
         "description": "Una bandiera bianca piazzabile"
       }
-    },
-    "unlocks_item_id": "white-flag"
+    }
   },
   "wolfpack-recipe": {
     "id": "wolfpack-recipe",
@@ -25557,13 +25539,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "wolfpack",
     "translations": {
       "it": {
         "name": "Progetto Wolfpack",
         "description": "Una granata a detonazione remota che può attaccarsi a superfici e ARC, infliggendo danni esplosivi quando attivata."
       }
-    },
-    "unlocks_item_id": "wolfpack"
+    }
   },
   "yank-grenade-blueprint": {
     "id": "yank-grenade-blueprint",
@@ -25577,13 +25559,13 @@
     "workbench": null,
     "loot_area": null,
     "stack_size": 1,
+    "unlocks_item_id": "yank-grenade",
     "translations": {
       "it": {
         "name": "Progetto Granata a strappo",
         "description": "Ti permette di creare una Granata a strappo"
       }
-    },
-    "unlocks_item_id": "yank-grenade"
+    }
   },
   "yellow-light-stick-blueprint": {
     "id": "yellow-light-stick-blueprint",
@@ -25597,13 +25579,13 @@
     "workbench": null,
     "loot_area": "",
     "stack_size": 1,
+    "unlocks_item_id": "yellow-light-stick",
     "translations": {
       "it": {
         "name": "Bastoncino luminoso giallo",
         "description": "Una luce chimica lanciabile che illumina l'area circostante."
       }
-    },
-    "unlocks_item_id": "yellow-light-stick"
+    }
   },
   "reward-points": {
     "id": "reward-points",
