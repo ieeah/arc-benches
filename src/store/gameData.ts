@@ -214,9 +214,10 @@ export const hydrateProfile = (loaded: Partial<PersistedState>): PersistedState 
     ...(loaded.enabledSections ?? {}),
   },
   skillAllocations: loaded.skillAllocations ?? {},
+  extraSkillPoints: (loaded as { extraSkillPoints?: number }).extraSkillPoints ?? 0,
+  sandboxMode: loaded.sandboxMode ?? false,
   raiderLevel: loaded.raiderLevel ?? 75,
   useExpeditionBonus: loaded.useExpeditionBonus ?? true,
-  sandboxMode: loaded.sandboxMode ?? false,
   };
 };
 
@@ -248,7 +249,8 @@ export const freshProfile = (): PersistedState => ({
   raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
   enabledSections: getDefaultEnabledSections(),
   skillAllocations: {},
+  extraSkillPoints: 0,
+  sandboxMode: false,
   raiderLevel: 75,
   useExpeditionBonus: true,
-  sandboxMode: false,
 });

@@ -21,20 +21,26 @@ export type SkillNode = {
   prerequisiteNodeIds: string[];
   iconName: string;
   icon: string;
+  minPointsSpent?: number;
 };
 
 export type SkillTreeState = {
   skillAllocations: Record<string, number>;
-  raiderLevel: number;
-  useExpeditionBonus: boolean;
+  extraSkillPoints: number;
   sandboxMode: boolean;
+
+  // Optional legacy fields for backward compatibility
+  raiderLevel?: number;
+  useExpeditionBonus?: boolean;
 
   allocateSkillPoint: (nodeId: string) => boolean;
   decrementSkillPoint: (nodeId: string) => boolean;
   setSkillPoints: (nodeId: string, points: number) => boolean;
   autoAllocatePath: (targetNodeId: string) => boolean;
   resetSkillTree: (branch?: SkillCategory) => void;
-  setRaiderLevel: (level: number) => void;
-  setUseExpeditionBonus: (use: boolean) => void;
+  setExtraSkillPoints: (points: number) => void;
   setSandboxMode: (sandbox: boolean) => void;
+
+  setRaiderLevel?: (level: number) => void;
+  setUseExpeditionBonus?: (use: boolean) => void;
 };

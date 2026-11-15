@@ -17,7 +17,11 @@ type SkillTreeNodeProps = {
   isAvailable: boolean;
   isLocked: boolean;
   isSelected: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
+  onContextMenu: (e: React.MouseEvent) => void;
+  onMouseEnter: (e: React.MouseEvent) => void;
+  onMouseMove: (e: React.MouseEvent) => void;
+  onMouseLeave: () => void;
 };
 
 export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
@@ -35,6 +39,10 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
   isLocked,
   isSelected,
   onClick,
+  onContextMenu,
+  onMouseEnter,
+  onMouseMove,
+  onMouseLeave,
 }) => {
   const branchCfg = BRANCH_CONFIGS[category];
   const isRoot = tier === 1;
@@ -46,7 +54,7 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
 
   if (isMilestone) {
     // Diamond representation (rotated square)
-    const diamondSize = 36;
+    const diamondSize = 42;
     const half = diamondSize / 2;
 
     let fillColor = '#18181b'; // dark zinc
@@ -65,10 +73,18 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
 
     return (
       <g
-        className="cursor-pointer transition-transform duration-150 hover:scale-110 active:scale-95 select-none"
+        className="group cursor-pointer select-none outline-none focus:outline-none focus-visible:outline-none"
+        style={{ outline: 'none' }}
         onClick={onClick}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          onContextMenu(e);
+        }}
+        onMouseEnter={onMouseEnter}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
         role="button"
-        tabIndex={0}
+        tabIndex={-1}
         aria-label={`Milestone Tier ${tier}`}
       >
         {/* Selection ring */}
@@ -91,17 +107,16 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
         {/* Outer Glow */}
         {hasPoints && (
           <rect
-            x={x - half - 4}
-            y={y - half - 4}
-            width={diamondSize + 8}
-            height={diamondSize + 8}
+            x={x - half - 3}
+            y={y - half - 3}
+            width={diamondSize + 6}
+            height={diamondSize + 6}
             rx={6}
             transform={`rotate(45 ${x} ${y})`}
             fill="none"
             stroke={branchCfg.color}
-            strokeWidth={4}
-            opacity={0.4}
-            filter="blur(3px)"
+            strokeWidth={3}
+            opacity={0.35}
           />
         )}
 
@@ -116,17 +131,19 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
           fill={fillColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
+          className="transition-all duration-150 group-hover:brightness-125 group-hover:stroke-white"
         />
 
         {/* Icon / Content */}
         {hasPoints && activeIcon ? (
           <image
             href={`${import.meta.env.BASE_URL}${activeIcon.replace(/^\//, '')}`}
-            x={x - 13}
-            y={y - 13}
-            width={26}
-            height={26}
-            className="pointer-events-none drop-shadow"
+            x={x - 14}
+            y={y - 14}
+            width={28}
+            height={28}
+            className="pointer-events-none"
+            imageRendering="auto"
           />
         ) : isLocked ? (
           <g transform={`translate(${x - 8}, ${y - 8})`}>
@@ -135,10 +152,10 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
         ) : (
           <text
             x={x}
-            y={y + 5}
+            y={y + 6}
             textAnchor="middle"
             fill={branchCfg.color}
-            fontSize="18"
+            fontSize="20"
             fontWeight="bold"
             className="pointer-events-none select-none font-mono"
           >
@@ -177,8 +194,8 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
   }
 
   // Regular Circle Node
-  const radius = isRoot ? 28 : 20;
-  const iconSize = isRoot ? 34 : 26;
+  const radius = isRoot ? 32 : 23;
+  const iconSize = isRoot ? 38 : 30;
 
   let strokeColor = '#3f3f46';
   let strokeWidth = 2;
@@ -199,10 +216,18 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
 
   return (
     <g
-      className="cursor-pointer transition-transform duration-150 hover:scale-110 active:scale-95 select-none"
+      className="group cursor-pointer select-none outline-none focus:outline-none focus-visible:outline-none"
+      style={{ outline: 'none' }}
       onClick={onClick}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        onContextMenu(e);
+      }}
+      onMouseEnter={onMouseEnter}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
       role="button"
-      tabIndex={0}
+      tabIndex={-1}
       aria-label={nodeData?.name.it || slotId}
     >
       {/* Selection Ring */}
@@ -223,12 +248,11 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
         <circle
           cx={x}
           cy={y}
-          r={radius + 4}
+          r={radius + 3}
           fill="none"
           stroke={branchCfg.color}
-          strokeWidth={4}
-          opacity={0.4}
-          filter="blur(3px)"
+          strokeWidth={3}
+          opacity={0.35}
         />
       )}
 
@@ -240,6 +264,7 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
         fill={fillColor}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
+        className="transition-all duration-150 group-hover:brightness-125 group-hover:stroke-white"
       />
 
       {/* Node Icon */}
@@ -251,7 +276,8 @@ export const SkillTreeNode: React.FC<SkillTreeNodeProps> = ({
           width={iconSize}
           height={iconSize}
           opacity={isLocked ? 0.35 : 1}
-          className="pointer-events-none drop-shadow"
+          className="pointer-events-none"
+          imageRendering="auto"
         />
       ) : isLocked ? (
         <g transform={`translate(${x - 7}, ${y - 7})`}>

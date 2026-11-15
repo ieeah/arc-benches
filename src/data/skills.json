@@ -3,15 +3,15 @@
     "id": "cond_1",
     "name": {
       "en": "Used To The Weight",
-      "it": "Abituato al Peso"
+      "it": "Abitudine al peso"
     },
     "category": "CONDITIONING",
     "isMajor": true,
     "description": {
       "en": "Wearing a shield doesn't slow you down as much.",
-      "it": "Indossare uno scudo non ti rallenta più di tanto."
+      "it": "Indossare uno scudo non ti rallenta più come prima."
     },
-    "maxPoints": 5,
+    "maxPoints": 1,
     "impactedSkill": {
       "en": "Movement Speed",
       "it": "Velocità di Movimento"
@@ -23,47 +23,20 @@
     },
     "prerequisiteNodeIds": [],
     "iconName": "used_to_the_weight.png",
-    "icon": "icons/skills/used_to_the_weight.png"
-  },
-  {
-    "id": "cond_2l",
-    "name": {
-      "en": "Blast-Born",
-      "it": "Nato dalle Esplosioni"
-    },
-    "category": "CONDITIONING",
-    "isMajor": false,
-    "description": {
-      "en": "Your hearing is less affected by nearby explosions.",
-      "it": "Il tuo udito è meno influenzato dalle esplosioni vicine."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Hearing Enhancement",
-      "it": "Potenziamento Uditivo"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 20,
-      "y": 65
-    },
-    "prerequisiteNodeIds": [
-      "cond_1"
-    ],
-    "iconName": "blast_born.png",
-    "icon": "icons/skills/blast_born.png"
+    "icon": "icons/skills/used_to_the_weight.png",
+    "minPointsSpent": 0
   },
   {
     "id": "cond_2r",
     "name": {
       "en": "Gentle Pressure",
-      "it": "Pressione Delicata"
+      "it": "Leggera pressione"
     },
-    "category": "CONDITIONING",
+    "category": "SURVIVAL",
     "isMajor": false,
     "description": {
       "en": "You make less noise when breaching.",
-      "it": "Fai meno rumore quando sfondi."
+      "it": "Fai meno rumore durante gli scassinamenti."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -72,26 +45,28 @@
     },
     "knownValue": [],
     "position": {
-      "x": 30,
-      "y": 65
+      "x": 70,
+      "y": 35
     },
     "prerequisiteNodeIds": [
-      "cond_1"
+      "surv_7r",
+      "surv_quick_roll"
     ],
     "iconName": "gentle_pressure.png",
-    "icon": "icons/skills/gentle_pressure.png"
+    "icon": "icons/skills/gentle_pressure.png",
+    "minPointsSpent": 0
   },
   {
     "id": "cond_3l",
     "name": {
       "en": "Fight Or Flight",
-      "it": "Lotta o Fuga"
+      "it": "Fuggi o combatti"
     },
-    "category": "CONDITIONING",
+    "category": "MOBILITY",
     "isMajor": false,
     "description": {
       "en": "When you're hurt in combat, regain a fixed amount of stamina. Has a cooldown between uses.",
-      "it": "Quando vieni ferito in combattimento, recuperi una quantità fissa di vigore. Ha un tempo di ricarica tra un utilizzo e l'altro."
+      "it": "Quando subisci un ferimento durante un combattimento, recuperi una quantità fissa di energia. Ha un tempo di ricarica tra un utilizzo e l'altro."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -100,26 +75,27 @@
     },
     "knownValue": [],
     "position": {
-      "x": 20,
+      "x": 55,
       "y": 55
     },
     "prerequisiteNodeIds": [
-      "cond_2l"
+      "mob_1"
     ],
     "iconName": "fight_or_flight.png",
-    "icon": "icons/skills/fight_or_flight.png"
+    "icon": "icons/skills/fight_or_flight.png",
+    "minPointsSpent": 0
   },
   {
     "id": "cond_3r",
     "name": {
       "en": "Proficient Pryer",
-      "it": "Scassinatore Esperto"
+      "it": "Abile ficcanaso"
     },
     "category": "CONDITIONING",
     "isMajor": false,
     "description": {
-      "en": "Breaching doors and containers takes less time",
-      "it": "Sfondare porte e contenitori richiede meno tempo"
+      "en": "Breaching doors and containers takes less time.",
+      "it": "Sfondare porte e contenitori richiede meno tempo."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -129,81 +105,26 @@
     "knownValue": [],
     "position": {
       "x": 30,
-      "y": 55
+      "y": 25
     },
     "prerequisiteNodeIds": [
-      "cond_2r"
+      "cond_6c"
     ],
     "iconName": "proficient_pryer.png",
-    "icon": "icons/skills/proficient_pryer.png"
-  },
-  {
-    "id": "cond_4l",
-    "name": {
-      "en": "Survivor's Stamina",
-      "it": "Vigore del Sopravvissuto"
-    },
-    "category": "CONDITIONING",
-    "isMajor": true,
-    "description": {
-      "en": "When you're critically hurt, your stamina regenerates faster.",
-      "it": "Quando sei gravemente ferito, il tuo vigore si rigenera più velocemente."
-    },
-    "maxPoints": 1,
-    "impactedSkill": {
-      "en": "Stamina Regeneration",
-      "it": "Rigenerazione Vigore"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 20,
-      "y": 45
-    },
-    "prerequisiteNodeIds": [
-      "cond_3l"
-    ],
-    "iconName": "survivors_stamina.png",
-    "icon": "icons/skills/survivors_stamina.png"
-  },
-  {
-    "id": "cond_4r",
-    "name": {
-      "en": "Unburdened Roll",
-      "it": "Rotolata Senza Peso"
-    },
-    "category": "CONDITIONING",
-    "isMajor": true,
-    "description": {
-      "en": "If your shield breaks, your first Dodge Roll within a few seconds does not cost stamina.",
-      "it": "Se il tuo scudo si rompe, la tua prima Schivata Rotolante entro pochi secondi non costa vigore."
-    },
-    "maxPoints": 1,
-    "impactedSkill": {
-      "en": "Stamina Regeneration",
-      "it": "Rigenerazione Vigore"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 30,
-      "y": 45
-    },
-    "prerequisiteNodeIds": [
-      "cond_3r"
-    ],
-    "iconName": "unburdened_roll.png",
-    "icon": "icons/skills/unburdened_roll.png"
+    "icon": "icons/skills/proficient_pryer.png",
+    "minPointsSpent": 0
   },
   {
     "id": "cond_5c",
     "name": {
       "en": "A Little Extra",
-      "it": "Un Piccolo Extra"
+      "it": "Una chicca extra"
     },
-    "category": "CONDITIONING",
+    "category": "SURVIVAL",
     "isMajor": false,
     "description": {
       "en": "Breaching an object generates resources.",
-      "it": "Sfondare un oggetto genera risorse."
+      "it": "Scassinare un oggetto genera risorse."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -212,27 +133,27 @@
     },
     "knownValue": [],
     "position": {
-      "x": 25,
-      "y": 35
+      "x": 70,
+      "y": 25
     },
     "prerequisiteNodeIds": [
-      "cond_4l",
-      "cond_4r"
+      "cond_2r"
     ],
     "iconName": "a_little_extra.png",
-    "icon": "icons/skills/a_little_extra.png"
+    "icon": "icons/skills/a_little_extra.png",
+    "minPointsSpent": 0
   },
   {
     "id": "cond_5l",
     "name": {
       "en": "Downed But Determined",
-      "it": "A Terra ma Determinato"
+      "it": "Crollo ma non mollo"
     },
     "category": "CONDITIONING",
     "isMajor": false,
     "description": {
       "en": "When you're downed, it takes longer before you collapse.",
-      "it": "Quando sei a terra, ci vuole più tempo prima che tu collassi."
+      "it": "Quando subisci un abbattimento, impieghi più tempo per crollare."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -245,50 +166,24 @@
       "y": 35
     },
     "prerequisiteNodeIds": [
-      "cond_4l"
+      "cond_7l",
+      "cond_mules_gallop"
     ],
     "iconName": "downed_but_determined.png",
-    "icon": "icons/skills/downed_but_determined.png"
-  },
-  {
-    "id": "cond_5r",
-    "name": {
-      "en": "Effortless Swing",
-      "it": "Colpo Senza Sforzo"
-    },
-    "category": "CONDITIONING",
-    "isMajor": false,
-    "description": {
-      "en": "Melee abilities cost less stamina.",
-      "it": "Le abilità da mischia costano meno vigore."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Stamina Cost Reduction",
-      "it": "Riduzione Costo Vigore"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 30,
-      "y": 35
-    },
-    "prerequisiteNodeIds": [
-      "cond_4r"
-    ],
-    "iconName": "effortless_swing.png",
-    "icon": "icons/skills/effortless_swing.png"
+    "icon": "icons/skills/downed_but_determined.png",
+    "minPointsSpent": 0
   },
   {
     "id": "cond_6c",
     "name": {
       "en": "Loaded Arms",
-      "it": "Braccia Cariche"
+      "it": "Braccia piene"
     },
     "category": "CONDITIONING",
     "isMajor": false,
     "description": {
       "en": "Your equipped weapon has less impact on your encumbrance.",
-      "it": "L'arma equipaggiata ha un impatto minore sul tuo ingombro."
+      "it": "La tua arma equipaggiata ha un impatto minore sul tuo ingombro."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -297,26 +192,28 @@
     },
     "knownValue": [],
     "position": {
-      "x": 25,
-      "y": 25
+      "x": 30,
+      "y": 35
     },
     "prerequisiteNodeIds": [
-      "cond_5c"
+      "cond_7l",
+      "cond_mules_gallop"
     ],
     "iconName": "loaded_arms.png",
-    "icon": "icons/skills/loaded_arms.png"
+    "icon": "icons/skills/loaded_arms.png",
+    "minPointsSpent": 0
   },
   {
     "id": "cond_6l",
     "name": {
       "en": "Turtle Crawl",
-      "it": "Corazza di Tartaruga"
+      "it": "Passo di tartaruga"
     },
-    "category": "CONDITIONING",
+    "category": "SURVIVAL",
     "isMajor": false,
     "description": {
       "en": "While downed, you take less damage.",
-      "it": "Mentre sei a terra, subisci meno danni."
+      "it": "Durante un abbattimento, subisci meno danni."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -325,54 +222,27 @@
     },
     "knownValue": [],
     "position": {
-      "x": 20,
+      "x": 80,
       "y": 25
     },
     "prerequisiteNodeIds": [
-      "cond_5l"
+      "surv_stylish_landing"
     ],
     "iconName": "turtle_crawl.png",
-    "icon": "icons/skills/turtle_crawl.png"
-  },
-  {
-    "id": "cond_6r",
-    "name": {
-      "en": "Sky-Clearing Swing",
-      "it": "Colpo Spazzacielo"
-    },
-    "category": "CONDITIONING",
-    "isMajor": false,
-    "description": {
-      "en": "You deal more melee damage to drones.",
-      "it": "Infliggi più danni corpo a corpo ai droni."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Melee Damage",
-      "it": "Danni Corpo a Corpo"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 30,
-      "y": 25
-    },
-    "prerequisiteNodeIds": [
-      "cond_5r"
-    ],
-    "iconName": "sky_clearing_swing.png",
-    "icon": "icons/skills/sky_clearing_swing.png"
+    "icon": "icons/skills/turtle_crawl.png",
+    "minPointsSpent": 0
   },
   {
     "id": "cond_7l",
     "name": {
       "en": "Back On Your Feet",
-      "it": "Di Nuovo in Piedi"
+      "it": "Di nuovo in piedi"
     },
     "category": "CONDITIONING",
     "isMajor": true,
     "description": {
       "en": "When you're critically hurt, your health regenerates until a certain limit.",
-      "it": "Quando sei gravemente ferito, la tua salute si rigenera fino a un certo limite."
+      "it": "Quando subisci lesioni gravi, la tua salute si rigenera fino a un certo limite."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -382,55 +252,27 @@
     "knownValue": [],
     "position": {
       "x": 20,
-      "y": 15
+      "y": 45
     },
     "prerequisiteNodeIds": [
-      "cond_6l",
-      "cond_6c"
+      "mob_6c",
+      "cond_vault_n_carry"
     ],
     "iconName": "back_on_your_feet.png",
-    "icon": "icons/skills/back_on_your_feet.png"
-  },
-  {
-    "id": "cond_7r",
-    "name": {
-      "en": "Flyswatter",
-      "it": "Ammazzamosche"
-    },
-    "category": "CONDITIONING",
-    "isMajor": true,
-    "description": {
-      "en": "A single melee attack destroys a Tick, Pop, Wasp and Turret.",
-      "it": "Un singolo attacco corpo a corpo distrugge Tick, Pop, Vespa e Torretta."
-    },
-    "maxPoints": 1,
-    "impactedSkill": {
-      "en": "Melee Damage",
-      "it": "Danni Corpo a Corpo"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 30,
-      "y": 15
-    },
-    "prerequisiteNodeIds": [
-      "cond_6r",
-      "cond_6c"
-    ],
-    "iconName": "flyswatter.png",
-    "icon": "icons/skills/flyswatter.png"
+    "icon": "icons/skills/back_on_your_feet.png",
+    "minPointsSpent": 10
   },
   {
     "id": "mob_1",
     "name": {
       "en": "Nimble Climber",
-      "it": "Scalatore Agile"
+      "it": "Arrampicata agile"
     },
     "category": "MOBILITY",
-    "isMajor": true,
+    "isMajor": false,
     "description": {
       "en": "You can climb and vault more quickly.",
-      "it": "Puoi arrampicarti e scavalcare più velocemente."
+      "it": "Puoi arrampicarti e saltare più velocemente."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -439,12 +281,15 @@
     },
     "knownValue": [],
     "position": {
-      "x": 50,
-      "y": 75
+      "x": 55,
+      "y": 65
     },
-    "prerequisiteNodeIds": [],
+    "prerequisiteNodeIds": [
+      "mob_3l"
+    ],
     "iconName": "nimble_climber.png",
-    "icon": "icons/skills/nimble_climber.png"
+    "icon": "icons/skills/nimble_climber.png",
+    "minPointsSpent": 0
   },
   {
     "id": "mob_2l",
@@ -456,7 +301,7 @@
     "isMajor": false,
     "description": {
       "en": "Moving around costs less stamina.",
-      "it": "Muoversi consuma meno resistenza."
+      "it": "Spostarsi richiede meno energia."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -465,284 +310,33 @@
     },
     "knownValue": [],
     "position": {
-      "x": 45,
-      "y": 65
+      "x": 55,
+      "y": 35
     },
     "prerequisiteNodeIds": [
-      "mob_1"
+      "mob_7l",
+      "mob_7r"
     ],
     "iconName": "marathon_runner.png",
-    "icon": "icons/skills/marathon_runner.png"
+    "icon": "icons/skills/marathon_runner.png",
+    "minPointsSpent": 0
   },
   {
     "id": "mob_2r",
     "name": {
       "en": "Slip and Slide",
-      "it": "Scivola e Plana"
+      "it": "Scivolata liscia"
     },
     "category": "MOBILITY",
     "isMajor": false,
     "description": {
       "en": "You can slide further and faster.",
-      "it": "Puoi scivolare più lontano e più velocemente."
+      "it": "Puoi scivolare più avanti e più velocemente."
     },
     "maxPoints": 5,
     "impactedSkill": {
       "en": "Slide Distance",
       "it": "Distanza Scivolata"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 55,
-      "y": 65
-    },
-    "prerequisiteNodeIds": [
-      "mob_1"
-    ],
-    "iconName": "slip_and_slide.png",
-    "icon": "icons/skills/slip_and_slide.png"
-  },
-  {
-    "id": "mob_3l",
-    "name": {
-      "en": "Youthful Lungs",
-      "it": "Polmoni Giovanili"
-    },
-    "category": "MOBILITY",
-    "isMajor": false,
-    "description": {
-      "en": "Increase your max stamina.",
-      "it": "Aumenta la tua resistenza massima."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Max Stamina",
-      "it": "Resistenza Massima"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 45,
-      "y": 55
-    },
-    "prerequisiteNodeIds": [
-      "mob_2l"
-    ],
-    "iconName": "youthful_lungs.png",
-    "icon": "icons/skills/youthful_lungs.png"
-  },
-  {
-    "id": "mob_3r",
-    "name": {
-      "en": "Sturdy Ankles",
-      "it": "Caviglie Robuste"
-    },
-    "category": "MOBILITY",
-    "isMajor": false,
-    "description": {
-      "en": "You take less fall damage when falling from a non-lethal height.",
-      "it": "Subisci meno danni da caduta quando cadi da un'altezza non letale."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Fall Damage Reduction",
-      "it": "Riduzione Danni da Caduta"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 55,
-      "y": 55
-    },
-    "prerequisiteNodeIds": [
-      "mob_2r"
-    ],
-    "iconName": "sturdy_ankles.png",
-    "icon": "icons/skills/sturdy_ankles.png"
-  },
-  {
-    "id": "mob_4l",
-    "name": {
-      "en": "Carry The Momentum",
-      "it": "Mantieni lo Slancio"
-    },
-    "category": "MOBILITY",
-    "isMajor": true,
-    "description": {
-      "en": "After a Sprint Dodge Roll, sprinting does not consume stamina for a short time. Has a cooldown between uses.",
-      "it": "Dopo una Capriola Schivata in Corsa, correre non consuma vigore per un breve periodo. Ha un tempo di recupero tra un utilizzo e l'altro."
-    },
-    "maxPoints": 1,
-    "impactedSkill": {
-      "en": "Stamina Cost Reduction",
-      "it": "Riduzione Costo Vigore"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 45,
-      "y": 45
-    },
-    "prerequisiteNodeIds": [
-      "mob_3l"
-    ],
-    "iconName": "carry_the_momentum.png",
-    "icon": "icons/skills/carry_the_momentum.png"
-  },
-  {
-    "id": "mob_4r",
-    "name": {
-      "en": "Calming Stroll",
-      "it": "Passeggiata Rilassante"
-    },
-    "category": "MOBILITY",
-    "isMajor": true,
-    "description": {
-      "en": "While walking, your stamina regenerates as if you were standing still.",
-      "it": "Mentre cammini, il tuo vigore si rigenera come se fossi fermo."
-    },
-    "maxPoints": 1,
-    "impactedSkill": {
-      "en": "Stamina Regeneration",
-      "it": "Rigenerazione Vigore"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 55,
-      "y": 45
-    },
-    "prerequisiteNodeIds": [
-      "mob_3r"
-    ],
-    "iconName": "calming_stroll.png",
-    "icon": "icons/skills/calming_stroll.png"
-  },
-  {
-    "id": "mob_5c",
-    "name": {
-      "en": "Crawl Before You Walk",
-      "it": "Prima Striscia, Poi Cammina"
-    },
-    "category": "MOBILITY",
-    "isMajor": false,
-    "description": {
-      "en": "When you're downed, you crawl faster.",
-      "it": "Quando sei a terra, strisci più velocemente."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Movement Speed",
-      "it": "Velocità di Movimento"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 50,
-      "y": 35
-    },
-    "prerequisiteNodeIds": [
-      "mob_4l",
-      "mob_4r"
-    ],
-    "iconName": "crawl_before_you_walk.png",
-    "icon": "icons/skills/crawl_before_you_walk.png"
-  },
-  {
-    "id": "mob_5l",
-    "name": {
-      "en": "Effortless Roll",
-      "it": "Capriola Senza Sforzo"
-    },
-    "category": "MOBILITY",
-    "isMajor": false,
-    "description": {
-      "en": "Dodge Rolls cost less stamina.",
-      "it": "Le Capriole Schivate costano meno vigore."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Stamina Cost Reduction",
-      "it": "Riduzione Costo Vigore"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 45,
-      "y": 35
-    },
-    "prerequisiteNodeIds": [
-      "mob_4l"
-    ],
-    "iconName": "effortless_roll.png",
-    "icon": "icons/skills/effortless_roll.png"
-  },
-  {
-    "id": "mob_5r",
-    "name": {
-      "en": "Off The Wall",
-      "it": "Rimbalzo dal Muro"
-    },
-    "category": "MOBILITY",
-    "isMajor": false,
-    "description": {
-      "en": "You can Wall Leap further.",
-      "it": "Puoi effettuare Salti dal Muro più lontano."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Wall Leap Distance",
-      "it": "Distanza Salto dal Muro"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 55,
-      "y": 35
-    },
-    "prerequisiteNodeIds": [
-      "mob_4r"
-    ],
-    "iconName": "off_the_wall.png",
-    "icon": "icons/skills/off_the_wall.png"
-  },
-  {
-    "id": "mob_6c",
-    "name": {
-      "en": "Vigorous Vaulter",
-      "it": "Scavalcatore Vigoroso"
-    },
-    "category": "MOBILITY",
-    "isMajor": false,
-    "description": {
-      "en": "Vaulting is no longer slowed down while exhausted.",
-      "it": "Scavalcare non viene più rallentato quando sei esausto."
-    },
-    "maxPoints": 1,
-    "impactedSkill": {
-      "en": "Climb and Vault Speed",
-      "it": "Velocità di Arrampicata e Scavalcamento"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 50,
-      "y": 25
-    },
-    "prerequisiteNodeIds": [
-      "mob_5c"
-    ],
-    "iconName": "vigorous_vaulter.png",
-    "icon": "icons/skills/vigorous_vaulter.png"
-  },
-  {
-    "id": "mob_6l",
-    "name": {
-      "en": "Heroic Leap",
-      "it": "Salto Eroico"
-    },
-    "category": "MOBILITY",
-    "isMajor": false,
-    "description": {
-      "en": "You can Sprint Dodge Roll further.",
-      "it": "Puoi effettuare Capriole Schivate in Corsa più lontano."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Roll Distance",
-      "it": "Distanza Capriola"
     },
     "knownValue": [],
     "position": {
@@ -752,20 +346,194 @@
     "prerequisiteNodeIds": [
       "mob_5l"
     ],
-    "iconName": "heroic_leap.png",
-    "icon": "icons/skills/heroic_leap.png"
+    "iconName": "slip_and_slide.png",
+    "icon": "icons/skills/slip_and_slide.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_3l",
+    "name": {
+      "en": "Youthful Lungs",
+      "it": "Polmoni giovani"
+    },
+    "category": "MOBILITY",
+    "isMajor": true,
+    "description": {
+      "en": "Increases your max stamina.",
+      "it": "Aumenta la tua energia massima."
+    },
+    "maxPoints": 1,
+    "impactedSkill": {
+      "en": "Max Stamina",
+      "it": "Resistenza Massima"
+    },
+    "knownValue": [],
+    "position": {
+      "x": 50,
+      "y": 75
+    },
+    "prerequisiteNodeIds": [],
+    "iconName": "youthful_lungs.png",
+    "icon": "icons/skills/youthful_lungs.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_3r",
+    "name": {
+      "en": "Sturdy Ankles",
+      "it": "Caviglie coriacee"
+    },
+    "category": "SURVIVAL",
+    "isMajor": false,
+    "description": {
+      "en": "You take less fall damage when falling from a non-lethal height.",
+      "it": "Subisci meno danni da caduta quando cadi da altezze non letali."
+    },
+    "maxPoints": 5,
+    "impactedSkill": {
+      "en": "Fall Damage Reduction",
+      "it": "Riduzione Danni da Caduta"
+    },
+    "knownValue": [],
+    "position": {
+      "x": 80,
+      "y": 65
+    },
+    "prerequisiteNodeIds": [
+      "surv_3r"
+    ],
+    "iconName": "sturdy_ankles.png",
+    "icon": "icons/skills/sturdy_ankles.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_5c",
+    "name": {
+      "en": "Crawl Before You Walk",
+      "it": "Striscia prima di camminare"
+    },
+    "category": "CONDITIONING",
+    "isMajor": false,
+    "description": {
+      "en": "When you're downed, you crawl faster.",
+      "it": "Durante un abbattimento, strisci più velocemente."
+    },
+    "maxPoints": 5,
+    "impactedSkill": {
+      "en": "Movement Speed",
+      "it": "Velocità di Movimento"
+    },
+    "knownValue": [],
+    "position": {
+      "x": 20,
+      "y": 25
+    },
+    "prerequisiteNodeIds": [
+      "cond_5l"
+    ],
+    "iconName": "crawl_before_you_walk.png",
+    "icon": "icons/skills/crawl_before_you_walk.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_5l",
+    "name": {
+      "en": "Effortless Roll",
+      "it": "Schivata facile"
+    },
+    "category": "MOBILITY",
+    "isMajor": false,
+    "description": {
+      "en": "Dodge Rolls cost less stamina.",
+      "it": "Le schivate costano meno energia."
+    },
+    "maxPoints": 5,
+    "impactedSkill": {
+      "en": "Stamina Cost Reduction",
+      "it": "Riduzione Costo Vigore"
+    },
+    "knownValue": [],
+    "position": {
+      "x": 45,
+      "y": 35
+    },
+    "prerequisiteNodeIds": [
+      "mob_7l",
+      "mob_7r"
+    ],
+    "iconName": "effortless_roll.png",
+    "icon": "icons/skills/effortless_roll.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_5r",
+    "name": {
+      "en": "Off The Wall",
+      "it": "Gran salto"
+    },
+    "category": "MOBILITY",
+    "isMajor": false,
+    "description": {
+      "en": "You can Wall Leap further.",
+      "it": "Puoi effettuare un salto a parete più ampio."
+    },
+    "maxPoints": 5,
+    "impactedSkill": {
+      "en": "Wall Leap Distance",
+      "it": "Distanza Salto dal Muro"
+    },
+    "knownValue": [],
+    "position": {
+      "x": 50,
+      "y": 25
+    },
+    "prerequisiteNodeIds": [
+      "mob_right_back_at_it"
+    ],
+    "iconName": "off_the_wall.png",
+    "icon": "icons/skills/off_the_wall.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_6c",
+    "name": {
+      "en": "Vigorous Vaulter",
+      "it": "Scavalchi e non ti stanchi"
+    },
+    "category": "CONDITIONING",
+    "isMajor": false,
+    "description": {
+      "en": "Vaulting is no longer slowed down while exhausted.",
+      "it": "Non si rallenta più mentre si scavalca quando si è esausti."
+    },
+    "maxPoints": 1,
+    "impactedSkill": {
+      "en": "Climb and Vault Speed",
+      "it": "Velocità di Arrampicata e Scavalcamento"
+    },
+    "knownValue": [],
+    "position": {
+      "x": 20,
+      "y": 55
+    },
+    "prerequisiteNodeIds": [
+      "surv_6r"
+    ],
+    "iconName": "vigorous_vaulter.png",
+    "icon": "icons/skills/vigorous_vaulter.png",
+    "minPointsSpent": 0
   },
   {
     "id": "mob_6r",
     "name": {
       "en": "Ready To Roll",
-      "it": "Pronto a Rotolare"
+      "it": "Momento capriola"
     },
     "category": "MOBILITY",
     "isMajor": false,
     "description": {
       "en": "When falling, your timing window to perform a Recovery Roll is increased.",
-      "it": "Quando cadi, la finestra temporale per eseguire una Capriola di Recupero è aumentata."
+      "it": "Quando cadi, l'intervallo di tempo per eseguire una capriola salvifica aumenta."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -774,26 +542,27 @@
     },
     "knownValue": [],
     "position": {
-      "x": 55,
-      "y": 25
+      "x": 45,
+      "y": 55
     },
     "prerequisiteNodeIds": [
-      "mob_5r"
+      "mob_sure_footed_scrambler"
     ],
     "iconName": "ready_to_roll.png",
-    "icon": "icons/skills/ready_to_roll.png"
+    "icon": "icons/skills/ready_to_roll.png",
+    "minPointsSpent": 0
   },
   {
     "id": "mob_7l",
     "name": {
       "en": "Vaults on Vaults on Vaults",
-      "it": "Scavalcamenti su Scavalcamenti"
+      "it": "Scavalcate affiatate"
     },
     "category": "MOBILITY",
     "isMajor": true,
     "description": {
       "en": "Vaulting no longer costs stamina.",
-      "it": "Scavalcare non costa più vigore."
+      "it": "Scavalcare non costa più energia."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -802,27 +571,28 @@
     },
     "knownValue": [],
     "position": {
-      "x": 45,
-      "y": 15
+      "x": 55,
+      "y": 45
     },
     "prerequisiteNodeIds": [
-      "mob_6l",
-      "mob_6c"
+      "cond_3l",
+      "mob_6r"
     ],
     "iconName": "vaults_on_vaults_on_vaults.png",
-    "icon": "icons/skills/vaults_on_vaults_on_vaults.png"
+    "icon": "icons/skills/vaults_on_vaults_on_vaults.png",
+    "minPointsSpent": 10
   },
   {
     "id": "mob_7r",
     "name": {
       "en": "Vault Spring",
-      "it": "Scatto da Scavalcamento"
+      "it": "Scatto salterino"
     },
     "category": "MOBILITY",
     "isMajor": true,
     "description": {
       "en": "Lets you jump at the end of a vault.",
-      "it": "Ti permette di saltare alla fine di uno scavalcamento."
+      "it": "Ti permette di saltare dopo aver scavalcato."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -831,27 +601,28 @@
     },
     "knownValue": [],
     "position": {
-      "x": 55,
-      "y": 15
+      "x": 45,
+      "y": 45
     },
     "prerequisiteNodeIds": [
-      "mob_6r",
-      "mob_6c"
+      "cond_3l",
+      "mob_6r"
     ],
     "iconName": "vault_spring.png",
-    "icon": "icons/skills/vault_spring.png"
+    "icon": "icons/skills/vault_spring.png",
+    "minPointsSpent": 10
   },
   {
     "id": "surv_1",
     "name": {
       "en": "Agile Croucher",
-      "it": "Accovacciato Agile"
+      "it": "Abbassamento agile"
     },
     "category": "SURVIVAL",
-    "isMajor": true,
+    "isMajor": false,
     "description": {
       "en": "Your movement speed while crouching is increased.",
-      "it": "La tua velocità di movimento mentre sei accovacciato è aumentata."
+      "it": "La tua velocità di movimento quando ti abbassi è aumentata."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -860,24 +631,27 @@
     },
     "knownValue": [],
     "position": {
-      "x": 75,
-      "y": 75
+      "x": 80,
+      "y": 55
     },
-    "prerequisiteNodeIds": [],
+    "prerequisiteNodeIds": [
+      "mob_3r"
+    ],
     "iconName": "agile_croucher.png",
-    "icon": "icons/skills/agile_croucher.png"
+    "icon": "icons/skills/agile_croucher.png",
+    "minPointsSpent": 0
   },
   {
     "id": "surv_2l",
     "name": {
       "en": "Looter's Instincts",
-      "it": "Istinti del Saccheggiatore"
+      "it": "Istinto del saccheggio"
     },
     "category": "SURVIVAL",
     "isMajor": false,
     "description": {
       "en": "When searching a container, loot is revealed faster.",
-      "it": "Quando cerchi in un contenitore, il bottino viene rivelato più velocemente."
+      "it": "Quando ispezioni un contenitore, il bottino viene rivelato più in fretta."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -890,50 +664,23 @@
       "y": 65
     },
     "prerequisiteNodeIds": [
-      "surv_1"
+      "surv_3r"
     ],
     "iconName": "looters_instincts.png",
-    "icon": "icons/skills/looters_instincts.png"
-  },
-  {
-    "id": "surv_2r",
-    "name": {
-      "en": "Revitalizing Squat",
-      "it": "Accovacciamento Rivitalizzante"
-    },
-    "category": "SURVIVAL",
-    "isMajor": false,
-    "description": {
-      "en": "Stamina regeneration while crouched is increased.",
-      "it": "La rigenerazione della resistenza mentre sei accovacciato è aumentata."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Stamina Regeneration",
-      "it": "Rigenerazione resistenza"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 80,
-      "y": 65
-    },
-    "prerequisiteNodeIds": [
-      "surv_1"
-    ],
-    "iconName": "revitalizing_squat.png",
-    "icon": "icons/skills/revitalizing_squat.png"
+    "icon": "icons/skills/looters_instincts.png",
+    "minPointsSpent": 0
   },
   {
     "id": "surv_3l",
     "name": {
       "en": "Silent Scavenger",
-      "it": "Razziatore Silenzioso"
+      "it": "Scavatore silenzioso"
     },
     "category": "SURVIVAL",
     "isMajor": false,
     "description": {
-      "en": "You make less noise when looting",
-      "it": "Fai meno rumore quando sacchegghi"
+      "en": "You make less noise when looting.",
+      "it": "Fai meno rumore durante le razzie."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -949,19 +696,20 @@
       "surv_2l"
     ],
     "iconName": "silent_scavenger.png",
-    "icon": "icons/skills/silent_scavenger.png"
+    "icon": "icons/skills/silent_scavenger.png",
+    "minPointsSpent": 0
   },
   {
     "id": "surv_3r",
     "name": {
       "en": "In-Round Crafting",
-      "it": "Fabbricazione in Partita"
+      "it": "Creazione durante un turno"
     },
     "category": "SURVIVAL",
-    "isMajor": false,
+    "isMajor": true,
     "description": {
       "en": "Unlocks the ability to field-craft items while topside.",
-      "it": "Sblocca la capacità di fabbricare oggetti sul campo mentre sei in superficie."
+      "it": "Sblocca la capacità di creare oggetti sul campo quando sei in Superficie."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -970,82 +718,25 @@
     },
     "knownValue": [],
     "position": {
-      "x": 80,
-      "y": 55
+      "x": 75,
+      "y": 75
     },
-    "prerequisiteNodeIds": [
-      "surv_2r"
-    ],
+    "prerequisiteNodeIds": [],
     "iconName": "in_round_crafting.png",
-    "icon": "icons/skills/in_round_crafting.png"
-  },
-  {
-    "id": "surv_4l",
-    "name": {
-      "en": "Suffer In Silence",
-      "it": "Soffrire in Silenzio"
-    },
-    "category": "SURVIVAL",
-    "isMajor": true,
-    "description": {
-      "en": "While critically hurt, your movement makes less noise.",
-      "it": "Mentre sei gravemente ferito, i tuoi movimenti fanno meno rumore."
-    },
-    "maxPoints": 1,
-    "impactedSkill": {
-      "en": "Noise Reduction",
-      "it": "Riduzione rumore"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 70,
-      "y": 45
-    },
-    "prerequisiteNodeIds": [
-      "surv_3l"
-    ],
-    "iconName": "suffer_in_silence.png",
-    "icon": "icons/skills/suffer_in_silence.png"
-  },
-  {
-    "id": "surv_4r",
-    "name": {
-      "en": "Good As New",
-      "it": "Come Nuovo"
-    },
-    "category": "SURVIVAL",
-    "isMajor": true,
-    "description": {
-      "en": "While under a healing effect, stamina regeneration is increased.",
-      "it": "Mentre sei sotto un effetto curativo, la rigenerazione della resistenza è aumentata."
-    },
-    "maxPoints": 1,
-    "impactedSkill": {
-      "en": "Stamina Regeneration",
-      "it": "Rigenerazione resistenza"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 80,
-      "y": 45
-    },
-    "prerequisiteNodeIds": [
-      "surv_3r"
-    ],
-    "iconName": "good_as_new.png",
-    "icon": "icons/skills/good_as_new.png"
+    "icon": "icons/skills/in_round_crafting.png",
+    "minPointsSpent": 0
   },
   {
     "id": "surv_5c",
     "name": {
       "en": "Traveling Tinkerer",
-      "it": "Armeggiatore Itinerante"
+      "it": "Armeggiatore viaggiatore"
     },
     "category": "SURVIVAL",
     "isMajor": false,
     "description": {
       "en": "Unlocks additional items to field craft.",
-      "it": "Sblocca oggetti aggiuntivi da fabbricare sul campo."
+      "it": "Sblocca oggetti aggiuntivi da creare sul campo."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -1058,23 +749,24 @@
       "y": 35
     },
     "prerequisiteNodeIds": [
-      "surv_4l",
-      "surv_4r"
+      "surv_7r",
+      "surv_quick_roll"
     ],
     "iconName": "traveling_tinkerer.png",
-    "icon": "icons/skills/traveling_tinkerer.png"
+    "icon": "icons/skills/traveling_tinkerer.png",
+    "minPointsSpent": 0
   },
   {
     "id": "surv_5l",
     "name": {
       "en": "Broad Shoulders",
-      "it": "Spalle Larghe"
+      "it": "Spalle larghe"
     },
-    "category": "SURVIVAL",
+    "category": "CONDITIONING",
     "isMajor": false,
     "description": {
-      "en": "Increases the maximum amount of items you can carry.",
-      "it": "Aumenta la quantità massima di oggetti che puoi trasportare."
+      "en": "Increases the maximum weight you can carry.",
+      "it": "Aumenta il peso massimo che puoi trasportare."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -1085,26 +777,28 @@
       "+2 kg per point"
     ],
     "position": {
-      "x": 70,
+      "x": 25,
       "y": 35
     },
     "prerequisiteNodeIds": [
-      "surv_4l"
+      "cond_7l",
+      "cond_mules_gallop"
     ],
     "iconName": "broad_shoulders.png",
-    "icon": "icons/skills/broad_shoulders.png"
+    "icon": "icons/skills/broad_shoulders.png",
+    "minPointsSpent": 0
   },
   {
     "id": "surv_5r",
     "name": {
       "en": "Stubborn Mule",
-      "it": "Mulo Testardo"
+      "it": "Mulo testardo"
     },
-    "category": "SURVIVAL",
+    "category": "CONDITIONING",
     "isMajor": false,
     "description": {
       "en": "Your stamina regeneration is less affected by being over-encumbered.",
-      "it": "La tua rigenerazione della resistenza è meno influenzata dall'essere sovraccarico."
+      "it": "La rigenerazione della tua energia è meno colpita dal sovraccarico."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -1113,31 +807,32 @@
     },
     "knownValue": [],
     "position": {
-      "x": 80,
-      "y": 35
+      "x": 30,
+      "y": 65
     },
     "prerequisiteNodeIds": [
-      "surv_4r"
+      "cond_1"
     ],
     "iconName": "stubborn_mule.png",
-    "icon": "icons/skills/stubborn_mule.png"
+    "icon": "icons/skills/stubborn_mule.png",
+    "minPointsSpent": 0
   },
   {
-    "id": "surv_6c",
+    "id": "surv_6l",
     "name": {
-      "en": "One Raider's Scraps",
-      "it": "Scarti di un Razziatore"
+      "en": "Looter's Luck",
+      "it": "Saccheggio selvaggio"
     },
     "category": "SURVIVAL",
     "isMajor": false,
     "description": {
-      "en": "When looting Raider containers, you have a small chance of finding additional field-crafted items.",
-      "it": "Quando saccheggi contenitori dei Razziatori, hai una piccola probabilità di trovare oggetti artigianali aggiuntivi."
+      "en": "While looting, there's a chance to reveal twice as many items at once.",
+      "it": "Durante un saccheggio, hai la possibilità di rivelare il doppio degli oggetti in una volta sola."
     },
     "maxPoints": 5,
     "impactedSkill": {
-      "en": "Loot Find Chance",
-      "it": "Probabilità di Trovare Bottino"
+      "en": "Loot Search Speed",
+      "it": "Velocità di Ricerca Bottino"
     },
     "knownValue": [],
     "position": {
@@ -1147,48 +842,21 @@
     "prerequisiteNodeIds": [
       "surv_5c"
     ],
-    "iconName": "one_raiders_scraps.png",
-    "icon": "icons/skills/one_raiders_scraps.png"
-  },
-  {
-    "id": "surv_6l",
-    "name": {
-      "en": "Looter's Luck",
-      "it": "Fortuna del Saccheggiatore"
-    },
-    "category": "SURVIVAL",
-    "isMajor": false,
-    "description": {
-      "en": "While looting, there's a chance to reveal twice as many items at once.",
-      "it": "Durante il saccheggio, c'è una probabilità di rivelare il doppio degli oggetti contemporaneamente."
-    },
-    "maxPoints": 5,
-    "impactedSkill": {
-      "en": "Loot Search Speed",
-      "it": "Velocità di Ricerca Bottino"
-    },
-    "knownValue": [],
-    "position": {
-      "x": 70,
-      "y": 25
-    },
-    "prerequisiteNodeIds": [
-      "surv_5l"
-    ],
     "iconName": "looters_luck.png",
-    "icon": "icons/skills/looters_luck.png"
+    "icon": "icons/skills/looters_luck.png",
+    "minPointsSpent": 0
   },
   {
     "id": "surv_6r",
     "name": {
       "en": "Three Deep Breaths",
-      "it": "Tre Respiri Profondi"
+      "it": "Tre bei respiri"
     },
-    "category": "SURVIVAL",
+    "category": "CONDITIONING",
     "isMajor": false,
     "description": {
       "en": "After an ability drains your stamina, you recover more quickly.",
-      "it": "Dopo che un'abilità prosciuga la tua resistenza, recuperi più velocemente."
+      "it": "Dopo che un'abilità prosciuga la tua energia, recuperi più in fretta."
     },
     "maxPoints": 5,
     "impactedSkill": {
@@ -1197,26 +865,27 @@
     },
     "knownValue": [],
     "position": {
-      "x": 80,
-      "y": 25
+      "x": 20,
+      "y": 65
     },
     "prerequisiteNodeIds": [
-      "surv_5r"
+      "cond_1"
     ],
     "iconName": "three_deep_breaths.png",
-    "icon": "icons/skills/three_deep_breaths.png"
+    "icon": "icons/skills/three_deep_breaths.png",
+    "minPointsSpent": 0
   },
   {
     "id": "surv_7l",
     "name": {
       "en": "Security Breach",
-      "it": "Violazione di Sicurezza"
+      "it": "Scassinamento sicuro"
     },
-    "category": "SURVIVAL",
+    "category": "CONDITIONING",
     "isMajor": true,
     "description": {
       "en": "Lets you breach Security Lockers.",
-      "it": "Ti permette di violare gli Armadietti di Sicurezza."
+      "it": "Ti permette di sfondare gli armadietti di sicurezza."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -1225,27 +894,29 @@
     },
     "knownValue": [],
     "position": {
-      "x": 70,
+      "x": 20,
       "y": 15
     },
     "prerequisiteNodeIds": [
-      "surv_6l",
-      "surv_6c"
+      "mob_5c",
+      "cond_speedy_mule",
+      "cond_3r"
     ],
     "iconName": "security_breach.png",
-    "icon": "icons/skills/security_breach.png"
+    "icon": "icons/skills/security_breach.png",
+    "minPointsSpent": 30
   },
   {
     "id": "surv_7r",
     "name": {
       "en": "Minesweeper",
-      "it": "Sminatore"
+      "it": "Cacciamine"
     },
     "category": "SURVIVAL",
     "isMajor": true,
     "description": {
-      "en": "Mines and explosive deployables can be defused when in close proximity.",
-      "it": "Le mine e gli esplosivi piazzabili possono essere disinnescati quando sei nelle immediate vicinanze."
+      "en": "Mines and explosive deployables can be defused when in close proximity",
+      "it": "Le mine e gli esplosivi schierabili possono essere disinnescati quando si trovano nelle vicinanze."
     },
     "maxPoints": 1,
     "impactedSkill": {
@@ -1254,14 +925,435 @@
     },
     "knownValue": [],
     "position": {
+      "x": 70,
+      "y": 45
+    },
+    "prerequisiteNodeIds": [
+      "surv_1",
+      "surv_3l"
+    ],
+    "iconName": "minesweeper.png",
+    "icon": "icons/skills/minesweeper.png",
+    "minPointsSpent": 10
+  },
+  {
+    "id": "cond_vault_n_carry",
+    "name": {
+      "en": "Vault 'n' Carry",
+      "it": "Salta e trasporta"
+    },
+    "category": "CONDITIONING",
+    "isMajor": false,
+    "description": {
+      "en": "Lets you vault while holding a carryable.",
+      "it": "Ti permette di scavalcare mentre tieni in mano un oggetto trasportabile."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 30,
+      "y": 55
+    },
+    "prerequisiteNodeIds": [
+      "surv_5r"
+    ],
+    "iconName": "vault_n_carry.png",
+    "icon": "icons/skills/vault_n_carry.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "cond_mules_gallop",
+    "name": {
+      "en": "Mule's Gallop",
+      "it": "Galoppo del mulo"
+    },
+    "category": "CONDITIONING",
+    "isMajor": true,
+    "description": {
+      "en": "Lets you sprint while over-encumbered.",
+      "it": "Ti permette di scattare anche quando trasporti un carico eccessivo."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 30,
+      "y": 45
+    },
+    "prerequisiteNodeIds": [
+      "mob_6c",
+      "cond_vault_n_carry"
+    ],
+    "iconName": "mules_gallop.png",
+    "icon": "icons/skills/mules_gallop.png",
+    "minPointsSpent": 10
+  },
+  {
+    "id": "cond_speedy_mule",
+    "name": {
+      "en": "Speedy Mule",
+      "it": "Mulo veloce"
+    },
+    "category": "CONDITIONING",
+    "isMajor": false,
+    "description": {
+      "en": "Reduces the speed penalty when severely over-encumbered.",
+      "it": "Riduce la penalità alla velocità quando si è gravemente sovraccarichi."
+    },
+    "maxPoints": 5,
+    "knownValue": [],
+    "position": {
+      "x": 25,
+      "y": 25
+    },
+    "prerequisiteNodeIds": [
+      "surv_5l"
+    ],
+    "iconName": "speedy_mule.png",
+    "icon": "icons/skills/speedy_mule.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "cond_bull_rush",
+    "name": {
+      "en": "Bull Rush",
+      "it": "Carica taurina"
+    },
+    "category": "CONDITIONING",
+    "isMajor": true,
+    "description": {
+      "en": "When your weapon is stowed, allows you to knock back players and ARC while sprinting.",
+      "it": "Quando l'arma è riposta, ti permette di respingere giocatori e ARC mentre scatti."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 30,
+      "y": 15
+    },
+    "prerequisiteNodeIds": [
+      "mob_5c",
+      "cond_speedy_mule",
+      "cond_3r"
+    ],
+    "iconName": "bull_rush.png",
+    "icon": "icons/skills/bull_rush.png",
+    "minPointsSpent": 30
+  },
+  {
+    "id": "cond_weapon_bash",
+    "name": {
+      "en": "Weapon Bash",
+      "it": "Colpo con l'arma"
+    },
+    "category": "CONDITIONING",
+    "isMajor": true,
+    "description": {
+      "en": "Lets you perform a melee attack using your equipped weapon.",
+      "it": "Ti permette di sferrare un attacco corpo a corpo usando l'arma equipaggiata."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 25,
+      "y": 15
+    },
+    "prerequisiteNodeIds": [
+      "mob_5c",
+      "cond_speedy_mule",
+      "cond_3r"
+    ],
+    "iconName": "weapon_bash.png",
+    "icon": "icons/skills/weapon_bash.png",
+    "minPointsSpent": 30
+  },
+  {
+    "id": "mob_sure_footed_scrambler",
+    "name": {
+      "en": "Sure-Footed Scrambler",
+      "it": "Arrampicatore saldo"
+    },
+    "category": "MOBILITY",
+    "isMajor": false,
+    "description": {
+      "en": "While sprinting, increases the time you can scramble up steep slopes.",
+      "it": "Durante lo scatto, aumenta il tempo a disposizione per scalare pendii ripidi."
+    },
+    "maxPoints": 5,
+    "knownValue": [],
+    "position": {
+      "x": 45,
+      "y": 65
+    },
+    "prerequisiteNodeIds": [
+      "mob_3l"
+    ],
+    "iconName": "sure_footed_scrambler.png",
+    "icon": "icons/skills/sure_footed_scrambler.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_right_back_at_it",
+    "name": {
+      "en": "Right Back At It",
+      "it": "Di nuovo in azione"
+    },
+    "category": "MOBILITY",
+    "isMajor": false,
+    "description": {
+      "en": "Reduces the time to get back up after a heavy landing.",
+      "it": "Riduce il tempo necessario per rialzarsi dopo un atterraggio brusco."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 50,
+      "y": 35
+    },
+    "prerequisiteNodeIds": [
+      "mob_7l",
+      "mob_7r"
+    ],
+    "iconName": "right_back_at_it.png",
+    "icon": "icons/skills/right_back_at_it.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_swift_start",
+    "name": {
+      "en": "Swift Start",
+      "it": "Partenza rapida"
+    },
+    "category": "MOBILITY",
+    "isMajor": false,
+    "description": {
+      "en": "Increases the duration of the high speed at the start of a sprint.",
+      "it": "Aumenta la durata dell'alta velocità all'inizio di uno scatto."
+    },
+    "maxPoints": 5,
+    "knownValue": [],
+    "position": {
+      "x": 55,
+      "y": 25
+    },
+    "prerequisiteNodeIds": [
+      "mob_2l"
+    ],
+    "iconName": "swift_start.png",
+    "icon": "icons/skills/swift_start.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "mob_in_the_flow",
+    "name": {
+      "en": "In The Flow",
+      "it": "Nel flusso"
+    },
+    "category": "MOBILITY",
+    "isMajor": true,
+    "description": {
+      "en": "Chaining together mobility moves while sprinting increases the speed, and reduces the stamina cost.",
+      "it": "Concatenare mosse di mobilità durante lo scatto aumenta la velocità e riduce il costo in energia."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 50,
+      "y": 15
+    },
+    "prerequisiteNodeIds": [
+      "mob_swift_start",
+      "mob_5r",
+      "mob_2r"
+    ],
+    "iconName": "in_the_flow.png",
+    "icon": "icons/skills/in_the_flow.png",
+    "minPointsSpent": 30
+  },
+  {
+    "id": "mob_wall_run",
+    "name": {
+      "en": "Wall Run",
+      "it": "Corsa sul muro"
+    },
+    "category": "MOBILITY",
+    "isMajor": true,
+    "description": {
+      "en": "Sprinting at a wall allows you to run up it for a few steps.",
+      "it": "Se scatti verso un muro, puoi risalirlo per qualche passo."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 45,
+      "y": 15
+    },
+    "prerequisiteNodeIds": [
+      "mob_swift_start",
+      "mob_5r",
+      "mob_2r"
+    ],
+    "iconName": "wall_run.png",
+    "icon": "icons/skills/wall_run.png",
+    "minPointsSpent": 30
+  },
+  {
+    "id": "mob_sprinting_on_fumes",
+    "name": {
+      "en": "Sprinting On Fumes",
+      "it": "Scatto in riserva"
+    },
+    "category": "MOBILITY",
+    "isMajor": true,
+    "description": {
+      "en": "Stamina never fully drains while sprinting. Any action or damage cancels the skill. Recovery time scales with duration.",
+      "it": "L'energia non si esaurisce mai completamente durante lo scatto. Qualsiasi azione o danno subito annulla l'abilità. Il tempo di recupero varia in base alla durata."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 55,
+      "y": 15
+    },
+    "prerequisiteNodeIds": [
+      "mob_swift_start",
+      "mob_5r",
+      "mob_2r"
+    ],
+    "iconName": "sprinting_on_fumes.png",
+    "icon": "icons/skills/sprinting_on_fumes.png",
+    "minPointsSpent": 30
+  },
+  {
+    "id": "surv_quick_roll",
+    "name": {
+      "en": "Quick Roll",
+      "it": "Rotolata rapida"
+    },
+    "category": "SURVIVAL",
+    "isMajor": true,
+    "description": {
+      "en": "A faster version of the Dodge Roll, at reduced stamina cost. Covers a shorter distance.",
+      "it": "Una versione più veloce della schivata, con un costo di energia ridotto. Copre una distanza minore."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 80,
+      "y": 45
+    },
+    "prerequisiteNodeIds": [
+      "surv_1",
+      "surv_3l"
+    ],
+    "iconName": "quick_roll.png",
+    "icon": "icons/skills/quick_roll.png",
+    "minPointsSpent": 10
+  },
+  {
+    "id": "surv_stylish_landing",
+    "name": {
+      "en": "Stylish Landing",
+      "it": "Atterraggio stiloso"
+    },
+    "category": "SURVIVAL",
+    "isMajor": false,
+    "description": {
+      "en": "You can use the Recovery Roll from higher up.",
+      "it": "Puoi usare la capriola salvifica da una maggiore altezza."
+    },
+    "maxPoints": 5,
+    "knownValue": [],
+    "position": {
+      "x": 80,
+      "y": 35
+    },
+    "prerequisiteNodeIds": [
+      "surv_7r",
+      "surv_quick_roll"
+    ],
+    "iconName": "stylish_landing.png",
+    "icon": "icons/skills/stylish_landing.png",
+    "minPointsSpent": 0
+  },
+  {
+    "id": "surv_field_repair",
+    "name": {
+      "en": "Field Repair",
+      "it": "Riparazione sul campo"
+    },
+    "category": "SURVIVAL",
+    "isMajor": true,
+    "description": {
+      "en": "Allows you to repair weapons, shields and gadgets up to 30% durability while in a round.",
+      "it": "Ti permette di riparare armi, scudi e gadget fino al 30% della loro tenuta durante un round."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
       "x": 80,
       "y": 15
     },
     "prerequisiteNodeIds": [
-      "surv_6r",
-      "surv_6c"
+      "cond_6l",
+      "surv_6l",
+      "cond_5c"
     ],
-    "iconName": "minesweeper.png",
-    "icon": "icons/skills/minesweeper.png"
+    "iconName": "field_repair.png",
+    "icon": "icons/skills/field_repair.png",
+    "minPointsSpent": 30
+  },
+  {
+    "id": "surv_nomadic_crafting",
+    "name": {
+      "en": "Nomadic Crafting",
+      "it": "Creazione nomade"
+    },
+    "category": "SURVIVAL",
+    "isMajor": true,
+    "description": {
+      "en": "Allows you to field craft a much wider range of items.",
+      "it": "Ti permette di creare sul campo una gamma molto più ampia di oggetti."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 70,
+      "y": 15
+    },
+    "prerequisiteNodeIds": [
+      "cond_6l",
+      "surv_6l",
+      "cond_5c"
+    ],
+    "iconName": "nomadic_crafting.png",
+    "icon": "icons/skills/nomadic_crafting.png",
+    "minPointsSpent": 30
+  },
+  {
+    "id": "surv_road_warrior",
+    "name": {
+      "en": "Road Warrior",
+      "it": "Guerriero della strada"
+    },
+    "category": "SURVIVAL",
+    "isMajor": true,
+    "description": {
+      "en": "Increases the amount of ammo and ARC Powercells looted from ARC, and allows you to recycle at full efficiency while in a round.",
+      "it": "Aumenta la quantità di munizioni e cellule ARC ottenute dagli ARC, e ti permette di riciclare con la massima efficienza durante un round."
+    },
+    "maxPoints": 1,
+    "knownValue": [],
+    "position": {
+      "x": 75,
+      "y": 15
+    },
+    "prerequisiteNodeIds": [
+      "cond_6l",
+      "surv_6l",
+      "cond_5c"
+    ],
+    "iconName": "road_warrior.png",
+    "icon": "icons/skills/road_warrior.png",
+    "minPointsSpent": 30
   }
 ]

@@ -111,9 +111,10 @@ useAppStore.subscribe((state, prev) => {
     state.raidPlan !== prev.raidPlan ||
     state.enabledSections !== prev.enabledSections ||
     state.skillAllocations !== prev.skillAllocations ||
+    state.extraSkillPoints !== prev.extraSkillPoints ||
+    state.sandboxMode !== prev.sandboxMode ||
     state.raiderLevel !== prev.raiderLevel ||
-    state.useExpeditionBonus !== prev.useExpeditionBonus ||
-    state.sandboxMode !== prev.sandboxMode;
+    state.useExpeditionBonus !== prev.useExpeditionBonus;
   // On a profile switch the active id changes together with all the slice refs:
   // we write the (new) active profile's state to its own key, never the old one.
   if (profileStateChanged || state.activeProfileId !== prev.activeProfileId) {

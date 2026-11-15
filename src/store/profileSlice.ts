@@ -200,9 +200,10 @@ export const createProfileSlice: StateCreator<AppState, [], [], ProfileSlice> = 
         raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
         enabledSections: entry.enabledSections ?? getDefaultEnabledSections(),
         skillAllocations: (entry as { skillAllocations?: Record<string, number> }).skillAllocations ?? {},
+        extraSkillPoints: (entry as { extraSkillPoints?: number }).extraSkillPoints ?? 0,
+        sandboxMode: (entry as { sandboxMode?: boolean }).sandboxMode ?? false,
         raiderLevel: (entry as { raiderLevel?: number }).raiderLevel ?? 75,
         useExpeditionBonus: (entry as { useExpeditionBonus?: boolean }).useExpeditionBonus ?? true,
-        sandboxMode: (entry as { sandboxMode?: boolean }).sandboxMode ?? false,
       };
 
       if (!profiles.some(p => p.id === entry.profile.id)) profiles = [...profiles, entry.profile];

@@ -4,18 +4,20 @@ import { useAppStore } from '@/store';
 describe('skillTreeSlice (#62)', () => {
   beforeEach(() => {
     useAppStore.getState().resetSkillTree();
-    useAppStore.getState().setRaiderLevel(75);
+    useAppStore.getState().setExtraSkillPoints(0);
     useAppStore.getState().setSandboxMode(false);
-    useAppStore.getState().setUseExpeditionBonus(true);
   });
 
   it('allocates points to root node', () => {
-    const success = useAppStore.getState().allocateSkillPoint('mob_1');
+    // mob_3l is the Mobility root node (maxPoints: 1)
+    const success = useAppStore.getState().allocateSkillPoint('mob_3l');
     expect(success).toBe(true);
-    expect(useAppStore.getState().skillAllocations.mob_1).toBe(1);
+    expect(useAppStore.getState().skillAllocations.mob_3l).toBe(1);
   });
 
   it('decrements points correctly and cleans up zero values', () => {
+    // mob_3l (root, 1 pt) -> mob_1 (tier 2, 5 pts)
+    useAppStore.getState().allocateSkillPoint('mob_3l');
     useAppStore.getState().allocateSkillPoint('mob_1');
     useAppStore.getState().allocateSkillPoint('mob_1');
     expect(useAppStore.getState().skillAllocations.mob_1).toBe(2);
@@ -30,11 +32,11 @@ describe('skillTreeSlice (#62)', () => {
   });
 
   it('resets skill tree completely or by branch', () => {
-    useAppStore.getState().allocateSkillPoint('mob_1');
+    useAppStore.getState().allocateSkillPoint('mob_3l');
     useAppStore.getState().allocateSkillPoint('cond_1');
 
     useAppStore.getState().resetSkillTree('MOBILITY');
-    expect(useAppStore.getState().skillAllocations.mob_1).toBeUndefined();
+    expect(useAppStore.getState().skillAllocations.mob_3l).toBeUndefined();
     expect(useAppStore.getState().skillAllocations.cond_1).toBe(1);
 
     useAppStore.getState().resetSkillTree();
@@ -42,9 +44,11 @@ describe('skillTreeSlice (#62)', () => {
   });
 
   it('respects sandbox mode for unlimited allocation', () => {
-    useAppStore.getState().setRaiderLevel(1); // 1 SP
     useAppStore.getState().setSandboxMode(true);
 
+    // Root node 1 point
+    useAppStore.getState().allocateSkillPoint('mob_3l');
+    // mob_1 points
     useAppStore.getState().allocateSkillPoint('mob_1');
     const ok2 = useAppStore.getState().allocateSkillPoint('mob_1');
     expect(ok2).toBe(true);
@@ -52,10 +56,10 @@ describe('skillTreeSlice (#62)', () => {
   });
 
   it('auto-allocates path to target node', () => {
-    // Target mob_2l requires mob_1
-    const ok = useAppStore.getState().autoAllocatePath('mob_2l');
+    // Target mob_1 requires mob_3l
+    const ok = useAppStore.getState().autoAllocatePath('mob_1');
     expect(ok).toBe(true);
+    expect(useAppStore.getState().skillAllocations.mob_3l).toBe(1);
     expect(useAppStore.getState().skillAllocations.mob_1).toBe(1);
-    expect(useAppStore.getState().skillAllocations.mob_2l).toBe(1);
   });
 });

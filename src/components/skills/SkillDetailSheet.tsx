@@ -1,10 +1,12 @@
 import React from 'react';
 import type { SkillNode } from '@/types';
 import { useTranslation } from '@/i18n';
-import { Lock, Plus, Minus, Zap, X, ShieldAlert } from 'lucide-react';
+import { Lock, Plus, Minus, Zap, ShieldAlert } from 'lucide-react';
 import { BRANCH_CONFIGS } from './types';
+import { SLOT_DEFINITIONS } from './skillLayout';
 import { canAllocatePoint, canDecrementPoint, calculateSkillBudget } from '@/lib/skillTree';
 import { useAppStore } from '@/store';
+import { Drawer } from '@/components/Drawer';
 import skillsData from '@/data/skills.json';
 
 const allNodes = skillsData as SkillNode[];
@@ -23,9 +25,7 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
   const lang = (language === 'it' ? 'it' : 'en') as 'it' | 'en';
 
   const skillAllocations = useAppStore((s) => s.skillAllocations);
-  const raiderLevel = useAppStore((s) => s.raiderLevel);
-  const earnedPermanentSkillPoints = useAppStore((s) => s.earnedPermanentSkillPoints);
-  const useExpeditionBonus = useAppStore((s) => s.useExpeditionBonus);
+  const extraSkillPoints = useAppStore((s) => s.extraSkillPoints);
   const sandboxMode = useAppStore((s) => s.sandboxMode);
 
   const allocateSkillPoint = useAppStore((s) => s.allocateSkillPoint);
@@ -35,26 +35,23 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
   if (!selectedSlotId) return null;
 
   const budget = calculateSkillBudget(
-    raiderLevel,
-    earnedPermanentSkillPoints,
-    useExpeditionBonus,
+    extraSkillPoints,
     sandboxMode,
     skillAllocations
   );
 
-  // Check if slot is mid milestone (e.g. cond_4, mob_4, surv_4)
-  const isMidMilestone =
-    selectedSlotId === 'cond_4' || selectedSlotId === 'mob_4' || selectedSlotId === 'surv_4';
+  const slotDef = SLOT_DEFINITIONS[selectedSlotId];
 
   let primaryNode: SkillNode | undefined;
   let choiceNodes: SkillNode[] = [];
 
-  if (isMidMilestone) {
-    const prefix = selectedSlotId.slice(0, 4); // 'cond' | 'mob_' | 'surv'
-    const lNode = nodeMap.get(`${prefix}l`);
-    const rNode = nodeMap.get(`${prefix}r`);
-    choiceNodes = [lNode, rNode].filter((n): n is SkillNode => n !== undefined);
+  if (slotDef?.choiceNodeIds && slotDef.choiceNodeIds.length > 0) {
+    choiceNodes = slotDef.choiceNodeIds
+      .map((id) => nodeMap.get(id))
+      .filter((n): n is SkillNode => n !== undefined);
     primaryNode = choiceNodes[0];
+  } else if (slotDef?.primaryNodeId) {
+    primaryNode = nodeMap.get(slotDef.primaryNodeId);
   } else {
     primaryNode = nodeMap.get(selectedSlotId);
   }
@@ -115,7 +112,7 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
     }
 
     return (
-      <div key={node.id} className="mt-3 pt-3 border-t border-zinc-200 dark:border-zinc-700">
+      <div key={node.id} className="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
         {/* If node is one of multiple choices */}
         {choiceNodes.length > 0 && (
           <div className="flex items-center justify-between mb-2">
@@ -143,7 +140,7 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
           <button
             type="button"
             onClick={() => autoAllocatePath(node.id)}
-            className="w-full mb-3 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-semibold bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 transition-colors"
+            className="w-full mb-3 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 transition-colors"
           >
             <Zap size={14} className="text-amber-500" />
             <span>{lang === 'it' ? 'Assegna requisiti mancanti' : 'Allocate prerequisites'}</span>
@@ -159,14 +156,14 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
                 type="button"
                 onClick={handleDecrement}
                 disabled={!canDec.allowed}
-                className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-zinc-800 dark:text-zinc-200 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 disabled:opacity-30 disabled:pointer-events-none transition-all"
+                className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-zinc-800 dark:text-zinc-200 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 title={canDec.reason || ''}
               >
-                <Minus size={16} />
+                <Minus size={18} />
               </button>
 
               {/* Progress counter pill */}
-              <div className="flex-1 h-10 rounded-xl flex items-center justify-center font-mono font-bold text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100">
+              <div className="flex-1 h-12 rounded-xl flex items-center justify-center font-mono font-bold text-base bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100">
                 {currentPoints} / {node.maxPoints}
               </div>
 
@@ -175,9 +172,9 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
                 type="button"
                 onClick={handleAllocate}
                 disabled={!canAlloc.allowed}
-                className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white disabled:opacity-30 disabled:pointer-events-none transition-all shadow-sm"
+                className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-white bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white disabled:opacity-30 disabled:pointer-events-none transition-all shadow-sm cursor-pointer"
               >
-                <Plus size={16} />
+                <Plus size={18} />
               </button>
 
               {/* Max Out Button */}
@@ -186,7 +183,7 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
                   type="button"
                   onClick={handleMaxOut}
                   disabled={!canAlloc.allowed}
-                  className="px-3 h-10 rounded-xl text-xs font-bold text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 disabled:opacity-30 disabled:pointer-events-none transition-all"
+                  className="px-4 h-12 rounded-xl text-xs font-bold text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
                   MAX
                 </button>
@@ -200,9 +197,9 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
                   type="button"
                   onClick={handleDecrement}
                   disabled={!canDec.allowed}
-                  className="flex-1 h-10 rounded-xl flex items-center justify-center gap-2 font-bold text-xs bg-red-50 hover:bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/50 disabled:opacity-30 transition-colors"
+                  className="flex-1 h-12 rounded-xl flex items-center justify-center gap-2 font-bold text-xs bg-red-50 hover:bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/50 disabled:opacity-30 transition-colors cursor-pointer"
                 >
-                  <Minus size={15} />
+                  <Minus size={16} />
                   <span>{lang === 'it' ? 'Rimuovi' : 'Remove'}</span>
                 </button>
               ) : (
@@ -210,9 +207,9 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
                   type="button"
                   onClick={handleAllocate}
                   disabled={!canAlloc.allowed}
-                  className="flex-1 h-10 rounded-xl flex items-center justify-center gap-2 font-bold text-xs text-white bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white disabled:opacity-30 disabled:pointer-events-none transition-all shadow-sm"
+                  className="flex-1 h-12 rounded-xl flex items-center justify-center gap-2 font-bold text-xs text-white bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white disabled:opacity-30 disabled:pointer-events-none transition-all shadow-sm cursor-pointer"
                 >
-                  <Plus size={15} />
+                  <Plus size={16} />
                   <span>{lang === 'it' ? 'Sblocca Perk' : 'Unlock Perk'}</span>
                 </button>
               )}
@@ -222,8 +219,8 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
 
         {/* Decrement Integrity Error */}
         {!canDec.allowed && canDec.reason === 'has_dependent_children' && currentPoints > 0 && (
-          <div className="flex items-center gap-1.5 mt-2 text-[11px] text-amber-600 dark:text-amber-400">
-            <ShieldAlert size={13} className="shrink-0" />
+          <div className="flex items-center gap-1.5 mt-2.5 text-xs text-amber-600 dark:text-amber-400">
+            <ShieldAlert size={14} className="shrink-0" />
             <span>
               {lang === 'it'
                 ? 'Non puoi rimuovere punti: i nodi successivi dipendono da questo.'
@@ -233,8 +230,8 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
         )}
 
         {!canDec.allowed && canDec.reason === 'violates_gate_threshold' && currentPoints > 0 && (
-          <div className="flex items-center gap-1.5 mt-2 text-[11px] text-amber-600 dark:text-amber-400">
-            <ShieldAlert size={13} className="shrink-0" />
+          <div className="flex items-center gap-1.5 mt-2.5 text-xs text-amber-600 dark:text-amber-400">
+            <ShieldAlert size={14} className="shrink-0" />
             <span>
               {lang === 'it'
                 ? 'Non puoi rimuovere punti: violeresti la soglia minima per la milestone attiva.'
@@ -247,92 +244,84 @@ export const SkillDetailSheet: React.FC<SkillDetailSheetProps> = ({
   };
 
   return (
-    <aside
-      className="fixed bottom-20 md:bottom-6 right-4 z-40 w-96 max-w-[calc(100vw-2rem)] bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 rounded-3xl p-5 shadow-2xl border border-zinc-200 dark:border-zinc-800 animate-in fade-in slide-in-from-bottom-4 duration-200"
-      aria-label="Skill Details"
+    <Drawer
+      from="bottom"
+      onClose={onClose}
+      title={branchCfg.nameIt}
     >
-      {/* Top Header: Category Tag & Close */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <span
-            className="w-2.5 h-2.5 rounded-full shadow-sm"
-            style={{ backgroundColor: branchCfg.color }}
-          />
-          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-            {branchCfg.nameIt}
-          </span>
+      <div className="space-y-4">
+        {/* Node Title & Icon */}
+        <div className="flex items-start gap-3.5">
+          <div
+            className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border-2 shadow-sm overflow-hidden bg-zinc-950"
+            style={{ borderColor: branchCfg.color }}
+          >
+            {primaryNode.icon && (
+              <img
+                src={`${import.meta.env.BASE_URL}${primaryNode.icon.replace(/^\//, '')}`}
+                alt={primaryNode.name[lang]}
+                className="w-10 h-10 object-contain drop-shadow"
+              />
+            )}
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-extrabold text-base tracking-tight leading-tight uppercase text-zinc-900 dark:text-zinc-100">
+              {choiceNodes.length > 0
+                ? slotDef?.tier === 7
+                  ? lang === 'it'
+                    ? 'SCELTA APEX MILESTONE'
+                    : 'APEX MILESTONE CHOICE'
+                  : lang === 'it'
+                    ? 'SCELTA MILESTONE'
+                    : 'MILESTONE CHOICE'
+                : primaryNode.name[lang]}
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+              {choiceNodes.length > 0
+                ? slotDef?.minPointsSpent
+                  ? lang === 'it'
+                    ? `Richiede ${slotDef.minPointsSpent} punti nel ramo`
+                    : `Requires ${slotDef.minPointsSpent} points in branch`
+                  : ''
+                : primaryNode.isMajor
+                  ? lang === 'it'
+                    ? 'Abilità Principale'
+                    : 'Major Skill'
+                  : lang === 'it'
+                    ? `Nodo Minore (Max ${primaryNode.maxPoints})`
+                    : `Minor Node (Max ${primaryNode.maxPoints})`}
+            </p>
+          </div>
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="w-7 h-7 rounded-full flex items-center justify-center text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-          aria-label="Chiudi"
-        >
-          <X size={16} />
-        </button>
-      </div>
 
-      {/* Node Title & Icon */}
-      <div className="flex items-start gap-3.5 mb-3">
-        <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border-2 shadow-sm overflow-hidden bg-zinc-950"
-          style={{ borderColor: branchCfg.color }}
-        >
-          {primaryNode.icon && (
-            <img
-              src={`${import.meta.env.BASE_URL}${primaryNode.icon.replace(/^\//, '')}`}
-              alt={primaryNode.name[lang]}
-              className="w-10 h-10 object-contain drop-shadow"
-            />
-          )}
-        </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="font-extrabold text-base tracking-tight leading-tight uppercase text-zinc-900 dark:text-zinc-100">
-            {choiceNodes.length > 0
-              ? lang === 'it'
-                ? 'SCELTA MILESTONE'
-                : 'MILESTONE CHOICE'
-              : primaryNode.name[lang]}
-          </h3>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-            {primaryNode.isMajor
-              ? lang === 'it'
-                ? 'Abilità Principale'
-                : 'Major Skill'
-              : lang === 'it'
-                ? `Nodo Minore (Max ${primaryNode.maxPoints})`
-                : `Minor Node (Max ${primaryNode.maxPoints})`}
-          </p>
-        </div>
-      </div>
-
-      {/* Description */}
-      {choiceNodes.length === 0 ? (
-        <div className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-300 mb-2">
-          {primaryNode.description[lang]}
-        </div>
-      ) : (
-        <div className="space-y-2 mb-2 text-xs">
-          {choiceNodes.map((cn) => (
-            <div
-              key={cn.id}
-              className="p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/60 dark:border-zinc-700/60"
-            >
-              <div className="font-bold text-zinc-900 dark:text-zinc-100 uppercase text-xs">
-                {cn.name[lang]}
+        {/* Description */}
+        {choiceNodes.length === 0 ? (
+          <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            {primaryNode.description[lang]}
+          </div>
+        ) : (
+          <div className="space-y-2 text-xs">
+            {choiceNodes.map((cn) => (
+              <div
+                key={cn.id}
+                className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/60 dark:border-zinc-700/60"
+              >
+                <div className="font-bold text-zinc-900 dark:text-zinc-100 uppercase text-xs">
+                  {cn.name[lang]}
+                </div>
+                <div className="text-zinc-600 dark:text-zinc-300 text-xs mt-1 leading-snug">
+                  {cn.description[lang]}
+                </div>
               </div>
-              <div className="text-zinc-600 dark:text-zinc-300 text-[11px] mt-1 leading-snug">
-                {cn.description[lang]}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
 
-      {/* Controls for single node or each choice */}
-      {choiceNodes.length === 0
-        ? renderNodeControls(primaryNode)
-        : choiceNodes.map((cn) => renderNodeControls(cn))}
-    </aside>
+        {/* Controls for single node or each choice */}
+        {choiceNodes.length === 0
+          ? renderNodeControls(primaryNode)
+          : choiceNodes.map((cn) => renderNodeControls(cn))}
+      </div>
+    </Drawer>
   );
 };

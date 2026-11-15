@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 import { useScrollLock } from '@/hooks/useScrollLock';
@@ -53,7 +54,9 @@ export const Drawer = ({
 
   const panelRef = useDialog(handleClose);
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-50 bg-black/60 overscroll-contain touch-none"
       style={{ animation: `${isClosing ? 'drawer-fade-out' : 'drawer-fade-in'} ${isClosing ? DURATION_OUT : DURATION_IN}ms ease both` }}
@@ -79,6 +82,7 @@ export const Drawer = ({
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

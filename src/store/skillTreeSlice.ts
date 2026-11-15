@@ -19,16 +19,15 @@ export const createSkillTreeSlice: StateCreator<AppState, [], [], SkillTreeSlice
   get
 ) => ({
   skillAllocations: bootProfileState.skillAllocations ?? {},
-  raiderLevel: bootProfileState.raiderLevel ?? 75,
-  useExpeditionBonus: bootProfileState.useExpeditionBonus ?? true,
+  extraSkillPoints: (bootProfileState as { extraSkillPoints?: number }).extraSkillPoints ?? 0,
   sandboxMode: bootProfileState.sandboxMode ?? false,
+  raiderLevel: (bootProfileState as { raiderLevel?: number }).raiderLevel ?? 75,
+  useExpeditionBonus: (bootProfileState as { useExpeditionBonus?: boolean }).useExpeditionBonus ?? true,
 
   allocateSkillPoint: (nodeId: string): boolean => {
     const s = get();
     const budget = calculateSkillBudget(
-      s.raiderLevel,
-      s.earnedPermanentSkillPoints,
-      s.useExpeditionBonus,
+      s.extraSkillPoints,
       s.sandboxMode,
       s.skillAllocations
     );
@@ -115,6 +114,15 @@ export const createSkillTreeSlice: StateCreator<AppState, [], [], SkillTreeSlice
     set({ skillAllocations: nextAllocations });
   },
 
+  setExtraSkillPoints: (points: number): void => {
+    const clamped = Math.max(0, Math.min(15, Math.floor(points || 0)));
+    set({ extraSkillPoints: clamped });
+  },
+
+  setSandboxMode: (sandbox: boolean): void => {
+    set({ sandboxMode: sandbox });
+  },
+
   setRaiderLevel: (level: number): void => {
     const clamped = Math.max(1, Math.min(75, Math.floor(level)));
     set({ raiderLevel: clamped });
@@ -122,9 +130,5 @@ export const createSkillTreeSlice: StateCreator<AppState, [], [], SkillTreeSlice
 
   setUseExpeditionBonus: (use: boolean): void => {
     set({ useExpeditionBonus: use });
-  },
-
-  setSandboxMode: (sandbox: boolean): void => {
-    set({ sandboxMode: sandbox });
   },
 });

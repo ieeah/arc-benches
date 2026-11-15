@@ -29,9 +29,21 @@ export type SkillActionCheck = {
 };
 
 /**
- * Returns the tier (1-7) of a skill node by its ID convention (e.g. cond_1 -> 1, mob_4l -> 4).
+ * Returns the tier (1-7) of a skill node.
+ * Uses node.position.y (y=75 -> T1, y=15 -> T7), minPointsSpent, or node ID naming convention.
  */
-export function getNodeTier(nodeId: string): number {
+export function getNodeTier(nodeId: string, nodeMap?: Map<string, SkillNode>): number {
+  if (nodeMap) {
+    const node = nodeMap.get(nodeId);
+    if (node) {
+      if (node.position && typeof node.position.y === 'number') {
+        return Math.round((85 - node.position.y) / 10);
+      }
+      if (node.minPointsSpent === 30 || node.minPointsSpent === 40) return 7;
+      if (node.minPointsSpent === 10) return 4;
+      if (node.prerequisiteNodeIds.length === 0) return 1;
+    }
+  }
   const match = nodeId.match(/_(\d)/);
   return match ? parseInt(match[1], 10) : 1;
 }
@@ -63,16 +75,17 @@ export function calculateTotalSpent(allocations: Record<string, number>): number
   return Object.values(allocations).reduce((acc, pts) => acc + (pts > 0 ? pts : 0), 0);
 }
 
+export const BASE_SKILL_POINTS = 76;
+export const MAX_EXTRA_SKILL_POINTS = 15;
+
 /**
- * Calculates skill points budget based on Raider Level (1-75), permanent expedition bonus (0-15),
+ * Calculates skill points budget based on base points (76) + extra points (0-15),
  * and whether sandbox mode is active.
  */
 export function calculateSkillBudget(
-  raiderLevel: number,
-  expeditionPoints: number,
-  useExpeditions: boolean,
-  sandboxMode: boolean,
-  allocations: Record<string, number>
+  extraSkillPoints: number = 0,
+  sandboxMode: boolean = false,
+  allocations: Record<string, number> = {}
 ): SkillBudget {
   const totalSpentSP = calculateTotalSpent(allocations);
 
@@ -85,9 +98,8 @@ export function calculateSkillBudget(
     };
   }
 
-  const baseSP = Math.max(1, Math.min(75, raiderLevel));
-  const bonusSP = useExpeditions ? Math.max(0, Math.min(15, expeditionPoints)) : 0;
-  const totalAvailableSP = baseSP + bonusSP;
+  const bonusSP = Math.max(0, Math.min(MAX_EXTRA_SKILL_POINTS, Math.floor(extraSkillPoints || 0)));
+  const totalAvailableSP = BASE_SKILL_POINTS + bonusSP;
   const remainingSP = Math.max(0, totalAvailableSP - totalSpentSP);
 
   return {
@@ -121,7 +133,7 @@ export function canAllocatePoint(
     return { allowed: false, reason: 'insufficient_points' };
   }
 
-  const tier = getNodeTier(nodeId);
+  const tier = getNodeTier(nodeId, nodeMap);
   const branchSpent = calculateBranchSpent(node.category, allocations, nodeMap);
 
   // Check gate thresholds:
@@ -132,11 +144,18 @@ export function canAllocatePoint(
 
   // Tier 7 (final milestones):
   if (tier === 7) {
-    const isFirstFinal =
-      (allocations[`${node.category.toLowerCase().slice(0, 4)}_7l`] || 0) === 0 &&
-      (allocations[`${node.category.toLowerCase().slice(0, 4)}_7r`] || 0) === 0;
+    // Count how many tier 7 skills are already allocated in this category
+    const allocatedTier7Count = Object.keys(allocations).filter((id) => {
+      const n = nodeMap.get(id);
+      return (
+        n &&
+        n.category === node.category &&
+        getNodeTier(id, nodeMap) === 7 &&
+        (allocations[id] || 0) > 0
+      );
+    }).length;
 
-    if (isFirstFinal) {
+    if (allocatedTier7Count === 0) {
       if (branchSpent < GATE_THRESHOLDS.final1) {
         return { allowed: false, reason: 'gate_locked_30' };
       }
@@ -242,29 +261,28 @@ export function canDecrementPoint(
   }
 
   // 2. Check gate thresholds for the affected branch
-  const prefix = node.id.slice(0, 4); // 'cond' | 'mob_' | 'surv'
-  const prefixLower = prefix.endsWith('_') ? prefix : `${prefix}_`;
-
-  // Count points in tiers 1-3
   let tiers1To3Spent = 0;
   let tiers1To6Spent = 0;
   let tier4Active = false;
   let tier7Count = 0;
 
   for (const [id, pts] of Object.entries(newAllocations)) {
-    if (pts > 0 && id.startsWith(prefixLower.slice(0, 3))) {
-      const tier = getNodeTier(id);
-      if (tier <= 3) {
-        tiers1To3Spent += pts;
-      }
-      if (tier <= 6) {
-        tiers1To6Spent += pts;
-      }
-      if (tier >= 4) {
-        tier4Active = true;
-      }
-      if (tier === 7) {
-        tier7Count++;
+    if (pts > 0) {
+      const n = nodeMap.get(id);
+      if (n && n.category === node.category) {
+        const tier = getNodeTier(id, nodeMap);
+        if (tier <= 3) {
+          tiers1To3Spent += pts;
+        }
+        if (tier <= 6) {
+          tiers1To6Spent += pts;
+        }
+        if (tier >= 4) {
+          tier4Active = true;
+        }
+        if (tier === 7) {
+          tier7Count++;
+        }
       }
     }
   }

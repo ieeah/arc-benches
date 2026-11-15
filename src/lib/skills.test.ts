@@ -5,8 +5,8 @@ import type { SkillNode } from '@/types';
 describe('skills dataset (#89)', () => {
   const nodes = skillsData as SkillNode[];
 
-  it('contains exactly 45 skill nodes across 3 branches', () => {
-    expect(nodes).toHaveLength(45);
+  it('contains exactly 48 skill nodes across 3 branches', () => {
+    expect(nodes).toHaveLength(48);
 
     const categories = {
       CONDITIONING: nodes.filter(n => n.category === 'CONDITIONING'),
@@ -14,9 +14,9 @@ describe('skills dataset (#89)', () => {
       SURVIVAL: nodes.filter(n => n.category === 'SURVIVAL'),
     };
 
-    expect(categories.CONDITIONING).toHaveLength(15);
-    expect(categories.MOBILITY).toHaveLength(15);
-    expect(categories.SURVIVAL).toHaveLength(15);
+    expect(categories.CONDITIONING).toHaveLength(16);
+    expect(categories.MOBILITY).toHaveLength(16);
+    expect(categories.SURVIVAL).toHaveLength(16);
   });
 
   it('has valid localization in both IT and EN for all nodes', () => {

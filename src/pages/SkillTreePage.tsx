@@ -4,20 +4,19 @@ import { useAppStore } from '@/store';
 import { calculateSkillBudget } from '@/lib/skillTree';
 import { SkillTreeCanvas } from '@/components/skills/SkillTreeCanvas';
 import { SkillDetailSheet } from '@/components/skills/SkillDetailSheet';
-import { RotateCcw, Settings2, Sparkles, SlidersHorizontal, AlertTriangle, X } from 'lucide-react';
+import { MilestoneModal } from '@/components/skills/MilestoneModal';
+import { SLOT_DEFINITIONS } from '@/components/skills/skillLayout';
+import { RotateCcw, Settings2, Sparkles, SlidersHorizontal, AlertTriangle, X, Minus, Plus } from 'lucide-react';
 
 export const SkillTreePage: React.FC = () => {
   const { language } = useTranslation();
   const lang = (language === 'it' ? 'it' : 'en') as 'it' | 'en';
 
   const skillAllocations = useAppStore((s) => s.skillAllocations);
-  const raiderLevel = useAppStore((s) => s.raiderLevel);
-  const earnedPermanentSkillPoints = useAppStore((s) => s.earnedPermanentSkillPoints);
-  const useExpeditionBonus = useAppStore((s) => s.useExpeditionBonus);
+  const extraSkillPoints = useAppStore((s) => s.extraSkillPoints);
   const sandboxMode = useAppStore((s) => s.sandboxMode);
 
-  const setRaiderLevel = useAppStore((s) => s.setRaiderLevel);
-  const setUseExpeditionBonus = useAppStore((s) => s.setUseExpeditionBonus);
+  const setExtraSkillPoints = useAppStore((s) => s.setExtraSkillPoints);
   const setSandboxMode = useAppStore((s) => s.setSandboxMode);
   const resetSkillTree = useAppStore((s) => s.resetSkillTree);
 
@@ -26,9 +25,7 @@ export const SkillTreePage: React.FC = () => {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const budget = calculateSkillBudget(
-    raiderLevel,
-    earnedPermanentSkillPoints,
-    useExpeditionBonus,
+    extraSkillPoints,
     sandboxMode,
     skillAllocations
   );
@@ -82,9 +79,9 @@ export const SkillTreePage: React.FC = () => {
               </div>
               {!sandboxMode && (
                 <div className="text-[10px] text-zinc-400 dark:text-zinc-500 border-l border-zinc-300 dark:border-zinc-700 pl-3 leading-tight">
-                  <div>Lvl {raiderLevel}</div>
-                  {useExpeditionBonus && earnedPermanentSkillPoints > 0 && (
-                    <div className="text-emerald-500">+{earnedPermanentSkillPoints} Sped.</div>
+                  <div>Base 76 SP</div>
+                  {extraSkillPoints > 0 && (
+                    <div className="text-amber-500 font-semibold">+{extraSkillPoints} Extra</div>
                   )}
                 </div>
               )}
@@ -122,11 +119,18 @@ export const SkillTreePage: React.FC = () => {
             onSelectSlot={(slotId) => setSelectedSlotId(slotId)}
           />
 
-          {/* Floating Detail Sheet */}
-          <SkillDetailSheet
-            selectedSlotId={selectedSlotId}
-            onClose={() => setSelectedSlotId(null)}
-          />
+          {/* Milestone Selection Modal (Centered Dialog matching game screenshot 2) */}
+          {selectedSlotId && SLOT_DEFINITIONS[selectedSlotId]?.isMilestone ? (
+            <MilestoneModal
+              slotId={selectedSlotId}
+              onClose={() => setSelectedSlotId(null)}
+            />
+          ) : (
+            <SkillDetailSheet
+              selectedSlotId={selectedSlotId}
+              onClose={() => setSelectedSlotId(null)}
+            />
+          )}
         </main>
       </div>
 
@@ -151,53 +155,70 @@ export const SkillTreePage: React.FC = () => {
             </div>
 
             <div className="space-y-5 text-sm">
-              {/* Raider Level Slider */}
-              <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label className="font-bold text-xs uppercase tracking-wide text-zinc-500">
-                    {lang === 'it' ? 'Livello Raider (1 - 75)' : 'Raider Level (1 - 75)'}
-                  </label>
-                  <span className="font-mono font-bold text-base text-zinc-900 dark:text-zinc-100">
-                    {raiderLevel}
-                  </span>
+              {/* Base Points Info */}
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/60 dark:border-zinc-700/60">
+                <div>
+                  <div className="font-bold text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    {lang === 'it' ? 'Punti Abilità Base' : 'Base Skill Points'}
+                  </div>
+                  <div className="text-[11px] text-zinc-500 mt-0.5">
+                    {lang === 'it'
+                      ? 'Progressione completa del Raider'
+                      : 'Full Raider progression'}
+                  </div>
                 </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="75"
-                  value={raiderLevel}
-                  onChange={(e) => setRaiderLevel(parseInt(e.target.value, 10))}
-                  className="w-full accent-amber-500 cursor-pointer"
-                />
-                <div className="text-[11px] text-zinc-500 mt-1">
-                  {lang === 'it'
-                    ? 'Ogni livello assegna 1 punto abilità base (fino a 75).'
-                    : 'Each level grants 1 base skill point (up to 75).'}
-                </div>
+                <span className="font-mono font-extrabold text-lg text-zinc-900 dark:text-zinc-100">
+                  76 SP
+                </span>
               </div>
 
-              {/* Expedition Bonus Toggle */}
-              <div className="flex items-center justify-between p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/60 dark:border-zinc-700/60">
-                <div>
-                  <div className="font-bold text-xs uppercase tracking-wide">
-                    {lang === 'it' ? 'Bonus Spedizioni' : 'Expedition Bonus'}
-                  </div>
-                  <div className="text-[11px] text-zinc-500">
-                    {earnedPermanentSkillPoints > 0
-                      ? lang === 'it'
-                        ? `+${earnedPermanentSkillPoints} SP permanenti guadagnati`
-                        : `+${earnedPermanentSkillPoints} permanent SP earned`
-                      : lang === 'it'
-                        ? 'Nessun punto guadagnato dal prestigio'
-                        : 'No points earned from prestige'}
-                  </div>
+              {/* Extra Skill Points Stepper */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="font-bold text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    {lang === 'it' ? 'Punti Extra (0 - 15)' : 'Extra Points (0 - 15)'}
+                  </label>
+                  <span className="font-mono font-bold text-sm text-amber-500">
+                    +{extraSkillPoints} SP
+                  </span>
                 </div>
-                <input
-                  type="checkbox"
-                  checked={useExpeditionBonus}
-                  onChange={(e) => setUseExpeditionBonus(e.target.checked)}
-                  className="w-5 h-5 accent-emerald-500 rounded cursor-pointer"
-                />
+                <div className="flex items-center justify-between gap-3 p-2 bg-zinc-100 dark:bg-zinc-800/90 rounded-2xl border border-zinc-200/60 dark:border-zinc-700/60">
+                  <button
+                    type="button"
+                    onClick={() => setExtraSkillPoints(Math.max(0, extraSkillPoints - 1))}
+                    disabled={extraSkillPoints <= 0}
+                    aria-label={lang === 'it' ? 'Riduci punti extra' : 'Decrease extra points'}
+                    className="w-11 h-11 rounded-xl flex items-center justify-center bg-white dark:bg-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600 active:scale-95 disabled:opacity-30 disabled:pointer-events-none text-zinc-800 dark:text-zinc-100 shadow-sm transition-all"
+                  >
+                    <Minus size={18} />
+                  </button>
+
+                  <div className="flex flex-col items-center">
+                    <span className="font-mono text-xl font-extrabold text-zinc-900 dark:text-zinc-100">
+                      {extraSkillPoints} / 15
+                    </span>
+                    <span className="text-[10px] text-zinc-500 font-medium">
+                      {lang === 'it'
+                        ? `Totale: ${76 + extraSkillPoints} SP`
+                        : `Total: ${76 + extraSkillPoints} SP`}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setExtraSkillPoints(Math.min(15, extraSkillPoints + 1))}
+                    disabled={extraSkillPoints >= 15}
+                    aria-label={lang === 'it' ? 'Aumenta punti extra' : 'Increase extra points'}
+                    className="w-11 h-11 rounded-xl flex items-center justify-center bg-white dark:bg-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600 active:scale-95 disabled:opacity-30 disabled:pointer-events-none text-zinc-800 dark:text-zinc-100 shadow-sm transition-all"
+                  >
+                    <Plus size={18} />
+                  </button>
+                </div>
+                <div className="text-[11px] text-zinc-500 mt-1.5">
+                  {lang === 'it'
+                    ? 'Aumenta i punti abilità extra sbloccati (max 15 punti extra).'
+                    : 'Increase extra unlocked skill points (max 15 extra points).'}
+                </div>
               </div>
 
               {/* Sandbox Mode Toggle */}

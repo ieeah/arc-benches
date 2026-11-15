@@ -108,6 +108,7 @@ describe('persistence.ts', () => {
       raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: 123456789 },
       enabledSections: { workbench: true, stash: true, settings: true, raid: true },
       skillAllocations: { cond_1: 5, mob_1: 2 },
+      extraSkillPoints: 5,
       raiderLevel: 50,
       useExpeditionBonus: true,
       sandboxMode: false,
@@ -123,6 +124,7 @@ describe('persistence.ts', () => {
       expect(loaded.inventory).toEqual({ 'metal-parts': 10 });
       expect(loaded.currentLevels).toEqual({ workbench1: 2 });
       expect(loaded.activePersonalityId).toBe('persona-1');
+      expect(loaded.extraSkillPoints).toBe(5);
       expect(loaded.checkedActions).toEqual({ 'workbench1|1|act1': true });
       expect(loaded.language).toBe('it');
       expect(loaded.activeRewardPass).toBe('frozen-trail');
@@ -279,6 +281,7 @@ describe('persistence.ts', () => {
         raidPlan: { isRaidRunning: false, actions: [], items: [], updatedAt: 123456789 },
         enabledSections: {},
         skillAllocations: {},
+        extraSkillPoints: 0,
         raiderLevel: 75,
         useExpeditionBonus: true,
         sandboxMode: false,

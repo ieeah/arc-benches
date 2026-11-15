@@ -23,7 +23,8 @@ export const PERSISTED_PROGRESS_KEYS = [
   'completedExpeditionsCount', 'earnedPermanentSkillPoints',
   'consecutiveStreak', 'departureWindowActive', 'activeRewardPass', 'completedRewardPasses',
   'raidPlan', 'enabledSections',
-  'skillAllocations', 'raiderLevel', 'useExpeditionBonus', 'sandboxMode'
+  'skillAllocations', 'extraSkillPoints', 'sandboxMode',
+  'raiderLevel', 'useExpeditionBonus'
 ] as const;
 
 /** The keys persisted per profile.
@@ -40,8 +41,12 @@ export type PersistedState = Pick<AppState,
   'completedExpeditionsCount' | 'earnedPermanentSkillPoints' |
   'consecutiveStreak' | 'departureWindowActive' | 'activeRewardPass' | 'completedRewardPasses' |
   'raidPlan' | 'enabledSections' |
-  'skillAllocations' | 'raiderLevel' | 'useExpeditionBonus' | 'sandboxMode'
-> & { language?: AppLanguage };
+  'skillAllocations' | 'extraSkillPoints' | 'sandboxMode'
+> & {
+  raiderLevel?: number;
+  useExpeditionBonus?: boolean;
+  language?: AppLanguage;
+};
 
 export type ProfilesMeta = { profiles: Profile[]; activeProfileId: string; };
 
@@ -135,6 +140,9 @@ function sanitizeProfileState(raw: unknown): Partial<PersistedState> {
   if (isObject(raw.skillAllocations)) {
     out.skillAllocations = sanitizeNumberRecord(raw.skillAllocations);
   }
+  if (typeof raw.extraSkillPoints === 'number' && Number.isFinite(raw.extraSkillPoints)) {
+    out.extraSkillPoints = Math.max(0, Math.min(15, Math.floor(raw.extraSkillPoints)));
+  }
   if (typeof raw.raiderLevel === 'number' && Number.isFinite(raw.raiderLevel)) {
     out.raiderLevel = Math.max(1, Math.min(75, Math.floor(raw.raiderLevel)));
   }
@@ -190,9 +198,10 @@ export function saveProfileState(profileId: string, s: PersistedState) {
     raidPlan: s.raidPlan ?? { isRaidRunning: false, actions: [], items: [], updatedAt: Date.now() },
     enabledSections: s.enabledSections ?? {},
     skillAllocations: s.skillAllocations ?? {},
+    extraSkillPoints: s.extraSkillPoints ?? 0,
+    sandboxMode: s.sandboxMode ?? false,
     raiderLevel: s.raiderLevel ?? 75,
     useExpeditionBonus: s.useExpeditionBonus ?? true,
-    sandboxMode: s.sandboxMode ?? false,
   };
   safeLS(() => localStorage.setItem(profileKey(profileId), JSON.stringify(slice)), undefined);
 }

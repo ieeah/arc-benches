@@ -23,8 +23,8 @@ export const BRANCH_CONFIGS: Record<SkillCategory, BranchVisualConfig> = {
     textClass: 'text-emerald-400',
     borderClass: 'border-emerald-500',
     bgClass: 'bg-emerald-500/20',
-    angleDeg: -145,
-    origin: { x: 620, y: 760 },
+    angleDeg: -135,
+    origin: { x: 520, y: 760 },
   },
   MOBILITY: {
     category: 'MOBILITY',
@@ -36,7 +36,7 @@ export const BRANCH_CONFIGS: Record<SkillCategory, BranchVisualConfig> = {
     borderClass: 'border-yellow-500',
     bgClass: 'bg-yellow-500/20',
     angleDeg: -90,
-    origin: { x: 700, y: 760 },
+    origin: { x: 700, y: 690 },
   },
   SURVIVAL: {
     category: 'SURVIVAL',
@@ -47,8 +47,8 @@ export const BRANCH_CONFIGS: Record<SkillCategory, BranchVisualConfig> = {
     textClass: 'text-red-400',
     borderClass: 'border-red-500',
     bgClass: 'bg-red-500/20',
-    angleDeg: -35,
-    origin: { x: 780, y: 760 },
+    angleDeg: -45,
+    origin: { x: 880, y: 760 },
   },
 };
 

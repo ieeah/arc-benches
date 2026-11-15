@@ -1,16 +1,9 @@
 /**
- * Fetch official Skill Tree data and icons for ARC Raiders.
- *
- * Source:
- *   - Nodes data: RaidTheory/arcraiders-data (datamined skillNodes.json with full IT/EN translations, topology, coordinates)
- *   - Skill icons: arcraiders.wiki via MediaWiki API (with fallback to IllicLanthresh/ARC-skilltree static repo)
+ * Sincronizza i 48 nodi dello Skill Tree di ARC Raiders (versione live Frozen Trail)
+ * con localizzazioni complete IT/EN, topologia e icone CDN.
  *
  * Usage:
  *   cd scripts && node fetch-skills.mjs [--skip-images]
- *
- * Output:
- *   - src/data/skills.json
- *   - public/icons/skills/*.png
  */
 
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
@@ -23,135 +16,99 @@ const DATA_DIR = join(ROOT, 'src', 'data');
 const SKILLS_JSON = join(DATA_DIR, 'skills.json');
 const ICONS_DIR = join(ROOT, 'public', 'icons', 'skills');
 
-const SKILL_NODES_URL = 'https://raw.githubusercontent.com/RaidTheory/arcraiders-data/main/skillNodes.json';
-const FALLBACK_ICON_BASE = 'https://raw.githubusercontent.com/IllicLanthresh/ARC-skilltree/master/static/icons/';
-const WIKI_API = 'https://arcraiders.wiki/w/api.php';
+async function main() {
+  console.log('Fetching live Skill Tree from arctracker.io...');
+  const res = await fetch('https://arctracker.io/skill-tree', {
+    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} fetching skill-tree page`);
+  const html = await res.text();
 
-async function fetchJson(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': 'ARCBenches/1.0' } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${url}`);
-  return res.json();
-}
+  const scriptMatches = [...html.matchAll(/src="(\/_next\/static\/chunks\/[^"]+)"/g)].map(
+    (m) => m[1]
+  );
+  console.log(`Searching across ${scriptMatches.length} chunks...`);
 
-async function fetchBuffer(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': 'ARCBenches/1.0' } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${url}`);
-  const arrayBuffer = await res.arrayBuffer();
-  return Buffer.from(arrayBuffer);
-}
-
-async function resolveWikiIconUrls(skillNodes) {
-  const titles = skillNodes.map(n => `File:Icon ${n.name.en}.png`);
-  // MediaWiki API supports batching up to 50 titles
-  const titlesParam = titles.map(encodeURIComponent).join('|');
-  const apiUrl = `${WIKI_API}?action=query&titles=${titlesParam}&prop=imageinfo&iiprop=url&format=json`;
-
-  try {
-    const data = await fetchJson(apiUrl);
-    const pages = data.query?.pages ?? {};
-    const urlMap = new Map();
-    for (const page of Object.values(pages)) {
-      if (page.imageinfo && page.imageinfo.length > 0) {
-        const title = page.title.replace('File:', '').trim();
-        urlMap.set(title, page.imageinfo[0].url);
+  let rawSkills = null;
+  for (const s of scriptMatches) {
+    const cRes = await fetch(`https://arctracker.io${s}`, {
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+    });
+    const cText = await cRes.text();
+    if (cText.includes('surv_road_warrior')) {
+      const parseCall = 'JSON.parse(';
+      const startIdx = cText.indexOf(parseCall);
+      if (startIdx !== -1) {
+        const quoteStart = startIdx + parseCall.length;
+        const endIdx = cText.indexOf("')", quoteStart);
+        const rawJsString = cText.slice(quoteStart, endIdx + 1);
+        const unescaped = eval(rawJsString);
+        rawSkills = JSON.parse(unescaped);
+        console.log(`Found live skills dictionary with ${Object.keys(rawSkills).length} skills!`);
+        break;
       }
     }
-    return urlMap;
-  } catch (err) {
-    console.warn(`[fetch-skills] Wiki API failed: ${err.message}. Will use GitHub fallback.`);
-    return new Map();
   }
-}
 
-async function main() {
-  const skipImages = process.argv.includes('--skip-images');
+  if (!rawSkills) throw new Error('Could not find live skills dictionary in chunks');
 
-  console.log('[fetch-skills] Fetching skillNodes.json from RaidTheory/arcraiders-data...');
-  const rawNodes = await fetchJson(SKILL_NODES_URL);
-  console.log(`[fetch-skills] Retrieved ${rawNodes.length} skill nodes.`);
-
-  // 1. Normalize and structure skill nodes
-  const formattedNodes = rawNodes.map(node => {
-    return {
-      id: node.id,
-      name: {
-        en: node.name?.en || '',
-        it: node.name?.it || node.name?.en || '',
-      },
-      category: node.category, // "CONDITIONING" | "MOBILITY" | "SURVIVAL"
-      isMajor: Boolean(node.isMajor),
-      description: {
-        en: node.description?.en || '',
-        it: node.description?.it || node.description?.en || '',
-      },
-      maxPoints: node.maxPoints ?? 1,
-      impactedSkill: node.impactedSkill
-        ? {
-            en: node.impactedSkill?.en || '',
-            it: node.impactedSkill?.it || node.impactedSkill?.en || '',
-          }
-        : undefined,
-      knownValue: node.knownValue || [],
-      position: node.position || { x: 0, y: 0 },
-      prerequisiteNodeIds: node.prerequisiteNodeIds || [],
-      iconName: node.iconName || `${node.id}.png`,
-      icon: `icons/skills/${node.iconName || `${node.id}.png`}`,
-    };
-  });
+  const normalized = Object.values(rawSkills).map((s) => ({
+    id: s.id,
+    name: {
+      en: s.name.en || '',
+      it: s.name.it || s.name.en || '',
+    },
+    category: s.category,
+    isMajor: s.isMajor ?? false,
+    description: {
+      en: s.description.en || '',
+      it: s.description.it || s.description.en || '',
+    },
+    maxPoints: s.maxPoints || 1,
+    impactedSkill: s.impactedSkill
+      ? {
+          en: s.impactedSkill.en || '',
+          it: s.impactedSkill.it || s.impactedSkill.en || '',
+        }
+      : undefined,
+    knownValue: s.knownValue || [],
+    position: s.position,
+    prerequisiteNodeIds: s.prerequisiteNodeIds || [],
+    iconName: s.iconName,
+    icon: `icons/skills/${s.iconName}`,
+    minPointsSpent: s.minPointsSpent ?? 0,
+  }));
 
   mkdirSync(DATA_DIR, { recursive: true });
-  writeFileSync(SKILLS_JSON, JSON.stringify(formattedNodes, null, 2), 'utf8');
-  console.log(`[fetch-skills] Wrote ${formattedNodes.length} nodes to ${SKILLS_JSON}`);
+  writeFileSync(SKILLS_JSON, JSON.stringify(normalized, null, 2));
+  console.log(`Saved ${normalized.length} skills to ${SKILLS_JSON}`);
 
-  // 2. Download skill icons
+  // Download icons if not skipping
+  const skipImages = process.argv.includes('--skip-images');
   if (!skipImages) {
     mkdirSync(ICONS_DIR, { recursive: true });
-    console.log('[fetch-skills] Resolving icon URLs...');
-    const wikiUrlMap = await resolveWikiIconUrls(rawNodes);
-
     let downloaded = 0;
-    let failed = 0;
-
-    for (const node of formattedNodes) {
-      const destPath = join(ICONS_DIR, node.iconName);
-      if (existsSync(destPath)) {
-        downloaded++;
-        continue;
-      }
-
-      const wikiKey = `Icon ${node.name.en}.png`;
-      const wikiUrl = wikiUrlMap.get(wikiKey);
-      const fallbackUrl = `${FALLBACK_ICON_BASE}${node.iconName}`;
-
-      let buffer = null;
-      if (wikiUrl) {
+    for (const s of normalized) {
+      if (!s.iconName) continue;
+      const dest = join(ICONS_DIR, s.iconName);
+      if (!existsSync(dest)) {
         try {
-          buffer = await fetchBuffer(wikiUrl);
-        } catch {
-          // Fall through to fallback
+          const iRes = await fetch(`https://cdn.arctracker.io/skillnodes/${s.iconName}`);
+          if (iRes.ok) {
+            const buf = Buffer.from(await iRes.arrayBuffer());
+            writeFileSync(dest, buf);
+            downloaded++;
+          }
+        } catch (e) {
+          console.warn(`Could not download ${s.iconName}:`, e.message);
         }
       }
-
-      if (!buffer) {
-        try {
-          buffer = await fetchBuffer(fallbackUrl);
-        } catch (err) {
-          console.warn(`[fetch-skills] Failed downloading icon for ${node.id} (${node.name.en}): ${err.message}`);
-          failed++;
-          continue;
-        }
-      }
-
-      writeFileSync(destPath, buffer);
-      downloaded++;
-      process.stdout.write(`[fetch-skills] Icons: ${downloaded}/${formattedNodes.length}\r`);
     }
-
-    console.log(`\n[fetch-skills] Icons completed: ${downloaded} downloaded/cached, ${failed} failed.`);
+    console.log(`Downloaded ${downloaded} new icons to ${ICONS_DIR}`);
   }
 }
 
-main().catch(err => {
-  console.error('[fetch-skills] Error:', err);
+main().catch((err) => {
+  console.error(err);
   process.exit(1);
 });
