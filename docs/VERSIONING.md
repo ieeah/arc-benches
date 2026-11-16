@@ -7,7 +7,7 @@ Il contenuto testuale del cosa-è-cambiato per versione non vive qui — per que
 
 ## Versione corrente
 
-**0.5.1** ("Taratura del Segnale"), determinata dal tag Git `v0.5.1` e da `package.json`. In corso di pianificazione la **0.6.0** ("Archivio del Rifugio").
+**0.6.0** ("Archivio del Rifugio"), determinata dal tag Git `v0.6.0` e da `package.json`. In corso di pianificazione la **0.6.5** ("Codex & Data Mining").
 
 > **Nota su v0.3.0**: Include consolidamento architetturale (validazione Zod, persistence boundary, WASM lockfile check, performance content-visibility), Role Maker, Tracker Blueprints, Pagina Impostazioni & Gestione Globale, Viste/Densità Stash, Supporto Tablet e la pipeline MetaForge con Studio Overrides.
 
@@ -24,7 +24,7 @@ I nickname seguono l'evoluzione narrativa del rifugio dei Raiders in Speranza. L
 - **0.4.0**: *Mappa di Spedizione* (Spedizioni, progetti, router centralizzato & legal)
 - **0.5.0**: *Segnale Radio* (Dati di 1° livello: oggetti, banchi, progetti, pass base, item picker)
 - **0.5.1**: *Taratura del Segnale* (Consolidamento layout `PageLayout`, ordinamento Stash multi-criterio, `@tailwindcss/vite`)
-- **0.6.0**: *Archivio del Rifugio* (**In corso** — Formule e dati di 2° livello: Collezioni 206 oggetti, Skill Tree vettoriale, Armi amplificate, Upgrade `I→IV`, Riparazione)
+- **0.6.0**: *Archivio del Rifugio* (Formule e dati di 2° livello: Collezioni 206 oggetti, Skill Tree vettoriale, Armi amplificate, Upgrade `I→IV`, Riparazione)
 - **0.6.5**: *Codex & Data Mining* (**Nuova** — Estrazione totale del dataset di gioco: Nemici ARC con loot table/debolezze, Mappe e POI, normalizzazione 123 Quest e Commercianti)
 - **0.6.9**: *Engine Freeze* (**Nuova** — Isolamento `src/engine/` a zero dipendenze UI, 100% unit test, congelamento e privatizzazione del repository)
 
@@ -172,9 +172,9 @@ Changelog: [changelog/0.5.1.md](../changelog/0.5.1.md)
 
 ---
 
-## 0.6.0 "Archivio del Rifugio" — Formule di 2° Livello e Collezioni — In corso (Questo Repo)
+## 0.6.0 "Archivio del Rifugio" — Formule di 2° Livello e Collezioni — Raggiunta (Questo Repo)
 Obiettivo: riunire nella pagina **Collezioni** tutti i tracker di sblocco in-raid (Blueprint, Design Arredi e Stencil Armi), chiudere le formule matematiche avanzate degli oggetti (Armi amplificate, Ricerche Research Bench, ricette upgrade/riparazione) e lo Skill Tree.
-Changelog (bozza): [changelog/0.6.0.md](../changelog/0.6.0.md)
+Changelog: [changelog/0.6.0.md](../changelog/0.6.0.md)
 - [x] #164 [Campo `unlocks_item_id` per blueprint e design e integrazione nella pipeline](https://github.com/ieeah/arc-benches/issues/164)
 - [x] #145 [Pagina unificata «Collezioni» in-raid (Blueprint, Design Arredi e Stencil Armi)](https://github.com/ieeah/arc-benches/issues/145)
   - [x] #91 [Tracker collezioni in-game (Design Arredi e Stencil Armi)](https://github.com/ieeah/arc-benches/issues/91)
