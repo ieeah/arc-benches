@@ -14,14 +14,16 @@ import { cn } from '@/lib/cn';
 
 type PassLevelsGridProps = {
   pass: PassList;
-  /** Tier raggiunto: i livelli fino a questo sono mostrati disabilitati. 0 in anteprima. */
+  /** Tier raggiunto: i livelli fino a questo sono mostrati disabilitati. 0 se non iniziato. */
   reached: number;
   hiddenTracks: ReadonlySet<string>;
   /** Presente solo per il pass attivo: tocca un livello per segnarlo come raggiunto. */
   onSetTier?: (level: number) => void;
-  /** All'apertura scorre al prossimo livello da raggiungere (solo pass attivo). */
+  /** All'apertura scorre al livello impostato (default: true). */
+  scrollToLevel?: boolean;
+  /** @deprecated mantenuto per retrocompatibilità */
   scrollToNext?: boolean;
-}
+};
 
 /**
  * Sfondo «spaziale» del pass del gioco, adattato al mobile: notte profonda, alone e poche stelle. Sta in un
@@ -55,7 +57,14 @@ const tierOf = (level: number, maxLevel: number) =>
  * livello 1 in cima) e le tracce affiancate, ogni ricompensa come icona dell'oggetto; quelle delle tracce
  * a pagamento hanno il lucchetto. I livelli già raggiunti sono disabilitati, il prossimo è evidenziato.
  */
-export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollToNext = false }: PassLevelsGridProps) => {
+export const PassLevelsGrid = ({
+  pass,
+  reached,
+  hiddenTracks,
+  onSetTier,
+  scrollToLevel = true,
+  scrollToNext,
+}: PassLevelsGridProps) => {
   const { t, language } = useTranslation();
   const itemsInfo = useAppStore((s) => s.itemsInfo);
   const refinerLevel = useAppStore((s) => s.getRefinerLevel());
@@ -63,14 +72,27 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
   const tracks = useMemo(() => pass.tracks.filter((tr) => !hiddenTracks.has(tr.id)), [pass.tracks, hiddenTracks]);
   const levels = useMemo(() => [...pass.levels].sort((a, b) => a.level - b.level), [pass.levels]);
   const nextLevel = Math.min(reached + 1, pass.maxLevel);
-  const nextRef = useRef<HTMLDivElement | null>(null);
+  const targetLevel = reached > 0 ? reached : 1;
+  const targetRef = useRef<HTMLDivElement | null>(null);
   const firstTrackId = pass.tracks[0]?.id;
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [activeTier, setActiveTier] = useState(() => tierOf(1, pass.maxLevel));
+  const hasScrolledRef = useRef(false);
 
   useEffect(() => {
-    if (scrollToNext) nextRef.current?.scrollIntoView({ block: 'center' });
-  }, [scrollToNext, pass.id]);
+    hasScrolledRef.current = false;
+  }, [pass.id]);
+
+  useEffect(() => {
+    const shouldScroll = scrollToLevel && (scrollToNext === undefined || scrollToNext);
+    if (shouldScroll && reached > 0 && !hasScrolledRef.current && targetRef.current) {
+      hasScrolledRef.current = true;
+      const timer = setTimeout(() => {
+        targetRef.current?.scrollIntoView({ block: 'center' });
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [scrollToLevel, scrollToNext, reached, pass.id]);
 
   // Il tier attivo è quello della riga che attraversa il centro della finestra (banda alta 0 px)
   useEffect(() => {
@@ -142,13 +164,14 @@ export const PassLevelsGrid = ({ pass, reached, hiddenTracks, onSetTier, scrollT
       {levels.map((lvl, idx) => {
         const done = lvl.level <= reached;
         const isNext = onSetTier !== undefined && lvl.level === nextLevel && reached < pass.maxLevel;
+        const isTarget = lvl.level === targetLevel;
         const tier = tierOf(lvl.level, pass.maxLevel);
         return (
           <Fragment key={lvl.level}>
           {/* Divisore fra i livelli, inset come le righe */}
           {idx > 0 && <div aria-hidden className="relative mx-4 h-px bg-white/5" />}
           <div
-            ref={isNext ? nextRef : undefined}
+            ref={isTarget ? targetRef : undefined}
             data-tier={tier}
             style={{ '--pill': TIER_THEMES[tier].pill } as CSSProperties}
             // raggio concentrico a quello del riquadro: 24px − 1px di bordo − 6px di margine

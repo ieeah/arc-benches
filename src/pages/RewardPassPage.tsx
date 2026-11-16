@@ -147,6 +147,7 @@ const PassLevelsPreview = ({ pass, onBack }: { pass: PassList; onBack: () => voi
   const { t, language } = useTranslation();
   const { prefs } = usePassViewPrefs();
   const [optionsOpen, setOptionsOpen] = useState(false);
+  const reached = useAppStore((s) => s.currentLevels[pass.id] ?? 0);
   return (
     <PageLayout
       headerSlot={
@@ -161,7 +162,7 @@ const PassLevelsPreview = ({ pass, onBack }: { pass: PassList; onBack: () => voi
         />
       }
     >
-      <PassLevelsGrid pass={pass} reached={0} hiddenTracks={new Set(prefs.hiddenTracks)} />
+      <PassLevelsGrid pass={pass} reached={reached} hiddenTracks={new Set(prefs.hiddenTracks)} />
       {optionsOpen && <ViewOptions pass={pass} onClose={() => setOptionsOpen(false)} />}
     </PageLayout>
   );
