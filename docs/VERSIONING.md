@@ -180,9 +180,8 @@ Changelog (bozza): [changelog/0.6.0.md](../changelog/0.6.0.md)
   - [x] #91 [Tracker collezioni in-game (Design Arredi e Stencil Armi)](https://github.com/ieeah/arc-benches/issues/91)
 - [x] #89 [Estrazione dati Skill Tree da MetaForge (`svelte-flow`)](https://github.com/ieeah/arc-benches/issues/89)
 - [x] #62 [Skill Tree dei Raiders: albero delle abilità, sinergie e contatore punti abilità](https://github.com/ieeah/arc-benches/issues/62)
-- [ ] #92 [Armi amplificate (Weapon Amplification) e gestione ricerche Research Bench](https://github.com/ieeah/arc-benches/issues/92)
-- [ ] #113 [Costruzione, miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
-- [ ] #159 [Pianificazione massiva da banchi/progetti e salvataggio slice come lista custom](https://github.com/ieeah/arc-benches/issues/159)
+- [x] #92 [Armi amplificate (Weapon Amplification) e gestione ricerche Research Bench](https://github.com/ieeah/arc-benches/issues/92)
+- [x] #113 [Costruzione, miglioramento di livello (`I→IV`) e riparazione nel dettaglio degli oggetti](https://github.com/ieeah/arc-benches/issues/113)
 
 ---
 
@@ -226,6 +225,7 @@ Obiettivo: sviluppo manuale curato e artigianale del portale definitivo.
 - **Milestone 1 — Core Companion (Settimane 1–8)**: Shell dell'applicazione, autenticazione Supabase/Better-Auth, Stash aggregato, Banchi e Liste del rifugio, sync offline-first.
 - **Milestone 2 — Progressione (Settimane 9–14)**: Reward Pass, Collezioni (Blueprint, Design, Stencil), Quest Tracker e Spedizioni.
 - **Milestone 3 — Codex & Mappe (Settimane 15–20)**: Skill Tree interattivo dei Raiders, Codex Nemici ARC / Bestiario, Mappe interattive e rilascio pubblico `1.0.0`.
+- [ ] #159 [Pianificazione massiva da banchi/progetti e salvataggio slice come lista custom](https://github.com/ieeah/arc-benches/issues/159) — possibile implementazione futura / estensione raid nel nuovo portale
 - [ ] #38 [Role Maker — Micro-app autonoma su sottodominio dedicato](https://github.com/ieeah/arc-benches/issues/38)
 
 ---
