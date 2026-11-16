@@ -5,4 +5,5 @@ export * from './export';
 export * from './personality';
 export * from './raid';
 export * from './skills';
+export * from './recipes';
 export * from './store';

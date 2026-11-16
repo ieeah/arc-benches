@@ -682,11 +682,11 @@
               "quantity": 1
             },
             {
-              "itemId": "extended-barrel",
+              "itemId": "anvil-splitter",
               "quantity": 1
             },
             {
-              "itemId": "silencer-ii",
+              "itemId": "extended-barrel",
               "quantity": 1
             },
             {
@@ -806,7 +806,7 @@
             },
             {
               "id": "a-toxic-trail-action-3",
-              "label": "Transmit the location of the barrel truck",
+              "label": "Take a photo of the barrel truck",
               "translations": {
                 "it": {
                   "label": "Trasmetti la posizione del camion con il barile"
@@ -1523,7 +1523,7 @@
       "maxLevel": 1,
       "listType": "quest",
       "extractionWiped": false,
-      "trader": "shani",
+      "trader": "celeste",
       "prerequisites": [
         "off-the-raider"
       ],
@@ -1889,10 +1889,6 @@
           ],
           "rewards": [
             {
-              "itemId": "game-cosmetic-1798101245",
-              "quantity": 1
-            },
-            {
               "itemId": "sterilized-bandage",
               "quantity": 3
             }
@@ -2193,7 +2189,7 @@
             },
             {
               "id": "clean-hands-action-3",
-              "label": "Bring the Equatorial Sundial to the top of the Church in Old Town",
+              "label": "Bring the Equatiorial Sundial to the top of the Church in Old Town",
               "translations": {
                 "it": {
                   "label": "Porta la meridiana equatoriale in cima alla chiesa nella Città vecchia"
@@ -3139,12 +3135,6 @@
                   "label": "Consegna la nota della pattuglia di perlustratori a Shani"
                 }
               }
-            }
-          ],
-          "rewards": [
-            {
-              "itemId": "game-cosmetic-n79868038",
-              "quantity": 1
             }
           ]
         }
@@ -6505,7 +6495,7 @@
           "actions": [
             {
               "id": "snap-and-salvage-action-1",
-              "label": "Inspect any of the Rovers in the Sandbox",
+              "label": "Take a Photo of any of the Rovers in the Sandbox",
               "translations": {
                 "it": {
                   "label": "Ispeziona uno dei Rover nel sandbox"

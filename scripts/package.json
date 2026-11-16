@@ -3,6 +3,16 @@
   "private": true,
   "description": "Manual data-update scripts (not part of the app build): run npm install here before node fetch-items.mjs",
   "type": "module",
+  "scripts": {
+    "fetch:all": "node fetch-all.mjs",
+    "fetch:all:refresh": "node fetch-all.mjs --refresh",
+    "fetch:items": "node fetch-items.mjs",
+    "fetch:translations": "node fetch-translations.mjs",
+    "fetch:skills": "node fetch-skills.mjs",
+    "fetch:quests": "node fetch-quests.mjs",
+    "fetch:recipes": "node fetch-recipes.mjs",
+    "fetch:categories": "node fetch-category-icons.mjs"
+  },
   "dependencies": {
     "sharp": "^0.34.5"
   }

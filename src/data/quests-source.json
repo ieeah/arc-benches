@@ -7,7 +7,7 @@
     ],
     "totalQuests": 123,
     "totalEdges": 134,
-    "extractedAt": "2026-11-02"
+    "extractedAt": "2026-11-16"
   },
   "nodes": [
     {
@@ -485,11 +485,11 @@
           "quantity": 1
         },
         {
-          "itemId": "extended-barrel",
+          "itemId": "anvil-splitter",
           "quantity": 1
         },
         {
-          "itemId": "silencer-ii",
+          "itemId": "extended-barrel",
           "quantity": 1
         },
         {
@@ -620,7 +620,7 @@
           "it": "Cerca nella palude tracce dell'origine del barile"
         },
         {
-          "en": "Transmit the location of the barrel truck",
+          "en": "Take a photo of the barrel truck",
           "it": "Trasmetti la posizione del camion con il barile"
         },
         {
@@ -1120,7 +1120,7 @@
       "metaforgeId": "boarding-the-frigate",
       "name": "Boarding the Frigate",
       "nameIT": "Abbordaggio della Fregata",
-      "trader": "shani",
+      "trader": "celeste",
       "map": null,
       "description": "None of our old tactics work, facing those Frigates. We can’t run. We can’t hide. And there’s no waiting them out.\r\n\r\nWe need to take bold action, and we need to do it now.",
       "descriptionIT": "Nessuna delle nostre vecchie tattiche funziona contro quelle fregate. Non possiamo scappare. Non possiamo nasconderci. E non possiamo aspettare che se ne vadano. Dobbiamo agire con coraggio, e dobbiamo farlo ora.",
@@ -1352,10 +1352,6 @@
         "shoring-up-defenses"
       ],
       "rewards": [
-        {
-          "itemId": "game-cosmetic-1798101245",
-          "quantity": 1
-        },
         {
           "itemId": "sterilized-bandage",
           "quantity": 3
@@ -1601,7 +1597,7 @@
           "it": "Cerca l'oggetto contaminato nell'accampamento dei Nomadi"
         },
         {
-          "en": "Bring the Equatorial Sundial to the top of the Church in Old Town",
+          "en": "Bring the Equatiorial Sundial to the top of the Church in Old Town",
           "it": "Porta la meridiana equatoriale in cima alla chiesa nella Città vecchia"
         },
         {
@@ -2240,12 +2236,7 @@
       "prerequisites": [
         "the-trifecta"
       ],
-      "rewards": [
-        {
-          "itemId": "game-cosmetic-n79868038",
-          "quantity": 1
-        }
-      ],
+      "rewards": [],
       "requiredItems": [],
       "objectives": [
         {
@@ -4194,14 +4185,7 @@
       "name": "Picking Up The Pieces",
       "nameIT": "Raccogliere i pezzi",
       "trader": "shani",
-      "map": [
-        "dam_battlegrounds",
-        "the_blue_gate",
-        "the_spaceport",
-        "riven_tide",
-        "stella_montis",
-        "buried_city"
-      ],
+      "map": null,
       "description": "The storm has mostly settled, but much of our infrastructure has taken a proper beating. If you're hoping to stay with us, I'll need you to pull your weight in the repair efforts.",
       "descriptionIT": "La tempesta si è in gran parte placata, ma molte delle nostre infrastrutture hanno subito gravi danni. Se vuoi restare con noi, dovrai dare una mano con le riparazioni.",
       "position": {
@@ -4748,7 +4732,7 @@
       ],
       "objectives": [
         {
-          "en": "Inspect any of the Rovers in the Sandbox",
+          "en": "Take a Photo of any of the Rovers in the Sandbox",
           "it": "Ispeziona uno dei Rover nel sandbox"
         },
         {

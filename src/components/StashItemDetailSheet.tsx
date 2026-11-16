@@ -1,10 +1,19 @@
-import { CheckCircle2, Hammer, ShoppingCart, ClipboardList, FileJson, Clock, Radar, Minus, Plus, Trash2 } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import {
+  CheckCircle2,
+  Hammer,
+  ClipboardList,
+  FileJson,
+  Clock,
+  Radar,
+  Minus,
+  Plus,
+  Trash2,
+  ArrowLeft,
+} from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles, getRarityText } from '@/lib/rarity';
-import { getItemCraftStatus, getWorkbenchName } from '@/lib/craft';
 import { useAppStore } from '@/store';
-import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
-import { getLootAreas } from '@/lib/lootArea';
 import { formatTimeRemaining } from '@/lib/expiration';
 import { cn } from '@/lib/cn';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
@@ -13,6 +22,8 @@ import { BottomSheet } from '@/components/BottomSheet';
 import type { ItemListDependency } from '@/store/selectors';
 import { useTranslation, getItemName, getItemDescription, getRarityLabel } from '@/i18n';
 import { isSectionActive } from '@/lib/sections';
+import { getBaseItem, getBaseItemForVariant } from '@/lib/baseItems';
+import { ItemRecipeDetails } from '@/components/ItemRecipeDetails';
 
 type StashItemDetailSheetProps = {
   item: ItemInfo;
@@ -25,7 +36,7 @@ type StashItemDetailSheetProps = {
 };
 
 export const StashItemDetailSheet = ({
-  item,
+  item: initialItem,
   owned,
   required,
   dependencies,
@@ -33,27 +44,46 @@ export const StashItemDetailSheet = ({
   onOpenOverrides,
 }: StashItemDetailSheetProps) => {
   const { t, language } = useTranslation();
-  const { glow } = getRarityStyles(item.rarity);
-  const currentLevels = useAppStore(s => s.currentLevels);
-  const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
-  const craftMode = useAppStore(s => s.craftMode);
-  const itemsInfo = useAppStore(s => s.itemsInfo);
-  const raidPlan = useAppStore(s => s.raidPlan);
-  const isRaidActive = useAppStore(s => isSectionActive('raid', s));
-  const addRaidItem = useAppStore(s => s.addRaidItem);
-  const updateRaidItemTarget = useAppStore(s => s.updateRaidItemTarget);
-  const removeRaidItem = useAppStore(s => s.removeRaidItem);
+  const itemsInfo = useAppStore((s) => s.itemsInfo);
+  const raidPlan = useAppStore((s) => s.raidPlan);
+  const isRaidActive = useAppStore((s) => isSectionActive('raid', s));
+  const addRaidItem = useAppStore((s) => s.addRaidItem);
+  const updateRaidItemTarget = useAppStore((s) => s.updateRaidItemTarget);
+  const removeRaidItem = useAppStore((s) => s.removeRaidItem);
 
-  const craftResult = getItemCraftStatus(item, currentLevels, ownedBlueprints, craftMode, itemsInfo);
-  const traderPurchase = getTraderPurchase(item.id);
-  const lootAreas = getLootAreas(item.loot_area, 15);
+  // Stack di cronologia per consentire la navigazione a ritroso tra materiali/ingredienti
+  const [history, setHistory] = useState<ItemInfo[]>([initialItem]);
+  const [prevInitialId, setPrevInitialId] = useState<string>(initialItem.id);
+
+  if (initialItem.id !== prevInitialId) {
+    setPrevInitialId(initialItem.id);
+    setHistory([initialItem]);
+  }
+
+  const activeItem = history[history.length - 1];
+  const prevItem = history.length > 1 ? history[history.length - 2] : null;
+  const isViewingOriginalStashItem = activeItem.id === initialItem.id;
+
+  const navigateTo = (next: ItemInfo) => {
+    setHistory((prev) => [...prev, next]);
+  };
+
+  const handleBack = () => {
+    setHistory((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
+  };
+
+  const { glow } = getRarityStyles(activeItem.rarity);
   const isCompleted = owned >= required;
   const missing = Math.max(0, required - owned);
   const progressPercent = required > 0 ? Math.min(100, Math.round((owned / required) * 100)) : 100;
-  const displayName = getItemName(item, language);
-  const displayDesc = getItemDescription(item, language);
+  const displayName = getItemName(activeItem, language);
+  const displayDesc = getItemDescription(activeItem, language);
 
-  const plannedItem = raidPlan.items.find(i => i.itemId === item.id);
+  const plannedItem = raidPlan.items.find((i) => i.itemId === initialItem.id);
+
+  const baseDef = useMemo(() => {
+    return getBaseItem(activeItem.id) ?? getBaseItemForVariant(activeItem.id);
+  }, [activeItem.id]);
 
   return (
     <BottomSheet
@@ -69,7 +99,7 @@ export const StashItemDetailSheet = ({
                 type="button"
                 onClick={() => {
                   onClose();
-                  onOpenOverrides(item.id);
+                  onOpenOverrides(activeItem.id);
                 }}
                 className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer"
                 title={t('catalog.editInOverrides')}
@@ -80,14 +110,14 @@ export const StashItemDetailSheet = ({
             )}
           </div>
           <div className="flex items-center gap-2 mt-0.5">
-            <span className={`text-xs font-bold uppercase tracking-wide ${getRarityText(item.rarity)}`}>
-              {getRarityLabel(item.rarity, language)}
+            <span className={`text-xs font-bold uppercase tracking-wide ${getRarityText(activeItem.rarity)}`}>
+              {getRarityLabel(activeItem.rarity, language)}
             </span>
-            {item.subcategory && (
+            {activeItem.subcategory && (
               <>
                 <span className="text-gray-300 dark:text-gray-700">•</span>
                 <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                  {item.subcategory}
+                  {activeItem.subcategory}
                 </span>
               </>
             )}
@@ -95,56 +125,96 @@ export const StashItemDetailSheet = ({
         </div>
       }
     >
-      {/* ── SEZIONE 1: ICONA HERO PULITA & PROGRESSO INVENTARIO ── */}
-      <div className="flex items-center gap-4 p-4 rounded-[24px] bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60">
-        <ItemCardFrameV2
-          icon={item.icon}
-          alt={item.name}
-          rarity={item.rarity}
-          itemType={item.item_type}
-          subcategory={item.subcategory}
-          borderRadius={14}
-          fallbackText={item.id.replace(/-/g, ' ')}
-          className={`w-20 h-20 shrink-0 ${glow}`}
-          imgClassName="max-w-full max-h-full object-contain"
-          categoryBadge={<CategoryBadge itemType={item.item_type} subcategory={item.subcategory} bare />}
-        />
+      {/* ── BARRA CRONOLOGIA INDIETRO ── */}
+      {prevItem && (
+        <div className="flex items-center justify-between pb-2 border-b border-gray-100 dark:border-gray-800">
+          <button
+            type="button"
+            onClick={handleBack}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition-all cursor-pointer shadow-2xs group"
+          >
+            <ArrowLeft size={13} className="text-blue-500 group-hover:-translate-x-0.5 transition-transform" />
+            <span>{t('itemDetail.backTo', { name: getItemName(prevItem, language) })}</span>
+          </button>
+          <span className="text-[10px] font-mono font-bold text-gray-400">
+            {t('itemDetail.historyStep', { current: history.length, total: history.length })}
+          </span>
+        </div>
+      )}
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-baseline justify-between mb-1">
-            <span className="text-xs font-semibold text-gray-500">{t('stash.stashStatus')}</span>
-            <span className="text-sm font-mono font-bold text-gray-900 dark:text-gray-100">
-              {owned} / {required}
-            </span>
-          </div>
+      {/* ── SEZIONE 1: ICONA HERO & PROGRESSO INVENTARIO ── */}
+      {isViewingOriginalStashItem ? (
+        <div className="flex items-center gap-4 p-4 rounded-[24px] bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60">
+          <ItemCardFrameV2
+            icon={initialItem.icon}
+            alt={displayName}
+            rarity={initialItem.rarity}
+            itemType={initialItem.item_type}
+            subcategory={initialItem.subcategory}
+            borderRadius={14}
+            fallbackText={initialItem.id.replace(/-/g, ' ')}
+            className={`w-20 h-20 shrink-0 ${glow}`}
+            imgClassName="max-w-full max-h-full object-contain"
+            categoryBadge={<CategoryBadge itemType={initialItem.item_type} subcategory={initialItem.subcategory} bare />}
+          />
 
-          {/* Barra di avanzamento */}
-          <div className="w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden mb-2">
-            <div
-              className={`h-full transition-all duration-300 ${
-                isCompleted ? 'bg-emerald-500' : 'bg-blue-500'
-              }`}
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-
-          <div className="flex items-center justify-between text-xs">
-            {isCompleted ? (
-              <span className="inline-flex items-center gap-1 font-bold text-emerald-500">
-                <CheckCircle2 size={13} /> {t('stash.quotaCompleted')}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-baseline justify-between mb-1">
+              <span className="text-xs font-semibold text-gray-500">{t('stash.stashStatus')}</span>
+              <span className="text-sm font-mono font-bold text-gray-900 dark:text-gray-100">
+                {owned} / {required}
               </span>
-            ) : (
-              <span className="font-bold text-amber-500">
-                {t('stash.missingUnits', { count: missing })}
-              </span>
-            )}
-            <span className="text-gray-400 font-mono">{progressPercent}%</span>
+            </div>
+
+            {/* Barra di avanzamento */}
+            <div className="w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden mb-2">
+              <div
+                className={`h-full transition-all duration-300 ${
+                  isCompleted ? 'bg-emerald-500' : 'bg-blue-500'
+                }`}
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+
+            <div className="flex items-center justify-between text-xs">
+              {isCompleted ? (
+                <span className="inline-flex items-center gap-1 font-bold text-emerald-500">
+                  <CheckCircle2 size={13} /> {t('stash.quotaCompleted')}
+                </span>
+              ) : (
+                <span className="font-bold text-amber-500">
+                  {t('stash.missingUnits', { count: missing })}
+                </span>
+              )}
+              <span className="text-gray-400 font-mono">{progressPercent}%</span>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex items-center gap-4 p-4 rounded-[24px] bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/60">
+          <ItemCardFrameV2
+            icon={activeItem.icon}
+            alt={displayName}
+            rarity={activeItem.rarity}
+            itemType={activeItem.item_type}
+            subcategory={activeItem.subcategory}
+            borderRadius={14}
+            fallbackText={activeItem.id.replace(/-/g, ' ')}
+            className={`w-16 h-16 shrink-0 ${glow}`}
+            imgClassName="max-w-full max-h-full object-contain"
+            categoryBadge={<CategoryBadge itemType={activeItem.item_type} subcategory={activeItem.subcategory} bare />}
+          />
+          <div className="min-w-0 flex-1">
+            <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 truncate">{displayName}</h3>
+            <p className="text-xs text-gray-500 truncate">
+              {activeItem.item_type} {activeItem.subcategory ? `· ${activeItem.subcategory}` : ''}
+            </p>
+          </div>
+        </div>
+      )}
 
-      {/* ── SEZIONE PIANIFICAZIONE RAID (Interoperabilità Stash ↔ Raid) ── */}
-      {isRaidActive && (
+      {/* ── SEZIONE PIANIFICAZIONE RAID (solo per l'oggetto principale di stash) ── */}
+      {isViewingOriginalStashItem && isRaidActive && (
         <div className="p-3.5 rounded-[22px] bg-amber-500/5 dark:bg-amber-950/20 border border-amber-500/20">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
@@ -224,7 +294,7 @@ export const StashItemDetailSheet = ({
               {missing > 0 ? (
                 <button
                   type="button"
-                  onClick={() => addRaidItem(item.id, missing)}
+                  onClick={() => addRaidItem(initialItem.id, missing)}
                   className="w-full h-11 px-4 rounded-[18px] bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 active:scale-98 transition-all shadow-xs cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
                   aria-label={t('stash.planMissingAria', { count: missing, name: displayName })}
                 >
@@ -234,7 +304,7 @@ export const StashItemDetailSheet = ({
               ) : (
                 <button
                   type="button"
-                  onClick={() => addRaidItem(item.id, 1)}
+                  onClick={() => addRaidItem(initialItem.id, 1)}
                   className="w-full h-11 px-4 rounded-[18px] bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
                   aria-label={t('stash.planExtraAria', { name: displayName })}
                 >
@@ -247,194 +317,96 @@ export const StashItemDetailSheet = ({
         </div>
       )}
 
-      {/* ── SEZIONE 2: FABBRICAZIONE NEL BANCO (se craftabile) ── */}
-      {craftResult.craftInfo !== null && (() => {
-        const benchName = getWorkbenchName(craftResult.craftInfo.workbenchId, t);
-        const isCraftable = craftResult.status === 'craftable';
-        const bpItem = craftResult.craftInfo.recipeId ? itemsInfo[craftResult.craftInfo.recipeId] : undefined;
-        const bpName = bpItem ? getItemName(bpItem, language) : (craftResult.craftInfo.recipeId ?? 'Blueprint');
+      {/* ── SEZIONE 2: NUOVA SEZIONE UNIFICATA RICETTE, UPGRADE, RIPARAZIONE, RICICLO & FONTI ── */}
+      <ItemRecipeDetails
+        item={activeItem}
+        baseDef={baseDef}
+        onSelectItem={(id) => {
+          const it = itemsInfo[id];
+          if (it) navigateTo(it);
+        }}
+      />
 
-        return (
-          <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200/80 dark:border-gray-700/50">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div
-                className={`p-2 rounded-lg ${
-                  isCraftable
-                    ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400'
-                    : 'bg-amber-100 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400'
-                }`}
-              >
-                <Hammer size={16} />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold text-gray-900 dark:text-gray-100">
-                  {t('stash.craftableInWorkbench', { bench: benchName })}
-                </p>
-                <p className="text-[11px] text-gray-500">
-                  {craftResult.status === 'needs_project'
-                    ? t('stash.requiresBlueprint', { name: bpName })
-                    : craftResult.craftInfo.workbenchId === 'workbench'
-                      ? t('stash.craftableNowBasic')
-                      : t('stash.requiresWorkbenchLevel', {
-                          bench: benchName,
-                          level: craftResult.craftInfo.levelRequired,
-                          current: craftResult.currentBenchLevel,
-                        })}
-                </p>
-              </div>
-            </div>
-
-            <span
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 ${
-                isCraftable
-                  ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
-                  : 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30'
-              }`}
-            >
-              {isCraftable
-                ? t('stash.craftableNow')
-                : craftResult.status === 'needs_project'
-                  ? t('stash.locked')
-                  : craftResult.craftInfo.workbenchId === 'workbench'
-                    ? t('stash.available')
-                    : `Lvl ${craftResult.craftInfo.levelRequired}`}
+      {/* ── SEZIONE 3: FABBISOGNO PER BANCO / LISTA (solo per l'oggetto principale di stash) ── */}
+      {isViewingOriginalStashItem && (
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+              {t('stash.requiredByLists', { count: dependencies.length })}
+            </h3>
+            <span className="text-xs font-mono font-semibold text-gray-400">
+              {t('stash.totalRequiredLabel', { count: required })}
             </span>
           </div>
-        );
-      })()}
 
-      {/* ── SEZIONE COMMERCIANTE (se acquistabile) ── */}
-      {traderPurchase !== null && (
-        <div className="flex items-center justify-between p-3 rounded-xl bg-sky-50/60 dark:bg-sky-950/20 border border-sky-200/80 dark:border-sky-800/40">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="p-2 rounded-lg bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-300">
-              <ShoppingCart size={16} />
-            </div>
-            <div className="min-w-0">
-              <p className="text-xs font-bold text-gray-900 dark:text-gray-100">
-                {t('stash.purchasableFromTraderDetail')}
-              </p>
-              <p className="text-[11px] text-sky-700 dark:text-sky-300 font-medium">
-                {getTraderDisplayName(traderPurchase.trader)} • {traderPurchase.price.toLocaleString(language)} {t('common.coins')}
-              </p>
-            </div>
-          </div>
+          {dependencies.length > 0 ? (
+            <div className="space-y-2">
+              {dependencies.map((dep, idx) => (
+                <div
+                  key={`${dep.listId}-${dep.level}-${idx}`}
+                  className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200/80 dark:border-gray-700/50"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div
+                      className={`p-2 rounded-xl shrink-0 ${
+                        dep.isCustom
+                          ? 'bg-violet-100 dark:bg-violet-950/70 text-violet-600 dark:text-violet-400'
+                          : 'bg-blue-100 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400'
+                      }`}
+                    >
+                      {dep.isCustom ? <ClipboardList size={16} /> : <Hammer size={16} />}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100 truncate">
+                        {dep.listName}
+                      </p>
+                      <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+                        <span className="text-[11px] text-gray-500 font-semibold">
+                          {t('benches.level')} {dep.level}
+                        </span>
+                        {dep.expirationDate && (
+                          (() => {
+                            const remaining = formatTimeRemaining(dep.expirationDate, language);
+                            return (
+                              <span
+                                className={cn(
+                                  'inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full',
+                                  remaining.isExpired
+                                    ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                                    : remaining.urgent
+                                    ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
+                                    : remaining.warning
+                                    ? 'text-amber-600 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
+                                    : 'text-gray-500 bg-gray-200/80 dark:bg-gray-700 dark:text-gray-300'
+                                )}
+                              >
+                                <Clock size={9} />
+                                {remaining.isExpired ? t('lists.expired') : remaining.text}
+                              </span>
+                            );
+                          })()
+                        )}
+                      </div>
+                    </div>
+                  </div>
 
-          <span className="px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 bg-sky-500/15 text-sky-600 dark:text-sky-300 border border-sky-500/30">
-            {t('stash.available')}
-          </span>
+                  <div className="text-right shrink-0 pl-3">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-blue-100/70 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">
+                      ×{dep.quantity}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 text-xs text-gray-400 italic">
+              {t('stash.noActiveObjectives')}
+            </div>
+          )}
         </div>
       )}
 
-      {/* ── SEZIONE 3: ZONE DI LOOT & PROVENIENZA ── */}
-      <div>
-        <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-          {t('stash.lootAreasTitle')}
-        </h3>
-        {lootAreas.length > 0 ? (
-          <div className="grid grid-cols-2 gap-2">
-            {lootAreas.map((area, idx) => (
-              <div
-                key={`${area.id}-${idx}`}
-                className="flex items-center gap-2.5 p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200/80 dark:border-gray-700/50"
-              >
-                <div className="p-1.5 rounded-lg bg-white dark:bg-gray-700 shadow-2xs">
-                  {area.icon}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-bold text-gray-800 dark:text-gray-200 truncate">
-                    {area.label}
-                  </p>
-                  <p className="text-[10px] text-gray-400">{t('stash.containerMap')}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 text-xs text-gray-400 italic">
-            {t('stash.noLootArea')}
-          </div>
-        )}
-      </div>
-
-      {/* ── SEZIONE 4: FABBISOGNO DETTAGLIATO PER BANCO / LISTA ── */}
-      <div>
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-            {t('stash.requiredByLists', { count: dependencies.length })}
-          </h3>
-          <span className="text-xs font-mono font-semibold text-gray-400">
-            {t('stash.totalRequiredLabel', { count: required })}
-          </span>
-        </div>
-
-        {dependencies.length > 0 ? (
-          <div className="space-y-2">
-            {dependencies.map((dep, idx) => (
-              <div
-                key={`${dep.listId}-${dep.level}-${idx}`}
-                className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200/80 dark:border-gray-700/50"
-              >
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div
-                    className={`p-2 rounded-xl shrink-0 ${
-                      dep.isCustom
-                        ? 'bg-violet-100 dark:bg-violet-950/70 text-violet-600 dark:text-violet-400'
-                        : 'bg-blue-100 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400'
-                    }`}
-                  >
-                    {dep.isCustom ? <ClipboardList size={16} /> : <Hammer size={16} />}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100 truncate">
-                      {dep.listName}
-                    </p>
-                    <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
-                      <span className="text-[11px] text-gray-500 font-semibold">
-                        {t('benches.level')} {dep.level}
-                      </span>
-                      {dep.expirationDate && (
-                        (() => {
-                          const remaining = formatTimeRemaining(dep.expirationDate, language);
-                          return (
-                            <span
-                              className={cn(
-                                'inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full',
-                                remaining.isExpired
-                                  ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
-                                  : remaining.urgent
-                                  ? 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-300'
-                                  : remaining.warning
-                                  ? 'text-amber-600 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-300'
-                                  : 'text-gray-500 bg-gray-200/80 dark:bg-gray-700 dark:text-gray-300'
-                              )}
-                            >
-                              <Clock size={9} />
-                              {remaining.isExpired ? t('lists.expired') : remaining.text}
-                            </span>
-                          );
-                        })()
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="text-right shrink-0 pl-3">
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-blue-100/70 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">
-                    ×{dep.quantity}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 text-xs text-gray-400 italic">
-            {t('stash.noActiveObjectives')}
-          </div>
-        )}
-      </div>
-
-      {/* ── SEZIONE 5: DESCRIZIONE & LORE (se disponibile) ── */}
+      {/* ── SEZIONE 4: DESCRIZIONE & LORE ── */}
       {displayDesc && (
         <div className="pt-2 border-t border-gray-200 dark:border-gray-800">
           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
