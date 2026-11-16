@@ -18,12 +18,15 @@ npm run preview    # Anteprima della build di produzione
 npm run check:lock # Verifica che package-lock.json sia in sync (stesso check di npm ci in CI)
 
 # Script dati (pacchetto separato in scripts/):
-cd scripts && npm install && node fetch-items.mjs            # Rigenera items.json + icone da MetaForge
-cd scripts && npm install && node fetch-category-icons.mjs   # Scarica & normalizza icone di categoria da Wiki API
+cd scripts && npm install && node fetch-all.mjs              # Esegue l'intera pipeline di sincronizzazione dati (--refresh per riscaricare)
+# Singoli script modulari:
+cd scripts && node fetch-items.mjs                           # Rigenera items.json + icone da MetaForge
 cd scripts && node fetch-translations.mjs                    # Sincronizza traduzioni IT degli oggetti da RaidTheory (passa --refresh per riscaricare)
-cd scripts && node fetch-arctracker.mjs                      # Rapporto locale degli oggetti di ARC Tracker assenti dal catalogo (--refresh per riscaricare; nulla viene scritto in src/)
+cd scripts && node fetch-skills.mjs                          # Estrae i nodi dello Skill Tree con traduzioni IT/EN e scarica le icone PNG
 cd scripts && node fetch-quests.mjs                          # Sincronizza le 123 quest da MetaForge + ARC Tracker (--refresh per riscaricare)
-cd scripts && node fetch-skills.mjs                          # Estrae i 45 nodi dello Skill Tree con traduzioni IT/EN e scarica le icone PNG
+cd scripts && node fetch-recipes.mjs                         # Estrae ricette di crafting, upgrade I->IV, riparazione e riciclo in recipes.json
+cd scripts && node fetch-category-icons.mjs                  # Scarica & normalizza icone di categoria da Wiki API
+cd scripts && node fetch-arctracker.mjs                      # Rapporto locale degli oggetti di ARC Tracker assenti dal catalogo (--refresh per riscaricare; nulla viene scritto in src/)
 ```
 
 ---

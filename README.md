@@ -51,10 +51,13 @@ I dati cambiano con le patch del gioco; l'aggiornamento avviene tramite gli scri
 
 ```bash
 cd scripts && npm install
+node fetch-all.mjs            # Esegue l'intera pipeline di sincronizzazione dati (passa --refresh per riscaricare)
+# Oppure esecuzione dei singoli moduli:
 node fetch-items.mjs          # Rigenera items.json, icone e mapping sblocchi da MetaForge
 node fetch-translations.mjs   # Sincronizza le traduzioni italiane (RaidTheory + fallback ARC Tracker)
 node fetch-skills.mjs         # Estrae i nodi dello Skill Tree e scarica le icone
 node fetch-quests.mjs         # Sincronizza le quest di gioco da MetaForge e ARC Tracker
+node fetch-recipes.mjs        # Estrae ricette di crafting, upgrade I->IV, riparazione e riciclo
 node fetch-category-icons.mjs # Scarica e normalizza le icone di categoria da Wiki API
 node fetch-arctracker.mjs     # Rapporto locale degli oggetti assenti dal catalogo
 ```
