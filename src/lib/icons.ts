@@ -1,5 +1,5 @@
 /**
- * Resolve a local icon path from items.json against the app base URL (/arc-benches/ on Pages).
+ * Resolve a local icon path from items.json against the app base URL (/scrappys-nest/ on Pages).
  * `thumb` serves the 128px variant (public/icons/items/sm/) for small list rows; other paths
  * (e.g. category fallbacks) have no thumbnail and are returned unchanged.
  */

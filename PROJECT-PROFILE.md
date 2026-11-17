@@ -1,4 +1,4 @@
-# Profilo progetto — ARC Benches
+# Profilo progetto — Scrappy's Nest (ex ARC Benches)
 
 ## Stack
 - **Frontend**: React 19, TypeScript, Vite, Tailwind CSS v4

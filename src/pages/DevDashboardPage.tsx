@@ -71,7 +71,7 @@ export function DevDashboardPage({ onBack, onNavigate }: DevDashboardPageProps) 
 
   const downloadZip = () => {
     const zip = createZip(modified.map(({ artifact }) => ({ path: artifact.file, content: artifact.build() })));
-    downloadBlob(`arc-benches-dev-${new Date().toISOString().slice(0, 10)}.zip`, zip);
+    downloadBlob(`scrappys-nest-dev-${new Date().toISOString().slice(0, 10)}.zip`, zip);
   };
 
   const downloadOne = (artifact: DevArtifact) => {

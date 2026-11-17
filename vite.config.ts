@@ -10,8 +10,8 @@ const { version } = JSON.parse(fs.readFileSync(path.resolve(import.meta.dirname,
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Served from https://ieeah.github.io/arc-benches/
-  base: "/arc-benches/",
+  // Served from https://ieeah.github.io/scrappys-nest/
+  base: "/scrappys-nest/",
   define: {
     __APP_VERSION__: JSON.stringify(version),
   },

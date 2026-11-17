@@ -1,17 +1,20 @@
-# ARC Benches
+# Scrappy's Nest
 
-Companion tracker **non ufficiale** in italiano per [ARC Raiders](https://arcraiders.com/): tiene
-traccia dei potenziamenti dei banchi da lavoro e dei progetti del rifugio e calcola in automatico i
-materiali che ti mancano, senza fare conti a mente livello per livello.
+> *Precedentemente noto come **ARC Benches**.*
 
-**Prova l'app:** https://ieeah.github.io/arc-benches/
+Companion tracker tattico **non ufficiale** in italiano per [ARC Raiders](https://arcraiders.com/): pianifica
+le spedizioni e i raid, calcola in tempo reale i materiali mancanti per i banchi e i progetti del rifugio,
+gestisce l'inventario dello Stash, traccia le collezioni in-raid (Blueprint, Design, Stencil), lo Skill Tree
+interattivo, i Reward Pass e le ricette ufficiali di fabbricazione, potenziamento, riparazione e riciclo.
 
-Versione corrente: **0.5.1** ("Taratura del Segnale") · in lavorazione: **0.6.0** ("Archivio del Rifugio") (vedi [changelog 0.5.1](changelog/0.5.1.md), [bozza 0.6.0](changelog/0.6.0.md) e [piano delle versioni](docs/VERSIONING.md)).
+**Prova l'app:** https://ieeah.github.io/scrappys-nest/
+
+Versione corrente: **0.6.0** ("Archivio del Rifugio") · in lavorazione: **0.6.5** ("Codex & Data Mining") (vedi [changelog 0.6.0](changelog/0.6.0.md) e [piano delle versioni](docs/VERSIONING.md)).
 
 ## Il problema che risolve
 
 I tracker esistenti mostrano i costi dei potenziamenti livello per livello: se sei al livello 1 di
-un banco e vuoi arrivare al 3, tocca a te sommare i materiali dei due step. ARC Benches aggrega
+un banco e vuoi arrivare al 3, tocca a te sommare i materiali dei due step. Scrappy's Nest aggrega
 **tutti i costi dal livello attuale a quello obiettivo**, li confronta con l'inventario che
 possiedi e ti dice cosa manca, aggiornato a ogni oggetto raccolto.
 
@@ -20,9 +23,10 @@ possiedi e ti dice cosa manca, aggiornato a ogni oggetto raccolto.
 - **Stash aggregato**: la lista della spesa globale con solo ciò che ti serve davvero. Contatore rapido, stato `posseduti/richiesti`, ordinamento multi-criterio (per priorità lista o per livello), vista a griglia o a lista compatta, interazione touch-first hold-to-complete e completamento azioni di livello con uno slide.
 - **Banchi e liste**: banchi da lavoro, progetti, spedizioni, Reward Pass, Outpost e liste personalizzate riuniti in un unico elenco con priorità globale, drag-reveal per le liste nascoste dai filtri, barre di avanzamento segmentate (macro e micro-progresso) e prerequisiti tra liste (`requires`). Al level-up i materiali vengono scalati in automatico con gestione di eventuali conflitti.
 - **Pianificazione Raid (`RaidPlan`)**: tracciamento spot di materiali e obiettivi da raccogliere durante le spedizioni, con collegamento rapido bidirezionale con lo Stash (`🎯 Nel Piano`), notifiche di fabbisogno coperto e radar d'azione nella barra di navigazione.
-- **Collezioni in-raid**: archivio per monitorare il possesso dei collezionabili trovati in partita: 91 Blueprint di armi e gadget, 101 Design & Arredi del rifugio e 14 Stencil armi, con filtri di categoria, ricerca multilingua e barre di avanzamento.
+- **Fabbricazione, Upgrade I→IV, Riparazione e Riciclo**: schede ricetta ufficiali con stazioni del rifugio e in-raid richieste, percorsi evolutivi `I → II → III → IV` per i Base Items, rami di Amplificazione al Livello IV collegati alle Ricerche della Stazione di Ricerca, stime di riparazione (al rifugio vs sul campo) e ricerca inversa del riciclo dei materiali.
+- **Collezioni in-raid**: archivio unificato per monitorare il possesso dei 206 collezionabili trovati in partita: 91 Blueprint di armi e gadget, 101 Design & Arredi del rifugio e 14 Stencil armi, con filtri di categoria, ricerca multilingua e barre di avanzamento.
+- **Skill Tree interattivo**: albero delle abilità dei Raiders con canvas vettoriale a tridente organico (Condizionamento, Mobilità, Sopravvivenza), calcolo fedele dei punti abilità (76 SP base + fino a 15 extra da carovane), gestione milestone e modalità sandbox per sperimentare build.
 - **Reward Pass**: gestione del pass attivo con livelli e tracce affiancate (Free/Premium), avanzamento dinamico a tier spaziali e archivio dei pass completati.
-- **Skill Tree interattivo**: albero delle abilità dei Raiders con canvas a tridente organico (Condizionamento, Mobilità, Sopravvivenza), calcolo fedele dei punti abilità (SP), gestione milestone e modalità sandbox per sperimentare build.
 - **Catalogo oggetti**: scheda di dettaglio per ogni oggetto (rarità inclusa *Amplificato*, tipologia, valore, zone di loot, craftabilità), sfondi grafici autentici di gioco (armi amplificate, design, blueprint), e raggruppamento algoritmico di livelli (I–IV) e varianti d'arma.
 - **Badge Refiner e Commercianti**: indicatori visivi per oggetti fabbricabili (con indicazione del livello di banco necessario) o acquistabili dai mercanti di Speranza.
 - **Profili e modularità**: gestione multi-profilo sullo stesso dispositivo, attivazione e disattivazione modulare delle sezioni e funzionalità per singolo profilo (`isSectionActive`), esportazione e importazione backup in formato JSON v3.
@@ -44,6 +48,8 @@ possiedi e ti dice cosa manca, aggiornato a ogni oggetto raccolto.
 I dati sono file JSON statici inclusi nel bundle: nessuna chiamata di rete a runtime.
 
 - `src/data/items.json`, `item-variants.json` e `public/icons/items/`: catalogo oggetti sincronizzato da [MetaForge](https://metaforge.app/), integrato con oggetti custom e normalizzazione delle varianti d'arma e moduli. Traduzioni italiane da [RaidTheory](https://github.com/RaidTheory/arcraiders-data) con ripiego automatico da [ARC Tracker](https://arctracker.io/).
+- `src/data/recipes.json`: 599 ricette ufficiali di costruzione, upgrade di livello I→IV, riparazione e riciclo/smantellamento estratte da [ARC Tracker](https://arctracker.io/).
+- `src/data/quests.json` e `quests-source.json`: 123 quest dei commercianti con grafo di dipendenze, prerequisiti, obiettivi e ricompense.
 - `src/data/skills.json` e `public/icons/skills/`: nodi, prerequisiti, coordinate e icone dello Skill Tree estratti da RaidTheory e Wiki.
 - `src/data/workbenches.json`, `projects.json`, `expeditions.json`, `passes.json`, `traders.json`: liste di gioco, Outpost, spedizioni, tracce dei pass e catalogo dei commercianti.
 
@@ -78,9 +84,8 @@ Il deploy su GitHub Pages è automatico a ogni push su `master`. Le convenzioni 
 
 ## Roadmap verso la 1.0.0
 
-- **0.5.1 "Taratura del Segnale"** (corrente): standardizzazione layout unificato (`PageLayout`), ordinamento Stash multi-criterio, suite componenti primitivi UI, tooling `@tailwindcss/vite` e refactor mobile-first.
-- **0.6.0 "Archivio del Rifugio"** (in lavorazione): pagina unificata Collezioni (Blueprint, Design, Stencil), Skill Tree interattivo dei Raiders, armi amplificate e ricerche Research Bench.
-- **0.6.x "Consolidamento & Dati Estesi"**: revisione Spedizioni, Quest Tracker utente, limiti statici dei Commercianti, filtri per zona di loot e Bacheca dei Trofei.
+- **0.6.0 "Archivio del Rifugio"** (corrente): pagina unificata Collezioni (Blueprint, Design, Stencil), Skill Tree interattivo dei Raiders, ricette complete di fabbricazione/upgrade I→IV/riparazione/riciclo, armi amplificate e ricerche Research Station.
+- **0.6.5 "Codex & Data Mining"** (in lavorazione): estrazione totale del dataset di gioco, bestiario nemici ARC con loot table/debolezze, mappe e POI, normalizzazione 123 Quest e commercianti.
 - **0.7.0 "Guida di Speranza"**: UI Kit Playground, migrazione componenti a Base UI e redesign mobile in vista dell'architettura Next.js.
 - **0.8.0 "Ponte Next & Supabase"**: migrazione a Next.js App Router, database e autenticazione Supabase con sincronizzazione cloud offline-first.
 - **0.9.0 "Rifinitura Tattica"**: performance, pre-calcolo indici di ricerca e virtualizzazione liste.

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Questo file fornisce una panoramica rapida e comandi utili per gli Agenti AI che lavorano su **ARC Benches**.
+Questo file fornisce una panoramica rapida e comandi utili per gli Agenti AI che lavorano su **Scrappy's Nest** (precedentemente noto come *ARC Benches*).
 
 > ⚠️ **Regole Operative e Vincoli di Progetto**:
 > Tutte le regole vincolanti (autonomia commit, convenzioni git, lockfile, UI, tracker CLI, cosa l'agente non deve fare) sono definite e consolidate in **[AGENTS-PROJECT-RULES.md](AGENTS-PROJECT-RULES.md)**.
@@ -11,7 +11,7 @@ Questo file fornisce una panoramica rapida e comandi utili per gli Agenti AI che
 ## 🚀 Comandi Rapidi
 
 ```bash
-npm run dev        # Avvia il dev server (Vite HMR, base path /arc-benches/)
+npm run dev        # Avvia il dev server (Vite HMR, base path /scrappys-nest/)
 npm run build      # Type-check (tsc -b) + build di produzione
 npm run lint       # ESLint
 npm run preview    # Anteprima della build di produzione
@@ -33,7 +33,7 @@ cd scripts && node fetch-arctracker.mjs                      # Rapporto locale d
 
 ## 🛠 Cos'è questo Progetto
 
-**ARC Benches** è un Companion Tracker mobile-first (React 19 + TypeScript + Vite + Tailwind CSS v4) in italiano per il videogioco *ARC Raiders*.
+**Scrappy's Nest** (ex ARC Benches) è un Companion Tracker mobile-first (React 19 + TypeScript + Vite + Tailwind CSS v4) in italiano per il videogioco *ARC Raiders*.
 Aggrega i costi di potenziamento dei banchi del rifugio dal livello attuale al livello obiettivo, traccia l'inventario, e calcola in tempo reale i materiali mancanti e i potenziamenti disponibili.
 
 Per dettagli sul contesto generale, tracker ed estensioni consulta [PROJECT-PROFILE.md](PROJECT-PROFILE.md).

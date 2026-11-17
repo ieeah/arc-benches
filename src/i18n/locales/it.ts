@@ -489,7 +489,7 @@ export const it = {
     "exportJson": "Esporta Backup JSON",
     "importJson": "Importa Backup JSON",
     "importPrompt": "Usa la voce Importa dal menu rapido o trascina il file JSON",
-    "appInfo": "ARC Benches Tracker",
+    "appInfo": "Scrappy's Nest — Companion Tracker",
     "versionInfo": "Versione {version} • Dati catalogo MetaForge",
     "feedbackLanguage": "Lingua impostata: {lang}",
     "feedbackNavSide": "Posizione navigazione impostata a: {side}",
@@ -679,7 +679,7 @@ export const it = {
     }
   },
   "footer": {
-    "nonAffiliation": "ARC Benches è un fan-made tool non ufficiale, non affiliato né approvato da Embark Studios AB. ARC Raiders® è un marchio di Embark Studios AB.",
+    "nonAffiliation": "Scrappy's Nest è un fan-made tool non ufficiale, non affiliato né approvato da Embark Studios AB. ARC Raiders® è un marchio di Embark Studios AB.",
     "dataAttribution": "Dati aggregati da sorgenti della community:"
   },
   "requires": {
