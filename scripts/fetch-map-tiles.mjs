@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * ARC Benches — Map Tile Downloader
+ * Scrappy's Nest — Map Tile Downloader
  * 
  * Scarica i tile puliti (senza UI / marker) per tutte le mappe di ARC Raiders
  * organizzandoli nella struttura standard Leaflet per l'hosting locale o Supabase Storage.
@@ -222,7 +222,7 @@ async function main() {
     }
   }
 
-  console.log(`🚀 ARC Benches — Map Tile Downloader`);
+  console.log(`🚀 Scrappy's Nest — Map Tile Downloader`);
   console.log(`Cartella di output: ${outputDir}`);
   console.log(`Livello max zoom: ${targetMaxZoom}`);
 

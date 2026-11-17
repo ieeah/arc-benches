@@ -82,7 +82,7 @@ async function fetchMetaForgeQuests(refresh = false) {
 async function main() {
   const refresh = process.argv.includes('--refresh');
 
-  console.log('=== ARC Benches — Sincronizzatore Quest ===\n');
+  console.log('=== Scrappy\'s Nest — Sincronizzatore Quest ===\n');
 
   // 1. Carica MetaForge
   const mfQuests = await fetchMetaForgeQuests(refresh);

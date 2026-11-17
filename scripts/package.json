@@ -1,5 +1,5 @@
 {
-  "name": "arc-benches-scripts",
+  "name": "scrappys-nest-scripts",
   "private": true,
   "description": "Manual data-update scripts (not part of the app build): run npm install here before node fetch-items.mjs",
   "type": "module",

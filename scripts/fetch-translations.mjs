@@ -159,7 +159,7 @@ async function main() {
   const noArcTracker = process.argv.includes("--no-arctracker");
   const targetLang = (process.argv.find((a) => a.startsWith("--lang="))?.split("=")[1]) || "it";
 
-  console.log(`=== ARC Benches - Translation Synchronizer [${targetLang.toUpperCase()}] ===`);
+  console.log(`=== Scrappy's Nest - Translation Synchronizer [${targetLang.toUpperCase()}] ===`);
 
   let raidTheoryItems;
   if (!refresh && existsSync(RAW_CACHE)) {

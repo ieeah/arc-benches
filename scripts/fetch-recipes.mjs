@@ -164,7 +164,7 @@ async function main() {
   } else {
     console.log('Scaricamento dati freschi da arctracker.io/api/items...');
     const res = await fetch('https://arctracker.io/api/items', {
-      headers: { 'User-Agent': 'ARCBenchesCompanion/1.0 (+https://github.com/ieeah/arc-benches)' }
+      headers: { 'User-Agent': 'ARCBenchesCompanion/1.0 (+https://github.com/ieeah/scrappys-nest)' }
     });
     if (!res.ok) throw new Error(`HTTP ${res.status} da ARC Tracker`);
     const json = await res.json();

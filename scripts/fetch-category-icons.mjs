@@ -50,7 +50,7 @@ async function main() {
 
   const res = await fetch(WIKI_API_URL, {
     headers: {
-      'User-Agent': 'ARCBenchesCompanion/1.0 (https://github.com/ieeah/arc-benches)',
+      'User-Agent': 'ARCBenchesCompanion/1.0 (https://github.com/ieeah/scrappys-nest)',
     },
   });
 
@@ -79,7 +79,7 @@ async function main() {
 
     const imgRes = await fetch(info.url, {
       headers: {
-        'User-Agent': 'ARCBenchesCompanion/1.0 (https://github.com/ieeah/arc-benches)',
+        'User-Agent': 'ARCBenchesCompanion/1.0 (https://github.com/ieeah/scrappys-nest)',
       },
     });
 
@@ -97,7 +97,7 @@ async function main() {
     manifest[slug] = {
       title,
       wikiUrl: info.url,
-      localPath: `/arc-benches/icons/categories/${slug}.webp`,
+      localPath: `/scrappys-nest/icons/categories/${slug}.webp`,
     };
   }
 

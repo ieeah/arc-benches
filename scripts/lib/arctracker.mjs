@@ -10,7 +10,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 export const ARC_TRACKER_BASE = 'https://arctracker.io';
-export const USER_AGENT = 'ARCBenchesCompanion/1.0 (+https://github.com/ieeah/arc-benches)';
+export const USER_AGENT = 'ARCBenchesCompanion/1.0 (+https://github.com/ieeah/scrappys-nest)';
 
 /** Endpoint pubblici usati e chiave della risposta che contiene l'elenco. */
 export const ENDPOINTS = {

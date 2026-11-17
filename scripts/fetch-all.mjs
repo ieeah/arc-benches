@@ -63,7 +63,7 @@ function runScript(scriptInfo) {
 async function main() {
   const overallStart = Date.now();
   console.log(`\n############################################################`);
-  console.log(`# ARC Benches — Pipeline Completa di Aggiornamento Dati    #`);
+  console.log(`# Scrappy's Nest — Pipeline Aggiornamento Dati              #`);
   console.log(`############################################################`);
   console.log(`Modalità: ${REFRESH ? 'NETWORK REFRESH (--refresh)' : 'CACHE LOCALE'}\n`);
 
