@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
 import { devApplyPlugin } from "./vite-plugins/dev-apply.ts";
+import { devMapsPlugin } from "./vite-plugins/dev-maps.ts";
 
 // La versione mostrata nell'app (Impostazioni) e' quella di package.json: nessun valore da aggiornare a mano.
 const { version } = JSON.parse(fs.readFileSync(path.resolve(import.meta.dirname, "package.json"), "utf-8")) as { version: string };
@@ -15,7 +16,7 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(version),
   },
-  plugins: [tailwindcss(), react(), devApplyPlugin()],
+  plugins: [tailwindcss(), react(), devApplyPlugin(), devMapsPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "./src"),

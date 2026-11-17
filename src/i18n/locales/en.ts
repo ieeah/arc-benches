@@ -798,6 +798,11 @@ export const en: LocaleSchema = {
     resetCenter: 'Center Map',
     fullscreen: 'Fullscreen',
     exitFullscreen: 'Exit Fullscreen',
+    floor: 'Floor',
+    floors: 'Floors',
+    requiredKey: 'Required key: {key}',
+    poisCount: '{count} POIs visible',
+    allFloors: 'All floors',
   },
   expiration: {
     yesterdayPreset: 'Already expired (yesterday)',

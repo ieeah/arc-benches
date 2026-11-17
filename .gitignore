@@ -21,6 +21,9 @@ scripts/translations-raw.json
 scripts/arctracker-raw.json
 scripts/arctracker-cosmetics-raw.json
 scripts/reports/
+# Tile generati derivati per piani separati (rigenerabili via scripts/split-stella-montis.mjs)
+scripts/data/maps/stella-montis-l1/
+scripts/data/maps/stella-montis-l2/
 
 # Editor directories and files
 .vscode/*

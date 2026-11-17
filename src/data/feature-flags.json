@@ -4,6 +4,6 @@
   "role-maker": false,
   "blueprints": true,
   "reward-pass": true,
-  "maps": false,
+  "maps": true,
   "skill-tree": true
 }

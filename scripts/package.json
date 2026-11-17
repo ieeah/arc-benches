@@ -11,7 +11,10 @@
     "fetch:skills": "node fetch-skills.mjs",
     "fetch:quests": "node fetch-quests.mjs",
     "fetch:recipes": "node fetch-recipes.mjs",
-    "fetch:categories": "node fetch-category-icons.mjs"
+    "fetch:categories": "node fetch-category-icons.mjs",
+    "fetch:maps": "node fetch-maps.mjs",
+    "fetch:arc-maps": "node fetch-arc-maps.mjs",
+    "split:stella": "node split-stella-montis.mjs"
   },
   "dependencies": {
     "sharp": "^0.34.5"

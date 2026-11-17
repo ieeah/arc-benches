@@ -1,11 +1,206 @@
 {
+  "bounds": [
+    0,
+    0,
+    4096,
+    4096
+  ],
+  "defaultZoom": 2,
+  "minZoom": 1,
+  "maxZoom": 5,
   "maps": [
-    { "id": "dam-battleground", "name": "Dam Battlegrounds", "badge": "Swamp & Dam" },
-    { "id": "spaceport", "name": "The Spaceport", "badge": "Acerra" },
-    { "id": "buried-city", "name": "Buried City", "badge": "Wasteland" },
-    { "id": "blue-gate", "name": "The Blue Gate", "badge": "Valley" },
-    { "id": "stella-montis", "name": "Stella Montis", "badge": "Mountain Lab" },
-    { "id": "riven-tides", "name": "Riven Tides", "badge": "Coastal Harbor" },
-    { "id": "pendola-pass", "name": "Pendola Pass", "badge": "Summit Basin" }
+    {
+      "id": "dam",
+      "name": "Dam Battlegrounds",
+      "badge": "Swamp & Dam",
+      "hasMultiFloor": false,
+      "bounds": [
+        0,
+        0,
+        4096,
+        4096
+      ],
+      "defaultZoom": 2,
+      "minZoom": 1,
+      "maxZoom": 5,
+      "floors": [
+        {
+          "id": "dam",
+          "name": "Superficie",
+          "floorLevel": 0,
+          "layerKey": "dam",
+          "isDefault": true
+        }
+      ],
+      "totalPois": 9732
+    },
+    {
+      "id": "buried-city",
+      "name": "Buried City",
+      "badge": "Wasteland",
+      "hasMultiFloor": false,
+      "bounds": [
+        0,
+        0,
+        4096,
+        4096
+      ],
+      "defaultZoom": 2,
+      "minZoom": 1,
+      "maxZoom": 5,
+      "floors": [
+        {
+          "id": "buried-city",
+          "name": "Superficie",
+          "floorLevel": 0,
+          "layerKey": "buried-city",
+          "isDefault": true
+        }
+      ],
+      "totalPois": 8278
+    },
+    {
+      "id": "spaceport",
+      "name": "The Spaceport",
+      "badge": "Acerra",
+      "hasMultiFloor": true,
+      "bounds": [
+        0,
+        0,
+        4096,
+        4096
+      ],
+      "defaultZoom": 2,
+      "minZoom": 1,
+      "maxZoom": 5,
+      "floors": [
+        {
+          "id": "spaceport",
+          "name": "Superficie",
+          "floorLevel": 0,
+          "layerKey": "spaceport",
+          "isDefault": true
+        },
+        {
+          "id": "underground",
+          "name": "Sotterraneo",
+          "floorLevel": -1,
+          "layerKey": "underground"
+        }
+      ],
+      "totalPois": 9794
+    },
+    {
+      "id": "blue-gate",
+      "name": "The Blue Gate",
+      "badge": "Valley",
+      "hasMultiFloor": true,
+      "bounds": [
+        0,
+        0,
+        4096,
+        4096
+      ],
+      "defaultZoom": 2,
+      "minZoom": 1,
+      "maxZoom": 5,
+      "floors": [
+        {
+          "id": "blue-gate",
+          "name": "Superficie",
+          "floorLevel": 0,
+          "layerKey": "blue-gate",
+          "isDefault": true
+        },
+        {
+          "id": "underground",
+          "name": "Sotterraneo",
+          "floorLevel": -1,
+          "layerKey": "underground"
+        }
+      ],
+      "totalPois": 8644
+    },
+    {
+      "id": "stella-montis",
+      "name": "Stella Montis",
+      "badge": "Mountain Lab",
+      "hasMultiFloor": true,
+      "bounds": [
+        0,
+        0,
+        4096,
+        4096
+      ],
+      "defaultZoom": 2,
+      "minZoom": 1,
+      "maxZoom": 5,
+      "floors": [
+        {
+          "id": "stella-montis-l2",
+          "name": "Livello 1 (Lobby)",
+          "floorLevel": 0,
+          "layerKey": "stella-montis-l2",
+          "isDefault": true
+        },
+        {
+          "id": "stella-montis-l1",
+          "name": "Livello 2 (Metro & Vault)",
+          "floorLevel": -1,
+          "layerKey": "stella-montis-l1"
+        }
+      ],
+      "totalPois": 3063
+    },
+    {
+      "id": "riven-tides",
+      "name": "Riven Tides",
+      "badge": "Coastal Harbor",
+      "hasMultiFloor": false,
+      "bounds": [
+        0,
+        0,
+        4096,
+        4096
+      ],
+      "defaultZoom": 2,
+      "minZoom": 1,
+      "maxZoom": 5,
+      "floors": [
+        {
+          "id": "riven-tides",
+          "name": "Superficie",
+          "floorLevel": 0,
+          "layerKey": "riven-tides",
+          "isDefault": true
+        }
+      ],
+      "totalPois": 4608
+    },
+    {
+      "id": "pendola-pass",
+      "name": "Pendola Pass",
+      "badge": "Summit Basin",
+      "hasMultiFloor": false,
+      "bounds": [
+        0,
+        0,
+        4096,
+        4096
+      ],
+      "defaultZoom": 2,
+      "minZoom": 1,
+      "maxZoom": 5,
+      "floors": [
+        {
+          "id": "pendola-pass",
+          "name": "Superficie",
+          "floorLevel": 0,
+          "layerKey": "pendola-pass",
+          "isDefault": true
+        }
+      ],
+      "totalPois": 5843
+    }
   ]
 }

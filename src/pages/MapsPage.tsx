@@ -79,7 +79,7 @@ export const MapsPage = ({ onBack }: MapsPageProps) => {
           <span>{t('maps.gestureHint')}</span>
         </div>
 
-        <MapViewer mapId={selectedMapId} minZoom={8} maxZoom={12} />
+        <MapViewer mapId={selectedMapId} minZoom={1} maxZoom={5} defaultZoom={2} />
       </section>
     </PageLayout>
   );

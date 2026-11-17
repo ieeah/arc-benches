@@ -795,7 +795,12 @@ export const it = {
     "zoomOut": "Riduci",
     "resetCenter": "Centra Mappa",
     "fullscreen": "Schermo Intero",
-    "exitFullscreen": "Esci da Schermo Intero"
+    "exitFullscreen": "Esci da Schermo Intero",
+    "floor": "Piano",
+    "floors": "Piani",
+    "requiredKey": "Chiave richiesta: {key}",
+    "poisCount": "{count} POI visibili",
+    "allFloors": "Tutti i piani"
   },
   "expiration": {
     "yesterdayPreset": "Già scaduto (ieri)",

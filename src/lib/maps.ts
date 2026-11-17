@@ -1,15 +1,17 @@
 import mapsData from '@/data/maps.json';
+import type { MapFloor } from './maps/map-floors';
 
 export type GameMap = {
   id: string;
   name: string;
   badge?: string;
+  hasMultiFloor?: boolean;
+  floors?: MapFloor[];
+  totalPois?: number;
 };
 
 /**
- * Catalogo globale delle mappe di gioco, definito una sola volta in `src/data/maps.json`.
- * Chi referenzia mappe (azioni delle liste, pagina Mappe, in futuro spawn tip e raggruppamenti)
- * ne usa un sottoinsieme proprio: i sottoinsiemi non sono condivisi tra funzioni diverse.
+ * Catalogo globale delle mappe di gioco, definito in `src/data/maps.json`.
  */
 export const GAME_MAPS: readonly GameMap[] = mapsData.maps;
 

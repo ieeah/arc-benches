@@ -35,8 +35,8 @@ describe('sections logic', () => {
     expect(isSystemSectionEnabled('blueprints')).toBe(true);
     expect(isSystemSectionEnabled('reward-pass')).toBe(true);
 
-    // maps è disabilitato nel seed (false)
-    expect(isSystemSectionEnabled('maps')).toBe(false);
+    // role-maker è disabilitato nel seed (false)
+    expect(isSystemSectionEnabled('role-maker')).toBe(false);
   });
 
   it('ensures core sections are active even if explicitly set to false in profile', () => {
@@ -117,8 +117,8 @@ describe('sections logic', () => {
     expect(visibleIds).toContain('projects');
     expect(visibleIds).toContain('blueprints');
 
-    // maps è disabilitato a sistema e non deve comparire
-    expect(visibleIds).not.toContain('maps');
+    // role-maker è disabilitato a sistema e non deve comparire
+    expect(visibleIds).not.toContain('role-maker');
   });
 
   it('retrieves sub-sections for a macro-module', () => {

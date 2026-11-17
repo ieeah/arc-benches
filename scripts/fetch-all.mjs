@@ -29,6 +29,7 @@ const PIPELINE = [
   { script: 'fetch-quests.mjs', label: '4. Grafo 123 Quest (MetaForge + ARC Tracker)', supportsRefresh: true },
   { script: 'fetch-recipes.mjs', label: '5. Ricette, Potenziamenti & Riparazioni (ARC Tracker)', supportsRefresh: true },
   { script: 'fetch-category-icons.mjs', label: '6. Icone Categoria (MediaWiki API)', supportsRefresh: false },
+  { script: 'fetch-arc-maps.mjs', label: '7. Mappe & POI (arcraidersmaps.app)', supportsRefresh: true },
 ];
 
 function runScript(scriptInfo) {
