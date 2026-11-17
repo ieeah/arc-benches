@@ -1,20 +1,110 @@
 {
-  "syncedAt": "2026-11-01T19:09:52.808Z",
+  "syncedAt": "2026-11-17T02:00:00.000Z",
+  "dailyResetUtc": "00:00",
+  "traders": [
+    {
+      "id": "celeste",
+      "name": "Celeste",
+      "role": {
+        "en": "Settlement Leader",
+        "it": "Leader del Rifugio"
+      },
+      "currency": "seeds",
+      "resetType": "daily",
+      "description": {
+        "en": "Provides basic crafting materials, botanicals, and components in exchange for Assorted Seeds recycled from surface runs.",
+        "it": "Fornisce materiali di base, risorse botaniche e componenti essenziali per il crafting in cambio di Semi Assortiti riciclati dalla superficie."
+      }
+    },
+    {
+      "id": "apollo",
+      "name": "Apollo",
+      "role": {
+        "en": "Gadgets & Explosives",
+        "it": "Gadget ed Esplosivi"
+      },
+      "currency": "coins",
+      "resetType": "daily",
+      "description": {
+        "en": "Specializes in explosive ordnance, tactical grenades, pulse mines, detectors, and deployable raid equipment.",
+        "it": "Specialista in ordigni esplosivi, granate tattiche, mine a impulsi, rilevatori e dispositivi dispiegabili per i raid."
+      }
+    },
+    {
+      "id": "lance",
+      "name": "Lance",
+      "role": {
+        "en": "Medical Clinic",
+        "it": "Clinica Medica"
+      },
+      "currency": "coins",
+      "resetType": "daily",
+      "description": {
+        "en": "Manages medical supplies, personal shields, rapid shield rechargers, and Mk.1-3 tactical augments for Raiders.",
+        "it": "Gestisce le forniture mediche di Speranza, scudi personali, ricaricatori rapidi e impianti tattici Mk.1-3 per i Raider."
+      }
+    },
+    {
+      "id": "shani",
+      "name": "Shani",
+      "role": {
+        "en": "Security & Utility",
+        "it": "Sicurezza e Utilità"
+      },
+      "currency": "coins",
+      "resetType": "daily",
+      "description": {
+        "en": "Oversees surveillance and exit routes: supplies Raider Hatch Keys, cameras, binoculars, and flare signals.",
+        "it": "Addetta alla sorveglianza e alle vie di fuga: fornisce chiavi per botole Raider, fotocamere, segnalatori e razzi luminosi."
+      }
+    },
+    {
+      "id": "tian-wen",
+      "name": "Tian Wen",
+      "role": {
+        "en": "Gun Shop",
+        "it": "Armeria"
+      },
+      "currency": "coins",
+      "resetType": "daily",
+      "description": {
+        "en": "Speranza's gunsmith: sells firearms, various ammunition calibers, extended magazines, grips, and muzzle attachments.",
+        "it": "Armaiola di Speranza: vende armi da fuoco, munizioni di vario calibro, caricatori estesi, impugnature e modifiche balistiche."
+      }
+    },
+    {
+      "id": "nomadic-envoy",
+      "name": "Cassio",
+      "role": {
+        "en": "Nomadic Envoy",
+        "it": "Inviato Nomade"
+      },
+      "currency": "barter",
+      "resetType": "weekly",
+      "description": {
+        "en": "Wandering surface merchant with weekly rotations. Does not accept standard coins, bartering rare blueprints, cosmetics, and exotic gear for ARC parts and ancient relics.",
+        "it": "Commerciante itinerante di superficie a rotazione settimanale. Non accetta valuta convenzionale, ma propone scambi esotici di schemi rari, cosmetici ed equipaggiamento tramite baratto di parti ARC e manufatti antichi."
+      }
+    }
+  ],
   "items": [
     {
       "id": "barricade-kit",
       "trader": "apollo",
-      "price": 1920
+      "price": 1920,
+      "dailyLimit": 6
     },
     {
       "id": "blaze-grenade",
       "trader": "apollo",
-      "price": 4800
+      "price": 4800,
+      "dailyLimit": 3
     },
     {
       "id": "dockmasters-detector",
       "trader": "apollo",
-      "price": 1920
+      "price": 1920,
+      "dailyLimit": 2
     },
     {
       "id": "door-blocker",
@@ -29,7 +119,8 @@
     {
       "id": "heavy-fuze-grenade",
       "trader": "apollo",
-      "price": 4800
+      "price": 4800,
+      "dailyLimit": 3
     },
     {
       "id": "light-impact-grenade",
@@ -44,62 +135,74 @@
     {
       "id": "pulse-mine",
       "trader": "apollo",
-      "price": 1410
+      "price": 1410,
+      "dailyLimit": 3
     },
     {
       "id": "recorder",
       "trader": "apollo",
-      "price": 3000
+      "price": 3000,
+      "dailyLimit": 6
     },
     {
       "id": "seeker-grenade",
       "trader": "apollo",
-      "price": 1920
+      "price": 1920,
+      "dailyLimit": 6
     },
     {
       "id": "shrapnel-grenade",
       "trader": "apollo",
-      "price": 2400
+      "price": 2400,
+      "dailyLimit": 3
     },
     {
       "id": "smoke-grenade",
       "trader": "apollo",
-      "price": 3000
+      "price": 3000,
+      "dailyLimit": 6
     },
     {
       "id": "snap-blast-grenade",
       "trader": "apollo",
-      "price": 2400
+      "price": 2400,
+      "dailyLimit": 3
     },
     {
       "id": "surge-coil",
       "trader": "apollo",
-      "price": 6300
+      "price": 6300,
+      "dailyLimit": 3
     },
     {
       "id": "tagging-grenade",
       "trader": "apollo",
-      "price": 3000
+      "price": 3000,
+      "dailyLimit": 3
     },
     {
       "id": "trigger-nade",
       "trader": "apollo",
-      "price": 3000
+      "price": 3000,
+      "dailyLimit": 3
     },
     {
       "id": "zipline",
       "trader": "apollo",
-      "price": 3000
+      "price": 3000,
+      "dailyLimit": 2
     },
     {
       "id": "battery",
       "trader": "celeste",
-      "price": 5
+      "price": 5,
+      "dailyLimit": 10
     },
     {
       "id": "canister",
       "trader": "celeste",
-      "price": 6
+      "price": 6,
+      "dailyLimit": 10
     },
     {
       "id": "chemicals",
@@ -109,17 +212,20 @@
     {
       "id": "complex-gun-parts",
       "trader": "celeste",
-      "price": 60
+      "price": 60,
+      "dailyLimit": 1
     },
     {
       "id": "duct-tape-recipe",
       "trader": "celeste",
-      "price": 6
+      "price": 6,
+      "dailyLimit": 10
     },
     {
       "id": "exodus-modules",
       "trader": "celeste",
-      "price": 55
+      "price": 55,
+      "dailyLimit": 1
     },
     {
       "id": "fabric",
@@ -129,27 +235,32 @@
     {
       "id": "great-muullein",
       "trader": "celeste",
-      "price": 5
+      "price": 5,
+      "dailyLimit": 5
     },
     {
       "id": "heavy-gun-parts",
       "trader": "celeste",
-      "price": 15
+      "price": 15,
+      "dailyLimit": 3
     },
     {
       "id": "light-gun-parts",
       "trader": "celeste",
-      "price": 15
+      "price": 15,
+      "dailyLimit": 3
     },
     {
       "id": "magnet",
       "trader": "celeste",
-      "price": 6
+      "price": 6,
+      "dailyLimit": 10
     },
     {
       "id": "medium-gun-parts",
       "trader": "celeste",
-      "price": 15
+      "price": 15,
+      "dailyLimit": 3
     },
     {
       "id": "metal-parts",
@@ -159,12 +270,14 @@
     {
       "id": "moss",
       "trader": "celeste",
-      "price": 10
+      "price": 10,
+      "dailyLimit": 3
     },
     {
       "id": "oil",
       "trader": "celeste",
-      "price": 6
+      "price": 6,
+      "dailyLimit": 10
     },
     {
       "id": "planks",
@@ -179,12 +292,14 @@
     {
       "id": "processor",
       "trader": "celeste",
-      "price": 10
+      "price": 10,
+      "dailyLimit": 5
     },
     {
       "id": "rope",
       "trader": "celeste",
-      "price": 10
+      "price": 10,
+      "dailyLimit": 5
     },
     {
       "id": "rubber-parts-recipe",
@@ -194,7 +309,8 @@
     {
       "id": "sensors-recipe",
       "trader": "celeste",
-      "price": 10
+      "price": 10,
+      "dailyLimit": 5
     },
     {
       "id": "sheet-metal",
@@ -204,42 +320,50 @@
     {
       "id": "simple-gun-parts",
       "trader": "celeste",
-      "price": 7
+      "price": 7,
+      "dailyLimit": 5
     },
     {
       "id": "speaker-component",
       "trader": "celeste",
-      "price": 10
+      "price": 10,
+      "dailyLimit": 5
     },
     {
       "id": "steel-cable",
       "trader": "celeste",
-      "price": 20
+      "price": 20,
+      "dailyLimit": 5
     },
     {
       "id": "spring",
       "trader": "celeste",
-      "price": 6
+      "price": 6,
+      "dailyLimit": 5
     },
     {
       "id": "synthesized-fuel",
       "trader": "celeste",
-      "price": 14
+      "price": 14,
+      "dailyLimit": 5
     },
     {
       "id": "syringe",
       "trader": "celeste",
-      "price": 10
+      "price": 10,
+      "dailyLimit": 5
     },
     {
       "id": "voltage-converter",
       "trader": "celeste",
-      "price": 10
+      "price": 10,
+      "dailyLimit": 5
     },
     {
       "id": "wires-recipe",
       "trader": "celeste",
-      "price": 4
+      "price": 4,
+      "dailyLimit": 5
     },
     {
       "id": "adrenaline-shot",
@@ -259,12 +383,14 @@
     {
       "id": "combat-mk-2",
       "trader": "lance",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 1
     },
     {
       "id": "combat-mk3-flanking",
       "trader": "lance",
-      "price": 15000
+      "price": 15000,
+      "dailyLimit": 1
     },
     {
       "id": "defibrillator",
@@ -274,12 +400,14 @@
     {
       "id": "heavy-shield",
       "trader": "lance",
-      "price": 16500
+      "price": 16500,
+      "dailyLimit": 1
     },
     {
       "id": "herbal-bandage",
       "trader": "lance",
-      "price": 2700
+      "price": 2700,
+      "dailyLimit": 10
     },
     {
       "id": "light-shield",
@@ -294,17 +422,20 @@
     {
       "id": "looting-mk-2",
       "trader": "lance",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 1
     },
     {
       "id": "looting-mk-3-cautious",
       "trader": "lance",
-      "price": 15000
+      "price": 15000,
+      "dailyLimit": 1
     },
     {
       "id": "medium-shield",
       "trader": "lance",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 3
     },
     {
       "id": "shield-recharger",
@@ -314,12 +445,14 @@
     {
       "id": "sterilized-bandage",
       "trader": "lance",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 3
     },
     {
       "id": "surge-shield-recharger",
       "trader": "lance",
-      "price": 3600
+      "price": 3600,
+      "dailyLimit": 5
     },
     {
       "id": "tactical-mk-1",
@@ -329,17 +462,20 @@
     {
       "id": "tactical-mk-2",
       "trader": "lance",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 1
     },
     {
       "id": "tactical-mk-3-healing",
       "trader": "lance",
-      "price": 15000
+      "price": 15000,
+      "dailyLimit": 1
     },
     {
       "id": "advanced-camera",
       "trader": "shani",
-      "price": 3000
+      "price": 3000,
+      "dailyLimit": 3
     },
     {
       "id": "camera",
@@ -364,7 +500,8 @@
     {
       "id": "fireworks-box",
       "trader": "shani",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 3
     },
     {
       "id": "green-light-stick",
@@ -374,7 +511,8 @@
     {
       "id": "raider-hatch-key",
       "trader": "shani",
-      "price": 9000
+      "price": 9000,
+      "dailyLimit": 2
     },
     {
       "id": "red-light-stick",
@@ -394,32 +532,38 @@
     {
       "id": "angled-grip-i",
       "trader": "tian-wen",
-      "price": 1920
+      "price": 1920,
+      "dailyLimit": 5
     },
     {
       "id": "angled-grip-ii",
       "trader": "tian-wen",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 5
     },
     {
       "id": "angled-grip-iii",
       "trader": "tian-wen",
-      "price": 15000
+      "price": 15000,
+      "dailyLimit": 1
     },
     {
       "id": "arpeggio-i",
       "trader": "tian-wen",
-      "price": 16500
+      "price": 16500,
+      "dailyLimit": 3
     },
     {
       "id": "bantam",
       "trader": "tian-wen",
-      "price": 11400
+      "price": 11400,
+      "dailyLimit": 3
     },
     {
       "id": "burletta-i",
       "trader": "tian-wen",
-      "price": 8700
+      "price": 8700,
+      "dailyLimit": 3
     },
     {
       "id": "energy-ammo",
@@ -429,22 +573,26 @@
     {
       "id": "extended-light-mag-i",
       "trader": "tian-wen",
-      "price": 1920
+      "price": 1920,
+      "dailyLimit": 5
     },
     {
       "id": "extended-light-mag-ii",
       "trader": "tian-wen",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 3
     },
     {
       "id": "extended-medium-mag-ii",
       "trader": "tian-wen",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 5
     },
     {
       "id": "ferro-i",
       "trader": "tian-wen",
-      "price": 1425
+      "price": 1425,
+      "dailyLimit": 3
     },
     {
       "id": "ferro-iv",
@@ -459,7 +607,8 @@
     {
       "id": "il-toro-i",
       "trader": "tian-wen",
-      "price": 15000
+      "price": 15000,
+      "dailyLimit": 3
     },
     {
       "id": "kettle-i",
@@ -484,27 +633,32 @@
     {
       "id": "muzzle-brake-i",
       "trader": "tian-wen",
-      "price": 1920
+      "price": 1920,
+      "dailyLimit": 5
     },
     {
       "id": "osprey-i",
       "trader": "tian-wen",
-      "price": 21000
+      "price": 21000,
+      "dailyLimit": 1
     },
     {
       "id": "padded-stock",
       "trader": "tian-wen",
-      "price": 15000
+      "price": 15000,
+      "dailyLimit": 1
     },
     {
       "id": "rascal",
       "trader": "tian-wen",
-      "price": 21000
+      "price": 21000,
+      "dailyLimit": 2
     },
     {
       "id": "renegade-i",
       "trader": "tian-wen",
-      "price": 21000
+      "price": 21000,
+      "dailyLimit": 1
     },
     {
       "id": "shotgun-ammo",
@@ -514,17 +668,20 @@
     {
       "id": "shotgun-choke-ii",
       "trader": "tian-wen",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 3
     },
     {
       "id": "silencer-i",
       "trader": "tian-wen",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 1
     },
     {
       "id": "stable-stock-iii",
       "trader": "tian-wen",
-      "price": 15000
+      "price": 15000,
+      "dailyLimit": 2
     },
     {
       "id": "stitcher-i",
@@ -534,12 +691,14 @@
     {
       "id": "torrente-i",
       "trader": "tian-wen",
-      "price": 21000
+      "price": 21000,
+      "dailyLimit": 1
     },
     {
       "id": "vertical-grip-ii",
       "trader": "tian-wen",
-      "price": 6000
+      "price": 6000,
+      "dailyLimit": 5
     }
   ]
 }

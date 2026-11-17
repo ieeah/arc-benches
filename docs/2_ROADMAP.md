@@ -41,7 +41,7 @@ Obiettivo: estrarre, validare e normalizzare tutti i dati statici di gioco prima
 - [ ] #57 / #64 **Dataset Codex Nemici ARC**: script `fetch-enemies.mjs` per estrarre tutti gli ARC (Snitch, Bastion, Rocketeer, Sentinel, Queen, ecc.), punti deboli, loot table con percentuali di drop e lore in `src/data/codex-enemies.json`.
 - [ ] #61 **Dataset Mappe & POI**: script `fetch-maps.mjs` per normalizzare coordinate, confini, punti di estrazione, bunker a chiave e zone di loot in `src/data/maps.json`.
 - [ ] #58 / #106 **Consolidamento Grafo 123 Quest**: completamento dati missioni (mandanti, tappe, condizioni di completamento, ricompense) in `src/data/quests.json`.
-- [ ] #94 **Commercianti & Economia**: catalogo merci con costi e limiti di acquisto statici giornalieri in `src/data/traders.json`.
+- [x] #94 **Commercianti & Economia**: catalogo merci con costi e limiti di acquisto statici giornalieri in `src/data/traders.json` e scheda informativa Inviato Nomade.
 - [ ] #146 **Regole Matematiche Spedizioni**: consolidamento scaglioni danno, formula fabbisogno scalare e gestione del reset.
 
 ---

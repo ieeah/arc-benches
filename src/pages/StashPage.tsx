@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { ChevronDown, LayoutGrid, List as ListIcon, ListChecks } from 'lucide-react';
+import { ChevronDown, LayoutGrid, List as ListIcon, ListChecks, ShoppingCart, Clock, Sparkles } from 'lucide-react';
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store';
 import {
@@ -15,7 +15,7 @@ import {
 } from '@/store/selectors';
 import { REFINER_ID } from '@/store/gameData';
 import { getCraftInfo } from '@/lib/craft';
-import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
+import { getTraderPurchase, getTraderDisplayName, getTimeUntilDailyReset } from '@/lib/traders';
 import { safeLS } from '@/lib/safeStorage';
 import { v } from '@/lib/validate';
 import { rarityOrder } from '@/lib/rarity';
@@ -73,6 +73,7 @@ export const StashPage = ({
 
   const [selectedItemForDetail, setSelectedItemForDetail] = useState<ItemInfo | null>(null);
   const [showActions, setShowActions] = useState(true);
+  const dailyReset = useMemo(() => getTimeUntilDailyReset(), []);
 
   const isProjectsActive = useAppStore(s => isSectionActive('projects', s));
   const isExpeditionsActive = useAppStore(s => isSectionActive('expeditions', s));
@@ -383,7 +384,7 @@ export const StashPage = ({
     grouping: {
       groupKey: item => {
         const purchase = getTraderPurchase(item.itemId);
-        return purchase ? getTraderDisplayName(purchase.trader) : 'Altro';
+        return purchase ? getTraderDisplayName(purchase.trader, language) : 'Altro';
       },
       defaultEnabled: true,
     },
@@ -515,6 +516,33 @@ export const StashPage = ({
 
       {activeCategoryId === 'purchasable' && groupedItems ? (
         <div className="space-y-5">
+          {/* Banner informativo commercianti & reset scorte */}
+          <div className="p-3.5 bg-gradient-to-br from-sky-500/10 via-sky-500/5 to-transparent border border-sky-500/20 rounded-2xl space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <ShoppingCart size={16} className="text-sky-600 dark:text-sky-400 shrink-0" />
+                <span className="text-xs font-bold text-gray-900 dark:text-gray-100">
+                  {t('traders.bannerTitle')}
+                </span>
+              </div>
+              <span
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-sky-100 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-300/60 dark:border-sky-800"
+                title={t('traders.dailyResetAtUtc')}
+              >
+                <Clock size={11} className="text-sky-500 shrink-0" />
+                <span>{t('traders.dailyResetCountdownShort', { time: dailyReset.formatted })}</span>
+              </span>
+            </div>
+            <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">
+              {t('traders.bannerSubtitle')}
+            </p>
+            <div className="flex items-start gap-1.5 pt-1.5 border-t border-sky-500/15 text-[11px] text-amber-700 dark:text-amber-300">
+              <Sparkles size={13} className="text-amber-500 shrink-0 mt-0.5" />
+              <span>
+                <strong>{t('traders.nomadicEnvoyTitle')}:</strong> {t('traders.nomadicEnvoyNoticeShort')}.
+              </span>
+            </div>
+          </div>
           {groupKeys.map(groupName => {
             const groupList = groupedItems[groupName] || [];
             if (groupList.length === 0) return null;

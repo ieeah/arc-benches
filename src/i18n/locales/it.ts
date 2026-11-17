@@ -831,6 +831,8 @@ export const it = {
     "groupingEnable": "Raggruppa per tipo",
     "groupingDisable": "Disattiva raggruppamento per tipo",
     "coins": "Monete",
+    "seeds": "Semi",
+    "barter": "Baratto",
     "confirmAction": "Conferma Operazione",
     "restore": "Ripristina",
     "dayShort": "g",
@@ -908,6 +910,20 @@ export const it = {
       "name": "Albero delle Abilità",
       "description": "Skill tree a tridente dei Raiders, sinergie di ramo, milestone e calcolatore build."
     }
+  },
+  "traders": {
+    "title": "Commercianti di Speranza",
+    "dailyLimitNotice": "Ne puoi comprare {limit} al giorno",
+    "dailyLimitNoticeShort": "Max {limit} al giorno",
+    "dailyResetCountdown": "Si azzera tra {time} (00:00 UTC)",
+    "dailyResetCountdownShort": "Reset tra {time}",
+    "dailyResetTitle": "Reset scorte giornaliere",
+    "dailyResetAtUtc": "Reset alle 00:00 UTC",
+    "nomadicEnvoyTitle": "Cassio (Inviato Nomade)",
+    "nomadicEnvoyNotice": "Commerciante itinerante di superficie a rotazione settimanale. Baratta oggetti rari ed esclusivi (schemi, armi amplificate, cosmetici) in cambio di parti ARC e manufatti antichi.",
+    "nomadicEnvoyNoticeShort": "Rotazione settimanale a baratto di parti ARC",
+    "bannerTitle": "Commercianti & Scorte Giornaliere",
+    "bannerSubtitle": "Le scorte limitate si azzerano ogni giorno alle 00:00 UTC. Cassio opera a baratto settimanale."
   }
 };
 

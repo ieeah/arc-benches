@@ -117,7 +117,7 @@ const RequirementsGrid = ({
                   {traderPurchase !== null && (
                     <ShoppingCart size={10}
                       className="shrink-0 text-sky-500 dark:text-sky-400"
-                      aria-label={t('benches.purchasableFromTrader', { trader: getTraderDisplayName(traderPurchase.trader) })} />
+                      aria-label={t('benches.purchasableFromTrader', { trader: getTraderDisplayName(traderPurchase.trader, language) })} />
                   )}
                 </>
               )}

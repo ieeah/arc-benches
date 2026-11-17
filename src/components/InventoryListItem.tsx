@@ -194,10 +194,7 @@ export const InventoryListItem = ({
                       size="sm"
                       trader={traderPurchase.trader}
                       price={traderPurchase.price}
-                      title={t('stash.purchasableFromTrader', {
-                        trader: traderPurchase.trader,
-                        price: traderPurchase.price.toLocaleString(language),
-                      })}
+                      dailyLimit={traderPurchase.dailyLimit}
                     />
                   )}
                 </div>

@@ -14,6 +14,7 @@ import {
   FlaskConical,
   Home,
   Info,
+  Clock,
 } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import type { BaseItemDefinition } from '@/lib/baseItems';
@@ -26,7 +27,12 @@ import {
   type EvolutionStep,
   type RecyclingSource,
 } from '@/lib/recipes';
-import { getTraderPurchase, getTraderDisplayName } from '@/lib/traders';
+import {
+  getTraderPurchase,
+  getTraderDisplayName,
+  getTraderCurrency,
+  getTimeUntilDailyReset,
+} from '@/lib/traders';
 import { getLootAreas } from '@/lib/lootArea';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { useTranslation, getItemName } from '@/i18n';
@@ -58,6 +64,7 @@ export const ItemRecipeDetails = ({
   const recyclingSources = useMemo(() => getRecyclingSources(item.id), [item.id]);
   const lootAreas = useMemo(() => getLootAreas(item.loot_area, 13), [item.loot_area]);
   const traderPurchase = useMemo(() => getTraderPurchase(item.id), [item.id]);
+  const dailyReset = useMemo(() => getTimeUntilDailyReset(), []);
 
   const isBaseItem = Boolean(baseDef && baseDef.id === item.id);
   const evolution = useMemo(() => {
@@ -632,16 +639,43 @@ export const ItemRecipeDetails = ({
 
             {/* Acquisto Commerciante */}
             {traderPurchase !== null && (
-              <div className="p-2.5 rounded-xl bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800/60 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2">
-                  <ShoppingCart size={14} className="text-sky-600 dark:text-sky-400" />
-                  <span className="font-semibold text-sky-900 dark:text-sky-200">
-                    {getTraderDisplayName(traderPurchase.trader)}
+              <div className="p-3 rounded-2xl bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200/80 dark:border-sky-800/60 space-y-2 text-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <ShoppingCart size={15} className="text-sky-600 dark:text-sky-400 shrink-0" />
+                    <span className="font-semibold text-sky-900 dark:text-sky-200 truncate">
+                      {getTraderDisplayName(traderPurchase.trader, language)}
+                    </span>
+                    {getTraderCurrency(traderPurchase.trader) === 'seeds' && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-medium shrink-0">
+                        {t('common.seeds')}
+                      </span>
+                    )}
+                  </div>
+                  <span className="font-mono font-bold text-sky-700 dark:text-sky-300 shrink-0">
+                    {traderPurchase.price.toLocaleString(language)}{' '}
+                    {getTraderCurrency(traderPurchase.trader) === 'seeds'
+                      ? t('common.seeds')
+                      : getTraderCurrency(traderPurchase.trader) === 'barter'
+                        ? t('common.barter')
+                        : t('common.coins')}
                   </span>
                 </div>
-                <span className="font-mono font-bold text-sky-700 dark:text-sky-300">
-                  {traderPurchase.price.toLocaleString(language)} {t('common.coins')}
-                </span>
+
+                {traderPurchase.dailyLimit != null && (
+                  <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-sky-200/60 dark:border-sky-800/50 text-[11px]">
+                    <span className="inline-flex items-center gap-1 font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 px-2 py-0.5 rounded-lg border border-amber-200/60 dark:border-amber-800/50">
+                      {t('traders.dailyLimitNotice', { limit: traderPurchase.dailyLimit })}
+                    </span>
+                    <span
+                      className="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400"
+                      title={t('traders.dailyResetAtUtc')}
+                    >
+                      <Clock size={11} className="text-gray-400 shrink-0" />
+                      <span>{t('traders.dailyResetCountdown', { time: dailyReset.formatted })}</span>
+                    </span>
+                  </div>
+                )}
               </div>
             )}
 
