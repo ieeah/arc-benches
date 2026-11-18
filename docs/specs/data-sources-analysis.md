@@ -49,6 +49,11 @@ Poiché Embark Studios non fornisce attualmente un'API pubblica ufficiale per i 
 *   **Affidabilità:** **Altissima per i media e le icone di categoria / mappa**. Sfrutta la robusta API nativa di MediaWiki (`/w/api.php`) per l'interrogazione batch dei file multimediali ad alta risoluzione.
 *   **Ruolo nel progetto:** **Sorgente di asset grafici & icone di categoria**. Lo script `scripts/fetch-category-icons.mjs` interroga le API batch di MediaWiki e genera file `.webp` in `public/icons/categories/`.
 
+### ARC Raiders Maps (arcraidersmaps.app)
+*   **Cos'è:** Web application cartografica interattiva della community specializzata nei layout tattici delle mappe di gioco.
+*   **Affidabilità:** **Altissima per cartografia, layer multi-livello e POI**.
+*   **Ruolo nel progetto:** **Riferimento per coordinate cartografiche, POI tattici e layer dei livelli**. Fornisce la mappatura dei layer multi-piano (es. Stella Montis Lobby e Metro & Vault), i POI di estrazioni, casse, spawn, nemici e le aree di concentrazione loot. Compare tra le fonti nel footer dell'app e nella documentazione.
+
 ---
 
 ## 2. Sorgenti Secondarie / Alternative Tecniche

@@ -6,6 +6,7 @@ const SOURCES = [
   { label: 'ARDB', href: 'https://ardb.cc/' },
   { label: 'RaidTheory', href: 'https://raidtheory.com/' },
   { label: 'ARC Raiders Wiki', href: 'https://arc-raiders.fandom.com/' },
+  { label: 'ARC Raiders Maps', href: 'https://arcraidersmaps.app/' },
 ];
 
 export const AppFooter = () => {

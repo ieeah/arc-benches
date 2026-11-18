@@ -1,0 +1,1174 @@
+{
+  "A Bad Feeling": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "a-bad-feeling": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "A Balanced Harvest": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "a-balanced-harvest": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A Better Use": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "a-better-use": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "A Dead End": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "a-dead-end": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A First Foothold": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "a-first-foothold": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "A Lay of the Land": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "a-lay-of-the-land": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A New Type of Plant": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "a-new-type-of-plant": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A Path Not Yours": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "a-path-not-yours": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A Prime Specimen": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "a-prime-specimen": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A Reveal in Ruins": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "esr-analyzer": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "A Rising Tide": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "a-rising-tide": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "A Symbol of Unification": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "a-symbol-of-unification": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A Toxic Trail": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "a-toxic-trail": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "A Warm Place To Rest": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "a-warm-place-to-rest": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "A Wrench in the Works": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "a-wrench-in-the-works": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "After Rain Comes": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "after-rain-comes": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Armored Transports": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "armored-transports": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Back on Top": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "back-on-top": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Bait, Fetch, Blast": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "bait-fetch-blast": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Battening Down": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "battening-down": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Bees!": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "bees": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Belly of the Beast": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "belly-of-the-beast": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Boarding the Frigate": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "boarding-the-frigate": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Bombing Run": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "bombing-run": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Broken Monument": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "broken-monument": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Building a Library": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "building-a-library": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "Celeste’s Childhood Drawings": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "celestes-childhood-drawings": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Celeste’s Journals": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "celestes-journals": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "Celeste's Teenage Rebellion": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "celestes-teenage-rebellion": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Clamoring for Attention": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "clamoring-for-attention": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Clean Hands": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "clean-hands": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Clearer Skies": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "clearer-skies": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Cold Storage": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "cold-storage": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Collision Course": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "collision-course": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Combat Recon": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "combat-recon": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Communication Hideout": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "communication-hideout": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Deciphering The Data": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "deciphering-the-data": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Digging Up Dirt": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "digging-up-dirt": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Disrupting the Frigate": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "disrupting-the-frigate": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Divided": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "divided": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Doctor's Orders": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "doctors-orders": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Dormant Barons": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "dormant-barons": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Down to Earth": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "down-to-earth": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Dust on the Wires": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "dust-on-the-wires": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Echoes of Victory Ridge": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "echoes-of-victory-ridge": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Empathetic Prototypes": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "empathetic-prototypes": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Espresso": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "espresso": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Exploring Pendola Pass": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "exploring-pendola-pass": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Eyes in the Sky": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "eyes-in-the-sky": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Eyes on the Prize": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "eyes-on-the-prize": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Flickering Threat": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "flickering-threat": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Fragmented Logs": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "fragmented-logs": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Furtive Meetings": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "furtive-meetings": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Greasing Her Palms": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "greasing-her-palms": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Groundbreaking": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "groundbreaking": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Hatch Repairs": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "hatch-repairs": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Home to Roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "home-to-roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "In My Image": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "in-my-image": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Industrial Espionage": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "industrial-espionage": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Into the Fray": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "into-the-fray": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Keeping an Eye Out": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "keeping-an-eye-out": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Keeping the Memory": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "keeping-the-memory": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Last Entry": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "last-entry": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Life of a Pharmacist": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "life-of-a-pharmacist": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Line in the Sand": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "line-in-the-sand": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Lost in Transmission": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "lost-in-transmission": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Marked for Death": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "marked-for-death": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Market Correction": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "market-correction": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Medical Merchandise": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "medical-merchandise": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Mixed Signals": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "mixed-signals": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Movie Night": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "movie-night": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "Nothing Gained": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "nothing-gained": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Nothing Ventured": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "nothing-ventured": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Off The Radar": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "off-the-raider": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "On Deaf Ears": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "on-deaf-ears": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "On The Map": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "on-the-map": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Our Presence up There": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "our-presence-up-there": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Out of the Shadows": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "out-of-the-shadows": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Outstanding Balance": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "outstanding-balance": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Paving the Way": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "paving-the-way": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Picking Up The Pieces": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "picking-up-the-pieces": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Power Out": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "power-out": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Prescriptions of the Past": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "prescriptions-of-the-past": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Reduced to Rubble": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "reduced-to-rubble": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Ruins and Reverberations": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "ruins-and-reverberations": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Safe Harbor": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "safe-harbor": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Safe Passage": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "safe-passage": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Settled in Full": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "settled-in-full": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Shoring Up Defenses": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "shoring-up-defenses": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Sizing Things Up": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "sizing-things-up": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Snap and Salvage": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "snap-and-salvage": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Someone Else's Shoes": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "someone-elses-shoes": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Source of the Contamination": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "source-of-the-contamination": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Sparks Fly": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "sparks-fly": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Stable Housing": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "stable-housing": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Straight Record": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "straight-record": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Switching the Supply": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "switching-the-supply": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Taking Stock": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "taking-stock": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Test Case": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "test-case": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "The Clean Dream": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "the-clean-dream": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "The First Nomads": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "the-first-nomads": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "The League": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "the-league": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "The Major’s Footlocker": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "the-majors-footlocker": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "The Right Tool": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "the-right-tool": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "The Root of the Matter": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "the-root-of-the-matter": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "The Stench of Corruption": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "the-stench-of-corruption": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "The Trifecta": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "the-trifecta": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "To The Skies": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "to-the-skies": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Tracks of the Beast": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "tracks-of-the-beast": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "Trash Into Treasure": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "trash-into-treasure": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Tribute to Toledo": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "tribute-to-toledo": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Turnabout": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "turnabout": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Unexpected Initiative": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "unexpected-initiative": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "Untended Garden": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "untended-garden": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Waking the Grid": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "waking-the-grid": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Water Troubles": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "water-troubles": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "What Goes Around": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "what-goes-around": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "What We Left Behind": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "what-we-left-behind": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "When Everything Falls": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "when-everything-falls": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Wires Crossed": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "wires-crossed": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "With A Trace": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "with-a-trace": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "With a View": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "with-a-view": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Worth Your Salt": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "worth-your-salt": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Celeste's Journals": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "The Major's Footlocker": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A symbol of Unification": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Back On Top": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Our Presence Up There": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Eyes In The Sky": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Keeping The Memory": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Echoes Of Victory Ridge": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Paving The Way": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Source of Contamination": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "A New type Of Plant": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Marked For Death": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "A Reveal In Ruins": {
+    "isSequential": false,
+    "isSingleRaid": true
+  },
+  "Life Of A Pharmacist": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Eyes On The Prize": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Line In The Sand": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Lost In Transmission": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "A Lay Of The Land": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Prescription Of The Past": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Decipher The Data": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "The Stench Of Corruption": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Dust On The Wires": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Waking The Grid": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "A Wrench In the Works (1/2)": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "A Wrench In the Works (2/2)": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Reduced To Rubble": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Keeping An Eye Out": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Clamoring For Attention": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Armored Transport": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "P. 2 - Home To Roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "P. 1 - Home To Roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "P. 4 - Home To Roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "P. 3 - Home To Roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "P. 5 - Home To Roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "P. 7 - Home To Roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "P. 6 - Home To Roost": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Snap And Salvage": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "With A View": {
+    "isSequential": true,
+    "isSingleRaid": false
+  },
+  "Battening Down (3/3)": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Battening Down (1/3)": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Battening Down (2/3)": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Shoring Up Defenses (3/4)": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Shoring Up Defenses (4/4)": {
+    "isSequential": false,
+    "isSingleRaid": false
+  },
+  "Safe Harbor (3/3)": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Safe Harbor (2/3)": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Safe Harbor (1/3)": {
+    "isSequential": true,
+    "isSingleRaid": true
+  },
+  "Celeste's Childhood Drawings": {
+    "isSequential": true,
+    "isSingleRaid": false
+  }
+}

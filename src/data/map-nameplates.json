@@ -1,0 +1,1771 @@
+{
+  "dam": [
+    {
+      "title": "Hydrophonic Dome Complex",
+      "coordinate": [
+        2004.86,
+        1477.37
+      ],
+      "layer": "dam",
+      "icons": [
+        "nature.svg",
+        "industrial.svg",
+        "security.svg"
+      ]
+    },
+    {
+      "title": "Power Generation Complex",
+      "coordinate": [
+        2593.55,
+        1315.58
+      ],
+      "layer": "dam",
+      "icons": [
+        "industrial.svg",
+        "electrical.svg"
+      ]
+    },
+    {
+      "title": "Water Treatment",
+      "coordinate": [
+        1653.14,
+        2050.31
+      ],
+      "layer": "dam",
+      "icons": [
+        "industrial.svg",
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Testing Annex",
+      "coordinate": [
+        2572.41,
+        2549.87
+      ],
+      "layer": "dam",
+      "icons": [
+        "medical.svg",
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "Research & Administration",
+      "coordinate": [
+        2178.75,
+        2223.55
+      ],
+      "layer": "dam",
+      "icons": [
+        "technological.svg",
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "Control Tower",
+      "coordinate": [
+        2249.25,
+        2144.42
+      ],
+      "layer": "dam",
+      "icons": [
+        "technological.svg",
+        "security.svg"
+      ]
+    },
+    {
+      "title": "Old Battlegrounds",
+      "coordinate": [
+        1307.85,
+        1688.09
+      ],
+      "layer": "dam",
+      "icons": [
+        "ARC.svg"
+      ]
+    },
+    {
+      "title": "Primary Facility",
+      "coordinate": [
+        2100.93,
+        2146.65
+      ],
+      "layer": "dam",
+      "icons": [
+        "mechanical.svg",
+        "industrial.svg"
+      ]
+    },
+    {
+      "title": "Electrical Substation",
+      "coordinate": [
+        1653.28,
+        2412.01
+      ],
+      "layer": "dam",
+      "icons": [
+        "electrical.svg"
+      ]
+    },
+    {
+      "title": "Pale Apartments",
+      "coordinate": [
+        1336.2,
+        1339.25
+      ],
+      "layer": "dam",
+      "icons": [
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Ruby Residence",
+      "coordinate": [
+        1590.01,
+        1163.71
+      ],
+      "layer": "dam",
+      "icons": [
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Pattern House",
+      "coordinate": [
+        2478,
+        1025.06
+      ],
+      "layer": "dam",
+      "icons": [
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "South Swamp Outpost",
+      "coordinate": [
+        1227.2,
+        2107.14
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Water Towers",
+      "coordinate": [
+        1427.15,
+        2587.2
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Formicai Outpost",
+      "coordinate": [
+        2020.39,
+        3033.15
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Electrical Tower",
+      "coordinate": [
+        2870.42,
+        2551.97
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "East Broken Bridge",
+      "coordinate": [
+        3078.16,
+        1481
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "West Broken Bridge",
+      "coordinate": [
+        2150.05,
+        979.69
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Raider Outpost East",
+      "coordinate": [
+        2907.37,
+        1303.65
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Pipeline Tower",
+      "coordinate": [
+        2593,
+        1572.9
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "The Breach",
+      "coordinate": [
+        2367.7,
+        1700.83
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Red Lakes Balcony",
+      "coordinate": [
+        2538.94,
+        2375.86
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Small Creek",
+      "coordinate": [
+        2120.47,
+        2473.39
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Wreckage",
+      "coordinate": [
+        2238.34,
+        2755.18
+      ],
+      "layer": "dam",
+      "icons": []
+    },
+    {
+      "title": "Scrap Yard",
+      "coordinate": [
+        2025.39,
+        2730.35
+      ],
+      "layer": "dam",
+      "icons": [
+        "mechanical.svg",
+        "industrial.svg"
+      ]
+    },
+    {
+      "title": "Controlled Access Zone",
+      "coordinate": [
+        2408.36,
+        1464.78
+      ],
+      "layer": "dam",
+      "icons": [
+        "ARC.svg",
+        "mechanical.svg"
+      ]
+    }
+  ],
+  "spaceport": [
+    {
+      "title": "Departure Building",
+      "coordinate": [
+        1627.15,
+        1846.31
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "commercial.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Launch Towers",
+      "coordinate": [
+        1951.63,
+        1785.23
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "technological.svg",
+        "security.svg"
+      ]
+    },
+    {
+      "title": "Arrival Building",
+      "coordinate": [
+        1630.81,
+        1444.08
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "commercial.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Shipping warehouse",
+      "coordinate": [
+        1840.74,
+        1212.81
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "industrial.svg",
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "North Trench Tower",
+      "coordinate": [
+        2239.35,
+        1196.23
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "South Trench Tower",
+      "coordinate": [
+        2172.09,
+        1279.07
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Rocket Assembly",
+      "coordinate": [
+        2508.3,
+        1784.51
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "ARC.svg",
+        "industrial.svg"
+      ]
+    },
+    {
+      "title": "Fuel Control",
+      "coordinate": [
+        2393.54,
+        1641.07
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "mechanical.svg",
+        "electrical.svg"
+      ]
+    },
+    {
+      "title": "Container Storage",
+      "coordinate": [
+        2393.08,
+        2270.64
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "industrial.svg",
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Vehicle Maintenance",
+      "coordinate": [
+        2108.19,
+        2360.62
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "mechanical.svg",
+        "industrial.svg"
+      ]
+    },
+    {
+      "title": "Control Tower A6",
+      "coordinate": [
+        2096.96,
+        2171.22
+      ],
+      "layer": "spaceport",
+      "icons": [
+        "technological.svg",
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "East Plains Warehouse",
+      "coordinate": [
+        2919.22,
+        1864.58
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Little Hangar",
+      "coordinate": [
+        2696.8,
+        1466.17
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "The Trench",
+      "coordinate": [
+        2301.7,
+        1360.46
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "East Hangar",
+      "coordinate": [
+        2435.93,
+        1189.33
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "West Hangar",
+      "coordinate": [
+        2207.76,
+        1021.54
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Jiangsu Warehouse",
+      "coordinate": [
+        1120.17,
+        1224.77
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Fuel Depot",
+      "coordinate": [
+        1286.78,
+        1049.21
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Fuel Processing",
+      "coordinate": [
+        1154.04,
+        2094.68
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Water Towers",
+      "coordinate": [
+        817.88,
+        1583.89
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Fuel Lines",
+      "coordinate": [
+        1572.02,
+        2220.41
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Maintenance Hangar",
+      "coordinate": [
+        1888.89,
+        2735.35
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Fuel Storage",
+      "coordinate": [
+        1440.08,
+        2768.88
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Staff Parking",
+      "coordinate": [
+        2268.89,
+        2895.6
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Electrical Substation",
+      "coordinate": [
+        2304.94,
+        3147.27
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Security Checkpoint",
+      "coordinate": [
+        2584.3,
+        2981.18
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Service Buildings",
+      "coordinate": [
+        2939.99,
+        2811.75
+      ],
+      "layer": "spaceport",
+      "icons": []
+    },
+    {
+      "title": "Communications Tower",
+      "coordinate": [
+        2966.86,
+        2413.29
+      ],
+      "layer": "spaceport",
+      "icons": []
+    }
+  ],
+  "buried-city": [
+    {
+      "title": "Library",
+      "coordinate": [
+        1744.55,
+        1426
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "commercial.svg",
+        "old-world.svg"
+      ]
+    },
+    {
+      "title": "Hospital",
+      "coordinate": [
+        2078.62,
+        1153.54
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "medical.svg"
+      ]
+    },
+    {
+      "title": "Parking Garage",
+      "coordinate": [
+        2233.81,
+        1501.4
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Galleria",
+      "coordinate": [
+        2596.05,
+        1475.11
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "Space Travel",
+      "coordinate": [
+        2386.29,
+        1692.43
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "commercial.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Research",
+      "coordinate": [
+        2272.83,
+        1771.98
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "medical.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Town Hall",
+      "coordinate": [
+        2248.26,
+        2224.06
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "old-world.svg"
+      ]
+    },
+    {
+      "title": "Marano Park",
+      "coordinate": [
+        1994.4,
+        1860.4
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "nature.svg"
+      ]
+    },
+    {
+      "title": "Plaza Rosa",
+      "coordinate": [
+        2078.37,
+        3057.86
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "medical.svg",
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "Grandioso Apartments",
+      "coordinate": [
+        1181.22,
+        2682.19
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Santa Maria Houses",
+      "coordinate": [
+        1964.14,
+        2663.25
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "residential.svg",
+        "old-world.svg"
+      ]
+    },
+    {
+      "title": "Outskirts",
+      "coordinate": [
+        999.4,
+        1582.6
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "industrial.svg",
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Piazza Arbusto",
+      "coordinate": [
+        2853.1,
+        2581.07
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "medical.svg",
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "Red Tower",
+      "coordinate": [
+        2433.59,
+        2873.1
+      ],
+      "layer": "buried-city",
+      "icons": [
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Piazza Roma",
+      "coordinate": [
+        1519.52,
+        1990.06
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Dunes End",
+      "coordinate": [
+        2647.71,
+        1153.37
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Market Ruins",
+      "coordinate": [
+        2303.19,
+        1086.34
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Gas Station",
+      "coordinate": [
+        1973.75,
+        621.6
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Su Durante Warehouses",
+      "coordinate": [
+        1503.89,
+        749.65
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Buried Properties",
+      "coordinate": [
+        2850.6,
+        2036.12
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Church Ruins",
+      "coordinate": [
+        3070.58,
+        3267.16
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Main Street",
+      "coordinate": [
+        1950.05,
+        2908.55
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Abandoned Highway Camp",
+      "coordinate": [
+        1322.73,
+        2918.3
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Maintenance Depot",
+      "coordinate": [
+        622.69,
+        2664.98
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Warehouse",
+      "coordinate": [
+        776.09,
+        1804.89
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Marano Station",
+      "coordinate": [
+        1268.53,
+        1489.96
+      ],
+      "layer": "buried-city",
+      "icons": []
+    },
+    {
+      "title": "Corso Da Vinci",
+      "coordinate": [
+        1979.74,
+        2454.83
+      ],
+      "layer": "buried-city",
+      "icons": []
+    }
+  ],
+  "blue-gate": [
+    {
+      "title": "Security Wing",
+      "coordinate": [
+        2091.86,
+        1707.47
+      ],
+      "layer": "underground",
+      "icons": [
+        "security.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Traffic Tunnel",
+      "coordinate": [
+        2308.75,
+        1642.85
+      ],
+      "layer": "underground",
+      "icons": [
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Maintenance Wing",
+      "coordinate": [
+        2454.14,
+        1903.06
+      ],
+      "layer": "underground",
+      "icons": [
+        "mechanical.svg",
+        "electrical.svg"
+      ]
+    },
+    {
+      "title": "Trapper's Glade",
+      "coordinate": [
+        1407.75,
+        1841.8
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "nature.svg"
+      ]
+    },
+    {
+      "title": "Raider's Refuge",
+      "coordinate": [
+        1410.9,
+        1681.88
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Adorned Wreckage",
+      "coordinate": [
+        1261.18,
+        2003.33
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "mechanical.svg",
+        "industrial.svg"
+      ]
+    },
+    {
+      "title": "Village",
+      "coordinate": [
+        1730.2,
+        1457.84
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "commercial.svg",
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Checkpoint",
+      "coordinate": [
+        2002.56,
+        2045.21
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Warehouse Complex",
+      "coordinate": [
+        2427.22,
+        1895.66
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "industrial.svg"
+      ]
+    },
+    {
+      "title": "Gate Control Room",
+      "coordinate": [
+        2322.45,
+        1994.16
+      ],
+      "layer": "blue-gate",
+      "icons": []
+    },
+    {
+      "title": "Headhouse",
+      "coordinate": [
+        2308.8,
+        1663.68
+      ],
+      "layer": "blue-gate",
+      "icons": []
+    },
+    {
+      "title": "Reinforced Reception",
+      "coordinate": [
+        2080.6,
+        1589.43
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "security.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Data Vault",
+      "coordinate": [
+        2472.84,
+        1463.56
+      ],
+      "layer": "blue-gate",
+      "icons": []
+    },
+    {
+      "title": "Maintenance Bunker",
+      "coordinate": [
+        2224.08,
+        2428.66
+      ],
+      "layer": "blue-gate",
+      "icons": []
+    },
+    {
+      "title": "Broken Earth",
+      "coordinate": [
+        2286.23,
+        2545.07
+      ],
+      "layer": "blue-gate",
+      "icons": []
+    },
+    {
+      "title": "Highway Collapse",
+      "coordinate": [
+        1541.98,
+        2513.61
+      ],
+      "layer": "blue-gate",
+      "icons": []
+    },
+    {
+      "title": "Olive Grove",
+      "coordinate": [
+        1817.88,
+        2553.98
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "nature.svg"
+      ]
+    },
+    {
+      "title": "Ruined Homestead",
+      "coordinate": [
+        1970.01,
+        2628.85
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "old-world.svg",
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Ancient Fort",
+      "coordinate": [
+        2142.05,
+        2880.79
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "old-world.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Ridgeline",
+      "coordinate": [
+        2774.23,
+        2246.83
+      ],
+      "layer": "blue-gate",
+      "icons": []
+    },
+    {
+      "title": "Abandoned Housing Project",
+      "coordinate": [
+        2870.68,
+        2005.86
+      ],
+      "layer": "blue-gate",
+      "icons": []
+    },
+    {
+      "title": "Barren Clearing",
+      "coordinate": [
+        1150.29,
+        1564.9
+      ],
+      "layer": "blue-gate",
+      "icons": [
+        "ARC.svg"
+      ]
+    }
+  ],
+  "stella-montis": [
+    {
+      "title": "Assembly Workshops",
+      "coordinate": [
+        1236.33,
+        1024.79
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Assembly",
+      "coordinate": [
+        1161.39,
+        1480.7
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "technological.svg",
+        "exodus.svg"
+      ]
+    },
+    {
+      "title": "Lobby",
+      "coordinate": [
+        2535.94,
+        1574.37
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "security.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Business Center",
+      "coordinate": [
+        3061.09,
+        1788.72
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "exodus.svg",
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "Cultural Archives",
+      "coordinate": [
+        3271.2,
+        2256.89
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "old-world.svg"
+      ]
+    },
+    {
+      "title": "Atrium",
+      "coordinate": [
+        2510.31,
+        2486.27
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "Communications",
+      "coordinate": [
+        2639.57,
+        2167.45
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "electrical.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Loading Bay",
+      "coordinate": [
+        1505.94,
+        2085.74
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "industrial.svg"
+      ]
+    },
+    {
+      "title": "Medical Research",
+      "coordinate": [
+        790.27,
+        2270.98
+      ],
+      "layer": "stella-montis-l2",
+      "icons": [
+        "medical.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Assembly Line",
+      "coordinate": [
+        899.95,
+        1284.41
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Central Corridor",
+      "coordinate": [
+        1532.76,
+        1628.68
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Security Bridge",
+      "coordinate": [
+        2518.73,
+        1386.22
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Auditorium",
+      "coordinate": [
+        2962.43,
+        1961.48
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Business Lounge",
+      "coordinate": [
+        3240.2,
+        2007.19
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Storage Room",
+      "coordinate": [
+        3789.03,
+        1832.31
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Cafetaria",
+      "coordinate": [
+        2227.12,
+        2386.39
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Cargo Dock B",
+      "coordinate": [
+        1659.63,
+        2345.37
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Cargo Dock A",
+      "coordinate": [
+        1310.37,
+        2153.19
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Viewing Deck",
+      "coordinate": [
+        467.45,
+        2427.22
+      ],
+      "layer": "stella-montis-l2",
+      "icons": []
+    },
+    {
+      "title": "Western Tunnel",
+      "coordinate": [
+        1691.52,
+        1378.33
+      ],
+      "layer": "stella-montis-l1",
+      "icons": [
+        "electrical.svg"
+      ]
+    },
+    {
+      "title": "Eastern Tunnel",
+      "coordinate": [
+        3176.49,
+        2324.7
+      ],
+      "layer": "stella-montis-l1",
+      "icons": [
+        "electrical.svg",
+        "old-world.svg"
+      ]
+    },
+    {
+      "title": "Lobby Metro",
+      "coordinate": [
+        2489.23,
+        1329.86
+      ],
+      "layer": "stella-montis-l1",
+      "icons": [
+        "industrial.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Seed Vault",
+      "coordinate": [
+        3032.08,
+        3159.28
+      ],
+      "layer": "stella-montis-l1",
+      "icons": [
+        "industrial.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Sandbox",
+      "coordinate": [
+        2112.78,
+        2128.25
+      ],
+      "layer": "stella-montis-l1",
+      "icons": [
+        "mechanical.svg",
+        "technological.svg"
+      ]
+    },
+    {
+      "title": "Loading Bay",
+      "coordinate": [
+        1496.5,
+        2037.7
+      ],
+      "layer": "stella-montis-l1",
+      "icons": [
+        "industrial.svg"
+      ]
+    },
+    {
+      "title": "Collapsed Tunnel",
+      "coordinate": [
+        1615.46,
+        1289.46
+      ],
+      "layer": "stella-montis-l1",
+      "icons": []
+    },
+    {
+      "title": "Robotic Sandbox B",
+      "coordinate": [
+        2103.69,
+        2772.45
+      ],
+      "layer": "stella-montis-l1",
+      "icons": []
+    },
+    {
+      "title": "Control Room",
+      "coordinate": [
+        2100.88,
+        2422.68
+      ],
+      "layer": "stella-montis-l1",
+      "icons": []
+    }
+  ],
+  "riven-tides": [
+    {
+      "title": "Hotel Panorama Azzurro",
+      "coordinate": [
+        1051.56,
+        2511.27
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "commercial.svg",
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Azzurro Beach",
+      "coordinate": [
+        1008.84,
+        1996.67
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Seabed",
+      "coordinate": [
+        1406.77,
+        1622.93
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "nature.svg"
+      ]
+    },
+    {
+      "title": "Port Authority Building",
+      "coordinate": [
+        1780.5,
+        1773.06
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "technological.svg",
+        "exodus.svg"
+      ]
+    },
+    {
+      "title": "Wreckage",
+      "coordinate": [
+        2125.77,
+        1821.67
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "ARC.svg"
+      ]
+    },
+    {
+      "title": "Stacking Yard",
+      "coordinate": [
+        2663.15,
+        2149.1
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "industrial.svg",
+        "exodus.svg"
+      ]
+    },
+    {
+      "title": "Weighing Checkpoint",
+      "coordinate": [
+        2547.21,
+        2709.18
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "industrial.svg",
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Customs House",
+      "coordinate": [
+        2023.82,
+        3046.49
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "industrial.svg",
+        "electrical.svg"
+      ]
+    },
+    {
+      "title": "Dried Riverbed",
+      "coordinate": [
+        1452.27,
+        3044
+      ],
+      "layer": "riven-tides",
+      "icons": [
+        "nature.svg"
+      ]
+    },
+    {
+      "title": "Wharf",
+      "coordinate": [
+        1336.19,
+        2083.6
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    },
+    {
+      "title": "Wavebreaker",
+      "coordinate": [
+        2542.48,
+        1560.18
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    },
+    {
+      "title": "Quay",
+      "coordinate": [
+        3175.93,
+        2064.75
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    },
+    {
+      "title": "Marano Road",
+      "coordinate": [
+        2745.64,
+        3149.63
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    },
+    {
+      "title": "Railyard",
+      "coordinate": [
+        2327.1,
+        2620.83
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    },
+    {
+      "title": "Special Handling Tunnel",
+      "coordinate": [
+        2277.44,
+        2914.25
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    },
+    {
+      "title": "Tennis Court",
+      "coordinate": [
+        895.89,
+        3013.87
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    },
+    {
+      "title": "Poolside",
+      "coordinate": [
+        690.78,
+        2489.7
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    },
+    {
+      "title": "Beach Bar",
+      "coordinate": [
+        1001.55,
+        2361.54
+      ],
+      "layer": "riven-tides",
+      "icons": []
+    }
+  ],
+  "pendola-pass": [
+    {
+      "title": "Deep-Space Telescope",
+      "coordinate": [
+        2950,
+        1260
+      ],
+      "layer": "surface",
+      "icons": [
+        "exodus.svg"
+      ]
+    },
+    {
+      "title": "Cielo Sereno Observatory",
+      "coordinate": [
+        2955,
+        1520
+      ],
+      "layer": "surface",
+      "icons": [
+        "technological.svg",
+        "exodus.svg"
+      ]
+    },
+    {
+      "title": "Railroad Junction",
+      "coordinate": [
+        2437,
+        1803
+      ],
+      "layer": "surface",
+      "icons": [
+        "mechanical.svg",
+        "electrical.svg"
+      ]
+    },
+    {
+      "title": "Commissary Supermarket",
+      "coordinate": [
+        2079,
+        2264
+      ],
+      "layer": "surface",
+      "icons": [
+        "commercial.svg",
+        "medical.svg"
+      ]
+    },
+    {
+      "title": "Frozen River",
+      "coordinate": [
+        2225,
+        1667
+      ],
+      "layer": "surface",
+      "icons": [
+        "nature.svg"
+      ]
+    },
+    {
+      "title": "Almatera Station",
+      "coordinate": [
+        1849,
+        1772
+      ],
+      "layer": "surface",
+      "icons": [
+        "commercial.svg"
+      ]
+    },
+    {
+      "title": "Railyard",
+      "coordinate": [
+        2617,
+        2524
+      ],
+      "layer": "surface",
+      "icons": [
+        "industrial.svg",
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Piazza della Rupe",
+      "coordinate": [
+        1583,
+        2166
+      ],
+      "layer": "surface",
+      "icons": [
+        "industrial.svg",
+        "mechanical.svg"
+      ]
+    },
+    {
+      "title": "Old Town",
+      "coordinate": [
+        1405,
+        2559
+      ],
+      "layer": "surface",
+      "icons": [
+        "residential.svg",
+        "old-world.svg"
+      ]
+    },
+    {
+      "title": "Reasearch Loggings",
+      "coordinate": [
+        2094,
+        869
+      ],
+      "layer": "surface",
+      "icons": [
+        "residential.svg"
+      ]
+    },
+    {
+      "title": "Loading Platforms",
+      "coordinate": [
+        2874,
+        2934
+      ],
+      "layer": "surface",
+      "icons": [
+        "industrial.svg",
+        "exodus.svg"
+      ]
+    },
+    {
+      "title": "Fallen Emperor",
+      "coordinate": [
+        1093,
+        2090
+      ],
+      "layer": "surface",
+      "icons": [
+        "ARC.svg"
+      ]
+    },
+    {
+      "title": "Old Hamlet",
+      "coordinate": [
+        2728,
+        3574
+      ],
+      "layer": "surface",
+      "icons": [
+        "old-world.svg"
+      ]
+    },
+    {
+      "title": "Dispatch Tower",
+      "coordinate": [
+        1923,
+        1380
+      ],
+      "layer": "surface",
+      "icons": []
+    },
+    {
+      "title": "Porta Benvuneti",
+      "coordinate": [
+        1645,
+        1668
+      ],
+      "layer": "surface",
+      "icons": []
+    },
+    {
+      "title": "Electrical Substation",
+      "coordinate": [
+        3006,
+        3476
+      ],
+      "layer": "surface",
+      "icons": []
+    },
+    {
+      "title": "Weather Station",
+      "coordinate": [
+        2951,
+        2056
+      ],
+      "layer": "surface",
+      "icons": []
+    },
+    {
+      "title": "Controlled Receiving Facility",
+      "coordinate": [
+        2709,
+        2403
+      ],
+      "layer": "surface",
+      "icons": []
+    },
+    {
+      "title": "Transit Tunnel",
+      "coordinate": [
+        2098,
+        2680
+      ],
+      "layer": "surface",
+      "icons": []
+    },
+    {
+      "title": "Truck Stop",
+      "coordinate": [
+        2370,
+        3444
+      ],
+      "layer": "surface",
+      "icons": []
+    }
+  ]
+}

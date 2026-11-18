@@ -51,6 +51,7 @@ I dati sono file JSON statici inclusi nel bundle: nessuna chiamata di rete a run
 - `src/data/recipes.json`: 599 ricette ufficiali di costruzione, upgrade di livello I→IV, riparazione e riciclo/smantellamento estratte da [ARC Tracker](https://arctracker.io/).
 - `src/data/quests.json` e `quests-source.json`: 123 quest dei commercianti con grafo di dipendenze, prerequisiti, obiettivi e ricompense.
 - `src/data/skills.json` e `public/icons/skills/`: nodi, prerequisiti, coordinate e icone dello Skill Tree estratti da RaidTheory e Wiki.
+- `src/data/maps.json`, `map-pois.json`, `map-nameplates.json`, `map-areas.json`: dataset cartografico, layer tattici multi-livello, POI e aree di concentrazione loot per le 7 mappe di gioco referenziati da [ARC Raiders Maps](https://arcraidersmaps.app/).
 - `src/data/workbenches.json`, `projects.json`, `expeditions.json`, `passes.json`, `traders.json`: liste di gioco, Outpost, spedizioni, tracce dei pass e catalogo dei commercianti.
 
 I dati cambiano con le patch del gioco; l'aggiornamento avviene tramite gli script dedicati in `scripts/`:
