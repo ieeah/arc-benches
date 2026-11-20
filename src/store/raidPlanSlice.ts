@@ -2,6 +2,7 @@ import type { StateCreator } from 'zustand';
 import type { AppState, RaidPlanState } from '@/types';
 import { bootProfileState } from '@/store/boot';
 import { generateUUID } from '@/lib/uuid';
+import { applyRaidPlanToStashPure, syncRaidWithStashPure } from '@/engine/raidPlan';
 
 export type RaidPlanSlice = Pick<
   AppState,
@@ -219,64 +220,21 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
   applyRaidPlanToStash: () => {
     const s = get();
     const totalRequired = s.getTotalRequiredMaterials();
-    const updatedInventory = { ...s.inventory };
-    let addedItemsCount = 0;
-
-    const remainingItems: typeof s.raidPlan.items = [];
-
-    for (const item of s.raidPlan.items) {
-      const isNeeded = (totalRequired[item.itemId] ?? 0) > 0;
-      if (!isNeeded) {
-        // Oggetto non richiesto dallo Stash: non viene versato né scalato
-        remainingItems.push(item);
-        continue;
-      }
-
-      if (item.foundQuantity > 0) {
-        updatedInventory[item.itemId] = (updatedInventory[item.itemId] ?? 0) + item.foundQuantity;
-        addedItemsCount += item.foundQuantity;
-      }
-
-      if (item.foundQuantity >= item.targetQuantity) {
-        // Rimuovi item dal raid (raggiunto o superato)
-        continue;
-      } else if (item.foundQuantity > 0) {
-        // Trovato parzialmente: scala targetQuantity, resetta foundQuantity a 0
-        const nextTarget = Math.max(1, item.targetQuantity - item.foundQuantity);
-        const nextBaseTarget = item.fromStash
-          ? Math.max(0, (item.stashBaseTarget ?? item.targetQuantity) - item.foundQuantity)
-          : 0;
-        const stillLinkedToStash = Boolean(item.fromStash && nextBaseTarget > 0);
-
-        remainingItems.push({
-          ...item,
-          targetQuantity: nextTarget,
-          fromStash: stillLinkedToStash,
-          stashBaseTarget: stillLinkedToStash ? nextBaseTarget : undefined,
-          foundQuantity: 0,
-        });
-      } else {
-        // Nessun progresso trovato: rimane invariato
-        remainingItems.push(item);
-      }
-    }
-
-    // Rimuove azioni completate, mantiene quelle incompiute
-    const remainingActions = s.raidPlan.actions.filter(a => !a.completed);
+    const result = applyRaidPlanToStashPure(s.raidPlan, s.inventory, totalRequired);
 
     set({
-      inventory: updatedInventory,
+      inventory: result.inventory,
       raidPlan: {
         ...s.raidPlan,
-        actions: remainingActions,
-        items: remainingItems,
+        actions: result.actions,
+        items: result.items,
         updatedAt: Date.now(),
       },
     });
 
     return {
-      addedItemsCount,
-      remainingItemsCount: remainingItems.length,
+      addedItemsCount: result.addedItemsCount,
+      remainingItemsCount: result.remainingItemsCount,
     };
   },
 
@@ -328,30 +286,7 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
   syncRaidWithStash: () => {
     const s = get();
     const totalRequired = s.getTotalRequiredMaterials();
-    const syncedItems: typeof s.raidPlan.items = [];
-
-    for (const item of s.raidPlan.items) {
-      if (!item.fromStash) {
-        // Aggiunto ex novo nel Raid: non viene toccato dallo Stash
-        syncedItems.push(item);
-        continue;
-      }
-
-      const neededNow = Math.max(0, (totalRequired[item.itemId] ?? 0) - (s.inventory[item.itemId] ?? 0));
-      const baseTarget = item.stashBaseTarget ?? item.targetQuantity;
-      const manualDelta = item.targetQuantity - baseTarget;
-      const newTarget = Math.max(0, neededNow + manualDelta);
-
-      if (newTarget > 0) {
-        syncedItems.push({
-          ...item,
-          targetQuantity: newTarget,
-          foundQuantity: Math.min(item.foundQuantity, newTarget),
-          fromStash: neededNow > 0,
-          stashBaseTarget: neededNow > 0 ? neededNow : undefined,
-        });
-      }
-    }
+    const syncedItems = syncRaidWithStashPure(s.raidPlan.items, s.inventory, totalRequired);
 
     set({
       raidPlan: {

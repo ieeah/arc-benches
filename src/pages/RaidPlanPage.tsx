@@ -16,6 +16,7 @@ import { RaidItemCard } from '@/components/RaidItemCard';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { Button, Callout, EmptyState } from '@/components/ui';
 import { getAllListsPure, getTotalRequiredMaterialsPure, getActiveExpeditionPure } from '@/store/selectors';
+import { computeStashDiffPure } from '@/engine/raidPlan';
 import { isSectionActive } from '@/lib/sections';
 import type { ItemInfo } from '@/types';
 
@@ -225,31 +226,10 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
 
   useSetFloatingNavDock(dockConfig);
 
-  const stashTrackedItems = useMemo(() => items.filter(i => i.fromStash), [items]);
-
-  const currentStashSnapshot = useMemo(() => {
-    const snap: Record<string, number> = {};
-    for (const item of stashTrackedItems) {
-      snap[item.itemId] = inventory[item.itemId] ?? 0;
-    }
-    return snap;
-  }, [stashTrackedItems, inventory]);
-
-  const hasStashDiff = useMemo(() => {
-    return stashTrackedItems.some(item => {
-      const neededNow = Math.max(0, (totalMaterials[item.itemId] ?? 0) - (inventory[item.itemId] ?? 0));
-      const baseTarget = item.stashBaseTarget ?? item.targetQuantity;
-      return neededNow !== baseTarget;
-    });
-  }, [stashTrackedItems, totalMaterials, inventory]);
-
-  const isDiffIgnored = useMemo(() => {
-    const ignored = raidPlan.ignoredStashSnapshot;
-    if (!ignored) return false;
-    return stashTrackedItems.every(item => (inventory[item.itemId] ?? 0) === ignored[item.itemId]);
-  }, [raidPlan.ignoredStashSnapshot, stashTrackedItems, inventory]);
-
-  const showStashDiffBanner = hasStashDiff && !isDiffIgnored;
+  const { currentStashSnapshot, showStashDiffBanner } = useMemo(
+    () => computeStashDiffPure(items, inventory, totalMaterials, raidPlan.ignoredStashSnapshot),
+    [items, inventory, totalMaterials, raidPlan.ignoredStashSnapshot],
+  );
 
   const handleAddAction = (e?: React.FormEvent) => {
     if (e) e.preventDefault();

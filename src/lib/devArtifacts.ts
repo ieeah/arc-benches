@@ -12,18 +12,12 @@ import featureFlagsSeed from '@/data/feature-flags.json';
 import { DRAFT_STORAGE_KEY, getInitialData } from '@/hooks/dev/useDevListDrafts';
 import { clearNavDraft, getSeedNavConfig, readNavDraft } from '@/lib/navTree';
 import { getFeatureFlags, hasCustomFeatureFlags, resetFeatureFlags } from '@/lib/featureFlags';
-import holdConfigSeed from '@/data/hold-config.json';
 import itemVariantsSeed from '@/data/item-variants.json';
 import {
   getItemVariantsData,
   hasItemVariantsDraft,
   clearItemVariantsDraft,
 } from '@/lib/baseItems';
-import {
-  getHoldConfigSerializable,
-  hasCustomHoldConfig,
-  resetHoldConfigOverride,
-} from '@/lib/holdConfig';
 import {
   CUSTOM_ITEMS_FILE,
   CUSTOM_ITEMS_ICONS_DIR,
@@ -200,18 +194,6 @@ const flagsArtifact: DevArtifact = {
   afterApply: resetFeatureFlags,
 };
 
-const holdConfigArtifact: DevArtifact = {
-  id: 'hold-config',
-  file: 'src/data/hold-config.json',
-  label: 'Tempi Interazioni & Uscita (Hold/Stepper)',
-  route: 'dev-hold',
-  isModified: hasCustomHoldConfig,
-  build: () => json(getHoldConfigSerializable()),
-  baseline: () => JSON.stringify(holdConfigSeed),
-  reset: resetHoldConfigOverride,
-  afterApply: resetHoldConfigOverride,
-};
-
 const itemVariantsArtifact: DevArtifact = {
   id: 'item-variants',
   file: 'src/data/item-variants.json',
@@ -247,7 +229,6 @@ export function getDevArtifacts(): DevArtifact[] {
     flagsArtifact,
     localeArtifact('it'),
     localeArtifact('en'),
-    holdConfigArtifact,
     itemVariantsArtifact,
   ];
 }

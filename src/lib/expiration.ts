@@ -1,15 +1,7 @@
-import type { List } from '@/types';
 import { translate } from '@/i18n';
+import { getTimeRemainingPure, isListExpired } from '@/engine/expeditions';
 
-/**
- * Checks whether a list has an expiration date and that date is in the past.
- */
-export function isListExpired(list: Pick<List, 'expirationDate'>, now: number = Date.now()): boolean {
-  if (!list.expirationDate) return false;
-  const exp = new Date(list.expirationDate).getTime();
-  if (isNaN(exp)) return false;
-  return exp <= now;
-}
+export { isListExpired };
 
 export type TimeRemainingInfo = {
   isExpired: boolean;
@@ -26,16 +18,11 @@ export function formatTimeRemaining(
   language: string = 'it',
   now: number = Date.now(),
 ): TimeRemainingInfo {
-  if (!expirationDate) {
+  const remaining = getTimeRemainingPure(expirationDate, now);
+  if (remaining.status === 'none') {
     return { isExpired: false, text: '', urgent: false, warning: false };
   }
-  const exp = new Date(expirationDate).getTime();
-  if (isNaN(exp)) {
-    return { isExpired: false, text: '', urgent: false, warning: false };
-  }
-
-  const diff = exp - now;
-  if (diff <= 0) {
+  if (remaining.status === 'expired') {
     return {
       isExpired: true,
       text: translate(language, 'lists.expired'),
@@ -44,29 +31,20 @@ export function formatTimeRemaining(
     };
   }
 
-  const totalMinutes = Math.floor(diff / (1000 * 60));
-  const totalHours = Math.floor(diff / (1000 * 60 * 60));
-  const days = Math.floor(totalHours / 24);
-  const hours = totalHours % 24;
-  const minutes = totalMinutes % 60;
-
   let text = '';
   const dayUnit = translate(language, 'common.dayShort') || 'd';
-  if (days >= 1) {
-    text = `${days}${dayUnit} ${hours}h`;
-  } else if (totalHours >= 1) {
-    text = `${hours}h ${minutes}m`;
+  if (remaining.days >= 1) {
+    text = `${remaining.days}${dayUnit} ${remaining.hours}h`;
+  } else if (remaining.totalHours >= 1) {
+    text = `${remaining.hours}h ${remaining.minutes}m`;
   } else {
-    text = `${Math.max(1, minutes)}m`;
+    text = `${Math.max(1, remaining.minutes)}m`;
   }
-
-  const urgent = totalHours < 24;
-  const warning = !urgent && totalHours <= 72;
 
   return {
     isExpired: false,
     text,
-    urgent,
-    warning,
+    urgent: remaining.urgent,
+    warning: remaining.warning,
   };
 }

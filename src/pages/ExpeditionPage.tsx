@@ -27,6 +27,12 @@ import {
 } from '@/store/selectors';
 import { hasDeductionConflict } from '@/lib/lists';
 import { MAX_EXTRA_SKILL_POINTS, DEFAULT_EXPEDITION_DAMAGE } from '@/store/gameData';
+import {
+  getMaxAllowedExpeditionSPPure,
+  getMaxCatchupSPPure,
+  getCatchupCostPure,
+  isCatchupUnlockedPure,
+} from '@/engine/expeditions';
 import { SectionHeader } from '@/components/SectionHeader';
 import { PageLayout } from '@/components/PageLayout';
 import { Drawer } from '@/components/Drawer';
@@ -116,9 +122,7 @@ export const ExpeditionPage = () => {
   );
 
   // Catch-Up represents recovering missed SP from past completed expeditions (up to completedExpeditionsCount * 5, capped at 15)
-  const maxPossiblePastSP = Math.min(MAX_EXTRA_SKILL_POINTS, completedExpeditionsCount * 5);
-  const missedSP = Math.max(0, maxPossiblePastSP - earnedPermanentSkillPoints);
-  const maxCatchupSP = Math.min(5, missedSP);
+  const maxCatchupSP = getMaxCatchupSPPure(completedExpeditionsCount, earnedPermanentSkillPoints, MAX_EXTRA_SKILL_POINTS);
 
   const catchupSP = useMemo(
     () => getExpeditionCatchupSPPure(checkedActions, maxCatchupSP),
@@ -131,8 +135,8 @@ export const ExpeditionPage = () => {
   );
 
   const canCatchUp = maxCatchupSP > 0 && completedExpeditionsCount >= 1;
-  const catchUpLocked = damageTier < 5;
-  const catchupCost = catchupSP * 300_000;
+  const catchUpLocked = !isCatchupUnlockedPure(damageTier);
+  const catchupCost = getCatchupCostPure(catchupSP);
   const maxExpeditions = expeditions.length > 0 ? expeditions.length : 5;
 
   // Manual Config Drawer State (String-based inputs to allow empty state while typing)
@@ -148,7 +152,7 @@ export const ExpeditionPage = () => {
   };
 
   const parsedCfgCompleted = cfgCompleted === '' ? 0 : Math.max(0, Math.min(maxExpeditions, parseInt(cfgCompleted, 10) || 0));
-  const maxConfigSP = parsedCfgCompleted < 3 ? parsedCfgCompleted * 5 : MAX_EXTRA_SKILL_POINTS;
+  const maxConfigSP = getMaxAllowedExpeditionSPPure(parsedCfgCompleted, MAX_EXTRA_SKILL_POINTS);
 
   const saveConfig = () => {
     const completedNum = parsedCfgCompleted;
