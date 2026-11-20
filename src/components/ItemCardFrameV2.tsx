@@ -120,11 +120,12 @@ export const ItemCardFrameV2 = ({
   return (
     <div
       onClick={onClick}
+      onContextMenu={(e) => e.preventDefault()}
       style={{
         borderColor: hex,
         borderRadius: radiusValue,
       }}
-      className={`relative overflow-clip min-h-0 min-w-0 border-2 squircle flex flex-col select-none transition-all ${
+      className={`relative overflow-clip min-h-0 min-w-0 border-2 squircle flex flex-col select-none [-webkit-touch-callout:none] transition-all ${
         aspectSquare ? "aspect-square" : ""
       } ${onClick ? "cursor-pointer active:scale-95" : ""} ${className}`}
     >

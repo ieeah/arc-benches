@@ -24,6 +24,7 @@ export type UseHoldActionResult = {
     onTouchMove: (e: TouchEvent) => void;
     onTouchCancel: (e: TouchEvent) => void;
     onClick: (e: MouseEvent) => void;
+    onContextMenu: (e: MouseEvent) => void;
   };
 };
 
@@ -212,6 +213,7 @@ export function useHoldAction({
       onTouchMove: handleTouchMove,
       onTouchCancel: handleTouchCancel,
       onClick: handleClick,
+      onContextMenu: (e: React.MouseEvent) => e.preventDefault(),
     },
   };
 }
