@@ -1,10 +1,11 @@
 import { useMemo, useRef, useCallback } from "react";
-import { Search, X } from "lucide-react";
+import { Search } from "lucide-react";
 import type { ItemInfo } from "@/types";
 import { useAppStore } from "@/store";
 import { getRarityText } from "@/lib/rarity";
 import { BottomSheet } from "@/components/BottomSheet";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { useListManager } from "@/hooks/useListManager";
 import {
   useTranslation,
@@ -131,30 +132,16 @@ export const ItemPicker = ({
   };
 
   const searchBar = (
-    <div className="relative flex items-center">
-      <Search
-        className="absolute left-3 text-gray-400 pointer-events-none"
-        size={16}
-      />
-      <input
-        ref={inputRef}
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder={t("common.search")}
-        className="w-full pl-9 pr-9 py-2.5 bg-gray-100 dark:bg-gray-800 border-0 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      {query && (
-        <button
-          type="button"
-          onClick={() => setQuery("")}
-          className="absolute right-2.5 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
-          aria-label={t("common.clear")}
-        >
-          <X size={15} />
-        </button>
-      )}
-    </div>
+    <SearchInput
+      variant="pill"
+      inputRef={inputRef}
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      onClear={() => setQuery("")}
+      placeholder={t("common.search")}
+      clearAriaLabel={t("common.close")}
+      autoFocus
+    />
   );
 
   const listContent = (
@@ -275,11 +262,13 @@ export const ItemPicker = ({
 
   if (embedded) {
     return (
-      <div className="space-y-3">
-        <div className="max-h-[55dvh] overflow-y-auto overscroll-contain pr-1">
+      <div className="flex flex-col max-h-[60dvh]">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain pr-1 pb-2">
           {listContent}
         </div>
-        {searchBar}
+        <div className="pt-3 border-t border-gray-100 dark:border-gray-800 shrink-0">
+          {searchBar}
+        </div>
       </div>
     );
   }

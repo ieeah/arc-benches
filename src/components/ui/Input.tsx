@@ -8,6 +8,7 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size
   rightElement?: React.ReactNode;
   hasError?: boolean;
   containerClassName?: string;
+  ref?: React.Ref<HTMLInputElement>;
 };
 
 export function Input({

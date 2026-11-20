@@ -1,10 +1,13 @@
 import React from 'react';
 import { Search, X } from 'lucide-react';
 import { Input, type InputProps } from './Input';
+import { cn } from '@/lib/cn';
 
 export type SearchInputProps = Omit<InputProps, 'leftIcon' | 'rightElement'> & {
   onClear?: () => void;
   clearAriaLabel?: string;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
+  variant?: 'default' | 'pill';
 };
 
 export function SearchInput({
@@ -13,6 +16,9 @@ export function SearchInput({
   clearAriaLabel = 'Cancella testo di ricerca',
   onChange,
   inputSize = 'md',
+  inputRef,
+  variant = 'default',
+  className,
   ...props
 }: SearchInputProps) {
   const iconSize = inputSize === 'sm' ? 14 : 16;
@@ -29,6 +35,7 @@ export function SearchInput({
       } as React.ChangeEvent<HTMLInputElement>;
       onChange(syntheticEvent);
     }
+    inputRef?.current?.focus();
   };
 
   const clearButton = hasValue ? (
@@ -44,12 +51,18 @@ export function SearchInput({
 
   return (
     <Input
+      ref={inputRef}
       type="search"
       value={value}
       onChange={onChange}
       inputSize={inputSize}
       leftIcon={<Search size={iconSize} className="pointer-events-none" />}
       rightElement={clearButton}
+      className={cn(
+        variant === 'pill' &&
+          'rounded-full text-xs font-semibold border-0 bg-gray-100 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500/50',
+        className
+      )}
       {...props}
     />
   );
