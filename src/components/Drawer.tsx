@@ -13,7 +13,7 @@ const DURATION_OUT = 200;
 
 const panelClass: Record<DrawerFrom, string> = {
   bottom: 'bottom-0 left-0 right-0 rounded-t-[28px] max-h-[85dvh]',
-  top:    'top-0 left-0 right-0 rounded-b-[28px]',
+  top:    'top-0 left-0 right-0 rounded-b-[28px] max-h-[85dvh]',
   left:   'top-0 bottom-0 left-0 rounded-r-[28px] w-72',
   right:  'top-0 bottom-0 right-0 rounded-l-[28px] w-72',
 };
@@ -68,17 +68,17 @@ export const Drawer = ({
         aria-modal="true"
         aria-label={title}
         tabIndex={-1}
-        className={`fixed bg-white dark:bg-gray-900 overflow-y-auto overscroll-contain focus:outline-none touch-auto ${panelClass[from]}`}
+        className={`fixed bg-white dark:bg-gray-900 flex flex-col overflow-hidden focus:outline-none touch-auto ${panelClass[from]}`}
         style={{ animation: isClosing ? exitAnim[from] : enterAnim[from] }}
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center p-4 pb-2">
-          {title ? <h2 className="text-base font-bold">{title}</h2> : <div />}
+        <div className="flex justify-between items-center p-4 pb-2 shrink-0">
+          {title ? <h2 className="text-base font-bold truncate">{title}</h2> : <div />}
           <IconButton onClick={handleClose} title={t('common.close')}>
             <X size={16} />
           </IconButton>
         </div>
-        <div className="px-4 pb-6">
+        <div className="px-4 pb-6 flex-1 min-h-0 overflow-y-auto overscroll-contain">
           {children}
         </div>
       </div>
