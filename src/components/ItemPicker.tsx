@@ -28,6 +28,8 @@ type ItemPickerProps = {
   includeBlueprints?: boolean;
   onPick: (item: ItemInfo) => void;
   onClose: () => void;
+  /** Se true, renderizza solo il contenuto interno senza BottomSheet */
+  embedded?: boolean;
 };
 
 export const ItemPicker = ({
@@ -37,6 +39,7 @@ export const ItemPicker = ({
   includeBlueprints = false,
   onPick,
   onClose,
+  embedded = false,
 }: ItemPickerProps) => {
   const itemsInfo = useAppStore((s) => s.itemsInfo);
   const exclude = useMemo(() => new Set(excludeIds ?? []), [excludeIds]);
@@ -121,43 +124,32 @@ export const ItemPicker = ({
     else onClose();
   };
 
-  return (
-    <BottomSheet
-      title={t('customLists.addItem')}
-      onClose={onClose}
-      onBackdropClick={handleBackdropClick}
-      overlayZ="z-[60]"
-      bodyClassName="flex-1 min-h-0 px-3 pb-2 overflow-y-auto overscroll-contain"
-      footer={
-        <div className="p-3 border-t border-gray-100 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md">
-          <div className="relative flex items-center">
-            <Search className="absolute left-3 text-gray-400 pointer-events-none" size={16} />
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder={t('common.search')}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-9 pr-8 py-2.5 bg-gray-100 dark:bg-gray-800 rounded-full text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-              autoFocus
-            />
-            {query && (
-              <button
-                type="button"
-                onClick={() => {
-                  setQuery('');
-                  inputRef.current?.focus();
-                }}
-                className="absolute right-2.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                aria-label={t('common.close')}
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
-        </div>
-      }
-    >
+  const searchBar = (
+    <div className="relative flex items-center">
+      <Search className="absolute left-3 text-gray-400 pointer-events-none" size={16} />
+      <input
+        ref={inputRef}
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder={t('itemPicker.searchPlaceholder')}
+        className="w-full pl-9 pr-9 py-2.5 bg-gray-100 dark:bg-gray-800 border-0 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      {query && (
+        <button
+          type="button"
+          onClick={() => setQuery('')}
+          className="absolute right-2.5 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
+          aria-label={t('common.clear')}
+        >
+          <X size={15} />
+        </button>
+      )}
+    </div>
+  );
+
+  const listContent = (
+    <>
       {/* Empty / Initial State */}
       {!hasQuery && (
         <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
@@ -257,6 +249,34 @@ export const ItemPicker = ({
       {hasQuery && rankedItems.length === 0 && (
         <p className="p-10 text-center text-gray-500 italic text-sm">{t('itemPicker.noItemsFound')}</p>
       )}
+    </>
+  );
+
+  if (embedded) {
+    return (
+      <div className="space-y-3">
+        {searchBar}
+        <div className="max-h-[55dvh] overflow-y-auto overscroll-contain pr-1">
+          {listContent}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <BottomSheet
+      title={t('customLists.addItem')}
+      onClose={onClose}
+      onBackdropClick={handleBackdropClick}
+      overlayZ="z-[60]"
+      bodyClassName="flex-1 min-h-0 px-3 pb-2 overflow-y-auto overscroll-contain"
+      footer={
+        <div className="p-3 border-t border-gray-100 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md">
+          {searchBar}
+        </div>
+      }
+    >
+      {listContent}
     </BottomSheet>
   );
 };

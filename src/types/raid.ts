@@ -17,5 +17,6 @@ export type RaidPlanState = {
   actions: RaidAction[];
   items: RaidItem[];
   preferredViewMode?: 'grid' | 'list';
+  ignoredStashSnapshot?: Record<string, number>;
   updatedAt: number;
 };

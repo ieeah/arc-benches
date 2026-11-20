@@ -198,6 +198,8 @@ export type AppState = ProgressState & SkillTreeState & {
   resetRaidPlanProgress: () => void;
   clearRaidPlan: () => void;
   setRaidPreferredViewMode: (viewMode: 'grid' | 'list') => void;
+  ignoreStashDiff: (snapshot: Record<string, number>) => void;
+  syncRaidWithStash: () => void;
 
   createProfile: (name: string) => void;
   switchProfile: (id: string) => void;

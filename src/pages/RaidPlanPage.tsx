@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
-  Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus, LayoutGrid, List as ListIcon, Pencil, Play, Square
+  Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus, LayoutGrid, List as ListIcon, Pencil, X, MoreVertical
 } from 'lucide-react';
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
 import { PageLayout } from '@/components/PageLayout';
+import { Drawer } from '@/components/Drawer';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ItemQuantityModal } from '@/components/ItemQuantityModal';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
@@ -28,7 +29,6 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   // Selettori dallo store Zustand
   const raidPlan = useAppStore(s => s.raidPlan);
   const itemsInfo = useAppStore(s => s.itemsInfo);
-  const setIsRaidRunning = useAppStore(s => s.setIsRaidRunning);
   const addRaidAction = useAppStore(s => s.addRaidAction);
   const toggleRaidAction = useAppStore(s => s.toggleRaidAction);
   const removeRaidAction = useAppStore(s => s.removeRaidAction);
@@ -43,6 +43,8 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   const resetRaidPlanProgress = useAppStore(s => s.resetRaidPlanProgress);
   const clearRaidPlan = useAppStore(s => s.clearRaidPlan);
   const setRaidPreferredViewMode = useAppStore(s => s.setRaidPreferredViewMode);
+  const ignoreStashDiff = useAppStore(s => s.ignoreStashDiff);
+  const syncRaidWithStash = useAppStore(s => s.syncRaidWithStash);
 
   // Stato e calcolo fabbisogno globale dello Stash per contesto raid
   const inventory = useAppStore(s => s.inventory);
@@ -91,6 +93,9 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
 
   // Stato locale
   const [newActionText, setNewActionText] = useState('');
+  const [addDrawerOpen, setAddDrawerOpen] = useState(false);
+  const [drawerShowPicker, setDrawerShowPicker] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [replacingItemId, setReplacingItemId] = useState<string | null>(null);
   const [quantityModalItem, setQuantityModalItem] = useState<{
@@ -109,13 +114,34 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
     }
   }, [action, onActionHandled]);
 
-  const isRaidRunning = raidPlan.isRaidRunning;
   const actions = raidPlan.actions;
   const items = raidPlan.items;
   const preferredViewMode = raidPlan.preferredViewMode ?? 'grid';
+  const activeViewMode = preferredViewMode;
+  const isRaidRunning = false;
 
-  // In modalità configurazione (inattivo) forza la vista 'list'. In focus mode (attivo) usa la preferenza dell'utente salvata nel profilo.
-  const activeViewMode = isRaidRunning ? preferredViewMode : 'list';
+  const currentStashSnapshot = useMemo(() => {
+    const snap: Record<string, number> = {};
+    for (const item of items) {
+      snap[item.itemId] = inventory[item.itemId] ?? 0;
+    }
+    return snap;
+  }, [items, inventory]);
+
+  const hasStashDiff = useMemo(() => {
+    return items.some(item => {
+      const neededNow = Math.max(0, (totalMaterials[item.itemId] ?? 0) - (inventory[item.itemId] ?? 0));
+      return neededNow !== item.targetQuantity;
+    });
+  }, [items, totalMaterials, inventory]);
+
+  const isDiffIgnored = useMemo(() => {
+    const ignored = raidPlan.ignoredStashSnapshot;
+    if (!ignored) return false;
+    return items.every(item => (inventory[item.itemId] ?? 0) === ignored[item.itemId]);
+  }, [raidPlan.ignoredStashSnapshot, items, inventory]);
+
+  const showStashDiffBanner = hasStashDiff && !isDiffIgnored;
 
   const handleAddAction = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -190,102 +216,141 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-              {/* Toggle Stato Incursione: Player style Play / Stop */}
-              <button
-                onClick={() => setIsRaidRunning(!isRaidRunning)}
-                disabled={actions.length === 0 && items.length === 0}
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
-                  isRaidRunning
-                    ? 'bg-emerald-500 text-white border-emerald-400 shadow-md shadow-emerald-500/25 hover:bg-emerald-600'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-                title={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
-                aria-label={isRaidRunning ? t('raid.statusActive') : t('raid.statusInactive')}
-              >
-                {isRaidRunning ? (
-                  <Square size={16} className="fill-current" />
-                ) : (
-                  <Play size={17} className="fill-current translate-x-0.5" />
-                )}
-              </button>
-
-              {/* Toggle Vista Griglia / Lista (Visibile e selezionabile solo in Incursione Attiva) */}
-              {isRaidRunning && (
-                <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-0.5 rounded-xl border border-gray-200 dark:border-gray-700 animate-in fade-in duration-200">
-                  <button
-                    type="button"
-                    onClick={() => setRaidPreferredViewMode('grid')}
-                    className={`p-2 rounded-lg transition-all cursor-pointer ${
-                      activeViewMode === 'grid'
-                        ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
-                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                    }`}
-                    title={t('stash.viewGrid')}
-                    aria-label={t('stash.viewGrid')}
-                  >
-                    <LayoutGrid size={16} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRaidPreferredViewMode('list')}
-                    className={`p-2 rounded-lg transition-all cursor-pointer ${
-                      activeViewMode === 'list'
-                        ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
-                        : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
-                    }`}
-                    title={t('stash.viewList')}
-                    aria-label={t('stash.viewList')}
-                  >
-                    <ListIcon size={16} />
-                  </button>
-                </div>
-              )}
+              {/* Toggle Vista Griglia / Lista */}
+              <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-0.5 rounded-xl border border-gray-200 dark:border-gray-700">
+                <button
+                  type="button"
+                  onClick={() => setRaidPreferredViewMode('grid')}
+                  className={`p-2 rounded-lg transition-all cursor-pointer ${
+                    activeViewMode === 'grid'
+                      ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
+                      : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                  }`}
+                  title={t('stash.viewGrid')}
+                  aria-label={t('stash.viewGrid')}
+                >
+                  <LayoutGrid size={16} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRaidPreferredViewMode('list')}
+                  className={`p-2 rounded-lg transition-all cursor-pointer ${
+                    activeViewMode === 'list'
+                      ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
+                      : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                  }`}
+                  title={t('stash.viewList')}
+                  aria-label={t('stash.viewList')}
+                >
+                  <ListIcon size={16} />
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* ── 3 PULSANTI AZIONE COMPATTI E DISCRETI (Nascosti in Focus Mode) ── */}
-          {!isRaidRunning && (
-            <div className="flex items-center justify-between gap-2 pt-1 animate-in fade-in duration-150">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => setModalType('apply')}
-                disabled={actions.length === 0 && items.length === 0}
-                leftIcon={<PackageCheck size={14} />}
-                className="flex-1"
-              >
-                {t('raid.apply')}
-              </Button>
+          {/* ── STICKY ACTION BAR ── */}
+          <div className="flex items-center justify-between gap-2 pt-1">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setModalType('apply')}
+              disabled={actions.length === 0 && items.length === 0}
+              leftIcon={<PackageCheck size={14} />}
+              className="flex-1"
+            >
+              {t('raid.apply')}
+            </Button>
 
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => setModalType('reset')}
-                disabled={actions.length === 0 && items.length === 0}
-                leftIcon={<RotateCcw size={13} />}
-                title={t('raid.reset')}
-                aria-label={t('raid.reset')}
-              >
-                <span className="hidden sm:inline text-[11px]">{t('raid.reset')}</span>
-              </Button>
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false);
+                setAddDrawerOpen(true);
+              }}
+              className="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-sm active:scale-95 transition-all cursor-pointer shrink-0"
+              title="Aggiungi requisito"
+              aria-label="Aggiungi requisito"
+            >
+              <Plus size={18} />
+            </button>
 
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => setModalType('clear')}
+            {/* Kebab menu verticale per Reset ed Elimina */}
+            <div className="relative shrink-0">
+              <button
+                type="button"
+                onClick={() => setMenuOpen(prev => !prev)}
                 disabled={actions.length === 0 && items.length === 0}
-                leftIcon={<Trash2 size={13} />}
-                title={t('raid.clear')}
-                aria-label={t('raid.clear')}
-                className="text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 hover:bg-rose-50 dark:hover:bg-rose-950/30"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+                title={t('common.actions')}
+                aria-label={t('common.actions')}
               >
-                <span className="hidden sm:inline text-[11px]">{t('raid.clear')}</span>
-              </Button>
+                <MoreVertical size={17} />
+              </button>
+
+              {menuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setMenuOpen(false)}
+                  />
+                  <div className="absolute right-0 top-full mt-1.5 z-40 w-48 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl py-1.5 animate-in fade-in zoom-in-95 duration-150">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setModalType('reset');
+                      }}
+                      className="w-full px-3.5 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2.5 cursor-pointer"
+                    >
+                      <RotateCcw size={14} />
+                      <span>{t('raid.reset')}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setModalType('clear');
+                      }}
+                      className="w-full px-3.5 py-2 text-left text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 flex items-center gap-2.5 cursor-pointer"
+                    >
+                      <Trash2 size={14} />
+                      <span>{t('raid.clear')}</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
-          )}
+          </div>
         </div>
       }
     >
+      {/* Banner disallineamento Stash -> Raid */}
+      {showStashDiffBanner && (
+        <div className="mb-4 flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 text-xs">
+          <span className="flex-1 font-medium">
+            Alcuni requisiti dello stash sono cambiati, vuoi allineare la pianificazione?
+          </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={() => syncRaidWithStash()}
+              className="h-7 px-2.5 text-[11px]"
+            >
+              Aggiorna
+            </Button>
+            <button
+              type="button"
+              onClick={() => ignoreStashDiff(currentStashSnapshot)}
+              className="p-1 rounded-lg text-amber-700 dark:text-amber-300 hover:bg-amber-200/60 dark:hover:bg-amber-800/40 transition-colors cursor-pointer"
+              title="Ignora"
+              aria-label="Ignora"
+            >
+              <X size={15} />
+            </button>
+          </div>
+        </div>
+      )}
       {/* Notifica feedback */}
       {notification && (
         <div className="mb-4">
@@ -296,43 +361,14 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
       <div className="space-y-6">
         {/* ── SEZIONE 1: AZIONI SPOT ── */}
         <section className="space-y-3">
-          {/* Header e Form Aggiunta: Nascosti in Focus Mode */}
-          {!isRaidRunning && (
-            <>
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-sm font-bold text-gray-900 dark:text-white">
-                    {t('raid.spotActions')}
-                  </h2>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {t('raid.spotActionsDesc')}
-                  </p>
-                </div>
-                <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
-                  {actions.filter(a => a.completed).length}/{actions.length}
-                </span>
-              </div>
-
-              {/* Form rapido inserimento azione */}
-              <form onSubmit={handleAddAction} className="flex gap-2">
-                <input
-                  type="text"
-                  value={newActionText}
-                  onChange={e => setNewActionText(e.target.value)}
-                  placeholder={t('raid.actionPlaceholder')}
-                  className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl px-3.5 py-2.5 text-xs text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
-                />
-                <button
-                  type="submit"
-                  disabled={!newActionText.trim()}
-                  className="px-4 py-2.5 rounded-2xl bg-blue-500 hover:bg-blue-600 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1 shadow-xs"
-                >
-                  <Plus size={16} />
-                  <span>{t('raid.addAction')}</span>
-                </button>
-              </form>
-            </>
-          )}
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white">
+              {t('raid.spotActions')}
+            </h2>
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+              {actions.filter(a => a.completed).length}/{actions.length}
+            </span>
+          </div>
 
           {/* Lista azioni */}
           {actions.length === 0 ? (
@@ -378,27 +414,11 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
 
         {/* ── SEZIONE 2: OGGETTI DA RECUPERARE ── */}
         <section className="space-y-3">
-          {/* Header e Aggiungi Oggetto: Nascosti in Focus Mode */}
-          {!isRaidRunning && (
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-sm font-bold text-gray-900 dark:text-white">
-                  {t('raid.itemsToFind')}
-                </h2>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {t('raid.itemsToFindDesc')}
-                </p>
-              </div>
-              <Button
-                size="sm"
-                variant="primary"
-                onClick={() => setPickerOpen(true)}
-                leftIcon={<Plus size={14} />}
-              >
-                {t('raid.addItem')}
-              </Button>
-            </div>
-          )}
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white">
+              {t('raid.itemsToFind')}
+            </h2>
+          </div>
 
           {items.length === 0 ? (
             !isRaidRunning ? (
@@ -591,6 +611,99 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
       </div>
 
 
+
+      {/* ── DRAWER FROM TOP: AGGIUNGI REQUISITO (AZIONE O OGGETTO) ── */}
+      {addDrawerOpen && (
+        <Drawer
+          onClose={() => {
+            setAddDrawerOpen(false);
+            setDrawerShowPicker(false);
+          }}
+          from="top"
+          title={drawerShowPicker ? t('raid.addItem') : 'Aggiungi requisito'}
+        >
+          {drawerShowPicker ? (
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => setDrawerShowPicker(false)}
+                className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+              >
+                ← {t('common.back')}
+              </button>
+              <ItemPicker
+                context="raid"
+                embedded
+                onPick={(item) => {
+                  setAddDrawerOpen(false);
+                  setDrawerShowPicker(false);
+                  handlePickItem(item);
+                }}
+                onClose={() => setDrawerShowPicker(false)}
+              />
+            </div>
+          ) : (
+            <div className="space-y-5">
+              {/* Blocco 1: Azioni Spot */}
+              <div className="space-y-2.5">
+                <div>
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white">
+                    {t('raid.spotActions')}
+                  </h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {t('raid.spotActionsDesc')}
+                  </p>
+                </div>
+                <form
+                  onSubmit={(e) => {
+                    handleAddAction(e);
+                    setAddDrawerOpen(false);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <input
+                    type="text"
+                    value={newActionText}
+                    onChange={e => setNewActionText(e.target.value)}
+                    placeholder={t('raid.actionPlaceholder')}
+                    className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl px-3.5 py-2.5 text-xs text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!newActionText.trim()}
+                    className="px-4 py-2.5 rounded-2xl bg-blue-500 hover:bg-blue-600 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1 shadow-xs"
+                  >
+                    <Plus size={16} />
+                    <span>{t('raid.addAction')}</span>
+                  </button>
+                </form>
+              </div>
+
+              {/* Blocco 2: Oggetti da recuperare */}
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white">
+                    {t('raid.itemsToFind')}
+                  </h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {t('raid.itemsToFindDesc')}
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="primary"
+                  leftIcon={<Plus size={14} />}
+                  onClick={() => setDrawerShowPicker(true)}
+                  className="shrink-0"
+                >
+                  {t('raid.addItem')}
+                </Button>
+              </div>
+            </div>
+          )}
+        </Drawer>
+      )}
 
       {/* ── MODALE SELETTORE OGGETTI ── */}
       {pickerOpen && (

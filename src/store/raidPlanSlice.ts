@@ -21,6 +21,8 @@ export type RaidPlanSlice = Pick<
   | 'resetRaidPlanProgress'
   | 'clearRaidPlan'
   | 'setRaidPreferredViewMode'
+  | 'ignoreStashDiff'
+  | 'syncRaidWithStash'
 >;
 
 const DEFAULT_RAID_PLAN: RaidPlanState = {
@@ -279,6 +281,43 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
       raidPlan: {
         ...s.raidPlan,
         preferredViewMode,
+        updatedAt: Date.now(),
+      },
+    });
+  },
+
+  ignoreStashDiff: (snapshot: Record<string, number>) => {
+    const s = get();
+    set({
+      raidPlan: {
+        ...s.raidPlan,
+        ignoredStashSnapshot: snapshot,
+        updatedAt: Date.now(),
+      },
+    });
+  },
+
+  syncRaidWithStash: () => {
+    const s = get();
+    const totalRequired = s.getTotalRequiredMaterials();
+    const syncedItems: typeof s.raidPlan.items = [];
+
+    for (const item of s.raidPlan.items) {
+      const needed = Math.max(0, (totalRequired[item.itemId] ?? 0) - (s.inventory[item.itemId] ?? 0));
+      if (needed > 0) {
+        syncedItems.push({
+          ...item,
+          targetQuantity: needed,
+          foundQuantity: Math.min(item.foundQuantity, needed),
+        });
+      }
+    }
+
+    set({
+      raidPlan: {
+        ...s.raidPlan,
+        items: syncedItems,
+        ignoredStashSnapshot: undefined,
         updatedAt: Date.now(),
       },
     });
