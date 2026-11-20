@@ -1,0 +1,1775 @@
+{
+  "generatedAt": "2026-11-20T00:01:21.895Z",
+  "sections": {
+    "History": [
+      {
+        "page": "The Collapse (lore)",
+        "label": {
+          "en": "The Collapse",
+          "it": "Il Crollo"
+        },
+        "subtitle": {
+          "en": "The era of vast floods, terrible earthquakes, and cataclysmic destruction",
+          "it": "L'era di vaste inondazioni, terribili terremoti e distruzione cataclismica"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nA tale told mostly through flooded wastes and overgrown ruins, the Collapse is said to have happened many generations ago, when devastating floods, scorching fires, and earthquakes conspired to rid Earth of her inhabitants.\n\nOnly scattered societies are said to have remained, though after generations of darkness and decay, their tales have merged with legends and lies.\n\nWhile most evidence of life before the Collapse was lost in the devastation, small pockets of preservation still offer a glimpse into the world before.\n\nHere in the Rust Belt, shifting sand dunes long covered the port city of Marano, creating a natural time capsule that's been known to astonish and confuse Raiders in equal measure.\n\nCategory:Lore",
+          "it": "Una storia tramandata perlopiù da lande sommerse e rovine invase dalla vegetazione: si narra che il Crollo sia avvenuto molte generazioni fa, quando inondazioni devastanti, incendi roventi e terremoti cospirarono per spazzare via gli abitanti della Terra.\n\nSi dice che siano sopravvissute solo società sparse, ma dopo generazioni di oscurità e decadenza, i loro racconti si sono ormai fusi con leggende e menzogne.\n\nSebbene gran parte delle tracce della vita precedente al Crollo sia andata perduta nella devastazione, piccole sacche rimaste intatte offrono ancora uno scorcio sul mondo di un tempo.\n\nQui nella Cintura di ruggine, le dune di sabbia mobili hanno ricoperto a lungo la città portuale di Marano, creando una capsula del tempo naturale capace di stupire e confondere i Raider in egual misura."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Cielo Sereno Observatory (lore)",
+        "label": {
+          "en": "Cielo Sereno Observatory",
+          "it": "Osservatorio Cielo Sereno"
+        },
+        "subtitle": {
+          "en": "An observatory left standing at the edge of nowhere",
+          "it": "Un osservatorio rimasto in piedi ai confini del nulla"
+        },
+        "text": {
+          "en": "The Cielo Sereno Observatory, or Osservatorio di Navigazione Spaziale Cielo Sereno in full, is a major Exodus-era installation found around Pendola Pass. Many speculate it was used to calculate flight paths for the spaceships that departed Acerra Spaceport.\n\nCategory:Lore",
+          "it": "L'Osservatorio Cielo Sereno, o per esteso Osservatorio di Navigazione Spaziale Cielo Sereno, è un'imponente installazione dell'era dell'Esodo situata nei pressi del Passo di Pendola. Molti ipotizzano che venisse utilizzato per calcolare le rotte di volo delle astronavi partite dallo Spazioporto di Acerra."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "The Exodus (lore)",
+        "label": {
+          "en": "The Exodus",
+          "it": "L'Esodo"
+        },
+        "subtitle": {
+          "en": "The era of technological marvels and bitter hope",
+          "it": "L'era delle meraviglie tecnologiche e dell'amara speranza"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nIt is said that when the world collapsed, a handful of valorous survivors managed to escape the destruction into outer space; boarding marvels of technology long lost to the devastation.\n\nNot much is known about how they managed to achieve such feats, and what little technology survived is highly prized within Toledo.\n\nCategory:Lore",
+          "it": "Si narra che, quando il mondo collassò, un manipolo di coraggiosi sopravvissuti riuscì a fuggire dalla distruzione verso lo spazio profondo, imbarcandosi su meraviglie tecnologiche ormai perdute per sempre nella devastazione.\n\nNon si sa molto su come siano riusciti a compiere simili imprese, e quel poco di tecnologia sopravvissuta è estremamente ambito a Toledo."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Rust Belt Mutiny (lore)",
+        "label": {
+          "en": "Rust Belt Mutiny",
+          "it": "Ammutinamento della Cintura di ruggine"
+        },
+        "subtitle": {
+          "en": "Worker discontent, silently brewing for decades",
+          "it": "Il malcontento dei lavoratori, covato in silenzio per decenni"
+        },
+        "text": {
+          "en": "The revelation that Project Heartwood had been all but designed to fail, seems to have sowed the first seeds of doubt around the utopian promise of a Mass Exodus. The shipping routes of crucial spaceship parts were uncovered amongst confidential documents, and a daring heist at Marano train station represented the first pinprick of a brewing mutiny.\n\nOrganized across distributed headquarters, the mutineers managed to slowly connect with sympathizers across the Rust Belt, including at Hotel Panorama Azzurro and the docks of the Riven Tides area.\n\nCategory:Lore",
+          "it": "La rivelazione che il Progetto Evergreen fosse stato praticamente concepito per fallire sembra aver gettato i primi semi del dubbio attorno alla promessa utopica di un Esodo di massa. Le rotte di trasporto di componenti cruciali per le astronavi furono scoperte tra documenti riservati, e un audace colpo alla stazione ferroviaria di Marano rappresentò la prima scintilla di un ammutinamento ormai prossimo a esplodere.\n\nOrganizzati in vari quartieri generali distribuiti sul territorio, gli ammutinati riuscirono gradualmente a entrare in contatto con simpatizzanti in tutta la Cintura di ruggine, inclusi l'Hotel Panorama Azzurro e i moli della zona di Spezzamarea."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Launch Towers (lore)",
+        "label": {
+          "en": "Launch Towers",
+          "it": "Torri di lancio"
+        },
+        "subtitle": {
+          "en": "A colossal witness to the marvels of The Exodus",
+          "it": "Un colossale testimone delle meraviglie dell'Esodo"
+        },
+        "text": {
+          "en": "Visible from miles away, the Launch Towers are a colossal monument to the fabled Exodus. They mark the end of what must have been an era of unimaginable technological progress; an era nearly impossible to picture for those who gaze upon the towers today.\n\nCategory:Lore",
+          "it": "Visibili a chilometri di distanza, le Torri di lancio sono un monumento colossale al leggendario Esodo. Segnano la fine di quella che dev'essere stata un'era di progresso tecnologico inimmaginabile; un'epoca quasi impossibile da concepire per chi oggi volge lo sguardo verso quelle strutture."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Project Heartwood (lore)",
+        "label": {
+          "en": "Project Heartwood",
+          "it": "Progetto Evergreen"
+        },
+        "subtitle": {
+          "en": "A joint effort to stave off the ecological collapse",
+          "it": "Uno sforzo congiunto per scongiurare il collasso ecologico"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nProject Heartwood was a wide-ranging research initiative intended to slow, adapt to, or outlast the ecological collapse already underway. Several traces exist around the Rust Belt; among others in an abandoned housing project by The Blue Gate, revealed to be groundbreaking research into earthquake-proof housing.\n\nResearch into high-capacity, brine-based batteries was conducted as part of Project Heartwood. While rudimentary prototypes were successfully created, they never seem to have been brought into full production.\n\nMuch of the research conducted as part of Project Heartwood seems to have been highly classified, although documents reveal they were financed with public funds. Tian Wen suspects there must be countless research projects forgotten inside the vaults and safes of Stella Montis.\n\nWhile the project yielded tangible results, it was ultimately deemed insufficient, and discontinued as a result. Ongoing projects were abruptly cancelled by a group named MANTIKOR, and the funds and resources redirected towards the Exodus Initiative.\n\nNotably, this led to the power from the Alcantara Dam being rerouted to support the construction of the Spaceport, leaving much of Buried City exposed to rolling blackouts.\n\nCategory:Lore",
+          "it": "Il Progetto Evergreen era un'iniziativa di ricerca ad ampio raggio volta a rallentare, gestire o superare il collasso ecologico già in atto. Ne restano diverse tracce in tutta la Cintura di ruggine, tra cui un complesso residenziale abbandonato presso il Varco Blu, rivelatosi poi un centro di ricerca pionieristico sull'edilizia antisismica.\n\nNell'ambito del Progetto Evergreen furono condotte anche ricerche sulle batterie ad alta capacità a base di salamoia. Sebbene siano stati realizzati con successo alcuni prototipi rudimentali, non sembra che siano mai entrati in piena produzione.\n\nGran parte delle ricerche svolte nel quadro del Progetto Evergreen pare fosse coperta da segreto, sebbene alcuni documenti rivelino che vennero finanziate con fondi pubblici. Tian Wen sospetta che vi siano innumerevoli progetti di ricerca dimenticati nei caveau e nelle casseforti di Stella Montis.\n\nPur avendo prodotto risultati concreti, il progetto fu infine ritenuto insufficiente e quindi interrotto. Le attività in corso vennero bruscamente cancellate da un gruppo chiamato MANTIKOR, e fondi e risorse furono dirottati verso l'Iniziativa Esodo.\n\nIn particolare, ciò portò a deviare l'energia della Diga di Alcantara per sostenere la costruzione dello Spazioporto, esponendo gran parte della Città sepolta a continui blackout a rotazione."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Sunrise (lore)",
+        "label": {
+          "en": "Sunrise",
+          "it": "Alba"
+        },
+        "subtitle": {
+          "en": "The short-lived era of revival and rediscovery",
+          "it": "La breve era di rinascita e riscoperta"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nAlive in the memories of the few very old still around, the era of Sunrise feels beyond belief to those born underground. Following generations of darkness after the Collapse, the era of Sunrise was marked by signs of restoration of the planet's ecology, as well as the rediscovery of old technology and even some degree of organized society.\n\nHere in the Rust Belt, settlers began to gather around the dormant Alcantara Dam, where they built the first hydroponic domes. These domes allowed them to consistently produce food, and even make use of the old solar panels for energy.\n\nA time of growing optimism, some dared declare that the worst must surely be behind us—until machines started coming down from the skies.\n\nCategory:Lore",
+          "it": "Ancora viva nei ricordi dei pochissimi anziani rimasti, l'era dell'Alba sembra quasi incredibile a chi è nato sottoterra. Dopo generazioni di oscurità seguite al Crollo, l'era dell'Alba fu segnata dai primi segni di ripresa dell'ecosistema planetario, dalla riscoperta di tecnologie del passato e persino da un ritorno a una parvenza di società organizzata.\n\nQui nella Cintura di ruggine, i coloni iniziarono a radunarsi attorno alla Diga di Alcantara, ormai inattiva, dove costruirono le prime cupole idroponiche. Queste strutture permisero loro di produrre cibo in modo costante e persino di sfruttare i vecchi pannelli solari per generare energia.\n\nIn quel clima di crescente ottimismo, qualcuno osò perfino dichiarare che il peggio fosse ormai alle spalle... finché le macchine non iniziarono a scendere dal cielo."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Settlers (lore)",
+        "label": {
+          "en": "Settlers",
+          "it": "Coloni"
+        },
+        "subtitle": {
+          "en": "The bold pioneers envisioning a world reborn",
+          "it": "Gli audaci pionieri che immaginavano un mondo rinato"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nDuring the era of Sunrise, a community of survivors settled around the Alcantara Dam, managed to achieve some semblance of organized society. Through trial, error, and the discovery of old documents, they managed to make some progress in areas such as food cultivation, construction methods, and the creation of rudimentary weapons.\n\nWhen ARC's machines started falling from the skies during the First Wave, the settlers around The Dam banded together to form the first Raiders and defeated ARC, though at the cost of many lives. With most of their technological progress destroyed, when the Second Wave hit they opted to move underground for their own protection; settling in what would grow to be the sprawling city of Toledo.\n\nCategory:Lore",
+          "it": "Durante l'era dell'Alba, una comunità di sopravvissuti si stabilì attorno alla Diga di Alcantara, riuscendo a ricreare una parvenza di società organizzata. Procedendo per tentativi ed errori, e grazie al ritrovamento di vecchi documenti, fecero progressi nella coltivazione del cibo, nelle tecniche costruttive e nella fabbricazione di armi rudimentali.\n\nQuando le macchine dell'ARC cominciarono a cadere dal cielo durante la Prima ondata, i coloni attorno alla Diga si unirono dando vita ai primi Raider e riuscirono a sconfiggere l'ARC, seppur a costo di moltissime vite. Con gran parte dei loro progressi tecnologici ormai distrutti, all'arrivo della Seconda ondata scelsero di rifugiarsi nel sottosuolo per proteggersi, stabilendosi in quella che sarebbe cresciuta fino a diventare l'estesa città di Toledo."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Raider Camps (lore)",
+        "label": {
+          "en": "Raider Camps",
+          "it": "Accampamenti Raider"
+        },
+        "subtitle": {
+          "en": "Makeshift camps, orginally built during The First Wave",
+          "it": "Accampamenti di fortuna, costruiti in origine durante la Prima ondata"
+        },
+        "text": {
+          "en": "__NOTOC__\nBefore being forced underground, the First Wave Raiders built an elaborate network of camps and structures scattered across the Rust Belt.\n\nThese makeshift camps served a wide variety of purpose, including as observation posts; first aid stations; discreet supply stashes; and cover from ARC's death and destruction. Over time, some camps became relatively comfortable living spaces.\n\nWhen ARC returned during the Second Wave, society was forced underground, and the camps were all but abandoned. To some Raiders, it's considered blasphemous to scavenge from Raider camps, though others are happy to dismiss such reservations at the prospect of battle-tested gear.\n\nIn recent times, Shani has led an effort to re-establish surface outposts, serving now as discreet supply stashes and cover from fire, rather than long-term lodging.\n\nCategory:Lore",
+          "it": "Prima di essere costretti a ritirarsi nel sottosuolo, i Raider della Prima ondata costruirono un'articolata rete di accampamenti e strutture sparsi per tutta la Cintura di ruggine.\n\nQuesti accampamenti di fortuna avevano molteplici funzioni: fungevano da posti di osservazione, stazioni di pronto soccorso, depositi discreti per le scorte e ripari dalla morte e dalla distruzione seminate dall'ARC. Col tempo, alcuni di essi divennero persino spazi abitativi relativamente confortevoli.\n\nQuando l'ARC tornò con la Seconda ondata, la popolazione fu costretta a scendere sottoterra e gli accampamenti vennero pressoché abbandonati. Per alcuni Raider è considerato sacrilego rovistare negli accampamenti dei Raider, mentre altri non esitano a mettere da parte simili scrupoli pur di mettere le mani su equipaggiamento già collaudato in battaglia.\n\nIn tempi recenti, Shani ha guidato un'iniziativa per ripristinare gli avamposti in Superficie, che oggi servono principalmente come depositi riservati di rifornimenti e ripari dal fuoco nemico, piuttosto che come alloggi a lungo termine."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Hydroponic Domes (lore)",
+        "label": {
+          "en": "Hydroponic Domes",
+          "it": "Cupole idroponiche"
+        },
+        "subtitle": {
+          "en": "A hopeful glimpse into a world of reliable sustenance",
+          "it": "Un barlume di speranza verso un mondo dal sostentamento sicuro"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nSituated in the fetid swamp by the Alcantara Dam, the hydroponic domes are both more makeshift and more recent than most other structures in the area. It is said to have been built during the era of Sunrise; an optimistic experiment to turn society less reliant on gathered roots, mushrooms and berries.\n\nUnfortunately, its roof seems to have been shattered in multiple places, exposing any crops within to devastating cold snaps—and these days, a diverse selection of wandering ARC machines.\n\nNotes found in the domes' data archives revealed that during the era of Sunrise, a group of cultivation researchers built the site in an attempt to develop a new, more resilient strain of wheat. Unfortunately, the experiment was halted after a devastating hailstorm caused the fragile seedlings to wither.\n\nCategory:Lore",
+          "it": "Situate nella palude fetida nei pressi della Diga di Alcantara, le cupole idroponiche sono al tempo stesso più precarie e più recenti rispetto alla maggior parte delle altre strutture della zona. Si dice che siano state costruite durante l'era dell'Alba: un esperimento ottimistico per rendere la società meno dipendente dalla raccolta di radici, funghi e bacche.\n\nPurtroppo la copertura sembra essere andata in frantumi in più punti, esponendo le colture interne a gelate devastanti — e, al giorno d'oggi, a una variegata schiera di macchine ARC vaganti.\n\nAlcuni appunti rinvenuti negli archivi dati delle cupole hanno rivelato che, durante l'era dell'Alba, un gruppo di ricercatori agricoli costruì il sito nel tentativo di sviluppare una nuova varietà di grano più resistente. Sfortunatamente, l'esperimento si interruppe quando una violenta grandinata fece appassire le fragili piantine."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "The First Wave (lore)",
+        "label": {
+          "en": "The First Wave",
+          "it": "La Prima ondata"
+        },
+        "subtitle": {
+          "en": "The first time ARC rained down from the skies",
+          "it": "La prima volta che l'ARC piovve dal cielo"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nEven after all these years, the harrowing tales of the First Wave are burnt into the memories of those who lived to tell the tale.\n\nJust as the world seemed to recover from a devastating ecological collapse, lethal machines started falling from the skies. Any semblance of progress and stability was wiped.\n\nThough ruthless, machines during the First Wave were comparatively rudimentary, and the first Raiders soon found ways to target their weaknesses. They built an extensive network of outposts and defensive structures to support them in their resistance, many of which can be seen around Topside to this day.\n\nThe first Raiders fought for over a decade to beat back the machines. Through a series of daring battles and harrowing losses, culminating in the hard-fought Battle of Victory Ridge, ARC was eventually driven from The Rust Belt; leaving behind trails of destruction as well as scattered husks. Though the battles earned the survivors several years of respite, a more resilient and refined generation of ARC would eventually return; the Second Wave.\n\nCategory:Lore",
+          "it": "Anche dopo tutti questi anni, i racconti strazianti della Prima ondata restano impressi a fuoco nella memoria di chi è sopravvissuto per narrarli.\n\nProprio quando il mondo sembrava riprendersi da un devastante collasso ecologico, macchine letali iniziarono a precipitare dal cielo. Ogni parvenza di progresso e stabilità fu spazzata via.\n\nPer quanto spietate, le macchine della Prima ondata erano relativamente rudimentali, e i primi Raider trovarono presto il modo di colpirne i punti deboli. Costruirono un'ampia rete di avamposti e strutture difensive a sostegno della resistenza, molte delle quali sono visibili ancora oggi in Superficie.\n\nI primi Raider combatterono per oltre un decennio per respingere le macchine. Attraverso una serie di audaci battaglie e perdite terribili, culminate nella combattutissima Battaglia della Cresta della Vittoria, l'ARC fu infine scacciato dalla Cintura di ruggine, lasciandosi alle spalle scie di distruzione e carcasse sparse. Sebbene quegli scontri avessero garantito ai sopravvissuti diversi anni di tregua, una generazione di ARC più resistente e raffinata sarebbe infine tornata: la Seconda ondata."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Barons (lore)",
+        "label": {
+          "en": "Barons",
+          "it": "Baroni"
+        },
+        "subtitle": {
+          "en": "The pinnacle of ARC machines during The First Wave",
+          "it": "L'apice delle macchine ARC durante la Prima ondata"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe pinnacle of ARC's machines during the First Wave, the Baron was a powerful six-legged mechanical walker. With its imposing appearance, powerful attacks, and surprisingly adaptive behavior, the Baron was a formidable foe for First Wave Raiders.\n\nAfter the last Baron was brought down during the First Wave, they were never seen again in the Rust Belt, though stories from afar claim there are still Barons roaming desolate parts of Calabretta.\n\nCategory:Lore",
+          "it": "Apice delle macchine ARC durante la Prima ondata, il Barone era un potente camminatore meccanico a sei zampe. Con il suo aspetto imponente, i suoi attacchi devastanti e un comportamento sorprendentemente adattivo, il Barone rappresentava un nemico temibile per i Raider della Prima ondata.\n\nDopo l'abbattimento dell'ultimo Barone durante la Prima ondata, non se ne videro più nella Cintura di ruggine, sebbene racconti provenienti da terre lontane sostengano che vi siano ancora Baroni che vagano nelle zone desolate di Calabretta."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "The Second Wave (lore)",
+        "label": {
+          "en": "The Second Wave",
+          "it": "La Seconda ondata"
+        },
+        "subtitle": {
+          "en": "The ongoing era of relentless strife and underground community",
+          "it": "L'era attuale di lotta incessante e vita comunitaria nel sottosuolo"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nRaiders sometimes use the term Second Wave to refer to the current wave of ARC incursions, in which a new generation of improved ARC machines started descending onto Earth. These are significantly improved compared to the rudimentary machines of the First Wave, both in their tactics and in their physical designs.\n\nIn some cases, the improvements were so drastic that the new iterations were considered entirely new machines, as was the case for Barons and Queens.\n\nFor much of the Second Wave, ARC was only fought during short forays topside, with Raiders under constant fire as they roamed around in hostile territory. More recently, however, efforts have been made to establish new outposts on the surface; providing a degree of protection and support not seen since the First Wave.\n\nCategory:Lore",
+          "it": "I Raider usano talvolta il termine Seconda ondata per indicare l'attuale fase di incursioni dell'ARC, durante la quale una nuova generazione di macchine potenziate ha iniziato a calare sulla Terra. Rispetto ai modelli rudimentali della Prima ondata, queste unità sono nettamente più avanzate, sia nelle tattiche che nella progettazione fisica.\n\nIn alcuni casi, i miglioramenti furono così drastici da far considerare le nuove versioni come macchine del tutto inedite, come avvenne nel passaggio dai Baroni alle Regine.\n\nPer gran parte della Seconda ondata, l'ARC è stato affrontato soltanto durante brevi sortite in Superficie, con i Raider esposti a un fuoco costante mentre si muovevano in territorio ostile. Più di recente, tuttavia, sono stati avviati sforzi per stabilire nuovi avamposti in superficie, offrendo un grado di protezione e supporto che non si vedeva dai tempi della Prima ondata."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Major Aiva (lore)",
+        "label": {
+          "en": "Major Aiva",
+          "it": "Maggiore Aiva"
+        },
+        "subtitle": {
+          "en": "A brilliant first wave commander, and tian wen's mother",
+          "it": "Una brillante comandante della Prima ondata, nonché madre di Tian Wen"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nMajor Aiva was a major figure in the First Wave, and Tian Wen's mother.\n\nMuch like her daughter, Major Aiva was a whip-smart, tactical mastermind. A fearless leader in the original ARC resistance, Aiva led several successful skirmishes against the machines before ultimately perishing in the final battle of the First Wave, the Battle of Victory Ridge. As with many other important figures from the First Wave, her name slowly faded into obscurity—but Tian Wen still remembers.\n\nCategory:Lore",
+          "it": "Il Maggiore Aiva fu una figura di spicco della Prima ondata, nonché la madre di Tian Wen.\n\nProprio come sua figlia, il Maggiore Aiva era una stratega acutissima e brillante. Leader impavida della resistenza originaria contro l'ARC, Aiva guidò con successo numerose schermaglie contro le macchine prima di cadere nella battaglia finale della Prima ondata, la Battaglia della Cresta della Vittoria. Come accadde a molte altre figure importanti della Prima ondata, il suo nome scivolò lentamente nell'oblio... ma Tian Wen ricorda ancora."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "The Battle of Victory Ridge (lore)",
+        "label": {
+          "en": "The Battle of Victory Ridge",
+          "it": "La Battaglia della Cresta della Vittoria"
+        },
+        "subtitle": {
+          "en": "The harrowing closing battle of the first wave",
+          "it": "La drammatica battaglia conclusiva della Prima ondata"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Victory Ridge is a rocky outcrop west of the Alcantara Dam. It was the scene of a fierce battle between ARC and organized Raiders fighting from elevated positions along the ridge. The battle marked the end of the First Wave.\n\nAfter a decade of ARC onslaught, scattered Raider groups united under the brilliant leadership of Major Aiva, and ARC was finally defeated. The battle raged for several days, littering the landscape with smoking ARC husks and fallen Raiders.\n\nThe cost of the victory was devastating. Most who fought at Victory Ridge never returned home, and those who did carried wounds both visible and hidden. Many never truly recovered.\n\nAlthough a victory against ARC, the Battle of Victory Ridge shattered the unity that had made victory possible. Survivors blamed each other for tactical failures, and feuded over the spoils of war. The unity that had defeated ARC crumbled into bitter rivalries. A monument commemorating the victory was built soon after, but was later vandalized by disillusioned Raiders.\n\nCategory:Lore",
+          "it": "La Cresta della Vittoria è uno sperone roccioso a ovest della Diga di Alcantara. Fu teatro di un feroce scontro tra l'ARC e i Raider organizzati, che combatterono dalle posizioni sopraelevate lungo la cresta. Quella battaglia segnò la fine della Prima ondata.\n\nDopo un decennio di assalti da parte dell'ARC, i gruppi sparsi di Raider si unirono sotto la brillante guida del Maggiore Aiva, riuscendo infine a sconfiggere l'ARC. La battaglia infuriò per diversi giorni, disseminando il paesaggio di carcasse ARC fumanti e Raider caduti.\n\nIl prezzo della vittoria fu devastante. La maggior parte di coloro che combatterono alla Cresta della Vittoria non fece mai ritorno a casa, e chi sopravvisse portò con sé ferite visibili e invisibili. Molti non si ripresero mai davvero.\n\nPur rappresentando una vittoria contro l'ARC, la Battaglia della Cresta della Vittoria spezzò l'unità che l'aveva resa possibile. I sopravvissuti si accusarono a vicenda degli errori tattici ed entrarono in conflitto per il bottino di guerra. La coesione che aveva sconfitto l'ARC si sgretolò in aspre rivalità. Poco dopo fu eretto un monumento per commemorare la vittoria, ma in seguito venne vandalizzato da Raider ormai disillusi."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      }
+    ],
+    "People": [
+      {
+        "page": "Celeste (lore)",
+        "label": {
+          "en": "Celeste",
+          "it": "Celeste"
+        },
+        "subtitle": {
+          "en": "Former raider, de facto leader of Speranza, and relentless coffee enthusiast",
+          "it": "Ex Raider, leader di fatto di Speranza e instancabile appassionata di caffè"
+        },
+        "text": {
+          "en": "__NOTOC__\n\n\"Here's a little secret for you: she collects mugs. I’ve catalogued twenty-three of them so far, and her preferred subset are silly print ones. I keep a stash in the clinic, to be dispensed for when she has a particularly bad day.” – Lance \n\nCeleste was part of the small group that first moved into what was to become Speranza. Steady and reliable, people increasingly turned towards her for guidance and mediation, turning her into a pillar of the fast-growing community.\n\nOverpopulation, political strife, and resource shortages soon became her daily reality. Worst of all, in the absence of ARC, her fellow Raiders began turning on each other.\n\nThese days, she often clashes with leaders from other Toledo neighborhoods and faces pushback from several civilian petitioners who have their own ideas about how Speranza should be governed.\n\nDespite it all, Celeste still holds out hope that Raiders can once again unite under a single banner in the fight against ARC, though there are few left that share her dream.\n\n== The First Wave ==\nCeleste was nine years old when the First Wave hit. Left without a home, she soon found her place among a group of Raiders who refused to give up the fight against ARC.\n\nThough she lost many friends along the way, Celeste persevered and, as a teenager, took part in the legendary Battle of Victory Ridge. It was there that the last pocket of ARC was finally defeated, bringing the First Wave to an end.\n\nBattle-hardened and a firm believer that impossible odds can be overcome through sheer determination, Celeste shifted her focus from fighting to building. Speranza quickly became her main focus, but with rapid growth came inevitable challenges.\n\nCategory:Lore",
+          "it": "__NOTOC__\n\n«Ecco un piccolo segreto per te: colleziona tazze. Finora ne ho catalogate ventitré, e la sua sottocategoria preferita è quella con le stampe buffe. Ne tengo una scorta in clinica, da tirare fuori quando ha una giornata particolarmente storta.» – Lance\n\nCeleste faceva parte del piccolo gruppo che per primo si stabilì in quella che sarebbe diventata Speranza. Salda e affidabile, divenne presto un punto di riferimento per chi cercava guida e mediazione, trasformandosi in un pilastro di quella comunità in rapida crescita.\n\nSovraffollamento, lotte politiche e carenza di risorse divennero ben presto la sua realtà quotidiana. E quel che è peggio, in assenza degli ARC, i suoi compagni Raider cominciarono a rivoltarsi gli uni contro gli altri.\n\nOggigiorno si scontra spesso con i leader degli altri quartieri di Toledo e deve affrontare l'opposizione di diversi cittadini che avanzano richieste e hanno le proprie idee su come Speranza dovrebbe essere governata.\n\nNonostante tutto, Celeste nutre ancora la speranza che i Raider possano tornare a unirsi sotto un'unica bandiera nella lotta contro gli ARC, anche se sono rimasti in pochi a condividere il suo sogno.\n\n== La Prima ondata ==\nCeleste aveva nove anni quando colpì la Prima ondata. Rimasta senza una casa, trovò presto il suo posto in un gruppo di Raider che si rifiutava di arrendersi nella lotta contro gli ARC.\n\nPur avendo perso molti amici lungo il cammino, Celeste resistette e, ancora adolescente, prese parte alla leggendaria Battaglia della Cresta della Vittoria. Fu lì che l'ultima sacca di resistenza degli ARC venne finalmente sconfitta, ponendo fine alla Prima ondata.\n\nTemprata dalle battaglie e fermamente convinta che anche le sfide impossibili possano essere superate con la pura determinazione, Celeste spostò la sua attenzione dal combattimento alla costruzione. Speranza divenne rapidamente il suo obiettivo principale, ma con la rapida crescita arrivarono sfide inevitabili.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Shani (lore)",
+        "label": {
+          "en": "Shani",
+          "it": "Shani"
+        },
+        "subtitle": {
+          "en": "Vigilant watcher of radar screens and protector of the tubes",
+          "it": "Vigile osservatrice degli schermi radar e protettrice della metro"
+        },
+        "text": {
+          "en": "__NOTOC__\n\n“People think Celeste is running this place, and they’re not entirely wrong. But what they don’t realize is that without Shani, we’d all be toast. No one knows more about Speranza or ARC than she does.” – Apollo\n\nVigilant, cautious, and dutiful, Shani keeps a near-constant watch on the screens in her room. Officially, she’s tasked with monitoring any Topside threats, as well as operation of the Tubes and all Raider Hatches. In reality, there is little in Speranza that escapes her watchful gaze.\n\nShani relies on an array of radars, scanners, and makeshift equipment to map out ARC behaviors. However, the machines' penchant for self-optimization makes it a steep uphill battle, leaving her with precious little time to rest, sleep, or take the occasional deep breath.\n\nIn addition to her equipment, Shani also relies on a network of scouts for firsthand intelligence on surface activity. Unlike many Raiders, this select group seldom engages in open combat, relying more on stealth.\n\nCategory:Lore",
+          "it": "__NOTOC__\n\n«La gente pensa che a mandare avanti questo posto sia Celeste, e non ha del tutto torto. Ma ciò che non capisce è che senza Shani saremmo tutti spacciati. Nessuno conosce Speranza o gli ARC meglio di lei.» – Apollo\n\nVigile, cauta e ligia al dovere, Shani sorveglia quasi costantemente gli schermi della sua stanza. Ufficialmente ha il compito di monitorare ogni minaccia in Superficie, oltre al funzionamento della metro e di tutte le Botole Raider. In realtà, ben poco a Speranza sfugge al suo sguardo attento.\n\nShani si affida a una serie di radar, scanner e attrezzature di fortuna per mappare i comportamenti degli ARC. Tuttavia, la propensione delle macchine all'auto-ottimizzazione rende il suo lavoro una battaglia tutta in salita, lasciandole ben poco tempo per riposare, dormire o tirare un respiro di sollievo.\n\nOltre che sulle sue apparecchiature, Shani fa affidamento su una rete di perlustratori per ottenere informazioni di prima mano sulle attività in superficie. A differenza di molti Raider, questo gruppo selezionato raramente si ingaggia in combattimenti aperti, preferendo agire nell'ombra.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Tian Wen (lore)",
+        "label": {
+          "en": "Tian Wen",
+          "it": "Tian Wen"
+        },
+        "subtitle": {
+          "en": "Technical mastermind with questionable customer service",
+          "it": "Genio della tecnica con un servizio clienti discutibile"
+        },
+        "text": {
+          "en": "__NOTOC__\n\n“You know, I don’t really remember when she showed up. One day she was just there, holed up behind a deadbolted door, setting up shop.” – Celeste\n\nA technical mastermind with a cut-throat personality, Tian Wen conducts most of her business from behind a bulletproof door, hidden away in a dark alley off the Piazza.\n\nHer mastery in crafting high-quality firearms has earned her fame in Speranza and beyond. Rumor has it she doesn’t think too highly of Raiders, yet her trade makes dealings with them an unavoidable reality.\n\nIn addition to running her storefront in Speranza, Tian Wen maintains a quiet influence over Toledo's black market, where many of her more experimental weapons curiously find their way.\n\nGiven how many Raiders rely on her supplies for their safety, it's possible that Shani chooses to overlook these more dubious dealings, at least for now.\n\n== The First Wave ==\nTian Wen was only a girl during the First Wave of ARC attacks. Her mother, Major Aiva, was a legendary Raider commander who led countless skirmishes in those early battles. When Aiva fell at the Battle of Victory Ridge, Tian Wen was left devastated and alone.\n\nThe unforgiving years that followed taught her a harsh truth: the legacy of a celebrated parent won't keep you fed, and it doesn't take long for the next generation to forget who fought for their safety. That bitter lesson became the foundation of her enduring disdain for Raiders.\n\n\"My mother died believing in humanity's shared struggle. But I believe in fair exchange. Humans look out for themselves and I accept that. Twenty cans of preserves or equivalent medicine for a good gun. No haggling.\"\n\nCategory:Lore",
+          "it": "__NOTOC__\n\n«Sai, non ricordo davvero quando sia arrivata. Un giorno era semplicemente lì, barricata dietro una porta blindata, intenta ad aprire bottega.» – Celeste\n\nGenio della tecnica dal carattere spietato, Tian Wen gestisce gran parte dei suoi affari da dietro una porta antiproiettile, nascosta in un vicolo buio fuori dalla Piazza.\n\nLa sua maestria nel fabbricare armi da fuoco di alta qualità le ha fatto guadagnare fama a Speranza e oltre. Si dice che non abbia una grande opinione dei Raider, eppure il suo mestiere rende inevitabile avere a che fare con loro.\n\nOltre a gestire la sua bottega a Speranza, Tian Wen esercita una discreta influenza sul mercato nero di Toledo, dove molte delle sue armi più sperimentali finiscono curiosamente per arrivare.\n\nDato quanti Raider dipendono dalle sue forniture per la propria sopravvivenza, è probabile che Shani scelga di chiudere un occhio su questi traffici più loschi, almeno per il momento.\n\n== La Prima ondata ==\nTian Wen era solo una ragazzina durante la Prima ondata di attacchi degli ARC. Sua madre, il Maggiore Aiva, era una leggendaria comandante Raider che guidò innumerevoli schermaglie in quelle prime battaglie. Quando Aiva cadde nella Battaglia della Cresta della Vittoria, Tian Wen rimase distrutta e sola.\n\nGli anni spietati che seguirono le insegnarono una dura verità: l'eredità di un genitore celebrato non ti sfama, e la generazione successiva non ci mette molto a dimenticare chi ha combattuto per la sua salvezza. Quella lezione amara divenne il fondamento del suo duraturo disprezzo per i Raider.\n\n«Mia madre è morta credendo nella lotta comune dell'umanità. Io invece credo nello scambio equo. Gli esseri umani pensano a sé stessi e lo accetto. Venti barattoli di conserve o l'equivalente in medicinali per una buona arma. Niente contrattazioni.»\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Lance (lore)",
+        "label": {
+          "en": "Lance",
+          "it": "Lance"
+        },
+        "subtitle": {
+          "en": "Medical enigma with an unbridled curiosity",
+          "it": "Enigma della medicina dalla curiosità sfrenata"
+        },
+        "text": {
+          "en": "__NOTOC__\n\n“I’ve come across similar models before, though even that’s a rarity. But none of them spoke or carried themselves quite like Lance. I’m not sure what wires got crossed in that metal head of his, but I’d love to find out. Also, he’d fetch a fortune on the black market—but you didn’t hear that from me.” – Tian Wen\n\nAn enigma to Speranzan society—and to some extent himself. Given that he can’t remember his origins—the android Lance runs his famed medical clinic just off the Piazza. It is said that the only thing he can’t cure is the common cold, though that’s never said within his earshot.\n\nWhen it comes to medical matters, Lance is a consummate professional; equally focused while wrapping bandages as he is while picking out bullets with tweezers. When it comes to settling on a name for his clinic, however, his composure tends to fall apart very quickly.\n\nLately, Lance has sought to cultivate a harmonious feng shui in his clinic, hoping it might soothe his patients while he dislodges shrapnel and other foreign objects from their bodies. So far, his strategically-placed throw pillows have not had the intended effect.\n\nCategory:Lore",
+          "it": "__NOTOC__\n\n«Mi è già capitato di imbattermi in modelli simili, anche se restano una rarità. Ma nessuno di loro parlava o si comportava come Lance. Non so quali fili gli si siano incrociati in quella testa di metallo, ma mi piacerebbe scoprirlo. Inoltre varrebbe una fortuna al mercato nero — ma non l'hai sentito da me.» – Tian Wen\n\nUn enigma per la società di Speranza — e in certa misura anche per sé stesso, visto che non ricorda le proprie origini — l'androide Lance gestisce la sua rinomata clinica medica a due passi dalla Piazza. Si dice che l'unica cosa che non riesca a curare sia il comune raffreddore, anche se nessuno osa dirlo in sua presenza.\n\nQuando si tratta di questioni mediche, Lance è un professionista consumato: altrettanto concentrato mentre fascia una ferita quanto mentre estrae proiettili con le pinzette. Quando però si tratta di scegliere un nome per la sua clinica, la sua compostezza tende a sgretolarsi molto in fretta.\n\nUltimamente Lance sta cercando di creare un feng shui armonioso nella sua clinica, sperando che possa tranquillizzare i pazienti mentre estrae schegge e altri corpi estranei dai loro corpi. Finora, i suoi cuscini decorativi disposti strategicamente non hanno sortito l'effetto sperato.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Blue Gate Nomads (lore)",
+        "label": {
+          "en": "Blue Gate Nomads",
+          "it": "Nomadi del Varco Blu"
+        },
+        "subtitle": {
+          "en": "An unseen society of survivors, first spotted at The Blue Gate",
+          "it": "Una società invisibile di sopravvissuti, avvistata per la prima volta al Varco Blu"
+        },
+        "text": {
+          "en": "The signs of an unknown group of survivors were spotted around the Blue Gate; recognized by their flags and makeshift decorations. They were found to have been involved in bringing down the ARC Deforester, though their methods seem to have left the husks in a surprisingly pristine state.\n\nAfter contact was established by Celeste, a group of nomad envoys landed in Toledo, seeking to procure Raider-made gear in exchange for finds from across the Rust Belt, as well as lessons passed down through generations.\n\nCategory:Lore",
+          "it": "Le tracce di un gruppo sconosciuto di sopravvissuti sono state avvistate nei dintorni del Varco Blu, riconoscibili dalle loro bandiere e dalle decorazioni di fortuna. Si è scoperto che avevano preso parte all'abbattimento del Deforester ARC, sebbene i loro metodi sembrino averne lasciato le carcasse in condizioni sorprendentemente intatte.\n\nDopo che Celeste ebbe stabilito un contatto, un gruppo di inviati nomadi giunse a Toledo per procurarsi equipaggiamento fabbricato dai Raider in cambio di reperti provenienti da tutta la Cintura di ruggine, oltre a insegnamenti tramandati di generazione in generazione.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Nomadic Envoys (lore)",
+        "label": {
+          "en": "Nomadic Envoys",
+          "it": "Inviati Nomadi"
+        },
+        "subtitle": {
+          "en": "A Nomadic Envoy, carrying the road even while standing still.",
+          "it": "Un Inviato Nomade, che porta con sé la strada anche restando fermo."
+        },
+        "text": {
+          "en": "__NOTOC__\n\nA group of curiously-dressed envoys recently arrived on the Piazza, operating from a makeshift shelter made of fabric and braided rope.\n\nSkittish and distant, they seem to only warm up at the sight of battle-scarred Raiders lugging a wealth of goods into their tent.\n\nHaving wandered around the Rust Belt for generations, these nomads have mastered the art of packing things efficiently; managing to free up space where a layman may have seen none.\n\nThey've been known to leave provisions for those who come after; believing it a way to ensure that fortune accompanies them on their path.\n\nCategory:Lore",
+          "it": "__NOTOC__\n\nUn gruppo di inviati dagli abiti singolari è arrivato di recente in Piazza, operando da un riparo improvvisato fatto di stoffa e corde intrecciate.\n\nSchivi e distaccati, sembrano sciogliersi soltanto alla vista di Raider segnati dalle battaglie che trascinano un ricco bottino nella loro tenda.\n\nAvendo vagato per la Cintura di ruggine per generazioni, questi nomadi hanno perfezionato l'arte di stipare i bagagli con efficienza, riuscendo a ricavare spazio laddove un profano non ne vedrebbe alcuno.\n\nSono noti per lasciare provviste a chi verrà dopo di loro, convinti che sia un modo per assicurarsi che la buona sorte li accompagni lungo il cammino.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Raiders (lore)",
+        "label": {
+          "en": "Raiders",
+          "it": "Raider"
+        },
+        "subtitle": {
+          "en": "Fighters, ruffians, providers, and fashionistas",
+          "it": "Combattenti, furfanti, rifornitori e amanti dello stile"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nWith ARC's lethal machines ruling the surface, only a handful of survivors dare venture topside. With a combination of unwavering boldness and quick thinking, they are the only source of rare goods for most inhabitants of Toledo.\n\nAs Toledo grew into secluded, isolated neighborhoods, Raiders have grown increasingly territorial and hostile to one another. While outside the reach of Toledo’s security, many have been known to settle bitter rivalries by force.\n\nCategory:Lore",
+          "it": "__NOTOC__\n\nCon le letali macchine degli ARC a dominare la superficie, solo una manciata di sopravvissuti osa avventurarsi in Superficie. Grazie a una combinazione di incrollabile audacia e prontezza di spirito, rappresentano l'unica fonte di beni rari per gran parte degli abitanti di Toledo.\n\nMan mano che Toledo si espandeva in quartieri appartati e isolati, i Raider sono diventati sempre più territoriali e ostili gli uni verso gli altri. Fuori dalla portata della sicurezza di Toledo, è risaputo che molti regolino le vecchie rivalità con la forza.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Bilguun (lore)",
+        "label": {
+          "en": "Bilguun",
+          "it": "Bilguun"
+        },
+        "subtitle": {
+          "en": "A self-sufficient wanderer who keeps his own counsel.",
+          "it": "Un vagabondo autosufficiente che non rende conto a nessuno."
+        },
+        "text": {
+          "en": "__NOTOC__\n“Bilguun's never been one for staying in one place. You learn not to take it personally. Give him a little sky, a little silence, and he'll come back when he's ready.” - Celeste\n\nAsk your average resident in Speranza who Bilguun is, and they likely wouldn't be able to give you an answer. Ask those who claim to know him, and even they might struggle.\n\nDespite this, Bilguun is one of Speranza's longest-standing residents —if resident is the right word. He spends much of his time Topside, where he's set up a handful of regular haunts and sleeps beneath the open sky. His history with Celeste and Lance predates Speranza itself, while scattered clues suggest he may also have ties to the Nomads. As with most things concerning Bilguun, he was never seemed particularly interested in clearing things up the details.\n\nCategory:Lore",
+          "it": "__NOTOC__\n«Bilguun non è mai stato tipo da restare fermo in un posto solo. Impari a non prenderla sul personale. Dagli un po' di cielo, un po' di silenzio, e tornerà quando sarà pronto.» – Celeste\n\nChiedi a un abitante qualunque di Speranza chi sia Bilguun e probabilmente non saprà risponderti. Chiedilo a chi sostiene di conoscerlo, e persino loro potrebbero trovarsi in difficoltà.\n\nNonostante ciò, Bilguun è uno dei residenti di più lunga data di Speranza — ammesso che «residente» sia la parola giusta. Trascorre gran parte del tempo in Superficie, dove ha allestito qualche rifugio abituale e dorme sotto il cielo aperto. Il suo passato con Celeste e Lance precede la stessa Speranza, mentre indizi sparsi suggeriscono che possa avere legami anche con i Nomadi. Come per quasi tutto ciò che riguarda Bilguun, non è mai sembrato particolarmente interessato a chiarire i dettagli.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Apollo (lore)",
+        "label": {
+          "en": "Apollo",
+          "it": "Apollo"
+        },
+        "subtitle": {
+          "en": "Ever-scorched maker of gadgets and grenades",
+          "it": "Fabbricante di gadget e granate, perennemente bruciacchiato"
+        },
+        "text": {
+          "en": "__NOTOC__\n\n“Unlike many here, this isn’t Apollo’s first settlement. He claims to have lived in several, although he is a bit vague on the details. That said, his energy for improvement and his constant cheer do have their uses.” - Shani\n\nApollo runs a store by Speranza’s Piazza, selling primarily makeshift grenades and gadgets. Most of his wares are of his own design, and though they may seem rudimentary to the untrained eye, they are thoroughly field-tested by the most daring Raiders.\n\nWhen major expansion projects are initiated, such as freeing up new living space or expanding the tunnel network, he's often designated as one of the foremen; doubly so if indiscriminate demolition is required.\n\nAn avid reader, Apollo enjoys a hard-boiled detective novel. Some say he puts himself at a constant risk of concussion, just so he can forget the grand reveals.\n\nCategory:Lore",
+          "it": "__NOTOC__\n\n«A differenza di molti qui, questo non è il primo insediamento di Apollo. Sostiene di aver vissuto in diversi altri, anche se resta piuttosto vago sui dettagli. Detto ciò, la sua voglia di migliorarsi e il suo eterno buonumore tornano decisamente utili.» – Shani\n\nApollo gestisce un negozio affacciato sulla Piazza di Speranza, dove vende soprattutto granate artigianali e gadget. Gran parte della sua merce è di sua invenzione e, per quanto a un occhio inesperto possa sembrare rudimentale, viene rigorosamente testata sul campo dai Raider più temerari.\n\nQuando vengono avviati grandi progetti di ampliamento, come liberare nuovi spazi abitativi o estendere la rete di tunnel, viene spesso nominato tra i capisquadra; a maggior ragione se è richiesta una demolizione indiscriminata.\n\nAvido lettore, Apollo adora i romanzi polizieschi hard-boiled. Qualcuno dice che si esponga continuamente al rischio di commozioni cerebrali pur di dimenticare i colpi di scena finali.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "OTTM (lore)",
+        "label": {
+          "en": "OTTM",
+          "it": "GUM"
+        },
+        "subtitle": {
+          "en": "An unofficial group with an official-sounding name",
+          "it": "Un gruppo non ufficiale dal nome fin troppo ufficiale"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Official Toledo Tubes Management, or OTTM, is a thuggish organization that controls several critical junctions in the Tubes network running through Toledo and extending outward into the world. \n\nThe city of Toledo does not possess a central government to provide any official sanctions, and the OTTM possesses enough influence and manpower to fend off any would-be challengers to its authority. The Speranza Slingshots pass through a junction controlled by the OTTM, and Celeste must frequently pay tribute to maintain the Raiders' access to the Tubes in Speranza. \n\nIn an effort to escape the constant extortion by the OTTM, Celeste enlisted Raider assistance to retrieve a dead drop intended for a high-ranking member of the organization. \n\nFrom its contents, she discovered that despite their threats and projected strength, the OTTM's grip on the Tubes was much weaker than they let on. The dead drop hinted at tangible evidence that could expose their vulnerability. If discovered, it might be enough to rally even a single neighborhood into mounting a successful resistance and overthrowing the OTTM's control.\n\nWith the evidence acquired at the Spaceport, Celeste called a tense meeting with the OTTM. The representatives arrived with smug expressions, expecting yet another tribute for continued use of \"their\" Tubes. They left, however, with clammy hands and worried faces.\n\nThe people of Speranza aren’t exactly sure how Celeste secured free passage for the Speranza Slingshots, but a number of wild stories circulate around the local cantinas. Some speak of epic gunfights, others of romantic seduction, and a few whisper of infiltration and sabotage. One thing is certain: Celeste is a determined leader. She will do whatever it takes to ensure her Raiders can carry out their work without interference.\n\nCategory:Lore",
+          "it": "__NOTOC__\n\nLa Gestione Ufficiale Metro di Toledo, o GUM, è un'organizzazione di delinquenti che controlla diversi snodi cruciali della rete della metro che attraversa Toledo e si estende verso il mondo esterno.\n\nLa città di Toledo non dispone di un governo centrale capace di imporre sanzioni ufficiali, e la GUM possiede abbastanza influenza e manodopera da respingere qualsiasi potenziale sfidante alla propria autorità. Le metrofionde di Speranza passano attraverso uno snodo controllato dalla GUM, e Celeste è spesso costretta a pagare un tributo per mantenere l'accesso dei Raider alla metro a Speranza.\n\nNel tentativo di sottrarsi alle continue estorsioni della GUM, Celeste ha chiesto l'aiuto dei Raider per recuperare un carico segreto destinato a un membro di alto rango dell'organizzazione.\n\nDal suo contenuto scoprì che, nonostante le minacce e l'ostentazione di forza, la presa della GUM sulla metro era molto più debole di quanto lasciasse intendere. Il carico segreto accennava a prove concrete in grado di smascherarne la vulnerabilità: se fossero state trovate, sarebbero bastate a compattare anche un solo quartiere per organizzare una resistenza efficace e rovesciare il controllo della GUM.\n\nOttenute le prove allo Spazioporto, Celeste convocò un teso incontro con la GUM. I rappresentanti arrivarono con aria compiaciuta, aspettandosi l'ennesimo tributo per continuare a usare la «loro» metro. Se ne andarono, invece, con le mani sudate e i volti preoccupati.\n\nGli abitanti di Speranza non sanno con esattezza come Celeste abbia ottenuto il libero transito per le metrofionde di Speranza, ma nelle taverne locali circolano diverse storie rocambolesche. Alcuni parlano di epici scontri a fuoco, altri di seduzione romantica, e qualcuno sussurra di infiltrazioni e sabotaggi. Una cosa è certa: Celeste è una leader determinata, disposta a tutto pur di garantire che i suoi Raider possano svolgere il proprio lavoro senza interferenze.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Stella Montis Researchers (lore)",
+        "label": {
+          "en": "Stella Montis Researchers",
+          "it": "Ricercatori di Stella Montis"
+        },
+        "subtitle": {
+          "en": "The best and brightest, aligned around a shared vision",
+          "it": "I migliori e più brillanti, uniti attorno a una visione condivisa"
+        },
+        "text": {
+          "en": "__NOTOC__\n\n(An excerpt from the internal messages found on Stella Montis.)\nRE: lunch?\nFrom: Michel Volpi [Robotics & Assembly]\nTo: Enrico Marino [Medical], Patrizia Silvertri [Archives]\ncafeteria's serving chicken dijon. btw, did you see the mantikor people down in the lobby? feels like a bit much, doesn't it? we're all the way up in the mountains, so it's not like we should need all this security??\nRE:RE: lunch?\nFrom: Enrico Marino [Medical]\nTo: Michel Volpi [Robotics & Assembly], Patrizia Silvestri [Archives]\nRoutine check, officially. Don't be surprised if they stop by your section later.\nLet's do lunch away from the cafeteria. Come by medical when you can. Usual spot.\nAndrea prefers we speak in person.\nRE:RE:RE: lunch?\nFrom: Patrizia Silverstri [Archives]\nTo: Michel Volpi [Robotics & Assembly], Enrico Marino [Medical]\nAlso, bring the chicken.",
+          "it": "__NOTOC__\n\n(Estratto dai messaggi interni rinvenuti a Stella Montis.)\nRE: pranzo?\nDa: Michel Volpi [Robotica e Assemblaggio]\nA: Enrico Marino [Settore Medico], Patrizia Silvertri [Archivi]\nalla mensa servono pollo alla senape di Digione. a proposito, avete visto quelli della mantikor giù nell'atrio? non vi sembra un po' esagerato? siamo quassù in mezzo alle montagne, non è che dovremmo aver bisogno di tutta questa sicurezza??\nRE:RE: pranzo?\nDa: Enrico Marino [Settore Medico]\nA: Michel Volpi [Robotica e Assemblaggio], Patrizia Silvestri [Archivi]\nControllo di routine, ufficialmente. Non stupirti se più tardi passano dal tuo reparto.\nPranziamo lontano dalla mensa. Passa al settore medico quando puoi. Solito posto.\nAndrea preferisce che parliamo di persona.\nRE:RE:RE: pranzo?\nDa: Patrizia Silverstri [Archivi]\nA: Michel Volpi [Robotica e Assemblaggio], Enrico Marino [Settore Medico]\nE porta anche il pollo."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries"
+        ]
+      },
+      {
+        "page": "Mantikor (lore)",
+        "label": {
+          "en": "Mantikor",
+          "it": "Mantikor"
+        },
+        "subtitle": {
+          "en": "An Exodus-era paramilitary in increasingly misguided denial",
+          "it": "Un'organizzazione paramilitare dell'era dell'Esodo in una negazione sempre più cieca"
+        },
+        "text": {
+          "en": "MANTIKOR was a private, paramilitary organization, employed to secure many Exodus-era sites and personnel. Among others, they seem to have been employed guarding the Blue Gate.\n\nFor decades, MANTIKOR consisted of primarily human guards. However, shortly before the first spaceships departed, these guards were paired up with state-of-the-art security androids.\n\nSensing their impending substitution, a small group of human guards defected to join the Rust Belt Mutiny, allowing truckloads of contraband to pass into the Rust Belt, as well as providing advanced communications technology to the mutineers.\n\nCategory:Lore",
+          "it": "La MANTIKOR era un'organizzazione paramilitare privata, incaricata di proteggere numerosi siti e personale dell'era dell'Esodo. Tra gli altri incarichi, sembra fosse stata impiegata a guardia del Varco Blu.\n\nPer decenni, la MANTIKOR fu composta principalmente da guardie umane. Tuttavia, poco prima della partenza delle prime astronavi, queste guardie vennero affiancate da androidi di sicurezza all'avanguardia.\n\nIntuendo la loro imminente sostituzione, un piccolo gruppo di guardie umane disertò per unirsi all'Ammutinamento della Cintura di ruggine, lasciando passare interi camion di merce di contrabbando nella Cintura di ruggine e fornendo ai ribelli tecnologie di comunicazione avanzate.\n\nCategory:Lore"
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      }
+    ],
+    "Toledo": [
+      {
+        "page": "The Tubes (lore)",
+        "label": {
+          "en": "The Tubes",
+          "it": "I Tubi"
+        },
+        "subtitle": {
+          "en": "The network of tunnels spanning the rust belt and beyond",
+          "it": "La rete di tunnel che attraversa la Cintura di ruggine e oltre"
+        },
+        "text": {
+          "en": "The network of tunnels spanning the Rust Belt and beyond is known as the Tubes. Raiders use these tunnels to reach the surface by boarding transport pods launched from stations the locals call Slingshots.\n\nEach neighborhood in Toledo has its own Slingshot station, managed by local security and operations teams. Several junctions lie along the Tubes before they reach surface access points.\n\nThe Tubes were originally built during the Exodus construction efforts to enable rapid transport of materials between major sites, linking directly to a network of cargo elevators. Since then, Toledo engineers have integrated them with other types of infrastructure, including civilian metro lines and ventilation air shafts.\n\nCategory:Lore",
+          "it": "La rete di tunnel che si estende attraverso la Cintura di ruggine e oltre è nota come i Tubi. I Raider usano questi tunnel per raggiungere la superficie salendo a bordo di capsule di trasporto lanciate da stazioni che la gente del posto chiama Metrofionde.\n\nOgni quartiere di Toledo ha la propria stazione delle metrofionde, gestita da squadre locali di sicurezza e operazioni. Lungo i Tubi si trovano diversi snodi prima che questi raggiungano i punti d'accesso alla superficie.\n\nI Tubi furono costruiti originariamente durante i lavori dell'Esodo per consentire il trasporto rapido di materiali tra i siti principali, collegandosi direttamente a una rete di montacarichi. Da allora, gli ingegneri di Toledo li hanno integrati con altri tipi di infrastrutture, comprese linee metropolitane civili e condotti di ventilazione."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Raider Hatches (lore)",
+        "label": {
+          "en": "Raider Hatches",
+          "it": "Botole dei Raider"
+        },
+        "subtitle": {
+          "en": "Makeshift hatches for a discreet getaway",
+          "it": "Botole improvvisate per una fuga discreta"
+        },
+        "text": {
+          "en": "Scattered across Topside, Raider Hatches provide quick and silent escape routes back to Speranza. Built by the Raiders themselves, these hidden entries sit atop old manholes, crevices and tunnels, offering a secure way home.\n\nUnlike the cargo elevators or subway tunnels, these hatches operate autonomously, requiring one-time passkeys for access. A simple autonomous system controls each hatch, verifying users and ensuring security before granting entry.\n\nThe hatches remain vital to Raider operations, their locations known only to those who need them. In a world where survival hinges on speed and secrecy, these silent doors often stand between life and death.\n\nCategory:Lore",
+          "it": "Sparse per tutta la Superficie, le Botole dei Raider offrono vie di fuga rapide e silenziose per tornare a Speranza. Costruite dagli stessi Raider, queste aperture nascoste sorgono sopra vecchi tombini, fenditure e tunnel, garantendo un rientro sicuro verso casa.\n\nA differenza dei montacarichi o dei tunnel della metropolitana, queste botole funzionano in autonomia e richiedono chiavi d'accesso monouso per essere aperte. Un semplice sistema autonomo controlla ciascuna botola, verificando gli utenti e garantendo la sicurezza prima di concedere l'accesso.\n\nLe botole restano vitali per le operazioni dei Raider e la loro posizione è nota soltanto a chi ne ha bisogno. In un mondo in cui la sopravvivenza dipende dalla rapidità e dalla segretezza, queste porte silenziose fanno spesso la differenza tra la vita e la morte."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Field Depots (lore)",
+        "label": {
+          "en": "Field Depots",
+          "it": "Depositi sul campo"
+        },
+        "subtitle": {
+          "en": "A tireless attempt at deciphering ARC's secrets",
+          "it": "Un tentativo instancabile di decifrare i segreti dell'ARC"
+        },
+        "text": {
+          "en": "Field Depots have been set up all around Topside, primarily for the pneumatic delivery mechanisms found within. It’s common Raider knowledge that placing an ARC field crate inside the mechanism will send it to Toledo for further study, with the Raider receiving valuable resources in return.\n\nThe field crates themselves are something of a mystery. They can be found all over the Topside, said to be dropped by malfunctioning Probes and Couriers.\n\nExaminations of the pneumatic delivery mechanisms within the Field Depots have led to speculation that they were constructed during the Exodus efforts to transport materials to and from the Tubes.\n\nShani has been overheard multiple times advocating for the continued use of the Field Depots, as it allows her and other Security staff members to learn more about ARC in general.\n\nCategory:Lore",
+          "it": "I Depositi sul campo sono stati allestiti in tutta la Superficie principalmente per i meccanismi di consegna pneumatica che ospitano al loro interno. Tra i Raider è risaputo che inserire una cassa da campo ARC nel meccanismo la invia a Toledo per ulteriori analisi, fruttando in cambio risorse preziose al Raider.\n\nLe casse da campo stesse restano avvolte nel mistero. Si possono trovare in ogni angolo della Superficie e si dice vengano sganciate da Sonde e Corrieri malfunzionanti.\n\nL'analisi dei meccanismi di consegna pneumatica all'interno dei Depositi sul campo ha portato a ipotizzare che siano stati costruiti durante i lavori dell'Esodo per trasportare materiali da e verso i Tubi.\n\nShani è stata sentita più volte sostenere l'uso continuato dei Depositi sul campo, poiché permette a lei e al resto del personale della Sicurezza di saperne di più sull'ARC in generale."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Electricity (lore)",
+        "label": {
+          "en": "Electricity",
+          "it": "Elettricità"
+        },
+        "subtitle": {
+          "en": "The ramshackle grid keeping the lights on and engines running",
+          "it": "La rete rabberciata che tiene accese le luci e in moto i motori"
+        },
+        "text": {
+          "en": "The primary source of electricity in Toledo is solar power. A set of power lines connects the city to a partially repaired solar grid in the western regions of the Rust Belt. Additionally, several rooftop solar panels in Buried City have been integrated into the city’s power grid.\n\nTo provide electricity during night-time or outages, the Toledo neighborhoods maintains stockpiles of large batteries. Because the power grid is segmented, different neighborhoods and sectors in Toledo experience varying levels of stability.\n\nA recent uptick in power outages has sparked rumors of sabotage throughout Speranza. So far no one has uncovered any substantial evidence, though some have noticed that Tian Wen has been looking uncharacteristically pleased with herself.\n\nCategory:Lore",
+          "it": "La fonte primaria di elettricità a Toledo è l'energia solare. Una serie di linee elettriche collega la città a una rete solare parzialmente riparata nelle regioni occidentali della Cintura di ruggine. Inoltre, diversi pannelli solari sui tetti della Città sepolta sono stati integrati nella rete elettrica cittadina.\n\nPer fornire energia durante la notte o nei momenti di blackout, i quartieri di Toledo mantengono scorte di grandi batterie. Poiché la rete elettrica è segmentata, i diversi quartieri e settori di Toledo registrano livelli di stabilità variabili.\n\nUn recente aumento dei blackout ha alimentato voci di sabotaggio in tutta Speranza. Finora nessuno ha trovato prove concrete, anche se alcuni hanno notato che Tian Wen sembra insolitamente soddisfatta di sé."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Food Cultivation (lore)",
+        "label": {
+          "en": "Food Cultivation",
+          "it": "Coltivazione alimentare"
+        },
+        "subtitle": {
+          "en": "The bare necessity that powers all raiders",
+          "it": "Il bene essenziale che dà energia a tutti i Raider"
+        },
+        "text": {
+          "en": "Much of Speranza's food is cultivated in makeshift greenhouses, relying on grow lights and what few locations are still exposed to light from the surfaces. Though Celeste has long sought to ramp up food production, the constant threat of even a single failed harvest means she enforces careful rationing of seeds, and diligent conservation of all food produced.\n\nAgricultural research found around The Dam revealed that during the era of Sunrise, a group of ingenious  farmers sought to cultivate a more resilient strain of wheat. Their meticulous research spanned several growing seasons, and involved planting a wide variety of wild seeds in locations of varying drought, salinity, acidity, and exposure to harsh weather.\n\nAfter several seasons of selective breeding, these cultivation researchers attempted to plant the most promising seed strains in the Hydroponic Domes, diligently documenting their progress in digital archives. According to their early results, they had a real hopes of establishing a large-scale, reliable source of nutrition, potentially transforming society in the Rust Belt and beyond.\n\nTheir research project seems to have come to an abrupt halt when a violent hailstorm shattered the roof of the hydroponic domes; exposing the delicate seedlings to a cold snap that caused them to wilt within a day. While the research notes are riddled with words of unyielding determination, no more experiments were logged after that day.\n\nWhile the Hydroponic Domes were never fully patched up; one researcher thought to store away packs of seeds in an old cryogenic vault in Buried City, in hopes that the budding society might one day develop a sheltered enough location to pick up where the cultivation researchers left off.\n\nThough days are still early, Celeste is cautiously optimistic that the Speranza greenhouses may be able to carry the torch of agricultural progress; cultivating resilient strains of food that could one day shield an entire society from famine and demise.\n\nBy introducing bees into the Speranza greenhouses, researchers have already observed improvements to crop quality. While it may take time for the full benefits to emerge, the bees are already making a positive impact. Lance also notes that, along with their benefits, the bees have introduced greenhouse workers to the entirely new experience of being stung.\n\nCategory:Lore",
+          "it": "Gran parte del cibo di Speranza viene coltivato in serre improvvisate, grazie a lampade da coltivazione e ai pochi punti ancora esposti alla luce proveniente dalla superficie. Sebbene Celeste cerchi da tempo di aumentare la produzione alimentare, la minaccia costante che anche un solo raccolto possa andare perduto la spinge a imporre un attento razionamento dei semi e una scrupolosa conservazione di tutto il cibo prodotto.\n\nRicerche agricole rinvenute attorno alla Diga hanno rivelato che, durante l'era dell'Alba, un gruppo di ingegnosi agricoltori cercò di coltivare una varietà di grano più resistente. La loro meticolosa ricerca si protrasse per diverse stagioni di semina e previde l'impianto di un'ampia gamma di semi selvatici in siti diversi per siccità, salinità, acidità ed esposizione alle intemperie.\n\nDopo diverse stagioni di selezione, questi ricercatori tentarono di piantare le varietà di semi più promettenti nelle Cupole idroponiche, documentando diligentemente i progressi in archivi digitali. Secondo i primi risultati, nutrivano concrete speranze di creare una fonte di nutrimento affidabile e su larga scala, capace di trasformare la società nella Cintura di ruggine e oltre.\n\nIl loro progetto di ricerca sembra essersi interrotto bruscamente quando una violenta grandinata sfondò il tetto delle cupole idroponiche, esponendo i delicati germogli a un'ondata di gelo che li fece appassire nel giro di un giorno. Sebbene gli appunti di ricerca siano intrisi di incrollabile determinazione, dopo quel giorno non vennero registrati altri esperimenti.\n\nLe Cupole idroponiche non furono mai riparate del tutto, ma uno dei ricercatori pensò di mettere al sicuro alcuni pacchetti di semi in un vecchio caveau criogenico nella Città sepolta, nella speranza che la nascente società potesse un giorno allestire un luogo abbastanza protetto da riprendere il lavoro da dove gli scienziati lo avevano lasciato.\n\nPur essendo ancora agli inizi, Celeste guarda con cauto ottimismo alla possibilità che le serre di Speranza possano raccogliere il testimone del progresso agricolo, coltivando varietà alimentari resilienti in grado un giorno di proteggere un'intera società dalla carestia e dal collasso.\n\nIntroducendo delle api nelle serre di Speranza, i ricercatori hanno già osservato miglioramenti nella qualità dei raccolti. Sebbene ci vorrà del tempo perché emergano tutti i benefici, le api stanno già avendo un impatto positivo. Lance fa inoltre notare che, oltre ai vantaggi, le api hanno fatto scoprire ai lavoratori delle serre l'esperienza del tutto nuova di essere punti."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Waterworks (lore)",
+        "label": {
+          "en": "Waterworks",
+          "it": "Impianto idrico"
+        },
+        "subtitle": {
+          "en": "The cobbled-together network of rusty pipes and underground cisterns",
+          "it": "La rete rattoppata di tubi arrugginiti e cisterne sotterranee"
+        },
+        "text": {
+          "en": "Each neighborhood in Toledo is responsible for securing its own water source. Several surface-level intakes draw in groundwater and rainwater, channeling it through pumps and pipes into underground cisterns.\n\nThe water quality has always been poor and fluctuating, requiring active filtration to make it safe for consumption. However, a recent pungent smell and suspicious hue led some to believe the water was being contaminated beyond its usual levels.\n\nMost of Toledo’s water intakes are located around The Dam, repurposing old infrastructure connected to its once-imposing reservoirs. The primary intake of the neighborhood of Speranza is located near the Flood Access Tunnel; the exact location where multiple barrels of pungent liquids just so happened to be found.\n\nSperanza’s water supply was at one point found to be deliberately contaminated. It highlighted the need for alternate sources of drinking water. Celeste’s scouts located an underground cistern beneath the Spaceport; connected to the Dam’s reservoir through an elaborate network of pipes.\n\nConnecting the cistern to Speranza’s water supply provided a temporary relief, allowing Raiders to drink, cook and wash while Shani tracked down those responsible for contaminating the water.\n\nCategory:Lore",
+          "it": "Ogni quartiere di Toledo è responsabile dell'approvvigionamento della propria fonte d'acqua. Diverse prese in superficie raccolgono acque freatiche e piovane, convogliandole attraverso pompe e condutture fino a cisterne sotterranee.\n\nLa qualità dell'acqua è sempre stata scarsa e incostante, rendendo necessaria una filtrazione attiva per renderla potabile. Tuttavia, di recente, un odore pungente e una colorazione sospetta hanno spinto alcuni a credere che l'acqua fosse contaminata ben oltre i livelli abituali.\n\nLa maggior parte delle prese idriche di Toledo si trova attorno alla Diga e riutilizza vecchie infrastrutture collegate ai suoi bacini un tempo imponenti. La presa principale del quartiere di Speranza si trova vicino al Tunnel di accesso alle piene: proprio il luogo in cui, guarda caso, sono stati rinvenuti diversi barili di liquidi dall'odore acre.\n\nA un certo punto si scoprì che la riserva idrica di Speranza era stata contaminata deliberatamente. L'episodio mise in luce la necessità di fonti alternative di acqua potabile. Gli esploratori di Celeste individuarono una cisterna sotterranea sotto lo Spazioporto, collegata al bacino della Diga tramite un'elaborata rete di tubazioni.\n\nCollegare la cisterna alla rete idrica di Speranza offrì un sollievo temporaneo, permettendo ai Raider di bere, cucinare e lavarsi mentre Shani rintracciava i responsabili della contaminazione."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Security (lore)",
+        "label": {
+          "en": "Security",
+          "it": "Sicurezza"
+        },
+        "subtitle": {
+          "en": "The first and last line of defense in Speranza",
+          "it": "La prima e l'ultima linea di difesa di Speranza"
+        },
+        "text": {
+          "en": "Speranza’s Security detail keeps a long-term eye on risks in and around the community. They plan for the unknown, put mitigation measures in place, and deal with immediate threats and hazards. They also make sure that all entrances and exits are secure.\n\nSecurity relies on Raiders to do patrolling and reconnaissance tasks while Topside, gathering or confirming intel. They are rewarded from a collective purse to keep an air of independence, though some still question the reliability of their reports.\n\nCategory:Lore",
+          "it": "Il reparto Sicurezza di Speranza tiene sotto controllo sul lungo periodo i rischi dentro e attorno alla comunità. Pianifica per l'imprevisto, mette in atto misure di contenimento e affronta minacce e pericoli immediati. Si assicura inoltre che tutti gli ingressi e le uscite siano protetti.\n\nLa Sicurezza si affida ai Raider per svolgere compiti di pattugliamento e ricognizione mentre si trovano in Superficie, raccogliendo o verificando informazioni. Vengono ricompensati da un fondo comune per mantenere una parvenza di indipendenza, sebbene alcuni continuino a dubitare dell'affidabilità dei loro rapporti."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Speranza (lore)",
+        "label": {
+          "en": "Speranza",
+          "it": "Speranza"
+        },
+        "subtitle": {
+          "en": "The oldest, liveliest neighborhood of Toledo",
+          "it": "Il quartiere più antico e vivace di Toledo"
+        },
+        "text": {
+          "en": "Colorful and lively, Speranza is the oldest neighborhood of the underground city of Toledo.\n\nIt was originally established as an independent settlement at the start of the Second Wave, when ARC’s return forced settlers underground. Built into subterranean infrastructure and buildings swallowed by sinkholes, it offers a mostly-safe refuge from Topside’s many dangers.\n\nOver the years, as more survivors arrived from the Rust Belt and beyond, the original settlement expanded into the buried remnants of an ancient city, forming the secluded, patchwork neighborhoods of Toledo.\n\nCategory:Lore",
+          "it": "Colorata e vivace, Speranza è il quartiere più antico della città sotterranea di Toledo.\n\nVenne fondata originariamente come insediamento indipendente all'inizio della Seconda ondata, quando il ritorno dell'ARC costrinse i coloni a rifugiarsi sottoterra. Costruita sfruttando infrastrutture sotterranee ed edifici inghiottiti dalle doline, offre un rifugio perlopiù sicuro dai numerosi pericoli della Superficie.\n\nNel corso degli anni, con l'arrivo di altri sopravvissuti dalla Cintura di ruggine e oltre, l'insediamento originario si espanse tra i resti sepolti di un'antica città, dando forma ai quartieri isolati e frammentati di Toledo."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "The Backyard (lore)",
+        "label": {
+          "en": "The Backyard",
+          "it": "Il Cortile"
+        },
+        "subtitle": {
+          "en": "A makeshift practice range for raiders",
+          "it": "Un poligono di tiro improvvisato per i Raider"
+        },
+        "text": {
+          "en": "Nestled in a secluded mountain hollow, the echoed gunshots from the Backyard seem to confuse ARC's sense of direction, creating a rare pocket of open-air safety. Raiders use this practice range to hone their skills, and catch up on some long-overdue stargazing.\n\nThe range allows users to practice on dummy versions of ARC, and even makeshift human targets. Tian Wen has even found a way to repurpose some scavenged Turrets, allowing for a more visceral experience.\n\nCategory:Lore",
+          "it": "Riparato in una conca montana isolata, il Cortile beneficia dell'eco degli spari che sembra confondere il senso dell'orientamento dell'ARC, creando una rara sacca di sicurezza a cielo aperto. I Raider usano questo poligono per affinare le proprie abilità e concedersi un po' di meritata osservazione delle stelle.\n\nIl poligono permette di esercitarsi su versioni fittizie di ARC e persino su sagome umane improvvisate. Tian Wen ha trovato persino il modo di riutilizzare alcune Torrette recuperate, rendendo l'esperienza ancora più intensa."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Ferrovia (lore)",
+        "label": {
+          "en": "Ferrovia",
+          "it": "Ferrovia"
+        },
+        "subtitle": {
+          "en": "The breeding ground of human ingenuity and clandestine deals",
+          "it": "La fucina dell'ingegno umano e degli affari clandestini"
+        },
+        "text": {
+          "en": "Founded by the same engineers who invented The Tubes, the contrada of Ferrovia is the intellectual thoroughfare of Toledo, offering fertile ground for both diplomacy and darker affairs.\n\nSperanza's nearest neighbors both geographically and socially, Ferrovian citizens have been known to occasionally assist in maintaining the Slingshots of Speranza.\n\nEngineers from Ferrovia were crucial in the development of the Ballistic Gondolas; combining Speranza's years of prying open ARC Probes with a healthy dose of reckless Ferrovian ingenuity.\n\n== Gallery ==\n\nFerrovia Lore IG 1.jpg|\nFerrovia Lore IG 2.jpg|\n\nCategory:Lore",
+          "it": "Fondata dagli stessi ingegneri che idearono i Tubi, la contrada di Ferrovia è il crocevia intellettuale di Toledo, terreno fertile sia per la diplomazia sia per gli affari più loschi.\n\nVicini più prossimi di Speranza tanto geograficamente quanto socialmente, i cittadini di Ferrovia sono noti per aiutare occasionalmente nella manutenzione delle Metrofionde di Speranza.\n\nGli ingegneri di Ferrovia sono stati determinanti nello sviluppo delle Gondole balistiche, combinando anni di esperienza di Speranza nello scardinare Sonde ARC con una buona dose di spericolato ingegno ferroviano."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Toledo (lore)",
+        "label": {
+          "en": "Toledo",
+          "it": "Toledo"
+        },
+        "subtitle": {
+          "en": "The only known underground city in The Rust Belt",
+          "it": "L'unica città sotterranea conosciuta nella Cintura di ruggine"
+        },
+        "text": {
+          "en": "Nestled deep below the Rust Belt, the underground city of Toledo is made up of a patchwork collection of secluded neighborhoods, known locally as contradas.\n\nThough some infrastructure is shared, most of Toledo’s contradas are separated by distance and rubble; forming isolated communities looking out for their own.\n\nThough the secluded neighborhoods are in many ways parallel societies, they've been known to begrudgingly collaborate when absolutely required. Most notably, the extensive Tube network is operated by a disparate network of Slingshot operators spread across the different neighborhoods, and maintenance is performed by mixed engineering crews from all over Toledo.\n\nCategory:Lore",
+          "it": "Nascosta nelle profondità sotto la Cintura di ruggine, la città sotterranea di Toledo è composta da un mosaico eterogeneo di quartieri isolati, chiamati localmente contrade.\n\nSebbene alcune infrastrutture siano condivise, gran parte delle contrade di Toledo è separata dalla distanza e dalle macerie, formando comunità chiuse che badano ciascuna ai propri interessi.\n\nNonostante i quartieri isolati costituiscano sotto molti aspetti società parallele, capita che collaborino a malincuore quando è strettamente necessario. In particolare, l'estesa rete dei Tubi è gestita da una costellazione eterogenea di operatori delle metrofionde distribuiti nei diversi quartieri, mentre la manutenzione è affidata a squadre miste di ingegneri provenienti da tutta Toledo."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Vaulto (lore)",
+        "label": {
+          "en": "Vaulto",
+          "it": "Vaulto"
+        },
+        "subtitle": {
+          "en": "The distant contrada, infamous for self-isolation",
+          "it": "La contrada lontana, nota per il suo autoisolamento"
+        },
+        "text": {
+          "en": "Largely absent from bold Raider tales and Toledo's internal radio chatter, the contrada of Vaulto is infamous for its isolationism. What folded messages escape its confines relay meticulous observations and thoroughly laid plans, delighting Shani and boring most others.\n\n== Gallery ==\n\nVaulto Lore IG 1.jpg|\nVaulto Lore IG 2.jpg|\n\nCategory:Lore",
+          "it": "Quasi del tutto assente dai racconti audaci dei Raider e dalle comunicazioni radio interne di Toledo, la contrada di Vaulto è tristemente nota per il suo isolazionismo. I rari messaggi ripiegati che riescono a varcarne i confini riportano osservazioni meticolose e piani accuratamente tracciati, facendo la gioia di Shani e annoiando quasi tutti gli altri."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Candleberry Banquet (lore)",
+        "label": {
+          "en": "Candleberry Banquet",
+          "it": "Banchetto delle Baccandele"
+        },
+        "subtitle": {
+          "en": "A yearly banquet of resilient warmth and community",
+          "it": "Un banchetto annuale di calore tenace e spirito comunitario"
+        },
+        "text": {
+          "en": "During the First Wave winters, candleberries were used to create makeshift signal lanterns, food and medical remedies. It became a local tradition for Raiders to get together during the berry season to share rations and watch each other’s backs in the light of berry candles.\n\nThe tradition carried on as the Candleberry Banquet, celebrated yearly by most Speranzans. Some still treat it like the old days; a genuine celebration of what Raiders accomplished together. But plenty of others see it differently. Some Raiders keep it friendly and compete over who brought the best haul or telling the tallest tales. Others use the crowded feast as cover to swipe gifts meant for rivals, or even settle scores.\n\nCategory:Lore",
+          "it": "Durante gli inverni della Prima ondata, le baccandele venivano usate per realizzare lanterne di segnalazione improvvisate, cibo e rimedi medici. Divenne una tradizione locale per i Raider riunirsi durante la stagione delle bacche per condividere le razioni e guardarsi le spalle alla luce delle candele di bacche.\n\nLa tradizione è proseguita sotto forma del Banchetto delle Baccandele, celebrato ogni anno dalla maggior parte degli abitanti di Speranza. Alcuni lo vivono ancora come ai vecchi tempi: una celebrazione sincera di ciò che i Raider hanno compiuto insieme. Ma molti altri la vedono diversamente. Alcuni Raider mantengono un clima amichevole e gareggiano su chi abbia portato il bottino migliore o racconti le storie più incredibili. Altri sfruttano la festa affollata come copertura per sottrarre doni destinati ai rivali, o persino per regolare vecchi conti."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Black Markets (lore)",
+        "label": {
+          "en": "Black Markets",
+          "it": "Mercati neri"
+        },
+        "subtitle": {
+          "en": "For shifty deals and dangerous goods",
+          "it": "Per loschi affari e merci pericolose"
+        },
+        "text": {
+          "en": "Black markets are found in the seedy underbelly of Toledo, where rare goods of dubious origin can be purchased. These markets never stay in one place, and may be temporarily found in darkened alleys, dusty pawn shops, and secluded courtyards all over Toledo.\n\nThough no black market exists within Speranza, many of its inhabitants regularly venture deeper into Toledo to visit markets in other neighborhoods.\n\nCategory:Lore",
+          "it": "I mercati neri si trovano nei bassifondi malfamati di Toledo, dove è possibile acquistare merci rare di dubbia provenienza. Questi mercati non restano mai nello stesso posto e possono comparire temporaneamente in vicoli bui, polverosi banchi dei pegni e cortili appartati in tutta Toledo.\n\nSebbene all'interno di Speranza non esista alcun mercato nero, molti dei suoi abitanti si avventurano regolarmente più in profondità a Toledo per visitare i mercati degli altri quartieri."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Murteta (lore)",
+        "label": {
+          "en": "Murteta",
+          "it": "Murteta"
+        },
+        "subtitle": {
+          "en": "The contrada known for its splendid comforts and exclusive demeanor",
+          "it": "La contrada nota per i suoi splendidi agi e l'atteggiamento esclusivo"
+        },
+        "text": {
+          "en": "The self-proclaimed upper echelon of Toledon society, Murteta was established by Raiders of particular fame notoriety, weary of rubbing shoulders with greasy and downtrodden.\n\nAccess to this contrada is both arduous and heavily guarded, though rumors around Speranza's cantinas speak of lofty suites and crisp drinking water.\n\n== Gallery ==\n\nMurteta Lore IG 1.jpg|\nMurteta Lore IG 2.jpg|\n\nCategory:Lore",
+          "it": "Autoproclamatasi l'élite della società toledana, Murteta venne fondata da Raider di particolare fama e notorietà, stanchi di dover dividere gli spazi con la gente umile e sporca di grasso.\n\nL'accesso a questa contrada è arduo e pesantemente sorvegliato, sebbene tra le taverne di Speranza circolino voci di suite spaziose e acqua potabile limpida e fresca."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      }
+    ],
+    "ARC": [
+      {
+        "page": "Tick (lore)",
+        "label": {
+          "en": "Tick",
+          "it": "Pulce"
+        },
+        "subtitle": {
+          "en": "The scuttling muncher of unprotected faces",
+          "it": "Lo sgusciante divoratore di volti non protetti"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe bane of anyone who values their face-adjacent personal space, the Tick is a small, spider-like machine that leaps at Raiders, munching away at whatever exposed skin it can find. It is predominately found indoors, crawling on walls and ceilings.\n\nThe Tick is a relentless, parasitic creature that often attacks in small groups. While individual Ticks can be easily swatted off, hordes of them are another matter entirely.\n\nThe Tick's speculated purpose is to drive humans away from areas being probed for resources; acting as a contamination agent to create exclusion zones. Fortunately, Ticks emit a distinct sound when activated making their presence known.\n\nLance used to collect destroyed Ticks \"because they are cute\", hanging them from rafters and as ornaments in plants. He was talked out of this habit when children refused to enter his clinic.\n\nCategory:Lore",
+          "it": "Il flagello di chiunque tenga allo spazio personale attorno al proprio viso: la Pulce è una piccola macchina simile a un ragno che balza addosso ai Raider, avventandosi su qualsiasi lembo di pelle esposta riesca a trovare. Si incontra soprattutto negli ambienti chiusi, dove striscia su pareti e soffitti.\n\nLa Pulce è una creatura parassitaria implacabile che attacca spesso in piccoli gruppi. Se le singole unità possono essere scacciate facilmente, gli sciami sono tutt'altra faccenda.\n\nSi ipotizza che il suo scopo sia tenere lontani gli esseri umani dalle aree in cui sono in corso sondaggi per le risorse, agendo come agente contaminante per creare zone di esclusione. Fortunatamente, le Pulci emettono un suono inconfondibile quando si attivano, tradendo la propria presenza.\n\nLance era solito collezionare Pulci distrutte «perché sono carine», appendendole alle travi e usandole come ornamenti tra le piante. Fu convinto a smettere quando i bambini si rifiutarono di entrare nella sua clinica."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Snitch (lore)",
+        "label": {
+          "en": "Snitch",
+          "it": "Spia"
+        },
+        "subtitle": {
+          "en": "The hovering lookout cursed by raiders",
+          "it": "La vedetta volante maledetta dai Raider"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nPesky and vigilant, the Snitch is an unarmed reconnaissance drone, equipped with advanced scanning technology. They are frequently found patrolling strategic areas or scouting ahead for other enemy units. If it detects any human threat, it calls in reinforcements from orbit.\n\nThe purpose of the Snitch seems to be to uphold communication networks and coordinate orbital drops. Shani refers to them as ARC's \"eyes in the sky\"; calling in reinforcements and maintaining operational awareness.\n\nThe ability to call in reinforcements make Snitches a high-priority target for Raiders who want to avoid escalating encounters. However, some Raiders have been known to intentionally aggravate it in a bid to conveniently harvest Wasp and Hornet Drivers.\n\nThe Snitch Scanner, the stand-out component inside this drone, has been repurposed by many a Raider. Most notably, it triggers upon being thrown, calling in reinforcements that target any perceived threats in the Scanner's vicinity.\n\nCategory:Lore",
+          "it": "Fastidiosa e vigile, la Spia è un drone da ricognizione disarmato dotato di avanzata tecnologia di scansione. La si trova spesso a pattugliare aree strategiche o a fare da avanguardia per altre unità nemiche. Se rileva una minaccia umana, richiama rinforzi dall'orbita.\n\nLo scopo della Spia sembra essere quello di mantenere attive le reti di comunicazione e coordinare gli sganci orbitali. Shani le definisce gli «occhi nel cielo» dell'ARC, incaricate di chiamare rinforzi e garantire la consapevolezza operativa sul campo.\n\nLa capacità di richiamare rinforzi rende le Spie un bersaglio prioritario per i Raider che vogliono evitare scontri sempre più difficili. Tuttavia, è noto che alcuni Raider le provochino di proposito per raccogliere comodamente driver di Vespa e Calabrone.\n\nLo Scanner di Spia, il componente più distintivo all'interno di questo drone, è stato riutilizzato da moltissimi Raider: in particolare, si attiva quando viene lanciato, richiamando rinforzi che prendono di mira qualsiasi minaccia rilevata nelle vicinanze dello scanner."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Hornet (lore)",
+        "label": {
+          "en": "Hornet",
+          "it": "Calabrone"
+        },
+        "subtitle": {
+          "en": "The durable and persistent shock drone",
+          "it": "Il drone a scarica elettrica resistente e tenace"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Hornet is a small flying drone, equipped with protective armor on its front side. It sports an electric shock-weapon that stuns and damages its targets.\n\nIt's thought to be designed as an enhanced patrol unit, working with Wasps to neutralize immediate and potential threats to probing sites and other machines.\n\nLike the Wasp, damaging its thrusters inhibits its flying capabilities. However, since the front thrusters are covered in armor, it takes a steady hand and skilled shot to reach them.\n\nThe Hornet Driver is a useful part of the drone's internals. It's speculated by Apollo to control the machine's behavior, and produce the electric shocks for its weapons. Throwing a Hornet Driver at a foe causes it to immediately discharge, stunning its target.\n\nCategory:Lore",
+          "it": "Il Calabrone è un piccolo drone volante dotato di corazza protettiva sul lato anteriore. Monta un'arma a scarica elettrica che stordisce e danneggia i bersagli.\n\nSi ritiene che sia progettato come unità di pattugliamento potenziata, operando insieme alle Vespe per neutralizzare le minacce immediate e potenziali ai siti di sondaggio e alle altre macchine.\n\nCome per la Vespa, danneggiare i suoi propulsori ne compromette la capacità di volo. Tuttavia, poiché i propulsori anteriori sono coperti dalla corazza, servono mano ferma e colpi precisi per raggiungerli.\n\nIl Driver di Calabrone è un componente utile recuperabile dall'interno del drone. Secondo le ipotesi di Apollo, controlla il comportamento della macchina e genera le scariche elettriche per le sue armi. Lanciare un Driver di Calabrone contro un nemico ne provoca la scarica immediata, stordendo il bersaglio."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Wasp (lore)",
+        "label": {
+          "en": "Wasp",
+          "it": "Vespa"
+        },
+        "subtitle": {
+          "en": "The diligent but erratic patrol drone",
+          "it": "Il drone di pattuglia diligente ma imprevedibile"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Wasp is a small, thruster-powered drone, flying in tidy patrols with other Wasps and the occasional Hornet. When engaged, they switch to erratic flight patterns, making them a challenging target. They are equipped with light guns, and seem to actively scan for potential threats, sometimes mistaking humanoid statues for Raiders.\n\nWasps are often observed patrolling the skies in predictable patterns, seemingly serving as the first line of security for ARC's probing and extraction operations. They scan for any human activity that could interfere with their operations, and seem drawn to areas with regular Raider activity.\n\t\nThe Wasp’s thrusters are exposed and unarmored, giving practiced Raiders a surefire way to send them crashing down.\n\t\nWhile the innards of the drone are fairly simple, its central drive and power unit are worth tearing out. Raiders have shot at it for a makeshift explosive, and various tinkerers of Toledo have been known to use it to craft more advanced contraptions.\n\t\t\nA Snitch can call in additional Wasps from orbit, posing a surprise threat to inexperienced Raiders — or a treasure trove of Wasp Drivers for those who come prepared.\n\nCategory:Lore",
+          "it": "La Vespa è un piccolo drone a propulsione che vola in pattuglie ordinate insieme ad altre Vespe e a qualche Calabrone. Quando viene ingaggiata, passa a traiettorie di volo imprevedibili, diventando un bersaglio difficile. È armata con mitragliatrici leggere e sembra scansionare attivamente l'area in cerca di potenziali minacce, arrivando talvolta a scambiare statue antropomorfe per Raider.\n\nLe Vespe vengono spesso osservate pattugliare i cieli seguendo schemi prevedibili, fungendo apparentemente da prima linea di sicurezza per le operazioni di sondaggio ed estrazione dell'ARC. Cercano qualsiasi attività umana che possa interferire con le loro operazioni e sembrano attratte dalle zone con una presenza regolare di Raider.\n\nI propulsori della Vespa sono esposti e privi di corazza, offrendo ai Raider esperti un metodo sicuro per farle precipitare.\n\nSebbene i meccanismi interni del drone siano piuttosto semplici, vale la pena estrarne l'unità motrice e di alimentazione centrale: alcuni Raider le sparano per usarla come esplosivo improvvisato, e vari armeggioni di Toledo la impiegano per costruire congegni più avanzati.\n\nUna Spia può richiamare altre Vespe dall'orbita, rappresentando una minaccia inattesa per i Raider inesperti — oppure una miniera d'oro di Driver di Vespa per chi arriva preparato."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Pop (lore)",
+        "label": {
+          "en": "Pop",
+          "it": "Pop"
+        },
+        "subtitle": {
+          "en": "The explosive scourge of hesitant raiders",
+          "it": "Il flagello esplosivo dei Raider esitanti"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Pop is a small, unarmored rolling machine; often compared to the Fireball. It's a quick, impulsive enemy that often roams in swarms.\n\nOften found indoors, the Pop's purpose is thought to be clearing out rubble and blockages that may inhibit ARC's operations.\n\nThe Pop seems to have little regard for its own safety; carrying an explosive charge that \"pops\" upon impact, scorching any Raider that lets it get too close.\n\nCategory:Lore",
+          "it": "Il Pop è una piccola macchina rotolante priva di corazza, spesso paragonata alla Sfera infuocata. È un nemico rapido e impulsivo che si sposta sovente in sciami.\n\nAvvistato spesso negli ambienti chiusi, si pensa che lo scopo del Pop sia sgomberare macerie e ostruzioni che potrebbero ostacolare le operazioni dell'ARC.\n\nIl Pop sembra avere ben poco riguardo per la propria incolumità: trasporta una carica esplosiva che «scoppia» all'impatto, ustionando qualsiasi Raider lo lasci avvicinare troppo."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Fireball (lore)",
+        "label": {
+          "en": "Fireball",
+          "it": "Sfera infuocata"
+        },
+        "subtitle": {
+          "en": "The spherical source of rapid incineration",
+          "it": "La fonte sferica di incenerimento rapido"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Fireball is a fast-moving, ball-shaped ARC machine, usually spotted rolling around indoor areas. It spews fire at any perceived threat in its vicinity, roasting anyone not made out of fire-resistant materials.\n\nWith its speed and flame-throwing capabilities, it can cause great trouble for Raiders; in particular when encountered in groups or alongside Ticks.\n\nTo use its flamethrower, the Fireball needs to open up its armor plating, exposing a weak spot that trigger-happy Raiders have been known to exploit.\n\nCategory:Lore",
+          "it": "La Sfera infuocata è una macchina ARC sferica e velocissima, di solito avvistata mentre rotola negli ambienti interni. Sputa fuoco contro qualsiasi minaccia percepita nelle vicinanze, arrostendo chiunque non sia fatto di materiali ignifughi.\n\nCon la sua velocità e il lanciafiamme integrato, può mettere in seria difficoltà i Raider, soprattutto quando la si incontra in gruppo o insieme alle Pulci.\n\nPer usare il lanciafiamme, la Sfera infuocata deve aprire le proprie piastre corazzate, esponendo un punto debole che i Raider dal grilletto facile hanno imparato a sfruttare."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Turret (lore)",
+        "label": {
+          "en": "Turret",
+          "it": "Torretta"
+        },
+        "subtitle": {
+          "en": "The patient dispenser of rapid-fire punishment",
+          "it": "La paziente dispensatrice di punizioni a fuoco rapido"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe crude, stationary Turret can be found in buildings all over the Rust Belt. The unit is equipped with a sweeping scanner and a gun capable of unleashing barrages of bullets.\n\nIt is speculated that Turrets deploy and mount themselves autonomously, though it is unknown to what extent. What is clear though is that they are spread in generous numbers and force Raiders to be constantly on guard.\n\nAlthough a nuisance, the Turret scanner emits visible light, allowing them to be avoided by attentive Raiders. It is also not particularly hard to destroy if spotted in time.\n\nCategory:Lore",
+          "it": "La rozza Torretta fissa si trova negli edifici di tutta la Cintura di ruggine. L'unità è dotata di uno scanner ad ampio raggio e di un'arma capace di scatenare raffiche di proiettili.\n\nSi ipotizza che le Torrette si dispieghino e si montino autonomamente, anche se non si sa fino a che punto. Ciò che è certo è che sono disseminate in gran numero e costringono i Raider a restare costantemente all'erta.\n\nPur essendo un fastidio, lo scanner della Torretta emette una luce visibile, permettendo ai Raider attenti di evitarle. Inoltre, se individuata in tempo, non è particolarmente difficile da distruggere."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Bombardier (lore)",
+        "label": {
+          "en": "Bombardier",
+          "it": "Bombardiere"
+        },
+        "subtitle": {
+          "en": "The walking artillery flushing raiders out of hiding",
+          "it": "L'artiglieria semovente che stana i Raider dai ripari"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Bombardier is an imposing slugger, seemingly sharing a strong kinship with the Bastion, albeit with a distinct signature mayhem. It will try to flush Raiders out of cover with heavy mortar fire.\n\nSeveral theories exist as to how and why ARC deploys its Bombardiers, though all agree that it is a lethal piece of machinery that has sent countless Raiders to the infirmary.\n\nThe Bombardier is especially dangerous when cooperating with Spotters, allowing it to shoot at Raiders hiding in cover. The Bombardier is equipped with strong front-facing armor, though it is not as impenetrable as the Bastion's.\n\nCategory:Lore",
+          "it": "Il Bombardiere è un colosso imponente che sembra condividere una stretta parentela con il Bastione, pur distinguendosi per una propria firma di distruzione. Cercherà di stanare i Raider dalle coperture con pesanti colpi di mortaio.\n\nEsistono diverse teorie su come e perché l'ARC schieri i Bombardieri, ma tutti concordano sul fatto che si tratti di una macchina letale che ha mandato innumerevoli Raider in infermeria.\n\nIl Bombardiere è particolarmente pericoloso quando collabora con gli Spotter, che gli permettono di colpire i Raider nascosti dietro un riparo. È dotato di una robusta corazza frontale, sebbene non sia impenetrabile quanto quella del Bastione."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Rocketeer (lore)",
+        "label": {
+          "en": "Rocketeer",
+          "it": "Lanciarazzi"
+        },
+        "subtitle": {
+          "en": "The looming bane of reckless raiders",
+          "it": "La minaccia incombente sui Raider avventati"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nLooming grimly in the skies, the Rocketeer is a large, heavily-armored, long-range artillery machine, dominating open spaces with its powerful missile launchers. It can target Raiders from afar, creating hazardous zones that force Raiders to stay on the move or seek cover.\n\nARC seems to station Rocketeers in key areas; guarding high-threat locations, or just roaming and making life miserable for Raiders. They are able to eliminate fortified human resistance points in otherwise hard-to-reach locations.\n\nLike the Wasp and the Hornet, it sports thrusters to stay airborne. While these thrusters are technically weak spots, they are large and take a significant amount of firepower to destroy.\n\nThough its devastating blasts have sent many an overly-bold Raider to the clinic, increased firepower and clever tactics have allowed some to take the Rocketeers down.\n\nCategory:Lore",
+          "it": "Incombente e cupo nei cieli, il Lanciarazzi è una grande macchina d'artiglieria pesantemente corazzata e a lungo raggio, che domina gli spazi aperti con i suoi potenti lanciamissili. Può bersagliare i Raider da lontano, creando zone ad alto rischio che li costringono a restare in movimento o a cercare riparo.\n\nL'ARC sembra posizionare i Lanciarazzi in aree chiave, a guardia di luoghi ad alta minaccia oppure in pattuglia per rendere la vita impossibile ai Raider. Sono in grado di eliminare punti di resistenza umani fortificati in posizioni altrimenti difficili da raggiungere.\n\nCome la Vespa e il Calabrone, sfrutta dei propulsori per restare in volo. Sebbene questi propulsori siano tecnicamente dei punti deboli, sono grandi e richiedono una notevole potenza di fuoco per essere distrutti.\n\nNonostante le sue esplosioni devastanti abbiano spedito in clinica molti Raider troppo temerari, una maggiore potenza di fuoco e tattiche intelligenti hanno permesso ad alcuni di abbattere i Lanciarazzi."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Spotter (lore)",
+        "label": {
+          "en": "Spotter",
+          "it": "Spotter"
+        },
+        "subtitle": {
+          "en": "The relay drone facilitating second-hand devastation",
+          "it": "Il drone ripetitore che scatena la devastazione altrui"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nOften compared to the Snitch, the Spotter reconnaissance drone patrols and scans for Raiders. While it does not call in reinforcements directly, it does make a lot of fuss while relaying Raider positions to other ARC machines.\n\nDespite its size, the Spotter can take considerable punishment. Combined with its unpredictable flight patterns, it's a frustrating opponent to pin down.\n\nHunting Spotters creates commotion and might draw the attention of opportunistic Raiders looking to eliminate the competition.\n\nCategory:Lore",
+          "it": "Spesso paragonato alla Spia, il drone da ricognizione Spotter pattuglia e scansiona l'area alla ricerca di Raider. Pur non richiamando rinforzi direttamente, fa un gran baccano mentre trasmette le posizioni dei Raider alle altre macchine ARC.\n\nNonostante le dimensioni, lo Spotter può incassare parecchi danni. In combinazione con le sue traiettorie di volo imprevedibili, è un avversario frustrante da inchiodare.\n\nDare la caccia agli Spotter genera trambusto e potrebbe attirare l'attenzione di Raider opportunisti in cerca di un modo per eliminare la concorrenza."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Bastion (lore)",
+        "label": {
+          "en": "Bastion",
+          "it": "Bastione"
+        },
+        "subtitle": {
+          "en": "The walking fortress and ceaseless suppressor of raiders",
+          "it": "La fortezza semovente e implacabile soppressore dei Raider"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nCovered in thick plating, the Bastion is a fortress on legs. While it may be slow, it absolutely dominates wherever it patrols with heavy gatling-gun fire; turning anyone who gets in its way into Swiss cheese.\n\nBased on Raider observations of its behavior, the Bastion is believed to be deployed where ARC detects potential resource deposits worth defending at all costs.\n\nIt is much easier to try hampering the Bastion's movement by destroying its legs, which may also help in getting clear shots at its unplated back.\n\nCategory:Lore",
+          "it": "Rivestito da spesse piastre corazzate, il Bastione è una vera fortezza su gambe. Sebbene sia lento, domina incontrastato ovunque pattugli con il fuoco pesante della sua mitragliatrice gatling, trasformando in un colabrodo chiunque gli sbarri la strada.\n\nIn base alle osservazioni dei Raider sul suo comportamento, si ritiene che il Bastione venga schierato dove l'ARC rileva potenziali giacimenti di risorse da difendere a ogni costo.\n\nÈ molto più semplice provare a ostacolare i movimenti del Bastione distruggendone le gambe, mossa che può anche aiutare a ottenere una linea di tiro pulita sul suo retro privo di corazza."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Leaper (lore)",
+        "label": {
+          "en": "Leaper",
+          "it": "Leaper"
+        },
+        "subtitle": {
+          "en": "The agile menace with an unexpected vertical",
+          "it": "La minaccia agile dall'elevazione inaspettata"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Leaper is an agile, four-legged brute, often found stomping around open areas. It is equipped with a powerful shockwave pulse that hits anyone nearby, and can leap at Raiders across astonishing distances. Historically, most Raiders have learned to avoid it altogether.\n\nLeapers are commonly found in high-risk areas, guarding valuable objectives or patrolling alongside smaller, quicker enemies, thus creating layered threats that can be hard to deal with.\n \t\nAfter years of gathering intel, constructing outposts, and regaining the faintest semblance of unity, the Leaper is no longer considered the invincible foe it once was. Though still a formidable enemy, the Leaper's Pulse Units can now occasionally be spotted decorating Raider Dens as a trophy.\n\nCategory:Lore",
+          "it": "Il Leaper è un bruto quadrupede agile, spesso avvistato mentre calpesta gli spazi aperti. È dotato di un potente impulso ad onda d'urto che colpisce chiunque si trovi nelle vicinanze e può balzare sui Raider coprendo distanze sbalorditive. Storicamente, la maggior parte dei Raider ha imparato a evitarlo del tutto.\n\nI Leaper si trovano comunemente nelle aree ad alto rischio, a guardia di obiettivi preziosi o in pattuglia insieme a nemici più piccoli e rapidi, creando così minacce stratificate difficili da gestire.\n\nDopo anni passati a raccogliere informazioni, costruire avamposti e riconquistare una parvenza di unità, il Leaper non è più considerato l'avversario invincibile di un tempo. Pur restando un nemico formidabile, le sue Unità a impulso si possono ormai scorgere occasionalmente come trofei nei rifugi dei Raider."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Sentinel (lore)",
+        "label": {
+          "en": "Sentinel",
+          "it": "Sentinella"
+        },
+        "subtitle": {
+          "en": "The stationary sniper perched in high places",
+          "it": "Il cecchino fisso appostato in posizione elevata"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Sentinel is a stationary turret found perched in high places, equipped with a laser scanner and high-damage sharp-shooting capabilities.\n\nThe Sentinel's light plating leaves it relatively exposed, but it can be challenging for Raiders to get close enough for a clean shot. Learning how to approach a Sentinel without going down oneself is a risky endeavor.\n\nOne popular approach is give the Sentinel a taste of its own medicine, by sniping it from afar with a long-range weapon.\n\nCategory:Lore",
+          "it": "La Sentinella è una torretta fissa appostata in punti sopraelevati, equipaggiata con uno scanner laser e capacità di tiro di precisione ad altissimo danno.\n\nLa corazza leggera della Sentinella la lascia relativamente esposta, ma per i Raider può essere difficile avvicinarsi abbastanza da avere un tiro pulito. Imparare ad avvicinarsi a una Sentinella senza finire abbattuti è un'impresa rischiosa.\n\nUn approccio molto diffuso consiste nel ripagare la Sentinella con la stessa moneta, colpendola dalla distanza con un'arma a lungo raggio."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Shredder (lore)",
+        "label": {
+          "en": "Shredder",
+          "it": "Trituratore"
+        },
+        "subtitle": {
+          "en": "The relentless menace with a painfully literal name",
+          "it": "La minaccia implacabile dal nome dolorosamente letterale"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nWhen this relentless lump of menace was first encountered at the Stella Montis facility, it left behind a trail of downed Raiders. It was dubbed the \"Shredder\" by what few Raiders managed to get back to safety; a name that wasn't so much clever as it was painfully literal.\n\nCategory:Lore",
+          "it": "Quando questo ammasso implacabile di minaccia fu incontrato per la prima volta presso l'impianto di Stella Montis, lasciò dietro di sé una scia di Raider abbattuti. Fu ribattezzato «Trituratore» dai pochissimi Raider che riuscirono a tornare al sicuro: un nome non tanto ingegnoso quanto dolorosamente letterale."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Comet (lore)",
+        "label": {
+          "en": "Comet",
+          "it": "Cometa"
+        },
+        "subtitle": {
+          "en": "The unforeseen wrecking ball",
+          "it": "La palla da demolizione imprevista"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nFew things focus the mind like an armored ball of explosives that come charging at high speed. The Comet is a spherical ARC unit that resembles the Surveyor; a visual similarity has deceived many a Raider. The Comet, however, seems to exist for one singular purpose: to get up close and detonate.\n\nOften found guarding heavy machines, the Comet serves as a brutal deterrent against Raiders who attempt flanking tactics. When it acquires a target it accelerates with alarming speed, and triggers its self-destruct once it's near enough to guarantee damage.\n\nIts blast radius is generous and unforgiving, as grouped-up squads have learned the hard way. Its armor plating protects its core, but it opens up when it charges, exposing its vulnerable innards. However, even when exposed, hitting such a fast-moving weak spot requires a particularly skilled trigger finger.\n\nExperienced Raiders treat the Comet as a priority target, dropping it before engaging whatever it's protecting. The alternative is fighting a Bastion while a live bomb circles for an opening. Shani suspects ARC deployed them specifically in response to Raider flanking tactics – another sign that the machines are learning.\n\nCategory:Lore",
+          "it": "Poche cose schiariscono le idee come una sfera corazzata piena di esplosivi che ti carica ad alta velocità. La Cometa è un'unità ARC sferica che ricorda il Supervisore; una somiglianza visiva che ha tratto in inganno più di un Raider. La Cometa, tuttavia, sembra esistere per un unico scopo: avvicinarsi e detonare.\n\nAvvistata spesso a guardia di macchine pesanti, la Cometa funge da brutale deterrente contro i Raider che tentano manovre di aggiramento. Quando acquisisce un bersaglio accelera con rapidità allarmante e attiva l'autodistruzione non appena è abbastanza vicina da garantire danni.\n\nIl suo raggio d'esplosione è ampio e spietato, come hanno imparato a proprie spese le squadre troppo raggruppate. La sua corazzatura protegge il nucleo, ma si apre durante la carica esponendo i vulnerabili meccanismi interni. Tuttavia, anche quando è scoperto, colpire un punto debole così veloce richiede un dito sul grilletto particolarmente abile.\n\nI Raider esperti trattano la Cometa come un bersaglio prioritario, abbattendola prima di ingaggiare ciò che sta proteggendo. L'alternativa è combattere un Bastione mentre una bomba vivente gira attorno in cerca di un varco. Shani sospetta che l'ARC le abbia schierate proprio in risposta alle tattiche di aggiramento dei Raider: un altro segnale che le macchine stanno imparando."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Firefly (lore)",
+        "label": {
+          "en": "Firefly",
+          "it": "Lucciola"
+        },
+        "subtitle": {
+          "en": "The hornet's inflammatory relative",
+          "it": "La parente incendiaria del Calabrone"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nA nastier relative to the standard Hornet, it trades its electric shock for a flamethrower capable of engulfing Raiders in seconds. Its heavy plating makes it just as difficult to bring down as its shocking sibling, but the threat it poses up close is considerably worse.\n\nThey sometimes join regular Hornets and Wasps on their patrols. They often hang back until a Raider is already engaged before swooping in to flush them from cover. Veterans have learned to pick them out early – the fuel tank gives them a slightly different flight profile.\n\nThe flamethrower fuel tank is also their weakness. A well-placed shot turns the machine into a brief but spectacular fireball. Some Raiders have taken to igniting them deliberately near other ARC machines, though the timing required makes this a gambler's trick.\n\nApollo has been seen tinkering with its parts for weeks, muttering something about \"portable heating solutions.\"\n\nCategory:Lore",
+          "it": "Una parente ancora più perfida del normale Calabrone, che scambia la scarica elettrica per un lanciafiamme capace di avvolgere i Raider tra le fiamme in pochi secondi. La sua pesante corazza la rende altrettanto difficile da abbattere quanto il suo cugino elettrico, ma la minaccia che rappresenta a distanza ravvicinata è decisamente peggiore.\n\nTalvolta si uniscono ai normali Calabroni e alle Vespe nei loro pattugliamenti. Spesso restano in disparte finché un Raider non è già impegnato in combattimento, prima di piombargli addosso per stanarlo dal riparo. I veterani hanno imparato a riconoscerle subito: il serbatoio del carburante conferisce loro un profilo di volo leggermente diverso.\n\nIl serbatoio del lanciafiamme è anche il loro punto debole. Un colpo ben piazzato trasforma la macchina in una breve ma spettacolare palla di fuoco. Alcuni Raider hanno preso l'abitudine di farle esplodere deliberatamente vicino ad altre macchine ARC, anche se il tempismo richiesto rende la manovra una scommessa rischiosa.\n\nApollo è stato visto armeggiare con i suoi componenti per settimane, borbottando qualcosa su «soluzioni di riscaldamento portatili»."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Matriarch (lore)",
+        "label": {
+          "en": "Matriarch",
+          "it": "Matriarca"
+        },
+        "subtitle": {
+          "en": "The ferocious matron of unrelenting offspring",
+          "it": "La feroce matrona di una progenie implacabile"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Matriarch makes the Queen look friendly by comparison. This colossal terror dominates the battlefield with punishing barrages that impairs vision, cripples movement and tear Raiders apart.\n\nThe versatility of the Matriarch is stunning. She is able to surprise even veteran Raiders with her tactical capabilities.\n\nThe Matriarch's Reactor is one of the most sought after trophies. Few Raiders have managed to bring one back home.\n\nCategory:Lore",
+          "it": "La Matriarca fa sembrare la Regina amichevole al confronto. Questo terrore colossale domina il campo di battaglia con sbarramenti punitivi che compromettono la vista, paralizzano i movimenti e fanno a pezzi i Raider.\n\nLa versatilità della Matriarca è sbalorditiva: riesce a sorprendere persino i Raider veterani con le sue capacità tattiche.\n\nIl Reattore della Matriarca è uno dei trofei più ambiti. Pochi Raider sono riusciti a riportarne uno a casa."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Queen (lore)",
+        "label": {
+          "en": "Queen",
+          "it": "Regina"
+        },
+        "subtitle": {
+          "en": "The massive guardians of ARC's harvesting operations",
+          "it": "L'imponente guardiana delle operazioni di raccolta dell'ARC"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Queen is a massive, six-legged beast, often spotted guarding Harvesters. With its imposing appearance, extremely powerful attacks, and strategic area control, the Queen is pure trouble in metal form.\n\nIt is speculated the Queen shares kinship with the First Wave's Baron, although it is a much improved piece of machinery. ARC seems to use it to protect Harvesters, and fend off threats from the most valuable probing and resource extraction sites.\n\nTaking on one of these fire-and-brimstone-spewing monsters takes a certain kind of bravery and coordination, as well as a healthy dose of recklessness.\n\nCategory:Lore",
+          "it": "La Regina è una bestia imponente a sei zampe, spesso avvistata a guardia dei Raccoglitori. Con il suo aspetto maestoso, attacchi estremamente potenti e un controllo strategico dell'area, la Regina è puro guaio in forma metallica.\n\nSi ipotizza che la Regina condivida una parentela con il Barone della Prima ondata, sebbene sia una macchina nettamente perfezionata. L'ARC sembra impiegarla per proteggere i Raccoglitori e respingere le minacce dai siti di sondaggio ed estrazione di risorse più preziosi.\n\nAffrontare uno di questi mostri che sputano fuoco e zolfo richiede una certa dose di coraggio e coordinazione, oltre a una sana dose di incoscienza."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Skulker (lore)",
+        "label": {
+          "en": "Skulker",
+          "it": "Skulker"
+        },
+        "subtitle": {
+          "en": "A compact hunter that prefers the advantage of surprise",
+          "it": "Un cacciatore compatto che predilige l'effetto sorpresa"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nSmall and elusive, the Skulker is a ground-based ARC machine that favors patience and positioning over direct aggression.\n\nIt has been observed lying in wait before striking with its tail-mounted weaponry, then gliding rapidly away to maintain distance from pursuing Raiders.\n\nIt is thought to have adapted to the low-visibility circumstances of such environmental hazards as hurricanes, blizzards, electromagnetic storms and sandstorms, leading to a particularly symbiotic relationship with the Turbine and the Frigate.\n\nCategory:Lore",
+          "it": "Piccolo ed elusivo, lo Skulker è una macchina ARC terrestre che predilige la pazienza e il posizionamento rispetto all'aggressione diretta.\n\nÈ stato osservato appostarsi prima di colpire con l'armamento montato sulla coda, per poi scivolare rapidamente via così da mantenere le distanze dai Raider all'inseguimento.\n\nSi ritiene che si sia adattato alle condizioni di scarsa visibilità di fenomeni ambientali come uragani, bufere di neve, tempeste elettromagnetiche e tempeste di sabbia, sviluppando una relazione particolarmente simbiotica con la Turbina e la Fregata."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "ARC Frigate (lore)",
+        "label": {
+          "en": "ARC Frigate",
+          "it": "Fregata ARC"
+        },
+        "subtitle": {
+          "en": "A shadow looms over the Rust Belt",
+          "it": "Un'ombra incombe sulla Cintura di ruggine"
+        },
+        "text": {
+          "en": "A long-time legend of Nomad songs, the ARC Frigate was first spotted in the Rust Belt emerging from relentless storm clouds. It has since settled in the region, using its cannon to clear an indiscriminate path that threatens both the bold and the cautious.\n\nAppearing shortly after the fall of an Emperor at Pendola Pass, it is rumored to be part of an unpreceded ARC response.\n\nThe Frigate appears to be transporting cargo of unknown origins.\n\nCategory:Lore",
+          "it": "Leggenda di lunga data nei canti dei Nomadi, la Fregata ARC fu avvistata per la prima volta nella Cintura di ruggine mentre emergeva da nubi temporalesche implacabili. Da allora si è stabilita nella regione, usando il proprio cannone per aprire un varco indiscriminato che minaccia tanto gli audaci quanto i prudenti.\n\nComparsa poco dopo la caduta di un Imperatore al Passo di Pendola, si vocifera che faccia parte di una risposta senza precedenti da parte dell'ARC.\n\nLa Fregata sembra trasportare un carico di origini sconosciute."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Bully (lore)",
+        "label": {
+          "en": "Bully",
+          "it": "Bully"
+        },
+        "subtitle": {
+          "en": "A stubborn pursuer built to close the distance",
+          "it": "Un inseguitore ostinato costruito per accorciare le distanze"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nStalking its prey with uncommon tenacity, the Bully is an aggressive ARC machine capable of rapidly closing the distance through a series of relentless charges.\n\nBelieved to guard valuable ARC infrastructure, the Bully will pursue threats well beyond the point of caution, a tendency that has been exploited around tight passages and uneven ground by resourceful Raiders.\n\nCategory:Lore",
+          "it": "Tallonando la propria preda con tenacia fuori dal comune, il Bully è una macchina ARC aggressiva capace di accorciare rapidamente le distanze con una serie di cariche implacabili.\n\nSi ritiene che protegga infrastrutture ARC di valore; il Bully insegue le minacce ben oltre il limite della prudenza, una tendenza che Raider intraprendenti hanno saputo sfruttare tra passaggi stretti e terreni accidentati."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "ARC Turbine (lore)",
+        "label": {
+          "en": "ARC Turbine",
+          "it": "Turbina ARC"
+        },
+        "subtitle": {
+          "en": "The volatile bringer of storms",
+          "it": "La portatrice instabile di tempeste"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Turbine is an imposing machine that drifts airborne across the Rust Belt, protected by heavy armor and electrified defenses that makes it almost untouchable in flight.\n\nWhen it lands to start up its sifting turbine, the armor plating opens up partially, revealing its vulnerable machinery. However, it is by no means defenseless. Bringing one down takes patience, coordination, and timing, and those virtues are for most Raiders in shorter supply than ammunition.\n\nThose who manage to down one are rewarded with some of the rarest ARC materials found outside a Harvester.\n\nDespite repeated warnings, a surprising number of Raiders have attempted to climb and ride this machine. The results are universally the same: second-degree burns, a long fall, and a story no one at the cantinas believe.\n\nBased on its internals, it is speculated to be a collector of airborne particulates: volcanic minerals, spore matter, and perhaps trace elements suspended in the dust that blankets much of the surface. Others claim it is after oxygen itself, though none seem to know for certain.\n\nCategory:Lore",
+          "it": "La Turbina è una macchina imponente che solca i cieli della Cintura di ruggine, protetta da una corazzatura pesante e da difese elettrificate che la rendono quasi intoccabile in volo.\n\nQuando atterra per avviare la sua turbina setacciatrice, le piastre corazzate si aprono parzialmente rivelandone i meccanismi vulnerabili. Tuttavia, non è affatto indifesa: abbatterne una richiede pazienza, coordinazione e tempismo, virtù che per la maggior parte dei Raider scarseggiano più delle munizioni.\n\nChi riesce ad abbatterne una viene ricompensato con alcuni dei materiali ARC più rari che si possano trovare al di fuori di un Raccoglitore.\n\nNonostante i ripetuti avvertimenti, un numero sorprendente di Raider ha provato ad arrampicarsi su questa macchina per cavalcarla. Il risultato è sempre lo stesso: ustioni di secondo grado, una lunga caduta e una storia a cui nessuno nelle taverne crede.\n\nIn base ai suoi componenti interni, si ipotizza che sia un collettore di particolato atmosferico: minerali vulcanici, materia sporale e forse tracce di elementi sospesi nella polvere che ricopre gran parte della superficie. Altri sostengono che sia a caccia dell'ossigeno stesso, anche se nessuno sembra saperlo con certezza."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Emperor (lore)",
+        "label": {
+          "en": "Emperor",
+          "it": "Imperatore"
+        },
+        "subtitle": {
+          "en": "Walking giants, moving beyond the horizon",
+          "it": "Giganti semoventi, in marcia oltre l'orizzonte"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nEmperors have occasionally been spotted from afar, striding across the Rust Belt. When one fall around Pendola Pass, Raiders got their frist close-up view.\n\nSomething about the interior of the fallen Emperor appears to support a long-held belief in Toledo: that the ARC may somehow be connected to those who left during the Exodus.\n\nIt was revealed that the Emperor was toppled when a Nomad trap backfired, with the perpetrators seemingly underestimating the combined potency of a deep-space telescope and the surrounding mountain basin.\n\nCategory:Lore",
+          "it": "Gli Imperatori sono stati occasionalmente avvistati da lontano mentre attraversavano a grandi passi la Cintura di ruggine. Quando uno di essi è caduto nei pressi del Passo di Pendola, i Raider hanno avuto il loro primo sguardo ravvicinato.\n\nQualcosa nell'interno dell'Imperatore caduto sembra avvalorare una convinzione radicata da tempo a Toledo: che l'ARC possa essere in qualche modo collegato a coloro che partirono durante l'Esodo.\n\nSi scoprì che l'Imperatore era stato abbattuto quando una trappola dei Nomadi si ritorse contro chi l'aveva tesa, poiché i responsabili avevano apparentemente sottovalutato la potenza combinata di un telescopio per lo spazio profondo e del bacino montano circostante."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Vaporizer (lore)",
+        "label": {
+          "en": "Vaporizer",
+          "it": "Vaporizzatore"
+        },
+        "subtitle": {
+          "en": "The luminary threat from above",
+          "it": "La minaccia luminosa dall'alto"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Vaporizer is a large, airborne ARC machine, which quickly gained notoriety among Raiders for its devastating lasers and volatile, unpredictable attack patterns.\n\nFirst observed alongside the ARC Assessor, its menacing glow can be seen from great distances.\n\nAble to face many threats at once, Raiders have reported needing to constantly think on their feet to avoid being scorched, seared, or otherwise turned to ashes.\n\nCategory:Lore",
+          "it": "Il Vaporizzatore è una grande macchina ARC volante che si è rapidamente guadagnata una pessima fama tra i Raider per i suoi laser devastanti e gli schemi d'attacco instabili e imprevedibili.\n\nOsservato per la prima volta insieme all'Assessor ARC, il suo bagliore minaccioso è visibile da grandi distanze.\n\nCapace di fronteggiare molte minacce contemporaneamente, costringe i Raider a improvvisare di continuo per evitare di finire bruciati, carbonizzati o altrimenti ridotti in cenere."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "ARC Harvester (lore)",
+        "label": {
+          "en": "ARC Harvester",
+          "it": "Raccoglitore ARC"
+        },
+        "subtitle": {
+          "en": "A presumed centerpiece of ARC's operations",
+          "it": "Un presunto fulcro delle operazioni dell'ARC"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nWhat few Raiders managed to enter the Harvester report an elaborate, layered defense system; regularly purging itself of any external intrusions.\n\nCategory:Lore",
+          "it": "I pochi Raider riusciti a entrare nel Raccoglitore riferiscono di un sistema di difesa elaborato e stratificato, che si ripulisce regolarmente da qualsiasi intrusione esterna."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Hydra (lore)",
+        "label": {
+          "en": "Hydra",
+          "it": "Hydra"
+        },
+        "subtitle": {
+          "en": "",
+          "it": ""
+        },
+        "text": {
+          "en": "__NOTOC__\n\nRelentless and unmoving, the Hydra is a devastating ARC machine that seemingly guards major ARC operations.\n\nIts plating seems to be weaker on its back, though such targeting requires thorough coordination and tactical discipline.\n\nWhile a Hydra may be destroyed for some time, Raiders have reported a new machine tends to rapidly takes its place.\n\nCategory:Lore",
+          "it": "Implacabile e immobile, l'Hydra è una macchina ARC devastante che sembra sorvegliare le principali operazioni dell'ARC.\n\nLa sua corazzatura appare più debole sul retro, anche se colpire quel punto richiede un'attenta coordinazione e disciplina tattica.\n\nSebbene un'Hydra possa essere distrutta per qualche tempo, i Raider riferiscono che una nuova macchina tende a prenderne rapidamente il posto."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "ARC Surveyor (lore)",
+        "label": {
+          "en": "ARC Surveyor",
+          "it": "Supervisore ARC"
+        },
+        "subtitle": {
+          "en": "The evasive orb full of priceless tech",
+          "it": "La sfera sfuggente piena di tecnologia dal valore inestimabile"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nEvasive and mysterious, the ARC Surveyor is known amongst Raiders as a rich source of high-value ARC tech.\n\nThe Surveyor has been observed to roam the surface, and is believed to fill up data-banks with all kinds of measurements and analyses.\n\nAlthough unarmed, it should be noted that the ARC Surveyor is not without defensive capabilities. If provoked, it may launch an attack and try to ram whomever is close by.\n\nCategory:Lore",
+          "it": "Elusivo e misterioso, il Supervisore ARC è noto tra i Raider come una ricca fonte di tecnologia ARC di altissimo valore.\n\nIl Supervisore è stato osservato aggirarsi sulla superficie e si ritiene che riempia i propri banchi dati con ogni genere di misurazione e analisi.\n\nPur essendo disarmato, va notato che il Supervisore ARC non è privo di capacità difensive: se provocato, può lanciarsi all'attacco e tentare di speronare chiunque si trovi nei paraggi."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "ARC Probe (lore)",
+        "label": {
+          "en": "ARC Probe",
+          "it": "Sonda ARC"
+        },
+        "subtitle": {
+          "en": "Collector of samples and harbinger of devastation",
+          "it": "Raccoglitrice di campioni e presagio di devastazione"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nKnown across The Rust Belt for their ear-piercing signals, the Probes are sent down on a regular basis, collecting samples and data from the soil before returning back to orbit.\n\nWhile it is unknown which specific resources ARC is probing for, most pray that whatever it is can't be found in The Rust Belt.\n\nCategory:Lore",
+          "it": "Note in tutta la Cintura di ruggine per i loro segnali assordanti, le Sonde vengono inviate regolarmente a raccogliere campioni e dati dal suolo prima di fare ritorno in orbita.\n\nSebbene non si sappia quali risorse specifiche l'ARC stia cercando, quasi tutti pregano che qualsiasi cosa sia non si trovi nella Cintura di ruggine."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "ARC Assessor (lore)",
+        "label": {
+          "en": "ARC Assesor",
+          "it": "Assessor ARC"
+        },
+        "subtitle": {
+          "en": "A next stage in ARC's operations, called in by the Surveyor.",
+          "it": "Una fase successiva nelle operazioni dell'ARC, richiamata dal Supervisore."
+        },
+        "text": {
+          "en": "__NOTOC__\n\nA more recent arrival, the ARC Assessor has been observed being called in by the Surveyor. It is speculated to closely scrutinize areas where exploratory probing operations were previously conducted.\n\nCategory:Lore",
+          "it": "Arrivato più di recente, l'Assessor ARC è stato osservato mentre veniva richiamato dal Supervisore. Si ipotizza che esamini attentamente le aree in cui in precedenza erano state condotte operazioni esplorative di sondaggio."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "ARC Courier (lore)",
+        "label": {
+          "en": "ARC Courier",
+          "it": "Corriere ARC"
+        },
+        "subtitle": {
+          "en": "Transporters of spare parts and samples",
+          "it": "Trasportatori di pezzi di ricambio e campioni"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nZipping across the skies at lightning speed, ARC's Couriers are known to transport smaller goods between sites unknown. Occasionally, Couriers may malfunction, crashing into the soil and sending thick plumes of smoke into the skies.\n\nWhen pried open, Couriers have been found to contain contents ranging from soil samples to what appear to be spare machine parts.\n\nCategory:Lore",
+          "it": "Sfrecciando nei cieli alla velocità della luce, i Corrieri dell'ARC sono noti per trasportare carichi più piccoli tra siti sconosciuti. Occasionalmente possono subire un malfunzionamento, schiantandosi al suolo e sollevando dense colonne di fumo nel cielo.\n\nQuando vengono forzati, all'interno dei Corrieri si trova di tutto, dai campioni di terreno a quelli che sembrano pezzi di ricambio per macchine."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "ARC (lore)",
+        "label": {
+          "en": "ARC",
+          "it": "ARC"
+        },
+        "subtitle": {
+          "en": "Relentless machines raining from the sky",
+          "it": "Macchine implacabili che piovono dal cielo"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nFor as long as machines have fallen from the sky, those roaming Topside have referred to them by one name: ARC. Named for the arced shapes displayed on radar screens when they come in from orbit, ARC first came to Earth at the beginning of The First Wave, marking a sudden and devastating end to the hopeful era of Sunrise. \n\nWhile Raiders can only speculate as to the exact nature of ARC's operations, they have been widely observed probing the soil in great numbers, before harvesting natural resources with devastating efficiency. When sudden changes in ARC's operations are observed, it is cause for grave concern.\n\nThough efforts were made to contain the news, rumors soon started spreading throughout Speranza.\n\nThe same signal was later heard at the Red Tower Hideout in Buried City.\n\nIt is generally accepted that ARC's security forces constantly refine their designs and tactics in the face of new threats. This is especially apparent when comparing the rudimentary machines of the First Wave to the more sophisticated designs of the Second.\n\nRaiders are caught in a constant arms race with their orbital foes; seeking to outwit them with advanced weaponry and more refined tactics.\n\nInventors across Toledo have sought to repurpose ARC's technology as a way to stay ahead, leading to the development of energy-based Shields, and various makeshift gadgets and grenades.\n\nCategory:Lore",
+          "it": "Da quando le macchine hanno iniziato a cadere dal cielo, chi si aggira in Superficie le chiama con un solo nome: ARC. Chiamati così per le sagome ad arco visualizzate sugli schermi radar quando scendono dall'orbita, gli ARC giunsero sulla Terra all'inizio della Prima ondata, segnando una fine improvvisa e devastante per l'era speranzosa dell'Alba.\n\nSebbene i Raider possano solo fare ipotesi sulla natura esatta delle operazioni dell'ARC, sono stati ampiamente osservati mentre sondano il terreno in gran numero, per poi raccogliere risorse naturali con efficienza devastante. Quando si notano cambiamenti improvvisi nelle operazioni dell'ARC, è motivo di grave preoccupazione.\n\nNonostante i tentativi di contenere la notizia, le voci hanno presto iniziato a diffondersi per tutta Speranza.\n\nLo stesso segnale è stato poi udito al Nascondiglio della Torre rossa nella Città sepolta.\n\nÈ opinione condivisa che le forze di sicurezza dell'ARC perfezionino costantemente i propri progetti e le proprie tattiche di fronte alle nuove minacce. Ciò risulta particolarmente evidente confrontando le macchine rudimentali della Prima ondata con i modelli più sofisticati della Seconda.\n\nI Raider sono intrappolati in una costante corsa agli armamenti con i loro nemici orbitali, cercando di superarli in astuzia con armamenti avanzati e tattiche più raffinate.\n\nGli inventori di tutta Toledo hanno cercato di riutilizzare la tecnologia dell'ARC per restare al passo, portando allo sviluppo degli Scudi basati sull'energia e di vari gadget e granate improvvisati."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      }
+    ],
+    "Topside": [
+      {
+        "page": "Buried City (lore)",
+        "label": {
+          "en": "Buried City",
+          "it": "Città sepolta"
+        },
+        "subtitle": {
+          "en": "A city-shaped time capsule from before the collapse",
+          "it": "Una capsula del tempo a forma di città di prima del Crollo"
+        },
+        "text": {
+          "en": "Long covered in sand dunes, Buried City offers rare insights in life before the Collapse. Strong winds have now uncovered part of its remains, though the ever-shifting dunes can be treacherous and unstable.\n\nSigns around the city reveal that it was originally called Marano by its inhabitants, though that name has long since faded into obscurity.\n\nCategory:Lore",
+          "it": "Rimasta a lungo coperta dalle dune di sabbia, la Città sepolta offre uno spaccato raro della vita prima del Crollo. I forti venti hanno ormai riportato alla luce parte dei suoi resti, sebbene le dune in continuo movimento possano rivelarsi insidiose e instabili.\n\nI cartelli sparsi per la città rivelano che in origine i suoi abitanti la chiamavano Marano, anche se quel nome è caduto da tempo nell'oblio."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Alcantara Dam (lore)",
+        "label": {
+          "en": "Alcantara Dam",
+          "it": "Diga di Alcantara"
+        },
+        "subtitle": {
+          "en": "Swamps, drained lakes, and old machinery",
+          "it": "Paludi, laghi prosciugati e vecchi macchinari"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nThe Alcantara Power Plant, or The Dam, stands a silent sentinel amidst waterlogged lands. Once a rare lifeline for settlers during the age of Sunrise, it became a shell-scarred battleground during the closing battles of the First Wave.\n\nEven now, these toxic, waterlogged lands remain a hot spot for ARC skirmishes. Between the research buildings, various Dam structures and the ramshackle hydroponic domes, Raiders know it to be a reliable source of valuable loot.\n\nDuring the First Wave, the Alcantara Dam was the site for many of the conflict's most harrowing battles, with scars and structures still pockmarking the area today.\n\nCategory:Lore",
+          "it": "La Centrale Elettrica di Alcantara, o la Diga, si erge come una sentinella silenziosa in mezzo a terre paludose. Un tempo rara ancora di salvezza per i coloni durante l'era dell'Alba, divenne un campo di battaglia martoriato dalle esplosioni negli scontri finali della Prima ondata.\n\nAncora oggi, queste terre tossiche e acquitrinose restano un punto caldo per le schermaglie con l'ARC. Tra gli edifici di ricerca, le varie strutture della Diga e le fatiscenti cupole idroponiche, i Raider sanno che è una fonte affidabile di bottino prezioso.\n\nDurante la Prima ondata, la Diga di Alcantara fu teatro di molte delle battaglie più strazianti del conflitto, i cui segni e strutture crivellano ancora oggi la zona."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Stella Montis (lore)",
+        "label": {
+          "en": "Stella Montis",
+          "it": "Stella Montis"
+        },
+        "subtitle": {
+          "en": "A remote research facility subject of many wild rumors",
+          "it": "Una remota struttura di ricerca oggetto di molte voci incontrollate"
+        },
+        "text": {
+          "en": "Carved deep into the mountainside, Stella Montis looms silently over the valley below. Its vast scale hints at some grand intent, but the last occupants seemingly sealed it away from the world, leaving what lies within largely unknown.\n\nCategory:Lore",
+          "it": "Scavata in profondità nel fianco della montagna, Stella Montis incombe silenziosa sulla valle sottostante. Le sue vaste dimensioni lasciano intuire un grandioso proposito, ma sembra che gli ultimi occupanti l'abbiano sigillata isolandola dal mondo, lasciando quasi del tutto ignoto ciò che custodisce al suo interno."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Acerra Spaceport (lore)",
+        "label": {
+          "en": "Acerra Spaceport",
+          "it": "Spazioporto di Acerra"
+        },
+        "subtitle": {
+          "en": "A monument to the ones who left, and the ones who were left behind",
+          "it": "Un monumento a chi è partito e a chi è rimasto indietro"
+        },
+        "text": {
+          "en": "Acerra Spaceport is a majestic testament to humanity’s past ambitions. This is where the Exodus shuttles, vessels of hope and desperation, once roared into the heavens, leaving a beleaguered Earth behind.\n\nCategory:Lore",
+          "it": "Lo Spazioporto di Acerra è una maestosa testimonianza delle ambizioni passate dell'umanità. È da qui che un tempo le navette dell'Esodo, vascelli di speranza e disperazione, ruggirono verso i cieli lasciandosi alle spalle una Terra assediata."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "The Blue Gate (lore)",
+        "label": {
+          "en": "The Blue Gate",
+          "it": "Il Varco Blu"
+        },
+        "subtitle": {
+          "en": "A daunting gate into the perilous mountains",
+          "it": "Un varco imponente verso montagne pericolose"
+        },
+        "text": {
+          "en": "Once a steadfast symbol of defiant connection, the Blue Gate now serves as a daunting entryway into the perilous mountain ranges. The surrounding valley bears scars both new and old.\n\nThe Tubes network has only recently been expanded to reach the gates, requiring the construction of all-new Raider structures to facilitate Raider presence.\n\nCategory:Lore",
+          "it": "Un tempo saldo simbolo di ostinata connessione, il Varco Blu funge ora da imponente ingresso verso le pericolose catene montuose. La valle circostante porta cicatrici antiche e recenti.\n\nLa rete della metro è stata ampliata solo di recente fino a raggiungere i varchi, rendendo necessaria la costruzione di strutture dei Raider completamente nuove per agevolarne la presenza nella zona."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "The Tremors (lore)",
+        "label": {
+          "en": "The Tremors",
+          "it": "Le Scosse"
+        },
+        "subtitle": {
+          "en": "Rumbling heralds of dangers yet to come",
+          "it": "Rombi forieri di pericoli ancora a venire"
+        },
+        "text": {
+          "en": "Occasional tremors have been observed in the Rust Belt for generations, though usually faint and distant. Over time, they seem to have increased in both frequency and intensity, worrying Shani.\n\nA sudden fracture recently devastated the Rust Belt; collapsing several buildings in Toledo and damaging major infrastructure. Data from Shani's LiDAR scanners indicate a major fracture, traced back to the area around the Blue Gate.\n\nCategory:Lore",
+          "it": "Scosse occasionali sono state rilevate nella Cintura di ruggine per generazioni, seppur di solito deboli e lontane. Col tempo sembrano essere aumentate sia per frequenza sia per intensità, destando la preoccupazione di Shani.\n\nDi recente una frattura improvvisa ha devastato la Cintura di ruggine, facendo crollare diversi edifici a Toledo e danneggiando importanti infrastrutture. I dati degli scanner LiDAR di Shani indicano una faglia di grandi dimensioni, ricondotta all'area attorno al Varco Blu."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Riven Tides (lore)",
+        "label": {
+          "en": "Riven Tides",
+          "it": "Spezzamarea"
+        },
+        "subtitle": {
+          "en": "The storied, twice-abandoned harbor resort",
+          "it": "La leggendaria località portuale, abbandonata due volte"
+        },
+        "text": {
+          "en": "Once a luxurious, Exodus-era harbor resort, the oceanfront of Riven Tides is known to a handful of veteran Raiders as the first place they ever witnessed ARC coming down from the skies.\n\nThe area was abandoned in the early days of The First Wave due to its lack of shelter, but that same exposed coastline is now crucial for spotting new threats moving into the Rust Belt.\n\nCategory:Lore",
+          "it": "Un tempo lussuosa località portuale dell'era dell'Esodo, il lungomare di Spezzamarea è noto a un manipolo di Raider veterani come il primo luogo in cui videro gli ARC calare dai cieli.\n\nLa zona fu abbandonata nei primi giorni della Prima ondata per la mancanza di ripari, ma quella stessa costa esposta è oggi cruciale per avvistare nuove minacce in avvicinamento verso la Cintura di ruggine."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Supply Drops (lore)",
+        "label": {
+          "en": "Supply Drops",
+          "it": "Carichi aerei"
+        },
+        "subtitle": {
+          "en": "The only safe way to supply raiders in the field",
+          "it": "L'unico modo sicuro per rifornire i Raider sul campo"
+        },
+        "text": {
+          "en": "As rudimentary as they are effective, Toledo has set up a surprisingly reliable system to send essential supplies out to Raiders out in the field. A Raider may request supplies from any Supply Call Station, though the parachutes are visible from far away.\n\nWhile some view these drops as a waste of resources, many Raiders have credited them with saving their skin while in a tight spot.\n\nCategory:Lore",
+          "it": "Tanto rudimentale quanto efficace, il sistema messo in piedi da Toledo si è rivelato sorprendentemente affidabile per inviare rifornimenti essenziali ai Raider sul campo. Un Raider può richiedere un carico da qualsiasi Stazione di richiesta, anche se i paracadute sono visibili da molto lontano.\n\nSebbene alcuni considerino questi lanci uno spreco di risorse, molti Raider riconoscono che abbiano salvato loro la pelle nei momenti più critici."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "The Storm (lore)",
+        "label": {
+          "en": "The Storm",
+          "it": "La Tempesta"
+        },
+        "subtitle": {
+          "en": "A storm for the ages",
+          "it": "Una tempesta epocale"
+        },
+        "text": {
+          "en": "An especially violent sandstorm battered the Rust Belt for days, driving a new influx of refugees to seek shelter in Toledo.\n\nThe most sensible Raiders knew to shelter in place, though others saw a window to rule Topside with impunity.\n\nThe Storm took several days to subside, and damaged a significant portion of Toledo’s Topside infrastructure. During this time, ARC seemed as disoriented as most Raiders, with many of its most menacing machines temporarily retreating.\n\nCategory:Lore",
+          "it": "Una tempesta di sabbia particolarmente violenta si è abbattuta sulla Cintura di ruggine per giorni, spingendo un nuovo flusso di rifugiati a cercare riparo a Toledo.\n\nI Raider più assennati seppero mettersi al riparo sul posto, mentre altri vi videro l'occasione per spadroneggiare impunemente in Superficie.\n\nLa Tempesta impiegò diversi giorni a placarsi e danneggiò gran parte delle infrastrutture di Toledo in Superficie. In quel frangente, gli ARC sembrarono disorientati quanto la maggior parte dei Raider, con molte delle loro macchine più minacciose costrette a ritirarsi temporaneamente."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Cargo Elevators (lore)",
+        "label": {
+          "en": "Cargo Elevators",
+          "it": "Ascensori merci"
+        },
+        "subtitle": {
+          "en": "A reliable getaway, though loud and exposed",
+          "it": "Una via di fuga affidabile, anche se rumorosa ed esposta"
+        },
+        "text": {
+          "en": "Every Raider knows the sound. The beeping of an incoming cargo elevator means escape is near. Scattered around the Topside, these elevators allow Raiders to return from the surface without revealing the location of Toledo.\n\nFor safety reasons, all cargo elevators are remotely operated by Security operators, via a patch-board at a control station across the various contradas of Toledo.\n\nCategory:Lore",
+          "it": "Ogni Raider conosce quel suono. Il segnale acustico di un ascensore merci in arrivo significa che la via di fuga è vicina. Sparsi per tutta la Superficie, questi ascensori consentono ai Raider di rientrare dalla superficie senza rivelare la posizione di Toledo.\n\nPer motivi di sicurezza, tutti gli ascensori merci sono azionati a distanza dagli operatori della Sicurezza tramite un pannello di smistamento presso una stazione di controllo nelle varie contrade di Toledo."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Pendola Pass (lore)",
+        "label": {
+          "en": "Pendola Pass",
+          "it": "Passo di Pendola"
+        },
+        "subtitle": {
+          "en": "Where a giant was brought low",
+          "it": "Dove un gigante fu abbattuto"
+        },
+        "text": {
+          "en": "Located in a summit basin, Pendola Pass is the site of the Exodus-era Ceilo Sereno Observatory. It appeared on Speranza's proverbial radar after an Emperor collapsed there, drawing attention from ARC both within the Rust Belt and beyond.\n\nBeyond the reach of the Tubes, it required the invention of the Ballistic Gondolas for Raiders to be able to reliably ascend the mountain.\n\nCategory:Lore",
+          "it": "Situato in una conca sommitale, il Passo di Pendola ospita l'Osservatorio Cielo Sereno, risalente all'era dell'Esodo. È finito nel proverbiale radar di Speranza dopo che un Imperatore vi è crollato al suolo, attirando l'attenzione degli ARC sia all'interno della Cintura di ruggine sia oltre i suoi confini.\n\nSituato al di fuori della portata della rete della metro, ha richiesto l'invenzione delle Gondole balistiche affinché i Raider potessero risalire la montagna in modo affidabile."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Outposts (lore)",
+        "label": {
+          "en": "Outposts",
+          "it": "Avamposti"
+        },
+        "subtitle": {
+          "en": "A hard-earned home in an unforgiving landscape",
+          "it": "Una casa conquistata a fatica in un paesaggio spietato"
+        },
+        "text": {
+          "en": "__NOTOC__\n\nAfter the arrival of the Nomadic Envoys brought rumours of a danger lurking beyond the Rust Belt, Celeste sought to entice a number of veteran Raiders to start establishing minor footholds beyond the confines of Toledo proper.\n\nCombining knowledge of the First Wave's Raider camps with the Nomads' extensive knowledge of trails and camouflage, they were able to start establishing scattered Outposts in areas of the Rust Belt that had so far escaped ARC's attention.\n\nWith no immediate neighbors to endanger, some Raiders began using their Outposts to perform a wide variety of self-guided research tasks; ranging from the innately curious to the patently reckless.\n\nCategory:Lore",
+          "it": "Dopo che l'arrivo degli Inviati Nomadi ebbe portato voci di un pericolo in agguato oltre la Cintura di ruggine, Celeste cercò di convincere diversi Raider veterani a stabilire piccoli punti d'appoggio al di fuori dei confini veri e propri di Toledo.\n\nUnendo l'esperienza degli accampamenti Raider della Prima ondata alla vasta conoscenza di sentieri e mimetizzazione dei Nomadi, riuscirono a fondare Avamposti sparsi in zone della Cintura di ruggine rimaste finora fuori dall'attenzione dell'ARC.\n\nSenza vicini immediati da mettere a rischio, alcuni Raider iniziarono a usare i propri Avamposti per condurre ogni genere di ricerca autonoma, spaziando dalla semplice curiosità alla palese spericolatezza."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Pages_with_broken_file_links",
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Strange Glyphs (lore)",
+        "label": {
+          "en": "Strange Glyphs",
+          "it": "Strani glifi"
+        },
+        "subtitle": {
+          "en": "A signature of sorts, perhaps",
+          "it": "Una sorta di firma, forse"
+        },
+        "text": {
+          "en": "__NOTOC__\nAn eye-shaped glyph. According to Celeste, a wandering Raider named Bilguun has been known to leave these markings behind in places he's visited.\n\nCategory:Lore",
+          "it": "Un glifo a forma di occhio. Secondo Celeste, un Raider errante di nome Bilguun è noto per lasciare questi simboli nei luoghi che ha visitato."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Ballistic Gondolas (lore)",
+        "label": {
+          "en": "Ballistic Gondolas",
+          "it": "Gondole balistiche"
+        },
+        "subtitle": {
+          "en": "A signature of sorts, perhaps",
+          "it": "Una sorta di firma, forse"
+        },
+        "text": {
+          "en": "The ballistic gondolas are an improvised method of getting up and down the mountain, beyond the Tube network reaches. Repurposed from crashed ARC Probes, only Raiders with nerves of steel and particularly lucky stars have been known to embark.\n\nThough the gondola's navigational systems remain rudimentary and imprecise, recent improvements have at least managed to significantly cut down on mid-flight breakages.\n\nEngineers from the contrada of Ferrovia have been known to experiment with further improvements, though such prototypes have proven notably unstable.\n\nCategory:Lore",
+          "it": "Le gondole balistiche sono un mezzo di fortuna per salire e scendere dalla montagna, oltre la portata della rete della metro. Ricavate da Sonde ARC precipitate, vi si imbarcano soltanto Raider dai nervi d'acciaio e particolarmente fortunati.\n\nSebbene i sistemi di navigazione della gondola restino rudimentali e imprecisi, i recenti miglioramenti sono quantomeno riusciti a ridurre drasticamente i guasti in volo.\n\nÈ noto che gli ingegneri della contrada di Ferrovia sperimentino ulteriori migliorie, ma tali prototipi si sono dimostrati notevolmente instabili."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      },
+      {
+        "page": "Bilguun's Hideout (lore)",
+        "label": {
+          "en": "Bilguun's Hideout",
+          "it": "Covo di Bilguun"
+        },
+        "subtitle": {
+          "en": "A nice spot for stargazing.",
+          "it": "Un bel posto per osservare le stelle."
+        },
+        "text": {
+          "en": "__NOTOC__\nUnlike most Topside structures, this outpost shows signs of recent habitation, as if someone only just departed. Even so, no trace of them remains. Perhaps it's best left undisturbed for now; its occupant may yet return.\n\nCategory:Lore",
+          "it": "A differenza della maggior parte delle strutture in Superficie, questo avamposto mostra segni di una presenza recente, come se qualcuno se ne fosse andato solo poco fa. Eppure, non resta alcuna traccia di chi vi dimorava. Forse per ora è meglio lasciarlo indisturbato; il suo occupante potrebbe fare ritorno."
+        },
+        "source": "arcraiders.wiki",
+        "categories": [
+          "Codex_Entries",
+          "Lore"
+        ]
+      }
+    ]
+  }
+}
