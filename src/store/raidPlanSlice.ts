@@ -89,24 +89,38 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
     });
   },
 
-  addRaidItem: (itemId: string, targetQuantity: number = 1) => {
+  addRaidItem: (itemId: string, targetQuantity: number = 1, options?: { fromStash?: boolean }) => {
     const s = get();
     const qty = Math.max(1, targetQuantity);
+    const fromStash = options?.fromStash === true;
     const existingIndex = s.raidPlan.items.findIndex(i => i.itemId === itemId);
     const updatedItems = [...s.raidPlan.items];
 
     if (existingIndex >= 0) {
       const existing = updatedItems[existingIndex];
-      updatedItems[existingIndex] = {
-        ...existing,
-        targetQuantity: existing.targetQuantity + qty,
-      };
+      if (fromStash) {
+        const manualDelta = existing.fromStash
+          ? existing.targetQuantity - (existing.stashBaseTarget ?? existing.targetQuantity)
+          : existing.targetQuantity;
+        updatedItems[existingIndex] = {
+          ...existing,
+          targetQuantity: Math.max(1, qty + manualDelta),
+          fromStash: true,
+          stashBaseTarget: qty,
+        };
+      } else {
+        updatedItems[existingIndex] = {
+          ...existing,
+          targetQuantity: existing.targetQuantity + qty,
+        };
+      }
     } else {
       updatedItems.push({
         id: generateUUID(),
         itemId,
         targetQuantity: qty,
         foundQuantity: 0,
+        ...(fromStash ? { fromStash: true, stashBaseTarget: qty } : {}),
       });
     }
 
@@ -212,7 +226,13 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
 
     for (const item of s.raidPlan.items) {
       const isNeeded = (totalRequired[item.itemId] ?? 0) > 0;
-      if (isNeeded && item.foundQuantity > 0) {
+      if (!isNeeded) {
+        // Oggetto non richiesto dallo Stash: non viene versato né scalato
+        remainingItems.push(item);
+        continue;
+      }
+
+      if (item.foundQuantity > 0) {
         updatedInventory[item.itemId] = (updatedInventory[item.itemId] ?? 0) + item.foundQuantity;
         addedItemsCount += item.foundQuantity;
       }
@@ -222,9 +242,17 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
         continue;
       } else if (item.foundQuantity > 0) {
         // Trovato parzialmente: scala targetQuantity, resetta foundQuantity a 0
+        const nextTarget = Math.max(1, item.targetQuantity - item.foundQuantity);
+        const nextBaseTarget = item.fromStash
+          ? Math.max(0, (item.stashBaseTarget ?? item.targetQuantity) - item.foundQuantity)
+          : 0;
+        const stillLinkedToStash = Boolean(item.fromStash && nextBaseTarget > 0);
+
         remainingItems.push({
           ...item,
-          targetQuantity: Math.max(1, item.targetQuantity - item.foundQuantity),
+          targetQuantity: nextTarget,
+          fromStash: stillLinkedToStash,
+          stashBaseTarget: stillLinkedToStash ? nextBaseTarget : undefined,
           foundQuantity: 0,
         });
       } else {
@@ -303,12 +331,24 @@ export const createRaidPlanSlice: StateCreator<AppState, [], [], RaidPlanSlice> 
     const syncedItems: typeof s.raidPlan.items = [];
 
     for (const item of s.raidPlan.items) {
-      const needed = Math.max(0, (totalRequired[item.itemId] ?? 0) - (s.inventory[item.itemId] ?? 0));
-      if (needed > 0) {
+      if (!item.fromStash) {
+        // Aggiunto ex novo nel Raid: non viene toccato dallo Stash
+        syncedItems.push(item);
+        continue;
+      }
+
+      const neededNow = Math.max(0, (totalRequired[item.itemId] ?? 0) - (s.inventory[item.itemId] ?? 0));
+      const baseTarget = item.stashBaseTarget ?? item.targetQuantity;
+      const manualDelta = item.targetQuantity - baseTarget;
+      const newTarget = Math.max(0, neededNow + manualDelta);
+
+      if (newTarget > 0) {
         syncedItems.push({
           ...item,
-          targetQuantity: needed,
-          foundQuantity: Math.min(item.foundQuantity, needed),
+          targetQuantity: newTarget,
+          foundQuantity: Math.min(item.foundQuantity, newTarget),
+          fromStash: neededNow > 0,
+          stashBaseTarget: neededNow > 0 ? neededNow : undefined,
         });
       }
     }

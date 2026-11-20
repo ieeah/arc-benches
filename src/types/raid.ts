@@ -10,6 +10,8 @@ export type RaidItem = {
   itemId: string;
   targetQuantity: number;
   foundQuantity: number;
+  fromStash?: boolean;
+  stashBaseTarget?: number;
 };
 
 export type RaidPlanState = {

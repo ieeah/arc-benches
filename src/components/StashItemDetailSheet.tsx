@@ -294,7 +294,7 @@ export const StashItemDetailSheet = ({
               {missing > 0 ? (
                 <button
                   type="button"
-                  onClick={() => addRaidItem(initialItem.id, missing)}
+                  onClick={() => addRaidItem(initialItem.id, missing, { fromStash: true })}
                   className="w-full h-11 px-4 rounded-[18px] bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 active:scale-98 transition-all shadow-xs cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
                   aria-label={t('stash.planMissingAria', { count: missing, name: displayName })}
                 >
