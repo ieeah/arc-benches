@@ -1,7 +1,8 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { Download, EyeOff, Loader2, Plus, RotateCcw, Upload, Trash2 } from 'lucide-react';
+import { Download, EyeOff, Loader2, Plus, RotateCcw, Upload, Trash2, Sun } from 'lucide-react';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import { FloatingNavDockProvider, useFloatingNavDock } from '@/context/FloatingNavDockContext';
+import { useWakeLock } from '@/hooks/useWakeLock';
 import { FloatingNav } from '@/components/FloatingNav';
 import { MorphingFloatingNav } from '@/components/MorphingFloatingNav';
 import { StashPage } from '@/pages/StashPage';
@@ -90,6 +91,26 @@ export default function App() {
 
   const [listsAction, setListsAction] = useState<ListsPageAction>(null);
   const [raidAction, setRaidAction] = useState<'apply' | 'reset' | 'clear' | null>(null);
+  const [keepScreenOn, setKeepScreenOn] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('scrappys_keep_screen_on') === '1';
+    } catch {
+      return false;
+    }
+  });
+  const wakeLock = useWakeLock(keepScreenOn);
+
+  const toggleKeepScreenOn = () => {
+    setKeepScreenOn(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('scrappys_keep_screen_on', next ? '1' : '0');
+      } catch {
+        // Ignora errori storage
+      }
+      return next;
+    });
+  };
 
   // Selettori Zustand
   const navVariant = useAppStore(s => s.navVariant);
@@ -193,10 +214,21 @@ export default function App() {
     }
     if (activeTab === 'raid') {
       return [
+        ...(wakeLock.isSupported
+          ? [
+              {
+                icon: <Sun size={15} />,
+                label: 'Schermo sempre attivo',
+                onClick: toggleKeepScreenOn,
+                checked: keepScreenOn,
+              },
+            ]
+          : []),
         {
           icon: <RotateCcw size={15} />,
           label: t('raid.reset'),
           onClick: () => setRaidAction('reset'),
+          dividerBefore: wakeLock.isSupported,
         },
         {
           icon: <Trash2 size={15} />,
