@@ -6,6 +6,7 @@ import {
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { useIsOverlayOpen } from '@/hooks/useOverlayCount';
+import { useVirtualKeyboardOpen } from '@/hooks/useVirtualKeyboardOpen';
 import { useScrollLock } from '@/hooks/useScrollLock';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useTranslation } from '@/i18n';
@@ -32,6 +33,7 @@ export const MorphingFloatingNav = ({
   const storeNavSide = useAppStore(s => s.navSide);
   const navSide = navSideProp ?? storeNavSide;
   const isOverlayOpen = useIsOverlayOpen();
+  const isKeyboardOpen = useVirtualKeyboardOpen();
   const isReducedMotion = useReducedMotion();
 
   const resolvedNavTree = useNavTree();
@@ -331,7 +333,7 @@ export const MorphingFloatingNav = ({
 
       <div
         className={`fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center transition-transform duration-300 ${
-          isOverlayOpen && !isOpen ? 'translate-y-28 opacity-0' : 'translate-y-0 opacity-100'
+          (isOverlayOpen || isKeyboardOpen) && !isOpen ? 'translate-y-28 opacity-0' : 'translate-y-0 opacity-100'
         }`}
       >
         <div

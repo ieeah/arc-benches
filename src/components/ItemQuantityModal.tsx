@@ -6,6 +6,7 @@ import { BottomSheet } from '@/components/BottomSheet';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { QuantityStepper } from '@/components/QuantityStepper';
 import { Button, Field } from '@/components/ui';
+import { useDesktopAutoFocus } from '@/hooks/useDesktopAutoFocus';
 import { getRarityText } from '@/lib/rarity';
 
 export type ItemQuantityModalProps = {
@@ -28,6 +29,7 @@ export function ItemQuantityModal({
   confirmLabel,
 }: ItemQuantityModalProps) {
   const { t, language } = useTranslation();
+  const desktopAutoFocus = useDesktopAutoFocus();
   const [quantity, setQuantity] = useState(initialQuantity >= 0 ? initialQuantity : 0);
   const [tempValue, setTempValue] = useState(String(quantity));
 
@@ -153,6 +155,7 @@ export function ItemQuantityModal({
                   onDecrement={() => adjustQty(-1)}
                   rarity={item.rarity}
                   itemName={itemName}
+                  autoFocus={desktopAutoFocus}
                 />
               </div>
               <Button

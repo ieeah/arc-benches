@@ -6,6 +6,7 @@ import {
 import { useAppStore } from '@/store';
 import { ProfilesDrawer } from '@/components/ProfilesDrawer';
 import { useIsOverlayOpen } from '@/hooks/useOverlayCount';
+import { useVirtualKeyboardOpen } from '@/hooks/useVirtualKeyboardOpen';
 import { useScrollLock } from '@/hooks/useScrollLock';
 import { useTranslation } from '@/i18n';
 import { useNavTree } from '@/hooks/useNavTree';
@@ -47,6 +48,7 @@ export const FloatingNav = ({
   const storeNavSide = useAppStore(s => s.navSide);
   const navSide = navSideProp ?? storeNavSide;
   const isOverlayOpen = useIsOverlayOpen();
+  const isKeyboardOpen = useVirtualKeyboardOpen();
 
   const resolvedNavTree = useNavTree();
   const navTree: NavItem[] = items ?? resolvedNavTree;
@@ -257,7 +259,7 @@ export const FloatingNav = ({
       />
 
       <div className={`fixed bottom-0 left-0 right-0 z-50 pointer-events-none pb-safe flex justify-center transition-all duration-300 ${
-        isOverlayOpen && !menuOpen && !contextMenuOpen ? 'translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+        (isOverlayOpen || isKeyboardOpen) && !menuOpen && !contextMenuOpen ? 'translate-y-28 opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}>
         <div className={`w-full max-w-md md:max-w-3xl flex ${
           hasDock ? 'px-4' : navSide === 'right' ? 'justify-end pr-4' : 'justify-start pl-4'

@@ -12,6 +12,7 @@ export type QuantityStepperProps = {
   orientation?: "horizontal" | "vertical";
   itemName?: string;
   className?: string;
+  autoFocus?: boolean;
 };
 
 export const QuantityStepper = ({
@@ -24,6 +25,7 @@ export const QuantityStepper = ({
   orientation = "horizontal",
   itemName,
   className = "",
+  autoFocus = false,
 }: QuantityStepperProps) => {
   const { t } = useTranslation();
 
@@ -68,6 +70,7 @@ export const QuantityStepper = ({
             type="text"
             inputMode="numeric"
             pattern="[0-9]*"
+            autoFocus={autoFocus}
             value={tempValue}
             onChange={(e) => {
               const val = e.target.value;
@@ -110,6 +113,7 @@ export const QuantityStepper = ({
             type="text"
             inputMode="numeric"
             pattern="[0-9]*"
+            autoFocus={autoFocus}
             value={tempValue}
             onChange={(e) => {
               const val = e.target.value;

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useDesktopAutoFocus } from './useDesktopAutoFocus';
 
 const INPUT_SELECTOR =
   'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])';
@@ -19,6 +20,7 @@ export function useDialog(onClose: () => void) {
   const panelRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
   useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
+  const desktopAutoFocus = useDesktopAutoFocus();
 
   useEffect(() => {
     const id = Symbol('dialog');
@@ -26,20 +28,22 @@ export function useDialog(onClose: () => void) {
     const panel = panelRef.current;
     const previouslyFocused = document.activeElement as HTMLElement | null;
 
-    // Move focus inside dialog on open (prioritize first text input / form field, else first focusable)
+    // Move focus inside dialog on open: solo su desktop focalizza il primo input di testo;
+    // su mobile/touch focalizza il panel per evitare di aprire la tastiera virtuale al mount.
     const focusTimer = setTimeout(() => {
       if (!panel) return;
       if (!panel.contains(document.activeElement)) {
-        const firstInput = panel.querySelector<HTMLElement>(INPUT_SELECTOR);
-        if (firstInput) {
-          firstInput.focus();
-          if (firstInput instanceof HTMLInputElement && (firstInput.type === 'text' || firstInput.type === 'number')) {
-            firstInput.select?.();
+        if (desktopAutoFocus) {
+          const firstInput = panel.querySelector<HTMLElement>(INPUT_SELECTOR);
+          if (firstInput) {
+            firstInput.focus();
+            if (firstInput instanceof HTMLInputElement && (firstInput.type === 'text' || firstInput.type === 'number')) {
+              firstInput.select?.();
+            }
+            return;
           }
-          return;
         }
-        const first = panel.querySelector<HTMLElement>(FOCUSABLE);
-        (first ?? panel).focus();
+        panel.focus();
       }
     }, 50);
 
