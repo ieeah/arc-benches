@@ -7,7 +7,7 @@ Il contenuto testuale del cosa-è-cambiato per versione non vive qui — per que
 
 ## Versione corrente
 
-**0.6.0** ("Archivio del Rifugio"), determinata dal tag Git `v0.6.0` e da `package.json`. In corso di pianificazione la **0.6.5** ("Codex & Data Mining").
+**0.6.5** ("Codex & Data Mining"), determinata dal tag Git `v0.6.5` e da `package.json`. In corso di pianificazione la **0.6.9** ("Engine Freeze").
 
 > **Nota su v0.3.0**: Include consolidamento architetturale (validazione Zod, persistence boundary, WASM lockfile check, performance content-visibility), Role Maker, Tracker Blueprints, Pagina Impostazioni & Gestione Globale, Viste/Densità Stash, Supporto Tablet e la pipeline MetaForge con Studio Overrides.
 
@@ -185,13 +185,15 @@ Changelog: [changelog/0.6.0.md](../changelog/0.6.0.md)
 
 ---
 
-## 0.6.5 "Codex & Data Mining" — Estrazione Dataset Totale di Gioco — Pianificata (Questo Repo)
-Obiettivo: estrarre, validare e normalizzare in file JSON statici tutto il patrimonio informativo di *ARC Raiders*, così da avere la base dati pronta e congelata per il futuro database relazionale. Zero refactor UI: solo pipeline dati e visualizzatori minimali di verifica.
-- [ ] #57 / #64 **Dataset Codex Nemici ARC**: script `fetch-enemies.mjs` per estrarre tutti gli ARC (Snitch, Bastion, Rocketeer, Sentinel, Matriarch, Queen), punti deboli, loot table con percentuali di drop e lore in `src/data/codex-enemies.json`.
-- [ ] #61 **Dataset Mappe & POI**: script `fetch-maps.mjs` per normalizzare coordinate, confini, punti di estrazione, bunker a chiave e zone di loot in `src/data/maps.json`.
-- [ ] #58 / #106 **Consolidamento Grafo 123 Quest**: completamento dati missioni (mandanti, tappe, condizioni di completamento, ricompense, dialoghi) in `src/data/quests.json`.
-- [x] #94 **Commercianti & Economia**: catalogo merci con costi e limiti di acquisto statici giornalieri in `src/data/traders.json` e scheda informativa Inviato Nomade.
-- [ ] #146 **Regole Matematiche Spedizioni**: consolidamento scaglioni danno, formula fabbisogno scalare e gestione del reset.
+## 0.6.5 "Codex & Data Mining" — Estrazione Dataset Totale di Gioco — Raggiunta (Questo Repo)
+Obiettivo: estrarre, validare e normalizzare in file JSON statici tutto il patrimonio informativo di *ARC Raiders*, così da avere la base dati pronta e congelata per il futuro database relazionale.
+Changelog: [changelog/0.6.5.md](../changelog/0.6.5.md)
+- [x] #57 **Dataset Codex EN/IT (88 voci)**: estratte e localizzate tutte le voci di *History*, *People*, *Toledo*, *ARC* e *Topside* in `src/data/codex.json`.
+- [x] #61 **Dataset Mappe & POI**: pipeline `fetch-arc-maps.mjs`, 49.962 POI multi-livello, filtri e clustering (parte evolutiva Next.js/Supabase spostata in #170).
+- [x] #94 **Commercianti & Economia**: catalogo merci con costi, limiti di acquisto giornalieri e scheda Inviato Nomade in `src/data/traders.json`.
+- [x] #169 **Allineamento Stash <-> Pianificazione Raid**: pagina unificata, dock in `FloatingNav`/`MorphingFloatingNav`, Modifica Requisiti batch, sync intelligente e fix `applyRaidPlanToStash`.
+- [x] #173 / #174 **Dettaglio BaseItem & Pill Overflow**: `repair`/`recycling` livello per livello su `baseItem`, indicatore bordo/glow e drag mouse sulle pill.
+- *Spostate su Milestone #18 (Nuovo Progetto Next.js & Supabase):* #58 (Quest Tracker presentazione), #146 (Revisione UX/UI Spedizioni).
 
 ---
 
