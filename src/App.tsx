@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { Download, EyeOff, Loader2, Plus, RotateCcw, Upload, PackageCheck, Trash2 } from 'lucide-react';
+import { Download, EyeOff, Loader2, Plus, RotateCcw, Upload, Trash2 } from 'lucide-react';
 import { ThemeProvider } from '@/context/ThemeProvider';
+import { FloatingNavDockProvider, useFloatingNavDock } from '@/context/FloatingNavDockContext';
 import { FloatingNav } from '@/components/FloatingNav';
 import { MorphingFloatingNav } from '@/components/MorphingFloatingNav';
 import { StashPage } from '@/pages/StashPage';
@@ -193,16 +194,9 @@ export default function App() {
     if (activeTab === 'raid') {
       return [
         {
-          icon: <PackageCheck size={16} />,
-          label: t('raid.apply'),
-          onClick: () => setRaidAction('apply'),
-          variant: 'primary',
-        },
-        {
           icon: <RotateCcw size={15} />,
           label: t('raid.reset'),
           onClick: () => setRaidAction('reset'),
-          dividerBefore: true,
         },
         {
           icon: <Trash2 size={15} />,
@@ -244,6 +238,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
+      <FloatingNavDockProvider>
       <div className="min-h-dvh bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans overflow-x-clip w-full">
         {isDev && activeTab === 'dev' ? (
           <Suspense fallback={<PageLoadingFallback />}>
@@ -339,19 +334,12 @@ export default function App() {
             </Suspense>
 
             {activeTab !== 'list-detail' && activeTab !== 'role-maker' && (
-              navVariant === 'morphing' ? (
-                <MorphingFloatingNav
-                  activePage={activeTab}
-                  onNavigate={handleNavigate}
-                  contextActions={getContextActions()}
-                />
-              ) : (
-                <FloatingNav
-                  activePage={activeTab}
-                  onNavigate={handleNavigate}
-                  contextActions={getContextActions()}
-                />
-              )
+              <FloatingNavWithDock
+                navVariant={navVariant}
+                activePage={activeTab}
+                onNavigate={handleNavigate}
+                contextActions={getContextActions()}
+              />
             )}
           </>
         )}
@@ -367,6 +355,39 @@ export default function App() {
           </Suspense>
         )}
       </div>
+      </FloatingNavDockProvider>
     </ThemeProvider>
+  );
+}
+
+function FloatingNavWithDock({
+  navVariant,
+  activePage,
+  onNavigate,
+  contextActions,
+}: {
+  navVariant: string;
+  activePage: string;
+  onNavigate: (pageId: string) => void;
+  contextActions: ContextAction[];
+}) {
+  const dock = useFloatingNavDock();
+  if (navVariant === 'morphing') {
+    return (
+      <MorphingFloatingNav
+        activePage={activePage}
+        onNavigate={onNavigate}
+        contextActions={contextActions}
+        dock={dock}
+      />
+    );
+  }
+  return (
+    <FloatingNav
+      activePage={activePage}
+      onNavigate={onNavigate}
+      contextActions={contextActions}
+      dock={dock}
+    />
   );
 }

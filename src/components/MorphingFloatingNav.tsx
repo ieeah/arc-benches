@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
 import {
   MoreHorizontal, Check, Users, X,
   ChevronRight, ChevronLeft,
@@ -26,6 +26,7 @@ export const MorphingFloatingNav = ({
   contextActions,
   items,
   navSide: navSideProp,
+  dock,
 }: FloatingNavProps) => {
   const { t } = useTranslation();
   const storeNavSide = useAppStore(s => s.navSide);
@@ -63,7 +64,9 @@ export const MorphingFloatingNav = ({
   const isOpen = mode !== 'idle';
   useScrollLock(isOpen, false);
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const idlePillRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const contextPaneRef = useRef<HTMLDivElement>(null);
   const mainBtnRef = useRef<HTMLButtonElement>(null);
@@ -77,11 +80,11 @@ export const MorphingFloatingNav = ({
   }, [navStack, navTree]);
 
   // Calcolo dinamico dell'altezza del container per il morphing elastico
-  const [dynamicHeight, setDynamicHeight] = useState<number>(68);
+  const [dynamicHeight, setDynamicHeight] = useState<number>(64);
 
   useEffect(() => {
     if (mode === 'idle') {
-      setDynamicHeight(68);
+      setDynamicHeight(64);
       return;
     }
 
@@ -225,6 +228,90 @@ export const MorphingFloatingNav = ({
   );
 
   const isAnchorRight = navSide === 'right';
+  const secondaryDockItems = dock?.secondary?.slice(0, 2) ?? [];
+  const hasDock = Boolean(dock?.primary || secondaryDockItems.length > 0);
+
+  // Calcolo dinamico di larghezza e altezza compatte basate sui figli reali
+  const [idleSize, setIdleSize] = useState<{ width: number; height: number }>({
+    width: 122,
+    height: 66,
+  });
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      const pillEl = idlePillRef.current;
+      const wrapEl = wrapperRef.current;
+      const height = pillEl && pillEl.offsetHeight > 0 ? pillEl.offsetHeight + 18 : 66;
+      let width = 122;
+      if (hasDock && wrapEl) {
+        width = Math.max(122, wrapEl.clientWidth - 32);
+      } else if (pillEl && pillEl.scrollWidth > 0) {
+        width = pillEl.scrollWidth + 18;
+      }
+      setIdleSize(prev =>
+        prev.width === width && prev.height === height ? prev : { width, height }
+      );
+    };
+
+    measure();
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
+    if (ro) {
+      if (idlePillRef.current) ro.observe(idlePillRef.current);
+      if (wrapperRef.current) ro.observe(wrapperRef.current);
+    }
+    window.addEventListener('resize', measure);
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [hasDock, hasRaidElements, activePage, secondaryDockItems.length, isOpen]);
+
+  // Aggiorna dynamicHeight quando siamo in idle
+  useEffect(() => {
+    if (mode === 'idle') {
+      setDynamicHeight(idleSize.height);
+    }
+  }, [mode, idleSize.height]);
+
+  const dockPrimaryEl = dock?.primary ? (
+    <button
+      key="morph-dock-primary"
+      type="button"
+      onClick={dock.primary.onClick}
+      disabled={dock.primary.disabled}
+      className={`flex-1 min-w-0 h-12 px-4 rounded-full font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-98 cursor-pointer disabled:opacity-40 disabled:pointer-events-none ${
+        dock.primary.variant === 'danger'
+          ? 'bg-rose-600 hover:bg-rose-700 text-white shadow-sm'
+          : dock.primary.variant === 'secondary'
+          ? 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100'
+          : 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'
+      }`}
+    >
+      {dock.primary.icon && <span className="shrink-0">{dock.primary.icon}</span>}
+      <span className="truncate">{dock.primary.label}</span>
+    </button>
+  ) : null;
+
+  const dockSecondaryEls = secondaryDockItems.map((act) => (
+    <button
+      key={`morph-dock-sec-${act.id}`}
+      ref={act.buttonRef}
+      type="button"
+      onClick={act.onClick}
+      disabled={act.disabled}
+      title={act.label}
+      aria-label={act.label}
+      className={`w-12 h-12 rounded-full flex items-center justify-center transition-all active:scale-95 cursor-pointer shrink-0 disabled:opacity-40 disabled:pointer-events-none ${
+        act.variant === 'primary'
+          ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'
+          : act.variant === 'danger'
+          ? 'bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400'
+          : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
+      }`}
+    >
+      {act.icon}
+    </button>
+  ));
 
   return (
     <>
@@ -247,7 +334,12 @@ export const MorphingFloatingNav = ({
           isOverlayOpen && !isOpen ? 'translate-y-28 opacity-0' : 'translate-y-0 opacity-100'
         }`}
       >
-        <div className={`w-full max-w-md md:max-w-3xl flex ${isAnchorRight ? 'justify-end pr-4' : 'justify-start pl-4'}`}>
+        <div
+          ref={wrapperRef}
+          className={`w-full max-w-md md:max-w-3xl px-4 flex ${
+            isAnchorRight ? 'justify-end' : 'justify-start'
+          }`}
+        >
           
           {/* =================================================================== */}
           {/* CONTENITORE UNICO MORPHING AD ALTEZZA DINAMICA CON FISICA A MOLLA  */}
@@ -259,18 +351,19 @@ export const MorphingFloatingNav = ({
               WebkitBackfaceVisibility: 'hidden',
               backfaceVisibility: 'hidden',
               height: `${dynamicHeight}px`,
-              width: isOpen ? '304px' : hasRaidElements ? '192px' : '136px',
-              borderRadius: isOpen ? '26px' : '34px',
+              width: isOpen ? '304px' : `${idleSize.width}px`,
+              borderRadius: isOpen ? '26px' : `${Math.round(idleSize.height / 2)}px`,
             }}
             className={`relative mb-6 overflow-hidden pointer-events-auto transform-gpu select-none shadow-2xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 ${
               isReducedMotion ? 'transition-none' : 'transition-spring-morph'
             } ${
-              isOpen ? 'p-2.5 flex flex-col' : 'p-1.5 flex items-center justify-center'
+              isOpen ? 'p-2.5 flex flex-col' : 'p-2 flex items-center justify-center'
             }`}
           >
             {/* ── STATO COMPATTO (PILLOLA): VISIBILE SOLO SE MODE === 'IDLE' ── */}
             <div
-              className={`flex items-center gap-2 ${
+              ref={idlePillRef}
+              className={`flex items-center gap-2 ${hasDock ? 'w-full' : ''} ${
                 isReducedMotion ? '' : 'transition-opacity duration-150'
               } ${
                 isOpen ? 'opacity-0 pointer-events-none absolute' : 'opacity-100'
@@ -279,21 +372,25 @@ export const MorphingFloatingNav = ({
               {/* Bottoni CIRCOLARI ordinati a seconda del lato preferito */}
               {isAnchorRight ? (
                 <>
+                  {dockPrimaryEl}
+                  {dockSecondaryEls}
                   {/* Tasto Secondario (...) - Circolare */}
                   <button
                     onClick={handleToggleContextMenu}
-                    className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                    className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 shrink-0"
                     aria-label={t('nav.optionsAndProfile')}
                   >
                     <MoreHorizontal size={20} />
                   </button>
 
-                  {/* Tasto Centrale Raid (se presenti elementi) */}
-                  <RaidNavRadarButton
-                    hasRaidElements={hasRaidElements}
-                    isRaidRunning={isRaidRunning}
-                    onNavigate={onNavigate}
-                  />
+                  {/* Tasto Centrale Raid (nascosto su 'raid') */}
+                  {activePage !== 'raid' && (
+                    <RaidNavRadarButton
+                      hasRaidElements={hasRaidElements}
+                      isRaidRunning={isRaidRunning}
+                      onNavigate={onNavigate}
+                    />
+                  )}
 
                   {/* Tasto Primario (Toggle / Morph Long Press) - Circolare */}
                   <button
@@ -301,7 +398,7 @@ export const MorphingFloatingNav = ({
                     onPointerDown={handlePointerDown}
                     onPointerUp={handlePointerUp}
                     onPointerCancel={closeMenu}
-                    className="w-13 h-13 rounded-full text-white flex items-center justify-center shadow-lg bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all select-none touch-none cursor-pointer"
+                    className="w-12 h-12 rounded-full text-white flex items-center justify-center shadow-lg bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all select-none touch-none cursor-pointer shrink-0"
                     aria-label={t('nav.quickNavAria', { target: nextTargetItem?.label ?? '' })}
                     title={t('nav.quickNavTitle', { target: nextTargetItem?.label ?? '' })}
                   >
@@ -316,28 +413,32 @@ export const MorphingFloatingNav = ({
                     onPointerDown={handlePointerDown}
                     onPointerUp={handlePointerUp}
                     onPointerCancel={closeMenu}
-                    className="w-13 h-13 rounded-full text-white flex items-center justify-center shadow-lg bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all select-none touch-none cursor-pointer"
+                    className="w-12 h-12 rounded-full text-white flex items-center justify-center shadow-lg bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all select-none touch-none cursor-pointer shrink-0"
                     aria-label={t('nav.quickNavAria', { target: nextTargetItem?.label ?? '' })}
                     title={t('nav.quickNavTitle', { target: nextTargetItem?.label ?? '' })}
                   >
                     {nextTargetItem?.icon}
                   </button>
 
-                  {/* Tasto Centrale Raid (se presenti elementi) */}
-                  <RaidNavRadarButton
-                    hasRaidElements={hasRaidElements}
-                    isRaidRunning={isRaidRunning}
-                    onNavigate={onNavigate}
-                  />
+                  {/* Tasto Centrale Raid (nascosto su 'raid') */}
+                  {activePage !== 'raid' && (
+                    <RaidNavRadarButton
+                      hasRaidElements={hasRaidElements}
+                      isRaidRunning={isRaidRunning}
+                      onNavigate={onNavigate}
+                    />
+                  )}
 
                   {/* Tasto Secondario (...) - Circolare */}
                   <button
                     onClick={handleToggleContextMenu}
-                    className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                    className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 flex items-center justify-center transition-all active:scale-95 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 shrink-0"
                     aria-label={t('nav.optionsAndProfile')}
                   >
                     <MoreHorizontal size={20} />
                   </button>
+                  {dockSecondaryEls}
+                  {dockPrimaryEl}
                 </>
               )}
             </div>

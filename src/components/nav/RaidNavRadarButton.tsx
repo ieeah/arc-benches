@@ -31,13 +31,9 @@ export const RaidNavRadarButton = ({
 
   return (
     <div className={`relative flex items-center justify-center ${className}`.trim()}>
-      {/* Bagliori Magici AI a 4 Colori Arc Raiders (solo quando raid in corso) */}
-      {isRaidRunning && (
-        <>
-          <span className="arc-magic-glow-blur" />
-          <span className="arc-magic-glow" />
-        </>
-      )}
+      {/* Bagliori Magici AI a 4 Colori Arc Raiders (sempre attivi a saturazione ridotta quando visibile) */}
+      <span className={`arc-magic-glow-blur ${isRaidRunning ? '' : 'opacity-45 saturate-50'}`} />
+      <span className={`arc-magic-glow ${isRaidRunning ? '' : 'opacity-55 saturate-50'}`} />
       <button
         onClick={handleClick}
         className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer select-none ${
