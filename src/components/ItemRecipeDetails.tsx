@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import {
   Hammer,
   Zap,
@@ -74,6 +74,22 @@ export const ItemRecipeDetails = ({
 
   const nextUpgrade = useMemo(() => getNextUpgradeStep(item.id), [item.id]);
 
+  const variantRecipes = useMemo(() => {
+    if (!isBaseItem || !baseDef) return [];
+    return baseDef.variantItemIds.map((variantId, idx) => {
+      const vItem = itemsInfo[variantId];
+      const vName = vItem ? getItemName(vItem, language) : variantId;
+      const romanMatch = vName.match(/\b(I|II|III|IV)\b$/);
+      const levelLabel = romanMatch ? romanMatch[1] : `Lv.${idx + 1}`;
+      return {
+        variantId,
+        variantName: vName,
+        levelLabel,
+        recipe: getItemRecipe(variantId),
+      };
+    });
+  }, [isBaseItem, baseDef, itemsInfo, language]);
+
   // Calcolo delle tab disponibili
   const availableTabs = useMemo(() => {
     const tabs: { key: TabKey; label: string; icon: typeof Hammer }[] = [];
@@ -105,8 +121,11 @@ export const ItemRecipeDetails = ({
       });
     }
 
-    // 3. Riparazione (solo per varianti concrete, non per il Base Item generico)
-    if (recipe?.repair && !isBaseItem) {
+    // 3. Riparazione (singola variante o livello per livello per Base Item)
+    const hasRepair = isBaseItem
+      ? variantRecipes.some((v) => Boolean(v.recipe?.repair))
+      : Boolean(recipe?.repair);
+    if (hasRepair) {
       tabs.push({
         key: 'repair',
         label: t('itemDetail.tabRepair'),
@@ -114,8 +133,20 @@ export const ItemRecipeDetails = ({
       });
     }
 
-    // 4. Riciclo / Smantellamento (solo per varianti concrete, non per il Base Item generico)
-    if (recipe?.recycling && !isBaseItem && (recipe.recycling.recyclesInto || recipe.recycling.salvagesInto)) {
+    // 4. Riciclo / Smantellamento (singola variante o livello per livello per Base Item)
+    const hasRecycling = isBaseItem
+      ? variantRecipes.some(
+          (v) =>
+            Boolean(
+              v.recipe?.recycling &&
+                (v.recipe.recycling.recyclesInto || v.recipe.recycling.salvagesInto),
+            ),
+        )
+      : Boolean(
+          recipe?.recycling &&
+            (recipe.recycling.recyclesInto || recipe.recycling.salvagesInto),
+        );
+    if (hasRecycling) {
       tabs.push({
         key: 'recycling',
         label: t('itemDetail.tabRecycling'),
@@ -133,7 +164,62 @@ export const ItemRecipeDetails = ({
     }
 
     return tabs;
-  }, [recipe, isBaseItem, evolution, nextUpgrade, recyclingSources, lootAreas, traderPurchase, t]);
+  }, [recipe, isBaseItem, variantRecipes, evolution, nextUpgrade, recyclingSources, lootAreas, traderPurchase, t]);
+
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [scrollEdges, setScrollEdges] = useState({ left: false, right: false });
+  const dragStateRef = useRef<{ isDown: boolean; startX: number; scrollLeft: number; dragged: boolean }>({
+    isDown: false,
+    startX: 0,
+    scrollLeft: 0,
+    dragged: false,
+  });
+
+  const handleTabsPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse' || !tabsRef.current) return;
+    dragStateRef.current = {
+      isDown: true,
+      startX: e.clientX,
+      scrollLeft: tabsRef.current.scrollLeft,
+      dragged: false,
+    };
+  };
+
+  const handleTabsPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const st = dragStateRef.current;
+    if (!st.isDown || !tabsRef.current) return;
+    const dx = e.clientX - st.startX;
+    if (Math.abs(dx) > 4) st.dragged = true;
+    if (st.dragged) {
+      tabsRef.current.scrollLeft = st.scrollLeft - dx;
+    }
+  };
+
+  const handleTabsPointerUp = () => {
+    dragStateRef.current.isDown = false;
+  };
+
+  const updateScrollEdges = useCallback(() => {
+    const el = tabsRef.current;
+    if (!el) return;
+    const left = el.scrollLeft > 2;
+    const right = el.scrollLeft + el.clientWidth < el.scrollWidth - 2;
+    setScrollEdges((prev) =>
+      prev.left === left && prev.right === right ? prev : { left, right },
+    );
+  }, []);
+
+  useEffect(() => {
+    updateScrollEdges();
+    const el = tabsRef.current;
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateScrollEdges) : null;
+    if (ro && el) ro.observe(el);
+    window.addEventListener('resize', updateScrollEdges);
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener('resize', updateScrollEdges);
+    };
+  }, [availableTabs, updateScrollEdges]);
 
   // Allinea activeTab alla prima disponibile se quella corrente non esiste più
   const effectiveTab = useMemo(() => {
@@ -335,27 +421,55 @@ export const ItemRecipeDetails = ({
         </div>
       )}
 
-      {/* ── Pills / Tabs di Navigazione ── */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-        {availableTabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = effectiveTab === tab.key;
-          return (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
-                isActive
-                  ? 'bg-blue-600 text-white font-bold shadow-sm'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
-            >
-              <Icon size={13} className={isActive ? 'text-white' : 'opacity-70'} />
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
+      {/* ── Pills / Tabs di Navigazione (bordo primary + glow sopra le pill + drag mouse) ── */}
+      <div className="relative">
+        {scrollEdges.left && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-4 border-l-2 border-blue-500 bg-gradient-to-r from-blue-500/25 to-transparent"
+          />
+        )}
+        {scrollEdges.right && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-4 border-r-2 border-blue-500 bg-gradient-to-l from-blue-500/25 to-transparent"
+          />
+        )}
+        <div
+          ref={tabsRef}
+          onScroll={updateScrollEdges}
+          onPointerDown={handleTabsPointerDown}
+          onPointerMove={handleTabsPointerMove}
+          onPointerUp={handleTabsPointerUp}
+          onPointerLeave={handleTabsPointerUp}
+          className="flex items-center gap-1.5 overflow-x-auto py-0.5 scrollbar-none select-none cursor-grab active:cursor-grabbing"
+        >
+          {availableTabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = effectiveTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => {
+                  if (dragStateRef.current.dragged) {
+                    dragStateRef.current.dragged = false;
+                    return;
+                  }
+                  setActiveTab(tab.key);
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-blue-600 text-white font-bold shadow-sm'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+              >
+                <Icon size={13} className={isActive ? 'text-white' : 'opacity-70'} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* ── Contenuto Scheda ── */}
@@ -522,7 +636,7 @@ export const ItemRecipeDetails = ({
         )}
 
         {/* 3. RIPARAZIONE */}
-        {effectiveTab === 'repair' && recipe?.repair && (
+        {effectiveTab === 'repair' && (isBaseItem ? variantRecipes.some(v => v.recipe?.repair) : Boolean(recipe?.repair)) && (
           <div className="space-y-3">
             {/* Contesti Rifugio vs In-Raid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -549,67 +663,164 @@ export const ItemRecipeDetails = ({
               </div>
             </div>
 
-            {/* Materiali richiesti per la riparazione */}
-            <div className="space-y-1.5 pt-1">
-              <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
-                {t('itemDetail.repairMaterials')}
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                {Object.entries(recipe.repair.cost).map(([ingId, qty]) =>
-                  renderIngredient(ingId, qty),
-                )}
+            {isBaseItem ? (
+              <div className="space-y-2.5 pt-1">
+                {variantRecipes
+                  .filter((v) => Boolean(v.recipe?.repair))
+                  .map((v) => (
+                    <div
+                      key={v.variantId}
+                      className="p-3 rounded-2xl bg-white dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 space-y-2"
+                    >
+                      <div className="flex items-center justify-between gap-2 border-b border-gray-100 dark:border-gray-700/60 pb-1.5">
+                        <button
+                          type="button"
+                          onClick={() => onSelectItem(v.variantId)}
+                          className="px-2 py-0.5 rounded-lg text-xs font-bold bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 hover:underline cursor-pointer flex items-center gap-1"
+                        >
+                          <span>{v.levelLabel}</span>
+                          <ExternalLink size={10} className="opacity-70" />
+                        </button>
+                        <span className="text-[11px] font-medium text-gray-500 truncate">
+                          {v.variantName}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                        {Object.entries(v.recipe!.repair!.cost).map(([ingId, qty]) =>
+                          renderIngredient(ingId, qty),
+                        )}
+                      </div>
+                    </div>
+                  ))}
               </div>
-            </div>
+            ) : (
+              recipe?.repair && (
+                <div className="space-y-1.5 pt-1">
+                  <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">
+                    {t('itemDetail.repairMaterials')}
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {Object.entries(recipe.repair.cost).map(([ingId, qty]) =>
+                      renderIngredient(ingId, qty),
+                    )}
+                  </div>
+                </div>
+              )
+            )}
           </div>
         )}
 
         {/* 4. RICICLO & SMANTELLAMENTO */}
-        {effectiveTab === 'recycling' && recipe?.recycling && (
+        {effectiveTab === 'recycling' && (isBaseItem ? variantRecipes.some(v => v.recipe?.recycling && (v.recipe.recycling.recyclesInto || v.recipe.recycling.salvagesInto)) : Boolean(recipe?.recycling)) && (
           <div className="space-y-3">
-            {/* Riciclo nel Rifugio (Raffineria Speranza) */}
-            {recipe.recycling.recyclesInto && (
-              <div className="p-3 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/40 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-blue-900 dark:text-blue-200">
-                    <Home size={14} className="text-blue-500 shrink-0" />
-                    <span>{t('itemDetail.recyclingShelterTitle')}</span>
-                  </div>
-                  <span className="text-[10px] uppercase font-bold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/60 px-2 py-0.5 rounded-full">
-                    {t('itemDetail.recyclingShelterBadge')}
-                  </span>
-                </div>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                  {t('itemDetail.recyclingShelterDesc')}
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
-                  {Object.entries(recipe.recycling.recyclesInto).map(([matId, qty]) =>
-                    renderIngredient(matId, qty),
-                  )}
-                </div>
-              </div>
-            )}
+            {isBaseItem ? (
+              variantRecipes
+                .filter(
+                  (v) =>
+                    v.recipe?.recycling &&
+                    (v.recipe.recycling.recyclesInto || v.recipe.recycling.salvagesInto),
+                )
+                .map((v) => {
+                  const rec = v.recipe!.recycling!;
+                  return (
+                    <div
+                      key={v.variantId}
+                      className="p-3 rounded-2xl bg-white dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 space-y-2.5"
+                    >
+                      <div className="flex items-center justify-between gap-2 border-b border-gray-100 dark:border-gray-700/60 pb-1.5">
+                        <button
+                          type="button"
+                          onClick={() => onSelectItem(v.variantId)}
+                          className="px-2 py-0.5 rounded-lg text-xs font-bold bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 hover:underline cursor-pointer flex items-center gap-1"
+                        >
+                          <span>{v.levelLabel}</span>
+                          <ExternalLink size={10} className="opacity-70" />
+                        </button>
+                        <span className="text-[11px] font-medium text-gray-500 truncate">
+                          {v.variantName}
+                        </span>
+                      </div>
 
-            {/* Smantellamento In-Raid (Sul campo) */}
-            {recipe.recycling.salvagesInto && (
-              <div className="p-3 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-900 dark:text-emerald-200">
-                    <Compass size={14} className="text-emerald-600 shrink-0" />
-                    <span>{t('itemDetail.salvagingInRaidTitle')}</span>
-                  </div>
-                  <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-900/60 px-2 py-0.5 rounded-full">
-                    {t('itemDetail.salvagingInRaidBadge')}
-                  </span>
-                </div>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                  {t('itemDetail.salvagingInRaidDesc')}
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
-                  {Object.entries(recipe.recycling.salvagesInto).map(([matId, qty]) =>
-                    renderIngredient(matId, qty),
+                      {rec.recyclesInto && (
+                        <div className="space-y-1.5">
+                          <div className="flex items-center gap-1.5 text-[11px] font-bold text-blue-900 dark:text-blue-200">
+                            <Home size={13} className="text-blue-500 shrink-0" />
+                            <span>{t('itemDetail.recyclingShelterTitle')}</span>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                            {Object.entries(rec.recyclesInto).map(([matId, qty]) =>
+                              renderIngredient(matId, qty),
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {rec.salvagesInto && (
+                        <div className="space-y-1.5 pt-1">
+                          <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-900 dark:text-emerald-200">
+                            <Compass size={13} className="text-emerald-600 shrink-0" />
+                            <span>{t('itemDetail.salvagingInRaidTitle')}</span>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                            {Object.entries(rec.salvagesInto).map(([matId, qty]) =>
+                              renderIngredient(matId, qty),
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+            ) : (
+              recipe?.recycling && (
+                <>
+                  {/* Riciclo nel Rifugio (Raffineria Speranza) */}
+                  {recipe.recycling.recyclesInto && (
+                    <div className="p-3 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/40 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-blue-900 dark:text-blue-200">
+                          <Home size={14} className="text-blue-500 shrink-0" />
+                          <span>{t('itemDetail.recyclingShelterTitle')}</span>
+                        </div>
+                        <span className="text-[10px] uppercase font-bold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/60 px-2 py-0.5 rounded-full">
+                          {t('itemDetail.recyclingShelterBadge')}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                        {t('itemDetail.recyclingShelterDesc')}
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
+                        {Object.entries(recipe.recycling.recyclesInto).map(([matId, qty]) =>
+                          renderIngredient(matId, qty),
+                        )}
+                      </div>
+                    </div>
                   )}
-                </div>
-              </div>
+
+                  {/* Smantellamento In-Raid (Sul campo) */}
+                  {recipe.recycling.salvagesInto && (
+                    <div className="p-3 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-900 dark:text-emerald-200">
+                          <Compass size={14} className="text-emerald-600 shrink-0" />
+                          <span>{t('itemDetail.salvagingInRaidTitle')}</span>
+                        </div>
+                        <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-900/60 px-2 py-0.5 rounded-full">
+                          {t('itemDetail.salvagingInRaidBadge')}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                        {t('itemDetail.salvagingInRaidDesc')}
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
+                        {Object.entries(recipe.recycling.salvagesInto).map(([matId, qty]) =>
+                          renderIngredient(matId, qty),
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )
             )}
           </div>
         )}
