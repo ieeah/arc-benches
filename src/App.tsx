@@ -56,14 +56,8 @@ const DevCustomItemsPage = isDev
 const DevTrashPage = isDev
   ? lazy(() => import('@/pages/DevTrashPage').then(m => ({ default: m.DevTrashPage })))
   : () => null;
-const DevHoldPage = isDev
-  ? lazy(() => import('@/pages/DevHoldPage').then(m => ({ default: m.DevHoldPage })))
-  : () => null;
 const DevBaseItemsPage = isDev
   ? lazy(() => import('@/pages/DevBaseItemsPage').then(m => ({ default: m.DevBaseItemsPage })))
-  : () => null;
-const DevCatalogLabPage = isDev
-  ? lazy(() => import('@/pages/DevCatalogLabPage').then(m => ({ default: m.DevCatalogLabPage })))
   : () => null;
 
 type PageLoadingFallbackProps = {
@@ -307,10 +301,6 @@ export default function App() {
           <Suspense fallback={<PageLoadingFallback />}>
             <DevTrashPage onBack={() => router.back()} />
           </Suspense>
-        ) : isDev && activeTab === 'dev-hold' ? (
-          <Suspense fallback={<PageLoadingFallback />}>
-            <DevHoldPage onBack={() => router.back()} />
-          </Suspense>
         ) : isDev && activeTab === 'dev-base-items' ? (
           <Suspense fallback={<PageLoadingFallback />}>
             <DevBaseItemsPage onBack={() => router.back()} />
@@ -350,12 +340,6 @@ export default function App() {
               )}
               {isDev && activeTab === 'maps' && isSectionActive('maps', { enabledSections }) && (
                 <MapsPage onBack={() => router.back()} />
-              )}
-              {isDev && activeTab === 'dev-lab' && (
-                <DevCatalogLabPage
-                  onBack={() => router.back()}
-                  onOpenOverrides={handleOpenOverrides}
-                />
               )}
               {activeTab === 'settings' && (
                 <SettingsPage onBack={() => router.back()} />

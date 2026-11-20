@@ -46,11 +46,11 @@ Obiettivo: estrarre, validare e normalizzare tutti i dati statici di gioco prima
 
 ---
 
-### Versione 0.6.9 "Engine Freeze" — Isolamento Logica Pura & Conclusione Sandbox (Nuova)
+### Versione 0.6.9 "Engine Freeze" — Isolamento Logica Pura & Conclusione Sandbox (Raggiunta)
 Obiettivo: estrarre tutto il "cervello" dell'applicazione in un modulo TypeScript puro (`src/engine/`) a zero dipendenze da React o Zustand, coperto da unit test al 100%, pronto per il nuovo repository.
-- [ ] Estrazione e isolamento di `src/engine/` (`materials.ts`, `crafting.ts`, `expeditions.ts`, `skills.ts`, `quests.ts`).
-- [ ] Suite di test unitari completa per ciascun modulo dell'engine (100% pass e zero accoppiamento UI).
-- [ ] Congelamento del codice (*Feature & Data Freeze*), dismissione strumenti Dev non necessari e privatizzazione/archiviazione del repository.
+- [x] Estrazione e isolamento di `src/engine/` (`materials.ts`, `crafting.ts`, `expeditions.ts`, `skills.ts`, `quests.ts`).
+- [x] Suite di test unitari completa per ciascun modulo dell'engine (100% pass e zero accoppiamento UI).
+- [x] Congelamento del codice (*Feature & Data Freeze*), dismissione strumenti Dev non necessari e preparazione alla transizione di repository.
 
 ---
 

@@ -7,7 +7,7 @@ Il contenuto testuale del cosa-è-cambiato per versione non vive qui — per que
 
 ## Versione corrente
 
-**0.6.5** ("Codex & Data Mining"), determinata dal tag Git `v0.6.5` e da `package.json`. In corso di pianificazione la **0.6.9** ("Engine Freeze").
+**0.6.9** ("Engine Freeze"), determinata da `package.json` (Feature & Data Freeze completato per Era 1).
 
 > **Nota su v0.3.0**: Include consolidamento architetturale (validazione Zod, persistence boundary, WASM lockfile check, performance content-visibility), Role Maker, Tracker Blueprints, Pagina Impostazioni & Gestione Globale, Viste/Densità Stash, Supporto Tablet e la pipeline MetaForge con Studio Overrides.
 
@@ -26,7 +26,7 @@ I nickname seguono l'evoluzione narrativa del rifugio dei Raiders in Speranza. L
 - **0.5.1**: *Taratura del Segnale* (Consolidamento layout `PageLayout`, ordinamento Stash multi-criterio, `@tailwindcss/vite`)
 - **0.6.0**: *Archivio del Rifugio* (Formule e dati di 2° livello: Collezioni 206 oggetti, Skill Tree vettoriale, Armi amplificate, Upgrade `I→IV`, Riparazione)
 - **0.6.5**: *Codex & Data Mining* (**Nuova** — Estrazione totale del dataset di gioco: Nemici ARC con loot table/debolezze, Mappe e POI, normalizzazione 123 Quest e Commercianti)
-- **0.6.9**: *Engine Freeze* (**Nuova** — Isolamento `src/engine/` a zero dipendenze UI, 100% unit test, congelamento e privatizzazione del repository)
+- **0.6.9**: *Engine Freeze* (**Raggiunta** — Isolamento `src/engine/` a zero dipendenze UI, 100% unit test, congelamento e preparazione alla transizione di repository)
 
 ### Era 2: Tooling & Seed (2–3 Settimane)
 - Pipeline di ingestion, validatori di integrità referenziale e script di generazione seed SQL/Postgres.
@@ -197,11 +197,12 @@ Changelog: [changelog/0.6.5.md](../changelog/0.6.5.md)
 
 ---
 
-## 0.6.9 "Engine Freeze" — Isolamento Logica Pura & Conclusione Sandbox — Pianificata (Questo Repo)
+## 0.6.9 "Engine Freeze" — Isolamento Logica Pura & Conclusione Sandbox — Raggiunta (Questo Repo)
 Obiettivo: estrarre tutto il "cervello" dell'applicazione in un modulo TypeScript puro (`src/engine/`) a **zero dipendenze da React o Zustand**, coperto da unit test Vitest al 100%, pronto per essere copiato 1:1 nel nuovo repository Next.js.
-- [ ] Estrazione e isolamento di `src/engine/` (`materials.ts`, `crafting.ts`, `expeditions.ts`, `skills.ts`, `quests.ts`).
-- [ ] Suite di test unitari completa per ciascun modulo dell'engine (obiettivo: 100% pass e zero accoppiamento UI).
-- [ ] Congelamento del codice (*Feature & Data Freeze*), dismissione strumenti Dev non necessari e privatizzazione/archiviazione del repository.
+Changelog: [changelog/0.6.9.md](../changelog/0.6.9.md)
+- [x] Estrazione e isolamento di `src/engine/` (`materials.ts`, `crafting.ts`, `expeditions.ts`, `skills.ts`, `quests.ts`).
+- [x] Suite di test unitari completa per ciascun modulo dell'engine (obiettivo: 100% pass e zero accoppiamento UI).
+- [x] Congelamento del codice (*Feature & Data Freeze*), dismissione strumenti Dev non necessari e preparazione alla transizione di repository.
 
 ---
 

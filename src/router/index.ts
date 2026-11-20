@@ -22,12 +22,10 @@ export type AppRoute =
   | 'dev-lists'
   | 'dev-overrides'
   | 'dev-translations'
-  | 'dev-lab'
   | 'dev-nav'
   | 'dev-flags'
   | 'dev-custom-items'
   | 'dev-trash'
-  | 'dev-hold'
   | 'dev-base-items';
 
 export const VALID_ROUTES: readonly AppRoute[] = [
@@ -48,12 +46,10 @@ export const VALID_ROUTES: readonly AppRoute[] = [
   'dev-lists',
   'dev-overrides',
   'dev-translations',
-  'dev-lab',
   'dev-nav',
   'dev-flags',
   'dev-custom-items',
   'dev-trash',
-  'dev-hold',
   'dev-base-items',
 ] as const;
 
@@ -62,12 +58,10 @@ export const DEV_ROUTES: readonly AppRoute[] = [
   'dev-lists',
   'dev-overrides',
   'dev-translations',
-  'dev-lab',
   'dev-nav',
   'dev-flags',
   'dev-custom-items',
   'dev-trash',
-  'dev-hold',
   'dev-base-items',
 ] as const;
 
