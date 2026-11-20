@@ -196,17 +196,6 @@ export const InventoryCard = ({
               ) : undefined
             }
             categoryBadge={<CategoryBadge itemType={itemInfo?.item_type} subcategory={itemInfo?.subcategory} bare />}
-            barRightSlot={
-              plannedQuantity ? (
-                <span
-                  className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[10px] font-bold font-mono bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30"
-                  title={t('stash.plannedInRaidCount', { count: plannedQuantity })}
-                  aria-label={t('stash.plannedInRaidCount', { count: plannedQuantity })}
-                >
-                  🎯 {plannedQuantity}
-                </span>
-              ) : undefined
-            }
             completed={isCompleted && !isHolding}
             overlay={
               <HoldProgressOverlay

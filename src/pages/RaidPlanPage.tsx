@@ -1,12 +1,13 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
-  Radar, Plus, Check, Trash2, RotateCcw, PackageCheck, Minus, LayoutGrid, List as ListIcon, Pencil, X, MoreVertical
+  Radar, Plus, Check, Trash2, PackageCheck, Minus, LayoutGrid, List as ListIcon, Pencil, X
 } from 'lucide-react';
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store';
 import { useTranslation, getItemName } from '@/i18n';
 import { PageLayout } from '@/components/PageLayout';
 import { Drawer } from '@/components/Drawer';
+import { useSetFloatingNavDock } from '@/context/FloatingNavDockContext';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ItemQuantityModal } from '@/components/ItemQuantityModal';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
@@ -95,7 +96,9 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   const [newActionText, setNewActionText] = useState('');
   const [addDrawerOpen, setAddDrawerOpen] = useState(false);
   const [drawerShowPicker, setDrawerShowPicker] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isEditingRequirements, setIsEditingRequirements] = useState(false);
+  const [selectedActionIds, setSelectedActionIds] = useState<Set<string>>(new Set());
+  const [selectedItemIds, setSelectedItemIds] = useState<Set<string>>(new Set());
   const [pickerOpen, setPickerOpen] = useState(false);
   const [replacingItemId, setReplacingItemId] = useState<string | null>(null);
   const [quantityModalItem, setQuantityModalItem] = useState<{
@@ -116,30 +119,135 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
 
   const actions = raidPlan.actions;
   const items = raidPlan.items;
+  const isEmpty = actions.length === 0 && items.length === 0;
   const preferredViewMode = raidPlan.preferredViewMode ?? 'grid';
   const activeViewMode = preferredViewMode;
   const isRaidRunning = false;
 
+  const canApplyToStash = useMemo(
+    () => items.some(i => i.foundQuantity > 0 && (i.fromStash || (totalMaterials[i.itemId] ?? 0) > 0)),
+    [items, totalMaterials],
+  );
+
+  const selectedCount = selectedActionIds.size + selectedItemIds.size;
+
+  const handleBatchDelete = () => {
+    for (const id of selectedActionIds) {
+      removeRaidAction(id);
+    }
+    for (const id of selectedItemIds) {
+      removeRaidItem(id);
+    }
+    setSelectedActionIds(new Set());
+    setSelectedItemIds(new Set());
+    if (
+      actions.every(a => selectedActionIds.has(a.id)) &&
+      items.every(i => selectedItemIds.has(i.id))
+    ) {
+      setIsEditingRequirements(false);
+    }
+  };
+
+  const dockConfig = useMemo(() => {
+    if (isEditingRequirements) {
+      return {
+        primary: {
+          label: t('common.done') || 'Fine',
+          icon: <Check size={16} />,
+          onClick: () => {
+            setIsEditingRequirements(false);
+            setSelectedActionIds(new Set());
+            setSelectedItemIds(new Set());
+          },
+          variant: 'primary' as const,
+        },
+        secondary: [
+          ...(selectedCount > 0
+            ? [
+                {
+                  id: 'raid-batch-delete',
+                  icon: <Trash2 size={18} />,
+                  label: t('common.delete'),
+                  onClick: handleBatchDelete,
+                  variant: 'danger' as const,
+                },
+              ]
+            : []),
+          {
+            id: 'raid-add-edit',
+            icon: <Plus size={20} />,
+            label: 'Aggiungi requisito',
+            onClick: () => setAddDrawerOpen(true),
+            variant: 'primary' as const,
+          },
+        ],
+      };
+    }
+
+    return {
+      primary: {
+        label: t('raid.apply'),
+        icon: <PackageCheck size={16} />,
+        onClick: () => setModalType('apply'),
+        disabled: !canApplyToStash,
+        variant: 'primary' as const,
+      },
+      secondary: [
+        {
+          id: 'raid-add',
+          icon: <Plus size={20} />,
+          label: 'Aggiungi requisito',
+          onClick: () => setAddDrawerOpen(true),
+          variant: 'primary' as const,
+        },
+        ...(!isEmpty
+          ? [
+              {
+                id: 'raid-edit-mode',
+                icon: <Pencil size={18} />,
+                label: t('common.edit'),
+                onClick: () => setIsEditingRequirements(true),
+                variant: 'default' as const,
+              },
+            ]
+          : []),
+      ],
+    };
+  }, [
+    t,
+    isEditingRequirements,
+    canApplyToStash,
+    isEmpty,
+    selectedCount,
+    selectedActionIds,
+    selectedItemIds,
+  ]);
+
+  useSetFloatingNavDock(dockConfig);
+
+  const stashTrackedItems = useMemo(() => items.filter(i => i.fromStash), [items]);
+
   const currentStashSnapshot = useMemo(() => {
     const snap: Record<string, number> = {};
-    for (const item of items) {
+    for (const item of stashTrackedItems) {
       snap[item.itemId] = inventory[item.itemId] ?? 0;
     }
     return snap;
-  }, [items, inventory]);
+  }, [stashTrackedItems, inventory]);
 
   const hasStashDiff = useMemo(() => {
-    return items.some(item => {
+    return stashTrackedItems.some(item => {
       const neededNow = Math.max(0, (totalMaterials[item.itemId] ?? 0) - (inventory[item.itemId] ?? 0));
-      return neededNow !== item.targetQuantity;
+      const baseTarget = item.stashBaseTarget ?? item.targetQuantity;
+      return neededNow !== baseTarget;
     });
-  }, [items, totalMaterials, inventory]);
+  }, [stashTrackedItems, totalMaterials, inventory]);
 
   const isDiffIgnored = useMemo(() => {
     const ignored = raidPlan.ignoredStashSnapshot;
     if (!ignored) return false;
-    return items.every(item => (inventory[item.itemId] ?? 0) === ignored[item.itemId]);
-  }, [raidPlan.ignoredStashSnapshot, items, inventory]);
+    return stashTrackedItems.every(item => (inventory[item.itemId] ?? 0) === ignored[item.itemId]);
+  }, [raidPlan.ignoredStashSnapshot, stashTrackedItems, inventory]);
 
   const showStashDiffBanner = hasStashDiff && !isDiffIgnored;
 
@@ -247,80 +355,6 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
               </div>
             </div>
           </div>
-
-          {/* ── STICKY ACTION BAR ── */}
-          <div className="flex items-center justify-between gap-2 pt-1">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setModalType('apply')}
-              disabled={actions.length === 0 && items.length === 0}
-              leftIcon={<PackageCheck size={14} />}
-              className="flex-1"
-            >
-              {t('raid.apply')}
-            </Button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setMenuOpen(false);
-                setAddDrawerOpen(true);
-              }}
-              className="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-sm active:scale-95 transition-all cursor-pointer shrink-0"
-              title="Aggiungi requisito"
-              aria-label="Aggiungi requisito"
-            >
-              <Plus size={18} />
-            </button>
-
-            {/* Kebab menu verticale per Reset ed Elimina */}
-            <div className="relative shrink-0">
-              <button
-                type="button"
-                onClick={() => setMenuOpen(prev => !prev)}
-                disabled={actions.length === 0 && items.length === 0}
-                className="w-9 h-9 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
-                title={t('common.actions')}
-                aria-label={t('common.actions')}
-              >
-                <MoreVertical size={17} />
-              </button>
-
-              {menuOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-30"
-                    onClick={() => setMenuOpen(false)}
-                  />
-                  <div className="absolute right-0 top-full mt-1.5 z-40 w-48 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl py-1.5 animate-in fade-in zoom-in-95 duration-150">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMenuOpen(false);
-                        setModalType('reset');
-                      }}
-                      className="w-full px-3.5 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2.5 cursor-pointer"
-                    >
-                      <RotateCcw size={14} />
-                      <span>{t('raid.reset')}</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMenuOpen(false);
-                        setModalType('clear');
-                      }}
-                      className="w-full px-3.5 py-2 text-left text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 flex items-center gap-2.5 cursor-pointer"
-                    >
-                      <Trash2 size={14} />
-                      <span>{t('raid.clear')}</span>
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
         </div>
       }
     >
@@ -358,7 +392,141 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
         </div>
       )}
 
-      <div className="space-y-6">
+      {isEmpty ? (
+        <div className="py-20 px-4 flex flex-col items-center justify-center text-center">
+          <p className="max-w-xs text-sm font-medium text-gray-500 dark:text-gray-400">
+            Qui non c&apos;è niente, aggiungi qualcosa con il &quot;+&quot;
+          </p>
+        </div>
+      ) : isEditingRequirements ? (
+        <div className="space-y-4 pb-20">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-bold text-gray-900 dark:text-white">
+                Modifica requisiti
+              </h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Seleziona per eliminare in batch o regola le quantità richieste.
+              </p>
+            </div>
+            {selectedCount > 0 && (
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={handleBatchDelete}
+                leftIcon={<Trash2 size={14} />}
+              >
+                Elimina ({selectedCount})
+              </Button>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            {actions.map(act => {
+              const checked = selectedActionIds.has(act.id);
+              return (
+                <div
+                  key={act.id}
+                  onClick={() => {
+                    setSelectedActionIds(prev => {
+                      const next = new Set(prev);
+                      if (next.has(act.id)) next.delete(act.id);
+                      else next.add(act.id);
+                      return next;
+                    });
+                  }}
+                  className={`flex items-center gap-3 p-3 rounded-2xl border cursor-pointer transition-colors ${
+                    checked
+                      ? 'bg-rose-50/70 dark:bg-rose-950/20 border-rose-300 dark:border-rose-800/60'
+                      : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => {}}
+                    className="w-4 h-4 rounded accent-rose-600 cursor-pointer shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-bold text-gray-900 dark:text-white truncate">
+                      {act.text}
+                    </div>
+                    <div className="text-[11px] text-gray-400">{t('raid.spotActions')}</div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {items.map(raidItem => {
+              const info = itemsInfo[raidItem.itemId];
+              const displayName = info ? getItemName(info, language) : raidItem.itemId;
+              const checked = selectedItemIds.has(raidItem.id);
+              return (
+                <div
+                  key={raidItem.id}
+                  className={`flex items-center gap-3 p-2.5 rounded-2xl border transition-colors ${
+                    checked
+                      ? 'bg-rose-50/70 dark:bg-rose-950/20 border-rose-300 dark:border-rose-800/60'
+                      : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => {
+                      setSelectedItemIds(prev => {
+                        const next = new Set(prev);
+                        if (next.has(raidItem.id)) next.delete(raidItem.id);
+                        else next.add(raidItem.id);
+                        return next;
+                      });
+                    }}
+                    className="w-4 h-4 rounded accent-rose-600 cursor-pointer shrink-0 ml-1"
+                  />
+                  <ItemCardFrameV2
+                    icon={info?.icon}
+                    alt={displayName}
+                    rarity={info?.rarity}
+                    itemType={info?.item_type}
+                    subcategory={info?.subcategory}
+                    className="w-11 h-11 shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-bold text-gray-900 dark:text-white truncate">
+                      {displayName}
+                    </div>
+                    <div className="text-[11px] text-gray-400">
+                      {raidItem.fromStash ? 'Da Stash' : 'Manuale'}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => updateRaidItemTarget(raidItem.id, Math.max(1, raidItem.targetQuantity - 1))}
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 active:scale-90 transition-all cursor-pointer"
+                      aria-label="Diminuisci quantità richiesta"
+                    >
+                      <Minus size={14} />
+                    </button>
+                    <span className="w-8 text-center text-xs font-mono font-bold text-gray-900 dark:text-white">
+                      {raidItem.targetQuantity}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => updateRaidItemTarget(raidItem.id, raidItem.targetQuantity + 1)}
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 active:scale-90 transition-all cursor-pointer"
+                      aria-label="Aumenta quantità richiesta"
+                    >
+                      <Plus size={14} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+      <div className="space-y-6 pb-20">
         {/* ── SEZIONE 1: AZIONI SPOT ── */}
         <section className="space-y-3">
           <div className="flex items-center justify-between">
@@ -428,8 +596,8 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
               {items.map(raidItem => {
                 const info = itemsInfo[raidItem.itemId];
-                const stashOwned = inventory[raidItem.itemId] ?? 0;
-                const stashRequired = totalMaterials[raidItem.itemId] ?? 0;
+                const stashOwned = raidItem.fromStash ? (inventory[raidItem.itemId] ?? 0) : undefined;
+                const stashRequired = raidItem.fromStash ? (totalMaterials[raidItem.itemId] ?? 0) : undefined;
 
                 return (
                   <RaidItemCard
@@ -464,10 +632,9 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                 const info = itemsInfo[raidItem.itemId];
                 const itemName = info ? getItemName(info, language) : raidItem.itemId;
                 const isComplete = raidItem.foundQuantity >= raidItem.targetQuantity;
-                const stashOwned = inventory[raidItem.itemId] ?? 0;
-                const stashRequired = totalMaterials[raidItem.itemId] ?? 0;
-                const isStashCovered = stashRequired > 0 && stashOwned >= stashRequired;
-                const isStashCoveredWithRaid = stashRequired > 0 && !isStashCovered && (stashOwned + raidItem.foundQuantity >= stashRequired);
+                const stashOwned = raidItem.fromStash ? (inventory[raidItem.itemId] ?? 0) : 0;
+                const stashRequired = raidItem.fromStash ? (totalMaterials[raidItem.itemId] ?? 0) : 0;
+                const isStashCoveredWithRaid = stashRequired > 0 && stashOwned < stashRequired && (stashOwned + raidItem.foundQuantity >= stashRequired);
 
                 return (
                   <div
@@ -516,40 +683,16 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                               <Check size={12} className="stroke-[3]" /> {t('raid.foundAll')}
                             </span>
                           )}
-                          {isStashCovered ? (
-                            <span className="text-[9px] font-sans font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
-                              {t('raid.stashCoveredShort')}
-                            </span>
-                          ) : isStashCoveredWithRaid ? (
+                          {isStashCoveredWithRaid && (
                             <span className="text-[9px] font-sans font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
                               {t('raid.stashCoveredWithRaid')}
                             </span>
-                          ) : null}
+                          )}
                         </div>
                       </div>
 
                       {/* Azioni Touch Rapide */}
                       <div className="flex items-center gap-1 shrink-0">
-                        {/* Pulsante Modifica Elemento (apre la modale per cambiare sia quantità che oggetto) */}
-                        {!isRaidRunning && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (info) {
-                                setQuantityModalItem({
-                                  item: info,
-                                  initialQty: raidItem.targetQuantity,
-                                  existingPlanItemId: raidItem.id,
-                                });
-                              }
-                            }}
-                            className="w-8 h-8 rounded-xl flex items-center justify-center text-gray-500 hover:text-blue-500 bg-gray-50 dark:bg-gray-800/80 hover:bg-blue-50 dark:hover:bg-blue-950/40 border border-gray-200 dark:border-gray-700 active:scale-95 transition-all cursor-pointer"
-                            title={t('common.edit')}
-                            aria-label={t('common.edit')}
-                          >
-                            <Pencil size={13} />
-                          </button>
-                        )}
                         {/* Micro Stepper - / + */}
                         <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-xl p-0.5 border border-gray-200 dark:border-gray-700">
                           <button
@@ -589,17 +732,6 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                           <Check size={14} className="stroke-[2.5]" />
                           <span className="hidden sm:inline">{t('raid.foundAll')}</span>
                         </button>
-
-                        {/* Rimuovi (nascosto in Focus Mode) */}
-                        {!isRaidRunning && (
-                          <button
-                            onClick={() => removeRaidItem(raidItem.id)}
-                            className="w-8 h-8 flex items-center justify-center rounded-xl text-gray-400 hover:text-red-500 active:scale-95 transition-colors cursor-pointer"
-                            aria-label={t('common.delete')}
-                          >
-                            <Trash2 size={15} />
-                          </button>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -609,17 +741,16 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
           )}
         </section>
       </div>
+      )}
 
-
-
-      {/* ── DRAWER FROM TOP: AGGIUNGI REQUISITO (AZIONE O OGGETTO) ── */}
+      {/* ── DRAWER FROM BOTTOM: AGGIUNGI REQUISITO (AZIONE O OGGETTO) ── */}
       {addDrawerOpen && (
         <Drawer
           onClose={() => {
             setAddDrawerOpen(false);
             setDrawerShowPicker(false);
           }}
-          from="top"
+          from="bottom"
           title={drawerShowPicker ? t('raid.addItem') : 'Aggiungi requisito'}
         >
           {drawerShowPicker ? (

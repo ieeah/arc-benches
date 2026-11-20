@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
 import type { ItemInfo, RaidItem } from "@/types";
 import { getRarityStyles } from "@/lib/rarity";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
@@ -19,8 +18,8 @@ export type RaidItemCardProps = {
   onSetFound: (val: number) => void;
   onComplete: () => void;
   onResetProgress: () => void;
-  onOpenEditModal: () => void;
-  onRemove: () => void;
+  onOpenEditModal?: () => void;
+  onRemove?: () => void;
   /** Se true, nasconde il pulsante di rimozione (Focus Mode attiva) */
   hideDelete?: boolean;
 };
@@ -35,9 +34,6 @@ export const RaidItemCard = ({
   onSetFound,
   onComplete,
   onResetProgress,
-  onOpenEditModal,
-  onRemove,
-  hideDelete = false,
 }: RaidItemCardProps) => {
   const { t, language } = useTranslation();
   const displayName =
@@ -124,8 +120,8 @@ export const RaidItemCard = ({
         />
       </div>
 
-      {/* ── NOME OGGETTO CON CLIP TESTO ── */}
-      <div className="min-w-0 mb-1.5 text-center">
+      {/* ── NOME OGGETTO CON CLIP TESTO (altezza minima riservata per allineare le card in griglia) ── */}
+      <div className="min-w-0 mb-1.5 text-center min-h-[34px] flex flex-col justify-start">
         <h4
           className="text-xs font-bold truncate leading-tight"
           title={displayName}
@@ -135,15 +131,11 @@ export const RaidItemCard = ({
         {stashRequired !== undefined && stashRequired > 0 && (
           <div className="flex items-center justify-center gap-1.5 mt-0.5 text-[10px] text-gray-400 font-mono">
             <span>{t('raid.stashProgress', { owned: stashOwned ?? 0, required: stashRequired })}</span>
-            {(stashOwned ?? 0) >= stashRequired ? (
-              <span className="text-[9px] font-sans font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1 rounded border border-emerald-500/20">
-                {t('raid.stashCoveredShort')}
-              </span>
-            ) : (stashOwned ?? 0) + raidItem.foundQuantity >= stashRequired ? (
+            {(stashOwned ?? 0) < stashRequired && (stashOwned ?? 0) + raidItem.foundQuantity >= stashRequired && (
               <span className="text-[9px] font-sans font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1 rounded border border-emerald-500/20">
                 {t('raid.stashCoveredWithRaid')}
               </span>
-            ) : null}
+            )}
           </div>
         )}
       </div>
@@ -159,33 +151,6 @@ export const RaidItemCard = ({
         rarity={itemInfo?.rarity}
         itemName={displayName}
       />
-
-      {/* ── BARRA INFERIORE: MODIFICA / ELIMINA ── */}
-      {!hideDelete && (
-        <div className="flex items-center justify-between pt-1">
-          <button
-            type="button"
-            onClick={onOpenEditModal}
-            className="p-1 text-gray-400 hover:text-blue-500 rounded-lg active:scale-90 transition-colors cursor-pointer"
-            title={t("common.edit")}
-            aria-label={t("common.edit")}
-          >
-            <span className="text-[10px] font-bold text-gray-400 hover:text-blue-500">
-              {t("common.edit")}
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={onRemove}
-            className="p-1 text-gray-400 hover:text-red-500 rounded-lg active:scale-90 transition-colors cursor-pointer"
-            title={t("common.delete")}
-            aria-label={t("common.delete")}
-          >
-            <Trash2 size={13} />
-          </button>
-        </div>
-      )}
     </div>
   );
 };
