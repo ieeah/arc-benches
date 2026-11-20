@@ -1,22 +1,25 @@
-import { useMemo, useRef, useCallback } from 'react';
-import { Search, X } from 'lucide-react';
-import type { ItemInfo } from '@/types';
-import { useAppStore } from '@/store';
-import { getRarityText } from '@/lib/rarity';
-import { BottomSheet } from '@/components/BottomSheet';
-import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
-import { useListManager } from '@/hooks/useListManager';
-import { useTranslation, getItemName, getItemSearchFields, getRarityLabel, getItemSearchMatch } from '@/i18n';
+import { useMemo, useRef, useCallback } from "react";
+import { Search, X } from "lucide-react";
+import type { ItemInfo } from "@/types";
+import { useAppStore } from "@/store";
+import { getRarityText } from "@/lib/rarity";
+import { BottomSheet } from "@/components/BottomSheet";
+import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
+import { useListManager } from "@/hooks/useListManager";
+import {
+  useTranslation,
+  getItemName,
+  getItemSearchFields,
+  getRarityLabel,
+  getItemSearchMatch,
+} from "@/i18n";
 import {
   getItemPoolTier,
   rankItemsByRelevance,
   MAX_VISIBLE_RESULTS,
   type ItemPickerContext,
-} from '@/lib/pickableItems';
-import {
-  getBaseItem,
-  getBaseItemForVariant,
-} from '@/lib/baseItems';
+} from "@/lib/pickableItems";
+import { getBaseItem, getBaseItemForVariant } from "@/lib/baseItems";
 
 type ItemPickerProps = {
   excludeIds?: string[];
@@ -48,9 +51,9 @@ export const ItemPicker = ({
 
   const effectiveContext: ItemPickerContext = useMemo(() => {
     if (context) return context;
-    if (includeAll) return 'reward';
-    if (includeBlueprints) return 'raid';
-    return 'custom_list';
+    if (includeAll) return "reward";
+    if (includeBlueprints) return "raid";
+    return "custom_list";
   }, [context, includeAll, includeBlueprints]);
 
   // Lista oggetti selezionabili filtrata per pool contestuale (Pool 1 e Pool 2 ammessi, Pool 3 escluso)
@@ -91,17 +94,13 @@ export const ItemPicker = ({
     [itemsInfo],
   );
 
-  const {
-    query,
-    setQuery,
-    debouncedQuery,
-    processedItems,
-  } = useListManager<ItemInfo>({
-    items: pickableItems,
-    search: {
-      fields: getSearchFields,
-    },
-  });
+  const { query, setQuery, debouncedQuery, processedItems } =
+    useListManager<ItemInfo>({
+      items: pickableItems,
+      search: {
+        fields: getSearchFields,
+      },
+    });
 
   const hasQuery = debouncedQuery.trim().length > 0;
 
@@ -116,7 +115,14 @@ export const ItemPicker = ({
       itemsInfo,
       MAX_VISIBLE_RESULTS,
     );
-  }, [processedItems, hasQuery, debouncedQuery, effectiveContext, language, itemsInfo]);
+  }, [
+    processedItems,
+    hasQuery,
+    debouncedQuery,
+    effectiveContext,
+    language,
+    itemsInfo,
+  ]);
 
   // First tap on backdrop: dismiss keyboard (blur). Second tap: close picker.
   const handleBackdropClick = () => {
@@ -126,21 +132,24 @@ export const ItemPicker = ({
 
   const searchBar = (
     <div className="relative flex items-center">
-      <Search className="absolute left-3 text-gray-400 pointer-events-none" size={16} />
+      <Search
+        className="absolute left-3 text-gray-400 pointer-events-none"
+        size={16}
+      />
       <input
         ref={inputRef}
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder={t('itemPicker.searchPlaceholder')}
+        placeholder={t("common.search")}
         className="w-full pl-9 pr-9 py-2.5 bg-gray-100 dark:bg-gray-800 border-0 rounded-xl text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       {query && (
         <button
           type="button"
-          onClick={() => setQuery('')}
+          onClick={() => setQuery("")}
           className="absolute right-2.5 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
-          aria-label={t('common.clear')}
+          aria-label={t("common.clear")}
         >
           <X size={15} />
         </button>
@@ -155,7 +164,7 @@ export const ItemPicker = ({
         <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
           <Search size={32} className="text-gray-300 dark:text-gray-700" />
           <p className="text-sm font-medium text-gray-400 dark:text-gray-500">
-            {t('itemPicker.searchPrompt')}
+            {t("itemPicker.searchPrompt")}
           </p>
         </div>
       )}
@@ -193,18 +202,24 @@ export const ItemPicker = ({
                       thumb
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="font-bold text-sm truncate">{displayName}</p>
+                      <p className="font-bold text-sm truncate">
+                        {displayName}
+                      </p>
                       <p className="text-[10px] text-gray-400">
-                        <span className={`font-bold ${getRarityText(item.rarity)}`}>
+                        <span
+                          className={`font-bold ${getRarityText(item.rarity)}`}
+                        >
                           {getRarityLabel(item.rarity, language)}
-                        </span>{' '}
+                        </span>{" "}
                         · {item.item_type}
-                        {baseDef && baseDef.variantItemIds.length > 0 && effectiveContext !== 'reward' && (
-                          <span className="ml-1 text-gray-500 font-semibold">
-                            ({baseDef.variantItemIds.length} varianti)
-                          </span>
-                        )}
-                        {effectiveContext === 'reward' && parentBase && (
+                        {baseDef &&
+                          baseDef.variantItemIds.length > 0 &&
+                          effectiveContext !== "reward" && (
+                            <span className="ml-1 text-gray-500 font-semibold">
+                              ({baseDef.variantItemIds.length} varianti)
+                            </span>
+                          )}
+                        {effectiveContext === "reward" && parentBase && (
                           <span className="ml-1 text-indigo-500 font-semibold">
                             (Variante di {parentBase.name})
                           </span>
@@ -212,7 +227,7 @@ export const ItemPicker = ({
                       </p>
                       {match && (
                         <p className="flex items-center gap-1 mt-0.5 text-[10px] text-gray-500 dark:text-gray-400 truncate">
-                          {match.kind === 'translation' ? (
+                          {match.kind === "translation" ? (
                             <>
                               <span
                                 className="shrink-0 px-1 py-px font-bold uppercase rounded bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400"
@@ -220,10 +235,14 @@ export const ItemPicker = ({
                               >
                                 {match.lang}
                               </span>
-                              <span className="truncate italic">{match.value}</span>
+                              <span className="truncate italic">
+                                {match.value}
+                              </span>
                             </>
                           ) : (
-                            <span className="font-mono truncate"># {item.id}</span>
+                            <span className="font-mono truncate">
+                              # {item.id}
+                            </span>
                           )}
                         </p>
                       )}
@@ -237,7 +256,7 @@ export const ItemPicker = ({
           {/* Avviso cap di sicurezza DOM */}
           {processedItems.length > MAX_VISIBLE_RESULTS && (
             <p className="py-3 text-center text-xs text-gray-400 dark:text-gray-500">
-              {t('itemPicker.cappedNotice', {
+              {t("itemPicker.cappedNotice", {
                 count: MAX_VISIBLE_RESULTS,
                 total: processedItems.length,
               })}
@@ -247,7 +266,9 @@ export const ItemPicker = ({
       )}
 
       {hasQuery && rankedItems.length === 0 && (
-        <p className="p-10 text-center text-gray-500 italic text-sm">{t('itemPicker.noItemsFound')}</p>
+        <p className="p-10 text-center text-gray-500 italic text-sm">
+          {t("itemPicker.noItemsFound")}
+        </p>
       )}
     </>
   );
@@ -255,17 +276,17 @@ export const ItemPicker = ({
   if (embedded) {
     return (
       <div className="space-y-3">
-        {searchBar}
         <div className="max-h-[55dvh] overflow-y-auto overscroll-contain pr-1">
           {listContent}
         </div>
+        {searchBar}
       </div>
     );
   }
 
   return (
     <BottomSheet
-      title={t('customLists.addItem')}
+      title={t("customLists.addItem")}
       onClose={onClose}
       onBackdropClick={handleBackdropClick}
       overlayZ="z-[60]"
