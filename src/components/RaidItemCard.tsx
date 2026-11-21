@@ -1,8 +1,13 @@
 import { useState } from "react";
 import type { ItemInfo, RaidItem } from "@/types";
 import { getRarityStyles } from "@/lib/rarity";
+import { getItemCraftStatus, getCraftTooltip } from "@/lib/craft";
+import { getTraderPurchase } from "@/lib/traders";
+import { useAppStore } from "@/store";
 import { ItemCardFrameV2 } from "@/components/ItemCardFrameV2";
 import { CategoryBadge } from "@/components/CategoryBadge";
+import { CraftBadge } from "@/components/CraftBadge";
+import { TraderBadge } from "@/components/TraderBadge";
 import { QuantityStepper } from "@/components/QuantityStepper";
 import { useTranslation, getItemName } from "@/i18n";
 import { useHoldAction } from "@/hooks/useHoldAction";
@@ -41,6 +46,13 @@ export const RaidItemCard = ({
 
   const isComplete = raidItem.foundQuantity >= raidItem.targetQuantity;
   const { border, glow } = getRarityStyles(itemInfo?.rarity);
+  const currentLevels = useAppStore(s => s.currentLevels);
+  const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
+  const craftMode = useAppStore(s => s.craftMode);
+  const itemsInfo = useAppStore(s => s.itemsInfo);
+  const craftResult = getItemCraftStatus(itemInfo, currentLevels, ownedBlueprints, craftMode, itemsInfo);
+  const craftTooltip = getCraftTooltip(craftResult, itemsInfo, t, language);
+  const traderPurchase = getTraderPurchase(raidItem.itemId);
 
   // ── STEPPER CONTROLLO INTERNO ──
   const [prevFound, setPrevFound] = useState(raidItem.foundQuantity);
@@ -97,6 +109,28 @@ export const RaidItemCard = ({
           fallbackText={raidItem.itemId.replace(/-/g, " ")}
           className={`mb-1.5 ${!isComplete ? glow : ""}`}
           imgClassName="max-w-full max-h-full object-contain"
+          topLeftSlot={
+            (craftResult.craftInfo !== null || traderPurchase !== null) ? (
+              <div className="flex items-center gap-1 max-w-[calc(100%-1.5rem)]">
+                {craftResult.craftInfo !== null && (
+                  <CraftBadge
+                    workbenchId={craftResult.craftInfo.workbenchId}
+                    levelRequired={craftResult.craftInfo.levelRequired}
+                    status={craftResult.status}
+                    shortLabel={traderPurchase !== null}
+                    title={craftTooltip}
+                  />
+                )}
+                {traderPurchase !== null && (
+                  <TraderBadge
+                    trader={traderPurchase.trader}
+                    price={traderPurchase.price}
+                    dailyLimit={traderPurchase.dailyLimit}
+                  />
+                )}
+              </div>
+            ) : undefined
+          }
           categoryBadge={
             <CategoryBadge
               itemType={itemInfo?.item_type}

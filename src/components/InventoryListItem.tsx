@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Clock } from 'lucide-react';
 import type { ItemInfo } from '@/types';
 import { getRarityStyles } from '@/lib/rarity';
-import { getItemCraftStatus, getWorkbenchName } from '@/lib/craft';
+import { getItemCraftStatus, getCraftTooltip } from '@/lib/craft';
 import { useAppStore } from '@/store';
 import { getTraderPurchase } from '@/lib/traders';
 import { formatTimeRemaining } from '@/lib/expiration';
@@ -59,26 +59,7 @@ export const InventoryListItem = ({
   const craftMode = useAppStore(s => s.craftMode);
   const itemsInfo = useAppStore(s => s.itemsInfo);
   const craftResult = getItemCraftStatus(itemInfo, currentLevels, ownedBlueprints, craftMode, itemsInfo);
-
-  let craftTooltip: string | undefined = undefined;
-  if (craftResult.craftInfo) {
-    const benchName = getWorkbenchName(craftResult.craftInfo.workbenchId, t);
-    if (craftResult.status === 'craftable') {
-      craftTooltip = craftResult.craftInfo.workbenchId === 'workbench'
-        ? t('stash.craftableNowBasic')
-        : t('stash.craftableNowInWorkbench', { bench: benchName, level: craftResult.craftInfo.levelRequired });
-    } else if (craftResult.status === 'needs_project') {
-      const bpItem = craftResult.craftInfo.recipeId ? itemsInfo[craftResult.craftInfo.recipeId] : undefined;
-      const bpName = bpItem ? getItemName(bpItem, language) : (craftResult.craftInfo.recipeId ?? '');
-      craftTooltip = t('stash.requiresBlueprint', { name: bpName });
-    } else {
-      craftTooltip = t('stash.requiresWorkbenchLevelShort', {
-        bench: benchName,
-        level: craftResult.craftInfo.levelRequired,
-        current: craftResult.currentBenchLevel,
-      });
-    }
-  }
+  const craftTooltip = getCraftTooltip(craftResult, itemsInfo, t, language);
   const traderPurchase = getTraderPurchase(itemId);
 
   const [prevOwned, setPrevOwned] = useState(owned);

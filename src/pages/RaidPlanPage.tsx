@@ -11,12 +11,16 @@ import { useSetFloatingNavDock } from '@/context/FloatingNavDockContext';
 import { ItemPicker } from '@/components/ItemPicker';
 import { ItemQuantityModal } from '@/components/ItemQuantityModal';
 import { ActionCheckbox } from '@/components/ActionCheckbox';
+import { CraftBadge } from '@/components/CraftBadge';
+import { TraderBadge } from '@/components/TraderBadge';
 import { ItemCardFrameV2 } from '@/components/ItemCardFrameV2';
 import { RaidItemCard } from '@/components/RaidItemCard';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 import { Button, Callout, EmptyState } from '@/components/ui';
 import { getAllListsPure, getTotalRequiredMaterialsPure, getActiveExpeditionPure } from '@/store/selectors';
 import { computeStashDiffPure } from '@/engine/raidPlan';
+import { getItemCraftStatus, getCraftTooltip } from '@/lib/craft';
+import { getTraderPurchase } from '@/lib/traders';
 import { isSectionActive } from '@/lib/sections';
 import type { ItemInfo } from '@/types';
 
@@ -54,6 +58,8 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
   const targetLevels = useAppStore(s => s.targetLevels);
   const activeModules = useAppStore(s => s.activeModules);
   const checkedActions = useAppStore(s => s.checkedActions);
+  const ownedBlueprints = useAppStore(s => s.ownedBlueprints);
+  const craftMode = useAppStore(s => s.craftMode);
   const isProjectsActive = useAppStore(s => isSectionActive('projects', s));
   const isExpeditionsActive = useAppStore(s => isSectionActive('expeditions', s));
 
@@ -441,6 +447,9 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
               const info = itemsInfo[raidItem.itemId];
               const displayName = info ? getItemName(info, language) : raidItem.itemId;
               const checked = selectedItemIds.has(raidItem.id);
+              const craftResult = getItemCraftStatus(info, currentLevels, ownedBlueprints, craftMode, itemsInfo);
+              const craftTooltip = getCraftTooltip(craftResult, itemsInfo, t, language);
+              const traderPurchase = getTraderPurchase(raidItem.itemId);
               return (
                 <div
                   key={raidItem.id}
@@ -475,8 +484,28 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                     <div className="text-xs font-bold text-gray-900 dark:text-white truncate">
                       {displayName}
                     </div>
-                    <div className="text-[11px] text-gray-400">
-                      {raidItem.fromStash ? 'Da Stash' : 'Manuale'}
+                    <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+                      <span className="text-[11px] text-gray-400">
+                        {raidItem.fromStash ? 'Da Stash' : 'Manuale'}
+                      </span>
+                      {craftResult.craftInfo !== null && (
+                        <CraftBadge
+                          size="sm"
+                          workbenchId={craftResult.craftInfo.workbenchId}
+                          levelRequired={craftResult.craftInfo.levelRequired}
+                          status={craftResult.status}
+                          shortLabel={traderPurchase !== null}
+                          title={craftTooltip}
+                        />
+                      )}
+                      {traderPurchase !== null && (
+                        <TraderBadge
+                          size="sm"
+                          trader={traderPurchase.trader}
+                          price={traderPurchase.price}
+                          dailyLimit={traderPurchase.dailyLimit}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 shrink-0">
@@ -615,6 +644,9 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                 const stashOwned = raidItem.fromStash ? (inventory[raidItem.itemId] ?? 0) : 0;
                 const stashRequired = raidItem.fromStash ? (totalMaterials[raidItem.itemId] ?? 0) : 0;
                 const isStashCoveredWithRaid = stashRequired > 0 && stashOwned < stashRequired && (stashOwned + raidItem.foundQuantity >= stashRequired);
+                const craftResult = getItemCraftStatus(info, currentLevels, ownedBlueprints, craftMode, itemsInfo);
+                const craftTooltip = getCraftTooltip(craftResult, itemsInfo, t, language);
+                const traderPurchase = getTraderPurchase(raidItem.itemId);
 
                 return (
                   <div
@@ -653,6 +685,24 @@ export const RaidPlanPage = ({ action, onActionHandled }: RaidPlanPageProps = {}
                           >
                             {raidItem.foundQuantity} / {raidItem.targetQuantity}
                           </span>
+                          {craftResult.craftInfo !== null && (
+                            <CraftBadge
+                              size="sm"
+                              workbenchId={craftResult.craftInfo.workbenchId}
+                              levelRequired={craftResult.craftInfo.levelRequired}
+                              status={craftResult.status}
+                              shortLabel={traderPurchase !== null}
+                              title={craftTooltip}
+                            />
+                          )}
+                          {traderPurchase !== null && (
+                            <TraderBadge
+                              size="sm"
+                              trader={traderPurchase.trader}
+                              price={traderPurchase.price}
+                              dailyLimit={traderPurchase.dailyLimit}
+                            />
+                          )}
                           {stashRequired > 0 && (
                             <span className="text-[10px] font-mono text-gray-400">
                               • {t('raid.stashProgress', { owned: stashOwned, required: stashRequired })}
