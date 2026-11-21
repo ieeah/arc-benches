@@ -136,6 +136,21 @@ export const ItemsPage = ({
     },
   ], [t]);
 
+  const nameCollator = useMemo(
+    () => new Intl.Collator(language, { sensitivity: 'base' }),
+    [language],
+  );
+
+  // Pre-calcola il nome localizzato per ciascun oggetto nella lingua attiva
+  // così il comparatore di sort effettua un lookup O(1) + Intl.Collator pre-istanziato
+  const localizedNamesMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const item of Object.values(itemsInfo)) {
+      map.set(item.id, getItemName(item, language));
+    }
+    return map;
+  }, [itemsInfo, language]);
+
   const sortOptions: SortOption<ItemInfo>[] = useMemo(() => [
     {
       id: "name_asc",
@@ -144,9 +159,9 @@ export const ItemsPage = ({
       indicatorType: "text",
       indicatorText: "A-Z",
       compare: (a: ItemInfo, b: ItemInfo) => {
-        const nameA = getItemName(a, language);
-        const nameB = getItemName(b, language);
-        return nameA.localeCompare(nameB, language, { sensitivity: 'base' });
+        const nameA = localizedNamesMap.get(a.id) ?? getItemName(a, language);
+        const nameB = localizedNamesMap.get(b.id) ?? getItemName(b, language);
+        return nameCollator.compare(nameA, nameB);
       },
       toggleId: "name_desc",
     },
@@ -157,9 +172,9 @@ export const ItemsPage = ({
       indicatorType: "text",
       indicatorText: "Z-A",
       compare: (a: ItemInfo, b: ItemInfo) => {
-        const nameA = getItemName(a, language);
-        const nameB = getItemName(b, language);
-        return nameB.localeCompare(nameA, language, { sensitivity: 'base' });
+        const nameA = localizedNamesMap.get(a.id) ?? getItemName(a, language);
+        const nameB = localizedNamesMap.get(b.id) ?? getItemName(b, language);
+        return nameCollator.compare(nameB, nameA);
       },
       toggleId: "name_asc",
       hideFromUi: true,
@@ -194,7 +209,7 @@ export const ItemsPage = ({
       toggleId: "value_desc",
       hideFromUi: true,
     },
-  ], [language, t]);
+  ], [language, localizedNamesMap, nameCollator, t]);
 
   // Nascondi sempre gli oggetti contrassegnati come 'hidden' nel catalogo principale
   const allItems = useMemo(
@@ -210,12 +225,16 @@ export const ItemsPage = ({
     return allItems.filter((item) => !isVariantItem(item.id));
   }, [allItems, collapseVariants]);
 
-  // Ricerca estesa ai nomi delle varianti se raggruppate
-  const getSearchFields = useCallback(
-    (item: ItemInfo): string[] => {
+  // Pre-calcola i campi di ricerca multilingua (IT + EN + ID + varianti) una sola volta per catalogo
+  const searchFieldsMap = useMemo(() => {
+    const map = new Map<string, string[]>();
+    for (const item of allItems) {
       const base = getItemSearchFields(item);
       const baseDef = getBaseItem(item.id);
-      if (!baseDef) return base;
+      if (!baseDef) {
+        map.set(item.id, base);
+        continue;
+      }
 
       const extra: string[] = [baseDef.name];
       if (baseDef.translations) {
@@ -234,9 +253,20 @@ export const ItemsPage = ({
           }
         }
       }
-      return Array.from(new Set([...base, ...extra]));
-    },
-    [itemsInfo],
+      map.set(item.id, Array.from(new Set([...base, ...extra])));
+    }
+    return map;
+  }, [allItems, itemsInfo]);
+
+  // Ricerca estesa ai nomi delle varianti se raggruppate (lookup O(1) sulla mappa pre-calcolata)
+  const getSearchFields = useCallback(
+    (item: ItemInfo): string[] => searchFieldsMap.get(item.id) ?? getItemSearchFields(item),
+    [searchFieldsMap],
+  );
+
+  const getGroupKey = useCallback(
+    (item: ItemInfo) => item.item_type || t('catalog.filterOther'),
+    [t],
   );
 
   const {
@@ -265,9 +295,137 @@ export const ItemsPage = ({
       defaultSortId: "name_asc",
     },
     grouping: {
-      groupKey: (item) => item.item_type || t('catalog.filterOther'),
+      groupKey: getGroupKey,
     },
   });
+
+  // Memoizza l'elenco delle card renderizzate rispetto a processedItems/groupedItems,
+  // così la digitazione nell'input (che aggiorna solo `query` prima del debounce)
+  // non scatena la riconciliazione VDOM di oltre 1.400 card a ogni singolo tasto.
+  const renderedCatalogList = useMemo(() => (
+    <div data-list-container="compact" className="w-full">
+      {groupByEnabled
+        ? groupKeys.map((groupName) => (
+            <div key={groupName} className="mb-6">
+              <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-1">
+                {groupName}
+              </h3>
+              <div data-list-container="compact">
+                {groupedItems?.[groupName].map((item) => {
+                  const displayName = localizedNamesMap.get(item.id) ?? getItemName(item, language);
+                  const baseDef = getBaseItem(item.id);
+                  const parentBase = getBaseItemForVariant(item.id);
+
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setSelected(item)}
+                      className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer"
+                    >
+                      <ItemCardFrameV2
+                        icon={item.icon}
+                        alt={displayName}
+                        rarity={item.rarity}
+                        itemType={item.item_type}
+                        subcategory={item.subcategory}
+                        fallbackText={item.id}
+                        className="w-12 h-12 shrink-0"
+                        imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                        compact
+                        thumb
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-sm truncate">
+                          {displayName}
+                        </p>
+                        <p className="text-[10px] text-gray-400 truncate">
+                          <span
+                            className={`font-bold ${getRarityText(item.rarity)}`}
+                          >
+                            {getRarityLabel(item.rarity, language)}
+                          </span>{" "}
+                          · {item.item_type}
+                          {collapseVariants && baseDef && baseDef.variantItemIds.length > 0 && (
+                            <span className="ml-1 text-indigo-500 font-semibold">
+                              ({baseDef.variantItemIds.length} varianti)
+                            </span>
+                          )}
+                          {!collapseVariants && parentBase && (
+                            <span className="ml-1 text-gray-500 font-semibold">
+                              · Var. di {parentBase.name}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                      <ChevronRight
+                        size={16}
+                        className="text-gray-300 dark:text-gray-600 shrink-0"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))
+        : processedItems.map((item) => {
+            const displayName = localizedNamesMap.get(item.id) ?? getItemName(item, language);
+            const baseDef = getBaseItem(item.id);
+            const parentBase = getBaseItemForVariant(item.id);
+
+            return (
+              <button
+                key={item.id}
+                onClick={() => setSelected(item)}
+                className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer"
+              >
+                <ItemCardFrameV2
+                  icon={item.icon}
+                  alt={displayName}
+                  rarity={item.rarity}
+                  itemType={item.item_type}
+                  subcategory={item.subcategory}
+                  fallbackText={item.id}
+                  className="w-12 h-12 shrink-0"
+                  imgClassName="max-w-[85%] max-h-[85%] object-contain"
+                  compact
+                  thumb
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-sm truncate">{displayName}</p>
+                  <p className="text-[10px] text-gray-400 truncate">
+                    <span
+                      className={`font-bold ${getRarityText(item.rarity)}`}
+                    >
+                      {getRarityLabel(item.rarity, language)}
+                    </span>{" "}
+                    · {item.item_type}
+                    {collapseVariants && baseDef && baseDef.variantItemIds.length > 0 && (
+                      <span className="ml-1 text-indigo-500 font-semibold">
+                        ({baseDef.variantItemIds.length} varianti)
+                      </span>
+                    )}
+                    {!collapseVariants && parentBase && (
+                      <span className="ml-1 text-gray-500 font-semibold">
+                        · Var. di {parentBase.name}
+                      </span>
+                    )}
+                  </p>
+                </div>
+                <ChevronRight
+                  size={16}
+                  className="text-gray-300 dark:text-gray-600 shrink-0"
+                />
+              </button>
+            );
+          })}
+
+      {processedItems.length === 0 && (
+        <p className="p-10 text-center text-gray-500 italic text-sm">
+          Nessun oggetto trovato.
+        </p>
+      )}
+    </div>
+  ), [collapseVariants, groupByEnabled, groupKeys, groupedItems, language, localizedNamesMap, processedItems]);
 
   return (
     <PageLayout
@@ -324,128 +482,7 @@ export const ItemsPage = ({
         </>
       }
     >
-      <div data-list-container="compact" className="w-full">
-        {groupByEnabled
-          ? groupKeys.map((groupName) => (
-              <div key={groupName} className="mb-6">
-                <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-1">
-                  {groupName}
-                </h3>
-                <div data-list-container="compact">
-                  {groupedItems?.[groupName].map((item) => {
-                    const displayName = getItemName(item, language);
-                    const baseDef = getBaseItem(item.id);
-                    const parentBase = getBaseItemForVariant(item.id);
-
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => setSelected(item)}
-                        className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer"
-                      >
-                        <ItemCardFrameV2
-                          icon={item.icon}
-                          alt={displayName}
-                          rarity={item.rarity}
-                          itemType={item.item_type}
-                          subcategory={item.subcategory}
-                          fallbackText={item.id}
-                          className="w-12 h-12 shrink-0"
-                          imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                          compact
-                          thumb
-                        />
-                        <div className="flex-1 min-w-0">
-                          <p className="font-bold text-sm truncate">
-                            {displayName}
-                          </p>
-                          <p className="text-[10px] text-gray-400 truncate">
-                            <span
-                              className={`font-bold ${getRarityText(item.rarity)}`}
-                            >
-                              {getRarityLabel(item.rarity, language)}
-                            </span>{" "}
-                            · {item.item_type}
-                            {collapseVariants && baseDef && baseDef.variantItemIds.length > 0 && (
-                              <span className="ml-1 text-indigo-500 font-semibold">
-                                ({baseDef.variantItemIds.length} varianti)
-                              </span>
-                            )}
-                            {!collapseVariants && parentBase && (
-                              <span className="ml-1 text-gray-500 font-semibold">
-                                · Var. di {parentBase.name}
-                              </span>
-                            )}
-                          </p>
-                        </div>
-                        <ChevronRight
-                          size={16}
-                          className="text-gray-300 dark:text-gray-600 shrink-0"
-                        />
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))
-          : processedItems.map((item) => {
-              const displayName = getItemName(item, language);
-              const baseDef = getBaseItem(item.id);
-              const parentBase = getBaseItemForVariant(item.id);
-
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setSelected(item)}
-                  className="w-full flex items-center gap-3 p-2.5 mb-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-[20px] card-concentric-20 squircle text-left active:scale-[0.99] transition-transform cursor-pointer"
-                >
-                  <ItemCardFrameV2
-                    icon={item.icon}
-                    alt={displayName}
-                    rarity={item.rarity}
-                    itemType={item.item_type}
-                    subcategory={item.subcategory}
-                    fallbackText={item.id}
-                    className="w-12 h-12 shrink-0"
-                    imgClassName="max-w-[85%] max-h-[85%] object-contain"
-                    compact
-                    thumb
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-bold text-sm truncate">{displayName}</p>
-                    <p className="text-[10px] text-gray-400 truncate">
-                      <span
-                        className={`font-bold ${getRarityText(item.rarity)}`}
-                      >
-                        {getRarityLabel(item.rarity, language)}
-                      </span>{" "}
-                      · {item.item_type}
-                      {collapseVariants && baseDef && baseDef.variantItemIds.length > 0 && (
-                        <span className="ml-1 text-indigo-500 font-semibold">
-                          ({baseDef.variantItemIds.length} varianti)
-                        </span>
-                      )}
-                      {!collapseVariants && parentBase && (
-                        <span className="ml-1 text-gray-500 font-semibold">
-                          · Var. di {parentBase.name}
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                  <ChevronRight
-                    size={16}
-                    className="text-gray-300 dark:text-gray-600 shrink-0"
-                  />
-                </button>
-              );
-            })}
-
-        {processedItems.length === 0 && (
-          <p className="p-10 text-center text-gray-500 italic text-sm">
-            Nessun oggetto trovato.
-          </p>
-        )}
-      </div>
+      {renderedCatalogList}
 
       {selected && (
         <ItemDetailSheet

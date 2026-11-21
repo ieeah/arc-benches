@@ -63,16 +63,22 @@ export const useListManager = <T>({
     grouping?.defaultEnabled ?? false
   );
 
+  const searchFields = search?.fields;
+  const searchDebounceMs = search?.debounceMs ?? 300;
+  const filterCategories = filters?.categories;
+  const sortOptions = sorting?.options;
+  const groupKey = grouping?.groupKey;
+  const groupSort = grouping?.groupSort;
+
   // Debounce the query used for filtering.
   // The raw `query` is always up-to-date for the input field.
   // `debouncedQuery` lags behind to avoid re-filtering on every keystroke.
   useEffect(() => {
-    const delay = search?.debounceMs ?? 300;
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
-    }, delay);
+    }, searchDebounceMs);
     return () => clearTimeout(timer);
-  }, [query, search?.debounceMs]);
+  }, [query, searchDebounceMs]);
 
   // Filter & Sort (uses debouncedQuery to avoid intermediate flashes)
   const processedItems = useMemo(() => {
@@ -80,40 +86,40 @@ export const useListManager = <T>({
 
     // 1. Text Search Filter
     const q = debouncedQuery.trim();
-    if (q && search) {
+    if (q && searchFields) {
       result = result.filter(item =>
-        search.fields(item).some(field => fuzzyMatch(field, q))
+        searchFields(item).some(field => fuzzyMatch(field, q))
       );
     }
 
     // 2. Category Filter
-    if (filters && activeCategoryId) {
-      const activeCat = filters.categories.find(c => c.id === activeCategoryId);
+    if (filterCategories && activeCategoryId) {
+      const activeCat = filterCategories.find(c => c.id === activeCategoryId);
       if (activeCat) {
         result = result.filter(activeCat.predicate);
       }
     }
 
     // 3. Sorting
-    if (sorting && activeSortId) {
-      const activeSort = sorting.options.find(o => o.id === activeSortId);
+    if (sortOptions && activeSortId) {
+      const activeSort = sortOptions.find(o => o.id === activeSortId);
       if (activeSort) {
         result.sort(activeSort.compare);
       }
     }
 
     return result;
-  }, [items, debouncedQuery, search, filters, activeCategoryId, sorting, activeSortId]);
+  }, [items, debouncedQuery, searchFields, filterCategories, activeCategoryId, sortOptions, activeSortId]);
 
   // Grouping
   const { groupedItems, groupKeys } = useMemo(() => {
-    if (!grouping || !groupByEnabled) {
+    if (!groupKey || !groupByEnabled) {
       return { groupedItems: null, groupKeys: [] };
     }
 
     const groups: Record<string, T[]> = {};
     processedItems.forEach(item => {
-      const key = grouping.groupKey(item);
+      const key = groupKey(item);
       if (!groups[key]) {
         groups[key] = [];
       }
@@ -121,14 +127,14 @@ export const useListManager = <T>({
     });
 
     const keys = Object.keys(groups);
-    if (grouping.groupSort) {
-      keys.sort(grouping.groupSort);
+    if (groupSort) {
+      keys.sort(groupSort);
     } else {
       keys.sort((a, b) => a.localeCompare(b));
     }
 
     return { groupedItems: groups, groupKeys: keys };
-  }, [processedItems, grouping, groupByEnabled]);
+  }, [processedItems, groupKey, groupSort, groupByEnabled]);
 
   return {
     query,        // immediate — use for <input value={query}> and empty-state checks
